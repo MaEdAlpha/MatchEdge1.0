@@ -1,32 +1,7 @@
 import {Component} from '@angular/core';
 import {Match} from '../match/match.model';
 
-export interface PeriodicElement {
-  date: string;
-  time: string;
-  home: string;
-  homeTwoUp: number;
-  homeBackOdds: number;
-  homeLayOdds: number;
-  homeMatchR: number;
-  homeReturn: number;
-  away: string;
-  awayTwoUp: number;
-  awayBackOdds: number;
-  awayLayOdds: number;
-  awayMatchR: number;
-  awayReturn: number;
-}
 
-const ELEMENT_DATA: PeriodicElement[] = [
-
-  {date: 'Jan 02', time: '13:00', home: 'Chelsea', homeTwoUp: 1.20, homeBackOdds: 3.2, homeLayOdds: 2.2, homeMatchR: 1.1,homeReturn: 2.2, away: 'Liverpool', awayTwoUp: 1.1, awayBackOdds: 1.1, awayLayOdds: 3.3, awayMatchR: 1.231, awayReturn: 2.2 },
-  {date: 'Jan 02', time: '16:30', home: 'Liverpool', homeTwoUp: 1.20, homeBackOdds: 3.2, homeLayOdds: 2.2, homeMatchR: 1.1,homeReturn: 2.2, away: 'Preston', awayTwoUp: 1.1, awayBackOdds: 1.1, awayLayOdds: 3.3, awayMatchR: 1.231, awayReturn: 2.2 },
-  {date: 'Jan 01', time: '11:30', home: 'Manchester Utd.', homeTwoUp: 1.20, homeBackOdds: 3.2, homeLayOdds: 2.2, homeMatchR: 1.1,homeReturn: 2.2, away: 'Cardiff', awayTwoUp: 1.1, awayBackOdds: 1.1, awayLayOdds: 3.3, awayMatchR: 1.231, awayReturn: 2.2 },
-  {date: 'Jan 01', time: '13:30', home: 'QPR', homeTwoUp: 1.20, homeBackOdds: 3.2, homeLayOdds: 2.2, homeMatchR: 1.1,homeReturn: 2.2, away: 'Bournemouth', awayTwoUp: 1.1, awayBackOdds: 1.1, awayLayOdds: 3.3, awayMatchR: 1.231, awayReturn: 2.2 },
-  {date: 'Jan 01', time: '15:00', home: 'Luton', homeTwoUp: 1.20, homeBackOdds: 3.2, homeLayOdds: 2.2, homeMatchR: 1.1,homeReturn: 2.2, away: 'Blackburn', awayTwoUp: 1.1, awayBackOdds: 1.1, awayLayOdds: 3.3, awayMatchR: 1.231, awayReturn: 2.2 },
-  {date: 'Jan 01', time: '15:00', home: 'Stoke', homeTwoUp: 1.20, homeBackOdds: 3.2, homeLayOdds: 2.2, homeMatchR: 1.1,homeReturn: 2.2, away: 'Nottm Forest', awayTwoUp: 1.1, awayBackOdds: 1.1, awayLayOdds: 3.3, awayMatchR: 1.231, awayReturn: 2.2 },
-];
 
 /**
  * @title Table dynamically changing the columns displayed
@@ -39,9 +14,19 @@ const ELEMENT_DATA: PeriodicElement[] = [
   export class MatchTableComponent {
     displayedColumns: string[] = ['date', 'time', 'home', 'homeTwoUp', 'homeBackOdds', 'homeLayOdds', 'homeMatchR', 'homeReturn', 'away', 'awayTwoUp', 'awayBackOdds', 'awayLayOdds', 'awayMatchR', 'awayReturn'];
 
+
+  MatchDetails: Match[] = [
+
+  new Match( 'Jan 02', '13:00', 'Test', 1.20, 3.2,  2.2,  1.1, 2.2,'Liverpool', 1.1,  1.1,  3.3,  1.231,  2.2),
+  new Match('Jan 02','16:30',  'Liverpool',  1.20,  3.2,  2.2,  1.1, 2.2, 'Preston', 1.1,  1.1, 3.3, 1.231, 2.2),
+  new Match('Jan 01','11:30',  'Manchester Utd.',  1.20,  3.2,  2.2,  1.1, 2.2, 'Cardiff', 1.1,  1.1, 3.3, 1.231, 2.2),
+  new Match('Jan 01','13:30',  'QPR',  1.20,  3.2,  2.2, 1.1, 2.2,  'Bournemouth', 1.1,  1.1, 3.3, 1.231, 2.2),
+  new Match('Jan 01','15:00',  'Luton',  1.20,  3.2,  2.2, 1.1, 2.2,  'Blackburn', 1.1,  1.1, 3.3, 1.231, 2.2),
+  new Match('Jan 01','15:00',  'Stoke',  1.20, 3.2,  2.2, 1.1, 2.2,  'Nottm Forest', 1.1,  1.1, 3.3, 1.231, 2.2),
+]
+
     columnsToDisplay: string[] = this.displayedColumns.slice();
-    matches: Match[] = [new Match('test',  'test', 'test',  1,  2,  3,  4,  5,  'test',  1,  2,  3,  4,  5)];
-    data: Match[] = this.matches;
+    data: Match[] = this.MatchDetails;
     addColumn(){
       const randomColumn = Math.floor(Math.random() * this.displayedColumns.length);
       this.columnsToDisplay.push(this.displayedColumns[randomColumn]);

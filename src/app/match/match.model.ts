@@ -32,5 +32,22 @@ export class Match{
       this.awayMatchR = _awayMatchR;
       this.awayReturn = _awayReturn;
    }
-
 }
+//  export interface Matches {
+//     date: string;
+//     time: string;
+//     home: string;
+//     homeTwoUp: number;
+//     homeBackOdds: number;
+//     homeLayOdds: number;
+//     homeMatchR: number;
+//     homeReturn: number;
+//     away: string;
+//     awayTwoUp: number;
+//     awayBackOdds: number;
+//     awayLayOdds: number;
+//     awayMatchR: number;
+//     awayReturn: number;
+//   }
+
+// }
