@@ -26,8 +26,6 @@ const ELEMENT_DATA: PeriodicElement[] = [
   {date: 'Jan 01', time: '13:30', home: 'QPR', homeTwoUp: 1.20, homeBackOdds: 3.2, homeLayOdds: 2.2, homeMatchR: 1.1,homeReturn: 2.2, away: 'Bournemouth', awayTwoUp: 1.1, awayBackOdds: 1.1, awayLayOdds: 3.3, awayMatchR: 1.231, awayReturn: 2.2 },
   {date: 'Jan 01', time: '15:00', home: 'Luton', homeTwoUp: 1.20, homeBackOdds: 3.2, homeLayOdds: 2.2, homeMatchR: 1.1,homeReturn: 2.2, away: 'Blackburn', awayTwoUp: 1.1, awayBackOdds: 1.1, awayLayOdds: 3.3, awayMatchR: 1.231, awayReturn: 2.2 },
   {date: 'Jan 01', time: '15:00', home: 'Stoke', homeTwoUp: 1.20, homeBackOdds: 3.2, homeLayOdds: 2.2, homeMatchR: 1.1,homeReturn: 2.2, away: 'Nottm Forest', awayTwoUp: 1.1, awayBackOdds: 1.1, awayLayOdds: 3.3, awayMatchR: 1.231, awayReturn: 2.2 },
-
-
 ];
 
 /**
