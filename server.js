@@ -2,8 +2,6 @@
 const app = require('./backend/app');
 const http = require('http'); //default node.js package already installed on node.js
 const debug = require('debug')('node-angular');
-// const { debug } = require('console');
-
 
 const normalizePort = val => {
   var port = parseInt(val,10);
