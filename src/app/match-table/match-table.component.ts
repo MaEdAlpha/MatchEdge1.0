@@ -33,7 +33,7 @@ import {Match} from '../match/match.model';
     this.columnsToDisplay.push(this.displayedColumns[randomColumn]);
   }
 
-  removeColumn() {
+  clearMatches() {
     this.matches = this.data;
   }
 
