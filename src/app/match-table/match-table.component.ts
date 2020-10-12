@@ -10,6 +10,7 @@ import {Match} from '../match/match.model';
     styleUrls: ['./match-table.component.css']
   })
   export class MatchTableComponent {
+
     displayedColumns: string[] = ['date', 'time', 'home', 'homeTwoUp', 'homeBackOdds', 'homeLayOdds', 'homeMatchR', 'homeReturn', 'away', 'awayTwoUp', 'awayBackOdds', 'awayLayOdds', 'awayMatchR', 'awayReturn'];
 
   MatchDetails: Match[] = [

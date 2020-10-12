@@ -1,13 +1,12 @@
-<button mat-raised-button (click)="addColumn()"> Add column </button>
+<!-- <button mat-raised-button (click)="addColumn()"> Add column </button> -->
 <button mat-raised-button (click)="clearMatches()"> Clear List </button>
 <button mat-raised-button (click)="getMatches()"> Populate </button>
 <hr>
 <table mat-table [dataSource]= "matches" class="mat-elevation-z8 col-sm-10">
   <ng-container [matColumnDef]="column" *ngFor="let column of displayedColumns">
-    <th mat-header-cell *matHeaderCellDef> {{column}} </th>
-    <div *ngIf ="!retrieveMatches">
-      <td mat-cell *matCellDef="let element"> {{element[column]}} </td>
-    </div>
+    <th id="column-header" mat-header-cell *matHeaderCellDef> {{column}} </th>
+    <td mat-cell *matCellDef="let element"> {{element[column]}} </td>
+
   </ng-container>
 
   <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>

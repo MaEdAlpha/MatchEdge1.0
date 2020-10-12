@@ -1,3 +1,19 @@
+//  export interface Match {
+//     date: string;
+//     time: string;
+//     home: string;
+//     homeTwoUp: number;
+//     homeBackOdds: number;
+//     homeLayOdds: number;
+//     homeMatchR: number;
+//     homeReturn: number;
+//     away: string;
+//     awayTwoUp: number;
+//     awayBackOdds: number;
+//     awayLayOdds: number;
+//     awayMatchR: number;
+//     awayReturn: number;
+//   }
 export class Match{
 
   public date: string;
@@ -33,21 +49,3 @@ export class Match{
       this.awayReturn = _awayReturn;
    }
 }
-//  export interface Matches {
-//     date: string;
-//     time: string;
-//     home: string;
-//     homeTwoUp: number;
-//     homeBackOdds: number;
-//     homeLayOdds: number;
-//     homeMatchR: number;
-//     homeReturn: number;
-//     away: string;
-//     awayTwoUp: number;
-//     awayBackOdds: number;
-//     awayLayOdds: number;
-//     awayMatchR: number;
-//     awayReturn: number;
-//   }
-
-// }
