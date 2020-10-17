@@ -8,7 +8,7 @@ import {Match} from './match.model';
 })
 export class MatchComponent implements OnInit {
 
-  matches: Match[] = [new Match('test',  'test', 'test',  1,  2,  3,  4,  5,  'test',  1,  2,  3,  4,  5)];
+  matches: Match[] = null;
 
   constructor() { }
 

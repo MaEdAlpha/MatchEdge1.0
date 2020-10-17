@@ -1,3 +1,4 @@
+const { match } = require('assert');
 const express = require('express'); //import express
 const mongoose = require('mongoose');
 
@@ -13,42 +14,10 @@ mongoose.connect("mongodb+srv://Randy:M7bkD0xFr91G0DfA@clusterme.lfzcj.mongodb.n
 });
 
 app.use('/api/matches', (req, res, next) => {
-  const matches = [
-      {
-        id: "axlak;sdjf",
-        date: 'Oct 20',
-        time: '12:00',
-        home: 'test',
-        homeTwoUp: 1,
-        homeBackOdds: 1,
-        homeLayOdds: 1,
-        homeMatchR: 1,
-        homeReturn: 1,
-        away: 'test',
-        awayTwoUp: 1,
-        awayBackOdds: 1,
-        awayLayOdds: 1,
-        awayMatchR: 1,
-        awayReturn: 1,
-      },
-      {
-        id: "xxxaxadsfasf",
-        date: 'Oct 21',
-        time: '13:00',
-        home: 'Lalom',
-        homeTwoUp: 1,
-        homeBackOdds: 1,
-        homeLayOdds: 1,
-        homeMatchR: 1,
-        homeReturn: 1,
-        away: 'Jimmmmyyyy',
-        awayTwoUp: 1,
-        awayBackOdds: 1,
-        awayLayOdds: 1,
-        awayMatchR: 1,
-        awayReturn: 1,
-      },
-  ];
+  match.find()
+    .then(documents => {
+      console.log(documents);
+    });
   res.status(200).json({
     message: 'Data via node.js server',
     matches: matches
