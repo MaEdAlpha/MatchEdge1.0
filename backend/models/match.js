@@ -3,23 +3,38 @@ const mongoose = require('mongoose');
 //create schema
 
 const matchSchema = mongoose.Schema({
-    date: {String, required: true},
-    time: {String, required: true},
-    home: {String, required: true},
-    homeTwoUp: {Number, required: true},
-    homeBackOdds: {Number, required: true},
-    homeLayOdds: {Number, required: true},
-    homeMatchR: {Number, required: true},
-    homeReturn: {Number, required: true},
-    away: {String, required: true},
-    awayTwoUp: {Number, required: true},
-    awayBackOdds: {Number, required: true},
-    awayLayOdds: {Number, required: true},
-    awayMatchR: {Number, required: true},
-    awayReturn: {Number, required: true}
-
-   // {"_id":{"$binary":{"base64":"T3NkozjVFkykpMFeCgKhTw==","subType":"03"}},"RefTag":"Bayer Leverkusen Nice","HomeTeamName":"Bayer Leverkusen","AwayTeamName":"Nice","SmarketsHomeOdds":null,"SmarketsAwayOdds":null,"B365HomeOdds":{"$numberDouble":"1.61"},"B365DrawOdds":{"$numberDouble":"4"},"B365AwayOdds":{"$numberDouble":"5"},"B365BTTSOdds":{"$numberDouble":"0"},"B365O25GoalsOdds":{"$numberDouble":"0"},"StartDateTime":{"$date":{"$numberLong":"-62135596800000"}},"League":"UEFA Europa League","OccurrenceHome":{"$numberDouble":"0"},"OccurrenceAway":{"$numberDouble":"0"}}
-});
+  match: {
+    RefTag:{String},
+    HomeTeamName:{String},
+    AwayTeamName:{String},
+    SmarketsHomeOdds:{Number},
+    SmarketsAwayOdds:{Number},
+    B365HomeOdds:{Number},
+    B365DrawOdds:{Number},
+    B365AwayOdds:{Number},
+    B365BTTSOdds:{Number},
+    B365O25GoalsOdds:{Number},
+    StartDateTime:{String},
+    League:{String},
+    OccurrenceHome: {Number},
+    OccurrenceAway:{Number},
+}}, {collection: 'Matches'});
 
 //export model
-module.exports = mongoose.model('Match' , matchSchema);
+module.exports = mongoose.connection.model('match', matchSchema);
+
+
+// RefTag:"Bayer Leverkusen Nice"
+// HomeTeamName:"Bayer Leverkusen"
+// AwayTeamName:"Nice"
+// SmarketsHomeOdds:null
+// SmarketsAwayOdds:null
+// B365HomeOdds:1.61
+// B365DrawOdds:4
+// B365AwayOdds:5
+// B365BTTSOdds:0
+// B365O25GoalsOdds:0
+// StartDateTime:0001-01-01T00:00:00.000+00:00
+// League:"UEFA Europa League"
+// OccurrenceHome:0
+// OccurrenceAway:0

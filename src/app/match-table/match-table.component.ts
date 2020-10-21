@@ -1,69 +1,73 @@
-import {Component, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import { Subscription } from 'rxjs';
 import { MatTable } from '@angular/material/table';
-import {Match} from '../match/match.model';
+import {Match } from '../match/match.model';
+import { MatchesService } from '../match/matches.service';
 
-const MatchDetails: Match[] = [
-  {date: 'string',
-    time: 'string',
-    home: 'string',
-    homeTwoUp: 1,
-    homeBackOdds: 1,
-    homeLayOdds: 1,
-    homeMatchR: 1,
-    homeReturn: 1,
-    away: 'string',
-    awayTwoUp: 1,
-    awayBackOdds: 1,
-    awayLayOdds: 1,
-    awayMatchR: 1,
-    awayReturn: 1,}
-];
 
-@Component({
+
+  @Component({
     selector: 'app-match-table',
     templateUrl: './match-table.component.html',
     styleUrls: ['./match-table.component.css']
   })
-  export class MatchTableComponent {
 
-    displayedColumns: string[] = ['date', 'time', 'home', 'homeTwoUp', 'homeBackOdds', 'homeLayOdds', 'homeMatchR', 'homeReturn', 'away', 'awayTwoUp', 'awayBackOdds', 'awayLayOdds', 'awayMatchR', 'awayReturn'];
+  export class MatchTableComponent implements OnInit, OnDestroy {
 
-
+    displayedColumns: string[] = [ 'StartDateTime', 'HomeTeamName', 'SmarketsHomeOdds','B365HomeOdds', 'B365DrawOdds', 'B365AwayOdds', 'B365BTTSOdds', 'B365O25GoalsOdds', 'AwayTeamName' ,'SmarketsAwayOdds',  'League', 'OccurrenceHome', 'OccurrenceAway'];
 
     columnsToDisplay: string[] = this.displayedColumns.slice();
-    data: Match[] = null;
-    matches: Match[] = null;
+    data: Match[] = [];
+    matches: any = [];
+    private matchesSub: Subscription;
     retrieveMatches = false;
 
     @ViewChild(MatTable) table: MatTable<any>;
 
-  addColumn(){
-    const randomColumn = Math.floor(Math.random() * this.displayedColumns.length);
-    this.columnsToDisplay.push(this.displayedColumns[randomColumn]);
-  }
 
-  clearMatches() {
-    this.matches = this.data;
-  }
+    constructor(public matchesService: MatchesService) { } //creates an instance of matchesService. Need to add this in app.module.ts providers:[]
 
-  getMatches() {
-    this.matches = MatchDetails;
-    this.table.renderRows();
-  }
+     ngOnInit() {
+       this.matches = this.matchesService.getMatches(); //fetches matches from matchesService
+       this.matchesSub = this.matchesService.getMatchUpdateListener()
+       .subscribe((matchData: any)=>{
+         this.matches = matchData;
+       });
+     }
 
-  shuffle() {
-    let currentIndex = this.columnsToDisplay.length;
-    while (0 !== currentIndex) {
-      let randomIndex = Math.floor(Math.random() * currentIndex);
-      currentIndex -= 1;
+     ngOnDestroy(){
+       this.matchesSub.unsubscribe();
+     }
+    addColumn(){
+      const randomColumn = Math.floor(Math.random() * this.displayedColumns.length);
+      this.columnsToDisplay.push(this.displayedColumns[randomColumn]);
+    }
 
-      // Swap
-      let temp = this.columnsToDisplay[currentIndex];
-      this.columnsToDisplay[currentIndex] = this.columnsToDisplay[randomIndex];
-      this.columnsToDisplay[randomIndex] = temp;
+    clearMatches() {
+      this.matches = this.data;
+    }
+
+    getMatches() {
+      this.matches = this.matchesService.getMatches();
+      this.table.renderRows();
+    }
+
+    shuffle() {
+      let currentIndex = this.columnsToDisplay.length;
+
+      while (0 !== currentIndex) {
+        let randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex -= 1;
+
+        // Swap
+        let temp = this.columnsToDisplay[currentIndex];
+        this.columnsToDisplay[currentIndex] = this.columnsToDisplay[randomIndex];
+        this.columnsToDisplay[randomIndex] = temp;
+      }
     }
   }
-}
+
+
 
 
 

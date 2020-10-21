@@ -7,8 +7,12 @@ import { HeaderComponent } from './header/header.component';
 import { MatchTableComponent } from './match-table/match-table.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatTableModule} from '@angular/material/table';
+import {MatToolbarModule } from '@angular/material/toolbar';
 import { MatchComponent } from './match/match.component';
 import { HttpClientModule } from '@angular/common/http';
+import { MatchesService } from './match/matches.service';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
   declarations: [
@@ -22,9 +26,12 @@ import { HttpClientModule } from '@angular/common/http';
     AppRoutingModule,
     BrowserAnimationsModule,
     MatTableModule,
-    HttpClientModule
+    HttpClientModule,
+    MatToolbarModule,
+    MatIconModule,
+    MatButtonModule
   ],
-  providers: [],
+  providers: [MatchesService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
