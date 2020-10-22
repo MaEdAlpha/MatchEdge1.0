@@ -13,13 +13,15 @@ import { HttpClientModule } from '@angular/common/http';
 import { MatchesService } from './match/matches.service';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { WatchlistComponent } from './watchlist/watchlist.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
     MatchTableComponent,
-    MatchComponent
+    MatchComponent,
+    WatchlistComponent
   ],
   imports: [
     BrowserModule,

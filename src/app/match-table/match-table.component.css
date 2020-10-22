@@ -1,26 +1,32 @@
-
+hr {
+  border-color:  #f9a825 ;
+}
 table {
-margin-left:auto;
-margin-right:auto;
+  margin-left:auto;
+  margin-right:auto;
 }
 th.mat-header-cell{
   text-align: center !important;
 }
 #column-header{
-  background-color: #39473c;
-  color: rgba(50, 175, 175, 0.705);
+  background-color: #455a64;
+  color: #f9a825;
 }
 
 td {
   border: 2px transparent black;
   text-align: center;
-  color: rgba(50, 175, 175, 0.705);
+  color: #f9a825;
   margin: auto;
-  background-color: #39473c;
+  background-color:#455a64;
   font-family: Arial, Helvetica, sans-serif;
   font-size: 2em;
 }
 
 td, #column-header{
-  font-size: 1.1em;
+  font-size: 0.9em;
+}
+
+span {
+  color:#f9a825;
 }

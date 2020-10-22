@@ -1,3 +1,13 @@
 .button-container {
   margin-left: auto;
 }
+mat-toolbar {
+  background-color: #37474f ;
+}
+button{
+  margin-left: 0.1em;
+}
+a {
+  text-decoration: none;
+  color: rgb(255, 191, 14);
+}
