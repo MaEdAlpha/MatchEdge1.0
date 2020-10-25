@@ -10,4 +10,9 @@ button{
 a {
   text-decoration: none;
   color: rgb(255, 191, 14);
+  padding: 1 1 auto;
+}
+
+.mat-icon {
+  vertical-align: middle;
 }

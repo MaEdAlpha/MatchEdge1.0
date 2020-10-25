@@ -1,26 +1,36 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild, Directive} from '@angular/core';
 import { Subscription } from 'rxjs';
 import { MatTable } from '@angular/material/table';
 import {Match } from '../match/match.model';
 import { MatchesService } from '../match/matches.service';
+import {animate, state, style, transition, trigger} from '@angular/animations';
 
 
 
   @Component({
     selector: 'app-match-table',
     templateUrl: './match-table.component.html',
-    styleUrls: ['./match-table.component.css']
+    styleUrls: ['./match-table.component.css'],
+    animations: [
+      trigger('detailExpand', [
+        state('collapsed', style({height: '0px', minHeight: '0'})),
+        state('expanded', style({height: '*'})),
+        transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+      ]),
+    ],
   })
 
   export class MatchTableComponent implements OnInit, OnDestroy {
 
-    displayedColumns: string[] = [ 'StartDateTime', 'HomeTeamName', 'SmarketsHomeOdds','B365HomeOdds', 'B365DrawOdds', 'B365AwayOdds', 'B365BTTSOdds', 'B365O25GoalsOdds', 'AwayTeamName' ,'SmarketsAwayOdds',  'League', 'OccurrenceHome', 'OccurrenceAway'];
-
+    displayedColumns: string[] = [ 'Details', 'AReturn', 'Home', 'Spacer', 'Away' , 'HReturn'];
+    SecondcolumnsToDisplay: string[] = ['SMHome','BHome', 'BDraw', 'BAway', 'BTTSOdds', 'B25GOdds','SMAway',  'League', 'OccH', 'OccA'];
     columnsToDisplay: string[] = this.displayedColumns.slice();
     data: Match[] = [];
-    matches: any = [];
-    private matchesSub: Subscription;
+    matches: any;
+    expandedElement: any | null;
     retrieveMatches = false;
+
+    private matchesSub: Subscription;
 
     @ViewChild(MatTable) table: MatTable<any>;
 
@@ -49,7 +59,7 @@ import { MatchesService } from '../match/matches.service';
 
     getMatches() {
       this.matches = this.matchesService.getMatches();
-      this.table.renderRows();
+      //this.table.renderRows();
     }
 
     shuffle() {

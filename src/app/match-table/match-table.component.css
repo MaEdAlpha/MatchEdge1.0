@@ -8,7 +8,7 @@ table {
 th.mat-header-cell{
   text-align: center !important;
 }
-#column-header{
+th {
   background-color: #455a64;
   color: #f9a825;
 }
@@ -23,10 +23,125 @@ td {
   font-size: 2em;
 }
 
-td, #column-header{
+
+td {
   font-size: 0.9em;
+  padding: 1em;
 }
 
 span {
   color:#f9a825;
 }
+
+thead {
+  opacity: 0;
+}
+
+tr.detail-row {
+  height: 0;
+}
+
+tr.element-row:not(.expanded-row):hover {
+  background: whitesmoke;
+}
+
+tr.element-row:not(.expanded-row):active {
+  background: #efefef;
+}
+
+.element-row td {
+  border-bottom-width: 2px;
+}
+
+.element-detail {
+  overflow: hidden;
+  display: flex;
+}
+
+.spacer {
+  background-color: blueviolet;
+  content: ' ';
+}
+
+#spacer {
+  background-color: chartreuse;
+  column-rule: chartreuse;
+  border: 1px black;
+  margin: 1px;
+}
+.element-container {
+  width: 100%;
+  font-weight: lighter;
+  height: 50px;
+  margin-top: 0rem;
+  margin-bottom: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+.lhs-container,
+.rhs-container,
+.center-container{
+  width: 33%;
+  position: relative;
+  display:inline;
+  padding-left: 2rem;
+  vertical-align: super;
+}
+
+.exp-col  {
+  display: inline;
+  padding-right: 1rem;
+}
+.sm-data {
+  height: 49%;
+  width: 30%;
+  display: inline-block;
+}
+
+#League{
+  display: none;
+  position: relative;
+}
+.sm-data{
+  height: 0%;
+}
+.top,.bottom{
+  display: inline-block;
+  position: relative;
+  height: 40%;
+}
+
+/* #SMHome{
+ padding-top: 0em;
+}
+#BHome{
+width: 15%;
+position: relative;
+}
+#BDraw{
+width: 30%;
+position: relative;
+}
+#BAway{
+width: 45%;
+position: relative;
+}
+#BTTSOdds{
+width: 60%;
+position: relative;
+}
+#B25GOdds{
+width: 75%;
+position: relative;
+}
+#SMAway{
+width: 90%;
+position: relative;
+}
+#OccH{
+width: 96%;
+position: relative;
+}
+#OccA{
+width: 100%;
+position: relative;
+} */

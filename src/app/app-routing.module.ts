@@ -1,12 +1,17 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+
+//Components
+import { LoginComponent } from './login/login.component';
 import { MatchTableComponent } from './match-table/match-table.component';
+import { SettingsComponent } from './settings/settings.component';
 import { WatchlistComponent } from './watchlist/watchlist.component';
 
 const routes: Routes = [
-  { path: 'api/watchlist', component: WatchlistComponent },
-  { path: 'api/matches', component: MatchTableComponent },
-
+  { path: 'watchlist', component: WatchlistComponent },
+  { path: 'matches', component: MatchTableComponent },
+  { path: 'login', component: LoginComponent },
+  { path: 'settings', component: SettingsComponent },
 ];
 
 @NgModule({

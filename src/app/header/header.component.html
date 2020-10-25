@@ -1,25 +1,29 @@
 <mat-toolbar>
   <button mat-raised-button color = "primary">
     <span>
-      <a routerLink = "api/matches" >MatchEdge</a>
+      <a routerLink = "matches" >MatchEdge</a>
     </span>
 
   </button>
     <div class="button-container">
       <button mat-raised-button color="primary">
-        <a routerLink = "api/watchlist" >
-          Watchlist
+        <a routerLink = "watchlist" >
+          Active Matches
         </a>
       </button>
+
     <span class="example-spacer"> </span>
-    <button mat-raised-button color = "primary">
-      <a routerLink = "/" >
-        Login
-      </a>
-    </button>
-    <button mat-raised-button color=primary>
-      <mat-icon color = "accent">settings</mat-icon>
-    </button>
+      <button mat-raised-button color = "primary">
+        <a routerLink = "login" >
+          Login
+        </a>
+      </button>
+
+      <button mat-raised-button color=primary>
+        <a routerLink = "settings" >
+          Settings
+        </a>
+      </button>
   </div>
 </mat-toolbar>
 

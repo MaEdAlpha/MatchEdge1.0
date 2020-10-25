@@ -21,20 +21,24 @@ export class MatchesService {
 
         return matchData.body.map(match => {
           return {
-            RefTag: match.RefTag,
-            HomeTeamName:match.HomeTeamName,
-            AwayTeamName:match.AwayTeamName,
-            SmarketsHomeOdds:match.SmarketsHomeOdds,
-            SmarketsAwayOdds:match.SmarketsAwayOdds,
-            B365HomeOdds:match.B365HomeOdds,
-            B365DrawOdds:match.B365DrawOdds,
-            B365AwayOdds:match.B365AwayOdds,
-            B365BTTSOdds:match.B365BTTSOdds,
-            B365O25GoalsOdds:match.B365O25GoalsOdds,
-            StartDateTime:match.StartDateTime,
+            Ref: match.RefTag,
+
+            HReturn: 202,
+            Home:match.HomeTeamName,
+            Away:match.AwayTeamName,
+            AReturn: 1+1*100,
+            SMHome:match.SmarketsHomeOdds,
+            SMAway:match.SmarketsAwayOdds,
+            BHome:match.B365HomeOdds,
+            BDraw:match.B365DrawOdds,
+            BAway:match.B365AwayOdds,
+            BTTSOdds:match.B365BTTSOdds,
+            B25GOdds:match.B365O25GoalsOdds,
+            Details:match.StartDateTime,
+            MatchTime:match.StartDateTime.substring(11, 19),
             League:match.League,
-            OccurrenceHome: match.OccurrenceHome,
-            OccurrenceAway:match.OccurrenceAway,
+            OccH: match.OccurrenceHome,
+            OccA:match.OccurrenceAway,
           }
         })
       })) //add in operators (map()) every data through the observable stream do this thing.

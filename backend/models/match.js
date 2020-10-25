@@ -18,7 +18,7 @@ const matchSchema = mongoose.Schema({
     League:{String},
     OccurrenceHome: {Number},
     OccurrenceAway:{Number},
-}}, {collection: 'Matches'});
+}}, {collection: 'matches'});
 
 //export model
 module.exports = mongoose.connection.model('match', matchSchema);

@@ -1,5 +1,5 @@
  export interface Match {
-    RefTag: string;
+    RefTag: any;
     HomeTeamName:string;
     AwayTeamName:string;
     SmarketsHomeOdds:number;
