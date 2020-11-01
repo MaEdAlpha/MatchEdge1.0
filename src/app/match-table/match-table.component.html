@@ -1,93 +1,97 @@
 
-<button mat-raised-button (click)="clearMatches()" color= "primary"> <span>Clear List</span>  </button>
-<button mat-raised-button (click)="getMatches()" color= "primary"> <span>Populate</span> </button>
+
+
+<button mat-raised-button (click)="clearMatches()" color= "accent"> <span>Clear List</span>  </button>
+<button mat-raised-button (click)="getMatches()" color= "accent"> <span>Populate</span> </button>
+<button mat-raised-button (click)="getMatches()" color= "accent"> <span>Today's Matches</span> </button>
+<button mat-raised-button (click)="getMatches()" color= "accent"> <span>Tomorrow's Matches</span> </button>
+<button mat-raised-button (click)="getMatches()" color= "accent"> <span>All Matches</span> </button>
 <hr>
 
-<table mat-table [dataSource]= "matches" multiTemplateDataRows>
 
-  <ng-container class="top">
-    <ng-container matColumnDef="AReturn">
-      <th id="Artn"  mat-header-cell *matHeaderCellDef>AReturn </th>
-      <td mat-cell *matCellDef="let match"> {{match.AReturn}} </td>
-    </ng-container>
+<div class="main-container">
+  <div class="first-container">
+    <app-calc></app-calc>
+  </div>
 
-    <ng-container matColumnDef="Home">
-      <th id="hteam"  mat-header-cell *matHeaderCellDef>Home</th>
-      <td mat-cell *matCellDef="let match"> {{match.Home}} </td>
-    </ng-container>
+  <div class="second-container">
+    <table mat-table [dataSource]= "matches" multiTemplateDataRows>
+        <ng-container matColumnDef="AReturn">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td id="Artn" mat-cell *matCellDef="let match"> {{match.AReturn}} </td>
+        </ng-container>
 
-    <ng-container matColumnDef="Spacer">
-      <th mat-header-cell *matHeaderCellDef></th>
-      <td id="spacer" mat-cell *matCellDef="let match"><span>' </span></td>
-    </ng-container>
+        <ng-container matColumnDef="Home">
+          <th id="hteam"  mat-header-cell *matHeaderCellDef>Home</th>
+          <td mat-cell *matCellDef="let match"> {{match.Home}} </td>
+        </ng-container>
 
-    <ng-container matColumnDef="Away">
-      <th id="ateam"  mat-header-cell *matHeaderCellDef>Away</th>
-      <td mat-cell *matCellDef="let match"> {{match.Away}} </td>
-    </ng-container>
+        <ng-container matColumnDef="Spacer">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td id="spacer" mat-cell *matCellDef="let match"><span>{{match.MatchTime}} </span></td>
+        </ng-container>
+
+        <ng-container matColumnDef="Away">
+          <th id="ateam"  mat-header-cell *matHeaderCellDef>Away</th>
+          <td mat-cell *matCellDef="let match"> {{match.Away}} </td>
+        </ng-container>
 
 
-    <ng-container matColumnDef="HReturn">
-      <th id="Hrtn"  mat-header-cell *matHeaderCellDef>HReturn </th>
-      <td mat-cell *matCellDef="let match"> {{match.HReturn}} </td>
-    </ng-container>
-  </ng-container>
+        <ng-container matColumnDef="HReturn">
+          <th id="Hrtn"  mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let match"> {{match.HReturn}} </td>
+        </ng-container>
 
-  <ng-container class="bottom">
-    <ng-container matColumnDef="Details">
-      <th mat-header-cell *matHeaderCellDef>Time</th>
-      <td id="details" mat-cell *matCellDef="let match"> {{match.MatchTime}} </td>
-    </ng-container>
-  </ng-container>
+        <ng-container matColumnDef="Details">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td id="details" mat-cell *matCellDef="let match"></td>
+        </ng-container>
 
-  <ng-container matColumnDef="expandedDetail">
-    <td mat-cell *matCellDef="let match" [attr.colspan]="SecondcolumnsToDisplay.length">
-      <div class="element-detail"
-           [@detailExpand]="match == expandedElement ? 'expanded' : 'collapsed'">
-        <div class="element-container">
-
-            <div class="lhs-container">
-              <div class="exp-col" id="League"> {{match.League}} </div>
-              <div class="exp-col" id="OccH"> {{match.OccH}} </div>
-            </div>
-
-            <div class="center-container">
-              <div class="sm-data">
-                <div class="exp-col" id="SMHome"> {{match.SMHome}} </div>
-                <div class="exp-col" id="SMAway"> {{match.SMAway}} </div>
-
-                <div class="Deviation">
-                  <div class="exp-col" id="Deviation"> 0.01 </div>
-                  <div class="exp-col" id="Deviation"> 0.2 </div>
-
-                  <div class="bkpr-val">
-                    <div class="exp-col" id="BHome"> {{match.BHome}} </div>
-                    <div class="exp-col" id="BDraw"> {{match.BDraw}} </div>
-                    <div class="exp-col" id="BAway"> {{match.BAway}} </div>
-                  </div>
-                </div>
-
+        <ng-container matColumnDef="expandedDetail">
+        <td mat-cell *matCellDef="let match; let i = renderIndex" [attr.colspan]="SecondcolumnsToDisplay.length">
+          <div class="element-detail"
+               [@detailExpand]="match == expandedElement ? 'expanded' : 'collapsed'">
+            <div class="element-container">
+              <div class="selected-team">
+                <div class = "logo-cont">A</div>
+                <div class = "rating"> Full Turn Around Rating</div>
               </div>
 
+              <div class="back">Back</div>
+              <div class="lay">Lay</div>
+              <div class="footer" > at true index: {{i}}
+                <div class="exp-col" id="SMHome"> {{match.SMHome}}</div>
+                <div class="exp-col" id="SMAway"> {{match.SMAway}}</div>
+                <div class="exp-col" id="League"> {{match.League}} </div>
+                <div class="exp-col" id="OccH"> {{match.OccH}} </div>
+                <div class="exp-col" id="BHome"> {{match.BHome}} </div>
+                <div class="exp-col" id="BDraw"> {{match.BDraw}} </div>
+                <div class="exp-col" id="BAway"> {{match.BAway}} </div>
+                <div class="exp-col" id="BTTSOdds"></div>
+                <div class="exp-col" id="B25GOdds"></div>
+                <div class="exp-col" id="OccA"> {{match.OccA}} </div>
+                <button mat-raised-button color = "accent" [disabled] ="clicked[(i-1)/2]" (click) = "addToActiveList(match);  disableButton((i-1)/2)">Watching {{(i -1)/2}}</button>
+              </div>
             </div>
+          </div>
+        </td>
+      </ng-container>
 
-            <div class="rhs-container">
-              <div class="exp-col" id="BTTSOdds"> {{match.BTTSOdds}} </div>
-              <div class="exp-col" id="B25GOdds"> {{match.B25GOdds}} </div>
-              <div class="exp-col" id="OccA"> {{match.OccA}} </div>
-            </div>
-        </div>
-      </div>
-    </td>
-  </ng-container>
+      <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+      <tr mat-row *matRowDef="let element; columns: columnsToDisplay;"
+          class="element-row"
+          [class.expanded-row]="expandedElement === element"
+          (click)="expandedElement = expandedElement === element ? null : element">
+      </tr>
+      <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="detail-row"></tr>
+    </table>
+  </div>
 
-  <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
-  <tr mat-row *matRowDef="let element; columns: columnsToDisplay;"
-      class="element-row"
-      [class.expanded-row]="expandedElement === element"
-      (click)="expandedElement = expandedElement === element ? null : element">
-  </tr>
-  <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="detail-row"></tr>
-</table>
+  <div class="third-container">
+    <app-summary-list [activeMatches] = "activeMatches" (unWatchEvent) = "enableMatchButton($event)"></app-summary-list>
+  </div>
+
+</div>
+
 
 

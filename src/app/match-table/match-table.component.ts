@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit, ViewChild, Directive} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild, Directive, Output} from '@angular/core';
 import { Subscription } from 'rxjs';
 import { MatTable } from '@angular/material/table';
 import {Match } from '../match/match.model';
@@ -22,15 +22,20 @@ import {animate, state, style, transition, trigger} from '@angular/animations';
 
   export class MatchTableComponent implements OnInit, OnDestroy {
 
-    displayedColumns: string[] = [ 'Details', 'AReturn', 'Home', 'Spacer', 'Away' , 'HReturn'];
+    displayedColumns: string[] = ['AReturn', 'Home', 'Spacer',  'Details', 'Away' , 'HReturn'];
     SecondcolumnsToDisplay: string[] = ['SMHome','BHome', 'BDraw', 'BAway', 'BTTSOdds', 'B25GOdds','SMAway',  'League', 'OccH', 'OccA'];
     columnsToDisplay: string[] = this.displayedColumns.slice();
     data: Match[] = [];
     matches: any;
     expandedElement: any | null;
     retrieveMatches = false;
+    tableCount: any;
+    clicked: string[] = [];
+    indexPositions: number[];
+    @Output() activeMatches: Match[] = [];
 
     private matchesSub: Subscription;
+    private matchesCountSub: Subscription;
 
     @ViewChild(MatTable) table: MatTable<any>;
 
@@ -42,11 +47,28 @@ import {animate, state, style, transition, trigger} from '@angular/animations';
        this.matchesSub = this.matchesService.getMatchUpdateListener()
        .subscribe((matchData: any)=>{
          this.matches = matchData;
-       });
+        });
+        this.tableCount = this.matchesService.getTableCount();
+        this.matchesCountSub = this.matchesService.getMatchCountListener()
+        .subscribe((matchCount: any) => {
+          this.tableCount = matchCount;
+
+          this.initWatchButtons(this.tableCount);
+        })
+
      }
 
      ngOnDestroy(){
        this.matchesSub.unsubscribe();
+       this.matchesCountSub.unsubscribe();
+       console.log("Destroyed");
+     }
+
+     initWatchButtons(count: number){
+        for(var i=0; i<count; i++)
+        {
+          this.clicked.push('false');
+        }
      }
     addColumn(){
       const randomColumn = Math.floor(Math.random() * this.displayedColumns.length);
@@ -59,9 +81,30 @@ import {animate, state, style, transition, trigger} from '@angular/animations';
 
     getMatches() {
       this.matches = this.matchesService.getMatches();
-      //this.table.renderRows();
+      this.table.renderRows();
     }
 
+    addToActiveList(match: any) {
+      this.activeMatches.push(match);
+      console.log("Added " + match.Home)
+      //method that hides this object
+     // console.log(this.matches[0].Home);
+    }
+
+    enableMatchButton(match: any)
+    {
+      for(var i=0; i < this.matches.length; i++){
+        if( match.Home === this.matches[i].Home && match.Away === this.matches[i].Away){
+          console.log("Changing button " + i);
+          this.clicked[i] = 'false';
+        }
+      }
+    }
+
+    disableButton(index:any)
+    {
+      this.clicked[index]='true';
+    }
     shuffle() {
       let currentIndex = this.columnsToDisplay.length;
 

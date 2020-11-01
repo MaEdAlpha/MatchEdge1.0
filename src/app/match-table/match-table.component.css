@@ -1,10 +1,43 @@
 hr {
   border-color:  #f9a825 ;
 }
-table {
-  margin-left:auto;
-  margin-right:auto;
+
+.main-container {
+  position: relative;
+  padding-left: 10px;
+  width: 100%;
 }
+
+.second-container {
+  position: relative;
+  float: left;
+  width: 50%;
+  padding-top: 50px;
+
+}
+
+table {
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+.third-container, .first-container {
+ position: relative;
+ float: left;
+ padding-top: 50px;
+ width: 15%;
+ height: 900px;
+}
+
+.first-container {
+  padding-left: 10%;
+}
+
+#Artn {
+  overflow: hidden;
+}
+
 th.mat-header-cell{
   text-align: center !important;
 }
@@ -23,14 +56,13 @@ td {
   font-size: 2em;
 }
 
-
 td {
   font-size: 0.9em;
   padding: 1em;
 }
 
 span {
-  color:#f9a825;
+  color:#455a64;
 }
 
 thead {
@@ -41,13 +73,13 @@ tr.detail-row {
   height: 0;
 }
 
-tr.element-row:not(.expanded-row):hover {
+/* tr.element-row:not(.expanded-row):hover {
   background: whitesmoke;
 }
 
 tr.element-row:not(.expanded-row):active {
   background: #efefef;
-}
+} */
 
 .element-row td {
   border-bottom-width: 2px;
@@ -58,34 +90,50 @@ tr.element-row:not(.expanded-row):active {
   display: flex;
 }
 
-.spacer {
-  background-color: blueviolet;
-  content: ' ';
-}
-
-#spacer {
-  background-color: chartreuse;
-  column-rule: chartreuse;
+td#spacer {
+  background-color: #f9a825;
+  column-rule: #f9a825;
   border: 1px black;
   margin: 1px;
 }
+
+
 .element-container {
   width: 100%;
   font-weight: lighter;
-  height: 50px;
+  height: 400px;
   margin-top: 0rem;
   margin-bottom: 0.5rem;
-  padding-bottom: 0.5rem;
+  padding: 0.5rem;
 }
-.lhs-container,
-.rhs-container,
-.center-container{
-  width: 33%;
-  position: relative;
-  display:inline;
-  padding-left: 2rem;
-  vertical-align: super;
+
+.selected-team, .logo-cont, .back, .lay, .footer, .rating {
+  border: 1px solid black;
 }
+.logo-cont {
+  margin-left: 35%;
+}
+.logo-cont, .rating {
+  width: 140px;
+  height: 140px;
+  float: left;
+}
+
+.rating {
+  height: 70px;
+  margin-top: 7.9%;
+}
+
+.selected-team {
+  height: 50%;
+}
+.back, .lay, .footer {
+  display: table-cell;
+  float:left;
+  height: 15%;
+  width: 100%;
+}
+
 
 .exp-col  {
   display: inline;
@@ -97,6 +145,9 @@ tr.element-row:not(.expanded-row):active {
   display: inline-block;
 }
 
+tr {
+  overflow: hidden;
+}
 #League{
   display: none;
   position: relative;
@@ -109,39 +160,8 @@ tr.element-row:not(.expanded-row):active {
   position: relative;
   height: 40%;
 }
+#hteam {
+  text-align: right;
+}
 
-/* #SMHome{
- padding-top: 0em;
-}
-#BHome{
-width: 15%;
-position: relative;
-}
-#BDraw{
-width: 30%;
-position: relative;
-}
-#BAway{
-width: 45%;
-position: relative;
-}
-#BTTSOdds{
-width: 60%;
-position: relative;
-}
-#B25GOdds{
-width: 75%;
-position: relative;
-}
-#SMAway{
-width: 90%;
-position: relative;
-}
-#OccH{
-width: 96%;
-position: relative;
-}
-#OccA{
-width: 100%;
-position: relative;
-} */
+

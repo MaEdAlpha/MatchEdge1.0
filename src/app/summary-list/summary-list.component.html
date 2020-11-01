@@ -1,0 +1,22 @@
+<mat-sidenav-container>
+  <mat-sidenav #sidenav [(opened)]="isOpened">Teams that are Active
+    <button mat-raised-button color= "primary" class="inner-nav" (click)="sidenav.close()" ><mat-icon>arrow_back_ios</mat-icon></button>
+    <div *ngIf="isOpened">
+      <div>
+          <ul *ngFor="let match of activeMatches; let j = index">
+            <li>
+               <p>H: {{match.Home}} | A: {{match.Away}} Index: {{j}}
+                 <button mat-raised-button [disabled] = "clickedSummary[j]" (click)= "unWatchMatch(match, j); clickedSummary[j] = true">Unwatch</button>
+                </p>
+            </li>
+          </ul>
+      </div>
+    </div>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <button class="outer-nav" mat-button (click)="isOpened=!isOpened">
+      Active Matches
+    </button>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+

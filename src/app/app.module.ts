@@ -8,6 +8,8 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule } from '@angular/material/button';
 import { HttpClientModule } from '@angular/common/http';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { FormsModule } from '@angular/forms';
 
 //imports
 import { HeaderComponent } from './header/header.component';
@@ -18,8 +20,9 @@ import { MatchesService } from './match/matches.service';
 import { MatIconModule } from '@angular/material/icon';
 import { WatchlistComponent } from './watchlist/watchlist.component';
 import { LoginComponent } from './login/login.component';
-import { SettingsComponent } from './settings/settings.component';
-import { MatExpansionModule } from '@angular/material/expansion';
+import { SettingsComponent } from './user-settings/settings.component';
+import { SummaryListComponent } from './summary-list/summary-list.component';
+import { CalcSettingsComponent } from './calc-settings/calc-settings.component';
 
 
 
@@ -32,6 +35,8 @@ import { MatExpansionModule } from '@angular/material/expansion';
     WatchlistComponent,
     LoginComponent,
     SettingsComponent,
+    SummaryListComponent,
+    CalcSettingsComponent,
 
   ],
   imports: [
@@ -43,7 +48,8 @@ import { MatExpansionModule } from '@angular/material/expansion';
     MatToolbarModule,
     MatIconModule,
     MatButtonModule,
-
+    MatSidenavModule,
+    FormsModule
   ],
   providers: [MatchesService],
   bootstrap: [AppComponent]

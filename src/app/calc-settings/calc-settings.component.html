@@ -1,0 +1,10 @@
+<mat-sidenav-container>
+  <mat-sidenav mode="over" #sidenav [(opened)]="isOpened" position="end">Calc Settings
+    <button mat-raised-button color= "primary" class="inner-nav" (click)="sidenav.close()" ><mat-icon>arrow_forward_ios</mat-icon></button>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <button class="outer-nav" mat-button (click)="isOpened=!isOpened">
+      Match Settings
+    </button>
+  </mat-sidenav-content>
+</mat-sidenav-container>

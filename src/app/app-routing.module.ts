@@ -4,7 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 //Components
 import { LoginComponent } from './login/login.component';
 import { MatchTableComponent } from './match-table/match-table.component';
-import { SettingsComponent } from './settings/settings.component';
+import { SettingsComponent } from './user-settings/settings.component';
 import { WatchlistComponent } from './watchlist/watchlist.component';
 
 const routes: Routes = [

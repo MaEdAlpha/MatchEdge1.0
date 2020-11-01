@@ -8,7 +8,10 @@ import { Injectable } from '@angular/core';
 
 export class MatchesService {
   private matches: any = [];
+  private tableCount: any =[];
+  count:number= 0;
   public matchesUpdated = new Subject<Match>();
+  public matchesCountUpdated = new Subject<number>();
 
   constructor(private http: HttpClient) {}
 
@@ -21,8 +24,6 @@ export class MatchesService {
 
         return matchData.body.map(match => {
           return {
-            Ref: match.RefTag,
-
             HReturn: 202,
             Home:match.HomeTeamName,
             Away:match.AwayTeamName,
@@ -35,7 +36,7 @@ export class MatchesService {
             BTTSOdds:match.B365BTTSOdds,
             B25GOdds:match.B365O25GoalsOdds,
             Details:match.StartDateTime,
-            MatchTime:match.StartDateTime.substring(11, 19),
+            MatchTime:match.StartDateTime.substring(11, 16),
             League:match.League,
             OccH: match.OccurrenceHome,
             OccA:match.OccurrenceAway,
@@ -43,13 +44,40 @@ export class MatchesService {
         })
       })) //add in operators (map()) every data through the observable stream do this thing.
       .subscribe( transformedMatches => {
-        this.matches =transformedMatches;
+        this.matches = transformedMatches;
         this.matchesUpdated.next(this.matches);
+        // this.count=this.matches.length;
+        // this.matchesCountUpdated.next(this.count);
+        // console.log(this.count);
       });
+  }
+
+  getTableCount(){
+    this.http
+      .get<{ message: string; body: any }> (
+        "http://localhost:3000/api/matches"
+      )
+      .pipe(map( (matchCount) => {
+
+        return matchCount.body.map(match => {
+          return{ match }
+        })
+      })) //add in operators (map()) every data through the observable stream do this thing.
+      .subscribe( matchesCount => {
+        this.tableCount = matchesCount;
+        this.matchesCountUpdated.next(this.tableCount.length);
+        console.log(this.tableCount.length);
+      });
+
   }
 
   getMatchUpdateListener(){
     return this.matchesUpdated.asObservable();
+  }
+
+
+  getMatchCountListener(){
+    return this.matchesCountUpdated.asObservable();
   }
 
   addMatches(RefTag: string,
