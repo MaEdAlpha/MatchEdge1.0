@@ -23,6 +23,7 @@ import { LoginComponent } from './login/login.component';
 import { SettingsComponent } from './user-settings/settings.component';
 import { SummaryListComponent } from './summary-list/summary-list.component';
 import { CalcSettingsComponent } from './calc-settings/calc-settings.component';
+import { WebsocketService } from './websocket.service';
 
 
 
@@ -51,7 +52,7 @@ import { CalcSettingsComponent } from './calc-settings/calc-settings.component';
     MatSidenavModule,
     FormsModule
   ],
-  providers: [MatchesService],
+  providers: [MatchesService, WebsocketService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

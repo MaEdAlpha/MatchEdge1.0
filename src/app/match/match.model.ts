@@ -1,5 +1,4 @@
  export interface Match {
-    RefTag: any;
     HomeTeamName:string;
     AwayTeamName:string;
     SmarketsHomeOdds:number;
@@ -13,21 +12,4 @@
     League:string;
     OccurrenceHome: number;
     OccurrenceAway:number;
-
   }
-
-
-  // date: string;
-   // time: string;
-   // home: string;
-   // homeTwoUp: number;
-   // homeBackOdds: number;
-   // homeLayOdds: number;
-   // homeMatchR: number;
-   // homeReturn: number;
-   // away: string;
-   // awayTwoUp: number;
-   // awayBackOdds: number;
-   // awayLayOdds: number;
-   // awayMatchR: number;
-   // awayReturn: number;

@@ -1,21 +1,60 @@
 import { HttpClient } from '@angular/common/http';
 import {Match} from "./match.model";
-import { Subject } from "rxjs";
+import { Observable, Subject } from "rxjs";
+import { interval } from "rxjs";
 import { map } from 'rxjs/operators'
 import { Injectable } from '@angular/core';
 
 @Injectable({ providedIn: 'root'})
 
 export class MatchesService {
-  private matches: any = [];
+  private matches: any;
   private tableCount: any =[];
-  count:number= 0;
+  count: number= 0;
   public matchesUpdated = new Subject<Match>();
   public matchesCountUpdated = new Subject<number>();
 
   constructor(private http: HttpClient) {}
 
   getMatches() {
+    this.http
+      .get<{body: any }> (
+        "http://localhost:3000/api/matches"
+      )
+      .pipe(map( (matchData) => {
+
+        return matchData.body.map( match => {
+          return {
+            id: match.ObjectId,
+            HReturn: 202,
+            Home: match.HomeTeamName,
+            Away: match.AwayTeamName,
+            AReturn: 1+1*100,
+            SMHome: match.SmarketsHomeOdds,
+            SMAway: match.SmarketsAwayOdds,
+            BHome: match.B365HomeOdds,
+            BDraw: match.B365DrawOdds,
+            BAway: match.B365AwayOdds,
+            BTTSOdds: match.B365BTTSOdds,
+            B25GOdds: match.B365O25GoalsOdds,
+            Details: match.StartDateTime,
+            MatchTime: match.StartDateTime.substring(11, 16),
+            League: match.League,
+            OccH: match.OccurrenceHome,
+            OccA: match.OccurrenceAway,
+          }
+        })
+      })) //add in operators (map()) every data through the observable stream do this thing.
+      .subscribe( transformedMatches => {
+        this.matches = transformedMatches;
+        this.matchesUpdated.next(this.matches);
+        // this.count=this.matches.length;
+        // this.matchesCountUpdated.next(this.count);
+         console.log(this.matches);
+      });
+  }
+
+  refreshMatches(){
     this.http
       .get<{ message: string; body: any }> (
         "http://localhost:3000/api/matches"
@@ -24,6 +63,7 @@ export class MatchesService {
 
         return matchData.body.map(match => {
           return {
+            id: match._id,
             HReturn: 202,
             Home:match.HomeTeamName,
             Away:match.AwayTeamName,
@@ -44,7 +84,15 @@ export class MatchesService {
         })
       })) //add in operators (map()) every data through the observable stream do this thing.
       .subscribe( transformedMatches => {
-        this.matches = transformedMatches;
+
+        if(this.matches.SMHome === transformedMatches.SMHome)
+        {
+          this.matches.SMHome = transformedMatches.SMHome;
+        }
+        if(this.matches.SMAway === transformedMatches.SMAway)
+        {
+          this.matches.SMAway = transformedMatches.SMAway;
+        }
         this.matchesUpdated.next(this.matches);
         // this.count=this.matches.length;
         // this.matchesCountUpdated.next(this.count);
@@ -71,7 +119,7 @@ export class MatchesService {
 
   }
 
-  getMatchUpdateListener(){
+  getMatchUpdateListener(): Observable<Match> {
     return this.matchesUpdated.asObservable();
   }
 
@@ -80,39 +128,39 @@ export class MatchesService {
     return this.matchesCountUpdated.asObservable();
   }
 
-  addMatches(RefTag: string,
-    HomeTeamName:string,
-    AwayTeamName:string,
-    SmarketsHomeOdds:number,
-    SmarketsAwayOdds:number,
-    B365HomeOdds:number,
-    B365DrawOdds:number,
-    B365AwayOdds:number,
-    B365BTTSOdds:number,
-    B365O25GoalsOdds:number,
-    StartDateTime:string,
-    League:string,
-    OccurrenceHome: number,
-    OccurrenceAway:number,
-    ){
-    const match: Match = {
-      RefTag: RefTag,
-      HomeTeamName:HomeTeamName,
-      AwayTeamName:AwayTeamName,
-      SmarketsHomeOdds:SmarketsHomeOdds,
-      SmarketsAwayOdds:SmarketsAwayOdds,
-      B365HomeOdds:B365HomeOdds,
-      B365DrawOdds:B365DrawOdds,
-      B365AwayOdds:B365AwayOdds,
-      B365BTTSOdds:B365BTTSOdds,
-      B365O25GoalsOdds:B365O25GoalsOdds,
-      StartDateTime:StartDateTime,
-      League:League,
-      OccurrenceHome: OccurrenceHome,
-      OccurrenceAway:OccurrenceAway,
+  // addMatches(
+  //   HomeTeamName:string,
+  //   AwayTeamName:string,
+  //   SmarketsHomeOdds:number,
+  //   SmarketsAwayOdds:number,
+  //   B365HomeOdds:number,
+  //   B365DrawOdds:number,
+  //   B365AwayOdds:number,
+  //   B365BTTSOdds:number,
+  //   B365O25GoalsOdds:number,
+  //   StartDateTime:string,
+  //   League:string,
+  //   OccurrenceHome: number,
+  //   OccurrenceAway:number,
+  //   ){
+  //   const match: Match = {
+  //     id:id,
+  //     HomeTeamName:HomeTeamName,
+  //     AwayTeamName:AwayTeamName,
+  //     SmarketsHomeOdds:SmarketsHomeOdds,
+  //     SmarketsAwayOdds:SmarketsAwayOdds,
+  //     B365HomeOdds:B365HomeOdds,
+  //     B365DrawOdds:B365DrawOdds,
+  //     B365AwayOdds:B365AwayOdds,
+  //     B365BTTSOdds:B365BTTSOdds,
+  //     B365O25GoalsOdds:B365O25GoalsOdds,
+  //     StartDateTime:StartDateTime,
+  //     League:League,
+  //     OccurrenceHome: OccurrenceHome,
+  //     OccurrenceAway:OccurrenceAway,
 
-    };
-    this.matches.push(match);
-    this.matchesUpdated.next(this.matches);
-  }
+  //   };
+  //   this.matches.push(match);
+  //   this.matchesUpdated.next(this.matches);
+  // }
 }

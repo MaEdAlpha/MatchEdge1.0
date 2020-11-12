@@ -1,13 +1,9 @@
-
-
-
 <button mat-raised-button (click)="clearMatches()" color= "accent"> <span>Clear List</span>  </button>
 <button mat-raised-button (click)="getMatches()" color= "accent"> <span>Populate</span> </button>
 <button mat-raised-button (click)="getMatches()" color= "accent"> <span>Today's Matches</span> </button>
 <button mat-raised-button (click)="getMatches()" color= "accent"> <span>Tomorrow's Matches</span> </button>
-<button mat-raised-button (click)="getMatches()" color= "accent"> <span>All Matches</span> </button>
+<button mat-raised-button (click)="method()" color= "accent"> <span>_id Test</span> </button>
 <hr>
-
 
 <div class="main-container">
   <div class="first-container">
@@ -18,12 +14,12 @@
     <table mat-table [dataSource]= "matches" multiTemplateDataRows>
         <ng-container matColumnDef="AReturn">
           <th mat-header-cell *matHeaderCellDef></th>
-          <td id="Artn" mat-cell *matCellDef="let match"> {{match.AReturn}} </td>
+          <td id="Artn" mat-cell *matCellDef="let match"> {{match.AReturn}}</td>
         </ng-container>
 
         <ng-container matColumnDef="Home">
           <th id="hteam"  mat-header-cell *matHeaderCellDef>Home</th>
-          <td mat-cell *matCellDef="let match"> {{match.Home}} </td>
+          <td mat-cell *matCellDef="let match"> {{match.Home}} | {{match.id}} {{match.SMHome}} </td>
         </ng-container>
 
         <ng-container matColumnDef="Spacer">
@@ -33,7 +29,7 @@
 
         <ng-container matColumnDef="Away">
           <th id="ateam"  mat-header-cell *matHeaderCellDef>Away</th>
-          <td mat-cell *matCellDef="let match"> {{match.Away}} </td>
+          <td mat-cell *matCellDef="let match"> {{match.Away}} | {{match.id}} {{ match.SMAway }} </td>
         </ng-container>
 
 
@@ -94,4 +90,8 @@
 </div>
 
 
-
+<div>
+  <ul>
+    <li *ngFor = "let match of matchStream"> Test {{ match.HomeTeamName }}</li>
+  </ul>
+</div>

@@ -4,7 +4,6 @@ const mongoose = require('mongoose');
 
 const matchSchema = mongoose.Schema({
   match: {
-    RefTag:{String},
     HomeTeamName:{String},
     AwayTeamName:{String},
     SmarketsHomeOdds:{Number},

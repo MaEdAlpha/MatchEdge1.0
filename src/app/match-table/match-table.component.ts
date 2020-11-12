@@ -1,9 +1,14 @@
-import {Component, OnDestroy, OnInit, ViewChild, Directive, Output} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild, Directive, Output, ChangeDetectorRef } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { MatTable } from '@angular/material/table';
-import {Match } from '../match/match.model';
+import { Match } from '../match/match.model';
 import { MatchesService } from '../match/matches.service';
 import {animate, state, style, transition, trigger} from '@angular/animations';
+import { interval } from 'rxjs';
+import { Observable } from 'rxjs';
+import { WebsocketService } from '../websocket.service';
+
+
 
 
 
@@ -27,6 +32,7 @@ import {animate, state, style, transition, trigger} from '@angular/animations';
     columnsToDisplay: string[] = this.displayedColumns.slice();
     data: Match[] = [];
     matches: any;
+    matchStream: any;
     expandedElement: any | null;
     retrieveMatches = false;
     tableCount: any;
@@ -37,31 +43,44 @@ import {animate, state, style, transition, trigger} from '@angular/animations';
     private matchesSub: Subscription;
     private matchesCountSub: Subscription;
 
-    @ViewChild(MatTable) table: MatTable<any>;
+    @ViewChild(MatTable) table: MatTable<Match>;
 
 
-    constructor(public matchesService: MatchesService) { } //creates an instance of matchesService. Need to add this in app.module.ts providers:[]
+    constructor(public matchesService: MatchesService, public webSocketService: WebsocketService ) { } //creates an instance of matchesService. Need to add this in app.module.ts providers:[]
 
      ngOnInit() {
+
+
        this.matches = this.matchesService.getMatches(); //fetches matches from matchesService
        this.matchesSub = this.matchesService.getMatchUpdateListener()
-       .subscribe((matchData: any)=>{
+       .subscribe((matchData: Match)=>{
          this.matches = matchData;
         });
+
         this.tableCount = this.matchesService.getTableCount();
         this.matchesCountSub = this.matchesService.getMatchCountListener()
-        .subscribe((matchCount: any) => {
+        .subscribe((matchCount: number) => {
           this.tableCount = matchCount;
 
           this.initWatchButtons(this.tableCount);
-        })
+        });
 
+        this.webSocketService.openWebSocket();
+        this.matchStream = this.webSocketService.updateStreamData();
+
+        //Start parsing matchstream with matches?
+
+
+        interval(10000).subscribe(() => {
+          this.method();
+           });
      }
 
      ngOnDestroy(){
        this.matchesSub.unsubscribe();
        this.matchesCountSub.unsubscribe();
        console.log("Destroyed");
+       this.webSocketService.closeWebSocket();
      }
 
      initWatchButtons(count: number){
@@ -70,10 +89,21 @@ import {animate, state, style, transition, trigger} from '@angular/animations';
           this.clicked.push('false');
         }
      }
-    addColumn(){
-      const randomColumn = Math.floor(Math.random() * this.displayedColumns.length);
-      this.columnsToDisplay.push(this.displayedColumns[randomColumn]);
-    }
+
+     method() {
+      this.matchStream.forEach( streamMatch => {
+
+         this.matches.forEach( match => {
+           var matchId = match.Home + " " + match.Away + " " + match.Details;
+           if(matchId == streamMatch._id){
+              console.log("MATCH!!!   " + matchId + " " + streamMatch._id);
+              match.Home = "UPDATED!";
+              match.Away = "DYNAMITE!";
+           }
+
+          })
+        })
+     }
 
     clearMatches() {
       this.matches = this.data;
@@ -81,7 +111,7 @@ import {animate, state, style, transition, trigger} from '@angular/animations';
 
     getMatches() {
       this.matches = this.matchesService.getMatches();
-      this.table.renderRows();
+      //this.table.renderRows();
     }
 
     addToActiveList(match: any) {
@@ -118,80 +148,27 @@ import {animate, state, style, transition, trigger} from '@angular/animations';
         this.columnsToDisplay[randomIndex] = temp;
       }
     }
+
+    socketAccess() {
+      this.matchStream = this.webSocketService.updateStreamData();
+    }
   }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// import { Component } from '@angular/core';
-
-// export interface PeriodicElement {
-//   date: string;
-//   time: string;
-//   home: string;
-//   homeTwoUp: number;
-//   homeBackOdds: number;
-//   homeLayOdds: number;
-//   away: string;
-//   awayTwoUp: number;
-//   awayBackOdds: number;
-//   awayLayOdds: number;
-// }
-
-// const ELEMENT_DATA: PeriodicElement[] = [
-//   {date: "Jan 01", time: "16:00", home: "Chelsea", homeTwoUp: 1.2, homeBackOdds: 3.2, homeLayOdds: 2.2, away: "Liverpool", awayTwoUp: 1.1, awayBackOdds: 1.1, awayLayOdds: 3.3},
-//   {date: "Jan 01", time: "16:00", home: "Chelsea", homeTwoUp: 1.2, homeBackOdds: 3.2, homeLayOdds: 2.2, away: "Liverpool", awayTwoUp: 1.1, awayBackOdds: 1.1, awayLayOdds: 3.3},
-//   {date: "Jan 01", time: "16:00", home: "Chelsea", homeTwoUp: 1.2, homeBackOdds: 3.2, homeLayOdds: 2.2, away: "Liverpool", awayTwoUp: 1.1, awayBackOdds: 1.1, awayLayOdds: 3.3},
-//   {date: "Jan 01", time: "16:00", home: "Chelsea", homeTwoUp: 1.2, homeBackOdds: 3.2, homeLayOdds: 2.2, away: "Liverpool", awayTwoUp: 1.1, awayBackOdds: 1.1, awayLayOdds: 3.3},
-// ];
-
-// @Component({
-//   selector: 'app-match-table',
-//   templateUrl: './match-table.component.html',
-//   styleUrls: ['./match-table.component.css']
-// })
-// export class MatchTableComponent {
-//   displayedColumns: string[] = [ 'date', 'time', 'Home', '2UpFTAOcc.', 'BackOdds', 'LayOdds', 'MatchRating', 'Return%', 'Away', '2UpFTAOcc.', 'BackOdds', 'LayOdds', 'MatchRating', 'Return'];
-//   columnsToDisplay: string[] = this.displayedColumns.slice();
-//   data: PeriodicElement[] = ELEMENT_DATA;
-
-
-//   addColumn() {
-//     const randomColumn = Math.floor(Math.random() * this.displayedColumns.length);
-//     this.columnsToDisplay.push(this.displayedColumns[randomColumn]);
-//   }
-
-//   removeColumn() {
-//     if (this.columnsToDisplay.length) {
-//       this.columnsToDisplay.pop();
-//     }
-//   }
-
-//   shuffle() {
-//     let currentIndex = this.columnsToDisplay.length;
-//     while (0 !== currentIndex) {
-//       let randomIndex = Math.floor(Math.random() * currentIndex);
-//       currentIndex -= 1;
-
-//       // Swap
-//       let temp = this.columnsToDisplay[currentIndex];
-//       this.columnsToDisplay[currentIndex] = this.columnsToDisplay[randomIndex];
-//       this.columnsToDisplay[randomIndex] = temp;
-//     }
-//   }
-// }
+  // WebSocket output is JSON with following paramaters.
+  // {
+  //   "_id":"Burnley Crystal Palace 21-11-2020 15:00:00",
+  //   "HomeTeamName":"Burnley",
+  //   "AwayTeamName":"Crystal Palace",
+  //   "SmarketsHomeOdds":" ",
+  //   "SmarketsAwayOdds":" ",
+  //   "B365HomeOdds":0,
+  //   "B365DrawOdds":0,
+  //   "B365AwayOdds":0,
+  //   "B365BTTSOdds":0,
+  //   "B365O25GoalsOdds":0,
+  //   "StartDateTime":"21-11-2020 15:00:00",
+  //   "League":null,
+  //   "OccurrenceHome":0,
+  //   "OccurrenceAway":0
+  // }

@@ -2,6 +2,9 @@
 const app = require('./backend/app');
 const http = require('http'); //default node.js package already installed on node.js
 const debug = require('debug')('node-angular');
+const WebSocket = require( "ws");
+const MongoClient = require("mongodb").MongoClient;
+
 
 const normalizePort = val => {
   var port = parseInt(val,10);
@@ -55,7 +58,40 @@ server.on("listening", onListening);
 //set port you want to host server at. for now, we do localhost 3000
 server.listen(port);
 
-//create a server constant (without app express. Example of the most basic server)
+const wss = new WebSocket.Server({ server: server });
+
+const connectionString = "mongodb+srv://Randy:M7bkD0xFr91G0DfA@clusterme.lfzcj.mongodb.net/MBEdge?retryWrites=true&w=majority";
+const client = new MongoClient(connectionString,
+  { useNewUrlParser: true,
+    useUnifiedTopology: true,
+    poolSize: 2,
+    promiseLibrary: global.Promise
+  });
+
+
+wss.on('connection', function connection(ws) {
+
+   console.log("A new Client Connected");
+
+    client.connect() // TOD: this connect() is being called a second time, inefficient in code. need to re-structure this code with app.js file to call one connect.
+    .then( ()  => {
+        console.log('ChangeStream Init');
+        const changeStream = client.db("MBEdge").collection("matches").watch();
+        changeStream.on("change", next => {
+          const doc = JSON.stringify(next.fullDocument);
+          ws.send(doc);
+        })
+      }).catch( () => { console.log('Stream failed!');
+    });
+
+   // ws.send("Server.js: Weclome New Client!"); //this sends to websockets
+
+    ws.on('message', function incoming(message) {
+        console.log('received: %s', message);
+        ws.send('In server.js incoming(message) its, ' + message);
+    });
+});
+// create a server constant (without app express. Example of the most basic server)
 
                           // const server = http.createServer((req, res) => {
                           //   res.end('My First Response');
@@ -63,6 +99,37 @@ server.listen(port);
 
 
 
+                          // 'use strict';
 
+                          // const express = require('express');
+                          // const path = require('path');
+                          // const { createServer } = require('http');
 
+                          // const WebSocket = require('ws');
+
+                          // const app = express();
+                          // app.use(express.static(path.join(__dirname, '/public')));
+
+                          // const server = createServer(app);
+                          // const wss = new WebSocket.Server({ server });
+
+                          // wss.on('connection', function (ws) {
+                          //   const id = setInterval(function () {
+                          //     ws.send(JSON.stringify(process.memoryUsage()), function () {
+                          //       //
+                          //       // Ignore errors.
+                          //       //
+                          //     });
+                          //   }, 100);
+                          //   console.log('started client interval');
+
+                          //   ws.on('close', function () {
+                          //     console.log('stopping client interval');
+                          //     clearInterval(id);
+                          //   });
+                          // });
+
+                          // server.listen(3000, function () {
+                          //   console.log('Listening on http://localhost:3000');
+                          // });
 

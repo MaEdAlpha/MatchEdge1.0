@@ -16,7 +16,7 @@ export class SummaryListComponent implements OnInit {
 
     ngOnInit() {
       this.initUnWatchButtons(this.activeMatches.length);
-      console.log("Init UnWatchButton method called");
+      console.log("Init UnWatchButton method called " + this.activeMatches.length);
     }
 
     log(match: Match[]) {
