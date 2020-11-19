@@ -19,10 +19,8 @@
         </a>
       </button>
 
-      <button mat-raised-button color=primary>
-        <a routerLink = "settings" >
-          Settings
-        </a>
+      <button mat-raised-button color=primary (click)="displayNotification=!displayNotification; notificSettingsClicked(displayNotification)">
+          <a> Settings </a>
       </button>
   </div>
 </mat-toolbar>

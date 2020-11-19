@@ -4,9 +4,9 @@
     <div *ngIf="isOpened">
       <div>
           <ul *ngFor="let match of activeMatches; let j = index">
-            <li>
+            <li *ngIf = "displayMatch[j]">
                <p>H: {{match.Home}} | A: {{match.Away}} Index: {{j}}
-                 <button mat-raised-button [disabled] = "clickedSummary[j]" (click)= "unWatchMatch(match, j); clickedSummary[j] = true">Unwatch</button>
+                 <button mat-raised-button [disabled] = "displayMatch[j]" (click)= "unWatchMatch(match, j); displayMatch[j] = false">Unwatch</button>
                 </p>
             </li>
           </ul>

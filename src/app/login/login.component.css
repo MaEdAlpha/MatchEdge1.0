@@ -1,3 +1,61 @@
-h1{
+h1, label, p{
   color:white;
+}
+
+.row  {
+  border: royalblue 1px solid;
+  margin-left: auto;
+  margin-right:auto;
+  width: 50%;
+  height: 100%;
+}
+input, select {
+  width: 40%;
+  margin-left: auto;
+  margin-right: auto;
+  display: inline;
+  position: relative;
+}
+.container {
+  border: white 1px solid;
+  height: 500px;
+  display: flex;
+  margin: 2rem 0;
+  justify-content: flex-start;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-right: 40px;
+}
+
+button, label {
+  margin-right: 30%;
+  margin-top: 10px;
+  float: right;
+}
+
+label {
+  text-align: right;
+}
+
+button {
+  display: inline;
+  margin-left: 70%;
+}
+
+input.ng-invalid.ng-touched, select.ng-invalid.ng-touched {
+  border: red 2px solid;
+}
+
+textarea{
+    margin-top: 40px;
+    height: 30px;
+}
+
+.form-group>p, textarea {
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
 }

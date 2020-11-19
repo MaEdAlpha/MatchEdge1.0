@@ -1,5 +1,8 @@
-<app-header></app-header>
+<app-header (notificationSettings)="displayPanel($event)" ></app-header>
 <hr>
 <main>
+  <div *ngIf="_displayNotification">
+    <app-match-notification-settings ></app-match-notification-settings>
+  </div>
 <router-outlet></router-outlet>
 </main>

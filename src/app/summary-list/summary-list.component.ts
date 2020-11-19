@@ -12,11 +12,10 @@ export class SummaryListComponent implements OnInit {
   @Input() activeMatches: any = [];
   @Input() position: any = [];
   @Output() unWatchEvent = new EventEmitter<Match>();
-  clickedSummary: string[] = [];
+  displayMatch: string[] = [];
 
     ngOnInit() {
       this.initUnWatchButtons(this.activeMatches.length);
-      console.log("Init UnWatchButton method called " + this.activeMatches.length);
     }
 
     log(match: Match[]) {
@@ -25,13 +24,16 @@ export class SummaryListComponent implements OnInit {
 
     unWatchMatch( match: Match, index: number) {
       this.unWatchEvent.emit(match);
-      this.clickedSummary[index] = 'false';
-      this.activeMatches.splice(index,1);
-  }
+      this.displayMatch[index] = 'false';
+    }
+
+    summaryListMatchDisplay(index: number) {
+      this.displayMatch[index] = 'true';
+    }
 
     initUnWatchButtons(count:number){
       for(var i = 0; i < count; i++){
-        this.clickedSummary.push('false');
+        this.displayMatch.push('false');
       }
     }
 }

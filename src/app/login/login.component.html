@@ -1,1 +1,68 @@
 <h1>Login Page</h1>
+<div class = "container">
+  <div class="row">
+    <div>
+      <form (ngSubmit)="onSubmit(formData)" #formData="ngForm">
+        <div id="user-data"
+         ngModelGroup="userData"
+         #userDataHook="ngModelGroup">
+
+          <div class="form-group">
+            <label for="username"> Username</label>
+            <input
+              type="text"
+              id="username"
+              class="form-control"
+              ngModel
+              name="username"
+              required
+              #usernameHook = "ngModel">
+          </div>
+
+          <div class="form-group">
+            <label for="email">Mail</label>
+            <input
+            type="email"
+            id="email"
+            class="form-control"
+            ngModel
+            name="email"
+            required
+            email
+            #emailHook="ngModel">
+          </div>
+          <p *ngIf="!emailHook.pristine && emailHook.status === 'INVALID' && emailHook.touched">Please eenter a correct username and email address!</p>
+        </div>
+
+        <div class="form-group">
+
+          <label for="secret">Secret Question</label>
+          <select
+          id="secret"
+          class="form-control"
+          [ngModel]="defaultQuestion"
+          name="secret"
+          required>
+          <option value="location">Your favorite place</option>
+          <option value="teacher">Your favorite teacher</option>
+        </select>
+
+      </div>
+      <div class="form-group">
+        <textarea
+        name="questionAnswer"
+        rows="3"
+        [(ngModel)]="answer"></textarea>
+        <p>You entered: {{ answer }}</p>
+      </div>
+
+      <p *ngIf="!userDataHook.valid && userDataHook.touched">Please fill in all fields in order to proceed with signing up.</p>
+      <button mat-raised-button class="suggestUser" (click)="suggestUserName()" type="button">Suggest a Username</button>
+      <button mat-raised-button
+      type="submit"
+      [disabled]="!formData.valid">Submit</button>
+    </form>
+
+  </div>
+  </div>
+</div>

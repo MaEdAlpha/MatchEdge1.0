@@ -25,6 +25,31 @@ mat-sidenav-content {
 
 }
 
+.preference-container {
+  text-align: center;
+  margin-top: 40px;
+}
+.stake-field-cont {
+  width: 100%;
+}
+div.stake-field-cont>p,input {
+  width: 40%;
+  display: inline;
+}
+
+.stake-header {
+  display: inline;
+  width: 50%;
+  padding: 10%;
+}
+input.stake-input {
+  margin-left: 5%;
+  width: 20%;
+}
+#final-range {
+  margin-left:13%;
+}
+
 .inner-nav {
   float: left;
   color: #f9a825;

@@ -9,8 +9,14 @@ import { Match } from './match/match.model';
 export class AppComponent {
   title = 'MatchEdge';
   storedMatches: Match[] = [];
+  _displayNotification:boolean;
 
   onMatchAdded(match){
     this.storedMatches.push(match);
+  }
+
+  displayPanel(event: boolean){
+    console.log("Settings Clicked "+ event);
+    this._displayNotification = event;
   }
 }

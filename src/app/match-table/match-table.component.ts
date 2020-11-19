@@ -1,16 +1,11 @@
-import {Component, OnDestroy, OnInit, ViewChild, Directive, Output, ChangeDetectorRef } from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild, Directive, Output, ChangeDetectorRef, EventEmitter } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { MatTable } from '@angular/material/table';
 import { Match } from '../match/match.model';
 import { MatchesService } from '../match/matches.service';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import { interval } from 'rxjs';
-import { Observable } from 'rxjs';
 import { WebsocketService } from '../websocket.service';
-
-
-
-
 
   @Component({
     selector: 'app-match-table',
@@ -30,18 +25,19 @@ import { WebsocketService } from '../websocket.service';
     displayedColumns: string[] = ['AReturn', 'Home', 'Spacer',  'Details', 'Away' , 'HReturn'];
     SecondcolumnsToDisplay: string[] = ['SMHome','BHome', 'BDraw', 'BAway', 'BTTSOdds', 'B25GOdds','SMAway',  'League', 'OccH', 'OccA'];
     columnsToDisplay: string[] = this.displayedColumns.slice();
-    data: Match[] = [];
     matches: any;
     matchStream: any;
     expandedElement: any | null;
     retrieveMatches = false;
     tableCount: any;
-    clicked: string[] = [];
+    matchWatched: string[] = [];
     indexPositions: number[];
+    //For ticker Directives
+
     @Output() activeMatches: Match[] = [];
+    @Output() watchEvent = new EventEmitter<number>();
 
     private matchesSub: Subscription;
-    private matchesCountSub: Subscription;
 
     @ViewChild(MatTable) table: MatTable<Match>;
 
@@ -49,92 +45,79 @@ import { WebsocketService } from '../websocket.service';
     constructor(public matchesService: MatchesService, public webSocketService: WebsocketService ) { } //creates an instance of matchesService. Need to add this in app.module.ts providers:[]
 
      ngOnInit() {
-
-
        this.matches = this.matchesService.getMatches(); //fetches matches from matchesService
+
        this.matchesSub = this.matchesService.getMatchUpdateListener()
        .subscribe((matchData: Match)=>{
          this.matches = matchData;
         });
 
         this.tableCount = this.matchesService.getTableCount();
-        this.matchesCountSub = this.matchesService.getMatchCountListener()
-        .subscribe((matchCount: number) => {
-          this.tableCount = matchCount;
 
-          this.initWatchButtons(this.tableCount);
-        });
+        this.activeMatches = this.matches;
 
         this.webSocketService.openWebSocket();
         this.matchStream = this.webSocketService.updateStreamData();
 
         //Start parsing matchstream with matches?
-
-
-        interval(10000).subscribe(() => {
-          this.method();
+        interval(1000).subscribe(() => {
+          this.watchForMatchUpdates();
            });
      }
 
      ngOnDestroy(){
        this.matchesSub.unsubscribe();
-       this.matchesCountSub.unsubscribe();
-       console.log("Destroyed");
        this.webSocketService.closeWebSocket();
+
      }
 
      initWatchButtons(count: number){
         for(var i=0; i<count; i++)
         {
-          this.clicked.push('false');
+          this.matchWatched.push('false');
         }
      }
 
-     method() {
+     watchForMatchUpdates() {
       this.matchStream.forEach( streamMatch => {
-
-         this.matches.forEach( match => {
-           var matchId = match.Home + " " + match.Away + " " + match.Details;
-           if(matchId == streamMatch._id){
-              console.log("MATCH!!!   " + matchId + " " + streamMatch._id);
-              match.Home = "UPDATED!";
-              match.Away = "DYNAMITE!";
-           }
-
+          this.matches.forEach( (match, index) => {
+            //created id value
+            var matchId = match.Home + " " + match.Away + " " + match.Details;
+             if(matchId == streamMatch._id){
+                //console.log("Match update found: " + matchId + " PrevSMH/A: " + match.SMHome + " " + match.SMAway + "  New: " + streamMatch.SmarketsHomeOdds + " " + streamMatch.SmarketsAwayOdds);
+                match.SMHome = streamMatch.SmarketsHomeOdds;
+                match.SMAway = streamMatch.SmarketsAwayOdds;
+                //emit the index of this matches element to change the color of the values. for the odds flicker
+                // styleHook(index); <== pass index of array to activate oddsChangeNotification
+            } else {
+                //Do nothing
+            }
           })
-        })
+      })
      }
 
-    clearMatches() {
-      this.matches = this.data;
-    }
-
-    getMatches() {
+     getMatches() {
       this.matches = this.matchesService.getMatches();
       //this.table.renderRows();
     }
 
-    addToActiveList(match: any) {
-      this.activeMatches.push(match);
-      console.log("Added " + match.Home)
-      //method that hides this object
-     // console.log(this.matches[0].Home);
-    }
 
     enableMatchButton(match: any)
     {
       for(var i=0; i < this.matches.length; i++){
         if( match.Home === this.matches[i].Home && match.Away === this.matches[i].Away){
-          console.log("Changing button " + i);
-          this.clicked[i] = 'false';
+          this.matchWatched[i] = 'false';
+          console.log("Testing index call " + this.matches.findIndex(match))
         }
       }
     }
 
     disableButton(index:any)
     {
-      this.clicked[index]='true';
+      this.matchWatched[index]='true';
     }
+
+    //TODO make the auto match compile to arrange matches based off 'x' indicator
     shuffle() {
       let currentIndex = this.columnsToDisplay.length;
 

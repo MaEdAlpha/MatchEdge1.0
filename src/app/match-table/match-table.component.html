@@ -1,9 +1,10 @@
-<button mat-raised-button (click)="clearMatches()" color= "accent"> <span>Clear List</span>  </button>
 <button mat-raised-button (click)="getMatches()" color= "accent"> <span>Populate</span> </button>
 <button mat-raised-button (click)="getMatches()" color= "accent"> <span>Today's Matches</span> </button>
 <button mat-raised-button (click)="getMatches()" color= "accent"> <span>Tomorrow's Matches</span> </button>
-<button mat-raised-button (click)="method()" color= "accent"> <span>_id Test</span> </button>
+<button mat-raised-button (click)="watchForMatchUpdates()" color= "accent"> <span>_id Test</span> </button>
 <hr>
+<div class="close-match-container">
+</div>
 
 <div class="main-container">
   <div class="first-container">
@@ -19,17 +20,17 @@
 
         <ng-container matColumnDef="Home">
           <th id="hteam"  mat-header-cell *matHeaderCellDef>Home</th>
-          <td mat-cell *matCellDef="let match"> {{match.Home}} | {{match.id}} {{match.SMHome}} </td>
+          <td mat-cell *matCellDef="let match"> {{match.Home}} | <span class = "pHSM"> {{match.SMHome}} </span> </td>
         </ng-container>
 
         <ng-container matColumnDef="Spacer">
           <th mat-header-cell *matHeaderCellDef></th>
-          <td id="spacer" mat-cell *matCellDef="let match"><span>{{match.MatchTime}} </span></td>
+          <td id="spacer" mat-cell *matCellDef="let match"><span class = "time">{{match.MatchTime}} <br> <span class = "diff"> {{(match.SMHome - match.SMAway).toFixed(2)}} </span> </span></td>
         </ng-container>
 
         <ng-container matColumnDef="Away">
           <th id="ateam"  mat-header-cell *matHeaderCellDef>Away</th>
-          <td mat-cell *matCellDef="let match"> {{match.Away}} | {{match.id}} {{ match.SMAway }} </td>
+          <td mat-cell *matCellDef="let match"> {{match.Away}} | <span class = pASM> {{ match.SMAway }} </span> </td>
         </ng-container>
 
 
@@ -66,7 +67,7 @@
                 <div class="exp-col" id="BTTSOdds"></div>
                 <div class="exp-col" id="B25GOdds"></div>
                 <div class="exp-col" id="OccA"> {{match.OccA}} </div>
-                <button mat-raised-button color = "accent" [disabled] ="clicked[(i-1)/2]" (click) = "addToActiveList(match);  disableButton((i-1)/2)">Watching {{(i -1)/2}}</button>
+                <button mat-raised-button color = "accent">Watching {{(i -1)/2}}</button>
               </div>
             </div>
           </div>
@@ -82,11 +83,6 @@
       <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="detail-row"></tr>
     </table>
   </div>
-
-  <div class="third-container">
-    <app-summary-list [activeMatches] = "activeMatches" (unWatchEvent) = "enableMatchButton($event)"></app-summary-list>
-  </div>
-
 </div>
 
 

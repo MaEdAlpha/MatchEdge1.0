@@ -2,6 +2,18 @@ hr {
   border-color:  #f9a825 ;
 }
 
+.close-match-container {
+  border: 1px solid black;
+  background: white;
+  padding: 10px;
+      padding-left: 10px;
+  width: 25%;
+  float: left;
+  padding-left: 25%;
+  margin-left: 25%;
+  margin-right: 25%;
+}
+
 .main-container {
   position: relative;
   padding-left: 10px;
@@ -13,7 +25,6 @@ hr {
   float: left;
   width: 50%;
   padding-top: 50px;
-
 }
 
 table {
@@ -60,11 +71,23 @@ td {
   font-size: 0.9em;
   padding: 1em;
 }
+span.pHSM, span.pASM {
+  margin: 1px;
+  background: #355462;
+  padding: 8px;
+}
 
-span {
+/* change color of this span.pH... to flicker green or red for these colors */
+/* green: #2b693b   red: #a70b00 */
+span.time {
   color:#455a64;
 }
 
+/* set gradient of color based off differential? */
+span.diff {
+  background: #b88430;
+  padding: 3px;
+}
 thead {
   opacity: 0;
 }
