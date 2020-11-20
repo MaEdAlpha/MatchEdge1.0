@@ -1,9 +1,15 @@
 import { Injectable } from '@angular/core';
+import { UserPropertiesService } from '../user-properties.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CalcSettingsService {
 
-  constructor() { }
+  constructor(private userPropertiesService: UserPropertiesService) { }
+
+  getUserStakes()
+  {
+   return this.userPropertiesService.accessUserStakes();
+  }
 }

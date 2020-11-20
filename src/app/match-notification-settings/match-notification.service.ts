@@ -6,11 +6,12 @@ import  { UserPropertiesService } from '../user-properties.service';
 })
 export class MatchNotificationService {
 
-  constructor( public userPropService: UserPropertiesService) { }
+  constructor( private userPropService: UserPropertiesService) { }
 
   returnTriggerOdds() {
     //get from userProperies service?
-    this.userPropService.getTriggerOdds();
+    console.log("In matchNotifServices" + this.userPropService.getTriggerOdds());
+    return this.userPropService.getTriggerOdds();
   }
 
   updateTriggOdds() {

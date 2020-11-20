@@ -18,6 +18,11 @@ import { MatIconModule } from '@angular/material/icon';
 //Services
 import { MatchesService } from './match/matches.service';
 import { WebsocketService } from './websocket.service';
+import { UserPropertiesService } from './user-properties.service';
+import { CalcSettingsService } from './calc-settings/calc-settings.service';
+import { MatchDisplayService } from './match/match-display.service';
+import { MatchNotificationService } from './match-notification-settings/match-notification.service';
+import { IsJuicyService } from './juicy-match/is-juicy.service';
 
 //Components
 import { AppComponent } from './app.component';
@@ -31,11 +36,6 @@ import { SummaryListComponent } from './summary-list/summary-list.component';
 import { CalcSettingsComponent } from './calc-settings/calc-settings.component';
 import { JuicyMatchComponent } from './juicy-match/juicy-match.component';
 import { MatchNotificationSettingsComponent } from './match-notification-settings/match-notification-settings.component';
-import { UserPropertiesService } from './user-properties.service';
-import { MatchDisplayService } from './match/match-display.service';
-import { MatchNotificationService } from './match-notification-settings/match-notification.service';
-import { CalcSettingsService } from './calc-settings/calc-settings.service';
-import { IsJuicyService } from './juicy-match/is-juicy.service';
 
 
 

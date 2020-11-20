@@ -1,38 +1,104 @@
 <mat-sidenav-container>
   <mat-sidenav mode="over" #sidenav [(opened)]="isOpened" position="end">
-    <button mat-raised-button color= "primary" class="inner-nav" (click)="sidenav.close()" ><mat-icon>arrow_forward_ios</mat-icon></button>
+    <button mat-raised-button color= "primary" class="inner-nav" (click)="sidenav.close();" ><mat-icon>arrow_forward_ios</mat-icon></button>
     <div class="calculator">
       <h1>Calculator Settings</h1>
       <mat-checkbox> Auto hide games after bet is logged</mat-checkbox>
       <mat-checkbox [(ngModel)]="defaultChecked" (click)="setStakes()"> Apply default stake preferences </mat-checkbox>
       <div class="preference-container">
-        <div class="user-preference" *ngIf="!defaultChecked"> Stake Preferences </div>
-        <div class="default-preference" *ngIf="defaultChecked">Default Stake Preferences</div>
         <div class="stake-input">
           <p class="stake-header">Odds Range</p>
           <p class="stake-header">Stake</p>
-          <div class="stake-field-cont">
-            <p>1.5 - 2.0 </p><input class= "stake-input" type="text" id=first-range value={{stakes[0]}}>
+
+
+          <form (ngSubmit)="saveStakePref(stakeValues)" #stakeValues="ngForm">
+            <div
+            class="stakeContainerForm"
+            ngModelGroup="stakeData"
+            #stakeDataHook="ngModelGroup">
+            <div *ngFor ="let stake of userStakes; let i = index">
+
+              <div class="stake-field-cont">
+                <p>{{stakeRanges[i]}} </p>
+                <input
+                class= "stake-input"
+                type="text"
+                ngModel
+                name="user{{i}}Stakes"
+                required>
+              </div>
+
+            </div>
+          </div>
+
+          <div *ngIf = "stakeValues.touched">
+            <button
+             type="submit"
+             [disabled]="!stakeValues.valid"
+             (click)="isSaved=true">Save</button>
+          </div>
+          <div class="default-preference" *ngIf="defaultChecked">Default Steak Settings applied! Please save.</div>
+          <div class="formControlMsg" *ngIf="!stakeValues.valid">Please fill in all highlighted boxes!</div>
+          <div class="submitButton" *ngIf="isSaved && !stakeValues.pristine">Preferences Saved!</div>
+          <div class="submitButton" *ngIf="isSaved && stakeValues.pristine">Please edit some values first...</div>
+        </form>
+
+        <!-- <div class="stake-field-cont">
+            <p>1.5 - 2.0 </p>
+            <input
+              class= "stake-input"
+              type="text"
+              id=first-range
+              value={{stakes[0]}}>
           </div>
           <div class="stake-field-cont">
-            <p>2.0 - 3.0 </p><input  class= "stake-input" type="text" id=second-range value={{stakes[1]}}>
+            <p>2.0 - 3.0 </p>
+            <input
+            class= "stake-input"
+            type="text"
+            id=second-range
+            value={{stakes[1]}}>
           </div>
           <div class="stake-field-cont">
-            <p>3.0 - 4.0 </p><input class= "stake-input" type="text" id=third-range value={{stakes[2]}}>
+            <p>3.0 - 4.0 </p>
+            <input
+            class= "stake-input"
+            type="text"
+            id=third-range
+            value={{stakes[2]}}>
           </div>
           <div class="stake-field-cont">
-            <p>4.0 - 5.0 </p><input  class= "stake-input"type="text" id=fourth-range value={{stakes[3]}}>
+            <p>4.0 - 5.0 </p>
+            <input
+              class= "stake-input"
+              type="text"
+              id=fourth-range
+              value={{stakes[3]}}>
           </div>
           <div class="stake-field-cont">
-            <p>5.0 - 6.0 </p><input class= "stake-input" type="text" id=fifth-range value={{stakes[4]}}>
+            <p>5.0 - 6.0 </p>
+            <input
+              class= "stake-input"
+              type="text"
+              id=fifth-range
+              value={{stakes[4]}}>
           </div>
           <div class="stake-field-cont">
-            <p>6.0 - 7.0 </p><input class= "stake-input" type="text" id=sixth-range value={{stakes[5]}}>
+            <p>6.0 - 7.0 </p>
+            <input
+              class= "stake-input"
+              type="text"
+              id=sixth-range
+              value={{stakes[5]}}>
           </div>
           <div class="stake-field-cont">
-            <p> > 7.0 </p><input class= "stake-input" type="text" id=final-range value={{stakes[6]}}>
-          </div>
-            <input type="submit" value="Save" (click)="saveStakePref()">
+            <p> > 7.0 </p>
+            <input
+              class= "stake-input"
+              type="text"
+              id=final-range
+              value={{stakes[6]}}>
+          </div> -->
         </div>
 
       </div>
@@ -42,7 +108,7 @@
 
   </mat-sidenav>
   <mat-sidenav-content>
-    <button class="outer-nav" mat-button (click)="isOpened=!isOpened">
+    <button class="outer-nav" mat-button (click)="isOpened=!isOpened; populateStakes()">
       Match Settings
     </button>
   </mat-sidenav-content>

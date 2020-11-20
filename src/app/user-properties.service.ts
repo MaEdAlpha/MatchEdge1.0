@@ -1,5 +1,4 @@
-import { Injectable } from '@angular/core';
-import { UserProperties } from './user-properties.model';
+import { Injectable, EventEmitter } from '@angular/core';
 import { TriggerOdds } from './match-notification-settings/trigger-odds.model';
 
 @Injectable({
@@ -7,7 +6,11 @@ import { TriggerOdds } from './match-notification-settings/trigger-odds.model';
 })
 export class UserPropertiesService {
 
-  triggerOdds: TriggerOdds[] = [
+  triggerOddsSelected = new EventEmitter<TriggerOdds[]>();
+
+  private smCommission:number = 2.05;
+
+  private defaultOdds: TriggerOdds[] = [
     {start: 9.99, finish: 9.99 },
     {start: 9.99, finish: 9.99 },
     {start: 9.99, finish: 9.99 },
@@ -23,7 +26,9 @@ export class UserPropertiesService {
     {start: 9.99, finish: 9.99}
   ];
 
-  defaultOdds: TriggerOdds[] = [
+  private userStakes: number[] = [200,119,87,14,20,30,10];
+
+  private dbOdds: TriggerOdds[] = [
     {start: 1.50, finish: 1.52 },
     {start: 1.74, finish: 1.77 },
     {start: 2, finish: 2.04 },
@@ -39,18 +44,30 @@ export class UserPropertiesService {
     {start: 14, finish: 16}
   ];
 
-  constructor(userProperties: UserProperties) { }
+  constructor() { }
 
   getUserProperties() {
     //http request to retrieve user properties from DB;
   }
 
+  getCommission(){
+    //link this to DB
+    return this.smCommission;
+  }
+  setCommission(userInput: number){
+    this.smCommission = userInput;
+  }
+
   getTriggerOdds(){
-    if(this.triggerOdds != null)
+    if(!this.dbOdds)
     {
-      return this.triggerOdds;
-    } else {
       return this.defaultOdds;
+    } else {
+      return this.dbOdds;
     }
+  }
+
+  accessUserStakes() {
+    return this.userStakes;
   }
 }

@@ -3,7 +3,8 @@
   <div class="row">
     <div>
       <form (ngSubmit)="onSubmit(formData)" #formData="ngForm">
-        <div id="user-data"
+        <div
+         id="user-data"
          ngModelGroup="userData"
          #userDataHook="ngModelGroup">
 
@@ -31,7 +32,7 @@
             email
             #emailHook="ngModel">
           </div>
-          <p *ngIf="!emailHook.pristine && emailHook.status === 'INVALID' && emailHook.touched">Please eenter a correct username and email address!</p>
+          <p *ngIf="!emailHook.pristine && emailHook.status === 'INVALID' && emailHook.touched">Please enter a correct username and email address!</p>
         </div>
 
         <div class="form-group">
@@ -60,7 +61,8 @@
       <button mat-raised-button class="suggestUser" (click)="suggestUserName()" type="button">Suggest a Username</button>
       <button mat-raised-button
       type="submit"
-      [disabled]="!formData.valid">Submit</button>
+      [disabled]="!formData.valid"
+      >Submit</button>
     </form>
 
   </div>

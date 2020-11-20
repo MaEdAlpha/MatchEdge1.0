@@ -13,26 +13,60 @@
 
       <div class="smContainer">
         <h1>Smarkets Settings</h1>
-        <div class="sm-commiss"> Smarkets Commission</div>
-        <input type="text" value = '{{smCommission.toFixed(2)}}%'>
+        <div class="sm-commiss"> Smarkets Commission is currently set to {{smCommission}}%</div>
+        <div class="commisionEditCont"*ngIf="onEditClick">
+          <input
+            type="text"
+            [(ngModel)]="smCommission"
+            required
+            #commissionInput>
+        </div>
+      <button mat-raised-button (click)="onEditClick=!onEditClick"> Edit</button>
+      <div *ngIf="onEditClick">
+        <button mat-raised-button
+          (click)="onSaveCommission()"
+          [disabled]="!smCommission">Save</button>
+      </div>
       </div>
     </div>
 
     <div class="right-column">
 
-      <form>
+      <form (ngSubmit)="onSubmitTrigger(triggerData)" #triggerData="ngForm">
         <div class="triggerOddsMain">
+
           <h1>Trigger Odds 100/1</h1>
-          <div class="triggerContainer">
-            <div class="centerColumns">
-              <div *ngFor="let range of triggerOdd">
-                <input  class="triggerInput" type="text" value={{range.start.toFixed(2)}} >
-                <p>-</p>
-                <input class="triggerInput" type="text" value={{range.finish.toFixed(2)}}>
-                <p class="rangeVar">{{(range.finish - range.start).toFixed(2)}}</p>
+          <div
+            class="triggerContainerForm"
+            ngModelGroup="triggerData"
+            #triggerDataHook="ngModelGroup">
+              <div *ngFor = "let odd of triggerOdds; let i = index">
+
+                <div class="centerColumns">
+                    <label for="toStart{{i}}">{{i}}</label>
+                    <input
+                      type="text"
+                      class="triggerInput"
+                      [(ngModel)] ="odd.start"
+                      name="toStart{{+i}}"
+                      required
+                      #startHook = "ngModel" >
+                    <p id="triggerDivider">--</p>
+                    <input
+                     type="text"
+                     class="triggerInput"
+                     [(ngModel)] ="odd.finish"
+                     name="toFinish{{+i}}"
+                     required
+                     #finishHook = "ngModel">
+                    <p class="rangeVar">{{(odd.finish - odd.start).toFixed(2)}}</p>
+                </div>
+
               </div>
-                <button type="submit">Save</button>
-            </div>
+
+              <button
+               type="submit"
+               [disabled]="!triggerData.valid">Save</button>
           </div>
          </div>
       </form>

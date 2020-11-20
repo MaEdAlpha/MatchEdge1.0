@@ -1,5 +1,7 @@
 export interface TriggerOdds
 {
-  start: number;
+  start: number
   finish: number;
+
 }
+
