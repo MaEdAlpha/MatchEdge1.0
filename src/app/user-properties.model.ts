@@ -12,8 +12,7 @@ export interface UserProperties
 
   //for calc-settings component
   calcPref:  {
-    pref1: string,
-    pref2: string
+    userStakes: CalcSettings,
   },
 
   //for match-notification-settings components

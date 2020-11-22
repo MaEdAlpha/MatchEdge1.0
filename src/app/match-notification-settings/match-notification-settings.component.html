@@ -6,6 +6,7 @@
     <div class="left-column">
       <div class="alertsContainer">
         <h1>Alerts & Notifications</h1>
+
         <mat-checkbox> Minimum Match Rating %</mat-checkbox>
         <mat-checkbox> Minimum Return %</mat-checkbox>
         <mat-checkbox> 100/1 Trigger Odds</mat-checkbox>
@@ -69,8 +70,12 @@
                [disabled]="!triggerData.valid">Save</button>
           </div>
          </div>
+
       </form>
 
+      <div class="calc-settings">
+        <app-calc></app-calc>
+      </div>
     </div>
   </div>
 </div>

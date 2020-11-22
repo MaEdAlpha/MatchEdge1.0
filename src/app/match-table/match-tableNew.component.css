@@ -1,0 +1,26 @@
+table {
+  width: 100%;
+}
+.lge-title-cont> h1, .home-away-cont> h2 {
+  color: white;
+  text-align: center;
+}
+
+.view-table-cont {
+  height: max-content;
+  width: 70%;
+  margin-left: auto;
+  margin-right:auto;
+  margin-top: 100px;
+}
+
+ .view-table-cont {
+  border: white 2px solid;
+}
+
+.hac {
+  float:left;
+  width: 49.6%;
+  border: white 0.5px solid;
+}
+

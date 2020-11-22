@@ -92,6 +92,11 @@ input.ng-invalid.ng-touched {
   border: red 2px solid;
 }
 
+.calc-settings {
+  border: white 1px solid;
+  display: inline;
+}
+
 
 ::ng-deep .mat-checkbox-checked .mat-checkbox-background,
 .mat-checkbox-indeterminate .mat-checkbox-background {

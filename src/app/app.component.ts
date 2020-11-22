@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { Match } from './match/match.model';
+import { MatchesService } from './match/matches.service';
 
 @Component({
   selector: 'app-root',
@@ -8,15 +10,22 @@ import { Match } from './match/match.model';
 })
 export class AppComponent {
   title = 'MatchEdge';
-  storedMatches: Match[] = [];
+  storedMatches: any;
   _displayNotification:boolean;
 
-  onMatchAdded(match){
-    this.storedMatches.push(match);
+
+  constructor(){
+
+  }
+
+  ngOnInit(){
+  }
+
+  onMatchAdded(){
+
   }
 
   displayPanel(event: boolean){
-    console.log("Settings Clicked "+ event);
     this._displayNotification = event;
   }
 }

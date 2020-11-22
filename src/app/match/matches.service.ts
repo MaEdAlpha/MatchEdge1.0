@@ -39,9 +39,12 @@ export class MatchesService {
             B25GOdds: match.B365O25GoalsOdds,
             Details: match.StartDateTime,
             MatchTime: match.StartDateTime.substring(11, 16),
+            MatchDate: match.StartDateTime.substring(0,6) + match.StartDateTime.substring(8,11),
             League: match.League,
             OccH: match.OccurrenceHome,
             OccA: match.OccurrenceAway,
+            HStatus: {watch: false, bet: false, ignore: false },
+            AStatus: {watch: false, bet: false, ignore: false }
           }
         })
       })) //add in operators (map()) every data through the observable stream do this thing.
@@ -50,55 +53,54 @@ export class MatchesService {
         this.matchesUpdated.next(this.matches);
         // this.count=this.matches.length;
         // this.matchesCountUpdated.next(this.count);
-         console.log(this.matches);
       });
   }
 
-  refreshMatches(){
-    this.http
-      .get<{ message: string; body: any }> (
-        "http://localhost:3000/api/matches"
-      )
-      .pipe(map( (matchData) => {
+  // refreshMatches(){
+  //   this.http
+  //     .get<{ message: string; body: any }> (
+  //       "http://localhost:3000/api/matches"
+  //     )
+  //     .pipe(map( (matchData) => {
 
-        return matchData.body.map(match => {
-          return {
-            id: match._id,
-            HReturn: 202,
-            Home:match.HomeTeamName,
-            Away:match.AwayTeamName,
-            AReturn: 1+1*100,
-            SMHome:match.SmarketsHomeOdds,
-            SMAway:match.SmarketsAwayOdds,
-            BHome:match.B365HomeOdds,
-            BDraw:match.B365DrawOdds,
-            BAway:match.B365AwayOdds,
-            BTTSOdds:match.B365BTTSOdds,
-            B25GOdds:match.B365O25GoalsOdds,
-            Details:match.StartDateTime,
-            MatchTime:match.StartDateTime.substring(11, 16),
-            League:match.League,
-            OccH: match.OccurrenceHome,
-            OccA:match.OccurrenceAway,
-          }
-        })
-      })) //add in operators (map()) every data through the observable stream do this thing.
-      .subscribe( transformedMatches => {
+  //       return matchData.body.map(match => {
+  //         return {
+  //           id: match._id,
+  //           HReturn: 202,
+  //           Home:match.HomeTeamName,
+  //           Away:match.AwayTeamName,
+  //           AReturn: 1+1*100,
+  //           SMHome:match.SmarketsHomeOdds,
+  //           SMAway:match.SmarketsAwayOdds,
+  //           BHome:match.B365HomeOdds,
+  //           BDraw:match.B365DrawOdds,
+  //           BAway:match.B365AwayOdds,
+  //           BTTSOdds:match.B365BTTSOdds,
+  //           B25GOdds:match.B365O25GoalsOdds,
+  //           Details:match.StartDateTime,
+  //           MatchTime:match.StartDateTime.substring(11, 16),
+  //           League:match.League,
+  //           OccH: match.OccurrenceHome,
+  //           OccA:match.OccurrenceAway,
+  //         }
+  //       })
+  //     })) //add in operators (map()) every data through the observable stream do this thing.
+  //     .subscribe( transformedMatches => {
 
-        if(this.matches.SMHome === transformedMatches.SMHome)
-        {
-          this.matches.SMHome = transformedMatches.SMHome;
-        }
-        if(this.matches.SMAway === transformedMatches.SMAway)
-        {
-          this.matches.SMAway = transformedMatches.SMAway;
-        }
-        this.matchesUpdated.next(this.matches);
-        // this.count=this.matches.length;
-        // this.matchesCountUpdated.next(this.count);
-        // console.log(this.count);
-      });
-  }
+  //       if(this.matches.SMHome === transformedMatches.SMHome)
+  //       {
+  //         this.matches.SMHome = transformedMatches.SMHome;
+  //       }
+  //       if(this.matches.SMAway === transformedMatches.SMAway)
+  //       {
+  //         this.matches.SMAway = transformedMatches.SMAway;
+  //       }
+  //       this.matchesUpdated.next(this.matches);
+  //       // this.count=this.matches.length;
+  //       // this.matchesCountUpdated.next(this.count);
+  //       // console.log(this.count);
+  //     });
+  // }
 
   getTableCount(){
     this.http
@@ -121,6 +123,10 @@ export class MatchesService {
 
   getMatchUpdateListener(): Observable<Match> {
     return this.matchesUpdated.asObservable();
+  }
+
+  getLoadedMatches(){
+    return this.matches;
   }
 
 

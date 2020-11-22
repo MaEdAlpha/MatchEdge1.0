@@ -22,7 +22,7 @@ import { WebsocketService } from '../websocket.service';
 
   export class MatchTableComponent implements OnInit, OnDestroy {
 
-    displayedColumns: string[] = ['AReturn','SMHome','BHome', 'OccH', 'Home',  'Details', 'Away', 'OccA' , 'BAway','SMAway', 'HReturn'];
+    displayedColumns: string[] = ['AReturn', 'Home', 'Spacer',  'Details', 'Away' , 'HReturn'];
     SecondcolumnsToDisplay: string[] = ['SMHome','BHome', 'BDraw', 'BAway', 'BTTSOdds', 'B25GOdds','SMAway',  'League', 'OccH', 'OccA'];
     columnsToDisplay: string[] = this.displayedColumns.slice();
     @Input() matches: any;
@@ -57,6 +57,17 @@ import { WebsocketService } from '../websocket.service';
         interval(1000).subscribe(() => {
           this.watchForMatchUpdates();
            });
+     }
+
+     ngDoCheck(){
+        if(this.matches === undefined)
+        {
+          this.matches = this.matchesService.getMatches(); //fetches matches from matchesService
+          this.matchesSub = this.matchesService.getMatchUpdateListener() //subscribe to matches for any changes.
+          .subscribe((matchData: Match) => {
+            this.matches = matchData;
+          });
+        }
      }
 
      ngOnDestroy(){

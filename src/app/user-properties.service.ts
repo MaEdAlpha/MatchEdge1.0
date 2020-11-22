@@ -1,5 +1,8 @@
 import { Injectable, EventEmitter } from '@angular/core';
+import { CalcSettings } from './calc-settings/calc-settings.model';
+import { CalcSettingsService } from './calc-settings/calc-settings.service';
 import { TriggerOdds } from './match-notification-settings/trigger-odds.model';
+import { UserProperties } from './user-properties.model';
 
 @Injectable({
   providedIn: 'root'
@@ -25,12 +28,14 @@ export class UserPropertiesService {
     {start: 9.99, finish: 9.99 },
     {start: 9.99, finish: 9.99}
   ];
-
-  private userStakes: number[] = [200,119,87,14,20,30,10];
+//NOTE, stake:100 with oddsLow:0 should be changed later. Development purposes
+  private userStakes: CalcSettings[] = [{stake: 100, oddsLow: 0, oddsHigh:2.0}, {stake: 80, oddsLow: 2, oddsHigh: 3},{stake: 60, oddsLow: 3, oddsHigh: 4}, {stake: 50, oddsLow: 4, oddsHigh: 5}, {stake: 40, oddsLow: 5, oddsHigh: 6}, {stake: 20, oddsLow: 6, oddsHigh: 7}, {stake: 10, oddsLow: 7, oddsHigh: 10000}];
+  private defaultStakes: CalcSettings[] = [{stake: 999, oddsLow: 1.5, oddsHigh:2.0}, {stake: 80, oddsLow: 2, oddsHigh: 3},{stake: 60, oddsLow: 3, oddsHigh: 4}, {stake: 50, oddsLow: 4, oddsHigh: 5}, {stake: 40, oddsLow: 5, oddsHigh: 6}, {stake: 20, oddsLow: 6, oddsHigh: 7}, {stake: 10, oddsLow: 7, oddsHigh: 10000}];
+  private oddsRange: string[] =  ["1.5 - 2.0", "2.0 - 3.0", "3.0 - 4.0 ", "4.0 - 5.0", "5.0 - 6.0", "6.0 - 7.0", "    > 7.0 "];
 
   private dbOdds: TriggerOdds[] = [
-    {start: 1.50, finish: 1.52 },
-    {start: 1.74, finish: 1.77 },
+    {start: 1.50, finish: 1.75 },
+    {start: 1.76, finish: 1.99 },
     {start: 2, finish: 2.04 },
     {start: 2.46, finish: 2.52 },
     {start: 2.82, finish: 2.9 },
@@ -68,6 +73,24 @@ export class UserPropertiesService {
   }
 
   accessUserStakes() {
+    return this.userStakes;
+  }
+
+  accessDefaultStakes() {
+    return this.defaultStakes;
+  }
+
+  accessOddsRange() {
+    return this.oddsRange;
+  }
+
+  saveCalcSettings(calcPref) {
+    this.userStakes = calcPref;
+    console.log(this.userStakes);
+  }
+
+  getUserStakePreferences():CalcSettings[]
+  {
     return this.userStakes;
   }
 }

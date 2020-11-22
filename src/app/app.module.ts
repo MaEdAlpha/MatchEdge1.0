@@ -36,6 +36,7 @@ import { SummaryListComponent } from './summary-list/summary-list.component';
 import { CalcSettingsComponent } from './calc-settings/calc-settings.component';
 import { JuicyMatchComponent } from './juicy-match/juicy-match.component';
 import { MatchNotificationSettingsComponent } from './match-notification-settings/match-notification-settings.component';
+import { JuicyMatchHandlingService } from './juicy-match/juicy-match-handling.service';
 
 
 
@@ -68,7 +69,7 @@ import { MatchNotificationSettingsComponent } from './match-notification-setting
     MatCheckboxModule,
 
   ],
-  providers: [MatchesService, WebsocketService, UserPropertiesService, MatchDisplayService, MatchNotificationService, CalcSettingsService, IsJuicyService ],
+  providers: [MatchesService, WebsocketService, UserPropertiesService, MatchDisplayService, MatchNotificationService, CalcSettingsService, IsJuicyService, JuicyMatchHandlingService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

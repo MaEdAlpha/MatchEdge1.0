@@ -1,1 +1,5 @@
-<p>juicy-match works!</p>
+<button mat-raised-button (click)="check()"> Check</button>
+
+<div *ngFor="let match of juicyMatches; let i = index">
+  <div>{{i}}</div>
+</div>
