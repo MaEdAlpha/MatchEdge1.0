@@ -14,6 +14,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 //Services
 import { MatchesService } from './match/matches.service';
@@ -67,7 +68,7 @@ import { JuicyMatchHandlingService } from './juicy-match/juicy-match-handling.se
     MatSidenavModule,
     FormsModule,
     MatCheckboxModule,
-
+    MatTooltipModule
   ],
   providers: [MatchesService, WebsocketService, UserPropertiesService, MatchDisplayService, MatchNotificationService, CalcSettingsService, IsJuicyService, JuicyMatchHandlingService],
   bootstrap: [AppComponent]

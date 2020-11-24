@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators'
 import { Match } from "./match/match.model";
+import { MatchesService } from './match/matches.service';
 
 @Injectable({
   providedIn: 'root'
@@ -8,10 +9,9 @@ import { Match } from "./match/match.model";
 export class WebsocketService {
 
   webSocket: WebSocket;
-  matchDataStreamStorage: any[] = [];
-  testMatches: any;
+  matchDataStreamStore: any[] = [];
 
-  constructor() { }
+  constructor(private matchesService: MatchesService) { }
 
   public openWebSocket() {
     this.webSocket = new WebSocket('ws://localhost:3000/');
@@ -24,9 +24,11 @@ export class WebsocketService {
     this.webSocket.onmessage = (event) => {
 
       //emit this event to match-table. Compare the values of smarkets and bet365 odds to currently stored values. Just overwrite these odds, no need to check.
-      var obj: Match = JSON.parse(event.data);
-      this.matchDataStreamStorage.push(obj);
-      console.log("WSService.ts onmessage(): " + event.data + " In typeof: " + typeof obj);
+      var streamObj: Match = JSON.parse(event.data);
+      //emit changes to match-table and also juicy match.
+      console.log("WSService.ts onmessage(): " + event.data);
+      //WORKING:this.matchDataStreamStore.push(obj)
+      this.matchesService.addToUpdatedMatches(streamObj);
     };
 
     this.webSocket.onclose = (event) => {
@@ -38,12 +40,11 @@ export class WebsocketService {
     this.webSocket.send('Hello from Match-Table');
   }
 
-  public updateStreamData()
-  {
-    console.log("reading socket data storage");
-    console.log(this.matchDataStreamStorage);
-    return this.matchDataStreamStorage;
-  }
+  //WORKING:
+  // public updatedStreamData()
+  // {
+  //   return this.matchDataStreamStore;
+  // }
 
   public closeWebSocket() {
     this.webSocket.close();

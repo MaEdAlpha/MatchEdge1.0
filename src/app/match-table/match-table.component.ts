@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit, ViewChild, Output, EventEmitter, Input } from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild, Output, EventEmitter, Input , OnChanges, DoCheck, SimpleChanges} from '@angular/core';
 import { Subscription } from 'rxjs';
 import { MatTable } from '@angular/material/table';
 import { Match } from '../match/match.model';
@@ -20,7 +20,7 @@ import { WebsocketService } from '../websocket.service';
     ],
   })
 
-  export class MatchTableComponent implements OnInit, OnDestroy {
+  export class MatchTableComponent implements OnInit, OnChanges, OnDestroy {
 
     displayedColumns: string[] = ['AReturn','SMHome','BHome', 'OccH', 'Home',  'Details', 'Away', 'OccA' , 'BAway','SMAway', 'HReturn'];
     SecondcolumnsToDisplay: string[] = ['SMHome','BHome', 'BDraw', 'BAway', 'BTTSOdds', 'B25GOdds','SMAway',  'League', 'OccH', 'OccA'];
@@ -33,65 +33,108 @@ import { WebsocketService } from '../websocket.service';
     matchWatched: string[] = [];
     indexPositions: number[];
     displayHidden: boolean = true;
-    //For ticker Directives
 
-    @ViewChild(MatTable) table: MatTable<Match>;
-    @Output() activeMatches: Match[] = [];
-    @Output() watchEvent = new EventEmitter<number>();
+    isNotInList: boolean = false;
+
+    @ViewChild(MatTable) table: MatTable<any>;
+
 
     private matchesSub: Subscription;
 
+
     constructor(private matchesService: MatchesService, private webSocketService: WebsocketService ) { } //creates an instance of matchesService. Need to add this in app.module.ts providers:[]
 
-     ngOnInit() {
-       this.matches = this.matchesService.getMatches(); //fetches matches from matchesService
-       this.matchesSub = this.matchesService.getMatchUpdateListener() //subscribe to matches for any changes.
-       .subscribe((matchData: Match) => {
+      ngOnChanges(changes: SimpleChanges){
+        if(changes.matches && changes.matches.currentValue) {
+        }
+      }
+
+      ngOnInit() {
+
+        this.matches = this.matchesService.getMatches(); //fetches matches from matchesService
+
+        this.matchesSub = this.matchesService.getMatchUpdateListener() //subscribe to matches for any changes.
+        .subscribe((matchData: any) => {
+          //Assign each matchData subscribed to the list of objects you inject into html
          this.matches = matchData;
         });
-        //this.tableCount = this.matchesService.getTableCount();
-        // this.activeMatches = this.matches;  //This can be re-used for WatchList section
-        this.webSocketService.openWebSocket();
-        this.matchStream = this.webSocketService.updateStreamData();
-        //Start parsing matchstream with matches?
-        interval(1000).subscribe(() => {
-          this.watchForMatchUpdates();
-           });
-     }
 
-     ngOnDestroy(){
+        console.log("MatchTable Comp: matcheSub");
+
+
+
+        //Open Socket Connection
+        this.webSocketService.openWebSocket();
+        //Subscribe to Event listener in matches Service for StreamChange data. Update this.matches.
+        this.matchesService.streamDataUpdate
+        .subscribe( (streamObj) => {
+          console.log("recieved in MT comp streamUpdate subscrb");
+
+          var indexOfmatch = this.matches.findIndex( match => match.Home == streamObj.HomeTeamName && match.Away == streamObj.AwayTeamName);
+          indexOfmatch != undefined && this.matches[indexOfmatch] ? this.updateMatch(this.matches[indexOfmatch], streamObj) : console.log("not found");
+        });
+
+        //Set Stream Data
+        //WORKING: this.matchStream = this.webSocketService.updatedStreamData();
+
+        //retrieves stream data and finds the matches object by the team names.
+
+        // interval(1000).subscribe(() => {
+        //     //WORKING: this.watchForMatchUpdates();
+        //    });
+      }
+
+      ngOnDestroy(){
        this.matchesSub.unsubscribe();
        this.webSocketService.closeWebSocket();
-     }
+      }
 
-     initWatchButtons(count: number){
+      initWatchButtons(count: number){
         for(var i=0; i<count; i++)
         {
           this.matchWatched.push('false');
         }
-     }
+      }
 
-     watchForMatchUpdates() {
-      this.matchStream.forEach(streamMatch => {
-          this.matches.forEach( (match, index) => {
+      watchForMatchUpdates() {
+       this.matchStream.forEach(streamMatch => {
+          this.matches.forEach( (match) => {
             //created id value
             var matchId = match.Home + " " + match.Away + " " + match.Details;
              if(matchId == streamMatch._id){
-               match.SMHome = streamMatch.SmarketsHomeOdds;
-               match.SMAway = streamMatch.SmarketsAwayOdds;
-                //console.log("Match update found: " + matchId + " PrevSMH/A: " + match.SMHome + " " + match.SMAway + "  New: " + streamMatch.SmarketsHomeOdds + " " + streamMatch.SmarketsAwayOdds);
-                //TODO emit the index of this matches element to change the color of the values. for the odds flicker
-                // styleHook(index); <== pass index of array to activate oddsChangeNotification
-            } else {
-                //Do nothing
-            }
+               if(streamMatch.SmarketsHomeOdds != 0 && streamMatch.SmarketsAwayOdds != 0)
+                {
+                 match.SMHome = streamMatch.SmarketsHomeOdds;
+                 match.SMAway = streamMatch.SmarketsAwayOdds;
+                }
+                if(streamMatch.B365HomeOdds != 0 && streamMatch.B365AwayOdds != 0)
+                {
+                  match.BHome = streamMatch.B365HomeOdds;
+                  match.BAway = streamMatch.B365AwayOdds;
+                }
+                if(streamMatch.OccurrenceAway != 0){
+                  match.BTTSOdds = streamMatch.B365BTTSOdds;
+                  match.B25GOdds = streamMatch.B365O25GoalsOdds;
+                  match.OccH = streamMatch.OccurenceHome;
+                  match.OccA = streamMatch.OccurrenceAway;
+                  console.log("In BTTS area " + typeof streamMatch.OccurrenceAway);
+                }
+                if(matchId !== streamMatch._id)
+                {
+                  this.isNotInList = true;
+                }
+              } else {
+              }
           })
-      })
-     }
 
-     getMatches() {
-      this.matches = this.matchesService.getMatches();
-    }
+          if(this.isNotInList || this.matches.length == 0)
+          {
+            console.log("not in list");
+            console.log(streamMatch);
+            this.isNotInList=false;
+          }
+        })
+      }
 
     enableMatchButton(match: any)
     {
@@ -108,41 +151,27 @@ import { WebsocketService } from '../websocket.service';
       this.matchWatched[index]='true';
     }
 
-    //TODO make the auto match compile to arrange matches based off 'x' indicator
-    shuffle() {
-      let currentIndex = this.columnsToDisplay.length;
+    updateMatch(match, streamMatch){
+      if(streamMatch.SmarketsHomeOdds != 0 && streamMatch.SmarketsAwayOdds != 0)
+      {
+       match.SMHome = streamMatch.SmarketsHomeOdds;
+       match.SMAway = streamMatch.SmarketsAwayOdds;
 
-      while (0 !== currentIndex) {
-        let randomIndex = Math.floor(Math.random() * currentIndex);
-        currentIndex -= 1;
-
-        // Swap
-        let temp = this.columnsToDisplay[currentIndex];
-        this.columnsToDisplay[currentIndex] = this.columnsToDisplay[randomIndex];
-        this.columnsToDisplay[randomIndex] = temp;
       }
-    }
+      if(streamMatch.B365HomeOdds != 0 && streamMatch.B365AwayOdds != 0)
+      {
+        match.BHome = streamMatch.B365HomeOdds;
+        match.BAway = streamMatch.B365AwayOdds;
 
-    socketAccess() {
-      this.matchStream = this.webSocketService.updateStreamData();
+      }
+      if(streamMatch.OccurrenceAway != 0){
+        match.BTTSOdds = streamMatch.B365BTTSOdds;
+        match.B25GOdds = streamMatch.B365O25GoalsOdds;
+        match.BDraw = streamMatch.B365DrawOdds;
+        match.OccH = streamMatch.OccurrenceHome;
+        match.OccA = streamMatch.OccurrenceAway;
+
+      }
     }
   }
 
-
-  // WebSocket output in JSON.
-  // {
-  //   "_id":"Burnley Crystal Palace 21-11-2020 15:00:00",
-  //   "HomeTeamName":"Burnley",
-  //   "AwayTeamName":"Crystal Palace",
-  //   "SmarketsHomeOdds":" ",
-  //   "SmarketsAwayOdds":" ",
-  //   "B365HomeOdds":0,
-  //   "B365DrawOdds":0,
-  //   "B365AwayOdds":0,
-  //   "B365BTTSOdds":0,
-  //   "B365O25GoalsOdds":0,
-  //   "StartDateTime":"21-11-2020 15:00:00",
-  //   "League":null,
-  //   "OccurrenceHome":0,
-  //   "OccurrenceAway":0
-  // }

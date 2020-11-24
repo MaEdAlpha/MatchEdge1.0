@@ -60,6 +60,7 @@ server.listen(port);
 
 const wss = new WebSocket.Server({ server: server });
 
+//const connectionString = "mongodb+srv://Dan:x6RTQn5bD79QLjkJ@cluster0.uljb3.gcp.mongodb.net/MBEdge?retryWrites=true&w=majority";
 const connectionString = "mongodb+srv://Randy:M7bkD0xFr91G0DfA@clusterme.lfzcj.mongodb.net/MBEdge?retryWrites=true&w=majority";
 const client = new MongoClient(connectionString,
   { useNewUrlParser: true,
@@ -72,7 +73,6 @@ const client = new MongoClient(connectionString,
 wss.on('connection', function connection(ws) {
 
    console.log("A new Client Connected");
-
     client.connect() // TOD: this connect() is being called a second time, inefficient in code. need to re-structure this code with app.js file to call one connect.
     .then( ()  => {
         console.log('ChangeStream Init');
@@ -90,6 +90,11 @@ wss.on('connection', function connection(ws) {
         console.log('received: %s', message);
         ws.send('In server.js incoming(message) its, ' + message);
     });
+
+    process.on('uncaughtException', function (err) {
+      console.error((new Dat).toUTCString() + ' uncaughtException:' , err.message)
+      console.error(err.stack)
+    })
 });
 // create a server constant (without app express. Example of the most basic server)
 

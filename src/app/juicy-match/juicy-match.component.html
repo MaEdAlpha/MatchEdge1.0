@@ -1,5 +1,107 @@
-<button mat-raised-button (click)="check()"> Check</button>
 
-<div *ngFor="let match of juicyMatches; let i = index">
-  <div>{{i}}</div>
+    <div class="hdr-tabs">
+      <button class="hdr-items"  id="hdr-hide" mat-raised-button (click)="hide()"><mat-icon><span *ngIf="isDisplayHidden">visibility_on</span><span *ngIf="!isDisplayHidden">visibility_off</span></mat-icon></button>
+    </div>
+<div class="table-container" [style.visibility]="!isDisplayHidden ? 'collapse' : 'visible' "[style.height]="!isDisplayHidden ? '0' : '' " [style.margin-bottom]="!isDisplayHidden ? '0' : '' ">
+  <div class="table-title">
+    <div class="hdr-items" id="optionSelect">
+      <button>placeholder</button>
+    </div>
+    <h1 class="hdr-items" id="hdr-title">Juicy Matches</h1>
+  </div>
+
+  <table mat-table
+         [dataSource]="allIndvMatches" multiTemplateDataRows
+         class="mat-elevation-z8">
+         <ng-container matColumnDef="{{column}}" *ngFor="let column of columnsToDisplay; let i = index">
+             <th mat-header-cell *matHeaderCellDef id="column{{i}}hdr"> {{ column }} </th>
+             <td mat-cell *matCellDef="let selection"> {{selection[column]}} </td>
+         </ng-container>
+
+          <!-- @detailExpand is a directive that uses expandedDetail in matColumnDef to create the expanded container -->
+
+         <ng-container matColumnDef="expandedDetail">
+           <td mat-cell *matCellDef="let selection" [attr.colspan]="columnsToDisplay.length" >
+
+               <div class="juicyMatch-detail"
+               [@detailExpand]="selection == expandedElement ? 'expanded' : 'collapsed'">
+
+               <div class="jm-exp-details-row1">
+                 <div class="row1 row1-first">
+                   <div class="jed-cell1" id="logo">Logo</div>
+                   <div class="jed-cell1" id="selection"><h1>{{selection.Selection}}</h1><h4>Previous Bet365 Odds</h4><h3> 1.23 | 1.30 | 1.23</h3></div>
+                   <div class="jed-cell" id="prev-B365-odds"></div>
+                  </div>
+
+                  <div class="row1 row1-second">
+                    <h2 class="jed-cell2">
+                        <b #tooltip="matTooltip"
+                        matTooltip="Chance of a full turnaround occuring"
+                        [matTooltipPosition]="position.value"
+                        matTooltipHideDelay="1000">Occurrence</b></h2>
+                        <div class="jed-cell2" id="fta"> <h2>1:{{selection.FTAround}}</h2> </div>
+                      </div>
+
+                      <div class="row1 row1-third">
+                        <h2 class="jed-cell3"><b>Return Rating</b></h2>
+                        <div class="jed-cell3" id="rr"> <h2>{{selection.ReturnRating}}%</h2></div>
+                      </div>
+
+                      <div class="row1 row1-fourth">
+                        <h2 class="jed-cell4"><b>Full Turnaround Rating</b></h2>
+                        <div class="jed-cell4" id="match-rating"> <h2>{{selection.MatchRating}}%</h2> </div>
+                      </div>
+                    </div>
+
+                    <div class="jm-exp-details-row2">
+                      <p class="user-directions">Go to *bet365Picture and <b>back </b><span>{{selection.Selection}}</span> for <span class="value-box-back"><b>£{{selection.Stake}}</b></span> at odds of <span class="value-box-back"><b>{{selection.BackOdds}}</b></span></p>
+                      <div class="external-link-button" id="bet365lnk"><a mat-raised-button href="https://www.bet365.com/#/AS/B1/" target="_blank">Go to Bet365</a></div>
+                    </div>
+
+                    <div class="jm-exp-details-row3">
+                      <p class="user-directions">Go to *Smarkets and <b>lay </b> <span>{{selection.Selection}}</span> for <span class="value-box-lay"><b>£{{selection.LayStake}}</b></span> at odds of <span class="value-box-lay"><b>{{selection.LayOdds}}</b></span></p>
+                      <div class="row3-value"> Liability: <span class="row3-value">£{{selection.Liability}}</span>  </div>
+                      <div class="external-link-button" id="smlnk"><a mat-raised-button href="https://smarkets.com/listing/sport/football/" target="_blank">Go to Smarkets</a></div>
+
+                    </div>
+
+                    <div class="jm-exp-details-row4">
+                      <div class="row4 row4-row1">
+                        <span><h3>Full Turnaround Profit</h3></span> <h3>£{{selection.FTAProfit}}</h3>
+                      </div>
+
+                      <div class="row4 row4-row2">
+                        <span class="row4-hdr"><h3>Qualifying Loss</h3></span> <span><h3>£{{selection.QL}}</h3></span>
+                      </div>
+
+                      <div class="row4 row4-row3">
+                        <span class="row4-hdr"><h3>ROI</h3></span><span> <h3>{{selection.ROI}} %</h3></span>
+                      </div>
+
+                      <div class="row4 row4-row4">
+                        <span class="row4-hdr"><h3>Est. Value Total</h3></span><span><h3>£{{selection.EVTotal}}</h3></span>
+                      </div>
+
+                      <div class="row4 row4-row5">
+                        <button mat-mat-raised-button class="exp-button">Record Bet</button>
+                        <button mat-mat-raised-button class="exp-button">Close Match</button>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+              </ng-container>
+
+
+              <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+              <!-- When you click this row, it changes  the class to .juicyMatch-expanded-row -->
+              <tr mat-row *matRowDef="let selection; columns: columnsToDisplay;"
+              class="juicyMatch-row"
+              [class.juicyMatch-expanded-row]="expandedElement === selection"
+              (click)="expandedElement = expandedElement === selection ? null : selection">
+            </tr>
+         <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="juicyMatch-detail-row"></tr>
+        </table>
+        <div class="no-content" *ngIf="matchesToDisplay">Currently No Matches Detected</div>
 </div>
+
+
