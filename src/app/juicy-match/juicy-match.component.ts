@@ -1,14 +1,14 @@
-import { Component, Input, OnInit, OnDestroy, DoCheck, OnChanges, SimpleChanges, ViewEncapsulation } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy, DoCheck, OnChanges, SimpleChanges } from '@angular/core';
 import { JuicyMatchHandlingService } from './juicy-match-handling.service';
 import { TooltipPosition } from '@angular/material/tooltip';
 import { FormControl } from '@angular/forms';
 import {animate, state, style, transition, trigger} from '@angular/animations';
-import { IsJuicyService } from './is-juicy.service';
+
 import { JuicyMatch } from './juicy-match.model';
-import { Subscription, Observable, from } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { MatchStatsService } from '../match-stats.service';
 import { MatchesService } from '../match/matches.service';
-import { Match } from '../match/match.model';
+
 
 @Component({
   selector: 'app-juicy-match',
@@ -37,10 +37,10 @@ export class JuicyMatchComponent implements OnChanges, DoCheck {
 
   //Icon properties
   isDisplayHidden: boolean = true;
-
   private individualMatchesSub: Subscription;
   allIndvMatches: any[];
   singleMatchPair: any;
+  testBool:boolean;
 
   constructor(private juicyMHService: JuicyMatchHandlingService, private matchStatService: MatchStatsService, private matchesService: MatchesService ) { }
 
@@ -61,37 +61,21 @@ export class JuicyMatchComponent implements OnChanges, DoCheck {
       this.allIndvMatches = singleMatchData;
     });
 
+    //accesses an eventEmitter of streamData that is coming in via MongoDB ChangeStream.  Setsup a subscription to observable.
     this.matchesService.streamDataUpdate
     .subscribe( (streamObj) => {
+      //singleMatchPair is a freshly pushed Match object from our database. It is processed in retrieveStreamData.
       this.singleMatchPair = this.matchStatService.retrieveStreamData(streamObj);
       this.singleMatchPair.forEach( (match) => {
-        // find each match and update the values
+        // find match and update the values with stream data coming from DB.
         var indexOfmatch = this.allIndvMatches.findIndex( indvMatch => indvMatch.Selection == match.Selection );
-        indexOfmatch != undefined && this.allIndvMatches[indexOfmatch] ? this.updateSingleMatch(this.allIndvMatches[indexOfmatch], match) : console.log("did not find singleMatch in indvMatch Array");
-
-        console.log("JCComp: streammDataUpdate: " + match.Selection);
-
-        //run the whole array through your EVthisBet range
+        indexOfmatch != undefined && this.allIndvMatches[indexOfmatch] ? this.juicyMHService.updateSingleMatch(this.allIndvMatches[indexOfmatch], match, indexOfmatch) : console.log("did not find singleMatch in indvMatch Array");
       } );
 
 
     });
     //subscribe to emitter of streamChange Data. Use this fkor your single Matches parse.
   }
-
-// AwayTeamName: "Birmingham City"
-// B365AwayOdds: 4.2
-// B365BTTSOdds: 1.83
-// B365DrawOdds: 3.5
-// B365HomeOdds: 4.7
-// B365O25GoalsOdds: 2.3
-// HomeTeamName: "Luton Town"
-// League: "England Championship"
-// OccurrenceAway: 69
-// OccurrenceHome: 49
-// SmarketsAwayOdds: "2.86"
-// SmarketsHomeOdds: "3"
-// StartDateTime: "24-11-2020 19:00:00"
 
   ngOnDestroy() {
     this.individualMatchesSub.unsubscribe();
@@ -100,25 +84,32 @@ export class JuicyMatchComponent implements OnChanges, DoCheck {
     // this.juicyMatches = this.juicyMHService.setJuicyMatches(this.allMatches);
   }
 
-  updateSingleMatch(mainMatch, streamChangeMatch){
-    //TODO possibly hold onto old bet365 updates here? create a new field that writes old data.
-    //TODO Also, timestamp showing last update.
-    mainMatch.Stake = streamChangeMatch.Stake;
-    mainMatch.LayStake = streamChangeMatch.LayStake;
-    mainMatch.BackOdds = streamChangeMatch.BackOdds;
-    mainMatch.LayOdds = streamChangeMatch.LayOdds;
-    mainMatch.FTAround = streamChangeMatch.FTAround;
-    mainMatch.FTAProfit = streamChangeMatch.FTAProfit;
-    mainMatch.EVTotal = streamChangeMatch.EVTotal;
-    mainMatch.EVthisBet = streamChangeMatch.EVthisBet;
-    mainMatch.ReturnRating = streamChangeMatch.ReturnRating;
-    mainMatch.MatchRating = streamChangeMatch.MatchRating;
-    mainMatch.Liability = streamChangeMatch.Liability;
-    mainMatch.QL = streamChangeMatch.QL;
-    mainMatch.ROI = streamChangeMatch.ROI;
-  }
+  //trying to handle code in j-m-handlingService section.
+  // updateSingleMatch(mainMatch, streamChangeMatch){
+  //   //TODO possibly hold onto old bet365 updates here? create a new field that writes old data.
+  //   //TODO Also, timestamp showing last update.
+  //   mainMatch.Stake = streamChangeMatch.Stake;
+  //   mainMatch.LayStake = streamChangeMatch.LayStake;
+  //   mainMatch.BackOdds = streamChangeMatch.BackOdds;
+  //   mainMatch.LayOdds = streamChangeMatch.LayOdds;
+  //   mainMatch.FTAround = streamChangeMatch.FTAround;
+  //   mainMatch.FTAProfit = streamChangeMatch.FTAProfit;
+  //   mainMatch.EVTotal = streamChangeMatch.EVTotal;
+  //   mainMatch.EVthisBet = streamChangeMatch.EVthisBet;
+  //   mainMatch.ReturnRating = streamChangeMatch.ReturnRating;
+  //   mainMatch.MatchRating = streamChangeMatch.MatchRating;
+  //   mainMatch.Liability = streamChangeMatch.Liability;
+  //   mainMatch.QL = streamChangeMatch.QL;
+  //   mainMatch.ROI = streamChangeMatch.ROI;
+
+  //   //TODO Add element flicker
+  // }
 
   hide(){
     this.isDisplayHidden = !this.isDisplayHidden;
+  }
+
+  resetMatchUpdated(index:number){
+    //this.allIndvMatches[index].isUpdated=false;
   }
 }

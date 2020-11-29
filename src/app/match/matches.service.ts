@@ -19,6 +19,7 @@ export class MatchesService {
   constructor(private http: HttpClient) {}
 
   getMatches() {
+
     this.http
       .get<{body: any }> (
         "http://localhost:3000/api/matches"
@@ -45,6 +46,8 @@ export class MatchesService {
             League: match.League,
             OccH: match.OccurrenceHome,
             OccA: match.OccurrenceAway,
+            UrlB365: match.URLB365,
+            UrlSmarkets: match.URLSmarkets,
             HStatus: {watch: false, bet: false, ignore: false },
             AStatus: {watch: false, bet: false, ignore: false }
           }
@@ -62,9 +65,4 @@ export class MatchesService {
   addToUpdatedMatches(_streamObj){
     this.streamDataUpdate.emit(_streamObj);
   }
-
-
-
-
-
 }

@@ -12,4 +12,6 @@
     League:string;
     OccurrenceHome: number;
     OccurrenceAway:number;
+    UrlB365:string;
+    UrlSmarkets:string;
   }

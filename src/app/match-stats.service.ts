@@ -22,7 +22,6 @@ export class MatchStatsService {
   mRating:number;
 
   private juicyMatches: JuicyMatch[] = [];
-  private juicyMatch: JuicyMatch;
   private singleHomeMatch: any;
   private singleAwayMatch: any;
   private allSingleMatches: any=[];
@@ -32,8 +31,10 @@ export class MatchStatsService {
 
   constructor(private ups: UserPropertiesService, private calcSettingsService: CalcSettingsService) { }
 
-//The first HTTP GET you requested  fucked up all the variable names... either map...or figure shit out
-  getMatchStats(match){
+//The first HTTP GET you requested  fucks up all the variable names... either map...or figure shit out
+
+//used in juicy-match-model
+getMatchStats(match){
     //this.allSingleMatches = [];
     //for home matches
     this.stake = this.calcSettingsService.getPrefferedStake(match.BHome);
@@ -69,25 +70,36 @@ export class MatchStatsService {
           Liability: this.liability,
           QL: this.ql,
           ROI: this.roi,
-          Logo: match.Home.toLowerCase().split(' ').join('-')
+          Logo: match.Home.toLowerCase().split(' ').join('-'),
+          UrlB365: match.UrlB365,
+          UrlSmarkets: match.UrlSmarkets,
+          backIsUpdated: false,
+          layIsUpdated:false,
+          evIsUpdated: false,
+          b365oddsHCurr: match.B365HomeOdds,
+          b365oddsDrawCurr: match.B365DrawOdds,
+          b365oddsACurr: match.B365AwayOdds,
+          b365HPrev: 999,
+          b365APrev: 999,
+          b365DrawPrev: 999,
         }
         this.allSingleMatches.push(this.singleHomeMatch);
 
         //for away matches
-    this.stake = this.calcSettingsService.getPrefferedStake(match.BAway);
-    this.backOdds = match.BAway;
-    this.layOdds = match.SMAway;
-    this.layStake = +(this.backOdds / this.layOdds * this.stake).toFixed(2);
-    this.liability = +((this.layOdds - 1 )* this.layStake).toFixed(2);
-    this.ql = +(this.layStake - this.stake).toFixed(2);
-    this.oneInXgames = match.OccA;
-    this.ft = +(this.stake * (this.backOdds - 1) + this.layStake).toFixed(2);
-    this.evTotal = +(this.ft + (this.ql * (this.oneInXgames - 1))).toFixed(2);
-    this.evThisBet = +(this.evTotal/this.oneInXgames).toFixed(2);
-    this.roi = +(this.evThisBet/this.stake).toFixed(2);
-    this.mRating = +(this.backOdds * 100 / this.layOdds).toFixed(2);
+          this.stake = this.calcSettingsService.getPrefferedStake(match.BAway);
+          this.backOdds = match.BAway;
+          this.layOdds = match.SMAway;
+          this.layStake = +(this.backOdds / this.layOdds * this.stake).toFixed(2);
+          this.liability = +((this.layOdds - 1 )* this.layStake).toFixed(2);
+          this.ql = +(this.layStake - this.stake).toFixed(2);
+          this.oneInXgames = match.OccA;
+          this.ft = +(this.stake * (this.backOdds - 1) + this.layStake).toFixed(2);
+          this.evTotal = +(this.ft + (this.ql * (this.oneInXgames - 1))).toFixed(2);
+          this.evThisBet = +(this.evTotal/this.oneInXgames).toFixed(2);
+          this.roi = +(this.evThisBet/this.stake).toFixed(2);
+          this.mRating = +(this.backOdds * 100 / this.layOdds).toFixed(2);
 
-   //console.log(match.Home + ": stake: " + this.stake + " bOdds" + this.backOdds + " lay: " + this.layOdds + " layStake " + this.layStake + " liability" + this.liability + " ql " + this.ql + " oneInXgames " + this.oneInXgames + " ft " + this.ft + " evThisBet " + this.evThisBet + " " + this.stake + " ");
+            //console.log(match.Home + ": stake: " + this.stake + " bOdds" + this.backOdds + " lay: " + this.layOdds + " layStake " + this.layStake + " liability" + this.liability + " ql " + this.ql + " oneInXgames " + this.oneInXgames + " ft " + this.ft + " evThisBet " + this.evThisBet + " " + this.stake + " ");
 
         this.singleAwayMatch =  {
           EventStart: match.Details,
@@ -106,7 +118,18 @@ export class MatchStatsService {
           Liability: this.liability,
           QL: this.ql,
           ROI: this.roi,
-          Logo: match.Away.toLowerCase().split(' ').join('-')
+          Logo: match.Away.toLowerCase().split(' ').join('-'),
+          UrlB365: match.UrlB365,
+          UrlSmarkets: match.UrlSmarkets,
+          backIsUpdated: false,
+          layIsUpdated:false,
+          evIsUpdated: false,
+          b365oddsHCurr: match.B365HomeOdds,
+          b365oddsDrawCurr: match.B365DrawOdds,
+          b365oddsACurr: match.B365AwayOdds,
+          b365HPrev: 999,
+          b365APrev: 999,
+          b365DrawPrev: 999,
         }
         this.allSingleMatches.push(this.singleAwayMatch);
   }
@@ -116,7 +139,7 @@ export class MatchStatsService {
   }
 
   //UGLY ASS CODE, need to fix this....
-
+  //Used in JuicyMatch Handling Service: To process incoming data to the correct SINGLE match Object.
   retrieveStreamData(streamObj){
         this.pairOfSingleMatches = [];
         //for home matches
@@ -134,8 +157,6 @@ export class MatchStatsService {
         this.mRating = +(this.backOdds * 100 / this.layOdds).toFixed(2);
 
         //console.log(match.Home + ": stake: " + this.stake + " bOdds" + this.backOdds + " lay: " + this.layOdds + " layStake " + this.layStake + " liability" + this.liability + " ql " + this.ql + " oneInXgames " + this.oneInXgames + " ft " + this.ft + " evThisBet " + this.evThisBet + " " + this.stake + " ");
-
-
             this.singleHomeMatch =  {
               EventStart: streamObj.StartDateTime,
               Stake: this.stake,
@@ -153,7 +174,15 @@ export class MatchStatsService {
               Liability: this.liability,
               QL: this.ql,
               ROI: this.roi,
-              Logo: streamObj.HomeTeamName.toLowerCase().split(' ').join('-')
+              Logo: streamObj.HomeTeamName.toLowerCase().split(' ').join('-'),
+              UrlB365: streamObj.UrlB365,
+              UrlSmarkets: streamObj.UrlSmarkets,
+              backIsUpdated: false,
+              layIsUpdated:false,
+              evIsUpdated:false,
+              b365oddsHCurr: streamObj.B365HomeOdds,
+              b365oddsDrawCurr: streamObj.B365DrawOdds,
+              b365oddsACurr: streamObj.B365AwayOdds,
             }
             this.pairOfSingleMatches.push(this.singleHomeMatch);
 
@@ -172,7 +201,6 @@ export class MatchStatsService {
         this.mRating = +(this.backOdds * 100 / this.layOdds).toFixed(2);
 
        //console.log(match.Home + ": stake: " + this.stake + " bOdds" + this.backOdds + " lay: " + this.layOdds + " layStake " + this.layStake + " liability" + this.liability + " ql " + this.ql + " oneInXgames " + this.oneInXgames + " ft " + this.ft + " evThisBet " + this.evThisBet + " " + this.stake + " ");
-
             this.singleAwayMatch =  {
               EventStart: streamObj.StartDateTime,
               Stake: this.stake,
@@ -190,7 +218,15 @@ export class MatchStatsService {
               Liability: this.liability,
               QL: this.ql,
               ROI: this.roi,
-              Logo: streamObj.AwayTeamName.toLowerCase().split(' ').join('-')
+              Logo: streamObj.AwayTeamName.toLowerCase().split(' ').join('-'),
+              UrlB365: streamObj.UrlB365,
+              UrlSmarkets: streamObj.UrlSmarkets,
+              backIsUpdated: false,
+              layIsUpdated:false,
+              evIsUpdated:false,
+              b365oddsHCurr: streamObj.B365HomeOdds,
+              b365oddsDrawCurr: streamObj.B365DrawOdds,
+              b365oddsACurr: streamObj.B365AwayOdds,
             }
             this.pairOfSingleMatches.push(this.singleAwayMatch);
 
@@ -199,98 +235,14 @@ export class MatchStatsService {
 
 
   getAllSingleMatches(){
-    console.log("Match-Stat Services: getAllSingleMatches()");
     return this.allSingleMatches;
   }
 
   getJuicyMatches(){
     return this.juicyMatches;
   }
-
+  //observable used to subscribe to a stream of single Match Data.
   getSingleMatchesListener(): Observable<any>{
     return this.singleMatchUpdated.asObservable();
   }
 }
-
-//ORIGINAL WORKING:
-// getMatchStats(match){
-//   //for home matches
-//   this.stake = this.calcSettingsService.getPrefferedStake(match.BHome);
-//   this.backOdds = match.BHome;
-//   this.layOdds = match.SMHome;
-//   this.layStake = +(this.backOdds / this.layOdds * this.stake).toFixed(2);
-//   this.liability = +((this.layOdds - 1 )* this.layStake).toFixed(2);
-//   this.ql = +(this.layStake - this.stake).toFixed(2);
-//   this.oneInXgames = match.OccH;
-//   this.ft = +(this.stake * (this.backOdds - 1) + this.layStake).toFixed(2);
-//   this.evTotal = +(this.ft + (this.ql * (this.oneInXgames - 1))).toFixed(2);
-//   this.evThisBet = +(this.evTotal/this.oneInXgames).toFixed(2);
-//   this.roi = +(this.evThisBet/this.stake).toFixed(2);
-//   this.mRating = +(this.backOdds * 100 / this.layOdds).toFixed(2);
-
-//   //console.log(match.Home + ": stake: " + this.stake + " bOdds" + this.backOdds + " lay: " + this.layOdds + " layStake " + this.layStake + " liability" + this.liability + " ql " + this.ql + " oneInXgames " + this.oneInXgames + " ft " + this.ft + " evThisBet " + this.evThisBet + " " + this.stake + " ");
-
-//    if(this.evThisBet > 0 )
-//    {
-//       this.juicyMatch =  {
-//         EventStart: match.Details,
-//         Stake: this.stake,
-//         LayStake: this.layStake,
-//         Fixture: match.Home + " vs " + match.Away,
-//         Selection: match.Home,
-//         BackOdds: this.backOdds,
-//         LayOdds: this.layOdds,
-//         FTAround: match.OccH,
-//         FTAProfit: this.ft,
-//         EVTotal: this.evTotal,
-//         EVthisBet: this.evThisBet,
-//         ReturnRating: 100, //TODO find this
-//         MatchRating: this.mRating,
-//         Liability: this.liability,
-//         QL: this.ql,
-//         ROI: this.roi,
-//         Logo: match.Home.toLowerCase().split(' ').join('-')
-//       }
-//       this.juicyMatches.push(this.juicyMatch);
-//    }
-
-//    //for home matches
-//   this.stake = this.calcSettingsService.getPrefferedStake(match.BAway);
-//   this.backOdds = match.BAway;
-//   this.layOdds = match.SMAway;
-//   this.layStake = +(this.backOdds / this.layOdds * this.stake).toFixed(2);
-//   this.liability = +((this.layOdds - 1 )* this.layStake).toFixed(2);
-//   this.ql = +(this.layStake - this.stake).toFixed(2);
-//   this.oneInXgames = match.OccA;
-//   this.ft = +(this.stake * (this.backOdds - 1) + this.layStake).toFixed(2);
-//   this.evTotal = +(this.ft + (this.ql * (this.oneInXgames - 1))).toFixed(2);
-//   this.evThisBet = +(this.evTotal/this.oneInXgames).toFixed(2);
-//   this.roi = +(this.evThisBet/this.stake).toFixed(2);
-//   this.mRating = +(this.backOdds * 100 / this.layOdds).toFixed(2);
-
-//  //console.log(match.Home + ": stake: " + this.stake + " bOdds" + this.backOdds + " lay: " + this.layOdds + " layStake " + this.layStake + " liability" + this.liability + " ql " + this.ql + " oneInXgames " + this.oneInXgames + " ft " + this.ft + " evThisBet " + this.evThisBet + " " + this.stake + " ");
-
-//    if(this.evThisBet > 0)
-//    {
-//       this.juicyMatch =  {
-//         EventStart: match.Details,
-//         Stake: this.stake,
-//         LayStake: this.layStake,
-//         Fixture: match.Home + " vs " + match.Away,
-//         Selection: match.Away,
-//         BackOdds: this.backOdds,
-//         LayOdds: this.layOdds,
-//         FTAround: match.OccA,
-//         FTAProfit: this.ft,
-//         EVTotal: this.evTotal,
-//         EVthisBet: this.evThisBet,
-//         ReturnRating: 100, //TODO find this
-//         MatchRating: this.mRating,
-//         Liability: this.liability,
-//         QL: this.ql,
-//         ROI: this.roi,
-//         Logo: match.Away.toLowerCase().split(' ').join('-')
-//       }
-//       this.juicyMatches.push(this.juicyMatch);
-//    }
-// }

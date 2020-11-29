@@ -136,9 +136,6 @@ div.row1-fourth {
   text-align: center;
 }
 
-
-
-
 /* expandable container: rows 2 and 3 - User direction section */
 .jm-exp-details-row2, .jm-exp-details-row3{
   font-size: larger;
@@ -234,7 +231,6 @@ button {
   display: inline-block;
 }
 
-
 div.row3-value{
   margin-right: 30%;
   float: right;
@@ -261,3 +257,86 @@ span.row3-value {
   padding-left: 10px;
 }
 
+.cdk-column-LayOdds>span {
+  background: green;
+  color: white;
+  padding: 6px;
+  padding-left: 10px;
+  padding-right: 10px;
+  border-radius: 5px;
+}
+
+.ticker3box {
+  background: blue;
+  color: white;
+  padding: 6px;
+  padding-left: 10px;
+  padding-right: 10px;
+  border-radius: 5px;
+}
+
+.ticker4box {
+  background: green;
+  color: white;
+  padding: 6px;
+  padding-left: 10px;
+  padding-right: 10px;
+  border-radius: 5px;
+}
+
+.ev5box {
+  background:#ffdf1b;
+  color: black;
+  padding: 6px;
+  padding-left: 10px;
+  padding-right: 10px;
+  border-radius: 5px;
+}
+
+.backDirective {
+  color: white;
+  padding: 6px;
+  padding-left: 10px;
+  padding-right: 10px;
+  border-radius: 5px;
+  animation: backBlinkBackground 4s infinite;
+}
+@keyframes backBlinkBackground{
+  0%		{ background-color: #649ce4; color: #052044;}
+  25%		{ background-color: #4283d8; color: #426897;}
+  50%		{ background-color: #022e68; color: white; }
+  75%		{ background-color: #4283d8; color: #426897; }
+  100%	{ background-color: #649ce4; color: #052044; }
+}
+
+.flickDirectiveLay {
+  color: white;
+  padding: 6px;
+  padding-left: 10px;
+  padding-right: 10px;
+  border-radius: 5px;
+  animation: layBackground 4s infinite;
+}
+@keyframes layBackground{
+  0%		{ background-color: #64c58d; color: #052044;}
+  25%		{ background-color: #1b8648; color: #426897;}
+  50%		{ background-color: #034b21; color: white; }
+  75%		{ background-color: #1b8648; color: #426897; }
+  100%	{ background-color: #64c58d; color: #052044; }
+}
+
+.flickDirectiveEV {
+  color: white;
+  padding: 6px;
+  padding-left: 10px;
+  padding-right: 10px;
+  border-radius: 5px;
+  animation: evBlinkBackground 4s infinite;
+}
+@keyframes evBlinkBackground {
+  0%		{ background-color: #ffdf1b; color: #052044;}
+  25%		{ background-color: #e2d689; color: #426897;}
+  50%		{ background-color: #080808; color: white; }
+  75%		{ background-color: #e2d689; color: #426897; }
+  100%	{ background-color: #ffdf1b; color: #052044; }
+}
