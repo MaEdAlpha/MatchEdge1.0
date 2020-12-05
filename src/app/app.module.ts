@@ -4,17 +4,20 @@ import { AppRoutingModule } from './app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
 //Materials
-import { MatTableModule} from '@angular/material/table';
-import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
+import { MatTableModule} from '@angular/material/table';
+import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatSelectModule } from '@angular/material/select';
 
 //Services
 import { CalcSettingsService } from './calc-settings/calc-settings.service';
@@ -38,11 +41,18 @@ import { MatchTableComponent } from './match-table/match-table.component';
 import { SettingsComponent } from './user-settings/settings.component';
 import { SummaryListComponent } from './summary-list/summary-list.component';
 import { WatchlistComponent } from './watchlist/watchlist.component';
+import { ViewTableSidenavComponent } from './view-table-sidenav/view-table-sidenav.component';
 
 //Directives
 import { FlickerDataDirective } from './directives/flicker-notification.directive';
 import { FlickerDataLayDirective } from './directives/flicker-data-lay.directive';
 import { FlickerDataEvDirective } from './directives/flicker-data-ev.directive';
+import { WatchHomeDirective } from './directives/watch-home.directive';
+import { WatchAwayDirective } from './directives/watch-away.directive';
+import { BetHomeDirective } from './directives/bet-home.directive';
+import { BetAwayDirective } from './directives/bet-away.directive';
+import { IgnoreIconDirective } from './directives/ignore-icon.directive';
+
 
 @NgModule({
   declarations: [
@@ -59,7 +69,14 @@ import { FlickerDataEvDirective } from './directives/flicker-data-ev.directive';
     MatchNotificationSettingsComponent,
     FlickerDataDirective,
     FlickerDataLayDirective,
-    FlickerDataEvDirective
+    FlickerDataEvDirective,
+    WatchHomeDirective,
+    WatchAwayDirective,
+    BetHomeDirective,
+    BetAwayDirective,
+    IgnoreIconDirective,
+    ViewTableSidenavComponent,
+
   ],
   imports: [
     AppRoutingModule,
@@ -70,11 +87,15 @@ import { FlickerDataEvDirective } from './directives/flicker-data-ev.directive';
     HttpClientModule,
     MatButtonModule,
     MatCheckboxModule,
+    MatFormFieldModule,
     MatIconModule,
+    MatInputModule,
     MatTableModule,
     MatToolbarModule,
     MatTooltipModule,
+    MatSelectModule,
     MatSidenavModule,
+    ReactiveFormsModule
   ],
   providers: [MatchesService, WebsocketService, UserPropertiesService, MatchDisplayService, MatchNotificationService, CalcSettingsService, IsJuicyService, JuicyMatchHandlingService],
   bootstrap: [AppComponent]

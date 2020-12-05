@@ -6,11 +6,12 @@ import { MatchesService } from '../match/matches.service';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import { interval } from 'rxjs';
 import { WebsocketService } from '../websocket.service';
+import { SidenavService } from '../view-table-sidenav/sidenav.service';
 
   @Component({
     selector: 'app-match-table',
-    templateUrl: './match-tableNew.component.html',
-    styleUrls: ['./match-tableNew.component.css'],
+    templateUrl: './match-table.component.html',
+    styleUrls: ['./match-table.component.css'],
     animations: [
       trigger('detailExpand', [
         state('collapsed', style({height: '0px', minHeight: '0'})),
@@ -42,15 +43,15 @@ import { WebsocketService } from '../websocket.service';
     private matchesSub: Subscription;
 
 
-    constructor(private matchesService: MatchesService, private webSocketService: WebsocketService ) { } //creates an instance of matchesService. Need to add this in app.module.ts providers:[]
+    constructor(private sidenav: SidenavService, private matchesService: MatchesService, private webSocketService: WebsocketService ) { } //creates an instance of matchesService. Need to add this in app.module.ts providers:[]
 
       ngOnChanges(changes: SimpleChanges){
         if(changes.matches && changes.matches.currentValue) {
+
         }
       }
 
       ngOnInit() {
-
         this.matches = this.matchesService.getMatches(); //fetches matches from matchesService
 
         this.matchesSub = this.matchesService.getMatchUpdateListener() //subscribe to matches for any changes.
@@ -58,10 +59,6 @@ import { WebsocketService } from '../websocket.service';
           //Assign each matchData subscribed to the list of objects you inject into html
          this.matches = matchData;
         });
-
-        console.log("MatchTable Comp: matcheSub");
-
-
 
         //Open Socket Connection
         this.webSocketService.openWebSocket();
@@ -73,15 +70,6 @@ import { WebsocketService } from '../websocket.service';
           var indexOfmatch = this.matches.findIndex( match => match.Home == streamObj.HomeTeamName && match.Away == streamObj.AwayTeamName);
           indexOfmatch != undefined && this.matches[indexOfmatch] ? this.updateMatch(this.matches[indexOfmatch], streamObj) : console.log("not found");
         });
-
-        //Set Stream Data
-        //WORKING: this.matchStream = this.webSocketService.updatedStreamData();
-
-        //retrieves stream data and finds the matches object by the team names.
-
-        // interval(1000).subscribe(() => {
-        //     //WORKING: this.watchForMatchUpdates();
-        //    });
       }
 
       ngOnDestroy(){
@@ -94,6 +82,10 @@ import { WebsocketService } from '../websocket.service';
         {
           this.matchWatched.push('false');
         }
+      }
+
+      toggleSideNav(){
+        this.sidenav.toggle();
       }
 
       watchForMatchUpdates() {
@@ -172,6 +164,26 @@ import { WebsocketService } from '../websocket.service';
         match.OccA = streamMatch.OccurrenceAway;
 
       }
+    }
+
+    watchStatus(status: boolean){
+      status = !status;
+      console.log(status);
+      //Send to service to notificationServices.
+      //pass the object forward to a notification list. which will then do the thing
+      //i.e directive attributes for styling
+      //actvate notifications
+    }
+
+    betStatus(status: boolean){
+      status = !status;
+      console.log(status);
+    }
+
+    ignoreStatus(status: boolean){
+      status = !status;
+      console.log(status);
+
     }
   }
 

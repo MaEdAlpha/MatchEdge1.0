@@ -5,7 +5,7 @@ import { JuicyMatchComponent } from '../juicy-match/juicy-match.component';
   selector: '[appFlickerData]'
 })
 
-export  class FlickerDataDirective implements OnChanges {
+export  class FlickerDataDirective implements  OnChanges {
   @Input() flickerColmnIndex:number;
   @Input() isUpdated: any;
 

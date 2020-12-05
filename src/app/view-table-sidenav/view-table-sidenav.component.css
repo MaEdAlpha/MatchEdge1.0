@@ -1,0 +1,71 @@
+.view-table-settings {
+  width: 100px;
+  height: 200px;
+  margin: 12px;
+  border: 1px solid #555;
+  display: inline;
+}
+
+.vt-settings-container {
+  width: 100%;
+}
+
+mat-sidenav {
+  padding: 12px;
+  width: 500px;
+  flex-direction: column;
+  align-items: flex-start;
+  background: #f9a825;
+}
+
+mat-form-field {
+  width: 60%;
+  float: left;
+}
+h1.main-header, h1.header {
+  float: left;
+}
+
+h1.header {
+  width: 100%;
+  margin-top: 30px;
+}
+
+.odds-container,.to-odds {
+  display: inline;
+  width: 35%;
+  float: left;
+  margin-left: 40px;
+}
+
+h2.to-odds {
+  width: 10%;
+  margin-left: auto;
+  margin-right: auto;
+  display: inline-block;
+}
+
+
+.exit-button {
+  display: inline;
+  float: right;
+}
+
+.exit-button {
+  float: right;
+}
+
+.btn-wrapper {
+  margin-top: 30px;
+  display: inline-block;
+  width: 100%;
+}
+
+button {
+  margin-left: 20px;
+}
+
+
+::ng-deep #mat-select-0-panel {
+   max-height: 530px;
+}

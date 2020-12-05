@@ -1,194 +1,105 @@
-hr {
-  border-color:  #f9a825 ;
-}
-
-/* .juicy-match-container {
-  border: 1px solid black;
-  background: white;
-  padding: 10px;
-      padding-left: 10px;
-  width: 25%;
-  float: left;
-  padding-left: 25%;
-  margin-left: 25%;
-  margin-right: 25%;
-} */
-
-.main-container {
-  position: relative;
-  padding-left: 10px;
-  width: 100%;
-}
-
-.second-container {
-  position: relative;
-  float: left;
-  width: 50%;
-  padding-top: 50px;
-}
-
 table {
   width: 100%;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-}
-.third-container, .first-container {
- position: relative;
- float: left;
- padding-top: 50px;
- width: 15%;
- height: 900px;
 }
 
-.first-container {
-  padding-left: 10%;
+.mat-column-Details {
+  border-bottom: transparent;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
-#Artn {
-  overflow: hidden;
+.mat-column-Away {
+  padding-left: 10px;
 }
-
-th.mat-header-cell{
-  text-align: center !important;
-}
-th {
-  background-color: #455a64;
-  color: #f9a825;
-}
-
-td {
-  border: 2px transparent black;
+.lge-title-cont> h1, .home-away-cont> h2 {
+  color: white;
   text-align: center;
-  color: #f9a825;
-  margin: auto;
-  background-color:#455a64;
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 2em;
 }
 
-td {
-  font-size: 0.9em;
-  padding: 1em;
-}
-span.pHSM, span.pASM {
-  margin: 1px;
-  background: #355462;
-  padding: 8px;
+.view-table-cont {
+  height: max-content;
+  width: 70%;
+  margin-left: auto;
+  margin-right:auto;
+  margin-bottom: 200px;
 }
 
-/* change color of this span.pH... to flicker green or red for these colors */
-/* green: #2b693b   red: #a70b00 */
-span.time {
-  color:#455a64;
+.footer-container {
+  margin-bottom: 100px;
+  color:white;
+  text-align: center;
 }
 
-/* set gradient of color based off differential? */
-span.diff {
-  background: #b88430;
-  padding: 3px;
-}
-thead {
-  opacity: 0;
+ .view-table-cont {
+  border: white 2px solid;
 }
 
-tr.detail-row {
-  height: 0;
+.hac {
+  float:left;
+  width: 49.6%;
+  border: white 0.5px solid;
+}
+/* APPEND TO ELRef when clicked. Pass boolean into Directive to add these classes*/
+.hmStatus{
+    background: blue;
+    color: white;
+    border-bottom-color: white;
 }
 
-/* tr.element-row:not(.expanded-row):hover {
-  background: whitesmoke;
+.mat-icon-button {
+  margin-right: 2px;
 }
 
-tr.element-row:not(.expanded-row):active {
-  background: #efefef;
-} */
-
-.element-row td {
-  border-bottom-width: 2px;
+.dirHStatus{
+  border-bottom-left-radius: 10px;
+  border-top-left-radius: 10px;
 }
 
-.element-detail {
-  overflow: hidden;
-  display: flex;
+.dirHSelection{
+  border-top-right-radius: 30px;
+  border-bottom-right-radius: 30px;
 }
 
-td#spacer {
-  background-color: #f9a825;
-  column-rule: #f9a825;
-  border: 1px black;
-  margin: 1px;
+.dirStatusContainer{
+  color: #263238;
+  background: white;
+  border-radius: 5px;
 }
 
 
-.element-container {
-  width: 100%;
-  font-weight: lighter;
-  height: 400px;
-  margin-top: 0rem;
-  margin-bottom: 0.5rem;
-  padding: 0.5rem;
+.awStatus{
+  background: #13530b;
+  color: white;
+  border-bottom-color: white;
 }
 
-.selected-team, .logo-cont, .back, .lay, .footer, .rating {
-  border: 1px solid black;
+
+.dirAwStatus{
+border-bottom-right-radius: 10px;
+border-top-right-radius: 10px;
 }
-.logo-cont {
-  margin-left: 35%;
+
+.dirAwSelection{
+border-top-left-radius: 30px;
+border-bottom-left-radius: 30px;
 }
-.logo-cont, .rating {
-  width: 140px;
-  height: 140px;
+
+.dirHBetStatus, .dirABetStatus{
+    color: green;
+    background: white;
+    border-radius: 5px;
+}
+
+.ignoreThis{
+  color: rgb(255, 41, 13);
+  background: white;
+  border-radius: 5px;
+}
+
+app-view-table-sidenav {
   float: left;
 }
 
-.rating {
-  height: 70px;
-  margin-top: 7.9%;
-}
-
-.selected-team {
-  height: 50%;
-}
-.back, .lay, .footer {
-  display: table-cell;
-  float:left;
-  height: 15%;
-  width: 100%;
-}
-
-
-.exp-col  {
-  display: inline;
-  padding-right: 1rem;
-}
-.sm-data {
-  height: 49%;
-  width: 30%;
-  display: inline-block;
-}
-
-tr {
-  overflow: hidden;
-}
-#League{
-  display: none;
-  position: relative;
-}
-.sm-data{
-  height: 0%;
-}
-.top,.bottom{
-  display: inline-block;
-  position: relative;
-  height: 40%;
-}
-#hteam {
-  text-align: right;
-}
-
-li {
+.setting-btn {
   color: white;
 }
-
-
