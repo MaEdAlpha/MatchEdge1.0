@@ -26,7 +26,7 @@ export class WatchHomeDirective implements OnChanges{
           //Call a service to set to notificationsList. Will need to pass in matchObject
           if(team!=null)
           {
-            console.log(team);
+            //console.log(team);
           } else {
             //do nothing
           }
@@ -36,7 +36,7 @@ export class WatchHomeDirective implements OnChanges{
       this.renderer.removeClass(this.elRef.nativeElement, 'hmStatus');
       if(team!=null)
       {
-        console.log(team);
+        //console.log(team);
       }
       //Call a service to delete this from the notificationsList.
     }

@@ -31,6 +31,7 @@ export class JuicyMatchComponent implements OnChanges, DoCheck {
   displayedColumns: string[] = ['EventStart', 'Fixture', 'Selection',  'BackOdds', 'LayOdds' , 'EVthisBet'];
   SecondcolumnsToDisplay: string[] = ['Logo', 'FTAround', 'ReturnRating', 'MatchRating', 'BackOdds', 'LayOdds', 'Liability', 'FTAProfit', 'QL', 'ROI', 'EVthisBet'];
   columnsToDisplay: string[] = this.displayedColumns.slice();
+
   //Tooltip properties
   positionOptions: TooltipPosition[] = ['below', 'above', 'left', 'right'];
   position = new FormControl(this.positionOptions[1]);
@@ -38,6 +39,7 @@ export class JuicyMatchComponent implements OnChanges, DoCheck {
   //Icon properties
   isDisplayHidden: boolean = true;
   private individualMatchesSub: Subscription;
+  private streamSub: Subscription;
   allIndvMatches: any[];
   singleMatchPair: any;
   testBool:boolean;
@@ -56,13 +58,13 @@ export class JuicyMatchComponent implements OnChanges, DoCheck {
 
   ngOnInit(){
     console.log("ngOninit JC Comp");
-
+    this.allIndvMatches = [];
     this.individualMatchesSub = this.juicyMHService.getJuicyUpdateListener().subscribe( (singleMatchData) => {
       this.allIndvMatches = singleMatchData;
     });
 
     //accesses an eventEmitter of streamData that is coming in via MongoDB ChangeStream.  Setsup a subscription to observable.
-    this.matchesService.streamDataUpdate
+    this.streamSub = this.matchesService.streamDataUpdate
     .subscribe( (streamObj) => {
       //singleMatchPair is a freshly pushed Match object from our database. It is processed in retrieveStreamData.
       this.singleMatchPair = this.matchStatService.retrieveStreamData(streamObj);
@@ -79,6 +81,8 @@ export class JuicyMatchComponent implements OnChanges, DoCheck {
 
   ngOnDestroy() {
     this.individualMatchesSub.unsubscribe();
+    this.streamSub.unsubscribe();
+    this.matchStatService.clear();
   }
   ngDoCheck(){
     // this.juicyMatches = this.juicyMHService.setJuicyMatches(this.allMatches);

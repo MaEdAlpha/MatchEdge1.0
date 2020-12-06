@@ -29,7 +29,6 @@ export class JuicyMatchHandlingService {
   listenToChangeStream(){
     this.matchesService.streamDataUpdate.subscribe( (x) => {
       console.log("HI in ChangeStream JM Services:" + x) ;
-
     });
   }
   setCloseMatchList(_allMatches)

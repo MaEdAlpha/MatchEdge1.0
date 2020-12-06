@@ -29,13 +29,14 @@ export class MatchStatsService {
 
   public singleMatchUpdated = new Subject<any>();
 
-  constructor(private ups: UserPropertiesService, private calcSettingsService: CalcSettingsService) { }
+  constructor(private ups: UserPropertiesService, private calcSettingsService: CalcSettingsService) {
+  }
 
 //The first HTTP GET you requested  fucks up all the variable names... either map...or figure shit out
 
 //used in juicy-match-model
 getMatchStats(match){
-    //this.allSingleMatches = [];
+    //reset list
     //for home matches
     this.stake = this.calcSettingsService.getPrefferedStake(match.BHome);
     this.backOdds = match.BHome;
@@ -136,6 +137,8 @@ getMatchStats(match){
 
   clear(){
     this.allSingleMatches = [];
+    this.singleAwayMatch = [];
+    this.singleHomeMatch = [];
   }
 
   //UGLY ASS CODE, need to fix this....

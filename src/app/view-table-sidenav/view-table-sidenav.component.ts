@@ -1,27 +1,42 @@
-import { Component, OnInit, ViewChild, AfterViewInit, ElementRef  } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit  } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
-import { FormControl } from '@angular/forms';
+import { FormControl, FormGroup, NgForm } from '@angular/forms';
 import { SidenavService } from './sidenav.service';
 import { MatSelect } from '@angular/material/select';
 import { MatOption } from '@angular/material/core/option';
+import { UserPropertiesService } from '../user-properties.service';
 
 interface LeagueGroup {
   country: string;
   leagues: string[];
 }
 
+interface TimeRange {
+  timeKey: string;
+  timeValue: string;
+}
+
 @Component({
   selector: 'app-view-table-sidenav',
   templateUrl: './view-table-sidenav.component.html',
-  styleUrls: ['./view-table-sidenav.component.css']
+  styleUrls: ['./view-table-sidenav.component.css'],
 })
 
 export class ViewTableSidenavComponent implements OnInit, AfterViewInit {
   @ViewChild('select') select: MatSelect;
   @ViewChild('sidenav') public sidenav: MatSidenav;
-
+  //sidnav modetype
   mode: string = "side";
-  leaguesControl = new FormControl();
+
+  //properties of league selection drop down
+  allSelected: boolean = true;
+  selectedTime: string;
+  viewTableForm: FormGroup;
+  userMinOdds:string;
+  userMaxOdds:string;
+  userEVfilter:string;
+
+  leaguesControl: FormControl;
 
        leagues: string[] = [
          'England Championship',
@@ -80,22 +95,47 @@ export class ViewTableSidenavComponent implements OnInit, AfterViewInit {
         }
       ];
 
-  allSelected: boolean = true;
-  selectedTime: string;
+      ranges: TimeRange[] = [
+        { timeKey: '0', timeValue: 'Today & Tomorrow' },
+        { timeKey: '1', timeValue: 'Today' },
+        { timeKey: '2', timeValue: 'Tomorrow' }
+      ];
 
-  constructor(private sidenavService: SidenavService) {
+  constructor(private sidenavService: SidenavService, private userPref: UserPropertiesService) {
 
   }
 
   ngOnInit(): void {
+    //TODO retrieve formData from userPreferences
+    //TODO call on UserPreferences Service to load form OnInit
+    var prefObject = this.userPref.getFormValues();
+    this.leagues = prefObject.leagueSelection;
+    this.selectedTime = prefObject.timeRange;
+    this.userMinOdds = prefObject.minOdds;
+    this.userMaxOdds = prefObject.maxOdds;
+    this.userEVfilter = prefObject.evFilterValue;
+
+    this.viewTableForm = new FormGroup({
+      'leagueSelection': new FormControl(this.leagues),
+      'timeRange': new FormControl(this.selectedTime),
+      'minOdds': new FormControl(this.userMinOdds),
+      'maxOdds': new FormControl(this.userMaxOdds),
+      'evFilterValue': new FormControl(this.userEVfilter),
+    });
   }
 
   ngAfterViewInit() {
     this.sidenavService.setSidenav(this.sidenav);
   }
 
-  onSubmit(form: ElementRef){
-    console.log(form);
+  onSubmit(){
+    //send this data to user preferences and other webservices for handling.
+
+    //emit this so services can hear and set to matchStats/juicymatch component.
+
+    //set in program to validate for juicy matches.
+    this.userPref.setFormValues(this.viewTableForm.value);
+    this.sidenavService.toggle();
   }
 
   toggleAllSelection(){
@@ -104,9 +144,6 @@ export class ViewTableSidenavComponent implements OnInit, AfterViewInit {
     } else {
       this.select.options.forEach((item: MatOption) => item.deselect());
     }
-
-    console.log(this.leaguesControl);
-
   }
 
   optionClick() {
@@ -117,5 +154,10 @@ export class ViewTableSidenavComponent implements OnInit, AfterViewInit {
       }
     });
     this.allSelected = newStatus;
+  }
+
+  getLeagueSelection(){
+    //TODO input service to call on userLeague Selection default.
+    return this.leagues;
   }
 }

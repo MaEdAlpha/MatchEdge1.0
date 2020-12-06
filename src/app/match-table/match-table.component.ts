@@ -1,10 +1,8 @@
-import {Component, OnDestroy, OnInit, ViewChild, Output, EventEmitter, Input , OnChanges, DoCheck, SimpleChanges} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild, Input , OnChanges, SimpleChanges, AfterViewInit} from '@angular/core';
 import { Subscription } from 'rxjs';
 import { MatTable } from '@angular/material/table';
-import { Match } from '../match/match.model';
 import { MatchesService } from '../match/matches.service';
 import {animate, state, style, transition, trigger} from '@angular/animations';
-import { interval } from 'rxjs';
 import { WebsocketService } from '../websocket.service';
 import { SidenavService } from '../view-table-sidenav/sidenav.service';
 
@@ -21,7 +19,7 @@ import { SidenavService } from '../view-table-sidenav/sidenav.service';
     ],
   })
 
-  export class MatchTableComponent implements OnInit, OnChanges, OnDestroy {
+  export class MatchTableComponent implements OnInit, OnChanges, OnDestroy, AfterViewInit {
 
     displayedColumns: string[] = ['AReturn','SMHome','BHome', 'OccH', 'Home',  'Details', 'Away', 'OccA' , 'BAway','SMAway', 'HReturn'];
     SecondcolumnsToDisplay: string[] = ['SMHome','BHome', 'BDraw', 'BAway', 'BTTSOdds', 'B25GOdds','SMAway',  'League', 'OccH', 'OccA'];
@@ -60,8 +58,7 @@ import { SidenavService } from '../view-table-sidenav/sidenav.service';
          this.matches = matchData;
         });
 
-        //Open Socket Connection
-        this.webSocketService.openWebSocket();
+
         //Subscribe to Event listener in matches Service for StreamChange data. Update this.matches.
         this.matchesService.streamDataUpdate
         .subscribe( (streamObj) => {
@@ -70,6 +67,12 @@ import { SidenavService } from '../view-table-sidenav/sidenav.service';
           var indexOfmatch = this.matches.findIndex( match => match.Home == streamObj.HomeTeamName && match.Away == streamObj.AwayTeamName);
           indexOfmatch != undefined && this.matches[indexOfmatch] ? this.updateMatch(this.matches[indexOfmatch], streamObj) : console.log("not found");
         });
+
+      }
+
+      ngAfterViewInit(){
+             //Open Socket Connection
+             this.webSocketService.openWebSocket();
       }
 
       ngOnDestroy(){
@@ -162,7 +165,6 @@ import { SidenavService } from '../view-table-sidenav/sidenav.service';
         match.BDraw = streamMatch.B365DrawOdds;
         match.OccH = streamMatch.OccurrenceHome;
         match.OccA = streamMatch.OccurrenceAway;
-
       }
     }
 
@@ -183,7 +185,6 @@ import { SidenavService } from '../view-table-sidenav/sidenav.service';
     ignoreStatus(status: boolean){
       status = !status;
       console.log(status);
-
     }
   }
 

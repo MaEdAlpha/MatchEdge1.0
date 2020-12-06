@@ -1,18 +1,28 @@
 import { Injectable, EventEmitter } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { CalcSettings } from './calc-settings/calc-settings.model';
 import { CalcSettingsService } from './calc-settings/calc-settings.service';
 import { TriggerOdds } from './match-notification-settings/trigger-odds.model';
 import { UserProperties } from './user-properties.model';
 
+interface ViewTablePreferences {
+  leagueSelection: string[],
+  timeRange: string,
+  minOdds: string,
+  maxOdds: string,
+  evFilterValue: string
+}
 @Injectable({
   providedIn: 'root'
 })
 export class UserPropertiesService {
-
+  //
   triggerOddsSelected = new EventEmitter<TriggerOdds[]>();
+  //for sending to JuicyTable Filter method
+  viewTablePrefSelected = new EventEmitter<any>();
 
   private smCommission:number = 2.05;
-
+  //TODO re-write to notifPref defaultTriggers in UserProperties Model
   private defaultOdds: TriggerOdds[] = [
     {start: 9.99, finish: 9.99 },
     {start: 9.99, finish: 9.99 },
@@ -29,6 +39,7 @@ export class UserPropertiesService {
     {start: 9.99, finish: 9.99}
   ];
 //NOTE, stake:100 with oddsLow:0 should be changed later. Development purposes
+//TODO re-write to calcPref in UserPropertiesModel
   private userStakes: CalcSettings[] = [{stake: 100, oddsLow: 0, oddsHigh:2.0}, {stake: 80, oddsLow: 2, oddsHigh: 3},{stake: 60, oddsLow: 3, oddsHigh: 4}, {stake: 50, oddsLow: 4, oddsHigh: 5}, {stake: 40, oddsLow: 5, oddsHigh: 6}, {stake: 20, oddsLow: 6, oddsHigh: 7}, {stake: 10, oddsLow: 7, oddsHigh: 10000}];
   private defaultStakes: CalcSettings[] = [{stake: 999, oddsLow: 1.5, oddsHigh:2.0}, {stake: 80, oddsLow: 2, oddsHigh: 3},{stake: 60, oddsLow: 3, oddsHigh: 4}, {stake: 50, oddsLow: 4, oddsHigh: 5}, {stake: 40, oddsLow: 5, oddsHigh: 6}, {stake: 20, oddsLow: 6, oddsHigh: 7}, {stake: 10, oddsLow: 7, oddsHigh: 10000}];
   private oddsRange: string[] =  ["1.5 - 2.0", "2.0 - 3.0", "3.0 - 4.0 ", "4.0 - 5.0", "5.0 - 6.0", "6.0 - 7.0", "    > 7.0 "];
@@ -49,10 +60,14 @@ export class UserPropertiesService {
     {start: 14, finish: 16}
   ];
 
+
+  //ViewTable User Preferences
+  private viewTablePrefs: ViewTablePreferences;
+
   constructor() { }
 
   getUserProperties() {
-    //http request to retrieve user properties from DB;
+    //http GET request to retrieve user properties from DB;
   }
 
   getCommission(){
@@ -92,5 +107,29 @@ export class UserPropertiesService {
   getUserStakePreferences():CalcSettings[]
   {
     return this.userStakes;
+  }
+
+  //View Table Settings
+
+  getFormValues(){
+    //Insert link btw GET request and property here.
+      this.viewTablePrefs = {
+      leagueSelection: ['Retrieved from UserPropertiesService'],
+      timeRange: 'Today',
+      minOdds: '2.1',
+      maxOdds: '4.5',
+      evFilterValue: '1.00'
+    };
+
+    return this.viewTablePrefs;
+  }
+
+  setFormValues(formObj: any){
+    formObj.leagueSelection.forEach(element => {
+        console.log(element);
+    });
+
+
+    //min-max|EVfilter|dateRange|leagues
   }
 }

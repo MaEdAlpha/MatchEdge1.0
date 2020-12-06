@@ -5,19 +5,30 @@ import { CalcSettings } from './calc-settings/calc-settings.model';
 export interface UserProperties
 {
   //for user login credentials
-  credentials: {
-    username: string,
-    password: string
-  },
+  // credentials: {
+  //   username: string,
+  //   password: string
+  // },
 
   //for calc-settings component
   calcPref:  {
-    userStakes: CalcSettings,
+    userStakes: CalcSettings[],
+    defaultStakes: CalcSettings[],
+    oddsRange: string[];
   },
 
   //for match-notification-settings components
   notifPref: {
     triggerOdds: TriggerOdds[],
     defaultTriggers: TriggerOdds[],
-  }
+  },
+
+  //for ViewTable Settings
+  viewTablePref: {
+    leagueSelection: string[];
+    timeRange: string;
+    minOdds: string;
+    maxOdds: string;
+    evFilterValue: string;
+  },
 }

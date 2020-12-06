@@ -9,28 +9,26 @@
               <h1>View Table Settings</h1>
               <br>
 
-
-
               <div class="vt-settings-container">
 
                 <h1> Select Leagues </h1>
-                  <form (ngSubmit)="onSubmit(f)" #f>
+                  <form (ngSubmit)="onSubmit()" [formGroup]="viewTableForm">
                     <mat-form-field appearance="fill">
-                      <mat-label>Leagues</mat-label>
+                      <mat-label>{{leagues}}</mat-label>
                         <mat-select
                           class="league-dropdown"
-                          [formControl]="leaguesControl"
+                          formControlName="leagueSelection"
                           #select
                           multiple>
                           <mat-select-trigger>
-                            {{leaguesControl.value ? leaguesControl.value[0] : ''}}
-                            <span *ngIf="leaguesControl.value?.length > 1" class="example-additional-selection">
-                              (+{{leaguesControl.value.length - 1}} {{leaguesControl.value?.length === 2 ? 'other' : 'others'}})
+                            {{viewTableForm.value.leagueSelection ? viewTableForm.value.leagueSelection[0] : ''}}
+                            <span *ngIf="viewTableForm.value.leagueSelection.length > 1" class="example-additional-selection">
+                              (+{{viewTableForm.value?.leagueSelection.length - 1}} {{viewTableForm.value?.leagueSelection.length === 2 ? 'other' : 'others'}})
                             </span>
                           </mat-select-trigger>
 
                           <div class="select-all">
-                            <mat-checkbox [(ngModel)]="allSelected"
+                            <mat-checkbox   [(ngModel)]="allSelected"
                                             [ngModelOptions]="{standalone: true}"
                                             (change)="toggleAllSelection()">All</mat-checkbox>
                           </div>
@@ -43,11 +41,11 @@
                       <br>
                       <h1 class="header">Select Time</h1>
                       <mat-form-field appearance="fill">
-                        <mat-label>Time Range</mat-label>
-                        <mat-select [(value)]="selectedTime">
-                          <mat-option value="all">Today & Tomorrow</mat-option>
-                          <mat-option value="first">Today</mat-option>
-                          <mat-option value="second">Tomorrow</mat-option>
+                        <mat-label> {{selectedTime}}</mat-label>
+                        <mat-select
+                          formControlName="timeRange"
+                          [value]="selectedTime">
+                          <mat-option *ngFor="let range of ranges" [value]="range"> {{range.timeValue}} </mat-option>
                         </mat-select>
                       </mat-form-field>
 
@@ -57,12 +55,11 @@
 
                       <div class="odds-container">
                         <mat-form-field appearance="fill">
-                          <mat-label>Min. Value</mat-label>
+                          <mat-label>{{userMinOdds}}</mat-label>
                           <input
-                            ngModel
-                            name="minOdd"
+                            formControlName="minOdds"
                             matInput
-                            placeholder="1.10">
+                            placeholder="{{userMinOdds}}">
                           <mat-hint>Minimum Odds</mat-hint>
                         </mat-form-field>
                       </div>
@@ -70,12 +67,11 @@
                         <h2 class="to-odds"> TO </h2>
                       <div class="odds-container">
                         <mat-form-field appearance="fill">
-                          <mat-label>Max value</mat-label>
+                          <mat-label>{{userMaxOdds}}</mat-label>
                           <input
-                            ngModel
-                            name="maxOdd"
+                            formControlName="maxOdds"
                             matInput
-                            placeholder="1.10">
+                            placeholder= "{{ userMaxOdds }}">
                           <mat-hint>Maximum Odds</mat-hint>
                         </mat-form-field>
                       </div>
@@ -85,12 +81,11 @@
                       <h1 class="header">EV Filter</h1>
 
                       <mat-form-field appearance="fill">
-                        <mat-label>Enter EV value</mat-label>
+                        <mat-label>{{userEVfilter}}</mat-label>
                         <input
-                          ngModel
-                          name="evFilterValue"
+                          formControlName="evFilterValue"
                           matInput
-                          placeholder="1.10">
+                          placeholder= "{{ userEVfilter }}">
                         <mat-hint>Minimum EV value to filter </mat-hint>
                       </mat-form-field>
                       <div class="btn-wrapper">
