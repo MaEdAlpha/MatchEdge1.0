@@ -267,7 +267,7 @@ span.row3-value {
 }
 
 .ticker3box {
-  background: blue;
+  background: green;
   color: white;
   padding: 6px;
   padding-left: 10px;
@@ -276,7 +276,8 @@ span.row3-value {
 }
 
 .ticker4box {
-  background: green;
+
+  background: blue;
   color: white;
   padding: 6px;
   padding-left: 10px;
@@ -302,11 +303,12 @@ span.row3-value {
   animation: backBlinkBackground 4s infinite;
 }
 @keyframes backBlinkBackground{
-  0%		{ background-color: #649ce4; color: #052044;}
-  25%		{ background-color: #4283d8; color: #426897;}
-  50%		{ background-color: #022e68; color: white; }
-  75%		{ background-color: #4283d8; color: #426897; }
-  100%	{ background-color: #649ce4; color: #052044; }
+  0%		{ background-color: #64c58d; color: #052044;}
+  25%		{ background-color: #1b8648; color: #426897;}
+  50%		{ background-color: #034b21; color: white; }
+  75%		{ background-color: #1b8648; color: #426897; }
+  100%	{ background-color: #64c58d; color: #052044; }
+
 }
 
 .flickDirectiveLay {
@@ -318,11 +320,11 @@ span.row3-value {
   animation: layBackground 4s infinite;
 }
 @keyframes layBackground{
-  0%		{ background-color: #64c58d; color: #052044;}
-  25%		{ background-color: #1b8648; color: #426897;}
-  50%		{ background-color: #034b21; color: white; }
-  75%		{ background-color: #1b8648; color: #426897; }
-  100%	{ background-color: #64c58d; color: #052044; }
+  0%		{ background-color: #649ce4; color: #052044;}
+  25%		{ background-color: #4283d8; color: #426897;}
+  50%		{ background-color: #022e68; color: white; }
+  75%		{ background-color: #4283d8; color: #426897; }
+  100%	{ background-color: #649ce4; color: #052044; }
 }
 
 .flickDirectiveEV {
