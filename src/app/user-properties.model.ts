@@ -32,3 +32,11 @@ export interface UserProperties
     evFilterValue: string;
   },
 }
+
+export interface ViewTablePreferences {
+  leagueSelection: string[],
+  timeRange: string,
+  minOdds: string,
+  maxOdds: string,
+  evFilterValue: string
+}

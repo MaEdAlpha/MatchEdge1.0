@@ -62,7 +62,7 @@ import { SidenavService } from '../view-table-sidenav/sidenav.service';
         //Subscribe to Event listener in matches Service for StreamChange data. Update this.matches.
         this.matchesService.streamDataUpdate
         .subscribe( (streamObj) => {
-          console.log("recieved in MT comp streamUpdate subscrb");
+          console.log("recieved in MT comp streamUpdate subscribe");
 
           var indexOfmatch = this.matches.findIndex( match => match.Home == streamObj.HomeTeamName && match.Away == streamObj.AwayTeamName);
           indexOfmatch != undefined && this.matches[indexOfmatch] ? this.updateMatch(this.matches[indexOfmatch], streamObj) : console.log("not found");

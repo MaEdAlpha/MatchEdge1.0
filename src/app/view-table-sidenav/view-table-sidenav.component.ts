@@ -1,10 +1,11 @@
-import { Component, OnInit, ViewChild, AfterViewInit  } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit, OnChanges, SimpleChanges  } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { FormControl, FormGroup, NgForm } from '@angular/forms';
 import { SidenavService } from './sidenav.service';
 import { MatSelect } from '@angular/material/select';
 import { MatOption } from '@angular/material/core/option';
 import { UserPropertiesService } from '../user-properties.service';
+import { UserProperties, ViewTablePreferences } from '../user-properties.model';
 
 interface LeagueGroup {
   country: string;
@@ -22,7 +23,7 @@ interface TimeRange {
   styleUrls: ['./view-table-sidenav.component.css'],
 })
 
-export class ViewTableSidenavComponent implements OnInit, AfterViewInit {
+export class ViewTableSidenavComponent implements OnChanges, OnInit, AfterViewInit {
   @ViewChild('select') select: MatSelect;
   @ViewChild('sidenav') public sidenav: MatSidenav;
   //sidnav modetype
@@ -32,9 +33,8 @@ export class ViewTableSidenavComponent implements OnInit, AfterViewInit {
   allSelected: boolean = true;
   selectedTime: string;
   viewTableForm: FormGroup;
-  userMinOdds:string;
-  userMaxOdds:string;
-  userEVfilter:string;
+
+  viewTablePref: ViewTablePreferences;
 
   leaguesControl: FormControl;
 
@@ -105,23 +105,38 @@ export class ViewTableSidenavComponent implements OnInit, AfterViewInit {
 
   }
 
+  ngOnChanges(changes: SimpleChanges){
+    if(changes.viewTablePref) {
+      this.viewTablePref = this.userPref.getFormValues();
+      //console.log(this.viewTablePref);
+
+    }
+  }
+
   ngOnInit(): void {
     //TODO retrieve formData from userPreferences
     //TODO call on UserPreferences Service to load form OnInit
-    var prefObject = this.userPref.getFormValues();
-    this.leagues = prefObject.leagueSelection;
-    this.selectedTime = prefObject.timeRange;
-    this.userMinOdds = prefObject.minOdds;
-    this.userMaxOdds = prefObject.maxOdds;
-    this.userEVfilter = prefObject.evFilterValue;
-
+    // let prefObject: ViewTablePreferences = this.userPref.getFormValues();
+    // this.viewTablePref.leagueSelection = prefObject.leagueSelection;
+    // this.viewTablePref.timeRange = prefObject.timeRange;
+    // this.viewTablePref.minOdds = prefObject.minOdds;
+    // this.viewTablePref.maxOdds = prefObject.maxOdds;
+    // this.viewTablePref.evFilterValue = prefObject.evFilterValue;
+    this.viewTablePref = this.userPref.getFormValues();
     this.viewTableForm = new FormGroup({
-      'leagueSelection': new FormControl(this.leagues),
-      'timeRange': new FormControl(this.selectedTime),
-      'minOdds': new FormControl(this.userMinOdds),
-      'maxOdds': new FormControl(this.userMaxOdds),
-      'evFilterValue': new FormControl(this.userEVfilter),
+      'leagueSelection': new FormControl(this.viewTablePref.leagueSelection),
+      'timeRange': new FormControl(this.viewTablePref.timeRange),
+      'minOdds': new FormControl(this.viewTablePref.minOdds),
+      'maxOdds': new FormControl(this.viewTablePref.maxOdds),
+      'evFilterValue': new FormControl(this.viewTablePref.evFilterValue),
     });
+
+    this.userPref.viewTablePrefSelected
+    .subscribe( (userPreferences) => {
+      this.viewTablePref = userPreferences
+    }
+
+    );
   }
 
   ngAfterViewInit() {
@@ -159,5 +174,9 @@ export class ViewTableSidenavComponent implements OnInit, AfterViewInit {
   getLeagueSelection(){
     //TODO input service to call on userLeague Selection default.
     return this.leagues;
+  }
+
+  setUserPreference(){
+
   }
 }

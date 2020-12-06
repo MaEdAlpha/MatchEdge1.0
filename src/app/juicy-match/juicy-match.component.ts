@@ -73,10 +73,7 @@ export class JuicyMatchComponent implements OnChanges, DoCheck {
         var indexOfmatch = this.allIndvMatches.findIndex( indvMatch => indvMatch.Selection == match.Selection );
         indexOfmatch != undefined && this.allIndvMatches[indexOfmatch] ? this.juicyMHService.updateSingleMatch(this.allIndvMatches[indexOfmatch], match, indexOfmatch) : console.log("did not find singleMatch in indvMatch Array");
       } );
-
-
     });
-    //subscribe to emitter of streamChange Data. Use this fkor your single Matches parse.
   }
 
   ngOnDestroy() {
@@ -87,27 +84,8 @@ export class JuicyMatchComponent implements OnChanges, DoCheck {
   ngDoCheck(){
     // this.juicyMatches = this.juicyMHService.setJuicyMatches(this.allMatches);
   }
-
-  //trying to handle code in j-m-handlingService section.
-  // updateSingleMatch(mainMatch, streamChangeMatch){
   //   //TODO possibly hold onto old bet365 updates here? create a new field that writes old data.
   //   //TODO Also, timestamp showing last update.
-  //   mainMatch.Stake = streamChangeMatch.Stake;
-  //   mainMatch.LayStake = streamChangeMatch.LayStake;
-  //   mainMatch.BackOdds = streamChangeMatch.BackOdds;
-  //   mainMatch.LayOdds = streamChangeMatch.LayOdds;
-  //   mainMatch.FTAround = streamChangeMatch.FTAround;
-  //   mainMatch.FTAProfit = streamChangeMatch.FTAProfit;
-  //   mainMatch.EVTotal = streamChangeMatch.EVTotal;
-  //   mainMatch.EVthisBet = streamChangeMatch.EVthisBet;
-  //   mainMatch.ReturnRating = streamChangeMatch.ReturnRating;
-  //   mainMatch.MatchRating = streamChangeMatch.MatchRating;
-  //   mainMatch.Liability = streamChangeMatch.Liability;
-  //   mainMatch.QL = streamChangeMatch.QL;
-  //   mainMatch.ROI = streamChangeMatch.ROI;
-
-  //   //TODO Add element flicker
-  // }
 
   hide(){
     this.isDisplayHidden = !this.isDisplayHidden;

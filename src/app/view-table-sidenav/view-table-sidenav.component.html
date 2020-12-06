@@ -41,11 +41,11 @@
                       <br>
                       <h1 class="header">Select Time</h1>
                       <mat-form-field appearance="fill">
-                        <mat-label> {{selectedTime}}</mat-label>
+                        <mat-label> {{viewTablePref.timeRange}}</mat-label>
                         <mat-select
                           formControlName="timeRange"
                           [value]="selectedTime">
-                          <mat-option *ngFor="let range of ranges" [value]="range"> {{range.timeValue}} </mat-option>
+                          <mat-option *ngFor="let range of ranges" [value]="range.timeValue"> {{range.timeValue}} </mat-option>
                         </mat-select>
                       </mat-form-field>
 
@@ -55,24 +55,24 @@
 
                       <div class="odds-container">
                         <mat-form-field appearance="fill">
-                          <mat-label>{{userMinOdds}}</mat-label>
+                          <mat-label>Min. Odds</mat-label>
                           <input
                             formControlName="minOdds"
                             matInput
-                            placeholder="{{userMinOdds}}">
-                          <mat-hint>Minimum Odds</mat-hint>
+                            placeholder="{{viewTablePref.minOdds}}">
+                            <mat-hint>Currently saved: {{viewTablePref.minOdds}}</mat-hint>
                         </mat-form-field>
                       </div>
 
                         <h2 class="to-odds"> TO </h2>
                       <div class="odds-container">
                         <mat-form-field appearance="fill">
-                          <mat-label>{{userMaxOdds}}</mat-label>
+                          <mat-label>Max Odds</mat-label>
                           <input
                             formControlName="maxOdds"
                             matInput
-                            placeholder= "{{ userMaxOdds }}">
-                          <mat-hint>Maximum Odds</mat-hint>
+                            placeholder= "{{viewTablePref.maxOdds}}">
+                            <mat-hint>Currently saved: {{viewTablePref.maxOdds}}</mat-hint>
                         </mat-form-field>
                       </div>
 
@@ -81,12 +81,12 @@
                       <h1 class="header">EV Filter</h1>
 
                       <mat-form-field appearance="fill">
-                        <mat-label>{{userEVfilter}}</mat-label>
+                        <mat-label>Estimated Value</mat-label>
                         <input
                           formControlName="evFilterValue"
                           matInput
-                          placeholder= "{{ userEVfilter }}">
-                        <mat-hint>Minimum EV value to filter </mat-hint>
+                          placeholder= "{{viewTablePref.evFilterValue }}">
+                          <mat-hint>Currently saved: {{viewTablePref.evFilterValue }}</mat-hint>
                       </mat-form-field>
                       <div class="btn-wrapper">
                         <button mat-raised-button class="save-preference">Save Preferences</button>

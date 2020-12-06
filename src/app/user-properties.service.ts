@@ -3,21 +3,15 @@ import { FormGroup } from '@angular/forms';
 import { CalcSettings } from './calc-settings/calc-settings.model';
 import { CalcSettingsService } from './calc-settings/calc-settings.service';
 import { TriggerOdds } from './match-notification-settings/trigger-odds.model';
-import { UserProperties } from './user-properties.model';
+import { UserProperties, ViewTablePreferences } from './user-properties.model';
 
-interface ViewTablePreferences {
-  leagueSelection: string[],
-  timeRange: string,
-  minOdds: string,
-  maxOdds: string,
-  evFilterValue: string
-}
 @Injectable({
   providedIn: 'root'
 })
 export class UserPropertiesService {
   //
   triggerOddsSelected = new EventEmitter<TriggerOdds[]>();
+
   //for sending to JuicyTable Filter method
   viewTablePrefSelected = new EventEmitter<any>();
 
@@ -62,7 +56,13 @@ export class UserPropertiesService {
 
 
   //ViewTable User Preferences
-  private viewTablePrefs: ViewTablePreferences;
+  private viewTablePrefs: ViewTablePreferences = {
+    leagueSelection: ['Retrieved from UserPropertiesService'],
+    timeRange: 'Today',
+    minOdds: '2.1',
+    maxOdds: '4.5',
+    evFilterValue: '1.00'
+  };
 
   constructor() { }
 
@@ -113,23 +113,22 @@ export class UserPropertiesService {
 
   getFormValues(){
     //Insert link btw GET request and property here.
-      this.viewTablePrefs = {
-      leagueSelection: ['Retrieved from UserPropertiesService'],
-      timeRange: 'Today',
-      minOdds: '2.1',
-      maxOdds: '4.5',
-      evFilterValue: '1.00'
-    };
-
     return this.viewTablePrefs;
   }
 
   setFormValues(formObj: any){
-    formObj.leagueSelection.forEach(element => {
-        console.log(element);
-    });
 
-
+    //console.log(formObj.timeRange.timeValue);
+    this.viewTablePrefs.leagueSelection = formObj.leagueSelection;
+    this.viewTablePrefs = {
+      leagueSelection: formObj.leagueSelection,
+      timeRange: formObj.timeRange,
+      minOdds: formObj.minOdds,
+      maxOdds: formObj.maxOdds,
+      evFilterValue: formObj.evFilterValue
+    }
+    //console.log(this.viewTablePrefs);
+    this.viewTablePrefSelected.emit(this.viewTablePrefs);
     //min-max|EVfilter|dateRange|leagues
   }
 }
