@@ -17,7 +17,7 @@ table, .no-content {
 
 .table-container {
   margin-bottom: 130px;
-  overflow: hidden;
+  /* overflow: hidden; */
   scroll-behavior: smooth;
   position: relative;
   width: 100%;

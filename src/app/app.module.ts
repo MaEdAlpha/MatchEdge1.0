@@ -52,6 +52,7 @@ import { WatchAwayDirective } from './directives/watch-away.directive';
 import { BetHomeDirective } from './directives/bet-home.directive';
 import { BetAwayDirective } from './directives/bet-away.directive';
 import { IgnoreIconDirective } from './directives/ignore-icon.directive';
+import { TopLayerFiltersComponent } from './top-layer-filters/top-layer-filters.component';
 
 
 @NgModule({
@@ -76,6 +77,7 @@ import { IgnoreIconDirective } from './directives/ignore-icon.directive';
     BetAwayDirective,
     IgnoreIconDirective,
     ViewTableSidenavComponent,
+    TopLayerFiltersComponent,
 
   ],
   imports: [

@@ -92,7 +92,7 @@ wss.on('connection', function connection(ws) {
     });
 
     process.on('uncaughtException', function (err) {
-      console.error((new Dat).toUTCString() + ' uncaughtException:' , err.message)
+      console.error((new Dat) + ' uncaughtException:' , err.message)
       console.error(err.stack)
     })
 });

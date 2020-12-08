@@ -1,5 +1,7 @@
 table {
-  width: 100%;
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .mat-column-Details {
@@ -15,29 +17,29 @@ table {
   color: white;
   text-align: center;
 }
-
-.view-table-cont {
+/* code not necessary */
+/* .view-table-cont {
+  display: inline;
   height: max-content;
   width: 70%;
   margin-left: auto;
   margin-right:auto;
-  margin-bottom: 200px;
-}
+} */
 
+.main-header {
+  display: inline-block;
+  width: 100%;
+}
 .footer-container {
   margin-bottom: 100px;
   color:white;
   text-align: center;
 }
 
- .view-table-cont {
-  border: white 2px solid;
-}
 
 .hac {
   float:left;
   width: 49.6%;
-  border: white 0.5px solid;
 }
 /* APPEND TO ELRef when clicked. Pass boolean into Directive to add these classes*/
 .hmStatus{

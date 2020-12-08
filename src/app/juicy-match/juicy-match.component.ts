@@ -8,6 +8,7 @@ import { JuicyMatch } from './juicy-match.model';
 import { Subscription } from 'rxjs';
 import { MatchStatsService } from '../match-stats.service';
 import { MatchesService } from '../match/matches.service';
+import { SidenavService } from '../view-table-sidenav/sidenav.service';
 
 
 @Component({
@@ -26,7 +27,8 @@ export class JuicyMatchComponent implements OnChanges, DoCheck {
   //Table properties
   @Input() allMatches: any;
   juicyMatches: JuicyMatch[];
-  matchesToDisplay:boolean=true;
+  noMatchesToDisplay:boolean=true;
+  //Used in DOM to select object view container for expansion
   expandedElement: JuicyMatch[] | null;
   displayedColumns: string[] = ['EventStart', 'Fixture', 'Selection',  'BackOdds', 'LayOdds' , 'EVthisBet'];
   SecondcolumnsToDisplay: string[] = ['Logo', 'FTAround', 'ReturnRating', 'MatchRating', 'BackOdds', 'LayOdds', 'Liability', 'FTAProfit', 'QL', 'ROI', 'EVthisBet'];
@@ -44,7 +46,7 @@ export class JuicyMatchComponent implements OnChanges, DoCheck {
   singleMatchPair: any;
   testBool:boolean;
 
-  constructor(private juicyMHService: JuicyMatchHandlingService, private matchStatService: MatchStatsService, private matchesService: MatchesService ) { }
+  constructor(private sidenav: SidenavService, private juicyMHService: JuicyMatchHandlingService, private matchStatService: MatchStatsService, private matchesService: MatchesService ) { }
 
   ngOnChanges(changes: SimpleChanges)
   {
@@ -52,7 +54,7 @@ export class JuicyMatchComponent implements OnChanges, DoCheck {
       //this.juicyMatches = this.juicyMHService.setJuicyMatches(this.allMatches);
       this.allIndvMatches = this.juicyMHService.getSingleMatches(this.allMatches);
       console.log("JM Comp: SimpleChanges");
-      this.allIndvMatches.length === 0 ? this.matchesToDisplay=true : this.matchesToDisplay=false;
+      this.allIndvMatches.length === 0 ? this.noMatchesToDisplay = true : this.noMatchesToDisplay = false;
     }
   }
 
@@ -90,6 +92,11 @@ export class JuicyMatchComponent implements OnChanges, DoCheck {
   hide(){
     this.isDisplayHidden = !this.isDisplayHidden;
   }
+
+  toggleSideNav(){
+    this.sidenav.toggle();
+  }
+
 
   resetMatchUpdated(index:number){
     //this.allIndvMatches[index].isUpdated=false;

@@ -4,7 +4,8 @@ import { MatTable } from '@angular/material/table';
 import { MatchesService } from '../match/matches.service';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import { WebsocketService } from '../websocket.service';
-import { SidenavService } from '../view-table-sidenav/sidenav.service';
+
+
 
   @Component({
     selector: 'app-match-table',
@@ -32,8 +33,10 @@ import { SidenavService } from '../view-table-sidenav/sidenav.service';
     matchWatched: string[] = [];
     indexPositions: number[];
     displayHidden: boolean = true;
+    isTableHidden: boolean = false;
 
     isNotInList: boolean = false;
+
 
     @ViewChild(MatTable) table: MatTable<any>;
 
@@ -41,10 +44,10 @@ import { SidenavService } from '../view-table-sidenav/sidenav.service';
     private matchesSub: Subscription;
 
 
-    constructor(private sidenav: SidenavService, private matchesService: MatchesService, private webSocketService: WebsocketService ) { } //creates an instance of matchesService. Need to add this in app.module.ts providers:[]
+    constructor(private matchesService: MatchesService, private webSocketService: WebsocketService ) { } //creates an instance of matchesService. Need to add this in app.module.ts providers:[]
 
       ngOnChanges(changes: SimpleChanges){
-        if(changes.matches && changes.matches.currentValue) {
+        if(changes.isTableHidden && changes.isTableHidden.currentValue) {
 
         }
       }
@@ -80,16 +83,12 @@ import { SidenavService } from '../view-table-sidenav/sidenav.service';
        this.webSocketService.closeWebSocket();
       }
 
-      initWatchButtons(count: number){
-        for(var i=0; i<count; i++)
-        {
-          this.matchWatched.push('false');
-        }
+      setTableHidden(valueEmitted: boolean){
+        this.isTableHidden = valueEmitted;
+        console.log("Registered");
+
       }
 
-      toggleSideNav(){
-        this.sidenav.toggle();
-      }
 
       watchForMatchUpdates() {
        this.matchStream.forEach(streamMatch => {
@@ -185,6 +184,10 @@ import { SidenavService } from '../view-table-sidenav/sidenav.service';
     ignoreStatus(status: boolean){
       status = !status;
       console.log(status);
+    }
+
+    dateSelection(){
+
     }
   }
 
