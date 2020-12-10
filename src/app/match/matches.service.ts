@@ -1,8 +1,9 @@
 import { HttpClient } from '@angular/common/http';
-import {Match} from "./match.model";
+import { Match } from "./match.model";
 import { Observable, Subject } from "rxjs";
 import { map } from 'rxjs/operators'
 import { Injectable, EventEmitter } from '@angular/core';
+
 
 
 @Injectable({ providedIn: 'root'})
@@ -17,18 +18,17 @@ export class MatchesService {
   public matchesUpdated = new Subject<any>();
 
   constructor(private http: HttpClient) {}
-
+  //*****Poke around on return value get it to work as an observable?
   getMatches() {
 
     this.http
-      .get<{body: any }> (
+      .get<{body: any[]}> (
         "http://localhost:3000/api/matches"
       )
       .pipe(map( (matchData) => {
 
         return matchData.body.map( match => {
           return {
-            id: match.ObjectId,
             HReturn: 202,
             Home: match.HomeTeamName,
             Away: match.AwayTeamName,
@@ -58,7 +58,9 @@ export class MatchesService {
         this.matchesUpdated.next(this.matches);
       });
   }
-  getMatchUpdateListener(): Observable<Match> {
+  getMatchUpdateListener(): Observable<any[]> {
+    console.log("in Update Listener function: " + this.matchesUpdated);
+
     return this.matchesUpdated.asObservable();
   }
 

@@ -36,6 +36,7 @@ import { HeaderComponent } from './header/header.component';
 import { JuicyMatchComponent } from './juicy-match/juicy-match.component';
 import { LoginComponent } from './login/login.component';
 import { MatchComponent } from './match/match.component';
+import { MatExpansionModule } from '@angular/material/expansion';
 import { MatchNotificationSettingsComponent } from './match-notification-settings/match-notification-settings.component';
 import { MatchTableComponent } from './match-table/match-table.component';
 import { SettingsComponent } from './user-settings/settings.component';
@@ -90,6 +91,7 @@ import { TopLayerFiltersComponent } from './top-layer-filters/top-layer-filters.
     MatButtonModule,
     MatCheckboxModule,
     MatFormFieldModule,
+    MatExpansionModule,
     MatIconModule,
     MatInputModule,
     MatTableModule,

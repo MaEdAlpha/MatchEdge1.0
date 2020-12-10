@@ -14,7 +14,7 @@ table {
   padding-left: 10px;
 }
 .lge-title-cont> h1, .home-away-cont> h2 {
-  color: white;
+  color: black;
   text-align: center;
 }
 /* code not necessary */
@@ -104,4 +104,8 @@ app-view-table-sidenav {
 
 .setting-btn {
   color: white;
+}
+
+.mat-form-field + .mat-form-field {
+  margin-left: 8px;
 }

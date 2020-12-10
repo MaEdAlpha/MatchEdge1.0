@@ -12,128 +12,30 @@
       </div>
 
       <!-- View Table -->
-      <table mat-table [dataSource] ="matches">
+      <mat-table mat-table [dataSource] ="dataSource">
 
-        <ng-container matColumnDef="AReturn">
-          <th mat-header-cell *matHeaderCellDef>Status</th>>
-          <td mat-cell *matCellDef="let match"
-          class='dirHStatus'
-          appWatchHome [watchStatus]="match.HStatus.watch">
-          <button mat-icon-button
-          (click)="match.HStatus.watch=!match.HStatus.watch"
-          id="hStatusWatch">
-          <mat-icon>remove_red_eye</mat-icon></button>
+        <ng-container *ngFor="let column of columns" matColumnDef={{column.field}}>
+          <mat-header-cell *matHeaderCellDef> {{column.field}}</mat-header-cell>
+          <mat-cell *matCellDef="let row">{{row[column.field]}}</mat-cell>
+        </ng-container>
 
-          <button mat-icon-button
-          (click)="match.HStatus.bet=!match.HStatus.bet"
-          appBetHome [hBetStatus]="match.HStatus.bet"
-          id="hStatusMoney">
-          <mat-icon>attach_money</mat-icon></button>
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
 
-          <button mat-icon-button
-          (click)="match.HStatus.ignore=!match.HStatus.ignore"
-          appIgnoreIcon
-          [ignoreStatus]="match.HStatus.ignore"
-          [teamSelection]="match.Home">
-          <mat-icon>block</mat-icon></button>
-        </td>
-      </ng-container>
+        <ng-container matColumnDef="groupHeader">
+          <mat-cell colspan="10" *matCellDef="let group">
+            <strong>{{group[groupByColumns[0]]}} ({{group.totalCounts}})</strong>
+          </mat-cell>
+        </ng-container>
 
+        <mat-row *matRowDef="let row; columns: ['groupHeader']; when: isGroup;" (click)="groupHeaderClick(row)">Test</mat-row>
 
-      <ng-container matColumnDef="BHome">
-        <th mat-header-cell *matHeaderCellDef>Back Odds</th>>
-        <td mat-cell *matCellDef="let match"
-        appWatchHome [watchStatus]="match.HStatus.watch"> {{match.BHome}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="SMHome">
-        <th mat-header-cell *matHeaderCellDef>Lay Odds</th>>
-        <td mat-cell *matCellDef="let match"
-        appWatchHome [watchStatus]="match.HStatus.watch"> {{match.SMHome}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="OccH">
-        <th mat-header-cell *matHeaderCellDef>FTA</th>>
-        <td mat-cell *matCellDef="let match"
-        appWatchHome [watchStatus]="match.HStatus.watch"> {{match.OccH}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="Home">
-        <th mat-header-cell *matHeaderCellDef></th>>
-        <td mat-cell *matCellDef="let match"
-        class='dirHSelection'
-        appWatchHome [watchStatus]="match.HStatus.watch" [homeTeam]="match.Home"> {{match.Home}} </td>
-      </ng-container>
-
-
-
-
-
-      <ng-container matColumnDef="Details">
-        <th mat-header-cell *matHeaderCellDef></th>>
-        <td mat-cell *matCellDef="let match"> <span id="mDate"> {{match.MatchDate}} </span> <span id="mTime">{{match.MatchTime}}</span>  </td>
-      </ng-container>
-
-
-              <ng-container matColumnDef="Away">
-                <th mat-header-cell *matHeaderCellDef></th>>
-                <td mat-cell *matCellDef="let match"
-                class="dirAwSelection"
-                appWatchAway [awayWatchStatus]="match.AStatus.watch" [awayTeam]="match.Away"> {{match.Away}} </td>
-              </ng-container>
-
-              <ng-container matColumnDef="OccA">
-                <th mat-header-cell *matHeaderCellDef>FTA</th>>
-                <td mat-cell *matCellDef="let match"
-                appWatchAway [awayWatchStatus]="match.AStatus.watch"> {{match.OccA}} </td>
-              </ng-container>
-
-              <ng-container matColumnDef="BAway">
-                <th mat-header-cell *matHeaderCellDef>Back Odds</th>>
-                <td mat-cell *matCellDef="let match"
-                appWatchAway [awayWatchStatus]="match.AStatus.watch"> {{match.BAway}} </td>
-              </ng-container>
-
-              <ng-container matColumnDef="SMAway">
-                <th mat-header-cell *matHeaderCellDef>Lay Odds</th>>
-                <td mat-cell *matCellDef="let match"
-                appWatchAway [awayWatchStatus]="match.AStatus.watch"> {{match.SMAway}} </td>
-              </ng-container>
-
-              <ng-container matColumnDef="HReturn">
-                <th mat-header-cell *matHeaderCellDef>Status</th>>
-                <td mat-cell *matCellDef="let match"
-                class="dirAwStatus"
-                appWatchAway
-                [awayWatchStatus]="match.AStatus.watch">
-                <button mat-icon-button
-                (click)="match.AStatus.ignore=!match.AStatus.ignore"
-                appIgnoreIcon
-                [ignoreStatus]="match.AStatus.ignore"
-                [teamSelection]="match.Away">
-                <mat-icon>block</mat-icon></button>
-
-                <button mat-icon-button
-                (click)="match.AStatus.bet=!match.AStatus.bet"
-                appBetAway [aBetStatus]="match.AStatus.bet"
-                id="aStatusMoney">
-                <mat-icon>attach_money</mat-icon></button>
-
-                <button mat-icon-button
-                (click)="match.AStatus.watch = !match.AStatus.watch"
-                id="aStatusWatch">
-                <mat-icon>remove_red_eye</mat-icon></button>
-
-              </td>
-            </ng-container>
-
-            <tr mat-header-row *matHeaderRowDef= "displayedColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-
-          </table>
+      </mat-table>
     </div>
       <hr>
     <app-juicy-match [allMatches] = "matches"></app-juicy-match>
+
+
     <hr id="footer-hrz">
     <div class="footer-container">
       <p>Fill footer info here</p>
