@@ -9,7 +9,6 @@ import { Match } from '../match/match.model';
   export class Group {
     level = 0;
     expanded = false;
-    isActive = false;
     totalCounts = 0;
   }
 
@@ -49,7 +48,6 @@ import { Match } from '../match/match.model';
     allData: Match[];
     _allGroup: any[];
     columns: any[];
-    masterList: any[] = [];
 
     expandedCar: any[] = [];
     expandedSubCar: any[] = [];
@@ -88,8 +86,8 @@ import { Match } from '../match/match.model';
             this.allData = matchData;
             //console.log(this.allData);
 
-            //assign groupList to matDataSource. Should have both Group & matches, organized alphabetically
-            this.dataSource.data = this.getGroupListInit(this.allData, 0,this.groupByColumns);
+            //assign groupList to matDataSource
+            this.dataSource.data = this.getGroupList(this.allData, 0,this.groupByColumns);
         });
 
         //Subscribe to Event listener in matches Service for StreamChange data. Update this.matches.
@@ -111,64 +109,29 @@ import { Match } from '../match/match.model';
        this.matchesSub.unsubscribe();
        this.webSocketService.closeWebSocket();
       }
-
-      modifiedGroupList(data: any[], groupList: any[]) : any[]{
-        groupList.forEach( groupObj => {
-
-          if(!this.masterList.includes(groupObj)){
-            this.masterList.push(groupObj);
-          }
-
-          if(groupObj.expanded == true && !groupObj.isActive)
-          {
-            var groupIndex = this.masterList.indexOf(groupObj);
-            var matchPosition = groupIndex + 1;
-
-            data.forEach(matchObj => {
-              if(matchObj.League == groupObj.League)
-              {
-                var index = matchPosition;
-                this.masterList.splice(index, 0, matchObj);
-                matchPosition ++;
-              }
-            });
-            //set to active to avoid excessive iterations. This will be set back to false, when expanded = false.
-            groupObj.isActive = true;
-          }
-
-          if (groupObj.expanded == false && groupObj.isActive){
-            data.forEach( match => {
-              if(match.League == groupObj.League){
-                var position = this.masterList.indexOf(match);
-                this.masterList.splice(position, 1);
-              }
-            });
-            groupObj.isActive = false;
-          }
-        })
-        return this.masterList;
-      }
-
       groupHeaderClick(row) {
         //if row is not expanded, set dataSource to all just the groupLists
-        //console.log(row);
-        //upon detection of an open league, set the group property to false, and modify groupList to not include matches == row.league
+        console.log(row);
+
         if (row.expanded) {
           row.expanded = false;
-          //TODO this functionality needs to remove all selections relative to row.league from this.dataSource.data.
-          this.dataSource.data = this.modifiedGroupList(
+          //defaults back to just the groups list with no individual matches being displayed.
+          this.dataSource.data = this.getGroupList(
             this.allData,
-            this._allGroup
+            0,
+            this.groupByColumns
           );
 
+          //you want to remove all matches with row.league from dataSource.data.
         } else {
-          //TODO set this group to expanded == true. Set the dataSource via addgroupsNew() function.
+          //set this group to expanded == true. Set the dataSource via addgroupsNew() function.
           row.expanded = true;
-
-          //need to find all items relative to this row.league objectand add it to this.dataSource.data.
-          this.dataSource.data = this.modifiedGroupList(
+          this.expandedCar = row;
+          this.dataSource.data = this.addGroupsNew(
+            this._allGroup,
             this.allData,
-            this._allGroup
+            this.groupByColumns,
+            row
           );
         }
         //console.log("Data Source: ");
@@ -182,8 +145,8 @@ import { Match } from '../match/match.model';
         console.log(this._allGroup);
       }
 
-      //What populates View table initially. It returns an array of objects of Group class.
-      getGroupListInit(data: any[], level: number, groupByColumns: string[]): any[]{
+      //originally, returns just a list of groups.
+      getGroupList(data: any[], level: number, groupByColumns: string[]): any[]{
         //create a group object for each league
         let groups = this.uniqueBy(
           data.map(row => {
@@ -197,7 +160,6 @@ import { Match } from '../match/match.model';
             //console.log(result);
             return result;
           }),
-          //Why? This is a bit dodgy code
           JSON.stringify
         );
         //console.log(groups);
@@ -209,8 +171,8 @@ import { Match } from '../match/match.model';
           const rowsInGroup = data.filter(
             row => group[currentColumn] === row[currentColumn]
           );
-            // console.log(group);
-            // console.log(rowsInGroup);
+            console.log(group);
+            console.log(rowsInGroup);
 
           group.totalCounts = rowsInGroup.length;
           //this.expandedSubCar = [];

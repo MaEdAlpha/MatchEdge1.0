@@ -14,6 +14,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTableModule} from '@angular/material/table';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -54,6 +55,7 @@ import { BetHomeDirective } from './directives/bet-home.directive';
 import { BetAwayDirective } from './directives/bet-away.directive';
 import { IgnoreIconDirective } from './directives/ignore-icon.directive';
 import { TopLayerFiltersComponent } from './top-layer-filters/top-layer-filters.component';
+import { from } from 'rxjs';
 
 
 @NgModule({
@@ -79,7 +81,6 @@ import { TopLayerFiltersComponent } from './top-layer-filters/top-layer-filters.
     IgnoreIconDirective,
     ViewTableSidenavComponent,
     TopLayerFiltersComponent,
-
   ],
   imports: [
     AppRoutingModule,
@@ -94,6 +95,7 @@ import { TopLayerFiltersComponent } from './top-layer-filters/top-layer-filters.
     MatExpansionModule,
     MatIconModule,
     MatInputModule,
+    MatSlideToggleModule,
     MatTableModule,
     MatToolbarModule,
     MatTooltipModule,

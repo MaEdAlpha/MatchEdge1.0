@@ -14,7 +14,7 @@
       <!-- View Table -->
       <mat-table mat-table [dataSource] ="dataSource">
 
-        <ng-container *ngFor="let column of columns" matColumnDef={{column.field}}>
+        <ng-container *ngFor="let column of columns" matColumnDef= {{column.field}}>
           <mat-header-cell *matHeaderCellDef> {{column.field}}</mat-header-cell>
           <mat-cell *matCellDef="let row">{{row[column.field]}}</mat-cell>
         </ng-container>
@@ -25,6 +25,11 @@
         <ng-container matColumnDef="groupHeader">
           <mat-cell colspan="10" *matCellDef="let group">
             <strong>{{group[groupByColumns[0]]}} ({{group.totalCounts}})</strong>
+            <mat-slide-toggle
+              class="leagueToggleSelect"
+              [color]=''
+              [checked]=''
+              [disabled]=''></mat-slide-toggle>
           </mat-cell>
         </ng-container>
 
