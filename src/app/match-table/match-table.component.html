@@ -27,8 +27,8 @@
             <strong>{{group[groupByColumns[0]]}} ({{group.totalCounts}})</strong>
             <mat-slide-toggle
               class="leagueToggleSelect"
-              [checked]='true'
-              (change) = "openPopUp($event)"
+              [(ngModel)]="!group.notificationsDisabled"
+              (change) = "openPopUp($event, group)"
               (click)="collapseGroup(group); $event.stopPropagation();"></mat-slide-toggle>
           </mat-cell>
         </ng-container>

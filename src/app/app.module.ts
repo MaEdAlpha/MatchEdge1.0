@@ -43,6 +43,7 @@ import { MatchNotificationSettingsComponent } from './match-notification-setting
 import { MatchTableComponent } from './match-table/match-table.component';
 import { SettingsComponent } from './user-settings/settings.component';
 import { SummaryListComponent } from './summary-list/summary-list.component';
+import { TopLayerFiltersComponent } from './top-layer-filters/top-layer-filters.component';
 import { WatchlistComponent } from './watchlist/watchlist.component';
 import { ViewTableSidenavComponent } from './view-table-sidenav/view-table-sidenav.component';
 
@@ -55,7 +56,7 @@ import { WatchAwayDirective } from './directives/watch-away.directive';
 import { BetHomeDirective } from './directives/bet-home.directive';
 import { BetAwayDirective } from './directives/bet-away.directive';
 import { IgnoreIconDirective } from './directives/ignore-icon.directive';
-import { TopLayerFiltersComponent } from './top-layer-filters/top-layer-filters.component';
+
 import { from } from 'rxjs';
 import { StatusDisableDialogueComponent } from './status-disable-dialogue/status-disable-dialogue.component';
 

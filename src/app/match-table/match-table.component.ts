@@ -14,6 +14,7 @@ import { StatusDisableDialogueComponent } from '../status-disable-dialogue/statu
     expanded = false;
     isActive = false;
     totalCounts = 0;
+    notificationsDisabled = false;
   }
 
   @Component({
@@ -56,6 +57,10 @@ import { StatusDisableDialogueComponent } from '../status-disable-dialogue/statu
 
     expandedCar: any[] = [];
     expandedSubCar: any[] = [];
+
+    //userPreference dialog popup
+    //TODO add to UserPreference
+    dialogDisabled: boolean = false;
 
     @ViewChild(MatTable) table: MatTable<any>;
 
@@ -422,10 +427,41 @@ import { StatusDisableDialogueComponent } from '../status-disable-dialogue/statu
 
       }
 
-      openPopUp(toggleObj: MatSlideToggleChange){
-        if(toggleObj.checked == false){
-          this.dialog.open(StatusDisableDialogueComponent, {disableClose: false});
+      openPopUp($event: MatSlideToggleChange, groupItem: any) {
+
+
+        if($event.checked == false && !this.dialogDisabled){
+          //if Turning toggle to "OFF", popup dialog box to warn user.
+          let dialogRef =  this.dialog.open(StatusDisableDialogueComponent);
+
+          dialogRef.afterClosed()
+            .subscribe( result => {
+              //If user selects "Cancel" then they CONTINUE to watch the league's matches. result = false.
+              //If user selects "Okay" they DISABLE all notifications for that league. result = true.
+
+
+              if(result == 'false') {
+                $event.source.checked = true;
+                //TODO send this groupItem to another method. Notifications Services.
+              }
+              if(result == 'true') {
+                $event.source.checked = false;
+                groupItem.notificationsDisabled = result;
+              }
+
+            });
+        } else if ($event.checked == true && !this.dialogDisabled) {
+          //if toggle is being clicked "ON", turn on Notifications.
+          groupItem.notificationsDisabled = false;
+
+        } else if (this.dialogDisabled) {
+          //If user has selected to ignore popups, then set notifications based off $event.checked
+            $event.source.checked == true ? groupItem.notificationsDisabled = false : groupItem.notificationsDisabled = true;
         }
+
+
+
+
       }
 }
 
