@@ -10,6 +10,7 @@ import { HttpClientModule } from '@angular/common/http';
 //Materials
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatInputModule } from '@angular/material/input';
@@ -56,6 +57,7 @@ import { BetAwayDirective } from './directives/bet-away.directive';
 import { IgnoreIconDirective } from './directives/ignore-icon.directive';
 import { TopLayerFiltersComponent } from './top-layer-filters/top-layer-filters.component';
 import { from } from 'rxjs';
+import { StatusDisableDialogueComponent } from './status-disable-dialogue/status-disable-dialogue.component';
 
 
 @NgModule({
@@ -81,6 +83,7 @@ import { from } from 'rxjs';
     IgnoreIconDirective,
     ViewTableSidenavComponent,
     TopLayerFiltersComponent,
+    StatusDisableDialogueComponent,
   ],
   imports: [
     AppRoutingModule,
@@ -91,6 +94,7 @@ import { from } from 'rxjs';
     HttpClientModule,
     MatButtonModule,
     MatCheckboxModule,
+    MatDialogModule,
     MatFormFieldModule,
     MatExpansionModule,
     MatIconModule,
