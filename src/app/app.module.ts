@@ -16,6 +16,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
+import { MatRadioModule } from '@angular/material/radio';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTableModule} from '@angular/material/table';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -105,12 +106,13 @@ import { FlickerDataMatchRatingDirective } from './directives/flicker-data-match
     MatExpansionModule,
     MatIconModule,
     MatInputModule,
+    MatRadioModule,
     MatSlideToggleModule,
+    MatSelectModule,
+    MatSidenavModule,
     MatTableModule,
     MatToolbarModule,
     MatTooltipModule,
-    MatSelectModule,
-    MatSidenavModule,
     ReactiveFormsModule,
     ToastrModule.forRoot( {
       timeOut: 3000,

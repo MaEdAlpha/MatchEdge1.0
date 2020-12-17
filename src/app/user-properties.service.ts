@@ -63,7 +63,9 @@ export class UserPropertiesService {
     timeRange: 'Today',
     minOdds: '2.1',
     maxOdds: '4.5',
-    evFilterValue: '0'
+    evFilterValue: '0',
+    maxRatingFilter: '98.50',
+    isEvSelected: 'true'
   };
 
   constructor() { }
@@ -119,34 +121,39 @@ export class UserPropertiesService {
   }
 
   setFormValues(formObj: any){
-      console.log("In  Form Value");
-
-    //console.log(formObj.timeRange.timeValue);
-    // this.viewTablePrefs = {
-    //   leagueSelection: formObj.leagueSelection,
-    //   timeRange: formObj.timeRange,
-    //   minOdds: formObj.minOdds,
-    //   maxOdds: formObj.maxOdds,
-    //   evFilterValue: formObj.evFilterValue
-    // }
-    // //console.log(this.viewTablePrefs);
     this.viewTablePrefSelected.emit(this.viewTablePrefs);
     //min-max|EVfilter|dateRange|leagues
+    console.log(formObj.isEvSelected);
 
     this.userPrefSub.next({
       leagueSelection: formObj.leagueSelection,
       timeRange: formObj.timeRange,
       minOdds: formObj.minOdds,
       maxOdds: formObj.maxOdds,
-      evFilterValue: formObj.evFilterValue
+      evFilterValue: formObj.evFilterValue,
+      maxRatingFilter: formObj.maxRatingFilter,
+      isEvSelected: formObj.isEvSelected
     });
   }
-
+  //userPreference TablePreferences
   getUserPrefs(): Observable<TablePreferences>{
     return this.userPrefSub.asObservable();
   }
 
-  getEV():Number{
+  getEV():number{
     return Number(this.viewTablePrefs.evFilterValue);
+  }
+
+  getMR(): number{
+    //TODO add MatchRating in sidenav
+    return Number(this.viewTablePrefs.maxRatingFilter);
+  }
+
+  getMinOdds(): number{
+    return Number(this.viewTablePrefs.minOdds);
+  }
+
+  getMaxOdds(): number {
+    return Number(this.viewTablePrefs.maxOdds);
   }
 }

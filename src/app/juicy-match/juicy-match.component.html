@@ -126,8 +126,8 @@
               <tr mat-row *matRowDef="let selection; columns: columnsToDisplay;"
               class="juicyMatch-row"
               [class.juicyMatch-expanded-row]="expandedElement === selection"
-              appHideTableRow [evValue]="selection.EVthisBet" [evFilter]="evFilter"
-              (click)="expandedElement = expandedElement === selection ? null : selection">
+              (click)="expandedElement = expandedElement === selection ? null : selection"
+              appHideTableRow [evValue]="selection.EVthisBet" [evFilter]="evFilter" [backOdds]="selection.BackOdds" [backMinOddsFilter]="minOddsFilter" [backMaxOddsFilter]="maxOddsFilter" [isEvSelected]="isEvSelected">
               </tr>
          <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="juicyMatch-detail-row"></tr>
 

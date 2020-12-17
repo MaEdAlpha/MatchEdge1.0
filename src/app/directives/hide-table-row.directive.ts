@@ -6,6 +6,10 @@ import { Directive, Input, OnChanges, SimpleChanges, Renderer2, ElementRef } fro
 export class HideTableRowDirective implements OnChanges{
   @Input() evValue: any;    //updated from mongoStreamWatch
   @Input() evFilter: number; //observable pulled form juicy-match component. Will refresh when changed.
+  @Input() backOdds: number; //backOdds
+  @Input() backMinOddsFilter: number;
+  @Input() backMaxOddsFilter: number;
+  @Input() isEvSelected: boolean;
 
   userEVfilterValue: any;
 

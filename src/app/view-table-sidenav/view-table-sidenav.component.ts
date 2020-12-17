@@ -6,6 +6,7 @@ import { MatSelect } from '@angular/material/select';
 import { MatOption } from '@angular/material/core/option';
 import { UserPropertiesService } from '../user-properties.service';
 import { UserProperties, TablePreferences } from '../user-properties.model';
+import { Subscription } from 'rxjs';
 
 interface LeagueGroup {
   country: string;
@@ -33,8 +34,16 @@ export class ViewTableSidenavComponent implements OnChanges, OnInit, AfterViewIn
   allSelected: boolean = true;
   selectedTime: string;
   viewTableForm: FormGroup;
+  userPrefSub: Subscription;
 
-  viewTablePref: TablePreferences;
+
+  prefObj: TablePreferences;
+  timeRange: string;
+  evFilter: number;
+  minOddsFilter: number;
+  maxOddsFilter: number;
+  matchRatingFilter: number;
+  isEvSelected: string;
 
   leaguesControl: FormControl;
 
@@ -101,15 +110,17 @@ export class ViewTableSidenavComponent implements OnChanges, OnInit, AfterViewIn
         { timeKey: '2', timeValue: 'Tomorrow' }
       ];
 
-  constructor(private sidenavService: SidenavService, private userPref: UserPropertiesService) {
+      filters: any[] = [
+        { option: 'EV', value: true },
+        { option: 'Match Rating', value: false }
+      ]
 
-  }
+  constructor(private sidenavService: SidenavService, private userPrefService: UserPropertiesService) {}
 
   ngOnChanges(changes: SimpleChanges){
     if(changes.viewTablePref) {
-      this.viewTablePref = this.userPref.getFormValues();
+      this.prefObj = this.userPrefService.getFormValues();
       //console.log(this.viewTablePref);
-
     }
   }
 
@@ -122,21 +133,27 @@ export class ViewTableSidenavComponent implements OnChanges, OnInit, AfterViewIn
     // this.viewTablePref.minOdds = prefObject.minOdds;
     // this.viewTablePref.maxOdds = prefObject.maxOdds;
     // this.viewTablePref.evFilterValue = prefObject.evFilterValue;
-    this.viewTablePref = this.userPref.getFormValues();
+    this.prefObj = this.userPrefService.getFormValues();
     this.viewTableForm = new FormGroup({
-      'leagueSelection': new FormControl(this.viewTablePref.leagueSelection),
-      'timeRange': new FormControl(this.viewTablePref.timeRange),
-      'minOdds': new FormControl(this.viewTablePref.minOdds),
-      'maxOdds': new FormControl(this.viewTablePref.maxOdds),
-      'evFilterValue': new FormControl(this.viewTablePref.evFilterValue),
+      'leagueSelection': new FormControl(this.prefObj.leagueSelection),
+      'timeRange': new FormControl(this.prefObj.timeRange),
+      'minOdds': new FormControl(this.prefObj.minOdds),
+      'maxOdds': new FormControl(this.prefObj.maxOdds),
+      'evFilterValue': new FormControl(this.prefObj.evFilterValue),
+      'maxRatingFilter': new FormControl(this.prefObj.maxRatingFilter),
+      'isEvSelected': new FormControl(this.prefObj.isEvSelected)
     });
 
-    this.userPref.viewTablePrefSelected
-    .subscribe( (userPreferences) => {
-      this.viewTablePref = userPreferences
-    }
-
-    );
+        //Subscribe to update.
+    this.userPrefSub = this.userPrefService.getUserPrefs().subscribe( tablePref => {
+          this.prefObj = tablePref;
+          this.timeRange = tablePref.timeRange;
+          this.evFilter = Number(tablePref.evFilterValue);
+          this.minOddsFilter= Number(tablePref.minOdds);
+          this.maxOddsFilter= Number(tablePref.maxOdds);
+          this.matchRatingFilter= Number(tablePref.maxRatingFilter);
+          this.isEvSelected = tablePref.isEvSelected;
+    });
   }
 
   ngAfterViewInit() {
@@ -149,7 +166,8 @@ export class ViewTableSidenavComponent implements OnChanges, OnInit, AfterViewIn
     //emit this so services can hear and set to matchStats/juicymatch component.
 
     //set in program to validate for juicy matches.
-    this.userPref.setFormValues(this.viewTableForm.value);
+    this.userPrefService.setFormValues(this.viewTableForm.value);
+
     this.sidenavService.toggle();
   }
 

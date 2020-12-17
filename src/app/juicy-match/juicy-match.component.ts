@@ -49,7 +49,11 @@ export class JuicyMatchComponent implements OnChanges, DoCheck {
   testBool:boolean;
   prefSub: Subscription;
   prefObj: TablePreferences;
-  evFilter: Number;
+  evFilter: number;
+  minOddsFilter: number;
+  maxOddsFilter: number;
+  matchRatingFilter: number;
+  isEvSelected: boolean;
 
   constructor(private sidenav: SidenavService, private juicyMHService: JuicyMatchHandlingService, private matchStatService: MatchStatsService, private matchesService: MatchesService, private userPrefService: UserPropertiesService ) { }
 
@@ -60,11 +64,6 @@ export class JuicyMatchComponent implements OnChanges, DoCheck {
       this.allIndvMatches = this.juicyMHService.getSingleMatches(this.allMatches);
       console.log("JM Comp: SimpleChanges");
       this.allIndvMatches.length === 0 ? this.noMatchesToDisplay = true : this.noMatchesToDisplay = false;
-    }
-
-    if(changes.evFilter && changes.evFilter.currentValue) {
-      console.log("EV Filter " + this.evFilter);
-
     }
   }
 
@@ -86,13 +85,23 @@ export class JuicyMatchComponent implements OnChanges, DoCheck {
         indexOfmatch != undefined && this.allIndvMatches[indexOfmatch] ? this.juicyMHService.updateSingleMatch(this.allIndvMatches[indexOfmatch], match, indexOfmatch) : console.log("did not find singleMatch in indvMatch Array");
       } );
     });
-
+    //set userPreference Values
     this.evFilter = this.userPrefService.getEV();
+    this.matchRatingFilter = this.userPrefService.getMR();
+    this.minOddsFilter= this.userPrefService.getMinOdds();
+    this.maxOddsFilter= this.userPrefService.getMaxOdds();
 
+    //subscribe to userPreference Values
     this.prefSub = this.userPrefService.getUserPrefs().subscribe( tablePref => {
       this.prefObj = tablePref;
       this.evFilter = Number(tablePref.evFilterValue);
+      this.minOddsFilter= Number(tablePref.minOdds);
+      this.maxOddsFilter= Number(tablePref.maxOdds);
+      this.matchRatingFilter= Number(tablePref.maxRatingFilter);
+      this.isEvSelected = true;
     });
+
+
   }
 
   ngOnDestroy() {

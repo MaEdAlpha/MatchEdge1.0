@@ -38,5 +38,7 @@ export interface TablePreferences {
   timeRange: string,
   minOdds: string,
   maxOdds: string,
-  evFilterValue: string
+  evFilterValue: string,
+  maxRatingFilter: string,
+  isEvSelected:string
 }

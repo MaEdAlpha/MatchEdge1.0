@@ -12,6 +12,7 @@
               <div class="vt-settings-container">
 
                 <h1> Select Leagues </h1>
+                <!-- point to viewTableForm : FormGroup  -->
                   <form (ngSubmit)="onSubmit()" [formGroup]="viewTableForm">
                     <mat-form-field appearance="fill">
                       <mat-label>{{leagues}}</mat-label>
@@ -41,7 +42,7 @@
                       <br>
                       <h1 class="header">Select Time</h1>
                       <mat-form-field appearance="fill">
-                        <mat-label> {{viewTablePref.timeRange}}</mat-label>
+                        <mat-label> {{ timeRange }}</mat-label>
                         <mat-select
                           formControlName="timeRange"
                           [value]="selectedTime">
@@ -51,7 +52,7 @@
 
                       <br>
 
-                      <h1 class="header">Back Odds Range</h1>
+                      <h1 class="header">Odds Range</h1>
 
                       <div class="odds-container">
                         <mat-form-field appearance="fill">
@@ -59,20 +60,21 @@
                           <input
                             formControlName="minOdds"
                             matInput
-                            placeholder="{{viewTablePref.minOdds}}">
-                            <mat-hint>Currently saved: {{viewTablePref.minOdds}}</mat-hint>
+                            placeholder="{{ minOddsFilter }}">
+                            <mat-hint>Currently saved: {{ minOddsFilter }}</mat-hint>
                         </mat-form-field>
                       </div>
 
                         <h2 class="to-odds"> TO </h2>
+
                       <div class="odds-container">
                         <mat-form-field appearance="fill">
                           <mat-label>Max Odds</mat-label>
                           <input
                             formControlName="maxOdds"
                             matInput
-                            placeholder= "{{viewTablePref.maxOdds}}">
-                            <mat-hint>Currently saved: {{viewTablePref.maxOdds}}</mat-hint>
+                            placeholder= "{{ maxOddsFilter}}">
+                            <mat-hint>Currently saved: {{ maxOddsFilter}}</mat-hint>
                         </mat-form-field>
                       </div>
 
@@ -85,9 +87,32 @@
                         <input
                           formControlName="evFilterValue"
                           matInput
-                          placeholder= "{{viewTablePref.evFilterValue }}">
-                          <mat-hint>Currently saved: {{viewTablePref.evFilterValue }}</mat-hint>
+                          placeholder= "{{ evFilter }}">
+                          <mat-hint>Currently saved: {{ evFilter }}</mat-hint>
                       </mat-form-field>
+
+                      <h1 class="header">Match Rating Filter</h1>
+
+                      <mat-form-field appearance="fill">
+                        <mat-label>Match Rating Filter</mat-label>
+                        <input
+                          formControlName="maxRatingFilter"
+                          matInput
+                          placeholder= "{{ matchRatingFilter }}">
+                          <mat-hint>Currently saved: {{ matchRatingFilter }}</mat-hint>
+                      </mat-form-field>
+
+                      <h1 class="header">Select Filter</h1>
+                      <mat-form-field appearance="fill">
+                        <mat-label> Select Filter Type</mat-label>
+                        <mat-select
+                          formControlName="isEvSelected"
+                          [value]="isEvSelected">
+                          <mat-option *ngFor="let filter of filters" [value]="filter.value"> {{filter.option}} </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+
+
                       <div class="btn-wrapper">
                         <button mat-raised-button class="save-preference">Save Preferences</button>
                       </div>
