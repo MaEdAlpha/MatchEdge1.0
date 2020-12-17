@@ -22,6 +22,7 @@ export interface JuicyMatch{
   backIsUpdated: boolean;
   layIsUpdated: boolean;
   evIsUpdated: boolean;
+  matchRatingUpdated: boolean;
   b365oddsHCurr: number;
   b365oddsHPrev: number;
   b365oddsACurr: number;

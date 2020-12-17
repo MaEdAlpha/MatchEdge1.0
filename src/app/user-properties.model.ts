@@ -33,7 +33,7 @@ export interface UserProperties
   },
 }
 
-export interface ViewTablePreferences {
+export interface TablePreferences {
   leagueSelection: string[],
   timeRange: string,
   minOdds: string,

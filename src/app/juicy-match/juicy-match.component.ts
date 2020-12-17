@@ -9,6 +9,8 @@ import { Subscription } from 'rxjs';
 import { MatchStatsService } from '../match-stats.service';
 import { MatchesService } from '../match/matches.service';
 import { SidenavService } from '../view-table-sidenav/sidenav.service';
+import { UserPropertiesService } from '../user-properties.service';
+import { TablePreferences } from '../user-properties.model';
 
 
 @Component({
@@ -30,7 +32,7 @@ export class JuicyMatchComponent implements OnChanges, DoCheck {
   noMatchesToDisplay:boolean=true;
   //Used in DOM to select object view container for expansion
   expandedElement: JuicyMatch[] | null;
-  displayedColumns: string[] = ['EventStart', 'Fixture', 'Selection',  'BackOdds', 'LayOdds' , 'EVthisBet'];
+  displayedColumns: string[] = ['EventStart', 'Fixture', 'Selection',  'BackOdds', 'LayOdds' , 'EVthisBet', 'MatchRating'];
   SecondcolumnsToDisplay: string[] = ['Logo', 'FTAround', 'ReturnRating', 'MatchRating', 'BackOdds', 'LayOdds', 'Liability', 'FTAProfit', 'QL', 'ROI', 'EVthisBet'];
   columnsToDisplay: string[] = this.displayedColumns.slice();
 
@@ -45,8 +47,11 @@ export class JuicyMatchComponent implements OnChanges, DoCheck {
   allIndvMatches: any[];
   singleMatchPair: any;
   testBool:boolean;
+  prefSub: Subscription;
+  prefObj: TablePreferences;
+  evFilter: Number;
 
-  constructor(private sidenav: SidenavService, private juicyMHService: JuicyMatchHandlingService, private matchStatService: MatchStatsService, private matchesService: MatchesService ) { }
+  constructor(private sidenav: SidenavService, private juicyMHService: JuicyMatchHandlingService, private matchStatService: MatchStatsService, private matchesService: MatchesService, private userPrefService: UserPropertiesService ) { }
 
   ngOnChanges(changes: SimpleChanges)
   {
@@ -56,10 +61,15 @@ export class JuicyMatchComponent implements OnChanges, DoCheck {
       console.log("JM Comp: SimpleChanges");
       this.allIndvMatches.length === 0 ? this.noMatchesToDisplay = true : this.noMatchesToDisplay = false;
     }
+
+    if(changes.evFilter && changes.evFilter.currentValue) {
+      console.log("EV Filter " + this.evFilter);
+
+    }
   }
 
   ngOnInit(){
-    console.log("ngOninit JC Comp");
+
     this.allIndvMatches = [];
     this.individualMatchesSub = this.juicyMHService.getJuicyUpdateListener().subscribe( (singleMatchData) => {
       this.allIndvMatches = singleMatchData;
@@ -75,6 +85,13 @@ export class JuicyMatchComponent implements OnChanges, DoCheck {
         var indexOfmatch = this.allIndvMatches.findIndex( indvMatch => indvMatch.Selection == match.Selection );
         indexOfmatch != undefined && this.allIndvMatches[indexOfmatch] ? this.juicyMHService.updateSingleMatch(this.allIndvMatches[indexOfmatch], match, indexOfmatch) : console.log("did not find singleMatch in indvMatch Array");
       } );
+    });
+
+    this.evFilter = this.userPrefService.getEV();
+
+    this.prefSub = this.userPrefService.getUserPrefs().subscribe( tablePref => {
+      this.prefObj = tablePref;
+      this.evFilter = Number(tablePref.evFilterValue);
     });
   }
 

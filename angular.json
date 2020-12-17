@@ -23,11 +23,7 @@
               "src/favicon.ico",
               "src/assets"
             ],
-            "styles": [
-
-              {"input": "src/first-theme.scss"},
-              "src/styles.css"
-            ],
+            "styles": [{"input": "src/first-theme.scss"}, "node_modules/ngx-toastr/toastr.css","src/styles.css" ],
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",
               "node_modules/bootstrap/dist/js/bootstrap.min.js"

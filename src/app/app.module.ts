@@ -6,6 +6,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { ToastrModule } from 'ngx-toastr';
 
 //Materials
 import { MatButtonModule } from '@angular/material/button';
@@ -59,6 +60,8 @@ import { IgnoreIconDirective } from './directives/ignore-icon.directive';
 
 import { from } from 'rxjs';
 import { StatusDisableDialogueComponent } from './status-disable-dialogue/status-disable-dialogue.component';
+import { HideTableRowDirective } from './directives/hide-table-row.directive';
+import { FlickerDataMatchRatingDirective } from './directives/flicker-data-match-rating.directive';
 
 
 @NgModule({
@@ -85,6 +88,8 @@ import { StatusDisableDialogueComponent } from './status-disable-dialogue/status
     ViewTableSidenavComponent,
     TopLayerFiltersComponent,
     StatusDisableDialogueComponent,
+    HideTableRowDirective,
+    FlickerDataMatchRatingDirective,
   ],
   imports: [
     AppRoutingModule,
@@ -106,7 +111,12 @@ import { StatusDisableDialogueComponent } from './status-disable-dialogue/status
     MatTooltipModule,
     MatSelectModule,
     MatSidenavModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    ToastrModule.forRoot( {
+      timeOut: 3000,
+      positionClass: 'toast-bottom-right',
+      preventDuplicates: false,
+    }),
   ],
   providers: [MatchesService, WebsocketService, UserPropertiesService, MatchDisplayService, MatchNotificationService, CalcSettingsService, IsJuicyService, JuicyMatchHandlingService],
   bootstrap: [AppComponent]

@@ -5,7 +5,7 @@ import { SidenavService } from './sidenav.service';
 import { MatSelect } from '@angular/material/select';
 import { MatOption } from '@angular/material/core/option';
 import { UserPropertiesService } from '../user-properties.service';
-import { UserProperties, ViewTablePreferences } from '../user-properties.model';
+import { UserProperties, TablePreferences } from '../user-properties.model';
 
 interface LeagueGroup {
   country: string;
@@ -34,7 +34,7 @@ export class ViewTableSidenavComponent implements OnChanges, OnInit, AfterViewIn
   selectedTime: string;
   viewTableForm: FormGroup;
 
-  viewTablePref: ViewTablePreferences;
+  viewTablePref: TablePreferences;
 
   leaguesControl: FormControl;
 

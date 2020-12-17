@@ -1,6 +1,6 @@
+<button mat-raised-button (click)="showToast()"> Toast Me</button>
 <app-view-table-sidenav></app-view-table-sidenav>
 <app-top-layer-filters (hideTable)="setTableHidden($event)"></app-top-layer-filters>
-
     <div class="view-table-cont" [style.visibility]="!isTableHidden ? 'visible' : 'collapse' "[style.height]="!isTableHidden ? ' ' : '0' " [style.margin-bottom]="!isTableHidden ? '' : '0'" [style.display]="isTableHidden ? 'inline-flex' : 'inline' " >
 
       <div class="lge-title-cont">

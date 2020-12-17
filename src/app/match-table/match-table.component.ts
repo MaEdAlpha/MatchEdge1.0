@@ -8,6 +8,8 @@ import { WebsocketService } from '../websocket.service';
 import { Match } from '../match/match.model';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { StatusDisableDialogueComponent } from '../status-disable-dialogue/status-disable-dialogue.component';
+import { ToastrService } from 'ngx-toastr';
+import { NotificationBoxService } from '../notification-box.service';
 
   export class Group {
     level = 0;
@@ -67,7 +69,7 @@ import { StatusDisableDialogueComponent } from '../status-disable-dialogue/statu
 
     private matchesSub: Subscription;
 
-    constructor(private matchesService: MatchesService, private webSocketService: WebsocketService, public dialog: MatDialog ) {
+    constructor(private matchesService: MatchesService, private webSocketService: WebsocketService, public dialog: MatDialog, private notificationBox: NotificationBoxService) {
       this.columns = [
         { field: "HStatus" },
         { field: "BHome" },
@@ -458,10 +460,10 @@ import { StatusDisableDialogueComponent } from '../status-disable-dialogue/statu
           //If user has selected to ignore popups, then set notifications based off $event.checked
             $event.source.checked == true ? groupItem.notificationsDisabled = false : groupItem.notificationsDisabled = true;
         }
+      }
 
-
-
-
+      showToast(){
+        this.notificationBox.showNotification();
       }
 }
 

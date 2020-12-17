@@ -121,12 +121,4 @@ export class JuicyMatchHandlingService {
 
     return mainMatch;
   }
-
-  //Takes in the matches array and filters it via equations you specify. If passes specs, it should return these matches in juicy-match.component
-  isCheckingForUpdate(matchesCopy:any){
-    //return this.filteredMatches();
-
-  }
-
-
 }

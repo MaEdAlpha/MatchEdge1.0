@@ -44,7 +44,8 @@ table, .no-content {
   vertical-align: bottom;
 }
 
-.mat-column-BackOdds, .mat-column-LayOdds, .mat-column-EVthisBet {
+/* Mat Table dynamic column class names */
+.mat-column-BackOdds, .mat-column-LayOdds, .mat-column-EVthisBet, .mat-column-MatchRating {
   text-align: center;
   font-size: large;
   font-weight: 500;
@@ -54,6 +55,7 @@ table, .no-content {
   border-right:  1px solid #00000012;
   line-height: 0%;
   padding-left: 10px;
+  border-bottom-width: 0;
 }
 .mat-column-Selection {
   font-size: large;
@@ -294,6 +296,15 @@ span.row3-value {
   border-radius: 5px;
 }
 
+.mr6box {
+  background:#7adfdf;
+  color: black;
+  padding: 6px;
+  padding-left: 10px;
+  padding-right: 10px;
+  border-radius: 5px;
+}
+
 .backDirective {
   color: white;
   padding: 6px;
@@ -342,3 +353,22 @@ span.row3-value {
   75%		{ background-color: #e2d689; color: #426897; }
   100%	{ background-color: #ffdf1b; color: #052044; }
 }
+
+.flickDirectiveMR {
+  color: white;
+  padding: 6px;
+  padding-left: 10px;
+  padding-right: 10px;
+  border-radius: 5px;
+  animation: evBlinkBackground 4s infinite;
+}
+@keyframes evBlinkBackground {
+  0%		{ background-color: #e49ac8; color: #052044;}
+  25%		{ background-color: #ff01d5; color: #426897;}
+  50%		{ background-color: #080808; color: white; }
+  75%		{ background-color: #ff01d5; color: #426897; }
+  100%	{ background-color: #e49ac8; color: #052044; }
+}
+  .hideTR {
+    visibility: collapse;
+  }
