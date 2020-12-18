@@ -21,8 +21,6 @@
              <td mat-cell
                  class="mat-column{{flickerColmnIndex}}-data"
                  *matCellDef="let selection; let flickerRowIndex = dataIndex">
-
-
                   <div *ngIf= "(isEvSelected && selection['EVthisBet'] >= prefObj.evFilterValue && selection['EVthisBet'] < 1000) || (!isEvSelected && selection['MatchRating'] >= prefObj.maxRatingFilter)">
                     <div *ngIf="column.endsWith('BackOdds')">
                       <span  class="ticker{{(flickerColmnIndex)}}box" appFlickerData [flickerColmnIndex]="flickerColmnIndex" [isUpdated]="selection.backIsUpdated"> {{selection[column] | number:'0.2-2'}} </span>
