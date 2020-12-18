@@ -102,12 +102,13 @@
                           <mat-hint>Currently saved: {{ matchRatingFilter }}</mat-hint>
                       </mat-form-field>
 
-                      <h1 class="header">Select Filter</h1>
+                      <h1 class="header">Filter Preference</h1>
                       <mat-form-field appearance="fill">
-                        <mat-label> Select Filter Type</mat-label>
+
                         <mat-select
                           formControlName="isEvSelected"
-                          [value]="isEvSelected">
+                          [value]="isEvSelected"
+                          placeholder="{{evPlaceholder}}">
                           <mat-option *ngFor="let filter of filters" [value]="filter.value"> {{filter.option}} </mat-option>
                         </mat-select>
                       </mat-form-field>

@@ -22,7 +22,8 @@
                  class="mat-column{{flickerColmnIndex}}-data"
                  *matCellDef="let selection; let flickerRowIndex = dataIndex">
 
-                  <div *ngIf="selection['EVthisBet'] > evFilter && selection['EVthisBet'] < 1000">
+
+                  <div *ngIf= "(isEvSelected && selection['EVthisBet'] >= prefObj.evFilterValue && selection['EVthisBet'] < 1000) || (!isEvSelected && selection['MatchRating'] >= prefObj.maxRatingFilter)">
                     <div *ngIf="column.endsWith('BackOdds')">
                       <span  class="ticker{{(flickerColmnIndex)}}box" appFlickerData [flickerColmnIndex]="flickerColmnIndex" [isUpdated]="selection.backIsUpdated"> {{selection[column] | number:'0.2-2'}} </span>
                     </div>
@@ -127,7 +128,7 @@
               class="juicyMatch-row"
               [class.juicyMatch-expanded-row]="expandedElement === selection"
               (click)="expandedElement = expandedElement === selection ? null : selection"
-              appHideTableRow [evValue]="selection.EVthisBet" [evFilter]="evFilter" [backOdds]="selection.BackOdds" [backMinOddsFilter]="minOddsFilter" [backMaxOddsFilter]="maxOddsFilter" [isEvSelected]="isEvSelected">
+              appHideTableRow [evValue]="selection.EVthisBet" [mrValue]="selection.MatchRating" [backOdds]="selection.BackOdds" [userPref]="prefObj">
               </tr>
          <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="juicyMatch-detail-row"></tr>
 

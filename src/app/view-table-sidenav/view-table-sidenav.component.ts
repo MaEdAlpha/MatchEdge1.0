@@ -7,6 +7,7 @@ import { MatOption } from '@angular/material/core/option';
 import { UserPropertiesService } from '../user-properties.service';
 import { UserProperties, TablePreferences } from '../user-properties.model';
 import { Subscription } from 'rxjs';
+import { filter } from 'rxjs/operators';
 
 interface LeagueGroup {
   country: string;
@@ -44,6 +45,7 @@ export class ViewTableSidenavComponent implements OnChanges, OnInit, AfterViewIn
   maxOddsFilter: number;
   matchRatingFilter: number;
   isEvSelected: string;
+  evPlaceholder: string;
 
   leaguesControl: FormControl;
 
@@ -118,21 +120,14 @@ export class ViewTableSidenavComponent implements OnChanges, OnInit, AfterViewIn
   constructor(private sidenavService: SidenavService, private userPrefService: UserPropertiesService) {}
 
   ngOnChanges(changes: SimpleChanges){
-    if(changes.viewTablePref) {
-      this.prefObj = this.userPrefService.getFormValues();
-      //console.log(this.viewTablePref);
-    }
+    // if(changes.viewTablePref) {
+    //   this.prefObj = this.userPrefService.getFormValues();
+
+    // }
   }
 
   ngOnInit(): void {
-    //TODO retrieve formData from userPreferences
-    //TODO call on UserPreferences Service to load form OnInit
-    // let prefObject: ViewTablePreferences = this.userPref.getFormValues();
-    // this.viewTablePref.leagueSelection = prefObject.leagueSelection;
-    // this.viewTablePref.timeRange = prefObject.timeRange;
-    // this.viewTablePref.minOdds = prefObject.minOdds;
-    // this.viewTablePref.maxOdds = prefObject.maxOdds;
-    // this.viewTablePref.evFilterValue = prefObject.evFilterValue;
+
     this.prefObj = this.userPrefService.getFormValues();
     this.viewTableForm = new FormGroup({
       'leagueSelection': new FormControl(this.prefObj.leagueSelection),
@@ -144,15 +139,16 @@ export class ViewTableSidenavComponent implements OnChanges, OnInit, AfterViewIn
       'isEvSelected': new FormControl(this.prefObj.isEvSelected)
     });
 
-        //Subscribe to update.
+    //Subscribe to update.
     this.userPrefSub = this.userPrefService.getUserPrefs().subscribe( tablePref => {
-          this.prefObj = tablePref;
-          this.timeRange = tablePref.timeRange;
-          this.evFilter = Number(tablePref.evFilterValue);
-          this.minOddsFilter= Number(tablePref.minOdds);
-          this.maxOddsFilter= Number(tablePref.maxOdds);
-          this.matchRatingFilter= Number(tablePref.maxRatingFilter);
-          this.isEvSelected = tablePref.isEvSelected;
+      this.prefObj = tablePref;
+      this.timeRange = tablePref.timeRange;
+      this.evFilter = Number(tablePref.evFilterValue);
+      this.minOddsFilter= Number(tablePref.minOdds);
+      this.maxOddsFilter= Number(tablePref.maxOdds);
+      this.matchRatingFilter= Number(tablePref.maxRatingFilter);
+      this.isEvSelected = tablePref.isEvSelected;
+      this.evPlaceholder = this.filters[0].value == this.isEvSelected ? "EV" : "Match Rating";
     });
   }
 

@@ -68,7 +68,7 @@ export class JuicyMatchComponent implements OnChanges, DoCheck {
   }
 
   ngOnInit(){
-
+    this.prefObj = this.userPrefService.getTablePrefs();
     this.allIndvMatches = [];
     this.individualMatchesSub = this.juicyMHService.getJuicyUpdateListener().subscribe( (singleMatchData) => {
       this.allIndvMatches = singleMatchData;
@@ -98,8 +98,10 @@ export class JuicyMatchComponent implements OnChanges, DoCheck {
       this.minOddsFilter= Number(tablePref.minOdds);
       this.maxOddsFilter= Number(tablePref.maxOdds);
       this.matchRatingFilter= Number(tablePref.maxRatingFilter);
-      this.isEvSelected = true;
+      this.isEvSelected = Boolean(tablePref.isEvSelected);
     });
+    console.log(this.prefObj.maxRatingFilter);
+    console.log(this.prefObj.isEvSelected);
 
 
   }
@@ -122,7 +124,6 @@ export class JuicyMatchComponent implements OnChanges, DoCheck {
   toggleSideNav(){
     this.sidenav.toggle();
   }
-
 
   resetMatchUpdated(index:number){
     //this.allIndvMatches[index].isUpdated=false;

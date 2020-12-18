@@ -156,4 +156,8 @@ export class UserPropertiesService {
   getMaxOdds(): number {
     return Number(this.viewTablePrefs.maxOdds);
   }
+
+  getTablePrefs(): TablePreferences {
+    return this.viewTablePrefs;
+  }
 }
