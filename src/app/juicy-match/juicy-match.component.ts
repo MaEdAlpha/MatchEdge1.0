@@ -101,10 +101,6 @@ export class JuicyMatchComponent implements OnChanges, DoCheck {
       this.matchRatingFilter= Number(tablePref.maxRatingFilter);
       this.isEvSelected = Boolean(tablePref.isEvSelected);
     });
-    console.log(this.prefObj.maxRatingFilter);
-    console.log(this.prefObj.isEvSelected);
-
-
   }
 
   ngOnDestroy() {

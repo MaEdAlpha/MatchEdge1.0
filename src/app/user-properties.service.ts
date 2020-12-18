@@ -123,7 +123,7 @@ export class UserPropertiesService {
   setFormValues(formObj: any){
     this.viewTablePrefSelected.emit(this.viewTablePrefs);
     //min-max|EVfilter|dateRange|leagues
-    console.log(formObj.isEvSelected);
+    console.log("EV filter selected? " + formObj.isEvSelected);
 
     this.userPrefSub.next({
       leagueSelection: formObj.leagueSelection,
