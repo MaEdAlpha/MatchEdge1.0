@@ -19,8 +19,6 @@ export class HideTableRowDirective implements OnChanges{
         if(changes.evValue) { //if ev has a value constantly loop over this.
           if(Number(this.evValue) >= Number(this.userPref.evFilterValue) && Number(this.backOdds) >= Number(this.userPref.minOdds) && Number(this.backOdds) <= Number(this.userPref.maxOdds)){ //evValue less than filter setting. hide. larger than. show.
             this.show();
-            console.log("Hello... Mr. Brooks: Chicken Dinner.");
-
           } else {
             this.hide();
           }
@@ -33,18 +31,26 @@ export class HideTableRowDirective implements OnChanges{
           this.hide();
         }
       } else {
-        if(changes.mrValue){
+
           if(Number(this.mrValue) >= Number(this.userPref.maxRatingFilter) && this.mrValue <= 100 && Number(this.backOdds) >= Number(this.userPref.minOdds) && Number(this.backOdds) <= Number(this.userPref.maxOdds)){
             this.show();
-          } else {
+          }
+          if(Number(this.mrValue) >= Number(this.userPref.maxRatingFilter) && this.mrValue <= 100 && Number(this.backOdds) <= Number(this.userPref.minOdds)){
             this.hide();
           }
-        } else {
-          Number(this.mrValue) <= Number(this.userPref.maxRatingFilter) ? this.hide() : this.show();
-        }
+          if(Number(this.mrValue) >= Number(this.userPref.maxRatingFilter) && this.mrValue <= 100 && Number(this.backOdds) >= Number(this.userPref.maxOdds)){
+            this.hide();
+          }
+          if (Number(this.mrValue) <= Number(this.userPref.maxRatingFilter)){
+            this.hide();
+          }
       }
 
     if(this.evValue >= 100){
+      this.hide();
+    }
+
+    if(this.mrValue >=1000){
       this.hide();
     }
   }

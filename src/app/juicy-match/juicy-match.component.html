@@ -21,24 +21,22 @@
              <td mat-cell
                  class="mat-column{{flickerColmnIndex}}-data"
                  *matCellDef="let selection; let flickerRowIndex = dataIndex">
-                  <div *ngIf= "( (selection['BackOdds'] <= maxOddsFilter && selection['BackOdds'] >= minOddsFilter) && (isEvSelected && selection['EVthisBet'] >= prefObj.evFilterValue && selection['EVthisBet'] < 1000) || (!isEvSelected && selection['MatchRating'] >= prefObj.maxRatingFilter) )">
-                    <div *ngIf="column.endsWith('BackOdds')">
-                      <span  class="ticker{{(flickerColmnIndex)}}box" appFlickerData [flickerColmnIndex]="flickerColmnIndex" [isUpdated]="selection.backIsUpdated"> {{selection[column] | number:'0.2-2'}} </span>
+                 <div *ngIf= "((isEvSelected && selection['EVthisBet'] >= prefObj.evFilterValue && selection['EVthisBet'] < 1000) || (!isEvSelected && selection['MatchRating'] >= prefObj.maxRatingFilter) )">
+                  <div *ngIf= "( selection['BackOdds'] <= maxOddsFilter && selection['BackOdds'] >= minOddsFilter)">
+                      <div *ngIf="column.endsWith('BackOdds')">
+                        <span  class="ticker{{(flickerColmnIndex)}}box" appFlickerData [flickerColmnIndex]="flickerColmnIndex" [isUpdated]="selection.backIsUpdated"> {{selection[column] | number:'0.2-2'}} </span>
+                      </div>
+                          <div *ngIf="column.endsWith('LayOdds')">
+                            <span  class="ticker{{(flickerColmnIndex)}}box" appFlickerDataLay [flickerColmnIndex]="flickerColmnIndex" [isUpdated]="selection.layIsUpdated"> {{selection[column] | number:'0.2-2'}} </span>
+                          </div>
+                            <span *ngIf="!column.endsWith('Odds') && !column.endsWith('Bet')"> {{selection[column]}}</span>
+                              <div *ngIf="column.endsWith('Bet')">
+                                  <span class="ev{{flickerColmnIndex}}box" appFlickerDataEv [isUpdated]="selection.evIsUpdated"> {{selection[column] | currency}} </span>
+                              </div>
+                                <div *ngIf="column.endsWith('Rating')">
+                                  <span class="mr{{flickerColmnIndex}}box" appFlickerDataMatchRating [isUpdated]="selection.matchRatingUpdated"> {{selection[column] | number:'0.2-2'}} </span>
+                                </div>
                     </div>
-
-                    <div *ngIf="column.endsWith('LayOdds')">
-                      <span  class="ticker{{(flickerColmnIndex)}}box" appFlickerDataLay [flickerColmnIndex]="flickerColmnIndex" [isUpdated]="selection.layIsUpdated"> {{selection[column] | number:'0.2-2'}} </span>
-                    </div>
-
-                    <span *ngIf="!column.endsWith('Odds') && !column.endsWith('Bet')"> {{selection[column]}}</span>
-
-                    <div *ngIf="column.endsWith('Bet')">
-                        <span class="ev{{flickerColmnIndex}}box" appFlickerDataEv [isUpdated]="selection.evIsUpdated"> {{selection[column] | currency}} </span>
-                    </div>
-
-                    <div *ngIf="column.endsWith('Rating')">
-                      <span class="mr{{flickerColmnIndex}}box" appFlickerDataMatchRating [isUpdated]="selection.matchRatingUpdated"> {{selection[column] | number:'0.2-2'}} </span>
-                  </div>
                   </div>
              </td>
          </ng-container>
