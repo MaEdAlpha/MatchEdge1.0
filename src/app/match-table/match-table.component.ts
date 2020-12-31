@@ -10,6 +10,9 @@ import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { StatusDisableDialogueComponent } from '../status-disable-dialogue/status-disable-dialogue.component';
 import { ToastrService } from 'ngx-toastr';
 import { NotificationBoxService } from '../notification-box.service';
+import { NgSwitchCase } from '@angular/common';
+import { NumberInput } from '@angular/cdk/coercion';
+import { SidenavService } from '../view-table-sidenav/sidenav.service';
 
   export class Group {
     level = 0;
@@ -44,8 +47,10 @@ import { NotificationBoxService } from '../notification-box.service';
     tableCount: any;
     matchWatched: string[] = [];
     indexPositions: number[];
-    displayHidden: boolean = true;
-    isTableHidden: boolean = false;
+    tableSelected: number = 1;
+    hideFixtures: boolean = true;
+    hideJuicy: boolean = true;
+    hideActive: boolean = true;
     isNotInList: boolean = false;
     panelOpenState = false;
 
@@ -70,19 +75,19 @@ import { NotificationBoxService } from '../notification-box.service';
 
     private matchesSub: Subscription;
 
-    constructor(private matchesService: MatchesService, private webSocketService: WebsocketService, public dialog: MatDialog, private notificationBox: NotificationBoxService) {
+    constructor(private sidenav: SidenavService , private matchesService: MatchesService, private webSocketService: WebsocketService, public dialog: MatDialog, private notificationBox: NotificationBoxService) {
       this.columns = [
-        { field: "HStatus" },
-        { field: "BHome" },
-        { field: "SMHome" },
-        { field: "OccH" },
-        { field: "Home" },
-        { field: "Details" },
-        { field: "Away" },
-        { field: "OccA" },
-        { field: "BAway" },
-        { field: "SMAway" },
-        { field: "AStatus" }
+        { field: "HStatus" , columnDisplay: "" },
+        { field: "BHome", columnDisplay: "Image" },
+        { field: "SMHome", columnDisplay: "Image" },
+        { field: "OccH", columnDisplay: "2UP OCC. Home" },
+        { field: "Home", columnDisplay: "" },
+        { field: "Details", columnDisplay: "" },
+        { field: "Away", columnDisplay: "" },
+        { field: "OccA", columnDisplay: "2UP OCC. Away" },
+        { field: "BAway", columnDisplay: "Image" },
+        { field: "SMAway", columnDisplay: "Image" },
+        { field: "AStatus", columnDisplay: "" }
       ];
      } //creates an instance of matchesService. Need to add this in app.module.ts providers:[]
 
@@ -312,8 +317,8 @@ import { NotificationBoxService } from '../notification-box.service';
         return subGroups;
       }
 
-      setTableHidden(valueEmitted: boolean){
-        this.isTableHidden = valueEmitted;
+      displaySelectedTable(fixtureBtnClicked: number){
+        this.tableSelected = fixtureBtnClicked;
       }
 
       isGroup(index, item): boolean {
@@ -465,6 +470,10 @@ import { NotificationBoxService } from '../notification-box.service';
 
       showToast(){
         this.notificationBox.showNotification();
+      }
+
+      toggleSideNav(){
+        this.sidenav.toggle();
       }
 }
 

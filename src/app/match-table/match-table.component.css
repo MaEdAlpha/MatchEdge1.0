@@ -4,8 +4,21 @@
   margin-right: auto;
 }
 
+.fixturesTable, .defaultTable {
+  width: 100%;
+}
+
 mat-table {
   margin-top: 3px;
+}
+
+mat-row, mat-header-row {
+  background: #272929;
+  color: white;
+}
+
+.mat-column-groupHeader, .leagueGroupContainer  {
+  background: #7a8585;
 }
 
 .footer-container {
@@ -98,6 +111,20 @@ border-bottom-left-radius: 30px;
   border-radius: 5px;
 }
 
+.viewCell{
+  color: white;
+}
+
+span.BAway, span.BHome{
+  background: green;
+  padding: 6px;
+}
+
+span.SMAway, span.SMHome{
+  background: rgb(14, 47, 155);
+  padding: 6px;
+}
+
 app-view-table-sidenav {
   float: left;
 }
@@ -110,6 +137,30 @@ app-view-table-sidenav {
   margin-left: 8px;
 }
 
+#footer {
+  width: 100%;
+}
 div.footer-container{
   color: white;
+}
+
+.leagueToggleSelect{
+  float: right;
+  display: inline-flex;
+}
+.leagueGroupContainer>h2 {
+  display: inline;
+  color: whitesmoke;
+}
+
+.leagueGroupContainer{
+  text-align: center;
+  width: 100%;
+}
+
+.mat-column-OccH, .mat-column-OccA {
+  font-size: 10px;
+  text-align: left;
+  color: white;
+
 }

@@ -1,4 +1,5 @@
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
+import { SidenavService } from '../view-table-sidenav/sidenav.service';
 
 interface DateOptions {
   value: string;
@@ -16,8 +17,8 @@ interface ViewModes {
   styleUrls: ['./top-layer-filters.component.css']
 })
 export class TopLayerFiltersComponent implements OnInit {
-  isTableHidden: boolean = false;
-  @Output() hideTable: EventEmitter<boolean> = new EventEmitter<boolean>();
+  displayFixtures: number;
+  @Output() hideTable: EventEmitter<number> = new EventEmitter<number>();
 
   constructor() { }
 
@@ -40,10 +41,8 @@ export class TopLayerFiltersComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  toggle() {
-    this.isTableHidden=!this.isTableHidden
-    this.hideTable.emit(this.isTableHidden);
-
+  showFixtures(value:number) {
+    this.displayFixtures=value;
+    this.hideTable.emit(this.displayFixtures);
   }
-
 }

@@ -1,12 +1,13 @@
 <button mat-raised-button (click)="showToast()"> Toast Me</button>
+<button mat-icon-button class="setting-btn" [disableRipple]="true" (click)= "toggleSideNav()"><mat-icon>settings</mat-icon></button>
 <app-view-table-sidenav></app-view-table-sidenav>
 <div class="mn-display">
-  <app-top-layer-filters (hideTable)="setTableHidden($event)"></app-top-layer-filters>
-      <div [style.visibility]="!isTableHidden ? 'visible' : 'collapse' "[style.height]="!isTableHidden ? ' ' : '0' " [style.margin-bottom]="!isTableHidden ? '' : '0'" [style.display]="isTableHidden ? 'inline-flex' : 'inline' " >
-        <mat-table mat-table [dataSource] ="dataSource">
+  <app-top-layer-filters (hideTable)="displaySelectedTable($event)"></app-top-layer-filters>
+          <div class="fixturesTable" [style.visibility]="tableSelected == 1 ? 'visible' : 'collapse' " [style.height]="tableSelected == 1 ? '' : '0px' " [style.margin-bottom]="tableSelected == 1 ? '5px' : '0'" [style.display]="tableSelected == 1 ? 'inline' : '' ">
+          <mat-table  mat-table [dataSource] ="dataSource">
 
           <ng-container *ngFor="let column of columns" matColumnDef= {{column.field}}>
-            <mat-header-cell *matHeaderCellDef> {{column.field}}</mat-header-cell>
+            <mat-header-cell *matHeaderCellDef> {{column.columnDisplay}}</mat-header-cell>
             <mat-cell *matCellDef="let row">
             <div *ngIf="(column.field == 'Details' && displayHeaderDate)">
               {{ row[column.field] | headerDate }}
@@ -15,32 +16,43 @@
               {{ row[column.field] | timeDate }}
             </div>
 
+            <div *ngIf="(column.field != 'Details')">
+              <span class="{{column.field}} viewCell"> {{ row[column.field] }}  </span>
+            </div>
+
             </mat-cell>
           </ng-container>
 
           <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
           <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
 
-          <ng-container matColumnDef="groupHeader">
+          <ng-container class="groupHeaderCont" matColumnDef="groupHeader">
             <mat-cell colspan="10" *matCellDef="let group">
-              <strong>{{group[groupByColumns[0]]}} ({{group.totalCounts}})</strong>
-              <mat-slide-toggle
-                class="leagueToggleSelect"
-                [(ngModel)]="!group.notificationsDisabled"
-                (change) = "openPopUp($event, group)"
-                (click)="collapseGroup(group); $event.stopPropagation();"></mat-slide-toggle>
+              <div class="leagueGroupContainer">
+                <h2>{{group[groupByColumns[0]]}} ({{group.totalCounts}})</h2>
+                <mat-slide-toggle
+                  class="leagueToggleSelect"
+                  [(ngModel)]="!group.notificationsDisabled"
+                  (change) = "openPopUp($event, group)"
+                  (click)="collapseGroup(group); $event.stopPropagation();"></mat-slide-toggle>
+              </div>
             </mat-cell>
           </ng-container>
 
           <mat-row *matRowDef="let row; columns: ['groupHeader']; when: isGroup;" (click)="groupHeaderClick(row)">Test</mat-row>
 
-        </mat-table>
-        <app-juicy-match [allMatches] = "matches"></app-juicy-match>
-      </div>
+          </mat-table>
+        </div>
+        <div [style.visibility]="tableSelected == 2 ? 'visible' : 'collapse' "[style.height]="tableSelected == 2 ? ' ' : '0' " [style.margin-bottom]="tableSelected == 2 ? '5px' : '0'" [style.display]="tableSelected == 2 ? 'inline' : '' ">
+          <app-juicy-match [allMatches] = "matches"></app-juicy-match>
+        </div>
+        <div [style.visibility]="tableSelected == 3 ? 'visible' : 'collapse' "[style.height]="tableSelected == 3 ? ' ' : '0' " [style.margin-bottom]="tableSelected == 3 ? '5px' : '0'" [style.display]="tableSelected == 3 ? 'inline' : '' ">
+          <p>Active</p>
+        </div>
 </div>
 
 
-    <hr id="footer-hrz">
+    <hr id="footer">
 
     <div class="footer-container">
       <p>Fill footer info here</p>

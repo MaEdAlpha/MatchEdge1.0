@@ -16,9 +16,9 @@
   <div class="hdr-bottom-row">
     <div class="hdr-tabs-right">
       <div class="table-tabs">
-        <button mat-raised-button>Fixtures</button>
-        <button mat-raised-button>Juicy</button>
-        <button mat-raised-button>Active</button>
+        <button mat-raised-button (click)="showFixtures(1)">Fixtures</button>
+        <button mat-raised-button (click)="showFixtures(2)">Juicy</button>
+        <button mat-raised-button (click)="showFixtures(3)">Active</button>
       </div>
       <mat-form-field class="hdr-selector" appearance="fill">
         <mat-label>View Selector</mat-label>
