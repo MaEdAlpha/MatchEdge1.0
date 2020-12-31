@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, AfterViewInit, OnChanges, SimpleChanges  } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { FormControl, FormGroup, NgForm } from '@angular/forms';
 import { SidenavService } from './sidenav.service';
@@ -7,7 +7,7 @@ import { MatOption } from '@angular/material/core/option';
 import { UserPropertiesService } from '../user-properties.service';
 import { UserProperties, TablePreferences } from '../user-properties.model';
 import { Subscription } from 'rxjs';
-import { filter } from 'rxjs/operators';
+
 
 interface LeagueGroup {
   country: string;

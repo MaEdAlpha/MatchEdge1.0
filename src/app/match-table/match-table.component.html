@@ -1,46 +1,47 @@
 <button mat-raised-button (click)="showToast()"> Toast Me</button>
 <app-view-table-sidenav></app-view-table-sidenav>
-<app-top-layer-filters (hideTable)="setTableHidden($event)"></app-top-layer-filters>
-    <div [style.visibility]="!isTableHidden ? 'visible' : 'collapse' "[style.height]="!isTableHidden ? ' ' : '0' " [style.margin-bottom]="!isTableHidden ? '' : '0'" [style.display]="isTableHidden ? 'inline-flex' : 'inline' " >
+<div class="mn-display">
+  <app-top-layer-filters (hideTable)="setTableHidden($event)"></app-top-layer-filters>
+      <div [style.visibility]="!isTableHidden ? 'visible' : 'collapse' "[style.height]="!isTableHidden ? ' ' : '0' " [style.margin-bottom]="!isTableHidden ? '' : '0'" [style.display]="isTableHidden ? 'inline-flex' : 'inline' " >
+        <mat-table mat-table [dataSource] ="dataSource">
 
-      <mat-table mat-table [dataSource] ="dataSource">
+          <ng-container *ngFor="let column of columns" matColumnDef= {{column.field}}>
+            <mat-header-cell *matHeaderCellDef> {{column.field}}</mat-header-cell>
+            <mat-cell *matCellDef="let row">
+            <div *ngIf="(column.field == 'Details' && displayHeaderDate)">
+              {{ row[column.field] | headerDate }}
+            </div>
+            <div *ngIf="(column.field == 'Details' && !displayHeaderDate)">
+              {{ row[column.field] | timeDate }}
+            </div>
 
-        <ng-container *ngFor="let column of columns" matColumnDef= {{column.field}}>
-          <mat-header-cell *matHeaderCellDef> {{column.field}}</mat-header-cell>
-          <mat-cell *matCellDef="let row">
-          <div *ngIf="(column.field == 'Details' && displayHeaderDate)">
-            {{ row[column.field] | headerDate }}
-          </div>
-          <div *ngIf="(column.field == 'Details' && !displayHeaderDate)">
-            {{ row[column.field] | timeDate }}
-          </div>
+            </mat-cell>
+          </ng-container>
 
-          </mat-cell>
-        </ng-container>
+          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
 
-        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-        <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+          <ng-container matColumnDef="groupHeader">
+            <mat-cell colspan="10" *matCellDef="let group">
+              <strong>{{group[groupByColumns[0]]}} ({{group.totalCounts}})</strong>
+              <mat-slide-toggle
+                class="leagueToggleSelect"
+                [(ngModel)]="!group.notificationsDisabled"
+                (change) = "openPopUp($event, group)"
+                (click)="collapseGroup(group); $event.stopPropagation();"></mat-slide-toggle>
+            </mat-cell>
+          </ng-container>
 
-        <ng-container matColumnDef="groupHeader">
-          <mat-cell colspan="10" *matCellDef="let group">
-            <strong>{{group[groupByColumns[0]]}} ({{group.totalCounts}})</strong>
-            <mat-slide-toggle
-              class="leagueToggleSelect"
-              [(ngModel)]="!group.notificationsDisabled"
-              (change) = "openPopUp($event, group)"
-              (click)="collapseGroup(group); $event.stopPropagation();"></mat-slide-toggle>
-          </mat-cell>
-        </ng-container>
+          <mat-row *matRowDef="let row; columns: ['groupHeader']; when: isGroup;" (click)="groupHeaderClick(row)">Test</mat-row>
 
-        <mat-row *matRowDef="let row; columns: ['groupHeader']; when: isGroup;" (click)="groupHeaderClick(row)">Test</mat-row>
-
-      </mat-table>
-    </div>
-      <hr>
-    <app-juicy-match [allMatches] = "matches"></app-juicy-match>
+        </mat-table>
+        <app-juicy-match [allMatches] = "matches"></app-juicy-match>
+      </div>
+</div>
 
 
     <hr id="footer-hrz">
+
     <div class="footer-container">
       <p>Fill footer info here</p>
     </div>

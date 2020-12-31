@@ -1,8 +1,21 @@
-mat-table {
-  width: 80%;
+.mn-display {
+  width: 70%;
   margin-left: auto;
   margin-right: auto;
-  margin-top: 60px;
+}
+
+mat-table {
+  margin-top: 3px;
+}
+
+.footer-container {
+  margin-bottom: 100px;
+  color:white;
+  text-align: center;
+}
+
+.leagueToggleSelect {
+  display: none;
 }
 
 .mat-column-Details {
@@ -23,11 +36,7 @@ mat-table {
   display: inline-block;
   width: 100%;
 }
-.footer-container {
-  margin-bottom: 100px;
-  color:white;
-  text-align: center;
-}
+
 
 .hac {
   float:left;
@@ -99,4 +108,8 @@ app-view-table-sidenav {
 
 .mat-form-field + .mat-form-field {
   margin-left: 8px;
+}
+
+div.footer-container{
+  color: white;
 }
