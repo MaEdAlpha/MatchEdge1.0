@@ -63,6 +63,7 @@ import { NotificationBoxService } from '../notification-box.service';
     //userPreference dialog popup
     //TODO add to UserPreference
     dialogDisabled: boolean = false;
+    displayHeaderDate: boolean = true;
 
     @ViewChild(MatTable) table: MatTable<any>;
 

@@ -48,6 +48,7 @@ import { SummaryListComponent } from './summary-list/summary-list.component';
 import { TopLayerFiltersComponent } from './top-layer-filters/top-layer-filters.component';
 import { WatchlistComponent } from './watchlist/watchlist.component';
 import { ViewTableSidenavComponent } from './view-table-sidenav/view-table-sidenav.component';
+import { StatusDisableDialogueComponent } from './status-disable-dialogue/status-disable-dialogue.component';
 
 //Directives
 import { FlickerDataDirective } from './directives/flicker-notification.directive';
@@ -58,11 +59,13 @@ import { WatchAwayDirective } from './directives/watch-away.directive';
 import { BetHomeDirective } from './directives/bet-home.directive';
 import { BetAwayDirective } from './directives/bet-away.directive';
 import { IgnoreIconDirective } from './directives/ignore-icon.directive';
-
-import { from } from 'rxjs';
-import { StatusDisableDialogueComponent } from './status-disable-dialogue/status-disable-dialogue.component';
 import { HideTableRowDirective } from './directives/hide-table-row.directive';
 import { FlickerDataMatchRatingDirective } from './directives/flicker-data-match-rating.directive';
+
+import { from } from 'rxjs';
+//Pipe
+import { HeaderDatePipe } from './pipes/hdr.datepipe';
+import { TimeDatePipe } from './pipes/time.datepipe';
 
 
 @NgModule({
@@ -91,6 +94,8 @@ import { FlickerDataMatchRatingDirective } from './directives/flicker-data-match
     StatusDisableDialogueComponent,
     HideTableRowDirective,
     FlickerDataMatchRatingDirective,
+    HeaderDatePipe,
+    TimeDatePipe
   ],
   imports: [
     AppRoutingModule,

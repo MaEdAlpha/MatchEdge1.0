@@ -18,14 +18,6 @@ mat-table {
   color: black;
   text-align: center;
 }
-/* code not necessary */
-/* .view-table-cont {
-  display: inline;
-  height: max-content;
-  width: 70%;
-  margin-left: auto;
-  margin-right:auto;
-} */
 
 .main-header {
   display: inline-block;
@@ -37,12 +29,10 @@ mat-table {
   text-align: center;
 }
 
-
 .hac {
   float:left;
   width: 49.6%;
 }
-/* APPEND TO ELRef when clicked. Pass boolean into Directive to add these classes*/
 .hmStatus{
     background: blue;
     color: white;

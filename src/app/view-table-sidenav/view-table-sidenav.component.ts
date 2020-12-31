@@ -25,7 +25,7 @@ interface TimeRange {
   styleUrls: ['./view-table-sidenav.component.css'],
 })
 
-export class ViewTableSidenavComponent implements OnChanges, OnInit, AfterViewInit {
+export class ViewTableSidenavComponent implements OnInit, AfterViewInit {
   @ViewChild('select') select: MatSelect;
   @ViewChild('sidenav') public sidenav: MatSidenav;
   //sidnav modetype
@@ -119,13 +119,6 @@ export class ViewTableSidenavComponent implements OnChanges, OnInit, AfterViewIn
 
   constructor(private sidenavService: SidenavService, private userPrefService: UserPropertiesService) {}
 
-  ngOnChanges(changes: SimpleChanges){
-    // if(changes.viewTablePref) {
-    //   this.prefObj = this.userPrefService.getFormValues();
-
-    // }
-  }
-
   ngOnInit(): void {
 
     this.prefObj = this.userPrefService.getFormValues();
@@ -190,7 +183,4 @@ export class ViewTableSidenavComponent implements OnChanges, OnInit, AfterViewIn
     return this.leagues;
   }
 
-  setUserPreference(){
-
-  }
 }

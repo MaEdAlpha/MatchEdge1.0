@@ -8,7 +8,7 @@
     B365AwayOdds:number;
     B365BTTSOdds:number;
     B365O25GoalsOdds:number;
-    StartDateTime:string;
+    StartDateTime:Date;
     League:string;
     OccurrenceHome: number;
     OccurrenceAway:number;
