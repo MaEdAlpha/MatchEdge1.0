@@ -1,5 +1,5 @@
 <button mat-raised-button (click)="showToast()"> Toast Me</button>
-<button mat-icon-button class="setting-btn" [disableRipple]="true" (click)= "toggleSideNav()"><mat-icon>settings</mat-icon></button>
+<button mat-icon-button class="setting-btn" [disableRipple]="true" (click)="toggleSideNav()"><mat-icon>settings</mat-icon></button>
 <app-view-table-sidenav></app-view-table-sidenav>
 <div class="mn-display">
   <app-top-layer-filters (hideTable)="displaySelectedTable($event)"></app-top-layer-filters>
@@ -14,20 +14,101 @@
               <mat-header-cell *matHeaderCellDef> <img src="/assets/img/smarketsIcon.png" alt=""></mat-header-cell>
             </ng-container>
             <ng-container *ngIf="!column.field.startsWith('B') || !column.field.startsWith('SM')">
-              <mat-header-cell *matHeaderCellDef> {{column.columnDisplay}}</mat-header-cell>
+              <mat-header-cell *matHeaderCellDef> <span>{{column.columnDisplay}}</span> </mat-header-cell>
             </ng-container>
 
             <mat-cell *matCellDef="let row; let i = index">
 
 
-            <div *ngIf="!column.field.endsWith('Status')">
-              <span class="{{column.field}} viewCell"> {{ row[column.field] }}</span>
-            </div>
+            <ng-container *ngIf="!column.field.endsWith('Status')">
+              <ng-container *ngIf="column.field.endsWith('BHome') || column.field.endsWith('SMHome') || column.field.endsWith('OccH') || column.field.endsWith('OccA') || column.field.endsWith('BAway') || column.field.endsWith('SMAway')">
+                <span class="{{column.field}} viewCell"> {{ row[column.field] | number:'0.2-2'}}</span>
+              </ng-container>
+                <ng-container *ngIf="column.field.startsWith('Home') || column.field.startsWith('Away') || column.field.startsWith('FixturesDate')">
+                  <span class="{{column.field}} viewCell"> {{ row[column.field] }}</span>
+                </ng-container>
+            </ng-container>
 
             <ng-container *ngIf="column.field.endsWith('Status')">
-              <span class="{{column.field}} viewCell"> {{ row[column.field].notify }}  </span>
-              <span class="{{column.field}} viewCell"> {{ row[column.field].ignore }}  </span>
-              <span class="{{column.field}} viewCell"> {{ row[column.field].activeBet }}  </span>
+              <div class="dirStatusContainer">
+                <ng-container *ngIf="column.field.endsWith('HStatus')">
+                  <ng-container>
+                    <button mat-icon-button
+                      (click)="row.HStatus.notify=!row.HStatus.notify"
+                      class="{{column.field}} viewCell"
+                      >
+                      <mat-icon>
+                        add_alert
+                      </mat-icon>
+                    </button>
+                  </ng-container>
+
+                  <ng-container >
+                    <button mat-icon-button
+                      class="{{column.field}} viewCell"
+                      (click)="row.HStatus.ignore=!row.HStatus.ignore"
+                      appIgnoreIcon
+                      [ignoreStatus]="row.HStatus.ignore"
+                      [teamSelection]="row.Home">
+                      <mat-icon>
+                        block
+                      </mat-icon>
+                    </button>
+                  </ng-container>
+
+                  <ng-container>
+                    <button mat-icon-button
+                      class="{{column.field}} viewCell"
+                      (click)="row.HStatus.bet=!row.HStatus.activeBet"
+                      appBetHome [hBetStatus]="row.HStatus.activeBet"
+                      id="hStatusMoney">
+                      <mat-icon>
+                        attach_money
+                      </mat-icon>
+                  </button>
+                  </ng-container>
+                </ng-container>
+
+                <!-- AWAY STATUS CONFIG -->
+                <ng-container *ngIf="column.field.endsWith('AStatus')">
+                  <ng-container>
+                    <button mat-icon-button
+                      (click)="row.AStatus.notify=!row.AStatus.notify"
+                      class="{{column.field}} viewCell"
+                      >
+                      <mat-icon>
+                        add_alert
+                      </mat-icon>
+                    </button>
+                  </ng-container>
+
+                  <ng-container >
+                    <button mat-icon-button
+                      class="{{column.field}} viewCell"
+                      (click)="row.AStatus.ignore=!row.AStatus.ignore"
+                      appIgnoreIcon
+                      [ignoreStatus]="row.AStatus.ignore"
+                      [teamSelection]="row.Away">
+                      <mat-icon>
+                        block
+                      </mat-icon>
+                    </button>
+                  </ng-container>
+
+                  <ng-container>
+                    <button mat-icon-button
+                      class="{{column.field}} viewCell"
+                      appBetAway
+                      (click)="row.AStatus.bet=!row.AStatus.activeBet"
+                      appBetAway [aBetStatus]="row.AStatus.activeBet"
+                      id="hStatusMoney">
+                      <mat-icon>
+                        attach_money
+                      </mat-icon>
+                  </button>
+                  </ng-container>
+                </ng-container>
+              </div>
             </ng-container>
 
             </mat-cell>
@@ -49,7 +130,7 @@
             </mat-cell>
           </ng-container>
 
-          <mat-row *matRowDef="let row; columns: ['groupHeader']; when: isGroup;" (click)="groupHeaderClick(row)">Test</mat-row>
+          <mat-row *matRowDef="let row; columns: ['groupHeader']; when: isGroup;" (click)="groupHeaderClick(row)"></mat-row>
 
           </mat-table>
         </div>
