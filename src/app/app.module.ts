@@ -1,5 +1,5 @@
 //Modules
-import { NgModule } from '@angular/core';
+import { NgModule, LOCALE_ID } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
@@ -7,6 +7,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { ToastrModule } from 'ngx-toastr';
+import { registerLocaleData } from '@angular/common';
+import localeGB from '@angular/common/locales/en-GB';
 
 //Materials
 import { MatButtonModule } from '@angular/material/button';
@@ -67,6 +69,7 @@ import { from } from 'rxjs';
 import { HeaderDatePipe } from './pipes/hdr.datepipe';
 import { TimeDatePipe } from './pipes/time.datepipe';
 
+registerLocaleData(localeGB);
 
 @NgModule({
   declarations: [
@@ -125,7 +128,8 @@ import { TimeDatePipe } from './pipes/time.datepipe';
       preventDuplicates: false,
     }),
   ],
-  providers: [MatchesService, WebsocketService, UserPropertiesService, MatchDisplayService, MatchNotificationService, CalcSettingsService, IsJuicyService, JuicyMatchHandlingService],
+  providers: [
+              {provide: LOCALE_ID, useValue: "en-GB"}, MatchesService, WebsocketService, UserPropertiesService, MatchDisplayService, MatchNotificationService, CalcSettingsService, IsJuicyService, JuicyMatchHandlingService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

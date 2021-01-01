@@ -6,7 +6,7 @@ import { DatePipe } from '@angular/common';
 })
 
 export class HeaderDatePipe extends DatePipe implements PipeTransform {
-  transform(value: Date): string {
+  transform(value: any): string {
     return super.transform(value, "EEE MMM d");
   }
 }

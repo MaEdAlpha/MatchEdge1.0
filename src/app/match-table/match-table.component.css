@@ -17,6 +17,7 @@ mat-row, mat-header-row {
   color: white;
 }
 
+
 .mat-column-groupHeader, .leagueGroupContainer  {
   background: #7a8585;
 }
@@ -33,11 +34,9 @@ mat-row, mat-header-row {
 
 .mat-column-Details {
   border-bottom: transparent;
-  padding-left: 5px;
-  padding-right: 5px;
 }
 
-.mat-column-Away {
+.mat-column-Away, .mat-column-Home {
   padding-left: 10px;
 }
 .lge-title-cont> h1, .home-away-cont> h2 {
@@ -111,9 +110,6 @@ border-bottom-left-radius: 30px;
   border-radius: 5px;
 }
 
-.viewCell{
-  color: white;
-}
 
 span.BAway, span.BHome{
   background: green;
@@ -162,5 +158,33 @@ div.footer-container{
   font-size: 10px;
   text-align: left;
   color: white;
-
 }
+
+.mat-column-Home, .mat-column-Away, .mat-column-FixturesDate {
+  background: white;
+  text-align: center;
+  font-size: 11px;
+  margin-bottom: 0;
+  color: black;
+}
+
+.mat-column-FixturesDate>div {
+  margin-left: auto;
+  margin-right: auto;
+  width: 75%;
+}
+.cdk-column-Home{
+  background: white;
+  text-align: center;
+  width: 100%;
+}
+
+span.Home, span.Away {
+  color: black;
+}
+
+mat-header-cell.cdk-column-Home, mat-header-cell.cdk-column-Away, mat-header-cell.cdk-column-FixturesDate {
+  background: #272929;
+}
+
+

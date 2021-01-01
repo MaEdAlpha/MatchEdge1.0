@@ -22,7 +22,7 @@
                           </div>
                             <span *ngIf="!column.endsWith('Odds') && !column.endsWith('Bet')"> {{selection[column]}}</span>
                               <div *ngIf="column.endsWith('Bet')">
-                                  <span class="ev{{flickerColmnIndex}}box" appFlickerDataEv [isUpdated]="selection.evIsUpdated"> {{selection[column] | currency}} </span>
+                                  <span class="ev{{flickerColmnIndex}}box" appFlickerDataEv [isUpdated]="selection.evIsUpdated"> {{selection[column] | currency:'GBP'}} </span>
                               </div>
                                 <div *ngIf="column.endsWith('Rating')">
                                   <span class="mr{{flickerColmnIndex}}box" appFlickerDataMatchRating [isUpdated]="selection.matchRatingUpdated"> {{selection[column] | number:'0.2-2'}} </span>
@@ -67,25 +67,25 @@
                     </div>
 
                     <div class="jm-exp-details-row2">
-                      <p class="user-directions">Go to *bet365Picture and <b>back </b><span>{{selection.Selection}}</span> for <span class="value-box-back"><b>{{selection.Stake | currency}}</b></span> at odds of <span class="value-box-back"><b>{{selection.BackOdds | number:'0.2-2'}}</b></span></p>
-                      <div class="external-link-button" id="bet365lnk"><a mat-raised-button href= {{selection.UrlB365}} target="_blank">Go to Bet365</a></div>
+                      <p class="user-directions">Go to *bet365Picture and <b>back </b><span>{{selection.Selection}}</span> for <span class="value-box-back"><b>{{selection.Stake | currency:'GBP'}}</b></span> at odds of <span class="value-box-back"><b>{{selection.BackOdds | number:'0.2-2'}}</b></span></p>
+                      <div class="external-link-button" id="bet365lnk"><a mat-raised-button href= {{selection.UrlB365}} target="_blank">OPEN EVENT</a></div>
                     </div>
 
                     <div class="jm-exp-details-row3">
-                      <p class="user-directions">Go to *Smarkets and <b>lay </b> <span>{{selection.Selection}}</span> for <span class="value-box-lay"><b>{{selection.LayStake | currency}}</b></span> at odds of <span class="value-box-lay"><b>{{selection.LayOdds | number:'0.2-2'}}</b></span></p>
-                      <div class="row3-value"> Liability: <span class="row3-value">{{selection.Liability | currency}}</span>  </div>
-                      <div class="external-link-button" id="smlnk"><a mat-raised-button href= {{selection.UrlSmarkets}} target="_blank">Go to Smarkets</a></div>
+                      <p class="user-directions">Go to *Smarkets and <b>lay </b> <span>{{selection.Selection}}</span> for <span class="value-box-lay"><b>{{selection.LayStake | currency:'GBP'}}</b></span> at odds of <span class="value-box-lay"><b>{{selection.LayOdds | number:'0.2-2'}}</b></span></p>
+                      <div class="row3-value"> Liability: <span class="row3-value">{{selection.Liability | currency:'GBP'}}</span>  </div>
+                      <div class="external-link-button" id="smlnk"><a mat-raised-button href= {{selection.UrlSmarkets}} target="_blank">OPEN EVENT</a></div>
 
                     </div>
 
                     <div class="jm-exp-details-row4">
 
                       <div class="row4 row4-row1">
-                        <span><h3>Full Turnaround Profit</h3></span> <h3>{{selection.FTAProfit | currency}}</h3>
+                        <span><h3>Full Turnaround Profit</h3></span> <h3>{{selection.FTAProfit | currency:'GBP'}}</h3>
                       </div>
 
                       <div class="row4 row4-row2">
-                        <span class="row4-hdr"><h3>Qualifying Loss</h3></span> <span><h3>{{selection.QL | currency}}</h3></span>
+                        <span class="row4-hdr"><h3>Qualifying Loss</h3></span> <span><h3>{{selection.QL | currency:'GBP'}}</h3></span>
                       </div>
 
                       <div class="row4 row4-row3">
@@ -93,12 +93,11 @@
                       </div>
 
                       <div class="row4 row4-row4">
-                        <span class="row4-hdr"><h3>Est. Value Total</h3></span><span><h3>{{selection.EVTotal | currency}}</h3></span>
+                        <span class="row4-hdr"><h3>Est. Value Total</h3></span><span><h3>{{selection.EVTotal | currency:'GBP'}}</h3></span>
                       </div>
 
                       <div class="row4 row4-row5">
                         <button mat-mat-raised-button class="exp-button">Record Bet</button>
-                        <button mat-mat-raised-button class="exp-button">Close Match</button>
                       </div>
 
                     </div>

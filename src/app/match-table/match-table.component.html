@@ -7,18 +7,28 @@
           <mat-table  mat-table [dataSource] ="dataSource">
 
           <ng-container *ngFor="let column of columns" matColumnDef= {{column.field}}>
-            <mat-header-cell *matHeaderCellDef> {{column.columnDisplay}}</mat-header-cell>
-            <mat-cell *matCellDef="let row">
-            <div *ngIf="(column.field == 'Details' && displayHeaderDate)">
-              {{ row[column.field] | headerDate }}
-            </div>
-            <div *ngIf="(column.field == 'Details' && !displayHeaderDate)">
-              {{ row[column.field] | timeDate }}
+            <ng-container *ngIf="column.field.startsWith('B')">
+              <mat-header-cell *matHeaderCellDef> <img src="/assets/img/betIcon.png" alt=""></mat-header-cell>
+            </ng-container>
+            <ng-container *ngIf="column.field.startsWith('SM')">
+              <mat-header-cell *matHeaderCellDef> <img src="/assets/img/smarketsIcon.png" alt=""></mat-header-cell>
+            </ng-container>
+            <ng-container *ngIf="!column.field.startsWith('B') || !column.field.startsWith('SM')">
+              <mat-header-cell *matHeaderCellDef> {{column.columnDisplay}}</mat-header-cell>
+            </ng-container>
+
+            <mat-cell *matCellDef="let row; let i = index">
+
+
+            <div *ngIf="!column.field.endsWith('Status')">
+              <span class="{{column.field}} viewCell"> {{ row[column.field] }}</span>
             </div>
 
-            <div *ngIf="(column.field != 'Details')">
-              <span class="{{column.field}} viewCell"> {{ row[column.field] }}  </span>
-            </div>
+            <ng-container *ngIf="column.field.endsWith('Status')">
+              <span class="{{column.field}} viewCell"> {{ row[column.field].notify }}  </span>
+              <span class="{{column.field}} viewCell"> {{ row[column.field].ignore }}  </span>
+              <span class="{{column.field}} viewCell"> {{ row[column.field].activeBet }}  </span>
+            </ng-container>
 
             </mat-cell>
           </ng-container>

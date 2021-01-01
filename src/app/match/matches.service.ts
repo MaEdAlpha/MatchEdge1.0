@@ -48,8 +48,8 @@ export class MatchesService {
             OccA: match.OccurrenceAway,
             UrlB365: match.URLB365,
             UrlSmarkets: match.URLSmarkets,
-            HStatus: {watch: false, bet: false, ignore: false },
-            AStatus: {watch: false, bet: false, ignore: false }
+            HStatus: {notify: false, activeBet: false, ignore: false },
+            AStatus: {notify: false, activeBet: false, ignore: false }
           }
         })
       }))

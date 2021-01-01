@@ -12,6 +12,7 @@ import { ToastrService } from 'ngx-toastr';
 import { NotificationBoxService } from '../notification-box.service';
 import { NgSwitchCase } from '@angular/common';
 import { NumberInput } from '@angular/cdk/coercion';
+import { DatePipe } from '@angular/common';
 import { SidenavService } from '../view-table-sidenav/sidenav.service';
 
   export class Group {
@@ -33,11 +34,12 @@ import { SidenavService } from '../view-table-sidenav/sidenav.service';
         transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
       ]),
     ],
+    providers:[DatePipe],
   })
 
   export class MatchTableComponent implements OnInit, OnDestroy, AfterViewInit {
 
-    displayedColumns: string[] = ['HStatus','BHome','SMHome', 'OccH', 'Home',  'Details', 'Away', 'OccA' , 'BAway','SMAway', 'AStatus'];
+    displayedColumns: string[] = ['HStatus','BHome','SMHome', 'OccH', 'Home',  'FixturesDate', 'Away', 'OccA' , 'BAway','SMAway', 'AStatus'];
     SecondcolumnsToDisplay: string[] = ['SMHome','BHome', 'BDraw', 'BAway', 'BTTSOdds', 'B25GOdds','SMAway',  'League', 'OccH', 'OccA'];
     columnsToDisplay: string[] = this.displayedColumns.slice();
     @Input() matches: any;
@@ -75,14 +77,14 @@ import { SidenavService } from '../view-table-sidenav/sidenav.service';
 
     private matchesSub: Subscription;
 
-    constructor(private sidenav: SidenavService , private matchesService: MatchesService, private webSocketService: WebsocketService, public dialog: MatDialog, private notificationBox: NotificationBoxService) {
+    constructor(public datepipe: DatePipe, private sidenav: SidenavService , private matchesService: MatchesService, private webSocketService: WebsocketService, public dialog: MatDialog, private notificationBox: NotificationBoxService) {
       this.columns = [
         { field: "HStatus" , columnDisplay: "" },
         { field: "BHome", columnDisplay: "Image" },
         { field: "SMHome", columnDisplay: "Image" },
         { field: "OccH", columnDisplay: "2UP OCC. Home" },
         { field: "Home", columnDisplay: "" },
-        { field: "Details", columnDisplay: "" },
+        { field: "FixturesDate", columnDisplay: "" },
         { field: "Away", columnDisplay: "" },
         { field: "OccA", columnDisplay: "2UP OCC. Away" },
         { field: "BAway", columnDisplay: "Image" },
@@ -129,6 +131,7 @@ import { SidenavService } from '../view-table-sidenav/sidenav.service';
       }
 
       modifiedGroupList(data: any[], groupList: any[]) : any[]{
+
         groupList.forEach( groupObj => {
 
           if(!this.masterList.includes(groupObj)){
@@ -140,9 +143,26 @@ import { SidenavService } from '../view-table-sidenav/sidenav.service';
             var groupIndex = this.masterList.indexOf(groupObj);
             var matchPosition = groupIndex + 1;
 
-            data.forEach(matchObj => {
+            data.forEach( matchObj => {
+              var matchIndex = data.indexOf(matchObj);
+
               if(matchObj.League == groupObj.League)
               {
+                if(matchPosition == groupIndex + 1){
+                  matchObj.displayHeaderDate = true;
+                  console.log(matchObj.Home + " " + matchObj.Details + " Set to True");
+
+                }
+                else if (matchObj.Details.substring(0,2) != data[matchIndex-1].Details.substring(0,2)) {
+                  matchObj.displayHeaderDate = true;
+                  console.log(matchObj.Home + " " + matchObj.Details + " Set to True");
+                }
+                else {
+                  matchObj.displayHeaderDate = false;
+                  console.log(matchObj.Home + " " + matchObj.Details + " Set to False");
+                }
+                matchObj.Details = matchObj.Details.replaceAll('/', '-');
+
                 var index = matchPosition;
                 this.masterList.splice(index, 0, matchObj);
                 matchPosition ++;
@@ -162,7 +182,25 @@ import { SidenavService } from '../view-table-sidenav/sidenav.service';
             groupObj.isActive = false;
           }
         })
+
+        this.masterList = this.addFixturesDate(this.masterList);
         return this.masterList;
+      }
+
+      addFixturesDate(matchList: any[] ): any[]{
+
+        matchList.forEach( matchObj => {
+
+          if(matchObj.displayHeaderDate){
+            var str = matchObj.Details;
+            var fuckYouDatePipe = str.slice(3,6) + str.slice(0, 3) + str.slice(6, 19);
+
+            matchObj.FixturesDate = this.datepipe.transform(fuckYouDatePipe, 'EEE dd MMM \n  HH:mm');
+          }else {
+            matchObj.FixturesDate = this.datepipe.transform(matchObj.Details, 'HH:mm');
+          }
+        });
+        return matchList;
       }
 
       groupHeaderClick(row) {
