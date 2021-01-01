@@ -163,10 +163,10 @@ img {
   color: black;
 }
 
-.mat-column-FixturesDate>div {
+.mat-column-FixturesDate>span {
   margin-left: auto;
   margin-right: auto;
-  width: 75%;
+  width: 60%;
 }
 .cdk-column-Home{
   background: white;
