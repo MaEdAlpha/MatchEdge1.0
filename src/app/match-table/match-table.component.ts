@@ -3,7 +3,7 @@ import { Subscription } from 'rxjs';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { MatchesService } from '../match/matches.service';
 import { MatDialog } from '@angular/material/dialog';
-import { animate, state, style, transition, trigger } from '@angular/animations';
+import { animate, group, state, style, transition, trigger } from '@angular/animations';
 import { WebsocketService } from '../websocket.service';
 import { Match } from '../match/match.model';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
@@ -55,13 +55,27 @@ import { SidenavService } from '../view-table-sidenav/sidenav.service';
     hideActive: boolean = true;
     isNotInList: boolean = false;
     panelOpenState = false;
+    viewSelectedDate:string;
 
     //HeaderGroup Test
     dataSource = new MatTableDataSource<any | Group>([]);
     groupByColumns: string[]=["League"];
     allData: Match[];
     _allGroup: any[];
-    columns: any[];
+    columns: any[] = [
+      { field: "HStatus" , columnDisplay: "" },
+      { field: "BHome", columnDisplay: "Image" },
+      { field: "SMHome", columnDisplay: "Image" },
+      { field: "OccH", columnDisplay: "2UP OCC. Home" },
+      { field: "Home", columnDisplay: "" },
+      { field: "FixturesDate", columnDisplay: "" },
+      { field: "Away", columnDisplay: "" },
+      { field: "OccA", columnDisplay: "2UP OCC. Away" },
+      { field: "BAway", columnDisplay: "Image" },
+      { field: "SMAway", columnDisplay: "Image" },
+      { field: "AStatus", columnDisplay: "" }
+    ];
+
     masterList: any[] = [];
 
     expandedCar: any[] = [];
@@ -78,19 +92,6 @@ import { SidenavService } from '../view-table-sidenav/sidenav.service';
     private matchesSub: Subscription;
 
     constructor(public datepipe: DatePipe, private sidenav: SidenavService , private matchesService: MatchesService, private webSocketService: WebsocketService, public dialog: MatDialog, private notificationBox: NotificationBoxService) {
-      this.columns = [
-        { field: "HStatus" , columnDisplay: "" },
-        { field: "BHome", columnDisplay: "Image" },
-        { field: "SMHome", columnDisplay: "Image" },
-        { field: "OccH", columnDisplay: "2UP OCC. Home" },
-        { field: "Home", columnDisplay: "" },
-        { field: "FixturesDate", columnDisplay: "" },
-        { field: "Away", columnDisplay: "" },
-        { field: "OccA", columnDisplay: "2UP OCC. Away" },
-        { field: "BAway", columnDisplay: "Image" },
-        { field: "SMAway", columnDisplay: "Image" },
-        { field: "AStatus", columnDisplay: "" }
-      ];
      } //creates an instance of matchesService. Need to add this in app.module.ts providers:[]
 
 
@@ -108,21 +109,23 @@ import { SidenavService } from '../view-table-sidenav/sidenav.service';
 
             //assign groupList to matDataSource. Should have both Group & matches, organized alphabetically
             this.dataSource.data = this.getGroupListInit(this.allData, 0,this.groupByColumns);
-        });
 
-        //Subscribe to Event listener in matches Service for StreamChange data. Update this.matches.
-        this.matchesService.streamDataUpdate
-        .subscribe( (streamObj) => {
-          console.log("recieved in MT comp streamUpdate subscribe");
+          });
 
-          var indexOfmatch = this.matches.findIndex( match => match.Home == streamObj.HomeTeamName && match.Away == streamObj.AwayTeamName);
-          indexOfmatch != undefined && this.matches[indexOfmatch] ? this.updateMatch(this.matches[indexOfmatch], streamObj) : console.log("not found");
-        });
-      }
+          //Subscribe to Event listener in matches Service for StreamChange data. Update this.matches.
+          this.matchesService.streamDataUpdate
+          .subscribe( (streamObj) => {
+            console.log("recieved in MT comp streamUpdate subscribe");
 
-      ngAfterViewInit(){
-             //Open Socket Connection
-             this.webSocketService.openWebSocket();
+            var indexOfmatch = this.matches.findIndex( match => match.Home == streamObj.HomeTeamName && match.Away == streamObj.AwayTeamName);
+            indexOfmatch != undefined && this.matches[indexOfmatch] ? this.updateMatch(this.matches[indexOfmatch], streamObj) : console.log("not found");
+          });
+        }
+
+        ngAfterViewInit(){
+          //Open Socket Connection
+          this.webSocketService.openWebSocket();
+          console.log(this.dataSource.data);
       }
 
       ngOnDestroy(){
@@ -130,14 +133,31 @@ import { SidenavService } from '../view-table-sidenav/sidenav.service';
        this.webSocketService.closeWebSocket();
       }
 
-      modifiedGroupList(data: any[], groupList: any[]) : any[]{
+      swapDate(usDateFormat: string): Date {
+
+        return new Date(Date.parse(usDateFormat));
+      }
+
+      modifiedGroupList(data: any[], groupList: any[], viewSelection: string) : any[]{
+        //where you disable expanded functionality for toggle button
+        var date = Date.now();
+        var dateValidator = 1;
+        // var dateValidator = new Date(date).getDate();
+        //TODO BUG-FIX WHEN LOCALE_ID WORKS.
+        var matchDate= this.swapDate(this.fuckYouDatePipeMethod(data[2].Details));
+        //return just the day value
+        //console.log(new Date(date).getDate() + " == " + matchDate.getDate());
 
         groupList.forEach( groupObj => {
 
+          //add group Object into masterList if not found in this.masterList.
           if(!this.masterList.includes(groupObj)){
+            console.log(groupObj.League + " not included in master list.....");
+            console.log("Added " + groupObj.League);
             this.masterList.push(groupObj);
           }
-
+          //for an  expanded group that isActive == true. Iterate over each matchObj and compare date.
+          //groupObj is expaned but is not active. =? Remove any matchObject from master list then set Group isActive to true.
           if(groupObj.expanded == true && !groupObj.isActive)
           {
             var groupIndex = this.masterList.indexOf(groupObj);
@@ -146,22 +166,17 @@ import { SidenavService } from '../view-table-sidenav/sidenav.service';
             data.forEach( matchObj => {
               var matchIndex = data.indexOf(matchObj);
 
-              if(matchObj.League == groupObj.League)
+              if(matchObj.League == groupObj.League && (this.swapDate(this.fuckYouDatePipeMethod(matchObj.Details))).getDate() <= dateValidator)
               {
                 if(matchPosition == groupIndex + 1){
                   matchObj.displayHeaderDate = true;
-                  console.log(matchObj.Home + " " + matchObj.Details + " Set to True");
-
                 }
                 else if (matchObj.Details.substring(0,2) != data[matchIndex-1].Details.substring(0,2)) {
                   matchObj.displayHeaderDate = true;
-                  console.log(matchObj.Home + " " + matchObj.Details + " Set to True");
                 }
                 else {
                   matchObj.displayHeaderDate = false;
-                  console.log(matchObj.Home + " " + matchObj.Details + " Set to False");
                 }
-                matchObj.Details = matchObj.Details.replaceAll('/', '-');
 
                 var index = matchPosition;
                 this.masterList.splice(index, 0, matchObj);
@@ -171,36 +186,47 @@ import { SidenavService } from '../view-table-sidenav/sidenav.service';
             //set to active to avoid excessive iterations. This will be set back to false, when expanded = false.
             groupObj.isActive = true;
           }
-
+          //groupObj is not expanded but is active. If groupObj matches league, get position of match and remove it from masterList.
           if (groupObj.expanded == false && groupObj.isActive){
+            console.log("entered line 209 for: " + groupObj.League + ": expanded = false. isActive = true. You clicked to close matches under this league.");
+
             data.forEach( match => {
+
               if(match.League == groupObj.League){
+                console.log(match);
+
                 var position = this.masterList.indexOf(match);
                 this.masterList.splice(position, 1);
               }
             });
             groupObj.isActive = false;
           }
-        })
+        });
+
+        console.log("MASTERLIST @ end of method.");
+          console.log(this.masterList);
 
         this.masterList = this.addFixturesDate(this.masterList);
+
         return this.masterList;
       }
 
       addFixturesDate(matchList: any[] ): any[]{
 
         matchList.forEach( matchObj => {
-
+          //TODO BUG-FIX WHEN LOCALE_ID WORKS.
           if(matchObj.displayHeaderDate){
-            var str = matchObj.Details;
-            var fuckYouDatePipe = str.slice(3,6) + str.slice(0, 3) + str.slice(6, 19);
 
+            var fuckYouDatePipe = this.fuckYouDatePipeMethod(matchObj.Details);
             matchObj.FixturesDate = this.datepipe.transform(fuckYouDatePipe, 'EEE dd MMM \n  HH:mm');
           }else {
             matchObj.FixturesDate = this.datepipe.transform(matchObj.Details, 'HH:mm');
           }
         });
         return matchList;
+      }
+      updateFixtures($event) {
+        this.viewSelectedDate = $event;
       }
 
       groupHeaderClick(row) {
@@ -212,18 +238,19 @@ import { SidenavService } from '../view-table-sidenav/sidenav.service';
           //TODO this functionality needs to remove all selections relative to row.league from this.dataSource.data.
           this.dataSource.data = this.modifiedGroupList(
             this.allData,
-            this._allGroup
-          );
-
+            this._allGroup,
+            this.viewSelectedDate
+            );
         } else {
+          //if row is  closed, set to true, and modify groupList.
           //TODO set this group to expanded == true. Set the dataSource via addgroupsNew() function.
           row.expanded = true;
-
           //need to find all items relative to this row.league objectand add it to this.dataSource.data.
           this.dataSource.data = this.modifiedGroupList(
             this.allData,
-            this._allGroup
-          );
+            this._allGroup,
+            this.viewSelectedDate
+            );
         }
         //console.log("Data Source: ");
         //console.log(this.dataSource.data);
@@ -245,8 +272,10 @@ import { SidenavService } from '../view-table-sidenav/sidenav.service';
             result.level = level + 1;
             for (let i = 0; i <= level; i++) {
               result[groupByColumns[i]] = row[groupByColumns[i]];
-              //result[League] = row[groupByColumns[i]];
-              //console.log("League: " + result[groupByColumns[i]] + " Home Team: " + row['Home']);
+              // result = League  row = Fixture Object. row['League']
+              //console.log(row);
+
+              //console.log("League: " + result[groupByColumns[0]] + " Home Team: " + row['Home']);
             }
             //console.log(result);
             return result;
@@ -254,15 +283,13 @@ import { SidenavService } from '../view-table-sidenav/sidenav.service';
           //Why? This is a bit dodgy code
           JSON.stringify
         );
-        //console.log(groups);
+        console.log(groups);
 
         const currentColumn = groupByColumns[level];
 
         groups.forEach(group => {
           //filter all data to matching brands, for each group. add total count to group property
-          const rowsInGroup = data.filter(
-            row => group[currentColumn] === row[currentColumn]
-          );
+          const rowsInGroup = data.filter( row => group[currentColumn] === row[currentColumn] );
             // console.log(group);
             // console.log(rowsInGroup);
 
@@ -279,7 +306,7 @@ import { SidenavService } from '../view-table-sidenav/sidenav.service';
         //asign groups to _allGroup for calling later on click() expand functionality.
         this._allGroup = groups;
         //returns an alphabetically organized group list
-        console.log(this._allGroup);
+        //console.log(this._allGroup);
         return groups;
       }
 
@@ -475,7 +502,6 @@ import { SidenavService } from '../view-table-sidenav/sidenav.service';
 
       openPopUp($event: MatSlideToggleChange, groupItem: any) {
 
-
         if($event.checked == false && !this.dialogDisabled){
           //if Turning toggle to "OFF", popup dialog box to warn user.
           let dialogRef =  this.dialog.open(StatusDisableDialogueComponent);
@@ -512,6 +538,10 @@ import { SidenavService } from '../view-table-sidenav/sidenav.service';
 
       toggleSideNav(){
         this.sidenav.toggle();
+      }
+        //TODO BUG-FIX WHEN LOCALE_ID WORKS.
+      fuckYouDatePipeMethod(dateString: string):string {
+        return dateString.slice(3,6) + dateString.slice(0, 3) + dateString.slice(6, 19);
       }
 }
 

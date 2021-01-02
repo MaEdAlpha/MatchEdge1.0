@@ -78,6 +78,7 @@ mat-row, mat-header-row {
   color: #263238;
   background: #7a8585;
   border-radius: 5px;
+  width: 100px;
 }
 
 
@@ -176,6 +177,7 @@ img {
 
 span.Home, span.Away {
   color: black;
+  font-size: 12px;
 }
 
 span.BHome, span.BAway, span.SMHome, span.SMAway, span.BHome, span.BAway {
@@ -198,6 +200,22 @@ span.SMAway, span.SMHome{
 
 mat-header-cell.cdk-column-Home, mat-header-cell.cdk-column-Away, mat-header-cell.cdk-column-FixturesDate {
   background: #272929;
+}
+
+.mat-icon-button {
+  width: 30%;
+}
+
+.fixturesDateBtn {
+  width: 100%;
+  padding: 0px;
+  white-space: normal;
+  background: whitesmoke;
+}
+
+#fixturesText {
+  width: 80%;
+  font-size: 10px;
 }
 
 

@@ -35,7 +35,7 @@ export class ViewTableSidenavComponent implements OnInit, AfterViewInit {
   allSelected: boolean = true;
   selectedTime: string;
   viewTableForm: FormGroup;
-  userPrefSub: Subscription;
+  userPrefSubscription: Subscription;
 
 
   prefObj: TablePreferences;
@@ -122,6 +122,7 @@ export class ViewTableSidenavComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
 
     this.prefObj = this.userPrefService.getFormValues();
+
     this.viewTableForm = new FormGroup({
       'leagueSelection': new FormControl(this.prefObj.leagueSelection),
       'timeRange': new FormControl(this.prefObj.timeRange),
@@ -132,8 +133,8 @@ export class ViewTableSidenavComponent implements OnInit, AfterViewInit {
       'isEvSelected': new FormControl(this.prefObj.isEvSelected)
     });
 
-    //Subscribe to update.
-    this.userPrefSub = this.userPrefService.getUserPrefs().subscribe( tablePref => {
+    //Subscribe to update. Retrieves UserPreferences from Service. Subscribes to it.
+    this.userPrefSubscription = this.userPrefService.getUserPrefs().subscribe( tablePref => {
       this.prefObj = tablePref;
       this.timeRange = tablePref.timeRange;
       this.evFilter = Number(tablePref.evFilterValue);

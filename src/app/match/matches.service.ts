@@ -10,15 +10,13 @@ import { Injectable, EventEmitter } from '@angular/core';
 
 export class MatchesService {
   private matches: any;
-  private matchDataStream: any;
 
   streamDataUpdate = new EventEmitter<any>();
-  streamDataIIUpdate = new EventEmitter<any>();
 
   public matchesUpdated = new Subject<any>();
 
   constructor(private http: HttpClient) {}
-  //*****Poke around on return value get it to work as an observable?
+  //TODO update all Emitters to Observables
   getMatches() {
 
     this.http
@@ -58,10 +56,9 @@ export class MatchesService {
         this.matchesUpdated.next(this.matches);
       });
   }
-  getMatchUpdateListener(): Observable<any[]> {
-    console.log("in Update Listener function: " + this.matchesUpdated);
 
-    return this.matchesUpdated.asObservable();
+  getMatchUpdateListener(): Observable<any[]> {
+     return this.matchesUpdated.asObservable();
   }
 
   addToUpdatedMatches(_streamObj){

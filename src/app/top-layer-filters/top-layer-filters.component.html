@@ -2,9 +2,10 @@
   <div class="hdr-top-row">
     <div class="hdr-tabs-left">
       <mat-form-field class="hdr-date" appearance="fill">
-        <mat-label>Choose a date</mat-label>
-        <mat-select [(ngModel)]="viewThisDate" name="dateSelect">
-          <mat-option *ngFor="let dayRange of dateSelect" [value]="dayRange.value">
+        <mat-label> Selected Time </mat-label>
+        <mat-select
+          [(value)]="viewThisDate" name="dateSelect">
+          <mat-option [value]="dayRange.viewValue" *ngFor="let dayRange of dateSelect" (click)="method(dayRange.viewValue)">
             {{dayRange.viewValue}}
           </mat-option>
         </mat-select>
