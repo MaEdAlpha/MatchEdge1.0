@@ -138,50 +138,55 @@ import { SidenavService } from '../view-table-sidenav/sidenav.service';
         return new Date(Date.parse(usDateFormat));
       }
 
-      modifiedGroupList(data: any[], groupList: any[], viewSelection: string) : any[]{
+      modifiedGroupList(allData: any[], groupList: any[], viewSelection: string) : any[]{
         //where you disable expanded functionality for toggle button
+
         var date = Date.now();
-        var dateValidator = 1;
+        var dateValidator = 2;
         // var dateValidator = new Date(date).getDate();
         //TODO BUG-FIX WHEN LOCALE_ID WORKS.
-        var matchDate= this.swapDate(this.fuckYouDatePipeMethod(data[2].Details));
+        var matchDate= this.swapDate(this.fuckYouDatePipeMethod(allData[2].Details));
         //return just the day value
         //console.log(new Date(date).getDate() + " == " + matchDate.getDate());
 
         groupList.forEach( groupObj => {
+          console.log("Looking at groupObj: " + groupObj.League);
 
           //add group Object into masterList if not found in this.masterList.
+          //FIRST IF
           if(!this.masterList.includes(groupObj)){
-            console.log(groupObj.League + " not included in master list.....");
-            console.log("Added " + groupObj.League);
+            console.log(groupObj.League + " not included in master list..... IN FIRST");
             this.masterList.push(groupObj);
           }
           //for an  expanded group that isActive == true. Iterate over each matchObj and compare date.
           //groupObj is expaned but is not active. =? Remove any matchObject from master list then set Group isActive to true.
+          //SECOND
           if(groupObj.expanded == true && !groupObj.isActive)
           {
+            console.log(groupObj.League + ": IN SECOND");
+
             var groupIndex = this.masterList.indexOf(groupObj);
             var matchPosition = groupIndex + 1;
 
-            data.forEach( matchObj => {
-              var matchIndex = data.indexOf(matchObj);
+            allData.forEach( matchObj => {
+              var matchIndex = allData.indexOf(matchObj);
 
-              if(matchObj.League == groupObj.League && (this.swapDate(this.fuckYouDatePipeMethod(matchObj.Details))).getDate() <= dateValidator)
-              {
-                if(matchPosition == groupIndex + 1){
-                  matchObj.displayHeaderDate = true;
-                }
-                else if (matchObj.Details.substring(0,2) != data[matchIndex-1].Details.substring(0,2)) {
-                  matchObj.displayHeaderDate = true;
-                }
-                else {
-                  matchObj.displayHeaderDate = false;
-                }
+              // if(matchObj.League == groupObj.League && (this.swapDate(this.fuckYouDatePipeMethod(matchObj.Details))).getDate() <= dateValidator)
+              // {
+              //   if(matchPosition == groupIndex + 1){
+              //     matchObj.displayHeaderDate = true;
+              //   }
+              //   else if (matchObj.Details.substring(0,2) != allData[matchIndex-1].Details.substring(0,2)) {
+              //     matchObj.displayHeaderDate = true;
+              //   }
+              //   else {
+              //     matchObj.displayHeaderDate = false;
+              //   }
 
-                var index = matchPosition;
-                this.masterList.splice(index, 0, matchObj);
-                matchPosition ++;
-              }
+              // }
+              var index = matchPosition;
+              this.masterList.splice(index, 0, matchObj);
+              matchPosition ++;
             });
             //set to active to avoid excessive iterations. This will be set back to false, when expanded = false.
             groupObj.isActive = true;
@@ -190,7 +195,7 @@ import { SidenavService } from '../view-table-sidenav/sidenav.service';
           if (groupObj.expanded == false && groupObj.isActive){
             console.log("entered line 209 for: " + groupObj.League + ": expanded = false. isActive = true. You clicked to close matches under this league.");
 
-            data.forEach( match => {
+            allData.forEach( match => {
 
               if(match.League == groupObj.League){
                 console.log(match);
