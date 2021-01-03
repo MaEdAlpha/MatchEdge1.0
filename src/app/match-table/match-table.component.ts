@@ -14,6 +14,7 @@ import { NgSwitchCase } from '@angular/common';
 import { NumberInput } from '@angular/cdk/coercion';
 import { DatePipe } from '@angular/common';
 import { SidenavService } from '../view-table-sidenav/sidenav.service';
+import { UserPropertiesService } from '../user-properties.service';
 
   export class Group {
     level = 0;
@@ -91,7 +92,7 @@ import { SidenavService } from '../view-table-sidenav/sidenav.service';
 
     private matchesSub: Subscription;
 
-    constructor(public datepipe: DatePipe, private sidenav: SidenavService , private matchesService: MatchesService, private webSocketService: WebsocketService, public dialog: MatDialog, private notificationBox: NotificationBoxService) {
+    constructor(private userPref: UserPropertiesService, public datepipe: DatePipe, private sidenav: SidenavService , private matchesService: MatchesService, private webSocketService: WebsocketService, public dialog: MatDialog, private notificationBox: NotificationBoxService) {
      } //creates an instance of matchesService. Need to add this in app.module.ts providers:[]
 
 
@@ -120,6 +121,8 @@ import { SidenavService } from '../view-table-sidenav/sidenav.service';
             var indexOfmatch = this.matches.findIndex( match => match.Home == streamObj.HomeTeamName && match.Away == streamObj.AwayTeamName);
             indexOfmatch != undefined && this.matches[indexOfmatch] ? this.updateMatch(this.matches[indexOfmatch], streamObj) : console.log("not found");
           });
+
+          this.viewSelectedDate = this.userPref.getSelectedDate();
         }
 
         ngAfterViewInit(){
@@ -133,29 +136,31 @@ import { SidenavService } from '../view-table-sidenav/sidenav.service';
        this.webSocketService.closeWebSocket();
       }
 
-      swapDate(usDateFormat: string): Date {
-
+      convertStringToDate(usDateFormat: string): Date {
         return new Date(Date.parse(usDateFormat));
       }
 
       modifiedGroupList(allData: any[], groupList: any[], viewSelection: string) : any[]{
         //where you disable expanded functionality for toggle button
 
-        var date = Date.now();
-        var dateValidator = 2;
-        // var dateValidator = new Date(date).getDate();
+
+        var dateValidator: number[] = this.dateSelection(viewSelection);
+        console.log(viewSelection);
+
+        var dateStart: number = dateValidator[1];
+        var dateEnd: number = dateValidator[0];
+        console.log("DateStart: " + dateStart + " DateEnd " + dateEnd);
+
         //TODO BUG-FIX WHEN LOCALE_ID WORKS.
-        var matchDate= this.swapDate(this.fuckYouDatePipeMethod(allData[2].Details));
+        var matchDate= this.convertStringToDate(this.fuckYouDatePipeMethod(allData[2].Details));
+
         //return just the day value
         //console.log(new Date(date).getDate() + " == " + matchDate.getDate());
 
         groupList.forEach( groupObj => {
-          console.log("Looking at groupObj: " + groupObj.League);
-
           //add group Object into masterList if not found in this.masterList.
           //FIRST IF
           if(!this.masterList.includes(groupObj)){
-            console.log(groupObj.League + " not included in master list..... IN FIRST");
             this.masterList.push(groupObj);
           }
           //for an  expanded group that isActive == true. Iterate over each matchObj and compare date.
@@ -163,54 +168,53 @@ import { SidenavService } from '../view-table-sidenav/sidenav.service';
           //SECOND
           if(groupObj.expanded == true && !groupObj.isActive)
           {
-            console.log(groupObj.League + ": IN SECOND");
 
             var groupIndex = this.masterList.indexOf(groupObj);
             var matchPosition = groupIndex + 1;
 
             allData.forEach( matchObj => {
               var matchIndex = allData.indexOf(matchObj);
+              //Returns correct date format for en-GB
+              var matchDate: number = Number((this.convertStringToDate(this.fuckYouDatePipeMethod(matchObj.Details))).getDate());
+              //INJECTS  MATCHES  UNDERNEATH GROUP HEADER
+              if(matchObj.League == groupObj.League && matchDate <= dateEnd && matchDate > dateStart)
+              {
+                if(matchPosition == groupIndex + 1){
+                  matchObj.displayHeaderDate = true;
+                }
+                else if (matchObj.Details.substring(0,2) != allData[matchIndex-1].Details.substring(0,2)) {
+                  matchObj.displayHeaderDate = true;
+                }
+                else {
+                  matchObj.displayHeaderDate = false;
+                }
 
-              // if(matchObj.League == groupObj.League && (this.swapDate(this.fuckYouDatePipeMethod(matchObj.Details))).getDate() <= dateValidator)
-              // {
-              //   if(matchPosition == groupIndex + 1){
-              //     matchObj.displayHeaderDate = true;
-              //   }
-              //   else if (matchObj.Details.substring(0,2) != allData[matchIndex-1].Details.substring(0,2)) {
-              //     matchObj.displayHeaderDate = true;
-              //   }
-              //   else {
-              //     matchObj.displayHeaderDate = false;
-              //   }
-
-              // }
-              var index = matchPosition;
-              this.masterList.splice(index, 0, matchObj);
-              matchPosition ++;
+                var index = matchPosition;
+                //splice (index, number, obj) == take match object, place it in at index value, 0 means don't replace it, just insert.
+                this.masterList.splice(index, 0, matchObj);
+                matchPosition ++;
+              }
             });
             //set to active to avoid excessive iterations. This will be set back to false, when expanded = false.
             groupObj.isActive = true;
           }
-          //groupObj is not expanded but is active. If groupObj matches league, get position of match and remove it from masterList.
+
+          //REMOVES MATCHES FROM UNDERNEATH GROUP HEADER
+          // this cleans up the matches. When you click a groupLeague that is open. It changes to expanded = false. isActive = true.
           if (groupObj.expanded == false && groupObj.isActive){
-            console.log("entered line 209 for: " + groupObj.League + ": expanded = false. isActive = true. You clicked to close matches under this league.");
 
-            allData.forEach( match => {
+            allData.forEach( matchObj => {
+              var matchDate: number = Number((this.convertStringToDate(this.fuckYouDatePipeMethod(matchObj.Details))).getDate());
 
-              if(match.League == groupObj.League){
-                console.log(match);
-
-                var position = this.masterList.indexOf(match);
+              if(matchObj.League == groupObj.League && matchDate <= dateEnd && matchDate > dateStart ){
+                var position = this.masterList.indexOf(matchObj);
+                //splice == remove an object (defined by 1) at index 'position'
                 this.masterList.splice(position, 1);
               }
             });
             groupObj.isActive = false;
           }
         });
-
-        console.log("MASTERLIST @ end of method.");
-          console.log(this.masterList);
-
         this.masterList = this.addFixturesDate(this.masterList);
 
         return this.masterList;
@@ -230,8 +234,92 @@ import { SidenavService } from '../view-table-sidenav/sidenav.service';
         });
         return matchList;
       }
+      //Takes selected date and updates in match-TableComponent.
       updateFixtures($event) {
         this.viewSelectedDate = $event;
+        var groupWithStates : any[] = [];
+        //Case if user just toggles dates without expanding any leagues.
+        if(this.masterList.length == 0){
+          this.dataSource.data = this.getGroupListInit(this.allData, 0,this.groupByColumns);
+          //case where group(s) are expaned.
+        }  else  {
+          //gets all groups with current state.
+          this.masterList.forEach( obj => {
+            if(obj.level ==1 ){
+              console.log(obj);
+              console.log("put me in a new list");
+              groupWithStates.push(obj);
+            }
+          });
+          this.dataSource.data = this.showUpdatedView(this.allData, groupWithStates, this.viewSelectedDate);
+          //Clears all matches in lists, leaves only Group WITH their active states.
+        }
+
+
+        /*
+        Behaviour:
+          - If league Group is expanded and isActive  are both true. It does not delete the currently selected matches related to that Group Cell
+
+          - Example: you have Tomrorrow selected and Premier League opened showing tomorrow's matches and you change the selected date to Today.
+            When you go to close the group it populates Today's matches AND does nothing to Tomorrow's matches (still showing beneath Premier Leauge
+              cell.
+          - Inteded Behavior: While showing Today's Matches for Premier League. If I change selected date to 'Tomorrow'
+              1. ALL of Today's Matches delete from masterList.
+              2. ALL of Tomorrow's Matches populate masterList.
+
+
+        Solution:
+        1. Delete all matches from masterList AND Preserve the current Group objects and their states in masterList.
+        2. rerun modifiedGroupList with the updated viewSelected Dates.
+        */
+        // this.dataSource.data = this.modifiedGroupList(this.allData, this._allGroup, this.viewSelectedDate);
+      }
+
+      //Returns an updated list of matches
+      showUpdatedView(allMatchData: any[], groupWithStates: any[], dateOption: string): any[] {
+        this.masterList = [];
+        var dateValidator: number[] = this.dateSelection(dateOption);
+        var dateStart: number = dateValidator[1];
+        var dateEnd: number = dateValidator[0];
+
+        groupWithStates.forEach(groupHeader => {
+          //populate table with groups first. Little redundant, refactor later.
+          if(!this.masterList.includes(groupHeader)){
+            this.masterList.push(groupHeader);
+          }
+          //insert matches beneath group headers with updated Date Range.
+          if(groupHeader.expanded && groupHeader.isActive)
+          {
+            var groupIndex = this.masterList.indexOf(groupHeader);
+            var matchPosition = groupIndex + 1;
+
+            allMatchData.forEach( matchObj => {
+              var matchIndex = allMatchData.indexOf(matchObj);
+              //Returns correct date format for en-GB
+              var matchDate: number = Number((this.convertStringToDate(this.fuckYouDatePipeMethod(matchObj.Details))).getDate());
+              //INJECTS  MATCHES  UNDERNEATH GROUP HEADER
+              if(matchObj.League == groupHeader.League && matchDate <= dateEnd && matchDate > dateStart)
+              {
+                if(matchPosition == groupIndex + 1){
+                  matchObj.displayHeaderDate = true;
+                }
+                else if (matchObj.Details.substring(0,2) != allMatchData[matchIndex-1].Details.substring(0,2)) {
+                  matchObj.displayHeaderDate = true;
+                }
+                else {
+                  matchObj.displayHeaderDate = false;
+                }
+
+                var index = matchPosition;
+                //splice (index, number, obj) == take match object, place it in at index value, 0 means don't replace it, just insert.
+                this.masterList.splice(index, 0, matchObj);
+                matchPosition ++;
+              }
+            });
+          }
+        });
+        this.masterList = this.addFixturesDate(this.masterList);
+        return this.masterList;
       }
 
       groupHeaderClick(row) {
@@ -501,8 +589,20 @@ import { SidenavService } from '../view-table-sidenav/sidenav.service';
         console.log(status);
       }
 
-      dateSelection(){
+      dateSelection(dateSelected:string): number[]{
 
+        if(dateSelected == 'Today')
+        {
+          return [1,0];
+        }
+        if(dateSelected == 'Tomorrow')
+        {
+          return [2,1];
+        }
+        if(dateSelected == 'Today & Tomorrow')
+        {
+          return [2,0];
+        }
       }
 
       openPopUp($event: MatSlideToggleChange, groupItem: any) {
@@ -545,6 +645,7 @@ import { SidenavService } from '../view-table-sidenav/sidenav.service';
         this.sidenav.toggle();
       }
         //TODO BUG-FIX WHEN LOCALE_ID WORKS.
+        //Re-arranges en-US format MM/DD into DD/MM
       fuckYouDatePipeMethod(dateString: string):string {
         return dateString.slice(3,6) + dateString.slice(0, 3) + dateString.slice(6, 19);
       }

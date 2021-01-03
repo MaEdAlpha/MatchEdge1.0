@@ -68,3 +68,40 @@ export class TopLayerFiltersComponent implements OnInit, OnChanges {
 
   }
 }
+
+//   modifiedGroupList(data: any[], groupList: any[]) : any[]{
+//     groupList.forEach( groupObj => {
+
+//       if(!this.masterList.includes(groupObj)){
+//         this.masterList.push(groupObj);
+//       }
+
+//       if(groupObj.expanded == true && !groupObj.isActive)
+//       {
+//         var groupIndex = this.masterList.indexOf(groupObj);
+//         var matchPosition = groupIndex + 1;
+
+//         data.forEach(matchObj => {
+//           if(matchObj.League == groupObj.League)
+//           {
+//             var index = matchPosition;
+//             this.masterList.splice(index, 0, matchObj);
+//             matchPosition ++;
+//           }
+//         });
+//         //set to active to avoid excessive iterations. This will be set back to false, when expanded = false.
+//         groupObj.isActive = true;
+//       }
+
+//       if (groupObj.expanded == false && groupObj.isActive){
+//         data.forEach( match => {
+//           if(match.League == groupObj.League){
+//             var position = this.masterList.indexOf(match);
+//             this.masterList.splice(position, 1);
+//           }
+//         });
+//         groupObj.isActive = false;
+//       }
+//     })
+//     return this.masterList;
+//   }
