@@ -44,40 +44,20 @@
                    [@detailExpand]="selection == expandedElement ? 'expanded' : 'collapsed'">
 
                     <div class="jm-exp-details-row1">
-                 <div class="row1 row1-first">
-                   <div class="jed-cell1" id="logo">Logo</div>
-                   <div class="jed-cell1" id="selection"><h1>{{selection.Selection}}</h1><h4>Prev. Bet365 Odds H | D | A </h4><h3> {{selection.b365HPrev}} | {{selection.b365DrawPrev}} | {{selection.b365APrev}}</h3></div>
-                   <div class="jed-cell" id="prev-B365-odds"></div>
-                  </div>
-
-                  <div class="row1 row1-second">
-                    <h2 class="jed-cell2">
-                        <b #tooltip="matTooltip"
-                        matTooltip="Chance of a full turnaround occuring"
-                        [matTooltipPosition]="position.value"
-                        matTooltipHideDelay="1000">Occurrence</b></h2>
-                        <div class="jed-cell2" id="fta"> <h2>1:{{selection.FTAround}}</h2> </div>
-                      </div>
-
-                      <div class="row1 row1-third">
-                        <h2 class="jed-cell3"><b>Return Rating</b></h2>
-                        <div class="jed-cell3" id="rr"> <h2>{{selection.ReturnRating}}</h2></div>
-                      </div>
-
-                      <div class="row1 row1-fourth">
-                        <h2 class="jed-cell4"><b>Full Turnaround Rating</b></h2>
-                        <div class="jed-cell4" id="match-rating"> <h2>{{selection.MatchRating | number:'0.2-2'}}%</h2> </div>
+                      <div class="row1 row1-first">
+                        <div class="jed-cell1" id="selection"><h1>{{selection.Selection}}</h1>
+                        <div class="jed-cell1" id="logo">Logo</div>
+                        <div class="jed-cell" id="prev-B365-odds"></div><h4>Prev. Bet365 Odds H | D | A </h4><h3> {{selection.b365HPrev}} | {{selection.b365DrawPrev}} | {{selection.b365APrev}}</h3></div>
                       </div>
                     </div>
 
                     <div class="jm-exp-details-row2">
-                      <p class="user-directions">Go to *bet365Picture and <b>back </b><span>{{selection.Selection}}</span> for <span class="value-box-back"><b>{{selection.Stake | currency:'GBP'}}</b></span> at odds of <span class="value-box-back"><b>{{selection.BackOdds | number:'0.2-2'}}</b></span></p>
+                      <p class="user-directions">Go to <img src="/assets/img/betIcon.png" > <b> BET </b> <span class="value-box-back"><b>{{selection.Stake | currency:'GBP'}}</b></span> AT ODDS OF <span class="value-box-back"><b>{{selection.BackOdds | number:'0.2-2'}}</b></span> <b>FOR  </b> <span class="selectionBox">{{selection.Selection}}</span></p>
                       <div class="external-link-button" id="bet365lnk"><a mat-raised-button href= {{selection.UrlB365}} target="_blank">OPEN EVENT</a></div>
                     </div>
 
                     <div class="jm-exp-details-row3">
-                      <p class="user-directions">Go to *Smarkets and <b>lay </b> <span>{{selection.Selection}}</span> for <span class="value-box-lay"><b>{{selection.LayStake | currency:'GBP'}}</b></span> at odds of <span class="value-box-lay"><b>{{selection.LayOdds | number:'0.2-2'}}</b></span></p>
-                      <div class="row3-value"> Liability: <span class="row3-value">{{selection.Liability | currency:'GBP'}}</span>  </div>
+                      <p class="user-directions">Go to <img src="/assets/img/smarketsIcon.png" > <b> LAY </b>  FOR <span class="value-box-lay"><b>{{selection.LayStake | currency:'GBP'}}</b></span> AT ODDS OF <span class="value-box-lay"><b>{{selection.LayOdds | number:'0.2-2'}}</b></span> YOUR LIABILITY: <span class="row3-value">{{selection.Liability | currency:'GBP'}}</span></p>
                       <div class="external-link-button" id="smlnk"><a mat-raised-button href= {{selection.UrlSmarkets}} target="_blank">OPEN EVENT</a></div>
 
                     </div>

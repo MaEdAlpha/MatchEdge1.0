@@ -22,12 +22,9 @@ export class WebsocketService {
     };
 
     this.webSocket.onmessage = (event) => {
-
       //emit this event to match-table. Compare the values of smarkets and bet365 odds to currently stored values. Just overwrite these odds, no need to check.
       var streamObj: Match = JSON.parse(event.data);
       //emit changes to match-table and also juicy match.
-      console.log("WSService.ts onmessage(): " + event.data);
-      //WORKING:this.matchDataStreamStore.push(obj)
       this.matchesService.addToUpdatedMatches(streamObj);
     };
 
@@ -39,12 +36,6 @@ export class WebsocketService {
   public sendMessage() {
     this.webSocket.send('Hello from Match-Table');
   }
-
-  //WORKING:
-  // public updatedStreamData()
-  // {
-  //   return this.matchDataStreamStore;
-  // }
 
   public closeWebSocket() {
     this.webSocket.close();

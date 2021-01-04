@@ -59,9 +59,12 @@ export class JuicyMatchComponent implements OnChanges, DoCheck {
 
   ngOnChanges(changes: SimpleChanges)
   {
+    //Anytime there is a change to this list of matches, refresh list of single matches.
     if(changes.allMatches && changes.allMatches.currentValue) {
       this.allIndvMatches = this.juicyMHService.getSingleMatches(this.allMatches);
+      console.log("Change Detection Activated");
       this.allIndvMatches.length === 0 ? this.noMatchesToDisplay = true : this.noMatchesToDisplay = false;
+
     }
   }
 
@@ -107,7 +110,6 @@ export class JuicyMatchComponent implements OnChanges, DoCheck {
     this.matchStatService.clear();
   }
   ngDoCheck(){
-    // this.juicyMatches = this.juicyMHService.setJuicyMatches(this.allMatches);
   }
   //   //TODO possibly hold onto old bet365 updates here? create a new field that writes old data.
   //   //TODO Also, timestamp showing last update.

@@ -27,15 +27,17 @@ export class MatchStatsService {
   private allSingleMatches: any=[];
   private pairOfSingleMatches: any=[];
 
-  public singleMatchUpdated = new Subject<any>();
 
-  constructor(private ups: UserPropertiesService, private calcSettingsService: CalcSettingsService) {
+
+  constructor(private calcSettingsService: CalcSettingsService) {
   }
 
 //The first HTTP GET you requested  fucks up all the variable names... either map...or figure shit out
 
 //used in juicy-match-model
 getMatchStats(match){
+
+  //separate each match into a single Match Object.
     //reset list
     //for home matches
     this.stake = this.calcSettingsService.getPrefferedStake(match.BHome);
@@ -80,8 +82,8 @@ getMatchStats(match){
           b365oddsHCurr: match.B365HomeOdds,
           b365oddsDrawCurr: match.B365DrawOdds,
           b365oddsACurr: match.B365AwayOdds,
-          b365HPrev: 999,
-          b365APrev: 999,
+          b365HPrev: match.PreviousB365HomeOdds,
+          b365APrev: match.PreviousB365AwayOdds,
           b365DrawPrev: 999,
         }
         this.allSingleMatches.push(this.singleHomeMatch);
@@ -128,8 +130,8 @@ getMatchStats(match){
           b365oddsHCurr: match.B365HomeOdds,
           b365oddsDrawCurr: match.B365DrawOdds,
           b365oddsACurr: match.B365AwayOdds,
-          b365HPrev: 999,
-          b365APrev: 999,
+          b365HPrev: match.PreviousB365HomeOdds,
+          b365APrev: match.PreviousB365AwayOdds,
           b365DrawPrev: 999,
         }
         this.allSingleMatches.push(this.singleAwayMatch);
@@ -186,6 +188,9 @@ getMatchStats(match){
               b365oddsHCurr: streamObj.B365HomeOdds,
               b365oddsDrawCurr: streamObj.B365DrawOdds,
               b365oddsACurr: streamObj.B365AwayOdds,
+              b365HPrev: streamObj.PreviousB365HomeOdds,
+              b365APrev: streamObj.PreviousB365AwayOdds,
+              b365DrawPrev: 999,
             }
             this.pairOfSingleMatches.push(this.singleHomeMatch);
 
@@ -230,22 +235,17 @@ getMatchStats(match){
               b365oddsHCurr: streamObj.B365HomeOdds,
               b365oddsDrawCurr: streamObj.B365DrawOdds,
               b365oddsACurr: streamObj.B365AwayOdds,
+              b365HPrev: streamObj.PreviousB365HomeOdds,
+              b365APrev: streamObj.PreviousB365AwayOdds,
+              b365DrawPrev: 999,
             }
             this.pairOfSingleMatches.push(this.singleAwayMatch);
 
             return this.pairOfSingleMatches;
   }
 
-
   getAllSingleMatches(){
     return this.allSingleMatches;
   }
 
-  getJuicyMatches(){
-    return this.juicyMatches;
-  }
-  //observable used to subscribe to a stream of single Match Data.
-  getSingleMatchesListener(): Observable<any>{
-    return this.singleMatchUpdated.asObservable();
-  }
 }

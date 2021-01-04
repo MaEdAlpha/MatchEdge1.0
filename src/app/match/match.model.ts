@@ -12,6 +12,31 @@
     League:string;
     OccurrenceHome: number;
     OccurrenceAway:number;
-    UrlB365:string;
-    UrlSmarkets:string;
+    URLB365:string;
+    URLSmarkets:string;
   }
+
+  export interface Fixture {
+    HReturn: number;
+    Home: string;
+    Away: string;
+    AReturn: number;
+    SMHome: number;
+    SMAway: number;
+    BHome: number;
+    BDraw: number;
+    BAway: number;
+    BTTSOdds: number;
+    B25GOdds: number;
+    Details: Date;
+    League: string;
+    OccH: number;
+    OccA: number;
+    UrlB365: string;
+    UrlSmarkets: string;
+    HStatus: { notify: boolean; activeBet: boolean; ignore: boolean; };
+    AStatus: { notify: boolean; activeBet: boolean; ignore: boolean; };
+    }
+
+
+

@@ -1,5 +1,4 @@
 import { HttpClient } from '@angular/common/http';
-import { Match } from "./match.model";
 import { Observable, Subject } from "rxjs";
 import { map } from 'rxjs/operators'
 import { Injectable, EventEmitter } from '@angular/core';
@@ -9,10 +8,10 @@ import { Injectable, EventEmitter } from '@angular/core';
 @Injectable({ providedIn: 'root'})
 
 export class MatchesService {
-  private matches: any;
 
+  //Broadcasts WS Data
   streamDataUpdate = new EventEmitter<any>();
-
+  //Creates an Observable of all Fixtures
   public matchesUpdated = new Subject<any>();
 
   constructor(private http: HttpClient) {}
@@ -31,16 +30,14 @@ export class MatchesService {
             Home: match.HomeTeamName,
             Away: match.AwayTeamName,
             AReturn: 1+1*100,
-            SMHome: match.SmarketsHomeOdds,
-            SMAway: match.SmarketsAwayOdds,
+            SMHome: +match.SmarketsHomeOdds,
+            SMAway: +match.SmarketsAwayOdds,
             BHome: match.B365HomeOdds,
             BDraw: match.B365DrawOdds,
             BAway: match.B365AwayOdds,
             BTTSOdds: match.B365BTTSOdds,
             B25GOdds: match.B365O25GoalsOdds,
             Details: match.StartDateTime,
-            MatchTime: match.StartDateTime.substring(11, 16),
-            MatchDate: match.StartDateTime.substring(0,6) + match.StartDateTime.substring(8,11),
             League: match.League,
             OccH: match.OccurrenceHome,
             OccA: match.OccurrenceAway,
@@ -52,8 +49,7 @@ export class MatchesService {
         })
       }))
       .subscribe( transformedMatches => {
-        this.matches = transformedMatches;
-        this.matchesUpdated.next(this.matches);
+        this.matchesUpdated.next(transformedMatches);
       });
   }
 
