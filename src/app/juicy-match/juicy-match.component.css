@@ -17,7 +17,6 @@ table, .no-content {
 
 .table-container {
   margin-bottom: 130px;
-  /* overflow: hidden; */
   scroll-behavior: smooth;
   position: relative;
   width: 100%;
@@ -80,6 +79,12 @@ tr.juicyMatch-row:not(.juicyMatch-expanded-row):active {
   border-bottom-width: 0;
 }
 
+.juicyCell {
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+  width: fit-content;
+}
 
 /* hides second container */
 .juicyMatch-detail {

@@ -75,10 +75,10 @@ mat-row, mat-header-row {
 }
 
 .dirStatusContainer{
-  color: #263238;
-  background: #7a8585;
+  background: #637878;
   border-radius: 5px;
-  width: 100px;
+  width: 200px;
+  display: flex;
 }
 
 
@@ -216,6 +216,16 @@ mat-header-cell.cdk-column-Home, mat-header-cell.cdk-column-Away, mat-header-cel
 #fixturesText {
   width: 80%;
   font-size: 10px;
+}
+
+.viewCell {
+    padding: 2px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+button.viewCell {
+  background: #afafaf;
 }
 
 

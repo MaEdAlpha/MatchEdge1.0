@@ -60,9 +60,7 @@ export class JuicyMatchComponent implements OnChanges, DoCheck {
   ngOnChanges(changes: SimpleChanges)
   {
     if(changes.allMatches && changes.allMatches.currentValue) {
-      //this.juicyMatches = this.juicyMHService.setJuicyMatches(this.allMatches);
       this.allIndvMatches = this.juicyMHService.getSingleMatches(this.allMatches);
-      console.log("JM Comp: SimpleChanges");
       this.allIndvMatches.length === 0 ? this.noMatchesToDisplay = true : this.noMatchesToDisplay = false;
     }
   }
@@ -120,9 +118,5 @@ export class JuicyMatchComponent implements OnChanges, DoCheck {
 
   toggleSideNav(){
     this.sidenav.toggle();
-  }
-
-  resetMatchUpdated(index:number){
-    //this.allIndvMatches[index].isUpdated=false;
   }
 }

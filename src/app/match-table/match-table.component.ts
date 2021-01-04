@@ -116,8 +116,6 @@ import { UserPropertiesService } from '../user-properties.service';
           //Subscribe to Event listener in matches Service for StreamChange data. Update this.matches.
           this.matchesService.streamDataUpdate
           .subscribe( (streamObj) => {
-            console.log("recieved in MT comp streamUpdate subscribe");
-
             var indexOfmatch = this.matches.findIndex( match => match.Home == streamObj.HomeTeamName && match.Away == streamObj.AwayTeamName);
             indexOfmatch != undefined && this.matches[indexOfmatch] ? this.updateMatch(this.matches[indexOfmatch], streamObj) : console.log("not found");
           });
@@ -140,22 +138,16 @@ import { UserPropertiesService } from '../user-properties.service';
         return new Date(Date.parse(usDateFormat));
       }
 
+      //Handles logic for MatTable. It adds and removes match items based off the state of the League Group Header.
       modifiedGroupList(allData: any[], groupList: any[], viewSelection: string) : any[]{
-        //where you disable expanded functionality for toggle button
-
 
         var dateValidator: number[] = this.dateSelection(viewSelection);
-        console.log(viewSelection);
 
         var dateStart: number = dateValidator[1];
         var dateEnd: number = dateValidator[0];
         console.log("DateStart: " + dateStart + " DateEnd " + dateEnd);
-
         //TODO BUG-FIX WHEN LOCALE_ID WORKS.
         var matchDate= this.convertStringToDate(this.fuckYouDatePipeMethod(allData[2].Details));
-
-        //return just the day value
-        //console.log(new Date(date).getDate() + " == " + matchDate.getDate());
 
         groupList.forEach( groupObj => {
           //add group Object into masterList if not found in this.masterList.
