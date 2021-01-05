@@ -97,6 +97,8 @@ tr.juicyMatch-row:not(.juicyMatch-expanded-row):active {
 div.jm-exp-details-row1 {
   display: inline-flex;
   width: 100%;
+  height: 300px;
+  background: #d2d2d2;
 }
 
 div.jm-exp-details-row4 {
@@ -138,11 +140,18 @@ div.jm-exp-details-row4 {
 
 #logo {
   border: rgb(255, 191, 14) 1px solid;
-  width: 80%;
+  width: 100px;
   display: inline-block;
-  height: 170px;
+  height: 100px;
   vertical-align: middle;
   margin: 2.5%;
+}
+
+#prev-odds {
+  margin-top: 25px;
+}
+#logo>img {
+  height: 100%;
 }
 
 div.row1-first {
@@ -184,18 +193,18 @@ div.row1-fourth {
 .jm-exp-details-col2row1, .jm-exp-details-col2row2{
   font-size: larger;
   text-align: center;
-  padding-top: 30px;
-  padding-bottom:30px;
-  margin-right: 30px;
+  padding-top: 15px;
+  padding-bottom:15px;
+  margin: 15px;
 }
 
 /* Bet Prompt Guide Divs */
 .jm-exp-details-col2row1 {
-  background: rgb(55, 187, 143);
+  background: #90cab6;
 }
 
 .jm-exp-details-col2row2 {
-  background: darkcyan;
+  background: #a1c2c7;
   color: black;
 }
 .jm-exp-details-col2row2>b{
@@ -226,7 +235,7 @@ button {
 }
 
 /* User Direction rows 2 and 3 - back & lay value containers */
-.value-box-back {
+.value-box-back, .selection-box {
   background:  whitesmoke;
 }
 
@@ -234,15 +243,16 @@ button {
   background: rgb(136, 136, 218);
 }
 
-.value-box-back, .value-box-lay {
-  padding: 5px;
-  padding-left: 12px;
-  padding-right: 12px;
+.value-box-back, .value-box-lay, .selection-box {
+  padding: 20px;
+  display: inline-block;
+  margin-left: 10px;
+  border: 1px solid black;
 }
 
 .user-directions {
   font-size: x-large;
-  width: 80%;
+  width: 100%;
   display: inline-block;
 }
 
@@ -390,3 +400,24 @@ span.row3-value {
   .hideTR {
     visibility: collapse;
   }
+
+  .words-container {
+    width: 20%;
+    display: inline-block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  #liability {
+    font-size: medium;
+  }
+
+  .exchange-img, .bookie-img {
+    width: 45%;
+    vertical-align: middle;
+  }
+
+  .shadow {
+    box-shadow: inset -5px -3px 10px #000000;
+    border-radius: 8px;
+ }

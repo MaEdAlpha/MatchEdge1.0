@@ -46,19 +46,52 @@
                     <div class="jm-exp-details-row1">
                       <div class="row1 row1-first">
                         <div class="jed-cell1" id="selection"><h1>{{selection.Selection}}</h1>
-                        <div class="jed-cell1" id="logo">Logo</div>
-                        <div class="jed-cell" id="prev-B365-odds"></div><h4>Prev. Bet365 Odds H | D | A </h4><h3> {{selection.b365HPrev | number:'0.2-2'}} | {{selection.b365DrawPrev | number:'0.2-2'}} | {{selection.b365APrev | number:'0.2-2'}}</h3></div>
+                        <div class="jed-cell1" id="logo"><img src="/assets/img/placeholder.jpg"> </div>
+                        <div class="jed-cell" id="prev-odds"><p> <b>PREV. BACK ODDS</b></p><h3> {{selection.b365HPrev | number:'0.2-2'}} | {{selection.b365DrawPrev | number:'0.2-2'}} | {{selection.b365APrev | number:'0.2-2'}}</h3></div>
+                      </div>
                       </div>
 
                       <div class="jm-exp-details-col2-cont">
-                        <div class="jm-exp-details-col2row1">
-                          <p class="user-directions">Go to <img src="/assets/img/betIcon.png" > <b> BET </b> <span class="value-box-back"><b>{{selection.Stake | currency:'GBP'}}</b></span> AT ODDS OF <span class="value-box-back"><b>{{selection.BackOdds | number:'0.2-2'}}</b></span> <b>FOR  </b> <span class="selectionBox">{{selection.Selection}}</span></p>
-                          <div class="external-link-button" id="bet365lnk"><a mat-raised-button href= {{selection.UrlB365}} target="_blank">OPEN EVENT</a></div>
+                        <div class="jm-exp-details-col2row1 shadow">
+                          <div class="user-directions">
+                            <div class="words-container">
+                              <p>GO TO  <img class="bookie-img" src="/assets/img/bet365II.png"></p>
+                            </div>
+                            <div class="words-container">
+                              <b>BET</b> <span class="value-box-back"><b>{{selection.Stake | currency:'GBP'}}</b></span>
+                            </div>
+                            <div class="words-container">
+                             <p> AT ODDS OF <span class="value-box-back"> <b>{{selection.BackOdds | number:'0.2-2'}}</b></span> </p>
+                            </div>
+                            <div class="words-container">
+                              <b>FOR  </b> <span class="selection-box">{{selection.Selection}}</span>
+                            </div>
+                              <div class="external-link-button" id="bet365lnk"><a mat-raised-button href= {{selection.UrlB365}} target="_blank">OPEN EVENT</a></div>
+                          </div>
+
                         </div>
 
-                        <div class="jm-exp-details-col2row2">
-                          <p class="user-directions">Go to <img src="/assets/img/smarketsIcon.png" > <b> LAY </b>  FOR <span class="value-box-lay"><b>{{selection.LayStake | currency:'GBP'}}</b></span> AT ODDS OF <span class="value-box-lay"><b>{{selection.LayOdds | number:'0.2-2'}}</b></span> YOUR LIABILITY: <span class="row3-value">{{selection.Liability | currency:'GBP'}}</span></p>
-                          <div class="external-link-button" id="smlnk"><a mat-raised-button href= {{selection.UrlSmarkets}} target="_blank">OPEN EVENT</a></div>
+                        <div class="jm-exp-details-col2row2 shadow">
+                          <div class="user-directions">
+                            <div class="words-container">
+                              <p>GO TO  <img class="exchange-img" src="/assets/img/smarketsII.png"></p>
+                            </div>
+
+                            <div class="words-container">
+                              <b>LAY</b> <span class="value-box-lay"><b>{{selection.LayStake | currency:'GBP'}}</b></span>
+                            </div>
+
+                            <div class="words-container">
+                              <p> AT ODDS OF <span class="value-box-lay"><b>{{selection.LayOdds | number:'0.2-2'}}</b></span></p>
+                            </div>
+
+                            <div class="words-container">
+                              <b> <span id="liability"> YOUR LIABILITY: </span><span class="row3-value">{{selection.Liability | currency:'GBP'}}</span></b>
+                            </div>
+
+                            <div class="external-link-button" id="smlnk"><a mat-raised-button href= {{selection.UrlSmarkets}} target="_blank">OPEN EVENT</a></div>
+                          </div>
+
                         </div>
 
                         <div class="jm-exp-details-col2row3">
