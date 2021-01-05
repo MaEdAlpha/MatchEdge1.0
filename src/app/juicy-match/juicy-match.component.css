@@ -94,37 +94,74 @@ tr.juicyMatch-row:not(.juicyMatch-expanded-row):active {
 }
 
 /* multiple row divs in expandable section */
-div.jm-exp-details-row1, div.jm-exp-details-row2,div.jm-exp-details-row3, div.jm-exp-details-row4 {
-  display: block;
+div.jm-exp-details-row1 {
+  display: inline-flex;
   width: 100%;
 }
 
+div.jm-exp-details-row4 {
 /* expandable container: row 1 */
-div.row1, div.row4 {
+  display: block;
+}
+
+.jm-exp-details-col2row3{
+  width: 100%;
+  float: right;
+}
+
+.selection-figures {
+  display: contents;
+  width: 60%;
+}
+
+.rcd-btn {
+  width: 20%;
+  vertical-align: middle;
+  float: right;
+}
+.r1, .r2 {
+  width: 35%;
   display: inline-block;
 }
-div.row1-first {
-  width: 40%;
+
+.selection-figures-content1 {
+  width: 25%;
+  display: inline-flex;
 }
+
+.selection-figures-content2 {
+  width: 20%;
+  display: inline-flex;
+}
+
+
 
 #logo {
   border: rgb(255, 191, 14) 1px solid;
-  width: 40%;
+  width: 80%;
   display: inline-block;
-  height: 200px;
+  height: 170px;
   vertical-align: middle;
   margin: 2.5%;
 }
 
+div.row1-first {
+  width: 20%;
+}
 #selection {
-  width: 40%;
+  width: 100%;
   display: inline-block;
   vertical-align: top;
   margin-top: 6%;
   text-align: center;
 }
 
-div.row1-second {
+.jm-exp-details-col2-cont {
+  width: 100%;
+  display: inline-block;
+}
+
+/* div.row1-second {
   width: 20%;
 }
 
@@ -134,7 +171,7 @@ div.row1-third {
 
 div.row1-fourth {
   width: 18%;
-}
+} */
 
 .row1-second, .row1-third, .row1-fourth {
   width: 20%;
@@ -144,7 +181,7 @@ div.row1-fourth {
 }
 
 /* expandable container: rows 2 and 3 - User direction section */
-.jm-exp-details-row2, .jm-exp-details-row3{
+.jm-exp-details-col2row1, .jm-exp-details-col2row2{
   font-size: larger;
   text-align: center;
   padding-top: 30px;
@@ -152,15 +189,16 @@ div.row1-fourth {
   margin-right: 30px;
 }
 
-.jm-exp-details-row2 {
+/* Bet Prompt Guide Divs */
+.jm-exp-details-col2row1 {
   background: rgb(55, 187, 143);
 }
 
-.jm-exp-details-row3 {
+.jm-exp-details-col2row2 {
   background: darkcyan;
   color: black;
 }
-.jm-exp-details-row3>b{
+.jm-exp-details-col2row2>b{
   color: black;
 }
 
@@ -171,33 +209,8 @@ div.row1-fourth {
   background: whitesmoke;
 }
 
-div.row4-row1 {
-  width: 15%;
-  margin: 0;
-}
 
-div.row4-row2 {
-  width: 10%;
-  margin: 0;
-}
 
-div.row4-row3 {
-  width: 5%;
-  margin: 0;
-}
-
-div.row4-row4 {
-  width: 15%;
-  margin: 0;
-}
-
-div.row4-row5 {
-  width: 25%;
-  margin-bottom: 5px;
-  padding-left: 0%;
-  float: right;
-
-}
 button {
   vertical-align: middle;
 }

@@ -47,44 +47,54 @@
                       <div class="row1 row1-first">
                         <div class="jed-cell1" id="selection"><h1>{{selection.Selection}}</h1>
                         <div class="jed-cell1" id="logo">Logo</div>
-                        <div class="jed-cell" id="prev-B365-odds"></div><h4>Prev. Bet365 Odds H | D | A </h4><h3> {{selection.b365HPrev}} | {{selection.b365DrawPrev}} | {{selection.b365APrev}}</h3></div>
+                        <div class="jed-cell" id="prev-B365-odds"></div><h4>Prev. Bet365 Odds H | D | A </h4><h3> {{selection.b365HPrev | number:'0.2-2'}} | {{selection.b365DrawPrev | number:'0.2-2'}} | {{selection.b365APrev | number:'0.2-2'}}</h3></div>
                       </div>
+
+                      <div class="jm-exp-details-col2-cont">
+                        <div class="jm-exp-details-col2row1">
+                          <p class="user-directions">Go to <img src="/assets/img/betIcon.png" > <b> BET </b> <span class="value-box-back"><b>{{selection.Stake | currency:'GBP'}}</b></span> AT ODDS OF <span class="value-box-back"><b>{{selection.BackOdds | number:'0.2-2'}}</b></span> <b>FOR  </b> <span class="selectionBox">{{selection.Selection}}</span></p>
+                          <div class="external-link-button" id="bet365lnk"><a mat-raised-button href= {{selection.UrlB365}} target="_blank">OPEN EVENT</a></div>
+                        </div>
+
+                        <div class="jm-exp-details-col2row2">
+                          <p class="user-directions">Go to <img src="/assets/img/smarketsIcon.png" > <b> LAY </b>  FOR <span class="value-box-lay"><b>{{selection.LayStake | currency:'GBP'}}</b></span> AT ODDS OF <span class="value-box-lay"><b>{{selection.LayOdds | number:'0.2-2'}}</b></span> YOUR LIABILITY: <span class="row3-value">{{selection.Liability | currency:'GBP'}}</span></p>
+                          <div class="external-link-button" id="smlnk"><a mat-raised-button href= {{selection.UrlSmarkets}} target="_blank">OPEN EVENT</a></div>
+                        </div>
+
+                        <div class="jm-exp-details-col2row3">
+
+                          <div class="selection-figures row4-row1">
+                            <div class="r1 r1-col1">
+                              <h3 class="selection-figures-content1">FTA Returns:</h3>
+                              <span class="selection-figures-content1">{{selection.FTAProfit | currency:'GBP'}}</span>
+                              </div>
+                            <div class="r1 r1-col2">
+                              <h3 class="selection-figures-content2">ROI: </h3>
+                              <span class="selection-figures-content1"> {{selection.ROI | number:'0.2-2'}} % </span></div>
+                          </div>
+
+                          <div class="selection-figures row4-row2">
+                            <div class="r2 r2-col1">
+                              <h3 class="selection-figures-content1">Total EV: </h3>
+                               <span class="selection-figures-content2">{{selection.EVTotal | currency:'GBP'}}</span>
+                              </div>
+
+                            <div class="r2 r2-col2">
+                              <h3 class="selection-figures-content2">QL: </h3>
+                              <span class="selection-figures-content2"> {{selection.QL | currency:'GBP'}}  </span>
+                            </div>
+                          </div>
+
+                          <div class="rcd-btn">
+                            <button mat-mat-raised-button class="exp-button">Edit values</button>
+                            <button mat-mat-raised-button class="exp-button">Record Bet</button>
+                          </div>
+
+                        </div>
+                      </div>
+
                     </div>
 
-                    <div class="jm-exp-details-row2">
-                      <p class="user-directions">Go to <img src="/assets/img/betIcon.png" > <b> BET </b> <span class="value-box-back"><b>{{selection.Stake | currency:'GBP'}}</b></span> AT ODDS OF <span class="value-box-back"><b>{{selection.BackOdds | number:'0.2-2'}}</b></span> <b>FOR  </b> <span class="selectionBox">{{selection.Selection}}</span></p>
-                      <div class="external-link-button" id="bet365lnk"><a mat-raised-button href= {{selection.UrlB365}} target="_blank">OPEN EVENT</a></div>
-                    </div>
-
-                    <div class="jm-exp-details-row3">
-                      <p class="user-directions">Go to <img src="/assets/img/smarketsIcon.png" > <b> LAY </b>  FOR <span class="value-box-lay"><b>{{selection.LayStake | currency:'GBP'}}</b></span> AT ODDS OF <span class="value-box-lay"><b>{{selection.LayOdds | number:'0.2-2'}}</b></span> YOUR LIABILITY: <span class="row3-value">{{selection.Liability | currency:'GBP'}}</span></p>
-                      <div class="external-link-button" id="smlnk"><a mat-raised-button href= {{selection.UrlSmarkets}} target="_blank">OPEN EVENT</a></div>
-
-                    </div>
-
-                    <div class="jm-exp-details-row4">
-
-                      <div class="row4 row4-row1">
-                        <span><h3>Full Turnaround Profit</h3></span> <h3>{{selection.FTAProfit | currency:'GBP'}}</h3>
-                      </div>
-
-                      <div class="row4 row4-row2">
-                        <span class="row4-hdr"><h3>Qualifying Loss</h3></span> <span><h3>{{selection.QL | currency:'GBP'}}</h3></span>
-                      </div>
-
-                      <div class="row4 row4-row3">
-                        <span class="row4-hdr"><h3>ROI</h3></span><span> <h3>{{selection.ROI | number:'0.2-2'}} %</h3></span>
-                      </div>
-
-                      <div class="row4 row4-row4">
-                        <span class="row4-hdr"><h3>Est. Value Total</h3></span><span><h3>{{selection.EVTotal | currency:'GBP'}}</h3></span>
-                      </div>
-
-                      <div class="row4 row4-row5">
-                        <button mat-mat-raised-button class="exp-button">Record Bet</button>
-                      </div>
-
-                    </div>
 
               </div>
             </td>

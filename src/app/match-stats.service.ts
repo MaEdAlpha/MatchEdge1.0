@@ -79,6 +79,7 @@ getMatchStats(match){
           backIsUpdated: false,
           layIsUpdated:false,
           evIsUpdated: false,
+          freezeUpdates: false,
           b365oddsHCurr: match.B365HomeOdds,
           b365oddsDrawCurr: match.B365DrawOdds,
           b365oddsACurr: match.B365AwayOdds,
@@ -102,7 +103,7 @@ getMatchStats(match){
           this.roi = +(this.evThisBet/this.stake).toFixed(2);
           this.mRating = +(this.backOdds * 100 / this.layOdds).toFixed(2);
 
-            //console.log(match.Home + ": stake: " + this.stake + " bOdds" + this.backOdds + " lay: " + this.layOdds + " layStake " + this.layStake + " liability" + this.liability + " ql " + this.ql + " oneInXgames " + this.oneInXgames + " ft " + this.ft + " evThisBet " + this.evThisBet + " " + this.stake + " ");
+            console.log(match);
 
         this.singleAwayMatch =  {
           EventStart: match.Details,
@@ -127,6 +128,7 @@ getMatchStats(match){
           backIsUpdated: false,
           layIsUpdated:false,
           evIsUpdated: false,
+          freezeUpdates: false,
           b365oddsHCurr: match.B365HomeOdds,
           b365oddsDrawCurr: match.B365DrawOdds,
           b365oddsACurr: match.B365AwayOdds,
@@ -185,6 +187,7 @@ getMatchStats(match){
               backIsUpdated: false,
               layIsUpdated:false,
               evIsUpdated:false,
+              freezeUpdates: false,
               b365oddsHCurr: streamObj.B365HomeOdds,
               b365oddsDrawCurr: streamObj.B365DrawOdds,
               b365oddsACurr: streamObj.B365AwayOdds,
@@ -232,6 +235,7 @@ getMatchStats(match){
               backIsUpdated: false,
               layIsUpdated:false,
               evIsUpdated:false,
+              freezeUpdates: false,
               b365oddsHCurr: streamObj.B365HomeOdds,
               b365oddsDrawCurr: streamObj.B365DrawOdds,
               b365oddsACurr: streamObj.B365AwayOdds,

@@ -22,11 +22,11 @@ export interface JuicyMatch{
   backIsUpdated: boolean;
   layIsUpdated: boolean;
   evIsUpdated: boolean;
-  matchRatingUpdated: boolean;
+  freezeUpdates: boolean;
   b365oddsHCurr: number;
-  b365oddsHPrev: number;
-  b365oddsACurr: number;
-  b365oddsAPrev: number;
-  b365oddsDrawPrev: number;
   b365oddsDrawCurr: number;
+  b365oddsACurr: number;
+  b365oddsHPrev: number;
+  b365oddsAPrev: number;
+  b365DrawPrev: number;
 }
