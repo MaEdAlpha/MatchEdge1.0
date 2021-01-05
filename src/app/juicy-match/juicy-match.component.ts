@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, OnDestroy, DoCheck, OnChanges, SimpleChanges } from '@angular/core';
 import { JuicyMatchHandlingService } from './juicy-match-handling.service';
 import { TooltipPosition } from '@angular/material/tooltip';
-import { FormControl } from '@angular/forms';
+import { FormControl,FormGroup,FormArray } from '@angular/forms';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 
 import { JuicyMatch } from './juicy-match.model';
@@ -39,7 +39,7 @@ export class JuicyMatchComponent implements OnChanges, DoCheck {
   //Tooltip properties
   positionOptions: TooltipPosition[] = ['below', 'above', 'left', 'right'];
   position = new FormControl(this.positionOptions[1]);
-
+  selectionValues: FormGroup;
   //Icon properties
   isDisplayHidden: boolean = true;
   private individualMatchesSub: Subscription;
@@ -54,6 +54,7 @@ export class JuicyMatchComponent implements OnChanges, DoCheck {
   maxOddsFilter: number;
   matchRatingFilter: number;
   isEvSelected: boolean;
+  dataSource:any;
 
   constructor(private sidenav: SidenavService, private juicyMHService: JuicyMatchHandlingService, private matchStatService: MatchStatsService, private matchesService: MatchesService, private userPrefService: UserPropertiesService ) { }
 
@@ -62,9 +63,11 @@ export class JuicyMatchComponent implements OnChanges, DoCheck {
     //Anytime there is a change to this list of matches, refresh list of single matches.
     if(changes.allMatches && changes.allMatches.currentValue) {
       this.allIndvMatches = this.juicyMHService.getSingleMatches(this.allMatches);
+      if(this.allIndvMatches != undefined){
+        this.dataSource = new FormArray(this.allIndvMatches.map( x=> this.createForm(x)));
+      }
       console.log("Change Detection Activated");
       this.allIndvMatches.length === 0 ? this.noMatchesToDisplay = true : this.noMatchesToDisplay = false;
-
     }
   }
 
@@ -75,7 +78,7 @@ export class JuicyMatchComponent implements OnChanges, DoCheck {
     this.individualMatchesSub = this.juicyMHService.getJuicyUpdateListener().subscribe( (singleMatchData) => {
       this.allIndvMatches = singleMatchData;
     });
-
+    this.dataSource =  this.dataSource = new FormArray(this.allIndvMatches.map( x=> this.createForm(x)));
     //accesses an eventEmitter of streamData that is coming in via MongoDB ChangeStream.  Setsup a subscription to observable.
     this.streamSub = this.matchesService.streamDataUpdate
     .subscribe( (streamObj) => {
@@ -102,6 +105,13 @@ export class JuicyMatchComponent implements OnChanges, DoCheck {
       this.matchRatingFilter= Number(tablePref.maxRatingFilter);
       this.isEvSelected = Boolean(tablePref.isEvSelected);
     });
+
+    // this.selectionValues = new FormGroup({
+    //   stake:new FormControl(data.Stake),
+    //   backOdds:new FormControl(data.BackOdds),
+    //   lay:new FormControl(data.LayStake),
+    //   layOdds:new FormControl(data.LayOdds),
+    // });
   }
 
   ngOnDestroy() {
@@ -114,6 +124,54 @@ export class JuicyMatchComponent implements OnChanges, DoCheck {
   //   //TODO possibly hold onto old bet365 updates here? create a new field that writes old data.
   //   //TODO Also, timestamp showing last update.
 
+  createForm(data:any)
+  {
+    return new FormGroup(
+      {
+      Stake:new FormControl(data.Stake),
+      LayStake:new FormControl(data.LayStake),
+      BackOdds:new FormControl(data.BackOdds),
+      LayOdds:new FormControl(data.LayOdds),
+      // b365oddsHCurr: new FormControl(data.b365oddsHCurr),
+      // b365oddsDrawCurr: new FormControl(data.b365oddsDrawCurr),
+      // b365oddsACurr: new FormControl(data.b365oddsACurr),
+      // b365oddsHPrev: new FormControl(data.b365oddsHPrev),
+      // b365oddsAPrev: new FormControl(data.b365oddsAPrev),
+      // b365DrawPrev: new FormControl(data.b365DrawPrev),
+    });
+
+
+  }
+
+  onSubmit(){
+    // console write new data.
+  }
+
+  getGroup(index:number)
+  {
+    return this.dataSource.at(index) as FormGroup
+  }
+
+  FTA(stake:number, backOdds: number, layStake: number):number{
+    return (+stake*(+backOdds - 1)+ +layStake);
+  }
+
+  TotalEV(occurence:number, stake:number, backOdds:number, layStake:number ):number{
+   var result:number = +(+stake * (+backOdds - 1) + +layStake)+ (+layStake- +stake)*(+occurence-1);
+   return result;
+  }
+
+  ROI(stake:number, evThisBet:number):number{
+    return +((evThisBet/stake)*100);
+  }
+
+  QL(layStake:number, stake:number){
+    return +(+layStake - +stake);
+  }
+
+  Liability(layOdds:number, layStake:number):number {
+    return +(+layOdds - 1 )* +layStake;
+  }
   hide(){
     this.isDisplayHidden = !this.isDisplayHidden;
   }

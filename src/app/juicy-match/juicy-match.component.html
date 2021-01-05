@@ -12,42 +12,44 @@
              <th mat-header-cell *matHeaderCellDef id="column{{flickerColmnIndex}}hdr"> {{ column }}</th>
              <td mat-cell
                  class="mat-column{{flickerColmnIndex}}-data"
-                 *matCellDef="let selection; let flickerRowIndex = dataIndex">
+                 *matCellDef="let selection; let i = dataIndex">
                  <div *ngIf= "((isEvSelected && +selection['EVthisBet'] >= +prefObj.evFilterValue && +selection['EVthisBet'] < 1000) || (!isEvSelected && (+selection['MatchRating'] == +prefObj.maxRatingFilter || selection['MatchRating'] > (+prefObj.maxRatingFilter - 0.1))))">
                   <div *ngIf= "( +selection['BackOdds'] <= +maxOddsFilter && +selection['BackOdds'] >= +minOddsFilter)">
                       <div class="juicyCell" *ngIf="column.endsWith('BackOdds')">
-                        <span  class="ticker{{(flickerColmnIndex)}}box" appFlickerData [flickerColmnIndex]="flickerColmnIndex" [isUpdated]="selection.backIsUpdated"> {{selection[column] | number:'0.2-2'}} </span>
+                        <img  class="odds-img" src="/assets/img/betIcon.png" alt="">
+                        <span  class="ticker{{(flickerColmnIndex)}}box" appFlickerData [flickerColmnIndex]="flickerColmnIndex" [isUpdated]="selection.backIsUpdated"> {{ selection[column] | number:'0.2-2'}} </span>
                       </div>
                           <div class="juicyCell" *ngIf="column.endsWith('LayOdds')">
-                            <span  class="ticker{{(flickerColmnIndex)}}box" appFlickerDataLay [flickerColmnIndex]="flickerColmnIndex" [isUpdated]="selection.layIsUpdated"> {{selection[column] | number:'0.2-2'}} </span>
+                            <img  class="odds-img" src="/assets/img/smarketsIcon.png" alt="">
+                            <span  class="ticker{{(flickerColmnIndex)}}box" appFlickerDataLay [flickerColmnIndex]="flickerColmnIndex" [isUpdated]="selection.layIsUpdated"> {{ selection[column] | number:'0.2-2' | number:'0.2-2'}} </span>
                           </div>
 
-                            <span *ngIf="!column.endsWith('Odds') && !column.endsWith('Bet') && !column.endsWith('Rating')"> {{selection[column]}}</span>
+                            <span *ngIf="!column.endsWith('Odds') && !column.endsWith('Bet') && !column.endsWith('Rating')"> {{ selection[column] }}</span>
 
                               <div class="juicyCell" *ngIf="column.endsWith('Bet')">
-                                  <span class="ev{{flickerColmnIndex}}box juicyCell" appFlickerDataEv [isUpdated]="selection.evIsUpdated"> {{selection[column] | currency:'GBP'}} </span>
+                                  <span class="ev{{flickerColmnIndex}}box juicyCell" appFlickerDataEv [isUpdated]="selection.evIsUpdated"> {{selection[column]}} </span>
                               </div>
                               <!-- use directive for displaying matchRating values -->
                                 <div class="juicyCell" *ngIf="column.endsWith('Rating')">
-                                  <span class="mr{{flickerColmnIndex}}box" appFlickerDataMatchRating [isUpdated]="selection.matchRatingUpdated"> {{selection[column] | number:'0.2-2'}} </span>
+                                  <span class="mr{{flickerColmnIndex}}box" appFlickerDataMatchRating [isUpdated]="selection.matchRatingUpdated"> {{selection[column]}} </span>
                                 </div>
                     </div>
                   </div>
              </td>
          </ng-container>
 
-          <!-- @detailExpand is a directive that uses expandedDetail in matColumnDef to create the expanded container -->
-          <ng-container matColumnDef="expandedDetail">
-            <td mat-cell *matCellDef="let selection" [attr.colspan]="columnsToDisplay.length" >
+         <!-- @detailExpand is a directive that uses expandedDetail in matColumnDef to create the expanded container -->
+         <ng-container matColumnDef="expandedDetail">
+           <td mat-cell *matCellDef="let selection; let i=dataIndex" [attr.colspan]="columnsToDisplay.length" >
+             <div class="juicyMatch-detail"
+             [@detailExpand]="selection == expandedElement ? 'expanded' : 'collapsed'">
+             <form [formGroup]="getGroup(i)">
 
-              <div class="juicyMatch-detail"
-                   [@detailExpand]="selection == expandedElement ? 'expanded' : 'collapsed'">
-
-                    <div class="jm-exp-details-row1">
-                      <div class="row1 row1-first">
-                        <div class="jed-cell1" id="selection"><h1>{{selection.Selection}}</h1>
+             <div class="jm-exp-details-row1">
+               <div class="row1 row1-first">
+                 <div class="jed-cell1" id="selection"><h1>{{selection.Selection}}</h1>
                         <div class="jed-cell1" id="logo"><img src="/assets/img/placeholder.jpg"> </div>
-                        <div class="jed-cell" id="prev-odds"><p> <b>PREV. BACK ODDS</b></p><h3> {{selection.b365HPrev | number:'0.2-2'}} | {{selection.b365DrawPrev | number:'0.2-2'}} | {{selection.b365APrev | number:'0.2-2'}}</h3></div>
+                        <div class="jed-cell" id="prev-odds"><p> <b> {{i}} PREV. BACK ODDS</b></p><h3> {{selection.b365HPrev | number:'0.2-2'}} | {{selection.b365DrawPrev | number:'0.2-2'}} | {{selection.b365APrev | number:'0.2-2'}}</h3></div>
                       </div>
                       </div>
 
@@ -58,15 +60,17 @@
                               <p>GO TO  <img class="bookie-img" src="/assets/img/bet365II.png"></p>
                             </div>
                             <div class="words-container">
-                              <b>BET</b> <span class="value-box-back"><b>{{selection.Stake | currency:'GBP'}}</b></span>
+
+                              <b>BET</b> <input formControlName="Stake" class = "value-box-back" placeholder="{{getGroup(i).get('Stake').value | currency:'GBP'}}"/>
                             </div>
                             <div class="words-container">
-                             <p> AT ODDS OF <span class="value-box-back"> <b>{{selection.BackOdds | number:'0.2-2'}}</b></span> </p>
+                             <p> AT ODDS OF </p>
+                             <input formControlName="BackOdds" class = "value-box-back"  placeholder="{{getGroup(i).get('BackOdds').value | number:'0.2-2'}}"/>
                             </div>
                             <div class="words-container">
                               <b>FOR  </b> <span class="selection-box">{{selection.Selection}}</span>
                             </div>
-                              <div class="external-link-button" id="bet365lnk"><a mat-raised-button href= {{selection.UrlB365}} target="_blank">OPEN EVENT</a></div>
+                              <div class="external-link-button" id="bet365lnk"><a mat-raised-button href= {{selection.UrlB365}} >OPEN EVENT</a></div>
                           </div>
 
                         </div>
@@ -78,55 +82,58 @@
                             </div>
 
                             <div class="words-container">
-                              <b>LAY</b> <span class="value-box-lay"><b>{{selection.LayStake | currency:'GBP'}}</b></span>
-                            </div>
+                              <b>LAY</b>
+                                  <input formControlName="LayStake" class = "value-box-lay"  placeholder="{{selection.LayStake | currency:'GBP'}}">
+                                </div>
 
-                            <div class="words-container">
-                              <p> AT ODDS OF <span class="value-box-lay"><b>{{selection.LayOdds | number:'0.2-2'}}</b></span></p>
-                            </div>
+                                <div class="words-container">
 
-                            <div class="words-container">
-                              <b> <span id="liability"> YOUR LIABILITY: </span><span class="row3-value">{{selection.Liability | currency:'GBP'}}</span></b>
-                            </div>
+                                  <p> AT ODDS OF
+                                    <input formControlName="LayOdds" class = "value-box-lay"  placeholder="{{selection.LayOdds | number:'0.2-2'}}">
+                                  </div>
 
-                            <div class="external-link-button" id="smlnk"><a mat-raised-button href= {{selection.UrlSmarkets}} target="_blank">OPEN EVENT</a></div>
-                          </div>
+                                  <div class="words-container">
+                                    <b> <span id="liability"> YOUR LIABILITY: </span><span class="row3-value">{{Liability(getGroup(i).get('LayOdds').value, getGroup(i).get('LayStake').value) | currency:'GBP'}}</span></b>
+                                  </div>
 
-                        </div>
+                                  <div class="external-link-button" id="smlnk"><a mat-raised-button href= {{selection.UrlSmarkets}} target="_blank">OPEN EVENT</a></div>
+                                </div>
 
-                        <div class="jm-exp-details-col2row3">
-
-                          <div class="selection-figures row4-row1">
-                            <div class="r1 r1-col1">
-                              <h3 class="selection-figures-content1">FTA Returns:</h3>
-                              <span class="selection-figures-content1">{{selection.FTAProfit | currency:'GBP'}}</span>
                               </div>
+
+                              <div class="jm-exp-details-col2row3">
+
+                                <div class="selection-figures row4-row1">
+                                  <div class="r1 r1-col1">
+                                    <h3 class="selection-figures-content1">FTA Returns:</h3>
+                              <span class="selection-figures-content1">{{FTA( getGroup(i).get('Stake').value, getGroup(i).get('BackOdds').value, getGroup(i).get('LayStake').value  ) | currency:'GBP'}}</span>
+                            </div>
                             <div class="r1 r1-col2">
                               <h3 class="selection-figures-content2">ROI: </h3>
-                              <span class="selection-figures-content1"> {{selection.ROI | number:'0.2-2'}} % </span></div>
-                          </div>
+                              <span class="selection-figures-content1"> {{ROI(getGroup(i).get('Stake').value, selection.EVthisBet) | number:'0.2-2'}} %</span></div>
+                            </div>
 
-                          <div class="selection-figures row4-row2">
-                            <div class="r2 r2-col1">
-                              <h3 class="selection-figures-content1">Total EV: </h3>
-                               <span class="selection-figures-content2">{{selection.EVTotal | currency:'GBP'}}</span>
+                            <div class="selection-figures row4-row2">
+                              <div class="r2 r2-col1">
+                                <h3 class="selection-figures-content1">Total EV: </h3>
+                                <span class="selection-figures-content2">{{ TotalEV( selection.FTAround,  getGroup(i).get('Stake').value, getGroup(i).get('BackOdds').value, getGroup(i).get('LayStake').value)  | currency:'GBP' }}</span>
                               </div>
 
-                            <div class="r2 r2-col2">
-                              <h3 class="selection-figures-content2">QL: </h3>
-                              <span class="selection-figures-content2"> {{selection.QL | currency:'GBP'}}  </span>
+                              <div class="r2 r2-col2">
+                                <h3 class="selection-figures-content2">QL: </h3>
+                                <span class="selection-figures-content2"> {{QL(getGroup(i).get('LayStake').value, getGroup(i).get('Stake').value) | currency:'GBP'}}  </span>
+                              </div>
                             </div>
-                          </div>
 
-                          <div class="rcd-btn">
-                            <button mat-mat-raised-button class="exp-button">Edit values</button>
-                            <button mat-mat-raised-button class="exp-button">Record Bet</button>
-                          </div>
+                            <div class="rcd-btn">
+                              <button mat-mat-raised-button class="exp-button">Record Bet</button>
+                            </div>
 
+                          </div>
                         </div>
-                      </div>
 
-                    </div>
+                      </div>
+                    </form>
 
 
               </div>

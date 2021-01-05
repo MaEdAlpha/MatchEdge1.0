@@ -240,14 +240,17 @@ button {
 }
 
 .value-box-lay {
-  background: rgb(136, 136, 218);
+  background: rgb(255, 255, 255);
 }
 
 .value-box-back, .value-box-lay, .selection-box {
-  padding: 20px;
-  display: inline-block;
-  margin-left: 10px;
-  border: 1px solid black;
+  width: 30%;
+  font-size: medium;
+  padding-right: 5px;
+  padding-left: 5px;
+  text-align: center;
+  margin-left: 5px;
+  vertical-align: middle;
 }
 
 .user-directions {
@@ -401,13 +404,16 @@ span.row3-value {
     visibility: collapse;
   }
 
-  .words-container {
+  .words-container{
     width: 20%;
     display: inline-block;
     margin-left: auto;
     margin-right: auto;
   }
 
+  .words-container>p {
+    display: inline-block;
+  }
   #liability {
     font-size: medium;
   }
@@ -420,4 +426,10 @@ span.row3-value {
   .shadow {
     box-shadow: inset -5px -3px 10px #000000;
     border-radius: 8px;
+ }
+
+ .odds-img{
+  width: 20px;
+  margin: 5px;
+  vertical-align: middle;
  }
