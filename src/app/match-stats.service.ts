@@ -2,6 +2,7 @@ import { Injectable, EventEmitter } from '@angular/core';
 import { CalcSettingsService } from './calc-settings/calc-settings.service';
 import { UserPropertiesService } from './user-properties.service';
 import { JuicyMatch } from './juicy-match/juicy-match.model';
+import { Match } from './match/match.model';
 import { Observable, Subject, from } from "rxjs";
 
 @Injectable({
@@ -24,7 +25,7 @@ export class MatchStatsService {
   private juicyMatches: JuicyMatch[] = [];
   private singleHomeMatch: any;
   private singleAwayMatch: any;
-  private allSingleMatches: any=[];
+  private allSingleMatches: JuicyMatch[]=[];
   private pairOfSingleMatches: any=[];
 
 
@@ -40,6 +41,7 @@ getMatchStats(match){
   //separate each match into a single Match Object.
     //reset list
     //for home matches
+
     this.stake = this.calcSettingsService.getPrefferedStake(match.BHome);
     this.backOdds = match.BHome;
     this.layOdds = match.SMHome;
@@ -62,6 +64,7 @@ getMatchStats(match){
           LayStake: this.layStake,
           Fixture: match.Home + " vs " + match.Away,
           Selection: match.Home,
+          League: match.League,
           BackOdds: this.backOdds,
           LayOdds: this.layOdds,
           FTAround: match.OccH,
@@ -86,6 +89,9 @@ getMatchStats(match){
           b365HPrev: match.PreviousB365HomeOdds,
           b365APrev: match.PreviousB365AwayOdds,
           b365DrawPrev: 999,
+          ignore: match.HStatus.ignore,
+          notify: match.HStatus.notify,
+          activeBet: match.HStatus.activeBet
         }
         this.allSingleMatches.push(this.singleHomeMatch);
 
@@ -103,7 +109,6 @@ getMatchStats(match){
           this.roi = +(this.evThisBet/this.stake).toFixed(2);
           this.mRating = +(this.backOdds * 100 / this.layOdds).toFixed(2);
 
-            console.log(match);
 
         this.singleAwayMatch =  {
           EventStart: match.Details,
@@ -111,6 +116,7 @@ getMatchStats(match){
           LayStake: this.layStake,
           Fixture: match.Home + " vs " + match.Away,
           Selection: match.Away,
+          League: match.League,
           BackOdds: this.backOdds,
           LayOdds: this.layOdds,
           FTAround: match.OccA,
@@ -135,6 +141,9 @@ getMatchStats(match){
           b365HPrev: match.PreviousB365HomeOdds,
           b365APrev: match.PreviousB365AwayOdds,
           b365DrawPrev: 999,
+          ignore: match.AStatus.ignore,
+          notify: match.AStatus.notify,
+          activeBet: match.AStatus.activeBet
         }
         this.allSingleMatches.push(this.singleAwayMatch);
   }
@@ -145,8 +154,7 @@ getMatchStats(match){
     this.singleHomeMatch = [];
   }
 
-  //UGLY ASS CODE, need to fix this....
-  //Used in JuicyMatch Handling Service: To process incoming data to the correct SINGLE match Object.
+  //Used in JuicyMatch Handling Service: To process incoming data to the SelectionObject (single Match object).
   retrieveStreamData(streamObj){
         this.pairOfSingleMatches = [];
         //for home matches
@@ -170,6 +178,7 @@ getMatchStats(match){
               LayStake: this.layStake,
               Fixture: streamObj.HomeTeamName + " vs " + streamObj.AwayTeamName,
               Selection: streamObj.HomeTeamName,
+              League: streamObj.League,
               BackOdds: this.backOdds,
               LayOdds: this.layOdds,
               FTAround: streamObj.OccurrenceHome,
@@ -218,6 +227,7 @@ getMatchStats(match){
               LayStake: this.layStake,
               Fixture: streamObj.HomeTeamName + " vs " + streamObj.AwayTeamName,
               Selection: streamObj.AwayTeamName,
+              League: streamObj.League,
               BackOdds: this.backOdds,
               LayOdds: this.layOdds,
               FTAround: streamObj.OccurrenceAway,
@@ -249,7 +259,13 @@ getMatchStats(match){
   }
 
   getAllSingleMatches(){
+    console.log( this.allSingleMatches);
+
     return this.allSingleMatches;
+  }
+
+  updateStatus(data: Match){
+
   }
 
 }

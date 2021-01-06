@@ -14,6 +14,13 @@
                 <h1> Select Leagues </h1>
                 <!-- point to viewTableForm : FormGroup  -->
                   <form (ngSubmit)="onSubmit()" [formGroup]="viewTableForm">
+                    <mat-checkbox
+                      formControlName="dialogDisabled"
+                      [value] = "dialogDisabled"
+                      (click)="showMe()">
+                      Disable ignore league notification.
+                    </mat-checkbox>
+
                     <mat-form-field appearance="fill">
                       <mat-label>{{leagues}}</mat-label>
                         <mat-select

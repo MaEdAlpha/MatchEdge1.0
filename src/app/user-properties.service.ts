@@ -65,7 +65,8 @@ export class UserPropertiesService {
     maxOdds: '4.5',
     evFilterValue: '0',
     maxRatingFilter: '98.50',
-    isEvSelected: 'true'
+    isEvSelected: true,
+    dialogDisabled: true,
   };
 
   constructor() { }
@@ -121,9 +122,10 @@ export class UserPropertiesService {
   }
 
   setFormValues(formObj: any){
+
     this.viewTablePrefSelected.emit(this.viewTablePrefs);
-    //min-max|EVfilter|dateRange|leagues
-    console.log("EV filter selected? " + formObj.isEvSelected);
+
+    console.log(formObj);
 
     this.userPrefSub.next({
       leagueSelection: formObj.leagueSelection,
@@ -132,7 +134,8 @@ export class UserPropertiesService {
       maxOdds: formObj.maxOdds,
       evFilterValue: formObj.evFilterValue,
       maxRatingFilter: formObj.maxRatingFilter,
-      isEvSelected: formObj.isEvSelected
+      isEvSelected: formObj.isEvSelected,
+      dialogDisabled: formObj.dialogDisabled,
     });
   }
   //userPreference TablePreferences
@@ -163,5 +166,9 @@ export class UserPropertiesService {
 
   getSelectedDate(): string {
     return this.viewTablePrefs.timeRange;
+  }
+
+  getDialogDisabled(): boolean {
+    return this.viewTablePrefs.dialogDisabled;
   }
 }

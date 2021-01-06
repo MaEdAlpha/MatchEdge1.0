@@ -44,8 +44,9 @@ export class ViewTableSidenavComponent implements OnInit, AfterViewInit {
   minOddsFilter: number;
   maxOddsFilter: number;
   matchRatingFilter: number;
-  isEvSelected: string;
+  isEvSelected: boolean;
   evPlaceholder: string;
+  dialogDisabled: boolean;
 
   leaguesControl: FormControl;
 
@@ -122,6 +123,7 @@ export class ViewTableSidenavComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
 
     this.prefObj = this.userPrefService.getFormValues();
+    this.dialogDisabled= this.prefObj.dialogDisabled;
 
     this.viewTableForm = new FormGroup({
       'leagueSelection': new FormControl(this.prefObj.leagueSelection),
@@ -130,7 +132,8 @@ export class ViewTableSidenavComponent implements OnInit, AfterViewInit {
       'maxOdds': new FormControl(this.prefObj.maxOdds),
       'evFilterValue': new FormControl(this.prefObj.evFilterValue),
       'maxRatingFilter': new FormControl(this.prefObj.maxRatingFilter),
-      'isEvSelected': new FormControl(this.prefObj.isEvSelected)
+      'isEvSelected': new FormControl(this.prefObj.isEvSelected),
+      'dialogDisabled': new FormControl(this.prefObj.dialogDisabled),
     });
 
     //Subscribe to update. Retrieves UserPreferences from Service. Subscribes to it.
@@ -143,7 +146,10 @@ export class ViewTableSidenavComponent implements OnInit, AfterViewInit {
       this.matchRatingFilter= Number(tablePref.maxRatingFilter);
       this.isEvSelected = tablePref.isEvSelected;
       this.evPlaceholder = this.filters[0].value == this.isEvSelected ? "EV" : "Match Rating";
+      this.dialogDisabled = tablePref.dialogDisabled;
     });
+
+
   }
 
   ngAfterViewInit() {
@@ -182,6 +188,11 @@ export class ViewTableSidenavComponent implements OnInit, AfterViewInit {
   getLeagueSelection(){
     //TODO input service to call on userLeague Selection default.
     return this.leagues;
+  }
+
+  showMe(){
+    this.dialogDisabled = !this.dialogDisabled;
+    console.log(this.dialogDisabled);
   }
 
 }

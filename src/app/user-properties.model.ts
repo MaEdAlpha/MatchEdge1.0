@@ -30,15 +30,19 @@ export interface UserProperties
     minOdds: string;
     maxOdds: string;
     evFilterValue: string;
+    maxRatingFilter: string;
+    isEvSelected:string;
+    dialogDisabled: boolean;
   },
 }
 
 export interface TablePreferences {
-  leagueSelection: string[],
-  timeRange: string,
-  minOdds: string,
-  maxOdds: string,
-  evFilterValue: string,
-  maxRatingFilter: string,
-  isEvSelected:string
+  leagueSelection: string[];
+  timeRange: string;
+  minOdds: string;
+  maxOdds: string;
+  evFilterValue: string;
+  maxRatingFilter: string;
+  isEvSelected: boolean;
+  dialogDisabled: boolean;
 }

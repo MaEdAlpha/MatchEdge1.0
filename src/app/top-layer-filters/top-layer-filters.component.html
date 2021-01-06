@@ -21,14 +21,14 @@
         <button mat-raised-button (click)="showFixtures(2)">Juicy</button>
         <button mat-raised-button (click)="showFixtures(3)">Active</button>
       </div>
-      <mat-form-field class="hdr-selector" appearance="fill">
+      <!-- <mat-form-field class="hdr-selector" appearance="fill">
         <mat-label>View Selector</mat-label>
         <mat-select [(ngModel)]="viewThisMode" name="viewMode">
           <mat-option *ngFor="let mode of viewModes" [value]="mode.value">
             {{mode.viewValue}}
           </mat-option>
         </mat-select>
-      </mat-form-field>
+      </mat-form-field> -->
       <!-- <button class="hdr-btn"  id="hdr-hide" mat-raised-button (click)="toggle()">Main Table <mat-icon><span *ngIf="!isTableHidden">visibility_on</span><span *ngIf="isTableHidden">visibility_off</span></mat-icon></button> -->
     </div>
   </div>

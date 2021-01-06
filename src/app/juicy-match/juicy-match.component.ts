@@ -72,6 +72,7 @@ export class JuicyMatchComponent implements OnChanges, DoCheck {
   }
 
   ngOnInit(){
+    //Get initial user settings on initialization. For this to work, need to use HTTP Get request of userPreferences at page load.
     this.prefObj = this.userPrefService.getTablePrefs();
     this.isEvSelected = Boolean(this.prefObj.isEvSelected);
     this.allIndvMatches = [];
@@ -105,13 +106,6 @@ export class JuicyMatchComponent implements OnChanges, DoCheck {
       this.matchRatingFilter= Number(tablePref.maxRatingFilter);
       this.isEvSelected = Boolean(tablePref.isEvSelected);
     });
-
-    // this.selectionValues = new FormGroup({
-    //   stake:new FormControl(data.Stake),
-    //   backOdds:new FormControl(data.BackOdds),
-    //   lay:new FormControl(data.LayStake),
-    //   layOdds:new FormControl(data.LayOdds),
-    // });
   }
 
   ngOnDestroy() {
@@ -132,13 +126,7 @@ export class JuicyMatchComponent implements OnChanges, DoCheck {
       LayStake:new FormControl(data.LayStake),
       BackOdds:new FormControl(data.BackOdds),
       LayOdds:new FormControl(data.LayOdds),
-      // b365oddsHCurr: new FormControl(data.b365oddsHCurr),
-      // b365oddsDrawCurr: new FormControl(data.b365oddsDrawCurr),
-      // b365oddsACurr: new FormControl(data.b365oddsACurr),
-      // b365oddsHPrev: new FormControl(data.b365oddsHPrev),
-      // b365oddsAPrev: new FormControl(data.b365oddsAPrev),
-      // b365DrawPrev: new FormControl(data.b365DrawPrev),
-    });
+      });
 
 
   }
@@ -149,6 +137,7 @@ export class JuicyMatchComponent implements OnChanges, DoCheck {
 
   getGroup(index:number)
   {
+    console.log(this.dataSource.at(index));
     return this.dataSource.at(index) as FormGroup
   }
 
@@ -178,5 +167,12 @@ export class JuicyMatchComponent implements OnChanges, DoCheck {
 
   toggleSideNav(){
     this.sidenav.toggle();
+  }
+  loadGroup(i:number){
+    this.selectionValues = this.getGroup(i);
+  }
+
+  freezeAllMotorFunctions(){
+
   }
 }

@@ -4,6 +4,7 @@ export interface JuicyMatch{
   LayStake: number;
   Fixture: string;
   Selection: string;
+  League: string;
   BackOdds: number;
   DrawOdds: number;
   LayOdds: number;
@@ -29,4 +30,8 @@ export interface JuicyMatch{
   b365oddsHPrev: number;
   b365oddsAPrev: number;
   b365DrawPrev: number;
+  ignore:boolean;
+  notify:boolean;
+  activeBet:boolean;
+
 }
