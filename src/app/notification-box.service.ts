@@ -11,4 +11,8 @@ export class NotificationBoxService {
   showNotification(){
     this.toast.success('Toastr Working', 'title');
   }
+
+  enableToggleToast(){
+    this.toast.error('Re-Enable toggle to view League Matches.')
+  }
 }

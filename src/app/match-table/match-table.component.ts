@@ -21,7 +21,7 @@ import { UserPropertiesService } from '../user-properties.service';
     expanded = false;
     isActive = false;
     totalCounts = 0;
-    notificationsDisabled = false;
+    ignoreAll = false;
   }
 
   @Component({
@@ -112,6 +112,7 @@ import { UserPropertiesService } from '../user-properties.service';
           //assign groupList to matDataSource. Should have both Group & matches, organized alphabetically
           this.dataSource.data = this.getGroupListInit(this.allData, 0,this.groupByColumns);
 
+
         this.preferenceSubscription = this.userPref.getUserPrefs().
         subscribe( userPrefs => {
           this.dialogDisabled = userPrefs.dialogDisabled;
@@ -127,6 +128,7 @@ import { UserPropertiesService } from '../user-properties.service';
         });
 
         this.viewSelectedDate = this.userPref.getSelectedDate();
+        this.dialogDisabled = this.userPref.getDialogDisabled();
       }
 
     ngAfterViewInit(){
@@ -152,7 +154,6 @@ import { UserPropertiesService } from '../user-properties.service';
       var dateEnd: number = dateValidator[0];
       console.log("DateStart: " + dateStart + " DateEnd " + dateEnd);
       //TODO BUG-FIX WHEN LOCALE_ID WORKS.
-      var matchDate= this.convertStringToDate(this.fuckYouDatePipeMethod(allData[2].Details));
 
       groupList.forEach( groupObj => {
         //add group Object into masterList if not found in this.masterList.
@@ -299,8 +300,10 @@ import { UserPropertiesService } from '../user-properties.service';
     }
 
     groupHeaderClick(row) {
+
+      // console.log(row);
+
       //if row is not expanded, set dataSource to all just the groupLists
-      //console.log(row);
       //upon detection of an open league, set the group property to false, and modify groupList to not include matches == row.league
       if (row.expanded) {
         row.expanded = false;
@@ -313,13 +316,20 @@ import { UserPropertiesService } from '../user-properties.service';
       } else {
         //if row is  closed, set to true, and modify groupList.
         //TODO set this group to expanded == true. Set the dataSource via addgroupsNew() function.
-        row.expanded = true;
-        //need to find all items relative to this row.league objectand add it to this.dataSource.data.
-        this.dataSource.data = this.modifiedGroupList(
-          this.allData,
-          this._allGroup,
-          this.viewSelectedDate
-          );
+        if(!row.ignoreAll)
+        {
+          row.expanded = true;
+          //need to find all items relative to this row.league objectand add it to this.dataSource.data.
+          this.dataSource.data = this.modifiedGroupList(
+            this.allData,
+            this._allGroup,
+            this.viewSelectedDate
+            );
+        }
+
+        if(row.ignoreAll){
+          this.showToast("enableToggle");
+        }
       }
       //console.log("Data Source: ");
       //console.log(this.dataSource.data);
@@ -352,14 +362,13 @@ import { UserPropertiesService } from '../user-properties.service';
         //Why? This is a bit dodgy code
         JSON.stringify
       );
-      console.log(groups);
 
       const currentColumn = groupByColumns[level];
 
       groups.forEach(group => {
         //filter all data to matching brands, for each group. add total count to group property
         const rowsInGroup = data.filter( row => group[currentColumn] === row[currentColumn] );
-          // console.log(group);
+          //  console.log(group);
           // console.log(rowsInGroup);
 
         group.totalCounts = rowsInGroup.length;
@@ -567,8 +576,15 @@ import { UserPropertiesService } from '../user-properties.service';
 
     dateSelection(dateSelected:string): number[]{
 
+      //Test settings
+      var today = 1
+      var tomorrow = today + 1;
+
+      /*
       var today = new Date(Date.now()).getDate();
       var tomorrow = today + 1;
+
+      */
 
       if(dateSelected == 'Today')
       {
@@ -603,27 +619,34 @@ import { UserPropertiesService } from '../user-properties.service';
             }
             if(result == 'true') {
               $event.source.checked = false;
-              groupItem.notificationsDisabled = true;
+              groupItem.ignoreAll = true;
             }
 
           });
       } else if ($event.checked == true && !this.dialogDisabled) {
         //if toggle is being clicked "ON", turn on Notifications.
-        groupItem.notificationsDisabled = false;
+        groupItem.ignoreAll = false;
 
       } else if (this.dialogDisabled) {
         //If user has selected to ignore popups, then set notifications based off $event.checked
         console.log(groupItem);
 
-          $event.source.checked == true ? groupItem.notificationsDisabled = false : groupItem.notificationsDisabled = true;
-          console.log("GroupItem State: " + groupItem.notificationsDisabled);
+          $event.source.checked == true ? groupItem.ignoreAll = false : groupItem.ignoreAll = true;
+          console.log("GroupItem State: " + groupItem.ignoreAll);
 
         }
     }
 
-    showToast(){
-      this.notificationBox.showNotification();
+    showToast(typeOfToast: string){
+      if(typeOfToast == "enableToggle"){
+        this.notificationBox.enableToggleToast();
+      }
+      if(typeOfToast == "default"){
+        this.notificationBox.showNotification();
+      }
+
     }
+
 
     toggleSideNav(){
       this.sidenav.toggle();

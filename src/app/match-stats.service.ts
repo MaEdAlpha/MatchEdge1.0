@@ -259,7 +259,7 @@ getMatchStats(match){
   }
 
   getAllSingleMatches(){
-    console.log( this.allSingleMatches);
+    //console.log( this.allSingleMatches);
 
     return this.allSingleMatches;
   }
