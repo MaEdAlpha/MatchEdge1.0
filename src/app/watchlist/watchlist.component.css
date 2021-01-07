@@ -1,3 +1,231 @@
-h1{
-  color:white;
+.mn-display {
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
 }
+
+.fixturesTable, .defaultTable {
+  width: 100%;
+}
+
+mat-table {
+  margin-top: 3px;
+}
+
+mat-row, mat-header-row {
+  background: #272929;
+  color: white;
+}
+
+
+.mat-column-groupHeader, .leagueGroupContainer  {
+  background: #7a8585;
+}
+
+.footer-container {
+  margin-bottom: 100px;
+  color:white;
+  text-align: center;
+}
+
+.leagueToggleSelect {
+  display: none;
+}
+
+.mat-column-Details {
+  border-bottom: transparent;
+}
+
+.mat-column-Away, .mat-column-Home {
+  padding-left: 10px;
+}
+.lge-title-cont> h1, .home-away-cont> h2 {
+  color: black;
+  text-align: center;
+}
+
+.main-header {
+  display: inline-block;
+  width: 100%;
+}
+
+
+.hac {
+  float:left;
+  width: 49.6%;
+}
+.hmStatus{
+    background: blue;
+    color: white;
+    border-bottom-color: white;
+}
+
+.mat-icon-button {
+  margin-right: 2px;
+}
+
+.dirHStatus{
+  border-bottom-left-radius: 10px;
+  border-top-left-radius: 10px;
+}
+
+.dirHSelection{
+  border-top-right-radius: 30px;
+  border-bottom-right-radius: 30px;
+}
+
+.dirStatusContainer{
+  background: #637878;
+  border-radius: 5px;
+  width: 200px;
+  display: flex;
+}
+
+
+.awStatus{
+  background: #13530b;
+  color: white;
+  border-bottom-color: white;
+}
+
+
+.dirAwStatus{
+border-bottom-right-radius: 10px;
+border-top-right-radius: 10px;
+}
+
+.dirAwSelection{
+border-top-left-radius: 30px;
+border-bottom-left-radius: 30px;
+}
+
+.dirHBetStatus, .dirABetStatus{
+    color: green;
+    background: white;
+    border-radius: 5px;
+}
+
+.ignoreThis{
+  color: rgb(255, 41, 13);
+  background: white;
+  border-radius: 5px;
+}
+
+
+
+app-view-table-sidenav {
+  float: left;
+}
+
+.setting-btn {
+  color: white;
+}
+
+.mat-form-field + .mat-form-field {
+  margin-left: 8px;
+}
+
+#footer {
+  width: 100%;
+}
+div.footer-container{
+  color: white;
+}
+
+.leagueToggleSelect{
+  float: right;
+  display: inline-flex;
+}
+.leagueGroupContainer>h2 {
+  display: inline;
+  color: whitesmoke;
+}
+
+.leagueGroupContainer{
+  text-align: center;
+  width: 100%;
+}
+
+.mat-column-OccH>span, .mat-column-OccA>span {
+  color: white;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+img {
+  width: 20%;
+}
+
+.mat-column-Home, .mat-column-Away, .mat-column-FixturesDate {
+  background: white;
+  text-align: center;
+
+  margin-bottom: 0;
+  color: black;
+}
+
+.mat-column-FixturesDate>span {
+  margin-left: auto;
+  margin-right: auto;
+  width: 60%;
+}
+.cdk-column-Home{
+  background: white;
+  text-align: center;
+  width: 100%;
+}
+
+span.Home, span.Away {
+  color: black;
+  font-size: 12px;
+}
+
+span.BHome, span.BAway, span.SMHome, span.SMAway, span.BHome, span.BAway {
+  color: white;
+  font-size: 15px;
+  font-weight: 500;
+  padding: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+
+}
+span.BAway, span.BHome{
+  background: green;
+
+}
+
+span.SMAway, span.SMHome{
+  background: rgb(14, 47, 155);
+}
+
+mat-header-cell.cdk-column-Home, mat-header-cell.cdk-column-Away, mat-header-cell.cdk-column-FixturesDate {
+  background: #272929;
+}
+
+.mat-icon-button {
+  width: 30%;
+}
+
+.fixturesDateBtn {
+  width: 100%;
+  padding: 0px;
+  white-space: normal;
+  background: whitesmoke;
+}
+
+#fixturesText {
+  width: 80%;
+  font-size: 10px;
+}
+
+.viewCell {
+    padding: 2px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+button.viewCell {
+  background: #afafaf;
+}
+
+

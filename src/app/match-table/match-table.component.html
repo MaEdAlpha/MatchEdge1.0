@@ -136,12 +136,18 @@
             <mat-row *matRowDef="let row; columns: ['groupHeader']; when: isGroup;" (click)="groupHeaderClick(row)"></mat-row>
           </mat-table>
         </div>
-        <!-- Display Juicy Table -->
+
+        <!-- Display WatchList -->
         <div [style.visibility]="tableSelected == 2 ? 'visible' : 'collapse' "[style.height]="tableSelected == 2 ? ' ' : '0' " [style.margin-bottom]="tableSelected == 2 ? '5px' : '0'" [style.display]="tableSelected == 2 ? 'inline' : '' ">
+          <app-watchlist (hideTable)="displaySelectedTable($event)"></app-watchlist>
+        </div>
+
+        <!-- Display Juicy Table -->
+        <div [style.visibility]="tableSelected == 3 ? 'visible' : 'collapse' "[style.height]="tableSelected == 3 ? ' ' : '0' " [style.margin-bottom]="tableSelected == 3 ? '5px' : '0'" [style.display]="tableSelected == 3 ? 'inline' : '' ">
           <app-juicy-match [allMatches] = "matches"></app-juicy-match>
         </div>
         <!-- Display Active Bets -->
-        <div [style.visibility]="tableSelected == 3 ? 'visible' : 'collapse' "[style.height]="tableSelected == 3 ? ' ' : '0' " [style.margin-bottom]="tableSelected == 3 ? '5px' : '0'" [style.display]="tableSelected == 3 ? 'inline' : '' ">
+        <div [style.visibility]="tableSelected == 4 ? 'visible' : 'collapse' "[style.height]="tableSelected == 4 ? ' ' : '0' " [style.margin-bottom]="tableSelected == 4 ? '5px' : '0'" [style.display]="tableSelected == 4 ? 'inline' : '' ">
           <p>Active</p>
         </div>
 </div>

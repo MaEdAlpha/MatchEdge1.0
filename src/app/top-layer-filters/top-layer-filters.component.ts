@@ -53,7 +53,7 @@ export class TopLayerFiltersComponent implements OnInit, OnChanges {
 
   }
 
-  showFixtures(value:number) {
+  showTable(value:number) {
     this.displayFixtures=value;
     this.hideTable.emit(this.displayFixtures);
   }
