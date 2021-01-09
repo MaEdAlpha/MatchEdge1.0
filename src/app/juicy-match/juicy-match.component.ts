@@ -11,6 +11,7 @@ import { MatchesService } from '../match/matches.service';
 import { SidenavService } from '../view-table-sidenav/sidenav.service';
 import { UserPropertiesService } from '../user-properties.service';
 import { TablePreferences } from '../user-properties.model';
+import { MatchStatusService } from '../match-status.service';
 
 
 @Component({
@@ -25,7 +26,8 @@ import { TablePreferences } from '../user-properties.model';
     ]),
   ],
 })
-export class JuicyMatchComponent implements OnChanges, DoCheck {
+
+export class JuicyMatchComponent implements OnChanges, DoCheck, OnInit {
   //Table properties
   @Input() allMatches: any;
   juicyMatches: JuicyMatch[];
@@ -55,21 +57,41 @@ export class JuicyMatchComponent implements OnChanges, DoCheck {
   matchRatingFilter: number;
   isEvSelected: boolean;
   dataSource:any;
+  @Input() selectionToIgnore: any[];
 
-  constructor(private sidenav: SidenavService, private juicyMHService: JuicyMatchHandlingService, private matchStatService: MatchStatsService, private matchesService: MatchesService, private userPrefService: UserPropertiesService ) { }
+  constructor(private sidenav: SidenavService, private juicyMHService: JuicyMatchHandlingService, private matchStatService: MatchStatsService, private matchesService: MatchesService, private userPrefService: UserPropertiesService, private matchStatusService: MatchStatusService ) { }
 
   ngOnChanges(changes: SimpleChanges)
   {
     //Anytime there is a change to this list of matches, refresh list of single matches.
-    if(changes.allMatches && changes.allMatches.currentValue) {
-      this.allIndvMatches = this.juicyMHService.getSingleMatches(this.allMatches);
-      if(this.allIndvMatches != undefined){
-        this.dataSource = new FormArray(this.allIndvMatches.map( x=> this.createForm(x)));
+    if(changes.allMatches && changes.allMatches.currentValue && changes.allMatches.isFirstChange) {
+
+      if(this.allIndvMatches.length == 0){
+        this.allIndvMatches = this.juicyMHService.getSingleMatches(this.allMatches);
+
+        if(this.allIndvMatches != undefined){
+          this.dataSource = new FormArray(this.allIndvMatches.map( x=> this.createForm(x)));
+        }
       }
+
       console.log("Change Detection Activated");
+      // console.log(this.allIndvMatches);
+      // console.log(this.dataSource);
+
       this.allIndvMatches.length === 0 ? this.noMatchesToDisplay = true : this.noMatchesToDisplay = false;
     }
-  }
+
+      if(changes.selectionToIgnore && changes.selectionToIgnore.currentValue)
+      {
+          console.log(this.selectionToIgnore);
+
+          this.updateIgnoreStatus(this.selectionToIgnore);
+
+
+
+      }
+    }
+
 
   ngOnInit(){
     //Get initial user settings on initialization. For this to work, need to use HTTP Get request of userPreferences at page load.
@@ -79,6 +101,7 @@ export class JuicyMatchComponent implements OnChanges, DoCheck {
     this.individualMatchesSub = this.juicyMHService.getJuicyUpdateListener().subscribe( (singleMatchData) => {
       this.allIndvMatches = singleMatchData;
     });
+
     this.dataSource =  this.dataSource = new FormArray(this.allIndvMatches.map( x=> this.createForm(x)));
     //accesses an eventEmitter of streamData that is coming in via MongoDB ChangeStream.  Setsup a subscription to observable.
     this.streamSub = this.matchesService.streamDataUpdate
@@ -89,8 +112,12 @@ export class JuicyMatchComponent implements OnChanges, DoCheck {
         // find match and update the values with stream data coming from DB.
         var indexOfmatch = this.allIndvMatches.findIndex( indvMatch => indvMatch.Selection == match.Selection );
         indexOfmatch != undefined && this.allIndvMatches[indexOfmatch] ? this.juicyMHService.updateSingleMatch(this.allIndvMatches[indexOfmatch], match, indexOfmatch) : console.log("did not find singleMatch in indvMatch Array");
-      } );
+      });
     });
+
+
+
+
     //set userPreference Values
     this.evFilter = this.userPrefService.getEV();
     this.matchRatingFilter = this.userPrefService.getMR();
@@ -137,7 +164,9 @@ export class JuicyMatchComponent implements OnChanges, DoCheck {
 
   getGroup(index:number)
   {
-    console.log(this.dataSource.at(index));
+    // console.log("GETTING GROUP");
+
+    // console.log(this.dataSource.at(index));
     return this.dataSource.at(index) as FormGroup
   }
 
@@ -175,4 +204,34 @@ export class JuicyMatchComponent implements OnChanges, DoCheck {
   freezeAllMotorFunctions(){
 
   }
+
+  updateIgnoreStatus(ignoreSelection: any[]){
+    if(ignoreSelection.length == 2 ){
+      this.allIndvMatches.forEach( selection => {
+        if(selection.Selection == ignoreSelection[0])
+        {
+          selection.ignore = ignoreSelection[1];
+          console.log(selection.Selection + " : ignore = " + ignoreSelection[1]);
+        }
+      });
+    } else if (ignoreSelection[0] == true || ignoreSelection[0] == false){
+        var status: boolean = ignoreSelection[0];
+        ignoreSelection.forEach( selection => {
+          this.allIndvMatches.forEach( juicySelection => {
+           if(juicySelection.Selection == selection) {
+             juicySelection.ignore = status;
+            }
+          });
+       });
+    }
+  }
+
+  updateIgnoreLeague(ignoreList:string[]){
+    ignoreList.forEach( ignoredSelection => {
+      this.allIndvMatches.forEach( singleSelection => {
+
+      })
+    })
+  }
+
 }

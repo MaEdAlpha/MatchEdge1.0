@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit, ViewChild, Input , OnChanges, SimpleChanges, AfterViewInit} from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild, Input , AfterViewInit, Output, EventEmitter} from '@angular/core';
 import { Subscription } from 'rxjs';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { MatchesService } from '../match/matches.service';
@@ -10,15 +10,16 @@ import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { StatusDisableDialogueComponent } from '../status-disable-dialogue/status-disable-dialogue.component';
 import { ToastrService } from 'ngx-toastr';
 import { NotificationBoxService } from '../notification-box.service';
-import { NgSwitchCase } from '@angular/common';
-import { NumberInput } from '@angular/cdk/coercion';
 import { DatePipe } from '@angular/common';
 import { SidenavService } from '../view-table-sidenav/sidenav.service';
 import { UserPropertiesService } from '../user-properties.service';
+import { MatchStatusService } from '../match-status.service';
+
 
   export class Group {
     level = 0;
     expanded = false;
+    League = "";
     isActive = false;
     totalCounts = 0;
     ignoreAll = false;
@@ -43,7 +44,8 @@ import { UserPropertiesService } from '../user-properties.service';
     displayedColumns: string[] = ['HStatus','BHome','SMHome', 'OccH', 'Home',  'FixturesDate', 'Away', 'OccA' , 'BAway','SMAway', 'AStatus'];
     SecondcolumnsToDisplay: string[] = ['SMHome','BHome', 'BDraw', 'BAway', 'BTTSOdds', 'B25GOdds','SMAway',  'League', 'OccH', 'OccA'];
     columnsToDisplay: string[] = this.displayedColumns.slice();
-    @Input() matches: any;
+    matches: any;
+    @Output() ignoreList: string[];
     matchStream: any;
     expandedElement: any[] | null;
     retrieveMatches = false;
@@ -93,7 +95,7 @@ import { UserPropertiesService } from '../user-properties.service';
 
     private matchesSub: Subscription;
 
-    constructor(private userPref: UserPropertiesService, public datepipe: DatePipe, private sidenav: SidenavService , private matchesService: MatchesService, private webSocketService: WebsocketService, public dialog: MatDialog, private notificationBox: NotificationBoxService) {
+    constructor(private userPref: UserPropertiesService, public datepipe: DatePipe, private sidenav: SidenavService , private matchesService: MatchesService, private webSocketService: WebsocketService, public dialog: MatDialog, private notificationBox: NotificationBoxService, private matchStatusService: MatchStatusService) {
      } //creates an instance of matchesService. Need to add this in app.module.ts providers:[]
 
 
@@ -102,23 +104,21 @@ import { UserPropertiesService } from '../user-properties.service';
       this.matches = this.matchesService.getMatches(); //fetches matches from matchesService
       // Subscribes to the observable that was created when calling the getMatches().
       this.matchesSub = this.matchesService.getMatchUpdateListener() //subscribe to matches for any changes.
-      .subscribe(
-        (matchData: any) => {
+      .subscribe(( matchData: any) => {
         //Assign each matchData subscribed to the list of objects you inject into html
           this.matches = matchData;
           this.allData = matchData;
           //console.log(this.allData);
 
-          //assign groupList to matDataSource. Should have both Group & matches, organized alphabetically
-          this.dataSource.data = this.getGroupListInit(this.allData, 0,this.groupByColumns);
-
-
-        this.preferenceSubscription = this.userPref.getUserPrefs().
-        subscribe( userPrefs => {
-          this.dialogDisabled = userPrefs.dialogDisabled;
+              //assign groupList to matDataSource. Should have both Group & matches, organized alphabetically
+              this.dataSource.data = this.getGroupListInit(this.allData, 0,this.groupByColumns);
         });
 
-        });
+          this.preferenceSubscription = this.userPref.getUserPrefs().
+          subscribe( userPrefs => {
+            this.dialogDisabled = userPrefs.dialogDisabled;
+          });
+
 
         //Subscribe to Event listener in matches Service for StreamChange data. Update this.matches.
         this.matchesService.streamDataUpdate
@@ -129,6 +129,7 @@ import { UserPropertiesService } from '../user-properties.service';
 
         this.viewSelectedDate = this.userPref.getSelectedDate();
         this.dialogDisabled = this.userPref.getDialogDisabled();
+        this.ignoreList = [];
       }
 
     ngAfterViewInit(){
@@ -152,7 +153,7 @@ import { UserPropertiesService } from '../user-properties.service';
 
       var dateStart: number = dateValidator[1];
       var dateEnd: number = dateValidator[0];
-      console.log("DateStart: " + dateStart + " DateEnd " + dateEnd);
+      //console.log("DateStart: " + dateStart + " DateEnd " + dateEnd);
       //TODO BUG-FIX WHEN LOCALE_ID WORKS.
 
       groupList.forEach( groupObj => {
@@ -629,12 +630,15 @@ import { UserPropertiesService } from '../user-properties.service';
 
       } else if (this.dialogDisabled) {
         //If user has selected to ignore popups, then set notifications based off $event.checked
-        console.log(groupItem);
 
           $event.source.checked == true ? groupItem.ignoreAll = false : groupItem.ignoreAll = true;
-          console.log("GroupItem State: " + groupItem.ignoreAll);
+          console.log("GroupItem: " + groupItem.League + "- ignoreAll: " + groupItem.ignoreAll);
 
-        }
+      } else if ($event.checked == false && this.dialogDisabled){
+        groupItem.ignoreAll = true;
+      }
+
+        this.ignoreAllMatchesToggle(groupItem);
     }
 
     showToast(typeOfToast: string){
@@ -644,7 +648,6 @@ import { UserPropertiesService } from '../user-properties.service';
       if(typeOfToast == "default"){
         this.notificationBox.showNotification();
       }
-
     }
 
 
@@ -656,6 +659,52 @@ import { UserPropertiesService } from '../user-properties.service';
     fuckYouDatePipeMethod(dateString: string):string {
       return dateString.slice(3,6) + dateString.slice(0, 3) + dateString.slice(6, 19);
     }
+
+    ignoreAllMatchesToggle(group: Group){
+      var array:any[] = []
+      array.push(group.ignoreAll);
+        this.matches.forEach( match => {
+          if(match.League == group.League){
+            array.push(match.Home);
+            array.push(match.Away);
+          }
+        });
+        this.ignoreList = array;
+      //this.matchStatusService.displayIgnoreList();
+    }
+
+    ignoreHomeSelection(matchObject: any){
+      matchObject.HStatus.ignore = !matchObject.HStatus.ignore;
+      console.log("Ignore set to " + matchObject.HStatus.ignore + " for: " + matchObject.Home);
+      this.ignoreList = [matchObject.Home, matchObject.HStatus.ignore];
+      this.updateNotificationStatus(matchObject.Home, matchObject.HStatus.ignore);
+    }
+
+    ignoreAwaySelection(matchObject: any){
+      //toggle ignore status.
+      matchObject.AStatus.ignore = !matchObject.AStatus.ignore;
+      console.log("Ignore set to " + matchObject.AStatus.ignore + " for: " + matchObject.Away);
+      this.ignoreList = [matchObject.Away, matchObject.AStatus.ignore];
+
+      this.updateNotificationStatus(matchObject.Away, matchObject.AStatus.ignore);
+    }
+
+    updateNotificationStatus(selection: string, ignoreStatus: boolean){
+      if(ignoreStatus == true)
+      {
+        this.matchStatusService.addToIgnoreList(selection);
+      } else {
+        this.matchStatusService.removeFromIgnoreList(selection);
+      }
+    }
+
 }
 
+
+/*
+
+1. Call a service. Purpose of the service is to update juicy Matches of any changed states. SelectionStateService
+2.
+
+*/
 

@@ -50,7 +50,7 @@
                         <ng-container >
                           <button mat-icon-button
                             class="{{column.field}} viewCell"
-                            (click)="row.HStatus.ignore=!row.HStatus.ignore"
+                            (click)="ignoreHomeSelection(row)"
                             appIgnoreIcon
                             [ignoreStatus]="row.HStatus.ignore"
                             [teamSelection]="row.Home">
@@ -89,7 +89,7 @@
                         <ng-container >
                           <button mat-icon-button
                             class="{{column.field}} viewCell"
-                            (click)="row.AStatus.ignore=!row.AStatus.ignore"
+                            (click)="ignoreAwaySelection(row)"
                             appIgnoreIcon
                             [ignoreStatus]="row.AStatus.ignore"
                             [teamSelection]="row.Away">
@@ -144,7 +144,7 @@
 
         <!-- Display Juicy Table -->
         <div [style.visibility]="tableSelected == 3 ? 'visible' : 'collapse' "[style.height]="tableSelected == 3 ? ' ' : '0' " [style.margin-bottom]="tableSelected == 3 ? '5px' : '0'" [style.display]="tableSelected == 3 ? 'inline' : '' ">
-          <app-juicy-match [allMatches] = "matches"></app-juicy-match>
+          <app-juicy-match [allMatches] = "matches" [selectionToIgnore]="ignoreList"></app-juicy-match>
         </div>
         <!-- Display Active Bets -->
         <div [style.visibility]="tableSelected == 4 ? 'visible' : 'collapse' "[style.height]="tableSelected == 4 ? ' ' : '0' " [style.margin-bottom]="tableSelected == 4 ? '5px' : '0'" [style.display]="tableSelected == 4 ? 'inline' : '' ">

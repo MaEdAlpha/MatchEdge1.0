@@ -1,4 +1,5 @@
 import { Component, OnInit, EventEmitter, Output, OnChanges, SimpleChanges } from '@angular/core';
+import { MatchStatusService } from '../match-status.service';
 import { UserPropertiesService } from '../user-properties.service';
 import { SidenavService } from '../view-table-sidenav/sidenav.service';
 
@@ -21,8 +22,9 @@ export class TopLayerFiltersComponent implements OnInit, OnChanges {
   displayFixtures: number;
   @Output() hideTable: EventEmitter<number> = new EventEmitter<number>();
   @Output() emitDateSelect: EventEmitter<string> = new EventEmitter<string>();
+  @Output() emitIgnoreList: EventEmitter<string[]> = new EventEmitter<string[]>();
 
-  constructor( private userPref: UserPropertiesService) { }
+  constructor( private userPref: UserPropertiesService, private matchStatusService: MatchStatusService) { }
 
       //first layer filter
       viewThisDate:string;
@@ -66,6 +68,10 @@ export class TopLayerFiltersComponent implements OnInit, OnChanges {
     this.emitDateSelect.emit(value);
 
 
+  }
+
+  initIgnoreList(){
+    this.emitIgnoreList.emit(this.matchStatusService.getIgnoreList());
   }
 }
 

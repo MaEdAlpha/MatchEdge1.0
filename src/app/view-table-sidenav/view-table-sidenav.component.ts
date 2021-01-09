@@ -148,8 +148,6 @@ export class ViewTableSidenavComponent implements OnInit, AfterViewInit {
       this.evPlaceholder = this.filters[0].value == this.isEvSelected ? "EV" : "Match Rating";
       this.dialogDisabled = tablePref.dialogDisabled;
     });
-
-
   }
 
   ngAfterViewInit() {
@@ -157,11 +155,9 @@ export class ViewTableSidenavComponent implements OnInit, AfterViewInit {
   }
 
   onSubmit(){
-    //send this data to user preferences and other webservices for handling.
-
-    //emit this so services can hear and set to matchStats/juicymatch component.
-
-    //set in program to validate for juicy matches.
+   /* send this data to user preferences and other webservices for handling.
+    emit this so services can hear and set to matchStats/juicymatch component.
+    set in program to validate for juicy matches. */
     this.userPrefService.setFormValues(this.viewTableForm.value);
 
     this.sidenavService.toggle();

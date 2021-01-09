@@ -3,6 +3,8 @@ import { Match } from '../match/match.model';
 import { MatchesService } from '../match/matches.service';
 import { Subscription } from 'rxjs';
 
+
+//OBSOLETE, REMOVE FROM APP
 @Injectable({
   providedIn: 'root'
 })

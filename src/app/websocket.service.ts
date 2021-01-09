@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { map } from 'rxjs/operators'
 import { Match } from "./match/match.model";
 import { MatchesService } from './match/matches.service';
 
