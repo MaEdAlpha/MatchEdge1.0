@@ -8,10 +8,11 @@ export class HideTableRowDirective implements OnChanges{
   evValue: number;    //updated from mongoStreamWatch
   mrValue: number;    //match-rating value
   backOdds: number;   //backOdds
-  inRange: boolean;   //is in Date Range
+  //inRange: boolean;   //is in Date Range
   @Input() ignore: boolean;    //ignore Status
   @Input() selection: any;
   @Input() userPref: TablePreferences;
+  @Input() inRange;
 
   constructor(private renderer: Renderer2, private elRef: ElementRef) {  }
 
@@ -22,12 +23,17 @@ export class HideTableRowDirective implements OnChanges{
     this.backOdds = this.selection.BackOdds;
     this.inRange = this.selection.inRange;
 
-    //Hide or show expanded element based off criteria.
 
-    if(this.userPref.isEvSelected ){
+    //Hide or show expanded element based off criteria.
+    // if(this.inRange == true){
+    //   this.hide();
+    // }
+
+    if(this.userPref.isEvSelected)  {
+
         // console.log(this.selection.Selection+ " Hidden: " + this.selection.ignore);
         if(changes.evValue) { //if ev has a value constantly loop over this.
-          if( +this.evValue >= +this.userPref.evFilterValue && +this.backOdds >= +this.userPref.minOdds && +this.backOdds <= +this.userPref.maxOdds){ //evValue less than filter setting. hide. larger than. show.
+          if(this.inRange == true && +this.evValue >= +this.userPref.evFilterValue && +this.backOdds >= +this.userPref.minOdds && +this.backOdds <= +this.userPref.maxOdds){ //evValue less than filter setting. hide. larger than. show.
             this.show();
           } else {
             this.hide();
@@ -41,9 +47,10 @@ export class HideTableRowDirective implements OnChanges{
         if(this.evValue > 1000 ){
           this.hide();
         }
+
       } else {
 
-          if( +this.mrValue >= +this.userPref.maxRatingFilter && this.mrValue <= 100 && +this.backOdds >= +this.userPref.minOdds && +this.backOdds <= +this.userPref.maxOdds){
+          if( this.inRange == true && +this.mrValue >= +this.userPref.maxRatingFilter && this.mrValue <= 100 && +this.backOdds >= +this.userPref.minOdds && +this.backOdds <= +this.userPref.maxOdds){
             this.show();
           }
           if(+this.mrValue >= +this.userPref.maxRatingFilter && this.mrValue <= 100 && +this.backOdds <= +this.userPref.minOdds){
@@ -65,15 +72,22 @@ export class HideTableRowDirective implements OnChanges{
     if(this.mrValue >=1000){
       this.hide();
     }
+    if(this.inRange == false){
+      console.log("IN HERE!!!!");
+
+      this.hide();
+    }
    //Ignore status read.
     if(this.selection.ignore) {
       this.hide();
     }
 
-    if(this.inRange == false){
+    if(!this.inRange){
       this.hide();
     }
+
   }
+
 
   hide(){
     this.renderer.addClass(this.elRef.nativeElement, 'hideTR')

@@ -22,14 +22,14 @@ export class DateHandlingService {
   //Processes dateSelection from Top Layer filter. Returns number array of start and end date.
   returnDateSelection(dateSelected: string): number[] {
     //Testing Values
-    var today = 1
-    var tomorrow = today + 1;
+    // var today = 1
+    // var tomorrow = today + 1;
 
     /* Real Values. DONOT DELETE
     //returns day date as an integer
+    */
     var today = new Date(Date.now()).getDate();
     var tomorrow = today + 1;
-    */
     if(dateSelected == 'Today')
     {
       return [today,(today-1)];

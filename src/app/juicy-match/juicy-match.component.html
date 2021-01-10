@@ -160,7 +160,7 @@
               class="juicyMatch-row"
               [class.juicyMatch-expanded-row]="expandedElement === selection"
               (click)="expandedElement = expandedElement === selection ? null : selection"
-              appHideTableRow [userPref]="prefObj" [selection]="selection" [ignore]="selection.ignore">
+              appHideTableRow [userPref]="prefObj" [selection]="selection" [ignore]="selection.ignore" [inRange]="selection.inRange">
               </tr>
               <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="juicyMatch-detail-row"></tr>
   </table>
