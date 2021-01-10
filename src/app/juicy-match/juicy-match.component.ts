@@ -170,6 +170,12 @@ export class JuicyMatchComponent implements OnChanges, DoCheck, OnInit {
     return this.dataSource.at(index) as FormGroup
   }
 
+  LayOdds(backOdds: number, layOdds:number, steakYum: number):number{
+      var laySteak = (+backOdds/ +layOdds)* +steakYum;
+
+    return laySteak;
+  }
+
   FTA(stake:number, backOdds: number, layStake: number):number{
     return (+stake*(+backOdds - 1)+ +layStake);
   }

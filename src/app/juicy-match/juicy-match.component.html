@@ -88,12 +88,14 @@
 
                               <div class="words-container">
                                 <b>LAY</b>
-                                    <input formControlName="LayStake" class = "value-box-lay"  placeholder="{{selection.LayStake | currency:'GBP'}}">
+                                    <!-- <input formControlName="LayStake" class = "value-box-lay"  placeholder="{{selection.LayStake | currency:'GBP'}}"> -->
+                                    <span class="value-box-lay">{{LayOdds(getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value, getGroup(i).get('Stake').value) | currency:'GBP' }}</span>
                                   </div>
 
                                   <div class="words-container">
 
                                     <p> AT ODDS OF
+                                      <!-- Ever going to need to manually change this value? -->
                                       <input formControlName="LayOdds" class = "value-box-lay"  placeholder="{{selection.LayOdds | number:'0.2-2'}}">
                                     </div>
 
@@ -111,11 +113,11 @@
                                   <div class="selection-figures row4-row1">
                                     <div class="r1 r1-col1">
                                       <h3 class="selection-figures-content1">FTA Returns:</h3>
-                                <span class="selection-figures-content1">{{FTA( getGroup(i).get('Stake').value, getGroup(i).get('BackOdds').value, getGroup(i).get('LayStake').value  ) | currency:'GBP'}}</span>
+                                <span class="selection-figures-content1">{{ FTA( getGroup(i).get('Stake').value, getGroup(i).get('BackOdds').value, getGroup(i).get('LayStake').value  ) | currency:'GBP'}}</span>
                               </div>
                               <div class="r1 r1-col2">
                                 <h3 class="selection-figures-content2">ROI: </h3>
-                                <span class="selection-figures-content1"> {{ROI(getGroup(i).get('Stake').value, selection.EVthisBet) | number:'0.2-2'}} %</span></div>
+                                <span class="selection-figures-content1"> {{ ROI(getGroup(i).get('Stake').value, selection.EVthisBet) | number:'0.2-2'}} %</span></div>
                               </div>
 
                               <div class="selection-figures row4-row2">
