@@ -14,6 +14,7 @@ import { DatePipe } from '@angular/common';
 import { SidenavService } from '../view-table-sidenav/sidenav.service';
 import { UserPropertiesService } from '../user-properties.service';
 import { MatchStatusService } from '../match-status.service';
+import { DateHandlingService } from '../date-handling.service';
 
 
   export class Group {
@@ -95,7 +96,7 @@ import { MatchStatusService } from '../match-status.service';
 
     private matchesSub: Subscription;
 
-    constructor(private userPref: UserPropertiesService, public datepipe: DatePipe, private sidenav: SidenavService , private matchesService: MatchesService, private webSocketService: WebsocketService, public dialog: MatDialog, private notificationBox: NotificationBoxService, private matchStatusService: MatchStatusService) {
+    constructor(private userPref: UserPropertiesService, public datepipe: DatePipe, private sidenav: SidenavService , private matchesService: MatchesService, private webSocketService: WebsocketService, public dialog: MatDialog, private notificationBox: NotificationBoxService, private matchStatusService: MatchStatusService, private dateHandlingService: DateHandlingService) {
      } //creates an instance of matchesService. Need to add this in app.module.ts providers:[]
 
 
@@ -130,11 +131,13 @@ import { MatchStatusService } from '../match-status.service';
         this.viewSelectedDate = this.userPref.getSelectedDate();
         this.dialogDisabled = this.userPref.getDialogDisabled();
         this.ignoreList = [];
+
+        this.webSocketService.openWebSocket();
       }
 
     ngAfterViewInit(){
       //Open Socket Connection
-      this.webSocketService.openWebSocket();
+
     }
 
     ngOnDestroy(){
@@ -142,14 +145,10 @@ import { MatchStatusService } from '../match-status.service';
       this.webSocketService.closeWebSocket();
     }
 
-    convertStringToDate(usDateFormat: string): Date {
-      return new Date(Date.parse(usDateFormat));
-    }
-
     //Handles logic for MatTable. It adds and removes match items based off the state of the League Group Header.
     modifiedGroupList(allData: any[], groupList: any[], viewSelection: string) : any[]{
 
-      var dateValidator: number[] = this.dateSelection(viewSelection);
+      var dateValidator: number[] = this.dateHandlingService.returnDateSelection(viewSelection);
 
       var dateStart: number = dateValidator[1];
       var dateEnd: number = dateValidator[0];
@@ -173,7 +172,7 @@ import { MatchStatusService } from '../match-status.service';
           allData.forEach( matchObj => {
             var matchIndex = allData.indexOf(matchObj);
             //Returns correct date format for en-GB
-            var matchDate: number = Number((this.convertStringToDate(this.fuckYouDatePipeMethod(matchObj.Details))).getDate());
+            var matchDate: number = +((this.dateHandlingService.convertStringToDate(matchObj.Details)).getDate());
             //INJECTS  MATCHES  UNDERNEATH GROUP HEADER
             if(matchObj.League == groupObj.League && matchDate <= dateEnd && matchDate > dateStart)
             {
@@ -201,7 +200,7 @@ import { MatchStatusService } from '../match-status.service';
         if (groupObj.expanded == false && groupObj.isActive){
 
           allData.forEach( matchObj => {
-            var matchDate: number = Number((this.convertStringToDate(this.fuckYouDatePipeMethod(matchObj.Details))).getDate());
+            var matchDate: number = +((this.dateHandlingService.convertStringToDate(matchObj.Details)).getDate());
 
             if(matchObj.League == groupObj.League && matchDate <= dateEnd && matchDate > dateStart ){
               var position = this.masterList.indexOf(matchObj);
@@ -222,9 +221,9 @@ import { MatchStatusService } from '../match-status.service';
       matchList.forEach( matchObj => {
         //TODO BUG-FIX WHEN LOCALE_ID WORKS.
         if(matchObj.displayHeaderDate){
-
-          var fuckYouDatePipe = this.fuckYouDatePipeMethod(matchObj.Details);
-          matchObj.FixturesDate = this.datepipe.transform(fuckYouDatePipe, 'EEE dd MMM \n  HH:mm');
+          //All of Angular is using Datepipes to conver by en-US locale, not en-GB. For the time being, everything must be converted to english Locale
+          var gbDateFormat = this.dateHandlingService.switchDaysWithMonths(matchObj.Details);
+          matchObj.FixturesDate = this.datepipe.transform(gbDateFormat, 'EEE dd MMM \n  HH:mm');
         }else {
           matchObj.FixturesDate = this.datepipe.transform(matchObj.Details, 'HH:mm');
         }
@@ -253,10 +252,10 @@ import { MatchStatusService } from '../match-status.service';
       }
     }
 
-    //Returns an updated list of matches
+    //Returns an updated list of matches Using Date selection
     showUpdatedView(allMatchData: any[], groupWithStates: any[], dateOption: string): any[] {
       this.masterList = [];
-      var dateValidator: number[] = this.dateSelection(dateOption);
+      var dateValidator: number[] = this.dateHandlingService.returnDateSelection(dateOption);
       var dateStart: number = dateValidator[1];
       var dateEnd: number = dateValidator[0];
 
@@ -274,7 +273,7 @@ import { MatchStatusService } from '../match-status.service';
           allMatchData.forEach( matchObj => {
             var matchIndex = allMatchData.indexOf(matchObj);
             //Returns correct date format for en-GB
-            var matchDate: number = Number((this.convertStringToDate(this.fuckYouDatePipeMethod(matchObj.Details))).getDate());
+            var matchDate: number = +(this.dateHandlingService.convertStringToDate(matchObj.Details)).getDate();
             //INJECTS  MATCHES  UNDERNEATH GROUP HEADER
             if(matchObj.League == groupHeader.League && matchDate <= dateEnd && matchDate > dateStart)
             {
@@ -575,31 +574,11 @@ import { MatchStatusService } from '../match-status.service';
       console.log(status);
     }
 
-    dateSelection(dateSelected:string): number[]{
+    // dateSelection(dateSelected:string): number[]{
 
-      //Test settings
-      var today = 1
-      var tomorrow = today + 1;
+    //   return this.dateHandlingService.returnDateSelection(this.dateHandlingService.returnDateSelection(dateSelected);
 
-      /*
-      var today = new Date(Date.now()).getDate();
-      var tomorrow = today + 1;
-
-      */
-
-      if(dateSelected == 'Today')
-      {
-        return [today,(today-1)];
-      }
-      if(dateSelected == 'Tomorrow')
-      {
-        return [tomorrow,today];
-      }
-      if(dateSelected == 'Today & Tomorrow')
-      {
-        return [tomorrow,(today-1)];
-      }
-    }
+    // }
 
     openPopUp($event: MatSlideToggleChange, groupItem: any) {
 
@@ -656,9 +635,6 @@ import { MatchStatusService } from '../match-status.service';
     }
       //TODO BUG-FIX WHEN LOCALE_ID WORKS.
       //Re-arranges en-US format MM/DD into DD/MM
-    fuckYouDatePipeMethod(dateString: string):string {
-      return dateString.slice(3,6) + dateString.slice(0, 3) + dateString.slice(6, 19);
-    }
 
     ignoreAllMatchesToggle(group: Group){
       var array:any[] = []

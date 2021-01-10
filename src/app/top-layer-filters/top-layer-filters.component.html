@@ -5,7 +5,7 @@
         <mat-label> Selected Time </mat-label>
         <mat-select
           [(value)]="viewThisDate" name="dateSelect">
-          <mat-option [value]="dayRange.viewValue" *ngFor="let dayRange of dateSelect" (click)="method(dayRange.viewValue)">
+          <mat-option [value]="dayRange.viewValue" *ngFor="let dayRange of dateSelect" (click)="sendDateSelection(dayRange.viewValue)">
             {{dayRange.viewValue}}
           </mat-option>
         </mat-select>

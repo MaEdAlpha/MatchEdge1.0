@@ -12,6 +12,7 @@ import { SidenavService } from '../view-table-sidenav/sidenav.service';
 import { UserPropertiesService } from '../user-properties.service';
 import { TablePreferences } from '../user-properties.model';
 import { MatchStatusService } from '../match-status.service';
+import { DateHandlingService } from '../date-handling.service';
 
 
 @Component({
@@ -46,6 +47,10 @@ export class JuicyMatchComponent implements OnChanges, DoCheck, OnInit {
   isDisplayHidden: boolean = true;
   private individualMatchesSub: Subscription;
   private streamSub: Subscription;
+  private dateSubscription: Subscription;
+  dateSelected: any;
+  startDay: number;
+  endDay: number
   allIndvMatches: any[];
   singleMatchPair: any;
   testBool:boolean;
@@ -59,12 +64,19 @@ export class JuicyMatchComponent implements OnChanges, DoCheck, OnInit {
   dataSource:any;
   @Input() selectionToIgnore: any[];
 
-  constructor(private sidenav: SidenavService, private juicyMHService: JuicyMatchHandlingService, private matchStatService: MatchStatsService, private matchesService: MatchesService, private userPrefService: UserPropertiesService, private matchStatusService: MatchStatusService ) { }
+  constructor(private sidenav: SidenavService, private juicyMHService: JuicyMatchHandlingService, private matchStatService: MatchStatsService, private matchesService: MatchesService, private userPrefService: UserPropertiesService, private matchStatusService: MatchStatusService, private dateHandlingService: DateHandlingService ) { }
 
   ngOnChanges(changes: SimpleChanges)
   {
+    if(changes.dateSelected && changes.dateSelected.currentValue){
+      console.log("DATEEEEEE Change detected onChange");
+    }
     //Anytime there is a change to this list of matches, refresh list of single matches.
     if(changes.allMatches && changes.allMatches.currentValue && changes.allMatches.isFirstChange) {
+
+      console.log("Change Detection Activated");
+      console.log(this.allIndvMatches);
+      // console.log(this.dataSource);
 
       if(this.allIndvMatches.length == 0){
         this.allIndvMatches = this.juicyMHService.getSingleMatches(this.allMatches);
@@ -74,23 +86,17 @@ export class JuicyMatchComponent implements OnChanges, DoCheck, OnInit {
         }
       }
 
-      console.log("Change Detection Activated");
-      // console.log(this.allIndvMatches);
-      // console.log(this.dataSource);
-
       this.allIndvMatches.length === 0 ? this.noMatchesToDisplay = true : this.noMatchesToDisplay = false;
     }
 
-      if(changes.selectionToIgnore && changes.selectionToIgnore.currentValue)
-      {
-          console.log(this.selectionToIgnore);
-
-          this.updateIgnoreStatus(this.selectionToIgnore);
+    if(changes.selectionToIgnore && changes.selectionToIgnore.currentValue) {
+           this.updateIgnoreStatus(this.selectionToIgnore);
+           console.log(this.selectionToIgnore);
 
 
-
-      }
     }
+
+  }
 
 
   ngOnInit(){
@@ -115,8 +121,13 @@ export class JuicyMatchComponent implements OnChanges, DoCheck, OnInit {
       });
     });
 
-
-
+    this.dateSelected = this.userPrefService.getSelectedDate();
+    this.dateSubscription = this.dateHandlingService.getSelectedDate().subscribe(date => {
+      this.dateSelected = date;
+      var dateValidator = this.dateHandlingService.returnDateSelection(date);
+      this.startDay = dateValidator[1];
+      this.endDay = dateValidator[0];
+    });
 
     //set userPreference Values
     this.evFilter = this.userPrefService.getEV();
@@ -232,12 +243,25 @@ export class JuicyMatchComponent implements OnChanges, DoCheck, OnInit {
     }
   }
 
-  updateIgnoreLeague(ignoreList:string[]){
-    ignoreList.forEach( ignoredSelection => {
-      this.allIndvMatches.forEach( singleSelection => {
+  initializeDates(){
 
-      })
-    })
   }
 
+  dateInRange(selection: any): boolean{
+
+    var matchDay = this.dateHandlingService.convertStringToDate(selection.EventStart).getDate();
+
+    if( matchDay <= this.endDay && matchDay > this.startDay) {
+      selection.inRange=true;
+      return true;
+    } else {
+      selection.inRange=false;
+      return false;
+    }
+   }
+
+    show(){
+      console.log(this.allIndvMatches[0].inRange);
+
+    }
 }
