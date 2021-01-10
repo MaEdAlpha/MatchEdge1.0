@@ -5,9 +5,9 @@ import { TablePreferences } from '../user-properties.model';
   selector: '[appHideTableRow]'
 })
 export class HideTableRowDirective implements OnChanges{
-  evValue: number;    //updated from mongoStreamWatch
-  mrValue: number;    //match-rating value
-  backOdds: number;   //backOdds
+  @Input() evValue: number;    //updated from mongoStreamWatch
+  @Input() mrValue: number;    //match-rating value
+  @Input() backOdds: number;   //backOdds
   //inRange: boolean;   //is in Date Range
   @Input() ignore: boolean;    //ignore Status
   @Input() selection: any;
@@ -18,12 +18,6 @@ export class HideTableRowDirective implements OnChanges{
 
   ngOnChanges(changes: SimpleChanges){
     //Set values upon change.
-    this.evValue = this.selection.EVthisBet;
-    this.mrValue = this.selection.MatchRating;
-    this.backOdds = this.selection.BackOdds;
-    this.inRange = this.selection.inRange;
-
-
     //Hide or show expanded element based off criteria.
     // if(this.inRange == true){
     //   this.hide();
@@ -73,12 +67,10 @@ export class HideTableRowDirective implements OnChanges{
       this.hide();
     }
     if(this.inRange == false){
-      console.log("IN HERE!!!!");
-
       this.hide();
     }
    //Ignore status read.
-    if(this.selection.ignore) {
+    if(this.ignore) {
       this.hide();
     }
 
