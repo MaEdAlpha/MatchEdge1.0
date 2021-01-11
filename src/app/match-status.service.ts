@@ -9,9 +9,13 @@ export class MatchStatusService {
 
 
   ignoreList: string[]=[];
+  private selectionSubject = new Subject<any>();
+  allSelections: any[];
 
   constructor() { }
 
+  //IGNORE STATUS
+  // TODO: NEED TO MAKE OBSERVABLES
   removeFromIgnoreList(selectionToRemove: string) {
     var selectionPosition: number;
     this.ignoreList.forEach( (selectionInList, index) => {
@@ -19,9 +23,7 @@ export class MatchStatusService {
       if(selectionInList == selectionToRemove){
         selectionPosition = index;
       }
-
     });
-
     this.ignoreList.splice(selectionPosition, 1);
   }
 
@@ -31,7 +33,6 @@ export class MatchStatusService {
 
   displayIgnoreList(){
     console.log("MATCHES IN IGNORE LIST: ");
-
     this.ignoreList.forEach(selection =>{
       console.log(selection);
     })
@@ -39,11 +40,19 @@ export class MatchStatusService {
 
   getIgnoreList(): string[]{
     console.log(this.ignoreList);
-
     return this.ignoreList;
-
   }
 
-}
 
-// TODO: NEED TO LINK JUICYMATCHOBJ.IGNORE TO SERVICE.
+  //WATCHLIST STATUS
+
+  //called at JuicyMatches on Initialization. Used to listen for any changes
+  createSelectionSubject( selection: any){
+    this.selectionSubject.next(selection);
+  }
+  isBeingWatched(index: number, state: boolean){
+    //Search indexOf all Selections and set isWatched = state;
+  }
+
+
+}

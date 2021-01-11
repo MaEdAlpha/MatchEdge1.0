@@ -48,8 +48,7 @@
                             class="{{column.field}} viewCell"
                             (click)="row.HStatus.ignore=!row.HStatus.ignore"
                             appIgnoreIcon
-                            [ignoreStatus]="row.HStatus.ignore"
-                            [teamSelection]="row.Home">
+                            [ignoreStatus]="row.HStatus.ignore">
                             <mat-icon>
                               block
                             </mat-icon>
@@ -87,8 +86,7 @@
                             class="{{column.field}} viewCell"
                             (click)="row.AStatus.ignore=!row.AStatus.ignore"
                             appIgnoreIcon
-                            [ignoreStatus]="row.AStatus.ignore"
-                            [teamSelection]="row.Away">
+                            [ignoreStatus]="row.AStatus.ignore">
                             <mat-icon>
                               block
                             </mat-icon>
@@ -110,7 +108,7 @@
                       </ng-container>
                     </div>
 
-                </ng-container>
+                  </ng-container>
 
               </mat-cell>
             </ng-container>

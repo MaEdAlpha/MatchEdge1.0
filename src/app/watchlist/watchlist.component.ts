@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit, ViewChild, Input , OnChanges, SimpleChanges, AfterViewInit} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild, Input , Output, OnChanges, SimpleChanges, AfterViewInit} from '@angular/core';
 import { Subscription } from 'rxjs';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { MatchesService } from '../match/matches.service';
@@ -15,10 +15,13 @@ import { NumberInput } from '@angular/cdk/coercion';
 import { DatePipe } from '@angular/common';
 import { SidenavService } from '../view-table-sidenav/sidenav.service';
 import { UserPropertiesService } from '../user-properties.service';
+import { DateHandlingService } from '../date-handling.service';
+import { MatchStatusService } from '../match-status.service';
 
 export class Group {
   level = 0;
   expanded = false;
+  League = "";
   isActive = false;
   totalCounts = 0;
   ignoreAll = false;
@@ -38,12 +41,13 @@ export class Group {
   providers:[DatePipe],
 })
 
-export class WatchlistComponent implements OnInit, OnDestroy, AfterViewInit {
+export class WatchlistComponent implements OnInit, OnDestroy {
 
  displayedColumns: string[] = ['HStatus','BHome','SMHome', 'OccH', 'Home',  'FixturesDate', 'Away', 'OccA' , 'BAway','SMAway', 'AStatus'];
     SecondcolumnsToDisplay: string[] = ['SMHome','BHome', 'BDraw', 'BAway', 'BTTSOdds', 'B25GOdds','SMAway',  'League', 'OccH', 'OccA'];
     columnsToDisplay: string[] = this.displayedColumns.slice();
     @Input() matches: any;
+    @Output() ignoreList: string[];
     matchStream: any;
     expandedElement: any[] | null;
     retrieveMatches = false;
@@ -93,66 +97,62 @@ export class WatchlistComponent implements OnInit, OnDestroy, AfterViewInit {
 
     private matchesSub: Subscription;
 
-    constructor(private userPref: UserPropertiesService, public datepipe: DatePipe, private sidenav: SidenavService , private matchesService: MatchesService, private webSocketService: WebsocketService, public dialog: MatDialog, private notificationBox: NotificationBoxService) {
+    constructor(private dateHandlingService: DateHandlingService, private matchStatusService: MatchStatusService, private userPref: UserPropertiesService, public datepipe: DatePipe, private sidenav: SidenavService , private matchesService: MatchesService, private webSocketService: WebsocketService, public dialog: MatDialog, private notificationBox: NotificationBoxService) {
      } //creates an instance of matchesService. Need to add this in app.module.ts providers:[]
 
 
     ngOnInit() {
+
       //access matches services and gets all matches from DB
       this.matches = this.matchesService.getMatches(); //fetches matches from matchesService
+
+
       // Subscribes to the observable that was created when calling the getMatches().
       this.matchesSub = this.matchesService.getMatchUpdateListener() //subscribe to matches for any changes.
-      .subscribe(
-        (matchData: any) => {
+      .subscribe(( matchData: any) => {
         //Assign each matchData subscribed to the list of objects you inject into html
-          this.matches = matchData;
-          this.allData = matchData;
-          //console.log(this.allData);
+        this.matches = matchData;
+        this.allData = matchData;
+        console.log("Matches From DB");
+        console.log(this.allData);
 
-          //assign groupList to matDataSource. Should have both Group & matches, organized alphabetically
-          this.dataSource.data = this.getGroupListInit(this.allData, 0,this.groupByColumns);
+        //assign groupList to matDataSource. Should have both Group & matches, organized alphabetically
+        this.dataSource.data = this.getGroupListInit(this.allData, 0,this.groupByColumns);
+      });
+
+          this.preferenceSubscription = this.userPref.getUserPrefs().
+          subscribe( userPrefs => {
+            this.dialogDisabled = userPrefs.dialogDisabled;
+          });
 
 
-        this.preferenceSubscription = this.userPref.getUserPrefs().
-        subscribe( userPrefs => {
-          this.dialogDisabled = userPrefs.dialogDisabled;
-        });
+          //Subscribe to Event listener in matches Service for StreamChange data. Update this.matches.
+          this.matchesService.streamDataUpdate
+          .subscribe( (streamObj) => {
+            var indexOfmatch = this.matches.findIndex( match => match.Home == streamObj.HomeTeamName && match.Away == streamObj.AwayTeamName);
+            indexOfmatch != undefined && this.matches[indexOfmatch] ? this.updateMatch(this.matches[indexOfmatch], streamObj) : console.log("not found");
+          });
 
-        });
+          this.viewSelectedDate = this.userPref.getSelectedDate();
+          this.dialogDisabled = this.userPref.getDialogDisabled();
+          this.ignoreList = [];
 
-        //Subscribe to Event listener in matches Service for StreamChange data. Update this.matches.
-        this.matchesService.streamDataUpdate
-        .subscribe( (streamObj) => {
-          var indexOfmatch = this.matches.findIndex( match => match.Home == streamObj.HomeTeamName && match.Away == streamObj.AwayTeamName);
-          indexOfmatch != undefined && this.matches[indexOfmatch] ? this.updateMatch(this.matches[indexOfmatch], streamObj) : console.log("not found");
-        });
-
-        this.viewSelectedDate = this.userPref.getSelectedDate();
-        this.dialogDisabled = this.userPref.getDialogDisabled();
-      }
-
-    ngAfterViewInit(){
-      //Open Socket Connection
-      //this.webSocketService.openWebSocket();
-    }
+          this.webSocketService.openWebSocket();
+        }
 
     ngOnDestroy(){
       this.matchesSub.unsubscribe();
       this.webSocketService.closeWebSocket();
     }
 
-    convertStringToDate(usDateFormat: string): Date {
-      return new Date(Date.parse(usDateFormat));
-    }
-
     //Handles logic for MatTable. It adds and removes match items based off the state of the League Group Header.
     modifiedGroupList(allData: any[], groupList: any[], viewSelection: string) : any[]{
 
-      var dateValidator: number[] = this.dateSelection(viewSelection);
+      var dateValidator: number[] = this.dateHandlingService.returnDateSelection(viewSelection);
 
       var dateStart: number = dateValidator[1];
       var dateEnd: number = dateValidator[0];
-      console.log("DateStart: " + dateStart + " DateEnd " + dateEnd);
+      //console.log("DateStart: " + dateStart + " DateEnd " + dateEnd);
       //TODO BUG-FIX WHEN LOCALE_ID WORKS.
 
       groupList.forEach( groupObj => {
@@ -172,9 +172,9 @@ export class WatchlistComponent implements OnInit, OnDestroy, AfterViewInit {
           allData.forEach( matchObj => {
             var matchIndex = allData.indexOf(matchObj);
             //Returns correct date format for en-GB
-            var matchDate: number = Number((this.convertStringToDate(this.fuckYouDatePipeMethod(matchObj.Details))).getDate());
+            var matchDate: number = +((this.dateHandlingService.convertStringToDate(matchObj.Details)).getDate());
             //INJECTS  MATCHES  UNDERNEATH GROUP HEADER
-            if(matchObj.League == groupObj.League && matchDate <= dateEnd && matchDate > dateStart)
+            if(matchObj.isWatched && matchObj.League == groupObj.League && matchDate <= dateEnd && matchDate > dateStart)
             {
               if(matchPosition == groupIndex + 1){
                 matchObj.displayHeaderDate = true;
@@ -200,7 +200,7 @@ export class WatchlistComponent implements OnInit, OnDestroy, AfterViewInit {
         if (groupObj.expanded == false && groupObj.isActive){
 
           allData.forEach( matchObj => {
-            var matchDate: number = Number((this.convertStringToDate(this.fuckYouDatePipeMethod(matchObj.Details))).getDate());
+            var matchDate: number = +((this.dateHandlingService.convertStringToDate(matchObj.Details)).getDate());
 
             if(matchObj.League == groupObj.League && matchDate <= dateEnd && matchDate > dateStart ){
               var position = this.masterList.indexOf(matchObj);
@@ -221,9 +221,9 @@ export class WatchlistComponent implements OnInit, OnDestroy, AfterViewInit {
       matchList.forEach( matchObj => {
         //TODO BUG-FIX WHEN LOCALE_ID WORKS.
         if(matchObj.displayHeaderDate){
-
-          var fuckYouDatePipe = this.fuckYouDatePipeMethod(matchObj.Details);
-          matchObj.FixturesDate = this.datepipe.transform(fuckYouDatePipe, 'EEE dd MMM \n  HH:mm');
+          //All of Angular is using Datepipes to conver by en-US locale, not en-GB. For the time being, everything must be converted to english Locale
+          var gbDateFormat = this.dateHandlingService.switchDaysWithMonths(matchObj.Details);
+          matchObj.FixturesDate = this.datepipe.transform(gbDateFormat, 'EEE dd MMM \n  HH:mm');
         }else {
           matchObj.FixturesDate = this.datepipe.transform(matchObj.Details, 'HH:mm');
         }
@@ -252,10 +252,10 @@ export class WatchlistComponent implements OnInit, OnDestroy, AfterViewInit {
       }
     }
 
-    //Returns an updated list of matches
+    //Returns an updated list of matches Using Date selection
     showUpdatedView(allMatchData: any[], groupWithStates: any[], dateOption: string): any[] {
       this.masterList = [];
-      var dateValidator: number[] = this.dateSelection(dateOption);
+      var dateValidator: number[] = this.dateHandlingService.returnDateSelection(dateOption);
       var dateStart: number = dateValidator[1];
       var dateEnd: number = dateValidator[0];
 
@@ -273,7 +273,7 @@ export class WatchlistComponent implements OnInit, OnDestroy, AfterViewInit {
           allMatchData.forEach( matchObj => {
             var matchIndex = allMatchData.indexOf(matchObj);
             //Returns correct date format for en-GB
-            var matchDate: number = Number((this.convertStringToDate(this.fuckYouDatePipeMethod(matchObj.Details))).getDate());
+            var matchDate: number = +(this.dateHandlingService.convertStringToDate(matchObj.Details)).getDate();
             //INJECTS  MATCHES  UNDERNEATH GROUP HEADER
             if(matchObj.League == groupHeader.League && matchDate <= dateEnd && matchDate > dateStart)
             {
@@ -574,31 +574,11 @@ export class WatchlistComponent implements OnInit, OnDestroy, AfterViewInit {
       console.log(status);
     }
 
-    dateSelection(dateSelected:string): number[]{
+    // dateSelection(dateSelected:string): number[]{
 
-      //Test settings
-      var today = 1
-      var tomorrow = today + 1;
+    //   return this.dateHandlingService.returnDateSelection(this.dateHandlingService.returnDateSelection(dateSelected);
 
-      /*
-      var today = new Date(Date.now()).getDate();
-      var tomorrow = today + 1;
-
-      */
-
-      if(dateSelected == 'Today')
-      {
-        return [today,(today-1)];
-      }
-      if(dateSelected == 'Tomorrow')
-      {
-        return [tomorrow,today];
-      }
-      if(dateSelected == 'Today & Tomorrow')
-      {
-        return [tomorrow,(today-1)];
-      }
-    }
+    // }
 
     openPopUp($event: MatSlideToggleChange, groupItem: any) {
 
@@ -629,12 +609,15 @@ export class WatchlistComponent implements OnInit, OnDestroy, AfterViewInit {
 
       } else if (this.dialogDisabled) {
         //If user has selected to ignore popups, then set notifications based off $event.checked
-        console.log(groupItem);
 
           $event.source.checked == true ? groupItem.ignoreAll = false : groupItem.ignoreAll = true;
-          console.log("GroupItem State: " + groupItem.ignoreAll);
+          console.log("GroupItem: " + groupItem.League + "- ignoreAll: " + groupItem.ignoreAll);
 
-        }
+      } else if ($event.checked == false && this.dialogDisabled){
+        groupItem.ignoreAll = true;
+      }
+
+        this.ignoreAllMatchesToggle(groupItem);
     }
 
     showToast(typeOfToast: string){
@@ -644,7 +627,6 @@ export class WatchlistComponent implements OnInit, OnDestroy, AfterViewInit {
       if(typeOfToast == "default"){
         this.notificationBox.showNotification();
       }
-
     }
 
 
@@ -653,9 +635,43 @@ export class WatchlistComponent implements OnInit, OnDestroy, AfterViewInit {
     }
       //TODO BUG-FIX WHEN LOCALE_ID WORKS.
       //Re-arranges en-US format MM/DD into DD/MM
-    fuckYouDatePipeMethod(dateString: string):string {
-      return dateString.slice(3,6) + dateString.slice(0, 3) + dateString.slice(6, 19);
+
+    ignoreAllMatchesToggle(group: Group){
+      var array:any[] = []
+      array.push(group.ignoreAll);
+        this.matches.forEach( match => {
+          if(match.League == group.League){
+            array.push(match.Home);
+            array.push(match.Away);
+          }
+        });
+        this.ignoreList = array;
+      //this.matchStatusService.displayIgnoreList();
     }
 
+    ignoreHomeSelection(matchObject: any){
+      matchObject.HStatus.ignore = !matchObject.HStatus.ignore;
+      console.log("Ignore set to " + matchObject.HStatus.ignore + " for: " + matchObject.Home);
+      this.ignoreList = [matchObject.Home, matchObject.HStatus.ignore];
+      this.updateNotificationStatus(matchObject.Home, matchObject.HStatus.ignore);
+    }
+
+    ignoreAwaySelection(matchObject: any){
+      //toggle ignore status.
+      matchObject.AStatus.ignore = !matchObject.AStatus.ignore;
+      console.log("Ignore set to " + matchObject.AStatus.ignore + " for: " + matchObject.Away);
+      this.ignoreList = [matchObject.Away, matchObject.AStatus.ignore];
+
+      this.updateNotificationStatus(matchObject.Away, matchObject.AStatus.ignore);
+    }
+
+    updateNotificationStatus(selection: string, ignoreStatus: boolean){
+      if(ignoreStatus == true)
+      {
+        this.matchStatusService.addToIgnoreList(selection);
+      } else {
+        this.matchStatusService.removeFromIgnoreList(selection);
+      }
+    }
 
 }

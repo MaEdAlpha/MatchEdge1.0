@@ -30,7 +30,7 @@
                     </ng-container>
 
                     <ng-container *ngIf="column.field.startsWith('FixturesDate')">
-                      <button mat-raised-button class="fixturesDateBtn"><span id="fixturesText">{{ row[column.field] }} </span> </button>
+                      <button mat-raised-button class="fixturesDateBtn" (click)="addToWatchList(row);"><span id="fixturesText">{{ row[column.field] }} </span> </button>
                     </ng-container>
                   </ng-container>
 
@@ -52,8 +52,7 @@
                             class="{{column.field}} viewCell"
                             (click)="ignoreHomeSelection(row)"
                             appIgnoreIcon
-                            [ignoreStatus]="row.HStatus.ignore"
-                            [teamSelection]="row.Home">
+                            [ignoreStatus]="row.HStatus.ignore">
                             <mat-icon>
                               block
                             </mat-icon>
@@ -91,8 +90,7 @@
                             class="{{column.field}} viewCell"
                             (click)="ignoreAwaySelection(row)"
                             appIgnoreIcon
-                            [ignoreStatus]="row.AStatus.ignore"
-                            [teamSelection]="row.Away">
+                            [ignoreStatus]="row.AStatus.ignore">
                             <mat-icon>
                               block
                             </mat-icon>

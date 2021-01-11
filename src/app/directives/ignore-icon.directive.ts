@@ -5,7 +5,6 @@ import { Directive, Input, OnChanges, SimpleChanges, Renderer2, ElementRef } fro
 })
 export class IgnoreIconDirective implements OnChanges{
   @Input() ignoreStatus: boolean;
-  @Input() teamSelection: string;
   constructor(private renderer: Renderer2, private elRef: ElementRef) { }
 
   ngOnChanges(changes:SimpleChanges)

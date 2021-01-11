@@ -44,7 +44,8 @@ export class MatchesService {
             UrlB365: match.URLB365,
             UrlSmarkets: match.URLSmarkets,
             HStatus: {notify: false, activeBet: false, ignore: false },
-            AStatus: {notify: false, activeBet: false, ignore: false }
+            AStatus: {notify: false, activeBet: false, ignore: false },
+            isWatched: false
           }
         })
       }))

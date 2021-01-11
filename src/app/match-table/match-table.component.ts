@@ -40,7 +40,7 @@ import { DateHandlingService } from '../date-handling.service';
     providers:[DatePipe],
   })
 
-  export class MatchTableComponent implements OnInit, OnDestroy, AfterViewInit {
+  export class MatchTableComponent implements OnInit, OnDestroy {
 
     displayedColumns: string[] = ['HStatus','BHome','SMHome', 'OccH', 'Home',  'FixturesDate', 'Away', 'OccA' , 'BAway','SMAway', 'AStatus'];
     SecondcolumnsToDisplay: string[] = ['SMHome','BHome', 'BDraw', 'BAway', 'BTTSOdds', 'B25GOdds','SMAway',  'League', 'OccH', 'OccA'];
@@ -104,17 +104,20 @@ import { DateHandlingService } from '../date-handling.service';
 
       //access matches services and gets all matches from DB
       this.matches = this.matchesService.getMatches(); //fetches matches from matchesService
+
+
       // Subscribes to the observable that was created when calling the getMatches().
       this.matchesSub = this.matchesService.getMatchUpdateListener() //subscribe to matches for any changes.
       .subscribe(( matchData: any) => {
         //Assign each matchData subscribed to the list of objects you inject into html
-          this.matches = matchData;
-          this.allData = matchData;
-          //console.log(this.allData);
+        this.matches = matchData;
+        this.allData = matchData;
+        console.log("Matches From DB");
+        console.log(this.allData);
 
-              //assign groupList to matDataSource. Should have both Group & matches, organized alphabetically
-              this.dataSource.data = this.getGroupListInit(this.allData, 0,this.groupByColumns);
-        });
+        //assign groupList to matDataSource. Should have both Group & matches, organized alphabetically
+        this.dataSource.data = this.getGroupListInit(this.allData, 0,this.groupByColumns);
+      });
 
           this.preferenceSubscription = this.userPref.getUserPrefs().
           subscribe( userPrefs => {
@@ -122,24 +125,19 @@ import { DateHandlingService } from '../date-handling.service';
           });
 
 
-        //Subscribe to Event listener in matches Service for StreamChange data. Update this.matches.
-        this.matchesService.streamDataUpdate
-        .subscribe( (streamObj) => {
-          var indexOfmatch = this.matches.findIndex( match => match.Home == streamObj.HomeTeamName && match.Away == streamObj.AwayTeamName);
-          indexOfmatch != undefined && this.matches[indexOfmatch] ? this.updateMatch(this.matches[indexOfmatch], streamObj) : console.log("not found");
-        });
+          //Subscribe to Event listener in matches Service for StreamChange data. Update this.matches.
+          this.matchesService.streamDataUpdate
+          .subscribe( (streamObj) => {
+            var indexOfmatch = this.matches.findIndex( match => match.Home == streamObj.HomeTeamName && match.Away == streamObj.AwayTeamName);
+            indexOfmatch != undefined && this.matches[indexOfmatch] ? this.updateMatch(this.matches[indexOfmatch], streamObj) : console.log("not found");
+          });
 
-        this.viewSelectedDate = this.userPref.getSelectedDate();
-        this.dialogDisabled = this.userPref.getDialogDisabled();
-        this.ignoreList = [];
+          this.viewSelectedDate = this.userPref.getSelectedDate();
+          this.dialogDisabled = this.userPref.getDialogDisabled();
+          this.ignoreList = [];
 
-        this.webSocketService.openWebSocket();
-      }
-
-    ngAfterViewInit(){
-      //Open Socket Connection
-
-    }
+          this.webSocketService.openWebSocket();
+        }
 
     ngOnDestroy(){
       this.matchesSub.unsubscribe();
@@ -673,6 +671,11 @@ import { DateHandlingService } from '../date-handling.service';
       } else {
         this.matchStatusService.removeFromIgnoreList(selection);
       }
+    }
+
+    addToWatchList(rowData:any){
+      rowData.isWatched = !rowData.isWatched;
+      console.log(rowData.isWatched);
     }
 
 }

@@ -71,7 +71,8 @@ export class JuicyMatchComponent implements OnChanges, DoCheck, OnInit {
     //Anytime there is a change to this list of matches, refresh list of single matches.
     if(changes.allMatches && changes.allMatches.currentValue && changes.allMatches.isFirstChange) {
 
-      console.log("Change Detection Activated");
+      console.log("Change Detection Activated: List of Selections Below");
+
       console.log(this.allIndvMatches);
       // console.log(this.dataSource);
 
@@ -88,7 +89,13 @@ export class JuicyMatchComponent implements OnChanges, DoCheck, OnInit {
 
     if(changes.selectionToIgnore && changes.selectionToIgnore.currentValue && this.selectionToIgnore != undefined) {
            this.updateIgnoreStatus(this.selectionToIgnore);
+           console.log("Ignore These Selections Below: ");
            console.log(this.selectionToIgnore);
+    }
+
+    if(changes.dateSelected && changes.dateSelected.currentValue){
+      console.log("DATESUB CHANGE DETECTED");
+
     }
 
   }
@@ -116,13 +123,18 @@ export class JuicyMatchComponent implements OnChanges, DoCheck, OnInit {
       });
     });
 
-    this.dateSelected = this.userPrefService.getSelectedDate();
+
+    this.getStartEndDays();
 
     this.dateSubscription = this.dateHandlingService.getSelectedDate().subscribe(date => {
-      this.dateSelected = date;
       var dateValidator = this.dateHandlingService.returnDateSelection(date);
       this.startDay = dateValidator[1];
       this.endDay = dateValidator[0];
+
+      this.allIndvMatches.forEach( selection => {
+        this.dateInRange(selection)
+      });
+
     });
 
     //set userPreference Values
@@ -142,10 +154,13 @@ export class JuicyMatchComponent implements OnChanges, DoCheck, OnInit {
     });
   }
 
+
+
   ngOnDestroy() {
     this.individualMatchesSub.unsubscribe();
     this.streamSub.unsubscribe();
     this.matchStatService.clear();
+    this.dateSubscription.unsubscribe();
   }
   ngDoCheck(){
   }
@@ -175,6 +190,13 @@ export class JuicyMatchComponent implements OnChanges, DoCheck, OnInit {
 
     // console.log(this.dataSource.at(index));
     return this.dataSource.at(index) as FormGroup
+  }
+
+  private getStartEndDays() {
+    this.dateSelected = this.userPrefService.getSelectedDate();
+    var dateValidator = this.dateHandlingService.returnDateSelection(this.dateSelected);
+    this.startDay = dateValidator[1];
+    this.endDay = dateValidator[0];
   }
 
   LayOdds(backOdds: number, layOdds:number, steakYum: number):number{
@@ -243,16 +265,16 @@ export class JuicyMatchComponent implements OnChanges, DoCheck, OnInit {
 
   }
 
-  dateInRange(selection: any): boolean{
+  dateInRange(selection: any){
 
     var matchDay = this.dateHandlingService.convertStringToDate(selection.EventStart).getDate();
 
     if( matchDay <= this.endDay && matchDay > this.startDay) {
       selection.inRange=true;
-      return true;
+
     } else {
       selection.inRange=false;
-      return false;
+
     }
    }
 

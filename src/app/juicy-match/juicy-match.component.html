@@ -15,7 +15,7 @@
               *matCellDef="let selection; let i = dataIndex"
               (click)="loadGroup(i); freezeAllMotorFunctions(); show()">
               <ng-container *ngIf="selection.ignore==false">
-                <ng-container *ngIf="dateInRange(selection)">
+                <ng-container *ngIf="selection.inRange">
                   <ng-container *ngIf= "((isEvSelected && +selection['EVthisBet'] >= +prefObj.evFilterValue && +selection['EVthisBet'] < 1000) || (!isEvSelected && (+selection['MatchRating'] == +prefObj.maxRatingFilter || selection['MatchRating'] > (+prefObj.maxRatingFilter - 0.1))))">
                     <ng-container *ngIf= "( +selection['BackOdds'] <= +maxOddsFilter && +selection['BackOdds'] >= +minOddsFilter)">
                       <div class="juicyCell" *ngIf="column.endsWith('BackOdds')">

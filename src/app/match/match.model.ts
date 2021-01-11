@@ -36,6 +36,7 @@
     UrlSmarkets: string;
     HStatus: { notify: boolean; activeBet: boolean; ignore: boolean; };
     AStatus: { notify: boolean; activeBet: boolean; ignore: boolean; };
+    isWatched: boolean;
     }
 
 
