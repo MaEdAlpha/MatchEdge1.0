@@ -10,7 +10,6 @@ export class HideTableRowDirective implements OnChanges{
   @Input() backOdds: number;   //backOdds
   //inRange: boolean;   //is in Date Range
   @Input() ignore: boolean;    //ignore Status
-  @Input() selection: any;
   @Input() userPref: TablePreferences;
   @Input() inRange;
 
@@ -20,9 +19,10 @@ export class HideTableRowDirective implements OnChanges{
     //Set values upon change.
     //Hide or show expanded element based off criteria.
     // if(this.inRange == true){
-    //   this.hide();
-    // }
+      //   this.hide();
+      // }
 
+  if(this.inRange != undefined || this.ignore != undefined || this.userPref != undefined){
     if(this.userPref.isEvSelected)  {
 
         // console.log(this.selection.Selection+ " Hidden: " + this.selection.ignore);
@@ -58,24 +58,26 @@ export class HideTableRowDirective implements OnChanges{
           }
       }
 
-    // Incomplete Data calcs/ bad values
-    if(this.evValue >= 100){
-      this.hide();
-    }
-    // Incomplete Data calcs/ bad values
-    if(this.mrValue >=1000){
-      this.hide();
-    }
-    if(this.inRange == false){
-      this.hide();
-    }
-   //Ignore status read.
-    if(this.ignore) {
-      this.hide();
-    }
+      //To handle production Error "changesAfterViewInit detected:
+      // Incomplete Data calcs/ bad values
+      if(this.evValue >= 100){
+        this.hide();
+      }
+      // Incomplete Data calcs/ bad values
+      if(this.mrValue >=1000){
+        this.hide();
+      }
+      if(this.inRange == false){
+        this.hide();
+      }
+     //Ignore status read.
+      if(this.ignore) {
+        this.hide();
+      }
 
-    if(!this.inRange){
-      this.hide();
+      if(!this.inRange){
+        this.hide();
+      }
     }
 
   }

@@ -68,9 +68,6 @@ export class JuicyMatchComponent implements OnChanges, DoCheck, OnInit {
 
   ngOnChanges(changes: SimpleChanges)
   {
-    if(changes.dateSelected && changes.dateSelected.currentValue){
-      console.log("DATEEEEEE Change detected onChange");
-    }
     //Anytime there is a change to this list of matches, refresh list of single matches.
     if(changes.allMatches && changes.allMatches.currentValue && changes.allMatches.isFirstChange) {
 
@@ -89,11 +86,9 @@ export class JuicyMatchComponent implements OnChanges, DoCheck, OnInit {
       this.allIndvMatches.length === 0 ? this.noMatchesToDisplay = true : this.noMatchesToDisplay = false;
     }
 
-    if(changes.selectionToIgnore && changes.selectionToIgnore.currentValue) {
+    if(changes.selectionToIgnore && changes.selectionToIgnore.currentValue && this.selectionToIgnore != undefined) {
            this.updateIgnoreStatus(this.selectionToIgnore);
            console.log(this.selectionToIgnore);
-
-
     }
 
   }
@@ -122,6 +117,7 @@ export class JuicyMatchComponent implements OnChanges, DoCheck, OnInit {
     });
 
     this.dateSelected = this.userPrefService.getSelectedDate();
+
     this.dateSubscription = this.dateHandlingService.getSelectedDate().subscribe(date => {
       this.dateSelected = date;
       var dateValidator = this.dateHandlingService.returnDateSelection(date);

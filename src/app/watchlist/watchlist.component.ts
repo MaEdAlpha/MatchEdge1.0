@@ -133,7 +133,7 @@ export class WatchlistComponent implements OnInit, OnDestroy, AfterViewInit {
 
     ngAfterViewInit(){
       //Open Socket Connection
-      this.webSocketService.openWebSocket();
+      //this.webSocketService.openWebSocket();
     }
 
     ngOnDestroy(){

@@ -101,6 +101,7 @@ import { DateHandlingService } from '../date-handling.service';
 
 
     ngOnInit() {
+
       //access matches services and gets all matches from DB
       this.matches = this.matchesService.getMatches(); //fetches matches from matchesService
       // Subscribes to the observable that was created when calling the getMatches().

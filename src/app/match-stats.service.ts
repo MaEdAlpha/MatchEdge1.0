@@ -35,7 +35,7 @@ export class MatchStatsService {
 
 //The first HTTP GET you requested  fucks up all the variable names... either map...or figure shit out
 
-//used in juicy-match-model
+//used in juicy-match-model INITALIZATION. DIFFERENT FROM retrieveStreamData(). Non DB saved variables attached here.
 getMatchStats(match){
 
   //separate each match into a single Match Object.
@@ -91,7 +91,8 @@ getMatchStats(match){
           b365DrawPrev: 999,
           ignore: match.HStatus.ignore,
           notify: match.HStatus.notify,
-          activeBet: match.HStatus.activeBet
+          activeBet: match.HStatus.activeBet,
+          inRange: false
         }
         this.allSingleMatches.push(this.singleHomeMatch);
 
@@ -143,7 +144,8 @@ getMatchStats(match){
           b365DrawPrev: 999,
           ignore: match.AStatus.ignore,
           notify: match.AStatus.notify,
-          activeBet: match.AStatus.activeBet
+          activeBet: match.AStatus.activeBet,
+          inRange: false
         }
         this.allSingleMatches.push(this.singleAwayMatch);
   }

@@ -160,9 +160,11 @@
               class="juicyMatch-row"
               [class.juicyMatch-expanded-row]="expandedElement === selection"
               (click)="expandedElement = expandedElement === selection ? null : selection"
-              appHideTableRow [userPref]="prefObj" [selection]="selection" [backOdds]="selection.BackOdds" [evValue]="selection.EVthisBet" [mrValue]="selection.MatchRating" [ignore]="selection.ignore" [inRange]="selection.inRange">
+              appHideTableRow [userPref]="prefObj" [backOdds]="selection.BackOdds" [evValue]="selection.EVthisBet" [mrValue]="selection.MatchRating" [ignore]="selection.ignore" [inRange]="selection.inRange">
               </tr>
+
               <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="juicyMatch-detail-row"></tr>
+
   </table>
 
   <div class="no-content" *ngIf="noMatchesToDisplay">Currently No Matches Detected</div>
