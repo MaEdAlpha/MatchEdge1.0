@@ -36,6 +36,8 @@
     UrlSmarkets: string;
     HStatus: { notify: boolean; activeBet: boolean; ignore: boolean; };
     AStatus: { notify: boolean; activeBet: boolean; ignore: boolean; };
+    PreviousB365HomeOdds:any[];
+    PreviousB365AwayOdds:any[];
     isWatched: boolean;
     }
 

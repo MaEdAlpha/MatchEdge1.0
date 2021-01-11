@@ -104,7 +104,7 @@
                                     </div>
 
                                     <div class="words-container">
-                                      <b> <span id="liability"> YOUR LIABILITY: </span><span class="row3-value">{{Liability(getGroup(i).get('LayOdds').value, getGroup(i).get('LayStake').value) | currency:'GBP'}}</span></b>
+                                      <b> <span id="liability"> YOUR LIABILITY: </span><span class="row3-value">{{ Liability(getGroup(i).get('LayOdds').value, LayOdds(getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value, getGroup(i).get('Stake').value)) | currency:'GBP'}}</span></b>
                                     </div>
 
                                     <div class="external-link-button" id="smlnk"><a mat-raised-button href= {{selection.UrlSmarkets}} target="_blank">OPEN EVENT</a></div>
