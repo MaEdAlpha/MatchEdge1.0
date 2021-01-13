@@ -9,7 +9,7 @@ export class MatchStatusService {
 
 
   ignoreList: string[]=[];
-  private selectionSubject = new Subject<any>();
+  private watchSubject = new Subject<any>();
   allSelections: any[];
 
   constructor() { }
@@ -47,11 +47,11 @@ export class MatchStatusService {
   //WATCHLIST STATUS
 
   //called at JuicyMatches on Initialization. Used to listen for any changes
-  createSelectionSubject( selection: any){
-    this.selectionSubject.next(selection);
+  watchMatchSubject( selection: any){
+    this.watchSubject.next(selection);
   }
-  isBeingWatched(index: number, state: boolean){
-    //Search indexOf all Selections and set isWatched = state;
+  getMatchWatchStatus(): Observable<any>{
+    return this.watchSubject.asObservable();
   }
 
 

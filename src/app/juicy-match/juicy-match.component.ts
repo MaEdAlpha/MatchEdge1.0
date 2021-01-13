@@ -92,12 +92,6 @@ export class JuicyMatchComponent implements OnChanges, DoCheck, OnInit {
            console.log("Ignore These Selections Below: ");
            console.log(this.selectionToIgnore);
     }
-
-    if(changes.dateSelected && changes.dateSelected.currentValue){
-      console.log("DATESUB CHANGE DETECTED");
-
-    }
-
   }
 
 
@@ -128,8 +122,8 @@ export class JuicyMatchComponent implements OnChanges, DoCheck, OnInit {
 
     this.dateSubscription = this.dateHandlingService.getSelectedDate().subscribe(date => {
       var dateValidator = this.dateHandlingService.returnDateSelection(date);
-      this.startDay = dateValidator[1];
-      this.endDay = dateValidator[0];
+      this.startDay = dateValidator[0];
+      this.endDay = dateValidator[1];
 
       this.allIndvMatches.forEach( selection => {
         this.dateInRange(selection)
@@ -195,8 +189,8 @@ export class JuicyMatchComponent implements OnChanges, DoCheck, OnInit {
   private getStartEndDays() {
     this.dateSelected = this.userPrefService.getSelectedDate();
     var dateValidator = this.dateHandlingService.returnDateSelection(this.dateSelected);
-    this.startDay = dateValidator[1];
-    this.endDay = dateValidator[0];
+    this.startDay = dateValidator[0];
+    this.endDay = dateValidator[1];
   }
 
   LayOdds(backOdds: number, layOdds:number, steakYum: number):number{
@@ -261,15 +255,13 @@ export class JuicyMatchComponent implements OnChanges, DoCheck, OnInit {
     }
   }
 
-  initializeDates(){
 
-  }
 
   dateInRange(selection: any){
 
-    var matchDay = this.dateHandlingService.convertStringToDate(selection.EventStart).getDate();
+    var matchDay = this.dateHandlingService.convertGBStringDate(selection.EventStart).getDate();
 
-    if( matchDay <= this.endDay && matchDay > this.startDay) {
+    if( matchDay == this.startDay || matchDay == this.endDay) {
       selection.inRange=true;
 
     } else {

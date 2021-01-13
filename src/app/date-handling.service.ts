@@ -22,30 +22,36 @@ export class DateHandlingService {
   //Processes dateSelection from Top Layer filter. Returns number array of start and end date.
   returnDateSelection(dateSelected: string): number[] {
     //Testing Values
-    // var today = 1
-    // var tomorrow = today + 1;
+    // var today = 14
+    // var tomorrow = today + 3;
 
-    /* Real Values. DONOT DELETE
+    /* Real Values. DO NOT DELETE
     //returns day date as an integer
     */
-    var today = new Date(Date.now()).getDate();
+   //Create a unique number to account for month changes. This way January 31st And February 1st will properly register as today + tomorrow
+   //Concatenate string, then turn to integer. ES6 format.
+    var today = new Date(Date.now()).getMonth()*30 + new Date(Date.now()).getDate();
+
+
     var tomorrow = today + 1;
+
+
     if(dateSelected == 'Today')
     {
-      return [today,(today-1)];
+      return [+today,+today];
     }
     if(dateSelected == 'Tomorrow')
     {
-      return [tomorrow,today];
+      return [+tomorrow,+tomorrow];
     }
     if(dateSelected == 'Today & Tomorrow')
     {
-      return [tomorrow,(today-1)];
+      return [+today,+tomorrow];
     }
   }
 
-  //returns usDateFormat.
-  convertStringToDate(gbDateFormat: string): Date {
+  //returns usDateFormat. Used for comparing dates with Selected time for filtering.
+  convertGBStringDate(gbDateFormat: string): Date {
     var usDateFormat = this.switchDaysWithMonths(gbDateFormat);
     return new Date(Date.parse(usDateFormat));
   }
@@ -53,5 +59,10 @@ export class DateHandlingService {
   //converts GB formatted date to US date string.
   switchDaysWithMonths(dateString: string):string {
     return dateString.slice(3,6) + dateString.slice(0, 3) + dateString.slice(6, 19);
+  }
+
+  //returns date as a value.
+  returnDayDate(gbDateFormat:string): number {
+    return this.convertGBStringDate(gbDateFormat).getDate();
   }
 }

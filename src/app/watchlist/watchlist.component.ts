@@ -6,12 +6,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { animate, group, state, style, transition, trigger } from '@angular/animations';
 import { WebsocketService } from '../websocket.service';
 import { Match } from '../match/match.model';
-import { MatSlideToggleChange } from '@angular/material/slide-toggle';
-import { StatusDisableDialogueComponent } from '../status-disable-dialogue/status-disable-dialogue.component';
-import { ToastrService } from 'ngx-toastr';
 import { NotificationBoxService } from '../notification-box.service';
-import { NgSwitchCase } from '@angular/common';
-import { NumberInput } from '@angular/cdk/coercion';
 import { DatePipe } from '@angular/common';
 import { SidenavService } from '../view-table-sidenav/sidenav.service';
 import { UserPropertiesService } from '../user-properties.service';
@@ -51,13 +46,10 @@ export class WatchlistComponent implements OnInit, OnDestroy {
     matchStream: any;
     expandedElement: any[] | null;
     retrieveMatches = false;
-    tableCount: any;
-    matchWatched: string[] = [];
+
+
     indexPositions: number[];
     tableSelected: number = 1;
-    hideFixtures: boolean = true;
-    hideJuicy: boolean = true;
-    hideActive: boolean = true;
     isNotInList: boolean = false;
     panelOpenState = false;
     viewSelectedDate:string;
@@ -66,7 +58,7 @@ export class WatchlistComponent implements OnInit, OnDestroy {
     dataSource = new MatTableDataSource<any | Group>([]);
     groupByColumns: string[]=["League"];
     allData: Match[];
-    _allGroup: any[];
+    _leagueGroups: any[];
     columns: any[] = [
       { field: "HStatus" , columnDisplay: "" },
       { field: "BHome", columnDisplay: "Image" },
@@ -88,14 +80,23 @@ export class WatchlistComponent implements OnInit, OnDestroy {
 
     //userPreference dialog popup
     //TODO add to UserPreference
-    preferenceSubscription: Subscription;
-    dialogDisabled: boolean;
+    private preferenceSubscription: Subscription;
+    private watchMatchesubscription: Subscription;
+    private dateSubscription: Subscription;
+    private matchesSub: Subscription;
+    dateSelected: string;
+
+    watchStateChange:any;
+    //main list of all matches to watch
+    watchList:any[]=[];
+    //list to display wrt dateSelected
+    displayList: any[]=[];
+
     displayHeaderDate: boolean = true;
 
     @ViewChild(MatTable) table: MatTable<any>;
 
 
-    private matchesSub: Subscription;
 
     constructor(private dateHandlingService: DateHandlingService, private matchStatusService: MatchStatusService, private userPref: UserPropertiesService, public datepipe: DatePipe, private sidenav: SidenavService , private matchesService: MatchesService, private webSocketService: WebsocketService, public dialog: MatDialog, private notificationBox: NotificationBoxService) {
      } //creates an instance of matchesService. Need to add this in app.module.ts providers:[]
@@ -103,46 +104,81 @@ export class WatchlistComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
 
-      //access matches services and gets all matches from DB
-      this.matches = this.matchesService.getMatches(); //fetches matches from matchesService
-
-
-      // Subscribes to the observable that was created when calling the getMatches().
-      this.matchesSub = this.matchesService.getMatchUpdateListener() //subscribe to matches for any changes.
-      .subscribe(( matchData: any) => {
-        //Assign each matchData subscribed to the list of objects you inject into html
-        this.matches = matchData;
-        this.allData = matchData;
-        console.log("Matches From DB");
-        console.log(this.allData);
-
-        //assign groupList to matDataSource. Should have both Group & matches, organized alphabetically
-        this.dataSource.data = this.getGroupListInit(this.allData, 0,this.groupByColumns);
+      this.watchMatchesubscription = this.matchStatusService.getMatchWatchStatus().
+      subscribe( matchObject => {
+        //triggers each time watchList subject is activated in matchTable Component
+        this.updateWatchList(matchObject);
       });
 
-          this.preferenceSubscription = this.userPref.getUserPrefs().
-          subscribe( userPrefs => {
-            this.dialogDisabled = userPrefs.dialogDisabled;
-          });
-
-
           //Subscribe to Event listener in matches Service for StreamChange data. Update this.matches.
-          this.matchesService.streamDataUpdate
-          .subscribe( (streamObj) => {
-            var indexOfmatch = this.matches.findIndex( match => match.Home == streamObj.HomeTeamName && match.Away == streamObj.AwayTeamName);
-            indexOfmatch != undefined && this.matches[indexOfmatch] ? this.updateMatch(this.matches[indexOfmatch], streamObj) : console.log("not found");
-          });
+      this.matchesService.streamDataUpdate
+      .subscribe( (streamObj) => {
+        var indexOfmatch = this.matches.findIndex( match => match.Home == streamObj.HomeTeamName && match.Away == streamObj.AwayTeamName);
+        indexOfmatch != undefined && this.matches[indexOfmatch] ? this.updateMatch(this.matches[indexOfmatch], streamObj) : console.log("not found");
+      });
 
-          this.viewSelectedDate = this.userPref.getSelectedDate();
-          this.dialogDisabled = this.userPref.getDialogDisabled();
-          this.ignoreList = [];
 
-          this.webSocketService.openWebSocket();
-        }
+      this.dateSelected = this.userPref.getSelectedDate();
+
+      this.dateSubscription = this.dateHandlingService.getSelectedDate().subscribe( dateSelected => {
+        this.dateSelected = dateSelected;
+      })
+
+      this.ignoreList = [];
+    }
+
+  private updateWatchList(matchObject: any) {
+    //Check state of match. Add or remove it.
+    if (matchObject.isWatched) {
+      this.watchList.push(matchObject);
+    } else {
+      var index: number;
+      index = this.watchList.indexOf(matchObject);
+      this.watchList.splice(index, 1);
+    }
+
+    //Sort each list into their selected time. Then assign groups. Sort match to group header and assign FixtureDate format.
+    this.setLists(this.watchList, this.dateSelected);
+    //assign the appropriate list based off of the selected date time.
+    //Also, create an event listener to dateSelected to pick the appropriate list if user is cycling through watchlist.
+    //Add a default view saying "Currently no matches selected for this specification"
+
+    //set to WatchListTable dataSource
+    this.dataSource.data = this.displayList;
+    console.log(this.watchList);
+  }
+
+  setLists(watchList: any[], dateSelected:string) {
+
+    //clear displayList:
+    this.displayList = [];
+
+    var dateValidator: any[] = this.dateHandlingService.returnDateSelection(dateSelected);
+    //start end dates based off MM + DD a a number
+    var dateStart: number = dateValidator[0];
+    var dateEnd: number = dateValidator[1];
+
+    watchList.forEach( match => {
+      var matchDate: number = this.matchDateInteger(match);
+
+      if( (matchDate == dateStart || matchDate == dateEnd) ){
+        this.displayList.push(match);
+      }
+
+
+
+    });
+  }
 
     ngOnDestroy(){
       this.matchesSub.unsubscribe();
-      this.webSocketService.closeWebSocket();
+      this.watchMatchesubscription.unsubscribe();
+      this.preferenceSubscription.unsubscribe();
+      this.dateSubscription.unsubscribe();
+    }
+
+    private matchDateInteger(matchObj: any): number {
+      return this.dateHandlingService.convertGBStringDate(matchObj.Details).getMonth()*30 + this.dateHandlingService.convertGBStringDate(matchObj.Details).getDate();
     }
 
     //Handles logic for MatTable. It adds and removes match items based off the state of the League Group Header.
@@ -150,8 +186,8 @@ export class WatchlistComponent implements OnInit, OnDestroy {
 
       var dateValidator: number[] = this.dateHandlingService.returnDateSelection(viewSelection);
 
-      var dateStart: number = dateValidator[1];
-      var dateEnd: number = dateValidator[0];
+      var dateStart: number = dateValidator[0];
+      var dateEnd: number = dateValidator[1];
       //console.log("DateStart: " + dateStart + " DateEnd " + dateEnd);
       //TODO BUG-FIX WHEN LOCALE_ID WORKS.
 
@@ -161,20 +197,21 @@ export class WatchlistComponent implements OnInit, OnDestroy {
         if(!this.masterList.includes(groupObj)){
           this.masterList.push(groupObj);
         }
-        //for an  expanded group that isActive == true. Iterate over each matchObj and compare date.
+
         //groupObj is expaned but is not active. =? Remove any matchObject from master list then set Group isActive to true.
         //SECOND
-        if(groupObj.expanded == true && !groupObj.isActive)
-        {
+
           var groupIndex = this.masterList.indexOf(groupObj);
           var matchPosition = groupIndex + 1;
 
+
           allData.forEach( matchObj => {
             var matchIndex = allData.indexOf(matchObj);
-            //Returns correct date format for en-GB
-            var matchDate: number = +((this.dateHandlingService.convertStringToDate(matchObj.Details)).getDate());
+
+            //Returns matchObject time into US.
+            var matchDate: number = +((this.dateHandlingService.convertGBStringDate(matchObj.Details)).getDate());
             //INJECTS  MATCHES  UNDERNEATH GROUP HEADER
-            if(matchObj.isWatched && matchObj.League == groupObj.League && matchDate <= dateEnd && matchDate > dateStart)
+            if(matchObj.isWatched && matchObj.League == groupObj.League && (matchDate == dateEnd || matchDate == dateStart))
             {
               if(matchPosition == groupIndex + 1){
                 matchObj.displayHeaderDate = true;
@@ -189,27 +226,18 @@ export class WatchlistComponent implements OnInit, OnDestroy {
               //splice (index, number, obj) == take match object, place it in at index value, 0 means don't replace it, just insert 'matchObj' at 'index'.
               this.masterList.splice(index, 0, matchObj);
               matchPosition ++;
+              groupObj.isActive = true;
             }
           });
-          //set to active to avoid excessive iterations. This will be set back to false, when expanded = false.
-          groupObj.isActive = true;
-        }
+
+          //If no matches within specified date were found, remove this group
+          if(!groupObj.isActive){
+            this.masterList.splice(groupIndex,1);
+          }
 
         //REMOVES MATCHES FROM UNDERNEATH GROUP HEADER
         // this cleans up the matches. When you click a groupLeague that is open. It changes to expanded = false. isActive = true.
-        if (groupObj.expanded == false && groupObj.isActive){
 
-          allData.forEach( matchObj => {
-            var matchDate: number = +((this.dateHandlingService.convertStringToDate(matchObj.Details)).getDate());
-
-            if(matchObj.League == groupObj.League && matchDate <= dateEnd && matchDate > dateStart ){
-              var position = this.masterList.indexOf(matchObj);
-              //splice == remove an object (defined by 1) at index 'position'
-              this.masterList.splice(position, 1);
-            }
-          });
-          groupObj.isActive = false;
-        }
       });
       this.masterList = this.addFixturesDate(this.masterList);
 
@@ -236,12 +264,12 @@ export class WatchlistComponent implements OnInit, OnDestroy {
       var groupWithStates : any[] = [];
       //Case if user just toggles dates without expanding any leagues.
       if(this.masterList.length == 0){
-        this.dataSource.data = this.getGroupListInit(this.allData, 0,this.groupByColumns);
+        this.dataSource.data = this.getGroupListInit(this.allData, 0);
         //case where group(s) are expaned.
       }  else  {
         //gets all groups with current state.
         this.masterList.forEach( obj => {
-          if(obj.level ==1 ){
+          if(obj.level == 1 ){
             console.log(obj);
             console.log("put me in a new list");
             groupWithStates.push(obj);
@@ -256,8 +284,8 @@ export class WatchlistComponent implements OnInit, OnDestroy {
     showUpdatedView(allMatchData: any[], groupWithStates: any[], dateOption: string): any[] {
       this.masterList = [];
       var dateValidator: number[] = this.dateHandlingService.returnDateSelection(dateOption);
-      var dateStart: number = dateValidator[1];
-      var dateEnd: number = dateValidator[0];
+      var dateStart: number = dateValidator[0];
+      var dateEnd: number = dateValidator[1];
 
       groupWithStates.forEach(groupHeader => {
         //populate table with groups first. Little redundant, refactor later.
@@ -273,9 +301,9 @@ export class WatchlistComponent implements OnInit, OnDestroy {
           allMatchData.forEach( matchObj => {
             var matchIndex = allMatchData.indexOf(matchObj);
             //Returns correct date format for en-GB
-            var matchDate: number = +(this.dateHandlingService.convertStringToDate(matchObj.Details)).getDate();
+            var matchDate: number = +(this.dateHandlingService.convertGBStringDate(matchObj.Details)).getDate();
             //INJECTS  MATCHES  UNDERNEATH GROUP HEADER
-            if(matchObj.League == groupHeader.League && matchDate <= dateEnd && matchDate > dateStart)
+            if(matchObj.League == groupHeader.League && (matchDate == dateEnd || matchDate == dateStart))
             {
               if(matchPosition == groupIndex + 1){
                 matchObj.displayHeaderDate = true;
@@ -299,58 +327,24 @@ export class WatchlistComponent implements OnInit, OnDestroy {
       return this.masterList;
     }
 
-    groupHeaderClick(row) {
 
-      // console.log(row);
-
-      //if row is not expanded, set dataSource to all just the groupLists
-      //upon detection of an open league, set the group property to false, and modify groupList to not include matches == row.league
-      if (row.expanded) {
-        row.expanded = false;
-        //TODO this functionality needs to remove all selections relative to row.league from this.dataSource.data.
-        this.dataSource.data = this.modifiedGroupList(
-          this.allData,
-          this._allGroup,
-          this.viewSelectedDate
-          );
-      } else {
-        //if row is  closed, set to true, and modify groupList.
-        //TODO set this group to expanded == true. Set the dataSource via addgroupsNew() function.
-        if(!row.ignoreAll)
-        {
-          row.expanded = true;
-          //need to find all items relative to this row.league objectand add it to this.dataSource.data.
-          this.dataSource.data = this.modifiedGroupList(
-            this.allData,
-            this._allGroup,
-            this.viewSelectedDate
-            );
-        }
-
-        if(row.ignoreAll){
-          this.showToast("enableToggle");
-        }
-      }
-      //console.log("Data Source: ");
-      //console.log(this.dataSource.data);
-    }
 
     openAllGroups(){
-      this._allGroup.forEach(element => {
+      this._leagueGroups.forEach(element => {
         element.expanded = true;
       });
-      console.log(this._allGroup);
+      console.log(this._leagueGroups);
     }
 
     //What populates View table initially. It returns an array of objects of Group class.
-    getGroupListInit(data: any[], level: number, groupByColumns: string[]): any[]{
+    getGroupListInit(matchList: any[], level: number): any[]{
       //create a group object for each league
       let groups = this.uniqueBy(
-        data.map(row => {
+        matchList.map(matchObj => {
           const result = new Group();
           result.level = level + 1;
           for (let i = 0; i <= level; i++) {
-            result[groupByColumns[i]] = row[groupByColumns[i]];
+            result['League'] = matchObj['League'];
             // result = League  row = Fixture Object. row['League']
             //console.log(row);
 
@@ -363,11 +357,11 @@ export class WatchlistComponent implements OnInit, OnDestroy {
         JSON.stringify
       );
 
-      const currentColumn = groupByColumns[level];
+      const currentColumn = 'League';
 
       groups.forEach(group => {
         //filter all data to matching brands, for each group. add total count to group property
-        const rowsInGroup = data.filter( row => group[currentColumn] === row[currentColumn] );
+        const rowsInGroup = matchList.filter( matchObj => group[currentColumn] === matchObj[currentColumn] );
           //  console.log(group);
           // console.log(rowsInGroup);
 
@@ -381,10 +375,10 @@ export class WatchlistComponent implements OnInit, OnDestroy {
         return this.compare(a.League, b.League, isAsc);
       });
 
-      //asign groups to _allGroup for calling later on click() expand functionality.
-      this._allGroup = groups;
+      //asign groups to _leagueGroups for calling later on click() expand functionality.
+      this._leagueGroups = groups;
       //returns an alphabetically organized group list
-      //console.log(this._allGroup);
+      //console.log(this._leagueGroups);
       return groups;
     }
 
@@ -460,10 +454,6 @@ export class WatchlistComponent implements OnInit, OnDestroy {
       return subGroups;
     }
 
-    displaySelectedTable(fixtureBtnClicked: number){
-      this.tableSelected = fixtureBtnClicked;
-    }
-
     isGroup(index, item): boolean {
         return item.level;
     }
@@ -508,20 +498,7 @@ export class WatchlistComponent implements OnInit, OnDestroy {
         })
     }
 
-    enableMatchButton(match: any)
-    {
-      for(var i=0; i < this.matches.length; i++){
-        if( match.Home === this.matches[i].Home && match.Away === this.matches[i].Away){
-          this.matchWatched[i] = 'false';
-          console.log("Testing index call " + this.matches.findIndex(match))
-        }
-      }
-    }
 
-    disableButton(index:any)
-    {
-      this.matchWatched[index]='true';
-    }
 
     updateMatch(match, streamMatch){
       if(streamMatch.SmarketsHomeOdds != 0 && streamMatch.SmarketsAwayOdds != 0)
@@ -546,14 +523,6 @@ export class WatchlistComponent implements OnInit, OnDestroy {
     }
 
     //expands and collapses container
-    collapseGroup(row:any)
-    {
-      if(row.expanded == true)
-      {
-        //close group
-        this.groupHeaderClick(row);
-      }
-    }
 
     watchStatus(status: boolean){
       status = !status;
@@ -580,45 +549,7 @@ export class WatchlistComponent implements OnInit, OnDestroy {
 
     // }
 
-    openPopUp($event: MatSlideToggleChange, groupItem: any) {
 
-
-      if($event.checked == false && !this.dialogDisabled){
-        //if Turning toggle to "OFF", popup dialog box to warn user.
-        let dialogRef =  this.dialog.open(StatusDisableDialogueComponent);
-
-        dialogRef.afterClosed()
-          .subscribe( result => {
-            //If user selects "Cancel" then they CONTINUE to watch the league's matches. result = false.
-            //If user selects "Okay" they DISABLE all notifications for that league. result = true.
-
-
-            if(result == 'false') {
-              $event.source.checked = true;
-              //TODO send this groupItem to another method. Notifications Services.
-            }
-            if(result == 'true') {
-              $event.source.checked = false;
-              groupItem.ignoreAll = true;
-            }
-
-          });
-      } else if ($event.checked == true && !this.dialogDisabled) {
-        //if toggle is being clicked "ON", turn on Notifications.
-        groupItem.ignoreAll = false;
-
-      } else if (this.dialogDisabled) {
-        //If user has selected to ignore popups, then set notifications based off $event.checked
-
-          $event.source.checked == true ? groupItem.ignoreAll = false : groupItem.ignoreAll = true;
-          console.log("GroupItem: " + groupItem.League + "- ignoreAll: " + groupItem.ignoreAll);
-
-      } else if ($event.checked == false && this.dialogDisabled){
-        groupItem.ignoreAll = true;
-      }
-
-        this.ignoreAllMatchesToggle(groupItem);
-    }
 
     showToast(typeOfToast: string){
       if(typeOfToast == "enableToggle"){

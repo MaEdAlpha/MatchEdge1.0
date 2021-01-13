@@ -73,8 +73,7 @@
                         <ng-container>
                           <button mat-icon-button
                             (click)="row.AStatus.notify=!row.AStatus.notify"
-                            class="{{column.field}} viewCell"
-                            >
+                            class="{{column.field}} viewCell">
                             <mat-icon>
                               add_alert
                             </mat-icon>
@@ -116,18 +115,16 @@
               <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
 
                 <ng-container class="groupHeaderCont" matColumnDef="groupHeader">
-                  <mat-cell colspan="10" *matCellDef="let group">
-                    <div class="leagueGroupContainer">
-                      <h2>{{group[groupByColumns[0]]}}</h2>
-                      <mat-slide-toggle
-                      class="leagueToggleSelect"
-                      [(ngModel)]="!group.ignoreAll"
-                      (change) = "openPopUp($event, group)"
-                      (click)="collapseGroup(group); $event.stopPropagation();"></mat-slide-toggle>
-                    </div>
-                  </mat-cell>
-                </ng-container>
-            <mat-row *matRowDef="let row; columns: ['groupHeader']; when: isGroup;" (click)="groupHeaderClick(row)"></mat-row>
+                  <ng-container *matCellDef="let group">
+
+                      <mat-cell colspan="10" >
+                        <div class="leagueGroupContainer">
+                          <h2>{{group[groupByColumns[0]]}}</h2></div>
+                      </mat-cell>
+                    </ng-container>
+                  </ng-container>
+
+            <mat-row *matRowDef="let row; columns: ['groupHeader']; when: isGroup;"></mat-row>
           </mat-table>
 </div>
 

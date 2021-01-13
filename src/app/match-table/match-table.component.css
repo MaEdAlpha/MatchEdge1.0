@@ -208,9 +208,22 @@ mat-header-cell.cdk-column-Home, mat-header-cell.cdk-column-Away, mat-header-cel
 
 .fixturesDateBtn {
   width: 100%;
-  padding: 0px;
+  height: 48px;
   white-space: normal;
   background: whitesmoke;
+}
+
+ .fixturesDate, .fixturesTime {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.fixturesDate {
+  height: 11px;
+}
+
+.fixturesTime {
+  padding-top: 6px;
 }
 
 #fixturesText {

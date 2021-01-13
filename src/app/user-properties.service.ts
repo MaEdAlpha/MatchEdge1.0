@@ -60,7 +60,7 @@ export class UserPropertiesService {
   //ViewTable User Preferences
   private viewTablePrefs: TablePreferences = {
     leagueSelection: ['Retrieved from UserPropertiesService'],
-    timeRange: 'Today',
+    timeRange: 'Today & Tomorrow',
     minOdds: '2.1',
     maxOdds: '4.5',
     evFilterValue: '0',

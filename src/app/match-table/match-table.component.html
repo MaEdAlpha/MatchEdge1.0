@@ -2,7 +2,7 @@
 <button mat-icon-button class="setting-btn" [disableRipple]="true" (click)="toggleSideNav()"><mat-icon>settings</mat-icon></button>
 <app-view-table-sidenav></app-view-table-sidenav>
 <div class="mn-display">
-  <app-top-layer-filters (hideTable)="displaySelectedTable($event)" (emitDateSelect)="updateFixtures($event)"></app-top-layer-filters>
+  <app-top-layer-filters (hideTable)="displaySelectedTable($event)" (emitDateSelect)="updateFixtures()"></app-top-layer-filters>
 
         <div class="fixturesTable" [style.visibility]="tableSelected == 1 ? 'visible' : 'collapse' " [style.height]="tableSelected == 1 ? '' : '0px' " [style.margin-bottom]="tableSelected == 1 ? '5px' : '0'" [style.display]="tableSelected == 1 ? 'inline' : '' ">
           <mat-table  mat-table [dataSource] ="dataSource">
@@ -30,7 +30,12 @@
                     </ng-container>
 
                     <ng-container *ngIf="column.field.startsWith('FixturesDate')">
-                      <button mat-raised-button class="fixturesDateBtn" (click)="addToWatchList(row);"><span id="fixturesText">{{ row[column.field] }} </span> </button>
+                      <button mat-raised-button class="fixturesDateBtn" (click)="addToWatchList(row);">
+                        <div class="fixturesText">
+                          <div class="fixturesDate"> {{row[column.field]}} </div>
+                          <div class="fixturesTime"> {{row['FixturesTime']}} </div>
+                        </div>
+                      </button>
                     </ng-container>
                   </ng-container>
 
@@ -131,7 +136,7 @@
                     </div>
                   </mat-cell>
                 </ng-container>
-            <mat-row *matRowDef="let row; columns: ['groupHeader']; when: isGroup;" (click)="groupHeaderClick(row)"></mat-row>
+            <mat-row *matRowDef="let row; columns: ['groupHeader']; when: isGroup;" (click)="displayMatches(row)"></mat-row>
           </mat-table>
         </div>
 
