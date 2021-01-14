@@ -263,12 +263,13 @@ import { DateHandlingService } from '../date-handling.service';
 
     //handles clicking of league group headers
     displayMatches(row) {
-      //toggle group().expanded state
-      row.expanded = !row.expanded;
+
+        row.expanded = !row.expanded;
       if (row.expanded) {
-        this.dataSource.data = this.addToListOnClick(this.matches, this.tableGroups, row);
-      } else {
-        row.ignoreAll ? this.showToast("enableToggle") : this.dataSource.data = this.removeFromListOnClick(this.viewTableList, this.tableGroups, row);
+        row.ignoreAll ? this.showToast("enableToggle") : this.dataSource.data = this.addToListOnClick(this.matches, this.tableGroups, row);
+      }
+      else {
+         this.dataSource.data = this.removeFromListOnClick(this.viewTableList, this.tableGroups, row);
       }
     }
 
@@ -868,7 +869,8 @@ import { DateHandlingService } from '../date-handling.service';
 
       if(row.expanded == true)
       {
-        this.displayMatches(row);
+        this.removeFromListOnClick(this.viewTableList, this.tableGroups, row);
+        console.log(row.ignoreAll);
       }
     }
 

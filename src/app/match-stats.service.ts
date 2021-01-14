@@ -76,7 +76,7 @@ getMatchStats(match){
           Liability: this.liability,
           QL: this.ql,
           ROI: this.roi,
-          Logo: "/assets/img/logo/" + match.Home.toLowerCase().split(' ').join('-'),
+          Logo: match.Home.toLowerCase().split(' ').join('-'),
           UrlB365: match.UrlB365,
           UrlSmarkets: match.UrlSmarkets,
           backIsUpdated: false,

@@ -60,8 +60,8 @@ server.listen(port);
 
 const wss = new WebSocket.Server({ server: server });
 
-//const connectionString = "mongodb+srv://Dan:x6RTQn5bD79QLjkJ@cluster0.uljb3.gcp.mongodb.net/MBEdge?retryWrites=true&w=majority";
-const connectionString = "mongodb+srv://Randy:M7bkD0xFr91G0DfA@clusterme.lfzcj.mongodb.net/MBEdge?retryWrites=true&w=majority";
+const connectionString = "mongodb+srv://Dan:x6RTQn5bD79QLjkJ@cluster0.uljb3.gcp.mongodb.net/MBEdge?retryWrites=true&w=majority";
+//const connectionString = "mongodb+srv://Randy:M7bkD0xFr91G0DfA@clusterme.lfzcj.mongodb.net/MBEdge?retryWrites=true&w=majority";
 const client = new MongoClient(connectionString,
   { useNewUrlParser: true,
     useUnifiedTopology: true,
