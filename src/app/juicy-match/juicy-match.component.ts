@@ -73,12 +73,13 @@ export class JuicyMatchComponent implements OnChanges, DoCheck, OnInit {
 
       console.log("Change Detection Activated: List of Selections Below");
 
-      console.log(this.allIndvMatches);
       // console.log(this.dataSource);
 
       if(this.allIndvMatches.length == 0){
         this.allIndvMatches = this.juicyMHService.getSingleMatches(this.allMatches);
+        console.log("Converting matches -> selections...");
 
+        console.log(this.allIndvMatches);
         if(this.allIndvMatches != undefined){
           this.dataSource = new FormArray(this.allIndvMatches.map( x=> this.createForm(x)));
         }

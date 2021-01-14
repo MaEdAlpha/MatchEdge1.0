@@ -22,18 +22,18 @@ export class DateHandlingService {
   //Processes dateSelection from Top Layer filter. Returns number array of start and end date.
   returnDateSelection(dateSelected: string): number[] {
     //Testing Values
-    // var today = 14
-    // var tomorrow = today + 3;
+    var today = 16
+    var tomorrow = today + 1;
 
     /* Real Values. DO NOT DELETE
     //returns day date as an integer
     */
    //Create a unique number to account for month changes. This way January 31st And February 1st will properly register as today + tomorrow
    //Concatenate string, then turn to integer. ES6 format.
-    var today = new Date(Date.now()).getMonth()*30 + new Date(Date.now()).getDate();
+    // var today = new Date(Date.now()).getMonth()*30 + new Date(Date.now()).getDate();
 
 
-    var tomorrow = today + 1;
+    // var tomorrow = today + 1;
 
 
     if(dateSelected == 'Today')

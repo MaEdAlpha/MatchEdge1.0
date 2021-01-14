@@ -2,7 +2,7 @@
 <button mat-icon-button class="setting-btn" [disableRipple]="true" (click)="toggleSideNav()"><mat-icon>settings</mat-icon></button>
 <app-view-table-sidenav></app-view-table-sidenav>
 <div class="mn-display">
-  <app-top-layer-filters (hideTable)="displaySelectedTable($event)" (emitDateSelect)="updateFixtures()"></app-top-layer-filters>
+  <app-top-layer-filters (hideTable)="displaySelectedTable($event)"></app-top-layer-filters>
 
         <div class="fixturesTable" [style.visibility]="tableSelected == 1 ? 'visible' : 'collapse' " [style.height]="tableSelected == 1 ? '' : '0px' " [style.margin-bottom]="tableSelected == 1 ? '5px' : '0'" [style.display]="tableSelected == 1 ? 'inline' : '' ">
           <mat-table  mat-table [dataSource] ="dataSource">
@@ -147,7 +147,7 @@
 
         <!-- Display Juicy Table -->
         <div [style.visibility]="tableSelected == 3 ? 'visible' : 'collapse' "[style.height]="tableSelected == 3 ? ' ' : '0' " [style.margin-bottom]="tableSelected == 3 ? '5px' : '0'" [style.display]="tableSelected == 3 ? 'inline' : '' ">
-          <app-juicy-match [allMatches] = "matches" [selectionToIgnore]="ignoreList"></app-juicy-match>
+          <app-juicy-match [allMatches] ="matches" [selectionToIgnore]="ignoreList"></app-juicy-match>
         </div>
         <!-- Display Active Bets -->
         <div [style.visibility]="tableSelected == 4 ? 'visible' : 'collapse' "[style.height]="tableSelected == 4 ? ' ' : '0' " [style.margin-bottom]="tableSelected == 4 ? '5px' : '0'" [style.display]="tableSelected == 4 ? 'inline' : '' ">

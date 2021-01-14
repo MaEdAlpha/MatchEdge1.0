@@ -68,6 +68,7 @@ import { DateHandlingService } from '../date-handling.service';
     groupByColumns: string[]=["League"];
 
     _allGroup: any[];
+    tableGroups: any[];
     masterGroup: any[];
 
     columns: any[] = [
@@ -85,6 +86,7 @@ import { DateHandlingService } from '../date-handling.service';
     ];
 
     masterList: any[] = [];
+    viewTableList: any[] = [];
 
     expandedCar: any[] = [];
     expandedSubCar: any[] = [];
@@ -115,25 +117,25 @@ import { DateHandlingService } from '../date-handling.service';
       this.dialogDisabled = this.userPref.getDialogDisabled();
       this.setStartEndDays(this.viewSelectedDate);
       this.ignoreList = [];
-
+      this.tableGroups = [];
       //Subscribe to changes you want upudates on /Matches/Dates/StreamWatch/UserPreferences
 
       //Changes to match data
       this.matchesSub = this.matchesService.getMatchUpdateListener() //subscribe to matches for any changes.
       .subscribe(( matchData: any) => {
         //Assign each matchData subscribed to the list of objects you inject into html
+        this.sanitizeList(matchData);
         this.matches = matchData;
 
         console.log("--Matches From DB--");
         console.log(this.matches);
 
         //Takeout bad data
-        this.sanitizeList(this.matches);
         // Set your groups up
         this.buildGroupHeaders(this.matches, 0);
         this.cleanGroups(this.masterGroup);
-        //set view-table data
-        this.dataSource.data = this.masterGroup;
+        //assign only league groups that match selected dates
+        this.dataSource.data = this.setGroupsToDate(this.masterGroup);
       });
 
       //UserPreferences
@@ -153,7 +155,8 @@ import { DateHandlingService } from '../date-handling.service';
       this.dateSubscription = this.dateHandlingService.getSelectedDate().subscribe(dateSelection => {
         this.viewSelectedDate = dateSelection;
         this.setStartEndDays(dateSelection);
-        console.log("Start/End UPDATED!!!!");
+        this.tableGroups=[];
+        this.cycleFixtures();
         // this.dataSource.data = this.getGroupListInit(this.matches, 0,this.groupByColumns);
       })
 
@@ -178,8 +181,7 @@ import { DateHandlingService } from '../date-handling.service';
         return seen.hasOwnProperty(k) ? false : (seen[k] = true);
       });
     }
-
-    //sets a referenceGroupObject
+    //sets a referenceGroupObject. ONLY USE ONCE, otherwise you lose state of each GroupObject
     buildGroupHeaders(matches: any[], level: number){
       //create a group object for each league
 
@@ -202,9 +204,10 @@ import { DateHandlingService } from '../date-handling.service';
       var todaysDay: number = this.dateHandlingService.returnDateSelection('Today & Tomorrow')[0];
       var tomorrowsDay: number = this.dateHandlingService.returnDateSelection('Today & Tomorrow')[1];
 
+      console.log("RAW GROUPS + Dates for Filtering Groups");
       console.log(groups);
-      console.log(todaysDay);
-      console.log(tomorrowsDay);
+      console.log("Today: " + todaysDay);
+      console.log("Tomorrow: " + tomorrowsDay);
 
       groups.forEach(group => {
         //Assiging League value to leagueGroupObject
@@ -233,45 +236,20 @@ import { DateHandlingService } from '../date-handling.service';
         return this.compare(a.League, b.League, isAsc);
       });
 
-            //remove null groups
-            groups.forEach( (group) => {
-              console.log(group.League);
-              var position = 0;
-              if(group.League == null)
-              {
-                console.log(group.League + " is null");
-
-                position =  groups.indexOf(group);
-                groups.splice(position,1);
-              }
-              else if(group.isToday == false && group.isTomorrow == false){
-                console.log(group.League + " empty");
-                position = groups.indexOf(group);
-                groups.splice(position,1);
-              }
-            });
-
       this.masterGroup = groups
     }
 
     cleanGroups(groups){
-      //remove null groups
-      groups.forEach( (group) => {
-        console.log(group.League);
-        var position = 0;
-        if(group.League == null)
-        {
-          console.log(group.League + " is null");
+      //Filter Groups
+      function nonRelevantGroups( group ) {
+        if( (group.isToday || group.isTomorrow) && group.League != null )
+        { return true; }
+      }
+      groups = groups.filter(nonRelevantGroups);
 
-          position =  groups.indexOf(group);
-          groups.splice(position,1);
-        }
-        else if(group.isToday == false && group.isTomorrow == false){
-          console.log(group.League + " empty");
-          position = groups.indexOf(group);
-          groups.splice(position,1);
-        }
-      });
+      console.log("Updated master Group --");
+      console.log(groups);
+      this.masterGroup = groups
     }
 
     //Study this snippet more. Returns only one unique GroupObject.
@@ -283,29 +261,132 @@ import { DateHandlingService } from '../date-handling.service';
       });
     }
 
+    //handles clicking of league group headers
     displayMatches(row) {
-      console.log(row);
-        //if row is not expanded, set dataSource to all just the groupLists
-      //upon detection of an open league, set the group property to false, and modify groupList to not include matches == row.league
+      //toggle group().expanded state
+      row.expanded = !row.expanded;
       if (row.expanded) {
-        row.expanded = false;
-        //TODO this functionality needs to remove all selections relative to row.league from this.dataSource.data.
-        this.dataSource.data = this.modifiedGroupList(this.matches, this._allGroup);
+        this.dataSource.data = this.addToListOnClick(this.matches, this.tableGroups, row);
       } else {
-        //if row is  closed, set to true, and modify groupList.
-        //TODO set this group to expanded == true. Set the dataSource via addgroupsNew() function.
-        if(!row.ignoreAll)
-        {
-          row.expanded = true;
-          //need to find all items relative to this row.league objectand add it to this.dataSource.data.
-          this.dataSource.data = this.modifiedGroupList(this.matches,this._allGroup);
-        }
-
-        if(row.ignoreAll){
-          this.showToast("enableToggle");
-        }
+        row.ignoreAll ? this.showToast("enableToggle") : this.dataSource.data = this.removeFromListOnClick(this.viewTableList, this.tableGroups, row);
       }
+    }
 
+    //sets tableGroups based off of date selected.
+    setGroupsToDate(masterGroup): any[]{
+      this.viewTableList=[];
+      this.tableGroups=[];
+      masterGroup.forEach( group => {
+        // console.log(group.League + " " + group.isToday + " " + group.isTomorrow);
+        // console.log(this.viewSelectedDate);
+        if(this.viewSelectedDate == 'Today' && group.isToday){
+            this.tableGroups.push(group);
+        }
+        else if (this.viewSelectedDate == 'Tomorrow' && group.isTomorrow) {
+            this.tableGroups.push(group);
+        }
+        else if (this.viewSelectedDate == 'Today & Tomorrow' && (group.isTomorrow || group.isToday) ) {
+            this.tableGroups.push(group);
+        }
+      });
+      return this.tableGroups;
+    }
+    //when date selector is changed, update tableGroups
+    cycleFixtures() {
+
+      if(this.nothingExpanded(this.masterGroup)){
+        this.dataSource.data = this.setGroupsToDate(this.masterGroup);
+      } else {
+        this.dataSource.data = this.reReReload(this.matches, this.setGroupsToDate(this.masterGroup));
+      }
+      //after cycling, you should add matches to the list that already had open headers.
+    }
+
+    reReReload(allMatches, tableGroups): any[]{
+      var viewTableList: any[] = [];
+      tableGroups.forEach( group => {
+        if(group.expanded){
+          viewTableList = this.addToListOnClick(allMatches, tableGroups, group);
+        }
+      });
+      return viewTableList;
+    }
+
+    //checks to see if any league headers were opened.
+    nothingExpanded(masterGroup: any[]): boolean {
+      var groupListSelected: any[] = this.setGroupsToDate(masterGroup);
+      const leaguesExpanded = groupListSelected.filter(group => group.expanded);
+      var result = leaguesExpanded.length == 0 ? true : false;
+      console.log(result);
+
+      return result;
+    }
+    //looks at the state of a groupHeader and adds matches based off date and groupExpanded property
+    addToListOnClick(allMatches, tableGroups, rowInfo): any[] {
+      console.log("IN CLICK");
+
+      //assign league group to viewTable List.
+      tableGroups.forEach( leagueGroup => {
+        if(!this.viewTableList.includes(leagueGroup)){
+          this.viewTableList.push(leagueGroup);
+        }
+      });
+      //find the matches relative to the leagueGroup clicked
+
+        var groupIndex = this.viewTableList.indexOf(rowInfo);
+        // console.log("RowInfo: " + rowInfo.League + " " + index);
+        //Position in viewTableList
+        var matchPosition = groupIndex + 1;
+        //allmatches grabbed from DB. every.single.one.not.a.cunt's.hair.short.of.a.match.
+        allMatches.forEach( match => {
+          //matchDate as integer.
+          var matchDate: number = this.matchDateInteger(match);
+          //position in masterList.
+          var matchIndex: number = allMatches.indexOf(match);
+
+          if(match.League != null && match.League.includes(rowInfo.League)){
+
+            if(this.viewSelectedDate == 'Today & Tomorrow' && (matchDate == this.dateEnd || matchDate == this.dateStart) ) {
+
+              this.setDisplayHeader(match, matchPosition, matchIndex, groupIndex, allMatches);
+              this.viewTableList.splice(matchPosition, 0, match);
+              matchPosition++;
+            }
+
+            if(this.viewSelectedDate == "Today" && matchDate == this.dateStart) {
+              this.setDisplayHeader(match, matchPosition, matchIndex, groupIndex, allMatches);
+              this.viewTableList.splice(matchPosition, 0 , match);
+              matchPosition++;
+            }
+
+            if(this.viewSelectedDate == "Tomorrow" && matchDate == this.dateEnd){
+              this.setDisplayHeader(match, matchPosition, matchIndex, groupIndex, allMatches);
+              this.viewTableList.splice(matchPosition, 0, match);
+              matchPosition++;
+            }
+          }
+        });
+
+        this.viewTableList = this.addFixturesDate(this.viewTableList);
+
+      return this.viewTableList
+    }
+
+    setDisplayHeader(matchObj,matchPosition, matchIndex, groupIndex, allMatches){
+      (matchPosition == (groupIndex +1) || (matchObj.Details.substring(0,2) != allMatches[matchIndex-1].Details.substring(0,2))) ? matchObj.displayHeaderDate = true : matchObj.displayHeaderDate = false;
+    }
+
+    removeFromListOnClick(viewTableList, tableGroups, rowInfo): any[] {
+
+        function removedMatches(item) {
+          if(tableGroups.includes(item) || item.League != rowInfo.League){ return true; }
+        }
+
+        const result = viewTableList.filter(removedMatches);
+
+        this.viewTableList = result;
+
+      return this.viewTableList
     }
     groupHeaderClick(row) {
 
@@ -365,23 +446,23 @@ import { DateHandlingService } from '../date-handling.service';
     groups.forEach(group => {
       //filter all data to matching brands, for each group. add total count to group property
       const rowsInGroup = matchList.filter( matchObj => group[currentColumn] === matchObj[currentColumn] );
-         console.log(group);
+         //console.log(group);
         // console.log(rowsInGroup);
         var matchDate: number;
         var count = 0;
       rowsInGroup.forEach( (match) => {
-        if(count == 0) {
-          matchDate = match.Details.substring(0,2);
-          group.datesActive.push(+match.Details.substring(0,2));
+        // if(count == 0) {
+        //   matchDate = match.Details.substring(0,2);
+        //   group.datesActive.push(+match.Details.substring(0,2));
 
-          count++;
-        } else if ( +match.Details.substring(0,2) != +matchDate ){
-          matchDate = match.Details.substring(0,2);
-          group.datesActive.push(+match.Details.substring(0,2));
-        }
+        //   count++;
+        // } else if ( +match.Details.substring(0,2) != +matchDate ){
+        //   matchDate = match.Details.substring(0,2);
+        //   group.datesActive.push(+match.Details.substring(0,2));
+        // }
       })
       group.totalCounts = rowsInGroup.length;
-      console.log(rowsInGroup);
+     // console.log(rowsInGroup);
       //this.expandedSubCar = [];
     });
 
@@ -408,23 +489,23 @@ import { DateHandlingService } from '../date-handling.service';
     console.log("Start/End Values: for " + this.viewSelectedDate + " " + this.dateStart + " " + this.dateEnd);
 
     groups.forEach(group => {
-      if( this.viewSelectedDate == 'Today & Tomorrow' && group.datesActive.includes(this.dateStart || this.dateEnd))
-      {
-        //Do Nothing. Matches exist in this group
-          console.log(group.League + " has a match");
-      } else if (this.viewSelectedDate == 'Today' && group.datesActive.includes(this.dateStart) ) {
-        //Do nothing
-        console.log(group.League + " has a match");
-      } else if (this.viewSelectedDate == 'Tomorrow' && group.datesActive.includes(this.dateStart)){
-        //Do nothing
-        console.log(group.League + " has a match");
-      } else if (!group.datesActive.includes(this.dateStart || this.dateEnd)) {
-        console.log(group.League + " has no active matches!!!!!!!!!!!");
-        groups.splice(groups.indexOf(group), 1);
-      } else {
-        console.log("removed: " + group.League);
-        groups.splice(groups.indexOf(group), 1);
-      }
+      // if( this.viewSelectedDate == 'Today & Tomorrow' && group.datesActive.includes(this.dateStart || this.dateEnd))
+      // {
+      //   //Do Nothing. Matches exist in this group
+      //     console.log(group.League + " has a match");
+      // } else if (this.viewSelectedDate == 'Today' && group.datesActive.includes(this.dateStart) ) {
+      //   //Do nothing
+      //   console.log(group.League + " has a match");
+      // } else if (this.viewSelectedDate == 'Tomorrow' && group.datesActive.includes(this.dateStart)){
+      //   //Do nothing
+      //   console.log(group.League + " has a match");
+      // } else if (!group.datesActive.includes(this.dateStart || this.dateEnd)) {
+      //   console.log(group.League + " has no active matches!!!!!!!!!!!");
+      //   groups.splice(groups.indexOf(group), 1);
+      // } else {
+      //   console.log("removed: " + group.League);
+      //   groups.splice(groups.indexOf(group), 1);
+      // }
     });
     this._allGroup = groups;
     //returns an alphabetically organized group list
@@ -440,16 +521,16 @@ import { DateHandlingService } from '../date-handling.service';
     private sanitizeList(matches: any){
       matches.forEach(match => {
         if(match.BAway == 999 || match.League == null ){
-          this.removeMatch(match, this.matches);
+          this.removeMatch(match, matches);
         }
       });
     }
 
-    private removeMatch(match: any, mainList: any[]) {
-      var index: number = mainList.indexOf(match);
-      console.log("REMOVED at index: " + index);
-      console.log(match);
-      mainList.splice(index,1);
+    private removeMatch(match: any, matches: any[]) {
+      var index: number = matches.indexOf(match);
+      console.log("Null League/Postponed match removed at index: " + index);
+      // console.log(match);
+       matches.splice(index,1);
     }
 
     private setStartEndDays(dateSelection: any) {
@@ -553,6 +634,8 @@ import { DateHandlingService } from '../date-handling.service';
       });
       return matchList;
     }
+
+
     //Takes selected date and updates in match-TableComponent.
     updateFixtures() {
       console.log(this.masterList);
@@ -782,10 +865,10 @@ import { DateHandlingService } from '../date-handling.service';
     //expands and collapses container
     collapseGroup(row:any)
     {
+
       if(row.expanded == true)
       {
-        //close group
-        this.groupHeaderClick(row);
+        this.displayMatches(row);
       }
     }
 
