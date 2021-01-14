@@ -101,6 +101,7 @@ export class JuicyMatchComponent implements OnChanges, DoCheck, OnInit {
     this.prefObj = this.userPrefService.getTablePrefs();
     this.isEvSelected = Boolean(this.prefObj.isEvSelected);
     this.allIndvMatches = [];
+
     this.individualMatchesSub = this.juicyMHService.getJuicyUpdateListener().subscribe( (singleMatchData) => {
       this.allIndvMatches = singleMatchData;
     });
