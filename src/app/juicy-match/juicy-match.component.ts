@@ -28,7 +28,7 @@ import { DateHandlingService } from '../date-handling.service';
   ],
 })
 
-export class JuicyMatchComponent implements OnChanges, DoCheck, OnInit {
+export class JuicyMatchComponent implements OnChanges, OnInit {
   //Table properties
   @Input() allMatches: any;
   juicyMatches: JuicyMatch[];
@@ -158,8 +158,7 @@ export class JuicyMatchComponent implements OnChanges, DoCheck, OnInit {
     this.matchStatService.clear();
     this.dateSubscription.unsubscribe();
   }
-  ngDoCheck(){
-  }
+
   //   //TODO possibly hold onto old bet365 updates here? create a new field that writes old data.
   //   //TODO Also, timestamp showing last update.
 

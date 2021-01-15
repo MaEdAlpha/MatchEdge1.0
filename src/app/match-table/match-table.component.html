@@ -132,7 +132,7 @@
                       class="leagueToggleSelect"
                       [(ngModel)]="!group.ignoreAll"
                       (change) = "openPopUp($event, group)"
-                      (click)="collapseGroup(group);"></mat-slide-toggle>
+                      (click)="collapseGroup(group); $event.stopPropagation()"></mat-slide-toggle>
                     </div>
                   </mat-cell>
                 </ng-container>

@@ -157,7 +157,6 @@ import { DateHandlingService } from '../date-handling.service';
         this.setStartEndDays(dateSelection);
         this.tableGroups=[];
         this.cycleFixtures();
-        // this.dataSource.data = this.getGroupListInit(this.matches, 0,this.groupByColumns);
       })
 
       //Open WebSocket
@@ -389,131 +388,131 @@ import { DateHandlingService } from '../date-handling.service';
 
       return this.viewTableList
     }
-    groupHeaderClick(row) {
+  //   groupHeaderClick(row) {
 
-      // console.log(row);
+  //     // console.log(row);
 
-      //if row is not expanded, set dataSource to all just the groupLists
-      //upon detection of an open league, set the group property to false, and modify groupList to not include matches == row.league
-      if (row.expanded) {
-        row.expanded = false;
-        //TODO this functionality needs to remove all selections relative to row.league from this.dataSource.data.
-        this.dataSource.data = this.modifiedGroupList(
-          this.matches,
-          this._allGroup
-          );
-      } else {
-        //if row is  closed, set to true, and modify groupList.
-        //TODO set this group to expanded == true. Set the dataSource via addgroupsNew() function.
-        if(!row.ignoreAll)
-        {
-          row.expanded = true;
-          //need to find all items relative to this row.league objectand add it to this.dataSource.data.
-          this.dataSource.data = this.modifiedGroupList(
-            this.matches,
-            this._allGroup
-            );
-        }
+  //     //if row is not expanded, set dataSource to all just the groupLists
+  //     //upon detection of an open league, set the group property to false, and modify groupList to not include matches == row.league
+  //     if (row.expanded) {
+  //       row.expanded = false;
+  //       //TODO this functionality needs to remove all selections relative to row.league from this.dataSource.data.
+  //       this.dataSource.data = this.modifiedGroupList(
+  //         this.matches,
+  //         this._allGroup
+  //         );
+  //     } else {
+  //       //if row is  closed, set to true, and modify groupList.
+  //       //TODO set this group to expanded == true. Set the dataSource via addgroupsNew() function.
+  //       if(!row.ignoreAll)
+  //       {
+  //         row.expanded = true;
+  //         //need to find all items relative to this row.league objectand add it to this.dataSource.data.
+  //         this.dataSource.data = this.modifiedGroupList(
+  //           this.matches,
+  //           this._allGroup
+  //           );
+  //       }
 
-        if(row.ignoreAll){
-          this.showToast("enableToggle");
-        }
-      }
-      //console.log("Data Source: ");
+  //       if(row.ignoreAll){
+  //         this.showToast("enableToggle");
+  //       }
+  //     }
+  //     //console.log("Data Source: ");
 
-      //console.log(this.dataSource.data);
-    }
+  //     //console.log(this.dataSource.data);
+  //   }
 
 
-  //What populates View table initially. It returns an array of objects of Group class.
-  getGroupListInit(matchList: any[], level: number, groupByColumns: string[]): any[]{
-    //create a group object for each league
-    let groups = this.uniqueBy(
-      matchList.map( matchObj => {
-          const result = new Group();
-          result.level = level + 1;
-          for (let i = 0; i <= level; i++) {
-              result[groupByColumns[i]] = matchObj[groupByColumns[i]];
-          }
-          //console.log(result);
-          return result;
-      }),
-      //Necessary? I understand how it works, but why do it like this?
-      JSON.stringify
-    );
+  // //What populates View table initially. It returns an array of objects of Group class.
+  // getGroupListInit(matchList: any[], level: number, groupByColumns: string[]): any[]{
+  //   //create a group object for each league
+  //   let groups = this.uniqueBy(
+  //     matchList.map( matchObj => {
+  //         const result = new Group();
+  //         result.level = level + 1;
+  //         for (let i = 0; i <= level; i++) {
+  //             result[groupByColumns[i]] = matchObj[groupByColumns[i]];
+  //         }
+  //         //console.log(result);
+  //         return result;
+  //     }),
+  //     //Necessary? I understand how it works, but why do it like this?
+  //     JSON.stringify
+  //   );
 
-    const currentColumn = groupByColumns[level];
+  //   const currentColumn = groupByColumns[level];
 
-    groups.forEach(group => {
-      //filter all data to matching brands, for each group. add total count to group property
-      const rowsInGroup = matchList.filter( matchObj => group[currentColumn] === matchObj[currentColumn] );
-         //console.log(group);
-        // console.log(rowsInGroup);
-        var matchDate: number;
-        var count = 0;
-      rowsInGroup.forEach( (match) => {
-        // if(count == 0) {
-        //   matchDate = match.Details.substring(0,2);
-        //   group.datesActive.push(+match.Details.substring(0,2));
+  //   groups.forEach(group => {
+  //     //filter all data to matching brands, for each group. add total count to group property
+  //     const rowsInGroup = matchList.filter( matchObj => group[currentColumn] === matchObj[currentColumn] );
+  //        //console.log(group);
+  //       // console.log(rowsInGroup);
+  //       var matchDate: number;
+  //       var count = 0;
+  //     rowsInGroup.forEach( (match) => {
+  //       // if(count == 0) {
+  //       //   matchDate = match.Details.substring(0,2);
+  //       //   group.datesActive.push(+match.Details.substring(0,2));
 
-        //   count++;
-        // } else if ( +match.Details.substring(0,2) != +matchDate ){
-        //   matchDate = match.Details.substring(0,2);
-        //   group.datesActive.push(+match.Details.substring(0,2));
-        // }
-      })
-      group.totalCounts = rowsInGroup.length;
-     // console.log(rowsInGroup);
-      //this.expandedSubCar = [];
-    });
+  //       //   count++;
+  //       // } else if ( +match.Details.substring(0,2) != +matchDate ){
+  //       //   matchDate = match.Details.substring(0,2);
+  //       //   group.datesActive.push(+match.Details.substring(0,2));
+  //       // }
+  //     })
+  //     group.totalCounts = rowsInGroup.length;
+  //    // console.log(rowsInGroup);
+  //     //this.expandedSubCar = [];
+  //   });
 
-    // sort alphabetically
-    groups = groups.sort((a: any, b: any) => {
-      const isAsc = "asc";
-      return this.compare(a.League, b.League, isAsc);
-    });
+  //   // sort alphabetically
+  //   groups = groups.sort((a: any, b: any) => {
+  //     const isAsc = "asc";
+  //     return this.compare(a.League, b.League, isAsc);
+  //   });
 
-    var index: number;
-    //remove any non-fully scraped data ('league missing')
-    groups.forEach(group => {
-      if(group.League == null)
-      {
-        index =  groups.indexOf(group);
-        groups.splice(index,1);
-      }
-      else if(!group.isToday && !group.isTomorrow){
-        index = groups.indexOf(group);
-        groups.splice(index,1);
-      }
-    });      //asign groups to _allGroup for calling later on click() expand functionality.
+  //   var index: number;
+  //   //remove any non-fully scraped data ('league missing')
+  //   groups.forEach(group => {
+  //     if(group.League == null)
+  //     {
+  //       index =  groups.indexOf(group);
+  //       groups.splice(index,1);
+  //     }
+  //     else if(!group.isToday && !group.isTomorrow){
+  //       index = groups.indexOf(group);
+  //       groups.splice(index,1);
+  //     }
+  //   });      //asign groups to _allGroup for calling later on click() expand functionality.
 
-    console.log("Start/End Values: for " + this.viewSelectedDate + " " + this.dateStart + " " + this.dateEnd);
+  //   console.log("Start/End Values: for " + this.viewSelectedDate + " " + this.dateStart + " " + this.dateEnd);
 
-    groups.forEach(group => {
-      // if( this.viewSelectedDate == 'Today & Tomorrow' && group.datesActive.includes(this.dateStart || this.dateEnd))
-      // {
-      //   //Do Nothing. Matches exist in this group
-      //     console.log(group.League + " has a match");
-      // } else if (this.viewSelectedDate == 'Today' && group.datesActive.includes(this.dateStart) ) {
-      //   //Do nothing
-      //   console.log(group.League + " has a match");
-      // } else if (this.viewSelectedDate == 'Tomorrow' && group.datesActive.includes(this.dateStart)){
-      //   //Do nothing
-      //   console.log(group.League + " has a match");
-      // } else if (!group.datesActive.includes(this.dateStart || this.dateEnd)) {
-      //   console.log(group.League + " has no active matches!!!!!!!!!!!");
-      //   groups.splice(groups.indexOf(group), 1);
-      // } else {
-      //   console.log("removed: " + group.League);
-      //   groups.splice(groups.indexOf(group), 1);
-      // }
-    });
-    this._allGroup = groups;
-    //returns an alphabetically organized group list
-    console.log(this._allGroup);
+  //   groups.forEach(group => {
+  //     // if( this.viewSelectedDate == 'Today & Tomorrow' && group.datesActive.includes(this.dateStart || this.dateEnd))
+  //     // {
+  //     //   //Do Nothing. Matches exist in this group
+  //     //     console.log(group.League + " has a match");
+  //     // } else if (this.viewSelectedDate == 'Today' && group.datesActive.includes(this.dateStart) ) {
+  //     //   //Do nothing
+  //     //   console.log(group.League + " has a match");
+  //     // } else if (this.viewSelectedDate == 'Tomorrow' && group.datesActive.includes(this.dateStart)){
+  //     //   //Do nothing
+  //     //   console.log(group.League + " has a match");
+  //     // } else if (!group.datesActive.includes(this.dateStart || this.dateEnd)) {
+  //     //   console.log(group.League + " has no active matches!!!!!!!!!!!");
+  //     //   groups.splice(groups.indexOf(group), 1);
+  //     // } else {
+  //     //   console.log("removed: " + group.League);
+  //     //   groups.splice(groups.indexOf(group), 1);
+  //     // }
+  //   });
+  //   this._allGroup = groups;
+  //   //returns an alphabetically organized group list
+  //   console.log(this._allGroup);
 
-    return groups;
-  }
+  //   return groups;
+  // }
 
   private compare(a, b, isAsc) {
     return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
@@ -638,28 +637,28 @@ import { DateHandlingService } from '../date-handling.service';
 
 
     //Takes selected date and updates in match-TableComponent.
-    updateFixtures() {
-      console.log(this.masterList);
-      var groupWithStates : any[] = [];
-      // Case if user just toggles dates without expanding any leagues.
-      if(this.masterList.length == 0){
-        this.dataSource.data = this.getGroupListInit(this.matches, 0,this.groupByColumns);
-        //case where group(s) are expaned.
-      }  else  {
-        // gets all groups with current state.
-        this.masterList.forEach( obj => {
-          if(obj.level == 1){
-           if( obj.datesActive.includes(this.dateEnd || this.dateStart) ){
-             console.log(obj);
-             console.log("put me in a new list");
-             groupWithStates.push(obj);
-            }
-          }
-        });
-        //Clears all matches in lists, leaves only Group WITH their active states.
-        this.dataSource.data = this.showUpdatedView(this.matches, groupWithStates);
-      }
-    }
+    // updateFixtures() {
+    //   console.log(this.masterList);
+    //   var groupWithStates : any[] = [];
+    //   // Case if user just toggles dates without expanding any leagues.
+    //   if(this.masterList.length == 0){
+    //     this.dataSource.data = this.getGroupListInit(this.matches, 0,this.groupByColumns);
+    //     //case where group(s) are expaned.
+    //   }  else  {
+    //     // gets all groups with current state.
+    //     this.masterList.forEach( obj => {
+    //       if(obj.level == 1){
+    //        if( obj.datesActive.includes(this.dateEnd || this.dateStart) ){
+    //          console.log(obj);
+    //          console.log("put me in a new list");
+    //          groupWithStates.push(obj);
+    //         }
+    //       }
+    //     });
+    //     //Clears all matches in lists, leaves only Group WITH their active states.
+    //     this.dataSource.data = this.showUpdatedView(this.matches, groupWithStates);
+    //   }
+    // }
 
     //Returns an updated list of matches Using Date selection
     showUpdatedView(allMatchData: any[], groupWithStates: any[]): any[] {
@@ -869,8 +868,8 @@ import { DateHandlingService } from '../date-handling.service';
 
       if(row.expanded == true)
       {
-        this.removeFromListOnClick(this.viewTableList, this.tableGroups, row);
-        console.log(row.ignoreAll);
+        this.dataSource.data = this.removeFromListOnClick(this.viewTableList, this.tableGroups, row);
+        row.expanded == false;
       }
     }
 
