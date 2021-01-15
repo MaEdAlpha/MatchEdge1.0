@@ -80,10 +80,8 @@ export class WatchlistComponent implements OnInit, OnDestroy {
 
     //userPreference dialog popup
     //TODO add to UserPreference
-    private preferenceSubscription: Subscription;
     private watchMatchesubscription: Subscription;
     private dateSubscription: Subscription;
-    private matchesSub: Subscription;
     dateSelected: string;
 
     watchStateChange:any;
@@ -116,7 +114,6 @@ export class WatchlistComponent implements OnInit, OnDestroy {
         var indexOfmatch = this.matches.findIndex( match => match.Home == streamObj.HomeTeamName && match.Away == streamObj.AwayTeamName);
         indexOfmatch != undefined && this.matches[indexOfmatch] ? this.updateMatch(this.matches[indexOfmatch], streamObj) : console.log("not found");
       });
-
 
       this.dateSelected = this.userPref.getSelectedDate();
 
@@ -164,16 +161,11 @@ export class WatchlistComponent implements OnInit, OnDestroy {
       if( (matchDate == dateStart || matchDate == dateEnd) ){
         this.displayList.push(match);
       }
-
-
-
     });
   }
 
     ngOnDestroy(){
-      this.matchesSub.unsubscribe();
       this.watchMatchesubscription.unsubscribe();
-      this.preferenceSubscription.unsubscribe();
       this.dateSubscription.unsubscribe();
     }
 
