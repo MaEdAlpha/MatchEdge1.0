@@ -120,8 +120,8 @@ import { DateHandlingService } from '../date-handling.service';
       this.matchesSub = this.matchesService.getMatchUpdateListener() //subscribe to matches for any changes.
       .subscribe(( matchData: any) => {
         //Takeout bad data
-        this.sanitizeList(matchData);
-        this.matches = matchData;
+
+        this.matches = this.sanitizeList(matchData);
         // Set up and clean groups
         this.buildGroupHeaders(this.matches, 0);
         this.cleanGroups(this.masterGroup);
@@ -349,23 +349,19 @@ import { DateHandlingService } from '../date-handling.service';
       return this.viewTableList
     }
 
-  private compare(a, b, isAsc) {
-    return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
-  }
-
-    private sanitizeList(matches: any){
-      matches.forEach(match => {
-        if(match.BAway == 999 || match.League == null ){
-          this.removeMatch(match, matches);
-        }
-      });
+    private compare(a, b, isAsc) {
+      return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
     }
 
-    private removeMatch(match: any, matches: any[]) {
-      var index: number = matches.indexOf(match);
-      console.log("Null League/Postponed match removed at index: " + index);
-      // console.log(match);
-       matches.splice(index,1);
+    //filter incomplete match records. Cold cause future bug. if initial scrape is postponed. Refresh on client side should solve this...maybe filter this further down the road.
+    private sanitizeList(matches: any): any[]{
+      function nullMatches(match){
+        if(match.League != null && match.BAway != 999){
+          return true;
+        }
+      }
+      const cleanList = matches.filter(nullMatches);
+      return cleanList;
     }
 
     private setStartEndDays(dateSelection: any) {

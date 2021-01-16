@@ -63,9 +63,6 @@ export class TopLayerFiltersComponent implements OnInit, OnChanges {
     this.viewThisDate = value;
     // Update UserPref Range value
     // this.userPref.updateRange(value);
-    console.log(this.viewThisDate);
-    this.emitDateSelect.emit(value);
-
     this.dateHandlingService.sendSelectedDate(value);
 
 

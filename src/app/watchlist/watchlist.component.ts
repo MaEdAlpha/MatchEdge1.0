@@ -151,7 +151,6 @@ export class WatchlistComponent implements OnInit, OnDestroy {
 
     //set to WatchListTable dataSource
     this.dataSource.data = this.displayList;
-    console.log(this.watchList);
   }
 
   setLists(watchList: any[], dateSelected:string) {
