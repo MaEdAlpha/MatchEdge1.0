@@ -8,6 +8,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { ToastrModule } from 'ngx-toastr';
 import { registerLocaleData } from '@angular/common';
+import { CurrencyPipe } from '@angular/common';
 import localeGB from '@angular/common/locales/en-GB';
 
 //Materials
@@ -64,10 +65,11 @@ import { IgnoreIconDirective } from './directives/ignore-icon.directive';
 import { HideTableRowDirective } from './directives/hide-table-row.directive';
 import { FlickerDataMatchRatingDirective } from './directives/flicker-data-match-rating.directive';
 
-import { from } from 'rxjs';
 //Pipe
 import { HeaderDatePipe } from './pipes/hdr.datepipe';
 import { TimeDatePipe } from './pipes/time.datepipe';
+import { DateHandlingService } from './date-handling.service';
+import { MatchStatusService } from './match-status.service';
 
 registerLocaleData(localeGB);
 
@@ -128,8 +130,18 @@ registerLocaleData(localeGB);
       preventDuplicates: false,
     }),
   ],
-  providers: [
-              {provide: LOCALE_ID, useValue: "en-GB"}, MatchesService, WebsocketService, UserPropertiesService, MatchDisplayService, MatchNotificationService, CalcSettingsService, IsJuicyService, JuicyMatchHandlingService],
+  providers: [  MatchesService,
+                 WebsocketService,
+                  UserPropertiesService,
+                   MatchDisplayService,
+                    MatchNotificationService,
+                     CalcSettingsService,
+                      IsJuicyService,
+                       JuicyMatchHandlingService,
+                        DateHandlingService,
+                          MatchStatusService,
+  ],
+
   bootstrap: [AppComponent]
 })
 export class AppModule { }

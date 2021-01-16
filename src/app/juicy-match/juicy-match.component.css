@@ -117,10 +117,11 @@ div.jm-exp-details-row4 {
 }
 
 .rcd-btn {
-  width: 20%;
-  vertical-align: middle;
+  width: 30%;
   float: right;
 }
+
+
 .r1, .r2 {
   width: 35%;
   display: inline-block;
@@ -139,12 +140,16 @@ div.jm-exp-details-row4 {
 
 
 #logo {
-  border: rgb(255, 191, 14) 1px solid;
+  border: rgb(100 75 9) 1px solid;
   width: 100px;
   display: inline-block;
   height: 100px;
   vertical-align: middle;
   margin: 2.5%;
+  border-radius: 15px;
+  background: radial-gradient(at 50% 0, #9fa1a0, transparent 70%),
+  linear-gradient(0deg, #232e34, transparent 50%) bottom;
+  padding: 10px;
 }
 
 #prev-odds {
@@ -299,7 +304,15 @@ span.row3-value {
   border-radius: 5px;
 }
 
-.ticker3box {
+
+.FTAround>span {
+  background: black;
+  color: white;
+  border-radius: 6px;
+  font-size: large;
+  padding: 6px;
+}
+.ticker4box {
   background: green;
   color: white;
   padding: 6px;
@@ -308,7 +321,7 @@ span.row3-value {
   border-radius: 5px;
 }
 
-.ticker4box {
+.ticker5box {
 
   background: blue;
   color: white;
@@ -318,7 +331,7 @@ span.row3-value {
   border-radius: 5px;
 }
 
-.ev5box {
+.ev6box {
   background:#ffdf1b;
   color: black;
   padding: 6px;
@@ -327,7 +340,7 @@ span.row3-value {
   border-radius: 5px;
 }
 
-.mr6box {
+.mr7box {
   background:#7adfdf;
   color: black;
   padding: 6px;
@@ -367,6 +380,10 @@ span.row3-value {
   50%		{ background-color: #022e68; color: white; }
   75%		{ background-color: #4283d8; color: #426897; }
   100%	{ background-color: #649ce4; color: #052044; }
+}
+
+tr.mat-header-row{
+  height: 20px;
 }
 
 .flickDirectiveEV {
@@ -433,3 +450,23 @@ span.row3-value {
   margin: 5px;
   vertical-align: middle;
  }
+
+ input::placeholder {
+  background: #fff;
+  color: black;
+  opacity: 1;
+}
+
+.betState {
+  color: white;
+  width: 110px;
+}
+p.betState {
+  display: inline-flex;
+  margin-right: 7px;
+  margin-left: 10px;
+  font-size: large;
+  font-weight: 400;
+  color: black;
+  width: fit-content;
+}

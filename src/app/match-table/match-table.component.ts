@@ -152,13 +152,13 @@ import { DateHandlingService } from '../date-handling.service';
         this.cycleFixtures();
       })
       //LIVE UPDATES UNCOMMENT
-      //this.webSocketService.openWebSocket();
+      this.webSocketService.openWebSocket();
     }
 
     ngOnDestroy(){
       this.matchesSub.unsubscribe();
       //LIVE UPDATES UNCOMMENT
-      // this.webSocketService.closeWebSocket();
+      this.webSocketService.closeWebSocket();
       this.dateSubscription.unsubscribe();
       this.preferenceSubscription.unsubscribe();
     }

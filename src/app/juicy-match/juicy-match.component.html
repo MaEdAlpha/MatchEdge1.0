@@ -9,11 +9,11 @@
          <!-- Container for First tableData layer, nested -->
          <ng-container matColumnDef="{{column}}" *ngFor="let column of columnsToDisplay; let flickerColmnIndex = index">
            <!--/////TODO////// set ng-container to display just back/lay EV and Match Rating headers -->
-           <th mat-header-cell *matHeaderCellDef id="column{{flickerColmnIndex}}hdr"> {{ column }}</th>
+           <th mat-header-cell *matHeaderCellDef id="column{{flickerColmnIndex}}hdr"></th>
             <td mat-cell
               class="mat-column{{flickerColmnIndex}}-data"
               *matCellDef="let selection; let i = dataIndex"
-              (click)="loadGroup(i); freezeAllMotorFunctions(); show()">
+              (click)="loadGroup(i); freezeAllMotorFunctions(); show(selection, i)">
               <ng-container *ngIf="selection.ignore==false">
                 <ng-container *ngIf="selection.inRange">
                   <ng-container *ngIf= "((isEvSelected && +selection['EVthisBet'] >= +prefObj.evFilterValue && +selection['EVthisBet'] < 1000) || (!isEvSelected && (+selection['MatchRating'] == +prefObj.maxRatingFilter || selection['MatchRating'] > (+prefObj.maxRatingFilter - 0.1))))">
@@ -25,19 +25,24 @@
 
                       <div class="juicyCell" *ngIf="column.endsWith('LayOdds')">
                         <img  class="odds-img" src="/assets/img/smarketsIcon.png" alt="">
-                        <span  class="ticker{{(flickerColmnIndex)}}box" appFlickerDataLay [flickerColmnIndex]="flickerColmnIndex" [isUpdated]="selection.layIsUpdated"> {{ selection[column] | number:'0.2-2' | number:'0.2-2'}} </span>
+                        <span  class="ticker{{(flickerColmnIndex)}}box" appFlickerDataLay [flickerColmnIndex]="flickerColmnIndex" [isUpdated]="selection.layIsUpdated"> {{ selection[column] | number:'0.2-2' }} </span>
                       </div>
 
-                      <span *ngIf="!column.endsWith('Odds') && !column.endsWith('Bet') && !column.endsWith('Rating')"> {{ selection[column] }}</span>
 
                       <div class="juicyCell" *ngIf="column.endsWith('Bet')">
-                          <span class="ev{{flickerColmnIndex}}box juicyCell" appFlickerDataEv [isUpdated]="selection.evIsUpdated"> {{selection[column]}} </span>
+                        <span class="ev{{flickerColmnIndex}}box juicyCell" appFlickerDataEv [isUpdated]="selection.evIsUpdated"> {{selection[column]}} </span>
                       </div>
 
                       <!-- use directive for displaying matchRating values -->
                       <div class="juicyCell" *ngIf="column.endsWith('Rating')">
                         <span class="mr{{flickerColmnIndex}}box" appFlickerDataMatchRating [isUpdated]="selection.matchRatingUpdated"> {{selection[column]}} </span>
                       </div>
+
+                      <div class="juicyCell FTAround" *ngIf="column.endsWith('Around')">
+                        <span> {{selection[column] | number: '0.2-2'}} </span>
+                      </div>
+
+                      <span *ngIf="!column.endsWith('Odds') && !column.endsWith('Bet') && !column.endsWith('Rating') && !column.endsWith('Around')"> {{ selection[column] }}</span>
                     </ng-container>
                   </ng-container>
                 </ng-container>
@@ -70,11 +75,11 @@
                               </div>
                               <div class="words-container">
 
-                                <b>BET</b> <input formControlName="Stake" class = "value-box-back" placeholder="{{getGroup(i).get('Stake').value | currency:'GBP'}}"/>
+                                <b>BET</b> <input formControlName="Stake" class = "value-box-back" placeholder="{{getGroup(i).get('Stake').value}}">
                               </div>
                               <div class="words-container">
                                <p> AT ODDS OF </p>
-                               <input formControlName="BackOdds" class = "value-box-back"  placeholder="{{getGroup(i).get('BackOdds').value | number:'0.2-2'}}"/>
+                               <input formControlName="BackOdds" class = "value-box-back"  placeholder="{{getGroup(i).get('BackOdds').value | number:'0.2-2'}}">
                               </div>
                               <div class="words-container">
                                 <b>FOR  </b> <span class="selection-box">{{selection.Selection}}</span>
@@ -93,7 +98,7 @@
                               <div class="words-container">
                                 <b>LAY</b>
                                     <!-- <input formControlName="LayStake" class = "value-box-lay"  placeholder="{{selection.LayStake | currency:'GBP'}}"> -->
-                                    <span class="value-box-lay">{{LayOdds(getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value, getGroup(i).get('Stake').value) | currency:'GBP' }}</span>
+                                    <input class="value-box-lay"   [readOnly]="true" placeholder="{{LayOdds(getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value, getGroup(i).get('Stake').value) | currency:'GBP' }}">
                                   </div>
 
                                   <div class="words-container">
@@ -124,6 +129,12 @@
                                 <span class="selection-figures-content1"> {{ ROI(getGroup(i).get('Stake').value, selection.EVthisBet) | number:'0.2-2'}} %</span></div>
                               </div>
 
+                              <div class="rcd-btn">
+                                <button mat-raised-button class="exp-button">Record Bet</button>
+                                <p class="betState">Lay bet is</p><button mat-raised-button class="betState" [style.background]="selection.activeBetState ? 'green' : 'red'" (click)="selection.activeBetState = !selection.activeBetState">{{ selection.activeBetState ? 'Matched' : 'Unmatched'}}</button>
+                                <!-- button match / unmatched  -->
+                              </div>
+
                               <div class="selection-figures row4-row2">
                                 <div class="r2 r2-col1">
                                   <h3 class="selection-figures-content1">Total EV: </h3>
@@ -136,9 +147,6 @@
                                 </div>
                               </div>
 
-                              <div class="rcd-btn">
-                                <button mat-mat-raised-button class="exp-button">Record Bet</button>
-                              </div>
 
                             </div>
                           </div>

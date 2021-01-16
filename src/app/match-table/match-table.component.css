@@ -13,10 +13,20 @@ mat-table {
 }
 
 mat-row, mat-header-row {
-  background: #272929;
+  background: #263238;
   color: white;
 }
 
+.OccA, .OccH {
+  margin-right: auto;
+    margin-left: auto;
+    background: black;
+    color: white;
+    padding: 6px;
+    border-radius: 5px;
+    font-size: large;
+
+}
 
 .mat-column-groupHeader, .leagueGroupContainer  {
   background: #7a8585;
@@ -154,6 +164,16 @@ div.footer-container{
 
 img {
   width: 20%;
+  vertical-align: middle;
+  margin-right: 2px;
+}
+
+.bookie-logo, .exchange-logo{
+  width: 25px
+}
+
+mat-header-row{
+  min-height: 20px;
 }
 
 .mat-column-Home, .mat-column-Away, .mat-column-FixturesDate {
@@ -184,10 +204,15 @@ span.BHome, span.BAway, span.SMHome, span.SMAway, span.BHome, span.BAway {
   color: white;
   font-size: 15px;
   font-weight: 500;
-  padding: 10px;
-  padding-left: 20px;
-  padding-right: 20px;
+  padding: 5px;
+  /* padding-left: 20px;
+  padding-right: 20px; */
+  border-radius: 10px;
+}
 
+.odds-container{
+  margin-left: auto;
+  margin-right: auto;
 }
 span.BAway, span.BHome{
   background: green;

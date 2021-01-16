@@ -8,21 +8,19 @@
           <mat-table  mat-table [dataSource] ="dataSource">
             <!-- Generate Column Headers -->
             <ng-container *ngFor="let column of columns" matColumnDef= {{column.field}}>
-              <ng-container *ngIf="column.field.startsWith('B')">
-                <mat-header-cell *matHeaderCellDef> <img src="/assets/img/betIcon.png" alt=""></mat-header-cell>
-              </ng-container>
-                <ng-container *ngIf="column.field.startsWith('SM')">
-                  <mat-header-cell *matHeaderCellDef> <img src="/assets/img/smarketsIcon.png" alt=""></mat-header-cell>
-                </ng-container>
               <ng-container *ngIf="!column.field.startsWith('B') || !column.field.startsWith('SM')">
-                <mat-header-cell *matHeaderCellDef> <span>{{column.columnDisplay}}</span> </mat-header-cell>
+                <mat-header-cell *matHeaderCellDef> </mat-header-cell>
               </ng-container>
               <!-- Generate Data Cells -->
               <mat-cell *matCellDef="let row; let i = index">
 
                   <ng-container *ngIf="!column.field.endsWith('Status')">
                     <ng-container *ngIf="column.field.endsWith('BHome') || column.field.endsWith('SMHome') || column.field.endsWith('OccH') || column.field.endsWith('OccA') || column.field.endsWith('BAway') || column.field.endsWith('SMAway')">
-                      <span class="{{column.field}} viewCell"> {{ row[column.field] | number:'0.2-2'}}</span>
+                      <div class="odds-container">
+                        <ng-container *ngIf="column.field.endsWith('BHome') || column.field.endsWith('BAway')" > <img class="bookie-logo" src="/assets/img/betIconIII.png" alt=""></ng-container>
+                        <ng-container *ngIf="column.field.endsWith('SMHome') || column.field.endsWith('SMAway') " > <img class="exchange-logo" src="/assets/img/smarketsIcon.png" alt=""></ng-container>
+                        <span class="{{column.field}} viewCell"> {{ row[column.field] | number:'0.2-2'}}</span>
+                      </div>
                     </ng-container>
 
                     <ng-container *ngIf="column.field.startsWith('Home') || column.field.startsWith('Away') ">

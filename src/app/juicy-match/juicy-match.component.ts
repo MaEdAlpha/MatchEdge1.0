@@ -15,6 +15,8 @@ import { MatchStatusService } from '../match-status.service';
 import { DateHandlingService } from '../date-handling.service';
 
 
+
+
 @Component({
   selector: 'app-juicy-match',
   templateUrl: './juicy-match.component.html',
@@ -35,7 +37,7 @@ export class JuicyMatchComponent implements OnChanges, OnInit {
   noMatchesToDisplay:boolean=true;
   //Used in DOM to select object view container for expansion
   expandedElement: JuicyMatch[] | null;
-  displayedColumns: string[] = ['EventStart', 'Fixture', 'Selection',  'BackOdds', 'LayOdds' , 'EVthisBet', 'MatchRating'];
+  displayedColumns: string[] = ['EventStart', 'Fixture', 'Selection',  'BackOdds', 'LayOdds' , 'FTAround', 'EVthisBet', 'MatchRating'];
   SecondcolumnsToDisplay: string[] = ['Logo', 'FTAround', 'ReturnRating', 'MatchRating', 'BackOdds', 'LayOdds', 'Liability', 'FTAProfit', 'QL', 'ROI', 'EVthisBet'];
   columnsToDisplay: string[] = this.displayedColumns.slice();
 
@@ -61,6 +63,7 @@ export class JuicyMatchComponent implements OnChanges, OnInit {
   matchRatingFilter: number;
   isEvSelected: boolean;
   dataSource:any;
+  formattedAmount:any;
   @Input() selectionToIgnore: any[];
 
   constructor(private sidenav: SidenavService, private juicyMHService: JuicyMatchHandlingService, private matchStatService: MatchStatsService, private matchesService: MatchesService, private userPrefService: UserPropertiesService, private matchStatusService: MatchStatusService, private dateHandlingService: DateHandlingService ) { }
@@ -75,14 +78,14 @@ export class JuicyMatchComponent implements OnChanges, OnInit {
 
       if(this.allIndvMatches.length == 0){
         this.allIndvMatches = this.juicyMHService.getSingleMatches(this.allMatches);
-        // console.log("Converting matches -> selections...");
-        // console.log(this.allIndvMatches);
+         console.log("Converting matches -> selections...");
+         console.log(this.allIndvMatches);
         if(this.allIndvMatches != undefined){
-          this.dataSource = new FormArray(this.allIndvMatches.map( x=> this.createForm(x)));
-          //is what lets HTML see which matches to display
-          this.popJuiceInRange();
-          console.log("ngOnChange init");
+          console.log("Creating new formArray");
 
+          this.dataSource = new FormArray(this.allIndvMatches.map( x=> this.createForm(x)));
+          //is what lets HTML see which matches to display. without this, you need to trigger date change in toplay filter to initalize match load.
+          this.popJuiceInRange();
         }
       }
 
@@ -108,7 +111,7 @@ export class JuicyMatchComponent implements OnChanges, OnInit {
       this.allIndvMatches = singleMatchData;
     });
 
-    this.dataSource =  this.dataSource = new FormArray(this.allIndvMatches.map( x=> this.createForm(x)));
+    this.dataSource = new FormArray(this.allIndvMatches.map( x=> this.createForm(x)));
     //accesses an eventEmitter of streamData that is coming in via MongoDB ChangeStream.  Setsup a subscription to observable.
     this.streamSub = this.matchesService.streamDataUpdate
     .subscribe( (streamObj) => {
@@ -270,8 +273,14 @@ export class JuicyMatchComponent implements OnChanges, OnInit {
     }
    }
 
-    show(){
-      console.log(this.allIndvMatches[0].inRange);
-
+    show(selection: any, index: number){
+      var data: FormGroup = this.getGroup(index);
+      data.setValue({
+        Stake: selection.Stake,
+        LayStake: selection.LayStake,
+        BackOdds: selection.BackOdds,
+        LayOdds: selection.LayOdds,
+      });
+      //use a method to reset the formGroup values to selectionObject values.
     }
 }

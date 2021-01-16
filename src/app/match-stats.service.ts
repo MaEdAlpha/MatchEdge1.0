@@ -92,6 +92,7 @@ getMatchStats(match){
           ignore: match.HStatus.ignore,
           notify: match.HStatus.notify,
           activeBet: match.HStatus.activeBet,
+          activeBetState: true,
           inRange: false,
         }
         this.allSingleMatches.push(this.singleHomeMatch);
@@ -145,6 +146,7 @@ getMatchStats(match){
           ignore: match.AStatus.ignore,
           notify: match.AStatus.notify,
           activeBet: match.AStatus.activeBet,
+          activeBetState: true,
           inRange: false,
         }
         this.allSingleMatches.push(this.singleAwayMatch);
