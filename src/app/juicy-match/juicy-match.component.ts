@@ -48,7 +48,6 @@ export class JuicyMatchComponent implements OnChanges, OnInit {
   private individualMatchesSub: Subscription;
   private streamSub: Subscription;
   private dateSubscription: Subscription;
-  dateSelected: any;
   startDay: number;
   endDay: number
   allIndvMatches: any[];
@@ -71,17 +70,19 @@ export class JuicyMatchComponent implements OnChanges, OnInit {
     //Anytime there is a change to this list of matches, refresh list of single matches.
     if(changes.allMatches && changes.allMatches.currentValue && changes.allMatches.isFirstChange) {
 
-      console.log("Change Detection Activated: List of Selections Below");
-
+      // console.log("Change Detection Activated: List of Selections Below");
       // console.log(this.dataSource);
 
       if(this.allIndvMatches.length == 0){
         this.allIndvMatches = this.juicyMHService.getSingleMatches(this.allMatches);
-        console.log("Converting matches -> selections...");
-
-        console.log(this.allIndvMatches);
+        // console.log("Converting matches -> selections...");
+        // console.log(this.allIndvMatches);
         if(this.allIndvMatches != undefined){
           this.dataSource = new FormArray(this.allIndvMatches.map( x=> this.createForm(x)));
+          //is what lets HTML see which matches to display
+          this.popJuiceInRange();
+          console.log("ngOnChange init");
+
         }
       }
 
@@ -101,6 +102,7 @@ export class JuicyMatchComponent implements OnChanges, OnInit {
     this.prefObj = this.userPrefService.getTablePrefs();
     this.isEvSelected = Boolean(this.prefObj.isEvSelected);
     this.allIndvMatches = [];
+    this.getStartEndDays(this.userPrefService.getSelectedDate());
 
     this.individualMatchesSub = this.juicyMHService.getJuicyUpdateListener().subscribe( (singleMatchData) => {
       this.allIndvMatches = singleMatchData;
@@ -120,17 +122,9 @@ export class JuicyMatchComponent implements OnChanges, OnInit {
     });
 
 
-    this.getStartEndDays();
-
     this.dateSubscription = this.dateHandlingService.getSelectedDate().subscribe(date => {
-      var dateValidator = this.dateHandlingService.returnDateSelection(date);
-      this.startDay = dateValidator[0];
-      this.endDay = dateValidator[1];
-
-      this.allIndvMatches.forEach( selection => {
-        this.dateInRange(selection)
-      });
-
+      this.getStartEndDays(date);
+      this.popJuiceInRange();
     });
 
     //set userPreference Values
@@ -151,6 +145,12 @@ export class JuicyMatchComponent implements OnChanges, OnInit {
   }
 
 
+  //Populates matches in date range. Need this for refreshing new matches under date criteria.
+  private popJuiceInRange() {
+    this.allIndvMatches.forEach(selection => {
+      this.dateInRange(selection);
+    });
+  }
 
   ngOnDestroy() {
     this.individualMatchesSub.unsubscribe();
@@ -187,9 +187,8 @@ export class JuicyMatchComponent implements OnChanges, OnInit {
     return this.dataSource.at(index) as FormGroup
   }
 
-  private getStartEndDays() {
-    this.dateSelected = this.userPrefService.getSelectedDate();
-    var dateValidator = this.dateHandlingService.returnDateSelection(this.dateSelected);
+  private getStartEndDays(selectedDateStr: string) {
+    var dateValidator = this.dateHandlingService.returnDateSelection(selectedDateStr);
     this.startDay = dateValidator[0];
     this.endDay = dateValidator[1];
   }

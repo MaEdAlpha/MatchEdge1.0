@@ -74,6 +74,7 @@ export class WatchlistComponent implements OnInit, OnDestroy {
     ];
 
     masterList: any[] = [];
+    masterGroup: any[];
 
     expandedCar: any[] = [];
     expandedSubCar: any[] = [];
@@ -82,6 +83,7 @@ export class WatchlistComponent implements OnInit, OnDestroy {
     //TODO add to UserPreference
     private watchMatchesubscription: Subscription;
     private dateSubscription: Subscription;
+    private groupSubscription: Subscription;
     dateSelected: string;
 
     watchStateChange:any;
@@ -95,18 +97,24 @@ export class WatchlistComponent implements OnInit, OnDestroy {
     @ViewChild(MatTable) table: MatTable<any>;
 
 
-
     constructor(private dateHandlingService: DateHandlingService, private matchStatusService: MatchStatusService, private userPref: UserPropertiesService, public datepipe: DatePipe, private sidenav: SidenavService , private matchesService: MatchesService, private webSocketService: WebsocketService, public dialog: MatDialog, private notificationBox: NotificationBoxService) {
      } //creates an instance of matchesService. Need to add this in app.module.ts providers:[]
 
 
     ngOnInit() {
 
+      //Assigns listener for any matches in view-table that are clicked to be watched.
       this.watchMatchesubscription = this.matchStatusService.getMatchWatchStatus().
       subscribe( matchObject => {
         //triggers each time watchList subject is activated in matchTable Component
         this.updateWatchList(matchObject);
       });
+
+      this.groupSubscription = this.matchStatusService.getMasterGroup().
+      subscribe( groupList => {
+        this.masterGroup = groupList;
+      });
+
 
           //Subscribe to Event listener in matches Service for StreamChange data. Update this.matches.
       this.matchesService.streamDataUpdate
@@ -126,6 +134,7 @@ export class WatchlistComponent implements OnInit, OnDestroy {
 
   private updateWatchList(matchObject: any) {
     //Check state of match. Add or remove it.
+    //date validator.
     if (matchObject.isWatched) {
       this.watchList.push(matchObject);
     } else {
@@ -167,6 +176,7 @@ export class WatchlistComponent implements OnInit, OnDestroy {
     ngOnDestroy(){
       this.watchMatchesubscription.unsubscribe();
       this.dateSubscription.unsubscribe();
+      this.groupSubscription.unsubscribe();
     }
 
     private matchDateInteger(matchObj: any): number {
@@ -471,7 +481,6 @@ export class WatchlistComponent implements OnInit, OnDestroy {
                   match.B25GOdds = streamMatch.B365O25GoalsOdds;
                   match.OccH = streamMatch.OccurenceHome;
                   match.OccA = streamMatch.OccurrenceAway;
-                  console.log("In BTTS area " + typeof streamMatch.OccurrenceAway);
                 }
                 if(matchId !== streamMatch._id)
                 {
@@ -495,15 +504,13 @@ export class WatchlistComponent implements OnInit, OnDestroy {
     updateMatch(match, streamMatch){
       if(streamMatch.SmarketsHomeOdds != 0 && streamMatch.SmarketsAwayOdds != 0)
       {
-      match.SMHome = streamMatch.SmarketsHomeOdds;
-      match.SMAway = streamMatch.SmarketsAwayOdds;
-
+        match.SMHome = streamMatch.SmarketsHomeOdds;
+        match.SMAway = streamMatch.SmarketsAwayOdds;
       }
       if(streamMatch.B365HomeOdds != 0 && streamMatch.B365AwayOdds != 0)
       {
         match.BHome = streamMatch.B365HomeOdds;
         match.BAway = streamMatch.B365AwayOdds;
-
       }
       if(streamMatch.OccurrenceAway != 0){
         match.BTTSOdds = streamMatch.B365BTTSOdds;
@@ -512,27 +519,6 @@ export class WatchlistComponent implements OnInit, OnDestroy {
         match.OccH = streamMatch.OccurrenceHome;
         match.OccA = streamMatch.OccurrenceAway;
       }
-    }
-
-    //expands and collapses container
-
-    watchStatus(status: boolean){
-      status = !status;
-      console.log(status);
-      //Send to service to notificationServices.
-      //pass the object forward to a notification list. which will then do the thing
-      //i.e directive attributes for styling
-      //actvate notifications
-    }
-
-    betStatus(status: boolean){
-      status = !status;
-      console.log(status);
-    }
-
-    ignoreStatus(status: boolean){
-      status = !status;
-      console.log(status);
     }
 
     // dateSelection(dateSelected:string): number[]{

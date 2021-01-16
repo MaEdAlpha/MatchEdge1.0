@@ -10,6 +10,7 @@ export class MatchStatusService {
 
   ignoreList: string[]=[];
   private watchSubject = new Subject<any>();
+  private groupSubject = new Subject<any>();
   allSelections: any[];
 
   constructor() { }
@@ -46,7 +47,7 @@ export class MatchStatusService {
 
   //WATCHLIST STATUS
 
-  //called at JuicyMatches on Initialization. Used to listen for any changes
+  //called at matchTable on Initialization. Used to listen for any changes
   watchMatchSubject( selection: any){
     this.watchSubject.next(selection);
   }
@@ -54,5 +55,12 @@ export class MatchStatusService {
     return this.watchSubject.asObservable();
   }
 
+  watchGroupSubject( masterGroup: any) {
+    this.groupSubject.next(masterGroup);
+  }
+
+  getMasterGroup(): Observable<any>{
+    return this.groupSubject.asObservable();
+  }
 
 }

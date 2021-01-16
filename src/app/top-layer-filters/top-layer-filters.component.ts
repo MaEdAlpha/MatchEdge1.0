@@ -52,8 +52,6 @@ export class TopLayerFiltersComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this.viewThisDate = this.userPref.getSelectedDate();
-
-
   }
 
   showTable(value:number) {

@@ -63,4 +63,6 @@ export class MatchesService {
   addToUpdatedMatches(_streamObj){
     this.streamDataUpdate.emit(_streamObj);
   }
+
+
 }

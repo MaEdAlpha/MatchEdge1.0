@@ -65,11 +65,11 @@ const connectionString = "mongodb+srv://Dan:x6RTQn5bD79QLjkJ@cluster0.uljb3.gcp.
 const client = new MongoClient(connectionString,
   { useNewUrlParser: true,
     useUnifiedTopology: true,
-    poolSize: 2,
+    poolSize: 1,
     promiseLibrary: global.Promise
   });
 
-
+//CHANGED poolSize to w
 wss.on('connection', function connection(ws) {
 
    console.log("A new Client Connected");

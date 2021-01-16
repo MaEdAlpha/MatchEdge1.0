@@ -151,13 +151,14 @@ import { DateHandlingService } from '../date-handling.service';
         this.tableGroups=[];
         this.cycleFixtures();
       })
-      //Open WebSocket
-      this.webSocketService.openWebSocket();
+      //LIVE UPDATES UNCOMMENT
+      //this.webSocketService.openWebSocket();
     }
 
     ngOnDestroy(){
       this.matchesSub.unsubscribe();
-      this.webSocketService.closeWebSocket();
+      //LIVE UPDATES UNCOMMENT
+      // this.webSocketService.closeWebSocket();
       this.dateSubscription.unsubscribe();
       this.preferenceSubscription.unsubscribe();
     }
@@ -223,6 +224,7 @@ import { DateHandlingService } from '../date-handling.service';
       groups = groups.filter(nonRelevantGroups);
       // console.log("Updated master Group --");
       // console.log(groups);
+      this.saveMasterGroup(groups);
       this.masterGroup = groups
     }
 
@@ -586,6 +588,10 @@ import { DateHandlingService } from '../date-handling.service';
     addToWatchList(rowData:any){
       rowData.isWatched = !rowData.isWatched;
       this.matchStatusService.watchMatchSubject(rowData);
+    }
+
+    saveMasterGroup( masterGroup: any){
+      this.matchStatusService.watchGroupSubject( masterGroup );
     }
 
 }
