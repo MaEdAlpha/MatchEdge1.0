@@ -356,7 +356,7 @@ import { DateHandlingService } from '../date-handling.service';
     //filter incomplete match records. Cold cause future bug. if initial scrape is postponed. Refresh on client side should solve this...maybe filter this further down the road.
     private sanitizeList(matches: any): any[]{
       function nullMatches(match){
-        if(match.League != null && match.BAway != 999){
+        if(match.League != null && match.BAway != 999 && match.Details != null){
           return true;
         }
       }

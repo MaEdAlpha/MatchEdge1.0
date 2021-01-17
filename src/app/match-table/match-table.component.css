@@ -10,6 +10,7 @@
 
 mat-table {
   margin-top: 3px;
+  border: solid 1px #bf9851;
 }
 
 mat-row, mat-header-row {

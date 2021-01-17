@@ -108,6 +108,10 @@ export class WatchlistComponent implements OnInit, OnDestroy {
       subscribe( matchObject => {
         //triggers each time watchList subject is activated in matchTable Component
         this.updateWatchList(matchObject);
+        console.log("PICKED UP THIS");
+
+        console.log(matchObject);
+
       });
 
       this.groupSubscription = this.matchStatusService.getMasterGroup().
@@ -142,9 +146,10 @@ export class WatchlistComponent implements OnInit, OnDestroy {
       index = this.watchList.indexOf(matchObject);
       this.watchList.splice(index, 1);
     }
+    console.log(this.watchList);
 
     //Sort each list into their selected time. Then assign groups. Sort match to group header and assign FixtureDate format.
-    this.setLists(this.watchList, this.dateSelected);
+    this.setLists(this.watchList, this.masterGroup, this.dateSelected);
     //assign the appropriate list based off of the selected date time.
     //Also, create an event listener to dateSelected to pick the appropriate list if user is cycling through watchlist.
     //Add a default view saying "Currently no matches selected for this specification"
@@ -153,23 +158,49 @@ export class WatchlistComponent implements OnInit, OnDestroy {
     this.dataSource.data = this.displayList;
   }
 
-  setLists(watchList: any[], dateSelected:string) {
+  setLists(watchList: any[], masterGroup: Group[], dateSelected:string) {
 
     //clear displayList:
     this.displayList = [];
 
+    this.setGroupHeaders(watchList, masterGroup, this.displayList);
+
+    var { dateStart,
+          dateEnd } : { dateStart: number; dateEnd: number; } = this.getStartEndDates(dateSelected);
+
+      //need to organize list  and display fixture dates.
+    this.masterGroup.forEach( groupHeader => {
+
+      var groupIndex = this.displayList.indexOf(groupHeader);
+      var matchPosition = groupIndex + 1;
+
+      watchList.forEach( match => {
+        var matchDate: number = this.matchDateInteger(match);
+
+        if(dateSelected == 'Today & Tomorrow' && groupHeader.League == match.League && (matchDate == dateStart || matchDate == dateEnd) ){
+          this.displayList.splice(matchPosition, 0, match);
+          matchPosition++;
+        }
+      });
+
+    })
+  }
+
+  //returs start and end dates as a digit
+  private getStartEndDates(dateSelected: string) {
     var dateValidator: any[] = this.dateHandlingService.returnDateSelection(dateSelected);
     //start end dates based off MM + DD a a number
     var dateStart: number = dateValidator[0];
     var dateEnd: number = dateValidator[1];
+    return { dateStart, dateEnd };
+  }
 
-    watchList.forEach( match => {
-      var matchDate: number = this.matchDateInteger(match);
-
-      if( (matchDate == dateStart || matchDate == dateEnd) ){
-        this.displayList.push(match);
-      }
-    });
+  setGroupHeaders(watchList, masterGroup, displayList): any[]{
+      masterGroup.forEach( leagueGroup => {
+        const result = watchList.filter( match => match.League == leagueGroup.League).length;
+        if(result >=1) displayList.push(leagueGroup);
+      });
+      return displayList
   }
 
     ngOnDestroy(){
