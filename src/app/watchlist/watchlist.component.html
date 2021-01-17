@@ -26,7 +26,12 @@
                     </ng-container>
 
                     <ng-container *ngIf="column.field.startsWith('FixturesDate')">
-                      <button mat-raised-button class="fixturesDateBtn"><span id="fixturesText">{{ row[column.field] }} </span> </button>
+                      <button mat-raised-button class="fixturesDateBtn" [style.background]="row.isWatched ? 'rgb(249, 168, 37)' : 'rgb(195, 195, 195)'"(click)="removefromWatchList(row);">
+                        <div class="fixturesText">
+                          <div class="fixturesDate"> {{row[column.field]}} </div>
+                          <div class="fixturesTime"> {{row['FixturesTime']}} </div>
+                        </div>
+                      </button>
                     </ng-container>
                   </ng-container>
 
