@@ -208,11 +208,16 @@ import { DateHandlingService } from '../date-handling.service';
 
       });
       //sort groups alphabetically
+
       groups = groups.sort((a: any, b: any) => {
-        const isAsc = "asc";
-        return this.compare(a.League, b.League, isAsc);
+
+        return this.compare(a.League, b.League);
       });
       this.masterGroup = groups
+    }
+
+    private compare(a, b) {
+      return (a < b ? -1 : 1);
     }
     //used solely incase we start scraping ahead of time and have matches in leagues that don't fall within the date times.
     cleanGroups(groups){
@@ -349,14 +354,12 @@ import { DateHandlingService } from '../date-handling.service';
       return this.viewTableList
     }
 
-    private compare(a, b, isAsc) {
-      return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
-    }
+
 
     //filter incomplete match records. Cold cause future bug. if initial scrape is postponed. Refresh on client side should solve this...maybe filter this further down the road.
     private sanitizeList(matches: any): any[]{
       function nullMatches(match){
-        if(match.League != null && match.BAway != 999 && match.Details != null){
+        if(match.League != null && match.BAway != 999 && match.Details != null && match.BAway != 0 && match.SMAway != 0){
           return true;
         }
       }

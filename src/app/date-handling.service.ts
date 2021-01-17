@@ -56,7 +56,7 @@ export class DateHandlingService {
 
   //converts GB formatted date to US date string.
   switchDaysWithMonths(dateString: string):string {
-    return dateString.slice(3,6) + dateString.slice(0, 3) + dateString.slice(6, 19);
+      return dateString.slice(3,6) + dateString.slice(0, 3) + dateString.slice(6, 19);
   }
 
   //returns date as a value.

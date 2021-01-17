@@ -12,6 +12,7 @@ import { SidenavService } from '../view-table-sidenav/sidenav.service';
 import { UserPropertiesService } from '../user-properties.service';
 import { DateHandlingService } from '../date-handling.service';
 import { MatchStatusService } from '../match-status.service';
+import { analyzeAndValidateNgModules } from '@angular/compiler';
 
 export class Group {
   level = 0;
@@ -108,10 +109,6 @@ export class WatchlistComponent implements OnInit, OnDestroy {
       subscribe( matchObject => {
         //triggers each time watchList subject is activated in matchTable Component
         this.updateWatchList(matchObject);
-        console.log("PICKED UP THIS");
-
-        console.log(matchObject);
-
       });
 
       this.groupSubscription = this.matchStatusService.getMasterGroup().
@@ -131,6 +128,10 @@ export class WatchlistComponent implements OnInit, OnDestroy {
 
       this.dateSubscription = this.dateHandlingService.getSelectedDate().subscribe( dateSelected => {
         this.dateSelected = dateSelected;
+        console.log("Date Change detected");
+
+        this.setLists(this.watchList, this.masterGroup, this.dateSelected);
+        this.dataSource.data = this.displayList;
       })
 
       this.ignoreList = [];
@@ -146,7 +147,11 @@ export class WatchlistComponent implements OnInit, OnDestroy {
       index = this.watchList.indexOf(matchObject);
       this.watchList.splice(index, 1);
     }
-    console.log(this.watchList);
+
+    //sort watchlist based off time
+   this.watchList = this.watchList.sort( (a,b) => {
+     return this.compareDates(a, b);
+    });
 
     //Sort each list into their selected time. Then assign groups. Sort match to group header and assign FixtureDate format.
     this.setLists(this.watchList, this.masterGroup, this.dateSelected);
@@ -165,8 +170,7 @@ export class WatchlistComponent implements OnInit, OnDestroy {
 
     this.setGroupHeaders(watchList, masterGroup, this.displayList);
 
-    var { dateStart,
-          dateEnd } : { dateStart: number; dateEnd: number; } = this.getStartEndDates(dateSelected);
+    var { dateStart, dateEnd } : { dateStart: number; dateEnd: number; } = this.getStartEndDates(dateSelected);
 
       //need to organize list  and display fixture dates.
     this.masterGroup.forEach( groupHeader => {
@@ -176,14 +180,46 @@ export class WatchlistComponent implements OnInit, OnDestroy {
 
       watchList.forEach( match => {
         var matchDate: number = this.matchDateInteger(match);
-
+        var prevDate: string = "placeHolder";
         if(dateSelected == 'Today & Tomorrow' && groupHeader.League == match.League && (matchDate == dateStart || matchDate == dateEnd) ){
+          this.setDisplayHeader(match, matchPosition, groupIndex, prevDate);
           this.displayList.splice(matchPosition, 0, match);
+          prevDate = match.Details;
+          matchPosition++;
+        }
+
+        if(dateSelected == 'Today' && groupHeader.League == match.League && matchDate == dateStart)
+        {
+          this.setDisplayHeader(match, matchPosition, groupIndex, prevDate);
+          this.displayList.splice(matchPosition, 0, match);
+          prevDate = match.Details;
+          matchPosition++;
+        }
+        if(dateSelected == 'Tomorrow' && groupHeader.League == match.League && matchDate == dateEnd)
+        {
+          this.setDisplayHeader(match, matchPosition, groupIndex, prevDate);
+          this.displayList.splice(matchPosition, 0, match);
+          prevDate = match.Details;
           matchPosition++;
         }
       });
 
-    })
+    });
+  }
+
+  setDisplayHeader(matchObj,matchPosition, groupIndex, prevDate){
+    (matchPosition == (groupIndex +1) || (matchObj.Details.substring(0,2) != prevDate.substring(0,2))) ? matchObj.displayHeaderDate = true : matchObj.displayHeaderDate = false;
+  }
+
+  compareDates(a, b){
+      console.log(this.dateHandlingService.convertGBStringDate(a.Details));
+      console.log(this.dateHandlingService.convertGBStringDate(b.Details));
+
+    if(a.Details > b.Details){
+      return 1;
+    } else {
+      return -1;
+    }
   }
 
   //returs start and end dates as a digit
@@ -198,8 +234,11 @@ export class WatchlistComponent implements OnInit, OnDestroy {
   setGroupHeaders(watchList, masterGroup, displayList): any[]{
       masterGroup.forEach( leagueGroup => {
         const result = watchList.filter( match => match.League == leagueGroup.League).length;
-        if(result >=1) displayList.push(leagueGroup);
-      });
+        if(result >=1) {
+          leagueGroup.Details = false;
+          displayList.push(leagueGroup);
+        }
+        });
       return displayList
   }
 
@@ -213,6 +252,11 @@ export class WatchlistComponent implements OnInit, OnDestroy {
       return this.dateHandlingService.convertGBStringDate(matchObj.Details).getMonth()*30 + this.dateHandlingService.convertGBStringDate(matchObj.Details).getDate();
     }
 
+
+    removefromWatchList(row: any){
+      console.log("Handle Removing of watchList item");
+
+    }
     //Handles logic for MatTable. It adds and removes match items based off the state of the League Group Header.
     modifiedGroupList(allData: any[], groupList: any[], viewSelection: string) : any[]{
 
