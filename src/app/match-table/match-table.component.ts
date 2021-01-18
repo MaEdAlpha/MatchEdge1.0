@@ -376,11 +376,13 @@ import { DateHandlingService } from '../date-handling.service';
 
     //Date formatter
     addFixturesDate(matchList: any[] ): any[]{
-
+      console.log(matchList);
+      var count=0;
       matchList.forEach( matchObj => {
-
-        if(matchObj.Details != undefined){
+        if(matchObj.level != 1 && matchObj.Details != undefined ){
           if(matchObj.displayHeaderDate){
+            console.log(matchObj.Details);
+
             //All of Angular is using Datepipes to conver by en-US locale, not en-GB. For the time being, everything must be converted to english Locale
             var convertIntoUS = this.dateHandlingService.switchDaysWithMonths(matchObj.Details);
             matchObj.FixturesDate = this.datepipe.transform(convertIntoUS, 'EEE dd MMM');
@@ -391,6 +393,7 @@ import { DateHandlingService } from '../date-handling.service';
             matchObj.FixturesTime = this.datepipe.transform(convertIntoUS, 'HH:mm');
           }
         }
+        count++;
       });
       return matchList;
     }

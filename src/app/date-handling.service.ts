@@ -50,13 +50,15 @@ export class DateHandlingService {
 
   //returns usDateFormat. Used for comparing dates with Selected time for filtering.
   convertGBStringDate(gbDateFormat: string): Date {
+
     var usDateFormat = this.switchDaysWithMonths(gbDateFormat);
+
     return new Date(Date.parse(usDateFormat));
   }
 
   //converts GB formatted date to US date string.
   switchDaysWithMonths(dateString: string):string {
-      return dateString.slice(3,6) + dateString.slice(0, 3) + dateString.slice(6, 19);
+      return (dateString.toString().slice(3,6) + dateString.toString().slice(0,3) + dateString.toString().slice(6, 19));
   }
 
   //returns date as a value.
