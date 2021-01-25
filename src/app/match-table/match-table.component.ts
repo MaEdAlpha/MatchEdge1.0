@@ -140,6 +140,8 @@ import { DateHandlingService } from '../date-handling.service';
       //StreamChange data. Updates individual matches
       this.matchesService.streamDataUpdate
       .subscribe( (streamObj) => {
+        console.log("Incoming StreamOBJ");
+
         var indexOfmatch = this.matches.findIndex( match => match.Home == streamObj.HomeTeamName && match.Away == streamObj.AwayTeamName);
         indexOfmatch != undefined && this.matches[indexOfmatch] ? this.updateMatch(this.matches[indexOfmatch], streamObj) : console.log("not found");
       });
@@ -158,7 +160,7 @@ import { DateHandlingService } from '../date-handling.service';
     ngOnDestroy(){
       this.matchesSub.unsubscribe();
       //LIVE UPDATES UNCOMMENT
-      this.webSocketService.closeWebSocket();
+      // this.webSocketService.closeWebSocket();
       this.dateSubscription.unsubscribe();
       this.preferenceSubscription.unsubscribe();
     }
