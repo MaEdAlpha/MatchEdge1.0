@@ -118,12 +118,6 @@ export class WatchlistComponent implements OnInit, OnDestroy {
 
 
           //Subscribe to Event listener in matches Service for StreamChange data. Update this.matches.
-      this.matchesService.streamDataUpdate
-      .subscribe( (streamObj) => {
-        var indexOfmatch = this.matches.findIndex( match => match.Home == streamObj.HomeTeamName && match.Away == streamObj.AwayTeamName);
-        indexOfmatch != undefined && this.matches[indexOfmatch] ? this.updateMatch(this.matches[indexOfmatch], streamObj) : console.log("not found");
-      });
-
       this.dateSelected = this.userPref.getSelectedDate();
 
       this.dateSubscription = this.dateHandlingService.getSelectedDate().subscribe( dateSelected => {
