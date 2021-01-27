@@ -5,7 +5,7 @@
   <app-top-layer-filters (hideTable)="displaySelectedTable($event)"></app-top-layer-filters>
 
         <div class="fixturesTable" [style.visibility]="tableSelected == 1 ? 'visible' : 'collapse' " [style.height]="tableSelected == 1 ? '' : '0px' " [style.margin-bottom]="tableSelected == 1 ? '5px' : '0'" [style.display]="tableSelected == 1 ? 'inline' : '' ">
-          <mat-table  mat-table [dataSource] ="dataSource">
+          <mat-table mat-table [dataSource] ="dataSource">
             <!-- Generate Column Headers -->
             <ng-container *ngFor="let column of columns" matColumnDef= {{column.field}}>
               <ng-container *ngIf="!column.field.startsWith('B') || !column.field.startsWith('SM')">

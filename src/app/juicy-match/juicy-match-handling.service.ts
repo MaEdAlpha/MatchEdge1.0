@@ -86,7 +86,6 @@ export class JuicyMatchHandlingService {
     //Sets current b365 H/D/A odds to previous odds for reference in expanded drop down
     mainMatch.b365HPrev = mainMatch.b365HCurr;
     mainMatch.b365APrev = mainMatch.b365ACurr;
-    mainMatch.b365DrawPrev = mainMatch.b365DrawCurr;
 
     return mainMatch;
   }

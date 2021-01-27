@@ -10,7 +10,7 @@ const { utf8Encode } = require('@angular/compiler/src/util');
 
 //const connectionString = "mongodb+srv://Dan:x6RTQn5bD79QLjkJ@cluster0.uljb3.gcp.mongodb.net/MBEdge?retryWrites=true&w=majority";
 const connectionString = "mongodb+srv://Randy:juicyBets2020@clusterme.lfzcj.mongodb.net/MBEdge?retryWrites=true&w=majority";
-const client = new MongoClient(connectionString);
+const client = new MongoClient(connectionString, {useUnifiedTopology: true, useNewUrlParser: true});
 //Initialize changeStream for database
 const streamEmitter = new EventEmitter();
 
@@ -35,7 +35,7 @@ app.use((req, res, next) => {
 async function connectDB(client){
 
   try {
-    await client.connect({useUnifiedTopology: true, useNewUrlParser: true, useFindAndModify: false})
+    await client.connect( {useUnifiedTopology: true, useNewUrlParser: true, useFindAndModify: false})
     .then(() =>  { console.log('Connected to database!')})
     .catch(() => { console.log('Connection failed!');});
     await updateMatches(client);
