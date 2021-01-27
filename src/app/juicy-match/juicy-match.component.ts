@@ -71,10 +71,7 @@ export class JuicyMatchComponent implements OnChanges, OnInit {
   ngOnChanges(changes: SimpleChanges)
   {
     //Anytime there is a change to this list of matches, refresh list of single matches.
-    if(changes.allMatches && changes.allMatches.currentValue && changes.allMatches.isFirstChange) {
-
-      // console.log("Change Detection Activated: List of Selections Below");
-      // console.log(this.dataSource);
+    if(changes.allMatches && changes.allMatches.currentValue) {
 
       if(this.allIndvMatches.length == 0){
         this.allIndvMatches = this.juicyMHService.getSingleMatches(this.allMatches);
@@ -82,13 +79,11 @@ export class JuicyMatchComponent implements OnChanges, OnInit {
          console.log(this.allIndvMatches);
         if(this.allIndvMatches != undefined){
           console.log("Creating new formArray");
-
           this.dataSource = new FormArray(this.allIndvMatches.map( x=> this.createForm(x)));
-          //is what lets HTML see which matches to display. without this, you need to trigger date change in toplay filter to initalize match load.
+          //is what lets HTML see which matches to display. without this, you need to trigger date change in toplayer filter to initalize match load.
           this.popJuiceInRange();
         }
       }
-
       this.allIndvMatches.length === 0 ? this.noMatchesToDisplay = true : this.noMatchesToDisplay = false;
     }
 
@@ -117,10 +112,10 @@ export class JuicyMatchComponent implements OnChanges, OnInit {
     .subscribe( (streamObj) => {
       //singleMatchPair is a freshly pushed Match object from our database. It is processed in retrieveStreamData.
       this.singleMatchPair = this.matchStatService.retrieveStreamData(streamObj);
-      this.singleMatchPair.forEach( (match) => {
+      this.singleMatchPair.forEach( (streamObj) => {
         // find match and update the values with stream data coming from DB.
-        var indexOfmatch = this.allIndvMatches.findIndex( indvMatch => indvMatch.Selection == match.Selection );
-        indexOfmatch != undefined && this.allIndvMatches[indexOfmatch] ? this.juicyMHService.updateSingleMatch(this.allIndvMatches[indexOfmatch], match, indexOfmatch) : console.log("did not find singleMatch in indvMatch Array");
+        var indexOfmatch = this.allIndvMatches.findIndex( indvMatch => indvMatch.Selection == streamObj.Selection );
+        indexOfmatch != undefined && this.allIndvMatches[indexOfmatch] ? this.juicyMHService.updateSingleMatch(this.allIndvMatches[indexOfmatch], streamObj, indexOfmatch) : console.log("did not find singleMatch in indvMatch Array");
       });
     });
 
@@ -174,8 +169,6 @@ export class JuicyMatchComponent implements OnChanges, OnInit {
       BackOdds:new FormControl(data.BackOdds),
       LayOdds:new FormControl(data.LayOdds),
       });
-
-
   }
 
   onSubmit(){

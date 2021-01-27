@@ -1,5 +1,5 @@
-import { Component, OnDestroy, OnInit, ViewChild, Input , AfterViewInit, Output, EventEmitter} from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Component, OnDestroy, OnInit, OnChanges, Output, EventEmitter, SimpleChanges, ChangeDetectorRef} from '@angular/core';
+import { Subject, Subscription } from 'rxjs';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { MatchesService } from '../match/matches.service';
 import { MatDialog } from '@angular/material/dialog';
@@ -15,7 +15,7 @@ import { SidenavService } from '../view-table-sidenav/sidenav.service';
 import { UserPropertiesService } from '../user-properties.service';
 import { MatchStatusService } from '../match-status.service';
 import { DateHandlingService } from '../date-handling.service';
-
+import { Observable } from 'rxjs';
 
   export class Group {
     level = 0;
@@ -95,15 +95,14 @@ import { DateHandlingService } from '../date-handling.service';
     dialogDisabled: boolean;
     displayHeaderDate: boolean = true;
 
-    @ViewChild(MatTable) table: MatTable<any>;
-
     private matchesSub: Subscription;
     private dateSubscription: Subscription;
+    private tableSubscription: Subscription;
     private firstPass = true;
     dateStart: number;
     dateEnd: number;
 
-    constructor(private userPref: UserPropertiesService, public datepipe: DatePipe, private sidenav: SidenavService , private matchesService: MatchesService, private webSocketService: WebsocketService, public dialog: MatDialog, private notificationBox: NotificationBoxService, private matchStatusService: MatchStatusService, private dateHandlingService: DateHandlingService) {
+    constructor(private chRef: ChangeDetectorRef, private userPref: UserPropertiesService, public datepipe: DatePipe, private sidenav: SidenavService , private matchesService: MatchesService, private webSocketService: WebsocketService, public dialog: MatDialog, private notificationBox: NotificationBoxService, private matchStatusService: MatchStatusService, private dateHandlingService: DateHandlingService) {
     }
 
     ngOnInit() {
@@ -127,7 +126,7 @@ import { DateHandlingService } from '../date-handling.service';
         this.cleanGroups(this.masterGroup);
         //assign only league groups that match user selected date
         this.dataSource.data = this.setGroupsToDate(this.masterGroup);
-        // console.log("--Matches From DB--");
+        console.log("--Matches From DB--");
         // console.log(this.matches);
       });
 
@@ -138,10 +137,12 @@ import { DateHandlingService } from '../date-handling.service';
       });
 
       //StreamChange data. Updates individual matches
-      this.matchesService.streamDataUpdate
+     this.tableSubscription = this.matchesService.streamDataUpdate
       .subscribe( (streamObj) => {
         var indexOfmatch = this.matches.findIndex( match => match.Home == streamObj.HomeTeamName && match.Away == streamObj.AwayTeamName);
         indexOfmatch != undefined && this.matches[indexOfmatch] ? this.updateMatch(this.matches[indexOfmatch], streamObj) : console.log("not found");
+        console.log("CHANGES DETECTED DO THE THING!");
+
       });
 
       //Update Start/End Dates
@@ -158,6 +159,7 @@ import { DateHandlingService } from '../date-handling.service';
     ngOnDestroy(){
       this.matchesSub.unsubscribe();
       //LIVE UPDATES UNCOMMENT
+      this.tableSubscription.unsubscribe();
       this.webSocketService.closeWebSocket();
       this.dateSubscription.unsubscribe();
       this.preferenceSubscription.unsubscribe();
@@ -306,42 +308,43 @@ import { DateHandlingService } from '../date-handling.service';
         }
       });
       //find the matches relative to the leagueGroup clicked
-        var groupIndex = this.viewTableList.indexOf(rowInfo);
-        //Position in viewTableList
-        var matchPosition = groupIndex + 1;
-        allMatches.forEach( match => {
-          //returns integer of date's 'dd'
-          var matchDate: number = this.matchDateInteger(match);
-          //position in MasterList.
-          var matchIndex: number = allMatches.indexOf(match);
+      var groupIndex = this.viewTableList.indexOf(rowInfo);
+      //Position in viewTableList
+      var matchPosition = groupIndex + 1;
+      allMatches.forEach( match => {
+        //returns integer of date's 'dd'
+        var matchDate: number = this.matchDateInteger(match);
+        //position in MasterList.
+        var matchIndex: number = allMatches.indexOf(match);
 
-          if(match.League != null && match.League.includes(rowInfo.League)){
-            if(this.viewSelectedDate == 'Today & Tomorrow' && (matchDate == this.dateEnd || matchDate == this.dateStart) ) {
-              this.setDisplayHeader(match, matchPosition, matchIndex, groupIndex, allMatches);
-              this.viewTableList.splice(matchPosition, 0, match);
-              matchPosition++;
-            }
-            if(this.viewSelectedDate == "Today" && matchDate == this.dateStart) {
-              this.setDisplayHeader(match, matchPosition, matchIndex, groupIndex, allMatches);
-              this.viewTableList.splice(matchPosition, 0 , match);
-              matchPosition++;
-            }
-            if(this.viewSelectedDate == "Tomorrow" && matchDate == this.dateEnd){
-              this.setDisplayHeader(match, matchPosition, matchIndex, groupIndex, allMatches);
-              this.viewTableList.splice(matchPosition, 0, match);
-              matchPosition++;
+        if(match.League != null && match.League.includes(rowInfo.League)){
+          if(this.viewSelectedDate == 'Today & Tomorrow' && (matchDate == this.dateEnd || matchDate == this.dateStart) ) {
+            this.setDisplayHeader(match, matchPosition, matchIndex, groupIndex, allMatches);
+            this.viewTableList.splice(matchPosition, 0, match);
+            matchPosition++;
+          }
+          if(this.viewSelectedDate == "Today" && matchDate == this.dateStart) {
+            this.setDisplayHeader(match, matchPosition, matchIndex, groupIndex, allMatches);
+            this.viewTableList.splice(matchPosition, 0 , match);
+            matchPosition++;
+          }
+          if(this.viewSelectedDate == "Tomorrow" && matchDate == this.dateEnd){
+            this.setDisplayHeader(match, matchPosition, matchIndex, groupIndex, allMatches);
+            this.viewTableList.splice(matchPosition, 0, match);
+            matchPosition++;
             }
           }
         });
         this.viewTableList = this.addFixturesDate(this.viewTableList);
-      return this.viewTableList
-    }
 
-    setDisplayHeader(matchObj,matchPosition, matchIndex, groupIndex, allMatches){
-      (matchPosition == (groupIndex +1) || (matchObj.Details.substring(0,2) != allMatches[matchIndex-1].Details.substring(0,2))) ? matchObj.displayHeaderDate = true : matchObj.displayHeaderDate = false;
-    }
+        return this.viewTableList
+      }
 
-    removeFromListOnClick(viewTableList, tableGroups, rowInfo): any[] {
+      setDisplayHeader(matchObj,matchPosition, matchIndex, groupIndex, allMatches){
+        (matchPosition == (groupIndex +1) || (matchObj.Details.substring(0,2) != allMatches[matchIndex-1].Details.substring(0,2))) ? matchObj.displayHeaderDate = true : matchObj.displayHeaderDate = false;
+      }
+
+      removeFromListOnClick(viewTableList, tableGroups, rowInfo): any[] {
 
         function removedMatches(item) {
           if(tableGroups.includes(item) || item.League != rowInfo.League){ return true; }
@@ -353,8 +356,6 @@ import { DateHandlingService } from '../date-handling.service';
 
       return this.viewTableList
     }
-
-
 
     //filter incomplete match records. Cold cause future bug. if initial scrape is postponed. Refresh on client side should solve this...maybe filter this further down the road.
     private sanitizeList(matches: any): any[]{
@@ -449,6 +450,7 @@ import { DateHandlingService } from '../date-handling.service';
                 }
               } else {
               }
+
           });
 
           if(this.isNotInList || this.matches.length == 0)
@@ -476,17 +478,17 @@ import { DateHandlingService } from '../date-handling.service';
     }
 
     updateMatch(match, streamMatch){
+      console.log("Match Updated....");
+
       if(streamMatch.SmarketsHomeOdds != 0 && streamMatch.SmarketsAwayOdds != 0)
       {
-      match.SMHome = streamMatch.SmarketsHomeOdds;
-      match.SMAway = streamMatch.SmarketsAwayOdds;
-
+        match.SMHome = streamMatch.SmarketsHomeOdds;
+        match.SMAway = streamMatch.SmarketsAwayOdds;
       }
       if(streamMatch.B365HomeOdds != 0 && streamMatch.B365AwayOdds != 0)
       {
         match.BHome = streamMatch.B365HomeOdds;
         match.BAway = streamMatch.B365AwayOdds;
-
       }
       if(streamMatch.OccurrenceAway != 0){
         match.BTTSOdds = streamMatch.B365BTTSOdds;
@@ -495,6 +497,8 @@ import { DateHandlingService } from '../date-handling.service';
         match.OccH = streamMatch.OccurrenceHome;
         match.OccA = streamMatch.OccurrenceAway;
       }
+      console.log(match);
+      this.chRef.detectChanges();
     }
 
     //expands and collapses container
