@@ -178,12 +178,11 @@ import { Observable } from 'rxjs';
             const groupObj = new Group();
             groupObj.level = level + 1;
             for (let i = 0; i <= level; i++) {
-
               groupObj[leagueName] = match[leagueName];
             }
             return groupObj;
-
       }), JSON.stringify);
+      console.log(groups);
 
       //Assign values to class object
       var assignTodaysDay: number = this.dateHandlingService.returnDateSelection('Today & Tomorrow')[0];
@@ -192,21 +191,30 @@ import { Observable } from 'rxjs';
       // console.log("RAW GROUPS + Dates for Filtering Groups");
       groups.forEach(group => {
         //Assiging League value to leagueGroupObject
-        const matchesInLeagueGroup = matches.filter(matchObj => group[leagueName] === matchObj[leagueName]);
+        const matchesInLeagueGroup = matches.filter(matchObj => group[leagueName] == matchObj[leagueName]);
         var switch1: boolean = true;
         var switch2: boolean = true;
+        console.log(group);
+
+        console.log(matchesInLeagueGroup);
 
         //Assign boolean to days groupHeader has matches.
         //DateBug - Because of current way of arranging dates, you do a hack day/365 days scenario the code below doesn't account for.
         matchesInLeagueGroup.forEach( match => {
-          if(switch1 && (+match.Details.substring(0,2) == assignTodaysDay)){
+          var matchDate: number = new Date(match.EpochTime *1000).getDate();
+          console.log(matchDate);
+          console.log(assignTodaysDay + " " + assignTomorrowsDay);
+
+
+          if(switch1 && (matchDate == assignTodaysDay) ){
             group.isToday = true;
             switch1 = false;
           }
-          if (switch2 && (+match.Details.substring(0,2) == assignTomorrowsDay)) {
+          if (switch2 && (matchDate == assignTomorrowsDay) ){
             group.isTomorrow = true;
             switch2 = false
           }
+
         });
         //Assign Total Count of matches in that league
         group.totalCounts = matchesInLeagueGroup.length;
@@ -219,6 +227,8 @@ import { Observable } from 'rxjs';
         return this.compare(a.League, b.League);
       });
       this.masterGroup = groups
+      console.log(groups);
+
     }
 
     private compare(a, b) {
@@ -348,13 +358,14 @@ import { Observable } from 'rxjs';
       }
 
       //Compare previous date with current. If they're the same, mark current displayHeaderDate -> false.
-      setDisplayHeader(matchObj, matchPosition, matchMasterIndex, groupIndex, allMatches){
-        var currentDate: number = new Date(matchObj.EpochTime * 1000).getDate();
-        var previousDate: number = new Date((allMatches[matchMasterIndex-1].EpochTime * 1000)).getDate();
-        var previousMatchObj: any = allMatches[matchMasterIndex - 1];
+      setDisplayHeader(match, matchPosition, allMatchIndex, groupIndex, allMatches){
+        var currentDate: number = new Date(match.EpochTime * 1000).getDate();
+        var previousDate: number;
+        allMatchIndex == 0 ? previousDate = 0 : previousDate = new Date((allMatches[allMatchIndex-1].EpochTime * 1000)).getDate();
+        var previousMatchObj: any = allMatches[allMatchIndex - 1];
 
         //If first in the list, or a new date, set true.
-        (matchPosition == (groupIndex + 1) || (currentDate != previousDate && matchObj.League == previousMatchObj.League)) ? matchObj.displayHeaderDate = true : matchObj.displayHeaderDate = false;
+        (matchPosition == (groupIndex + 1) || (previousDate != 0 && currentDate != previousDate && match.League == previousMatchObj.League)) ? match.displayHeaderDate = true : match.displayHeaderDate = false;
       }
 
       removeFromListOnClick(viewTableList, tableGroups, rowInfo): any[] {
