@@ -173,7 +173,8 @@ export class WatchlistComponent implements OnInit, OnDestroy {
       var matchPosition = groupIndex + 1;
 
       watchList.forEach( match => {
-        var matchDate: number = this.matchDateInteger(match);
+        var matchDate: number = new Date(match.EpochTime * 1000).getDate();
+        //prevDate acts as a switch for setting displayHeaderDate boolean.
         var prevDate: string = "placeHolder";
         if(dateSelected == 'Today & Tomorrow' && groupHeader.League == match.League && (matchDate == dateStart || matchDate == dateEnd) ){
           this.setDisplayHeader(match, matchPosition, groupIndex, prevDate);
@@ -201,15 +202,13 @@ export class WatchlistComponent implements OnInit, OnDestroy {
     });
   }
 
-  setDisplayHeader(matchObj,matchPosition, groupIndex, prevDate){
+  setDisplayHeader(matchObj, matchPosition, groupIndex, prevDate){
     (matchPosition == (groupIndex +1) || (matchObj.Details.substring(0,2) != prevDate.substring(0,2))) ? matchObj.displayHeaderDate = true : matchObj.displayHeaderDate = false;
   }
 
   compareDates(a, b){
-      console.log(this.dateHandlingService.convertGBStringDate(a.Details));
-      console.log(this.dateHandlingService.convertGBStringDate(b.Details));
 
-    if(a.Details > b.Details){
+    if(a.EpochTime > b.EpochTime){
       return 1;
     } else {
       return -1;
@@ -242,9 +241,9 @@ export class WatchlistComponent implements OnInit, OnDestroy {
       this.groupSubscription.unsubscribe();
     }
 
-    private matchDateInteger(matchObj: any): number {
-      return this.dateHandlingService.convertGBStringDate(matchObj.Details).getMonth()*30 + this.dateHandlingService.convertGBStringDate(matchObj.Details).getDate();
-    }
+    // private matchDateInteger(matchObj: any): number {
+    //   return this.dateHandlingService.convertGBStringDate(matchObj.Details).getMonth()*30 + this.dateHandlingService.convertGBStringDate(matchObj.Details).getDate();
+    // }
 
 
     removefromWatchList(row: any){
@@ -279,14 +278,15 @@ export class WatchlistComponent implements OnInit, OnDestroy {
             var matchIndex = allData.indexOf(matchObj);
 
             //Returns matchObject time into US.
-            var matchDate: number = +((this.dateHandlingService.convertGBStringDate(matchObj.Details)).getDate());
+            var matchDate: number = new Date(matchObj.EpochTime * 1000).getDate();
+            var prevDate: number = new Date(allData[matchIndex-1].EpochTime * 1000).getDate();
             //INJECTS  MATCHES  UNDERNEATH GROUP HEADER
             if(matchObj.isWatched && matchObj.League == groupObj.League && (matchDate == dateEnd || matchDate == dateStart))
             {
               if(matchPosition == groupIndex + 1){
                 matchObj.displayHeaderDate = true;
               }
-              else if (matchObj.Details.substring(0,2) != allData[matchIndex-1].Details.substring(0,2)) {
+              else if (matchDate != prevDate) {
                 matchObj.displayHeaderDate = true;
               }
               else {
@@ -371,7 +371,7 @@ export class WatchlistComponent implements OnInit, OnDestroy {
           allMatchData.forEach( matchObj => {
             var matchIndex = allMatchData.indexOf(matchObj);
             //Returns correct date format for en-GB
-            var matchDate: number = +(this.dateHandlingService.convertGBStringDate(matchObj.Details)).getDate();
+            var matchDate: number = new Date(matchObj.EpochTime * 1000).getDate();
             //INJECTS  MATCHES  UNDERNEATH GROUP HEADER
             if(matchObj.League == groupHeader.League && (matchDate == dateEnd || matchDate == dateStart))
             {

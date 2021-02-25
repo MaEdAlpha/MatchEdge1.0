@@ -99,8 +99,8 @@ import { Observable } from 'rxjs';
     private dateSubscription: Subscription;
     private tableSubscription: Subscription;
     private firstPass = true;
-    dateStart: number;
-    dateEnd: number;
+    todayDate: number;
+    tomorrowDate: number;
 
     constructor(private chRef: ChangeDetectorRef, private userPref: UserPropertiesService, public datepipe: DatePipe, private sidenav: SidenavService , private matchesService: MatchesService, private webSocketService: WebsocketService, public dialog: MatDialog, private notificationBox: NotificationBoxService, private matchStatusService: MatchStatusService, private dateHandlingService: DateHandlingService) {
     }
@@ -127,7 +127,7 @@ import { Observable } from 'rxjs';
         //assign only league groups that match user selected date
         this.dataSource.data = this.setGroupsToDate(this.masterGroup);
         console.log("--Matches From DB--");
-        // console.log(this.matches);
+         console.log(this.matches);
       });
 
       //UserPreferences
@@ -184,8 +184,8 @@ import { Observable } from 'rxjs';
       }), JSON.stringify);
 
       //Assign values to class object
-      var todaysDay: number = this.dateHandlingService.returnDateSelection('Today & Tomorrow')[0];
-      var tomorrowsDay: number = this.dateHandlingService.returnDateSelection('Today & Tomorrow')[1];
+      var assignTodaysDay: number = this.dateHandlingService.returnDateSelection('Today & Tomorrow')[0];
+      var assignTomorrowsDay: number = this.dateHandlingService.returnDateSelection('Today & Tomorrow')[1];
 
       // console.log("RAW GROUPS + Dates for Filtering Groups");
       groups.forEach(group => {
@@ -194,13 +194,14 @@ import { Observable } from 'rxjs';
         var switch1: boolean = true;
         var switch2: boolean = true;
 
-        //Assign dateBooleans for filtering later.
+        //Assign boolean to days groupHeader has matches.
+        //DateBug - Because of current way of arranging dates, you do a hack day/365 days scenario the code below doesn't account for.
         matchesInLeagueGroup.forEach( match => {
-          if(switch1 && (+match.Details.substring(0,2) == todaysDay)){
+          if(switch1 && (+match.Details.substring(0,2) == assignTodaysDay)){
             group.isToday = true;
             switch1 = false;
           }
-          if (switch2 && (+match.Details.substring(0,2) == tomorrowsDay)) {
+          if (switch2 && (+match.Details.substring(0,2) == assignTomorrowsDay)) {
             group.isTomorrow = true;
             switch2 = false
           }
@@ -307,28 +308,32 @@ import { Observable } from 'rxjs';
           this.viewTableList.push(leagueGroup);
         }
       });
-      //find the matches relative to the leagueGroup clicked
+      //Set the LeagueGroupHeader (i.e Premier League header) index to groupIndex.
       var groupIndex = this.viewTableList.indexOf(rowInfo);
-      //Position in viewTableList
+      //Set the first displayed match to index position +1 of groupIndex.
       var matchPosition = groupIndex + 1;
-      allMatches.forEach( match => {
-        //returns integer of date's 'dd'
-        var matchDate: number = this.matchDateInteger(match);
-        //position in MasterList.
-        var matchIndex: number = allMatches.indexOf(match);
 
+      allMatches.forEach( match => {
+        //Get Match Date only
+        var unixDate = new Date(match.EpochTime*1000);
+        var matchDate: number = unixDate.getDate();
+
+        //position of match in your match list retrieved from DB.
+        var matchIndex: number = allMatches.indexOf(match);
+        //Sometimes a full scrape of a record is not done, and League = '' or null. Need to account for that null.
         if(match.League != null && match.League.includes(rowInfo.League)){
-          if(this.viewSelectedDate == 'Today & Tomorrow' && (matchDate == this.dateEnd || matchDate == this.dateStart) ) {
+          //Check what date is selected.
+          if(this.viewSelectedDate == 'Today & Tomorrow' && (matchDate == this.tomorrowDate || matchDate == this.todayDate) ) {
             this.setDisplayHeader(match, matchPosition, matchIndex, groupIndex, allMatches);
             this.viewTableList.splice(matchPosition, 0, match);
             matchPosition++;
           }
-          if(this.viewSelectedDate == "Today" && matchDate == this.dateStart) {
+          if(this.viewSelectedDate == "Today" && matchDate == this.todayDate) {
             this.setDisplayHeader(match, matchPosition, matchIndex, groupIndex, allMatches);
             this.viewTableList.splice(matchPosition, 0 , match);
             matchPosition++;
           }
-          if(this.viewSelectedDate == "Tomorrow" && matchDate == this.dateEnd){
+          if(this.viewSelectedDate == "Tomorrow" && matchDate == this.tomorrowDate){
             this.setDisplayHeader(match, matchPosition, matchIndex, groupIndex, allMatches);
             this.viewTableList.splice(matchPosition, 0, match);
             matchPosition++;
@@ -340,8 +345,14 @@ import { Observable } from 'rxjs';
         return this.viewTableList
       }
 
-      setDisplayHeader(matchObj,matchPosition, matchIndex, groupIndex, allMatches){
-        (matchPosition == (groupIndex +1) || (matchObj.Details.substring(0,2) != allMatches[matchIndex-1].Details.substring(0,2))) ? matchObj.displayHeaderDate = true : matchObj.displayHeaderDate = false;
+      //Compare previous date with current. If they're the same, mark current displayHeaderDate -> false.
+      setDisplayHeader(matchObj, matchPosition, matchMasterIndex, groupIndex, allMatches){
+        var currentDate: number = new Date(matchObj.EpochTime * 1000).getDate();
+        var previousDate: number = new Date((allMatches[matchMasterIndex-1].EpochTime * 1000)).getDate();
+        var previousMatchObj: any = allMatches[matchMasterIndex - 1];
+
+        //If first in the list, or a new date, set true.
+        (matchPosition == (groupIndex + 1) || (currentDate != previousDate && matchObj.League == previousMatchObj.League)) ? matchObj.displayHeaderDate = true : matchObj.displayHeaderDate = false;
       }
 
       removeFromListOnClick(viewTableList, tableGroups, rowInfo): any[] {
@@ -357,22 +368,24 @@ import { Observable } from 'rxjs';
       return this.viewTableList
     }
 
-    //filter incomplete match records. Cold cause future bug. if initial scrape is postponed. Refresh on client side should solve this...maybe filter this further down the road.
+    //filter incomplete match records. Could cause future bug. if initial scrape is postponed. Refresh on client side should solve this...maybe filter this further down the road.
     private sanitizeList(matches: any): any[]{
-      function nullMatches(match){
-        if(match.League != null && match.BAway != 999 && match.Details != null && match.BAway != 0 && match.SMAway != 0){
+      //filter data based off incompleteData
+      function incompleteData(match){
+        if(match.League != null && match.BAway != 999 && match.Details != null && match.BAway != 0 && match.SMAway != 0 && match.EpochTime != undefined && match.EpochTime != 0){
           return true;
         }
       }
-      const cleanList = matches.filter(nullMatches);
+      const cleanList = matches.filter(incompleteData);
       return cleanList;
     }
 
     private setStartEndDays(dateSelection: any) {
       var dateValidator: number[] = this.dateHandlingService.returnDateSelection(dateSelection);
 
-      this.dateStart = dateValidator[0];
-      this.dateEnd = dateValidator[1];
+      //assign date of the month.
+      this.todayDate = dateValidator[0];
+      this.tomorrowDate = dateValidator[1];
     }
 
     //Date formatter
@@ -381,27 +394,25 @@ import { Observable } from 'rxjs';
       var count=0;
       matchList.forEach( matchObj => {
         if(matchObj.level != 1 && matchObj.Details != undefined ){
+          var localDate: Date = new Date(matchObj.EpochTime * 1000);
           if(matchObj.displayHeaderDate){
+            //Wants to have this in milliseconds
             console.log(matchObj.Details);
 
             //All of Angular is using Datepipes to conver by en-US locale, not en-GB. For the time being, everything must be converted to english Locale
-            var convertIntoUS = this.dateHandlingService.switchDaysWithMonths(matchObj.Details);
-            matchObj.FixturesDate = this.datepipe.transform(convertIntoUS, 'EEE dd MMM');
-            matchObj.FixturesTime = this.datepipe.transform(convertIntoUS, 'HH:mm');
+            //REMOVE THIS var convertIntoUS = this.dateHandlingService.switchDaysWithMonths(matchObj.Details);
+            //Converts Local Date and Time
+            matchObj.FixturesDate = this.datepipe.transform(localDate, 'EEE dd MMM');
+            matchObj.FixturesTime = this.datepipe.transform(localDate, 'HH:mm');
           } else {
-            var convertIntoUS = this.dateHandlingService.switchDaysWithMonths(matchObj.Details);
+            //REMOVE THIS var convertIntoUS = this.dateHandlingService.switchDaysWithMonths(matchObj.Details);
             matchObj.FixturesDate = "";
-            matchObj.FixturesTime = this.datepipe.transform(convertIntoUS, 'HH:mm');
+            matchObj.FixturesTime = this.datepipe.transform(localDate, 'HH:mm');
           }
         }
         count++;
       });
       return matchList;
-    }
-
-    // return an integer of the date.
-    private matchDateInteger(matchObj: any): number {
-      return +this.dateHandlingService.convertGBStringDate(matchObj.Details).getMonth()*30 + (this.dateHandlingService.convertGBStringDate(matchObj.Details)).getDate();
     }
 
     //maybe use for later on default match opened

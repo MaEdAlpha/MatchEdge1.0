@@ -22,16 +22,18 @@ export class DateHandlingService {
   //Processes dateSelection from Top Layer filter. Returns number array of start and end date.
   returnDateSelection(dateSelected: string): number[] {
     //Testing Values
-    // var today = 1
-    // var tomorrow = today + 1;
+     var today = 27
+     var tomorrow = today + 1;
 
     /* Real Values. DO NOT DELETE
-    //returns day date as an integer
+      returns day date as an integer, use milliseconds/minutes/ but set date to day/month/year 00:00:00
+      When you filter matches to this date validator, make sure they're => otherwise you won't pickup the midnight games.
+      DateBug Create a unique number to account for month changes. This way January 31st And February 1st will properly register as today + tomorrow
     */
-   //Create a unique number to account for month changes. This way January 31st And February 1st will properly register as today + tomorrow
-   //Concatenate string, then turn to integer. ES6 format.
-    var today = new Date(Date.now()).getMonth()*30 + new Date(Date.now()).getDate();
-    var tomorrow = today + 1;
+    // var today = new Date(Date.now()).getDate();
+    // var tomorrow = today + 1;
+
+    console.log(today + " " + tomorrow);
 
 
     if(dateSelected == 'Today')
@@ -52,7 +54,6 @@ export class DateHandlingService {
   convertGBStringDate(gbDateFormat: string): Date {
 
     var usDateFormat = this.switchDaysWithMonths(gbDateFormat);
-
     return new Date(Date.parse(usDateFormat));
   }
 
@@ -64,5 +65,9 @@ export class DateHandlingService {
   //returns date as a value.
   returnDayDate(gbDateFormat:string): number {
     return this.convertGBStringDate(gbDateFormat).getDate();
+  }
+
+  returnUserDate(epochTime:number): Date {
+    return new Date(epochTime*1000);
   }
 }
