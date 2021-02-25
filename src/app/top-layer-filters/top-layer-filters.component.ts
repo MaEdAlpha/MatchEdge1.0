@@ -2,6 +2,7 @@ import { Component, OnInit, EventEmitter, Output, OnChanges, SimpleChanges } fro
 import { DateHandlingService } from '../date-handling.service';
 import { MatchStatusService } from '../match-status.service';
 import { UserPropertiesService } from '../user-properties.service';
+import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { SidenavService } from '../view-table-sidenav/sidenav.service';
 
 interface DateOptions {
@@ -30,6 +31,7 @@ export class TopLayerFiltersComponent implements OnInit, OnChanges {
       //first layer filter
       viewThisDate:string;
       viewThisMode:string = "All";
+      tableTitle:string = "Fixtures";
 
       dateSelect: DateOptions[] = [
         { value: '0' , viewValue: 'Today' },
@@ -59,15 +61,23 @@ export class TopLayerFiltersComponent implements OnInit, OnChanges {
     this.hideTable.emit(this.displayFixtures);
   }
 
+  displaySelectedTable(_tableTitle) {
+    _tableTitle == "Watchlist" ? this.displayFixtures = 2 : this.displayFixtures = 1;
+    this.hideTable.emit(this.displayFixtures);
+  }
+
   sendDateSelection(value: string){
     this.viewThisDate = value;
     // Update UserPref Range value
     // this.userPref.updateRange(value);
     this.dateHandlingService.sendSelectedDate(value);
-
-
   }
 
+  toggleTable($event: MatSlideToggleChange){
+    $event.checked ? this.tableTitle = "Watchlist" : this.tableTitle = "Fixtures";
+    $event.checked ? this.displayFixtures = 2 : this.displayFixtures = 1;
+    this.hideTable.emit(this.displayFixtures);
+  }
   initIgnoreList(){
     this.emitIgnoreList.emit(this.matchStatusService.getIgnoreList());
   }

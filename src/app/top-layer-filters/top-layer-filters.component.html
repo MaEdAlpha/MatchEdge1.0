@@ -17,8 +17,15 @@
   <div class="hdr-bottom-row">
     <div class="hdr-tabs-right">
       <div class="table-tabs">
-        <button mat-raised-button (click)="showTable(1)">Fixtures</button>
-        <button mat-raised-button (click)="showTable(2)">Watchlist</button>
+        <button mat-raised-button (click)="displaySelectedTable(tableTitle)">{{ tableTitle }}
+          <mat-slide-toggle
+          class="toggle-btn-table"
+          (change) = "toggleTable($event)">
+          </mat-slide-toggle></button>
+      <!-- Have a container what toggles text Fixtures/Watchlist.
+              Should look like a button
+                Should have a mat-slide-toggle that sets showTable(1) / showTable(2) -->
+
         <button mat-raised-button (click)="showTable(3); initIgnoreList()">Juicy</button>
         <button mat-raised-button (click)="showTable(4)">Active</button>
       </div>
