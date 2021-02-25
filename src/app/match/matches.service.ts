@@ -38,6 +38,7 @@ export class MatchesService {
             BTTSOdds: match.B365BTTSOdds,
             B25GOdds: match.B365O25GoalsOdds,
             Details: match.StartDateTime,
+            EpochTime: match.unixDateTimestamp,
             League: match.League,
             OccH: match.OccurrenceHome,
             OccA: match.OccurrenceAway,

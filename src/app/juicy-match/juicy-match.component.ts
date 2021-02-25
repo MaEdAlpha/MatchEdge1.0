@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnDestroy, DoCheck, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy, DoCheck, OnChanges, SimpleChanges, ChangeDetectorRef } from '@angular/core';
 import { JuicyMatchHandlingService } from './juicy-match-handling.service';
 import { TooltipPosition } from '@angular/material/tooltip';
 import { FormControl,FormGroup,FormArray } from '@angular/forms';
@@ -66,7 +66,7 @@ export class JuicyMatchComponent implements OnChanges, OnInit {
   formattedAmount:any;
   @Input() selectionToIgnore: any[];
 
-  constructor(private sidenav: SidenavService, private juicyMHService: JuicyMatchHandlingService, private matchStatService: MatchStatsService, private matchesService: MatchesService, private userPrefService: UserPropertiesService, private matchStatusService: MatchStatusService, private dateHandlingService: DateHandlingService ) { }
+  constructor(private chRef: ChangeDetectorRef, private sidenav: SidenavService, private juicyMHService: JuicyMatchHandlingService, private matchStatService: MatchStatsService, private matchesService: MatchesService, private userPrefService: UserPropertiesService, private matchStatusService: MatchStatusService, private dateHandlingService: DateHandlingService ) { }
 
   ngOnChanges(changes: SimpleChanges)
   {
@@ -116,6 +116,7 @@ export class JuicyMatchComponent implements OnChanges, OnInit {
         // find match and update the values with stream data coming from DB.
         var indexOfmatch = this.allIndvMatches.findIndex( indvMatch => indvMatch.Selection == streamObj.Selection );
         indexOfmatch != undefined && this.allIndvMatches[indexOfmatch] ? this.juicyMHService.updateSingleMatch(this.allIndvMatches[indexOfmatch], streamObj, indexOfmatch) : console.log("did not find singleMatch in indvMatch Array");
+        this.chRef.detectChanges();
       });
     });
 

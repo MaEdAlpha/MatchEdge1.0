@@ -9,6 +9,7 @@
     B365BTTSOdds:number;
     B365O25GoalsOdds:number;
     StartDateTime:Date;
+    EpochTime:number;
     League:string;
     OccurrenceHome: number;
     OccurrenceAway:number;
@@ -29,6 +30,7 @@
     BTTSOdds: number;
     B25GOdds: number;
     Details: Date;
+    EpochTime:number;
     League: string;
     OccH: number;
     OccA: number;
