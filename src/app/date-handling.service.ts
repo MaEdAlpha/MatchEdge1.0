@@ -22,16 +22,16 @@ export class DateHandlingService {
   //Processes dateSelection from Top Layer filter. Returns number array of start and end date.
   returnDateSelection(dateSelected: string): number[] {
     //Testing Values
-     var today = 27
-     var tomorrow = today + 1;
+    //  var today = 27
+    //  var tomorrow = today + 1;
 
     /* Real Values. DO NOT DELETE
       returns day date as an integer, use milliseconds/minutes/ but set date to day/month/year 00:00:00
       When you filter matches to this date validator, make sure they're => otherwise you won't pickup the midnight games.
       DateBug Create a unique number to account for month changes. This way January 31st And February 1st will properly register as today + tomorrow
     */
-    // var today = new Date(Date.now()).getDate();
-    // var tomorrow = today + 1;
+    var today = new Date(Date.now()).getDate();
+    var tomorrow = today + 1;
 
     console.log(today + " " + tomorrow);
 
