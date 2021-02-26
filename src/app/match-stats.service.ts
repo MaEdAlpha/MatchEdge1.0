@@ -4,6 +4,7 @@ import { UserPropertiesService } from './user-properties.service';
 import { JuicyMatch } from './juicy-match/juicy-match.model';
 import { Match } from './match/match.model';
 import { Observable, Subject, from } from "rxjs";
+import { NotificationBoxService } from './notification-box.service';
 
 @Injectable({
   providedIn: 'root'
@@ -30,7 +31,7 @@ export class MatchStatsService {
 
 
 
-  constructor(private calcSettingsService: CalcSettingsService) {
+  constructor(private calcSettingsService: CalcSettingsService,  private notificationService: NotificationBoxService) {
   }
 
 //The first HTTP GET you requested  fucks up all the variable names... either map...or figure shit out
@@ -60,6 +61,7 @@ getMatchStats(match){
 
         this.singleHomeMatch =  {
           EventStart: match.Details,
+          EpochTime: match.EpochTime,
           Stake: this.stake,
           LayStake: this.layStake,
           Fixture: match.Home + " vs " + match.Away,
@@ -114,6 +116,7 @@ getMatchStats(match){
 
         this.singleAwayMatch =  {
           EventStart: match.Details,
+          EpochTime: match.EpochTime,
           Stake: this.stake,
           LayStake: this.layStake,
           Fixture: match.Home + " vs " + match.Away,
@@ -178,6 +181,7 @@ getMatchStats(match){
         //console.log(match.Home + ": stake: " + this.stake + " bOdds" + this.backOdds + " lay: " + this.layOdds + " layStake " + this.layStake + " liability" + this.liability + " ql " + this.ql + " oneInXgames " + this.oneInXgames + " ft " + this.ft + " evThisBet " + this.evThisBet + " " + this.stake + " ");
             this.singleHomeMatch =  {
               EventStart: streamObj.StartDateTime,
+              EpochTime: streamObj.EpochTime,
               Stake: this.stake,
               LayStake: this.layStake,
               Fixture: streamObj.HomeTeamName + " vs " + streamObj.AwayTeamName,
@@ -227,6 +231,7 @@ getMatchStats(match){
        //console.log(match.Home + ": stake: " + this.stake + " bOdds" + this.backOdds + " lay: " + this.layOdds + " layStake " + this.layStake + " liability" + this.liability + " ql " + this.ql + " oneInXgames " + this.oneInXgames + " ft " + this.ft + " evThisBet " + this.evThisBet + " " + this.stake + " ");
             this.singleAwayMatch =  {
               EventStart: streamObj.StartDateTime,
+              EpochTime: streamObj.EpochTime,
               Stake: this.stake,
               LayStake: this.layStake,
               Fixture: streamObj.HomeTeamName + " vs " + streamObj.AwayTeamName,
@@ -258,7 +263,7 @@ getMatchStats(match){
               b365DrawPrev: 999,
             }
             this.pairOfSingleMatches.push(this.singleAwayMatch);
-
+            this.notificationService.showJuicyNotification(this.pairOfSingleMatches);
             return this.pairOfSingleMatches;
   }
 
@@ -266,10 +271,6 @@ getMatchStats(match){
     //console.log( this.allSingleMatches);
 
     return this.allSingleMatches;
-  }
-
-  updateStatus(data: Match){
-
   }
 
 }

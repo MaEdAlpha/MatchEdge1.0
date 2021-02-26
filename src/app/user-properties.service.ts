@@ -63,8 +63,8 @@ export class UserPropertiesService {
     timeRange: 'Today & Tomorrow',
     minOdds: '2.1',
     maxOdds: '4.5',
-    evFilterValue: '0',
-    maxRatingFilter: '98.50',
+    evFilterValue: '-3',
+    maxRatingFilter: '90.50',
     isEvSelected: true,
     dialogDisabled: true,
   };

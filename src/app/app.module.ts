@@ -125,7 +125,12 @@ registerLocaleData(localeGB);
     MatTooltipModule,
     ReactiveFormsModule,
     ToastrModule.forRoot( {
-      timeOut: 3000,
+      timeOut: 10000,
+      onActivateTick: true,
+      tapToDismiss: false,
+      progressBar: true,
+      extendedTimeOut: 2000,
+      closeButton: true,
       positionClass: 'toast-bottom-right',
       preventDuplicates: false,
     }),

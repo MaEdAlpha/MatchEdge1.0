@@ -136,11 +136,10 @@ import { Observable } from 'rxjs';
         this.dialogDisabled = userPrefs.dialogDisabled;
       });
 
-      //StreamChange data. Updates individual matches
+      //StreamChange data. Updates individual matches, where toast should be triggered.
      this.tableSubscription = this.matchesService.streamDataUpdate
       .subscribe( (streamObj) => {
-        console.log("Incoming StreamOBJ");
-
+        console.log("---Incoming SSE---");
         var indexOfmatch = this.matches.findIndex( match => match.Home == streamObj.HomeTeamName && match.Away == streamObj.AwayTeamName);
         indexOfmatch != undefined && this.matches[indexOfmatch] ? this.updateMatch(this.matches[indexOfmatch], streamObj) : console.log( streamObj.HomeTeamName + " vs. " + streamObj.AwayTeamName + " not found");
 
@@ -193,27 +192,21 @@ import { Observable } from 'rxjs';
         const matchesInLeagueGroup = matches.filter(matchObj => group[leagueName] == matchObj[leagueName]);
         var switch1: boolean = true;
         var switch2: boolean = true;
-        console.log(group);
-
-        console.log(matchesInLeagueGroup);
-
-        //Assign boolean to days groupHeader has matches.
-        //DateBug - Because of current way of arranging dates, you do a hack day/365 days scenario the code below doesn't account for.
+        // console.log(group);
+        // console.log(matchesInLeagueGroup);
         matchesInLeagueGroup.forEach( match => {
           var matchDate: number = new Date(match.EpochTime *1000).getDate();
-          console.log(matchDate);
-          console.log(assignTodaysDay + " " + assignTomorrowsDay);
+          // console.log(matchDate);
+          // console.log(assignTodaysDay + " " + assignTomorrowsDay);
 
-
-          if(switch1 && (matchDate == assignTodaysDay) ){
+          if( switch1 && (matchDate == assignTodaysDay) ){
             group.isToday = true;
             switch1 = false;
           }
-          if (switch2 && (matchDate == assignTomorrowsDay) ){
+          if( switch2 && (matchDate == assignTomorrowsDay) ){
             group.isTomorrow = true;
             switch2 = false
           }
-
         });
         //Assign Total Count of matches in that league
         group.totalCounts = matchesInLeagueGroup.length;
@@ -222,12 +215,10 @@ import { Observable } from 'rxjs';
       //sort groups alphabetically
 
       groups = groups.sort((a: any, b: any) => {
-
         return this.compare(a.League, b.League);
       });
       this.masterGroup = groups
-      console.log(groups);
-
+      //console.log(groups);
     }
 
     private compare(a, b) {
@@ -408,16 +399,9 @@ import { Observable } from 'rxjs';
         if(matchObj.level != 1 && matchObj.Details != undefined ){
           var localDate: Date = new Date(matchObj.EpochTime * 1000);
           if(matchObj.displayHeaderDate){
-            //Wants to have this in milliseconds
-            console.log(matchObj.Details);
-
-            //All of Angular is using Datepipes to conver by en-US locale, not en-GB. For the time being, everything must be converted to english Locale
-            //REMOVE THIS var convertIntoUS = this.dateHandlingService.switchDaysWithMonths(matchObj.Details);
-            //Converts Local Date and Time
             matchObj.FixturesDate = this.datepipe.transform(localDate, 'EEE dd MMM');
             matchObj.FixturesTime = this.datepipe.transform(localDate, 'HH:mm');
           } else {
-            //REMOVE THIS var convertIntoUS = this.dateHandlingService.switchDaysWithMonths(matchObj.Details);
             matchObj.FixturesDate = "";
             matchObj.FixturesTime = this.datepipe.transform(localDate, 'HH:mm');
           }
@@ -501,7 +485,7 @@ import { Observable } from 'rxjs';
     }
 
     updateMatch(match, streamMatch){
-      console.log("Match Updated....");
+      console.log("Match Updating....");
 
       if(streamMatch.SmarketsHomeOdds != 0 && streamMatch.SmarketsAwayOdds != 0)
       {
@@ -520,8 +504,8 @@ import { Observable } from 'rxjs';
         match.OccH = streamMatch.OccurrenceHome;
         match.OccA = streamMatch.OccurrenceAway;
       }
-      console.log(match);
       this.chRef.detectChanges();
+
     }
 
     //expands and collapses container

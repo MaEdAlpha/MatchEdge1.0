@@ -38,7 +38,7 @@ async function connectDB(client){
     await client.connect( {useUnifiedTopology: true, useNewUrlParser: true, useFindAndModify: false})
     .then(() =>  { console.log('Connected to database!')})
     .catch(() => { console.log('Connection failed!');});
-    await updateMatches(client);
+      await updateMatches(client);
     // await listDatabases(client);
     // await showMatches(client);
   } catch (e) {
@@ -64,10 +64,10 @@ async function showMatches(client){
   return query;
 }
 
+//development purposes
 async function updateMatches(client){
   const collection = client.db("MBEdge").collection("matches");
   const changeStream = collection.watch();
-  console.log("InUpdateMatches");
   changeStream.on('change', (next) => {
     console.log(next.fullDocument);
     //res.write( next + "\n\n" );
@@ -83,7 +83,7 @@ app.get('/api/updates',  function(req, res) {
 
   const collection =  client.db("MBEdge").collection("matches");
   const changeStream = collection.watch();
-  console.log("InUpdateMatches");
+  console.log("Listening...");
   changeStream.on('change', (next) => {
 
     var data = JSON.stringify(next.fullDocument);
