@@ -128,9 +128,11 @@ registerLocaleData(localeGB);
       timeOut: 10000,
       onActivateTick: true,
       tapToDismiss: false,
+      enableHtml: true,
       progressBar: true,
       extendedTimeOut: 2000,
       closeButton: true,
+
       positionClass: 'toast-bottom-right',
       preventDuplicates: false,
     }),

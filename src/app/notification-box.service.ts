@@ -24,12 +24,12 @@ export class NotificationBoxService {
     var away = streamMatchesArray[1];
     //Need to check if already in Juicy Matches. if()
     if(home.EVthisBet >= evRatingFilter || home.MatchRating >= matchRatingFilter){
-      this.toast.info(home.Selection + ": \nEV: " + home.EVthisBet + "\n MR: " + home.MatchRating, "Juicy Match Detected!")
+      this.toast.info(home.Selection + ": </br> EV: " + home.EVthisBet + "</br> MR: " + home.MatchRating, "Juicy Match Detected!")
 
     }
 
     if(away.EVthisBet >= evRatingFilter || away.MatchRating >= matchRatingFilter){
-      this.toast.success(away.Selection + ": \nEV: " + away.EVthisBet + "\n MR: " + away.MatchRating, "Juicy Match Detected!")
+      this.toast.success(away.Selection + ": </br> EV: " + away.EVthisBet + "</br> MR: " + away.MatchRating, "Juicy Match Detected!")
     }
 
   }
