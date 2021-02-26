@@ -229,7 +229,7 @@ mat-header-cell.cdk-column-Home, mat-header-cell.cdk-column-Away, mat-header-cel
 }
 
 .mat-icon-button {
-  width: 30%;
+  float: right;
 }
 
 .fixturesDateBtn {
