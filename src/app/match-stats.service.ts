@@ -263,6 +263,7 @@ getMatchStats(match){
               b365DrawPrev: 999,
             }
             this.pairOfSingleMatches.push(this.singleAwayMatch);
+            //retrieve boolean to see if selections are already in JuicyMathTable
             this.notificationService.showJuicyNotification(this.pairOfSingleMatches);
             return this.pairOfSingleMatches;
   }
