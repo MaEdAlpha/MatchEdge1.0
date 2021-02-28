@@ -61,10 +61,10 @@ export class UserPropertiesService {
   private viewTablePrefs: TablePreferences = {
     leagueSelection: ['Retrieved from UserPropertiesService'],
     timeRange: 'Today & Tomorrow',
-    minOdds: '1',
-    maxOdds: '10',
-    evFilterValue: '-3',
-    maxRatingFilter: '90.50',
+    minOdds: '1.7',
+    maxOdds: '20',
+    evFilterValue: '1',
+    maxRatingFilter: '97',
     isEvSelected: true,
     dialogDisabled: true,
   };

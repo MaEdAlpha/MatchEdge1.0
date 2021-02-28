@@ -26,8 +26,8 @@ mat-row, mat-header-row {
     padding: 6px;
     border-radius: 5px;
     font-size: large;
-
 }
+
 
 .mat-column-groupHeader, .leagueGroupContainer  {
   background: #7a8585;
@@ -121,8 +121,6 @@ border-bottom-left-radius: 30px;
   background: white;
   border-radius: 5px;
 }
-
-
 
 app-view-table-sidenav {
   float: left;
@@ -263,8 +261,5 @@ mat-header-cell.cdk-column-Home, mat-header-cell.cdk-column-Away, mat-header-cel
     margin-left: auto;
 }
 
-button.viewCell {
-  background: #afafaf;
-}
 
 
