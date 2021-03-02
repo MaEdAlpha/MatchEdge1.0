@@ -25,7 +25,8 @@ export class DateHandlingService {
     // console.log("Testing dates hardcoded, comment out for real dates")
     //  var today = 27
     //  var tomorrow = today + 1;
-    var today = new Date(Date.now()).getDate();
+
+    var today = new Date(Date.now()).getUTCDate();
     var tomorrow = today + 1;
 
     //console.log(today + " " + tomorrow);
