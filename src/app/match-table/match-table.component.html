@@ -14,8 +14,8 @@
                     </ng-container>
                     <!-- Generate Data Cells -->
                     <mat-cell *matCellDef="let row; let i = index">
-                      <!-- TODO filter by dates -->
-                      <ng-container *ngIf="true">
+                      <!-- TODO filter by dates epoch time is less than time.now epoch time then do not display. -->
+                      <ng-container *ngIf="oldNews(row['EpochTime'])">
 
                         <ng-container *ngIf="!column.field.endsWith('Status')">
                           <ng-container *ngIf="column.field.endsWith('BHome') || column.field.endsWith('SMHome') || column.field.endsWith('OccH') || column.field.endsWith('OccA') || column.field.endsWith('BAway') || column.field.endsWith('SMAway')">

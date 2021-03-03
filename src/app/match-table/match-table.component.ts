@@ -82,7 +82,8 @@ import { Observable } from 'rxjs';
       { field: "OccA", columnDisplay: "2UP OCC. Away" },
       { field: "BAway", columnDisplay: "Image" },
       { field: "SMAway", columnDisplay: "Image" },
-      { field: "AStatus", columnDisplay: "" }
+      { field: "AStatus", columnDisplay: "" },
+      { field: "EpochTime", columnDisplay: ""}
     ];
     masterList: any[] = [];
     viewTableList: any[] = [];
@@ -342,6 +343,7 @@ import { Observable } from 'rxjs';
             }
           }
         });
+        //setup match time format the client displays on the view table
         this.viewTableList = this.addFixturesDate(this.viewTableList);
 
         return this.viewTableList
@@ -605,6 +607,13 @@ import { Observable } from 'rxjs';
 
     saveMasterGroup( masterGroup: any){
       this.matchStatusService.watchGroupSubject( masterGroup );
+    }
+
+    oldNews(epochTime:number): boolean {
+      var now: number = Date.now();
+      var displayMatch = (epochTime*1000) > now;
+
+      return (displayMatch);
     }
 
 }
