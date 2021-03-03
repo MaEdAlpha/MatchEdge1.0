@@ -15,7 +15,7 @@
                     <!-- Generate Data Cells -->
                     <mat-cell *matCellDef="let row; let i = index">
                       <!-- TODO filter by dates epoch time is less than time.now epoch time then do not display. -->
-                      <ng-container *ngIf="oldNews(row['EpochTime'])">
+                      <!-- <ng-container *ngIf="oldNews(row['EpochTime'])"> -->
 
                         <ng-container *ngIf="!column.field.endsWith('Status')">
                           <ng-container *ngIf="column.field.endsWith('BHome') || column.field.endsWith('SMHome') || column.field.endsWith('OccH') || column.field.endsWith('OccA') || column.field.endsWith('BAway') || column.field.endsWith('SMAway')">
@@ -119,13 +119,13 @@
 
                       </ng-container>
 
-                    </ng-container>
+                    <!-- </ng-container> -->
                     </mat-cell>
                 </ng-container>
 
 
-                  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-                  <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+                  <!--DOES NOTHING APPARENTLY. Keep for debug purposes for now <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row> -->
+                    <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
                       <!-- Display group header -->
                       <ng-container class="groupHeaderCont" matColumnDef="groupHeader">
                         <mat-cell colspan="10" *matCellDef="let group">

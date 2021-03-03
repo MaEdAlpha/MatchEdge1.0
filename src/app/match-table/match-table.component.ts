@@ -16,6 +16,7 @@ import { UserPropertiesService } from '../user-properties.service';
 import { MatchStatusService } from '../match-status.service';
 import { DateHandlingService } from '../date-handling.service';
 import { Observable } from 'rxjs';
+import { MatCheckbox } from '@angular/material/checkbox';
 
   export class Group {
     level = 0;
@@ -170,6 +171,7 @@ import { Observable } from 'rxjs';
     buildGroupHeaders(matches: any[], level: number){
       //create a group object for each league
       const leagueName = 'League';
+      var epochCutOff = this.getStartEndDaysAtMidnight();
 
       let groups = this.filterGroups(
         matches.map( match => {
@@ -200,11 +202,11 @@ import { Observable } from 'rxjs';
           // console.log(matchDate);
           // console.log(assignTodaysDay + " " + assignTomorrowsDay);
 
-          if( switch1 && (matchDate == assignTodaysDay) ){
+          if( switch1 && ( match.EpochTime*1000 < epochCutOff.forDayOne && match.EpochTime*1000 > Date.now() )){
             group.isToday = true;
             switch1 = false;
           }
-          if( switch2 && (matchDate == assignTomorrowsDay) ){
+          if( switch2 && ( match.EpochTime*1000 <= epochCutOff.forDayOne && match.EpochTime*1000 < epochCutOff.forDayTwo ) ){
             group.isTomorrow = true;
             switch2 = false
           }
@@ -261,6 +263,7 @@ import { Observable } from 'rxjs';
 
     //sets tableGroups based off of date selected.
     setGroupsToDate(masterGroup): any[]{
+
       this.viewTableList=[];
       this.tableGroups=[];
       masterGroup.forEach( group => {
@@ -315,28 +318,30 @@ import { Observable } from 'rxjs';
       var groupIndex = this.viewTableList.indexOf(rowInfo);
       //Set the first displayed match to index position +1 of groupIndex.
       var matchPosition = groupIndex + 1;
+      var timeNow = Date.now();
+      var epochCutOff = this.getStartEndDaysAtMidnight();
 
       allMatches.forEach( match => {
         //Get Match Date only
         var unixDate = new Date(match.EpochTime*1000);
-        var matchDate: number = unixDate.getDate();
-
+        var matchDate: number = unixDate.getUTCDate();
+        var matchEpoch: number = match.EpochTime*1000;
         //position of match in your match list retrieved from DB.
         var matchIndex: number = allMatches.indexOf(match);
         //Sometimes a full scrape of a record is not done, and League = '' or null. Need to account for that null.
         if(match.League != null && match.League.includes(rowInfo.League)){
           //Check what date is selected.
-          if(this.viewSelectedDate == 'Today & Tomorrow' && (matchDate == this.tomorrowDate || matchDate == this.todayDate) ) {
+          if(this.viewSelectedDate == 'Today & Tomorrow' && (matchEpoch <= epochCutOff.forDayTwo && matchEpoch >= timeNow )) {
             this.setDisplayHeader(match, matchPosition, matchIndex, groupIndex, allMatches);
             this.viewTableList.splice(matchPosition, 0, match);
             matchPosition++;
           }
-          if(this.viewSelectedDate == "Today" && matchDate == this.todayDate) {
+          if(this.viewSelectedDate == "Today" && (matchEpoch < epochCutOff.forDayOne && matchEpoch >= timeNow )) {
             this.setDisplayHeader(match, matchPosition, matchIndex, groupIndex, allMatches);
             this.viewTableList.splice(matchPosition, 0 , match);
             matchPosition++;
           }
-          if(this.viewSelectedDate == "Tomorrow" && matchDate == this.tomorrowDate){
+          if(this.viewSelectedDate == "Tomorrow" && (matchEpoch <= epochCutOff.forDayTwo && matchEpoch >= epochCutOff.forDayOne)){
             this.setDisplayHeader(match, matchPosition, matchIndex, groupIndex, allMatches);
             this.viewTableList.splice(matchPosition, 0, match);
             matchPosition++;
@@ -363,7 +368,9 @@ import { Observable } from 'rxjs';
       removeFromListOnClick(viewTableList, tableGroups, rowInfo): any[] {
 
         function removedMatches(item) {
-          if(tableGroups.includes(item) || item.League != rowInfo.League){ return true; }
+          if(tableGroups.includes(item) || item.League != rowInfo.League){
+            return true;
+          }
         }
 
         const result = viewTableList.filter(removedMatches);
@@ -391,6 +398,12 @@ import { Observable } from 'rxjs';
       //assign date of the month.
       this.todayDate = dateValidator[0];
       this.tomorrowDate = dateValidator[1];
+    }
+
+    private getStartEndDaysAtMidnight() {
+      var tomorrowAtMidnight = new Date(new Date().setDate( new Date().getDate() + 1)).setHours(0,0,0,0);
+      var twoDaysFromNowMidnight = new Date(new Date().setDate( new Date().getDate() + 2)).setHours(0,0,0,0)
+      return { forDayOne: tomorrowAtMidnight, forDayTwo: twoDaysFromNowMidnight}
     }
 
     //Date formatter
@@ -608,12 +621,9 @@ import { Observable } from 'rxjs';
     saveMasterGroup( masterGroup: any){
       this.matchStatusService.watchGroupSubject( masterGroup );
     }
-
+    //returns true if match time is less than current time.
     oldNews(epochTime:number): boolean {
-      var now: number = Date.now();
-      var displayMatch = (epochTime*1000) > now;
-
-      return (displayMatch);
+       return (epochTime*1000 < Date.now());
     }
 
 }
