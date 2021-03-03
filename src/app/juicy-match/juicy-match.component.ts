@@ -255,7 +255,7 @@ export class JuicyMatchComponent implements OnChanges, OnInit {
 
   //Set visibility of selection.
   dateInRange(selection: any){
-    var matchDay: number = new Date(selection.EpochTime * 1000).getDate();
+    var matchDay: number = new Date(selection.EpochTime * 1000).getUTCDate();
     ( matchDay == this.startDay || matchDay == this.endDay ) ? selection.inRange = true : selection.inRange = false;
    }
 

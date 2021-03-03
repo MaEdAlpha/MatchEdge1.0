@@ -195,7 +195,7 @@ import { Observable } from 'rxjs';
         // console.log(group);
         // console.log(matchesInLeagueGroup);
         matchesInLeagueGroup.forEach( match => {
-          var matchDate: number = new Date(match.EpochTime *1000).getDate();
+          var matchDate: number = new Date(match.EpochTime *1000).getUTCDate();
           // console.log(matchDate);
           // console.log(assignTodaysDay + " " + assignTomorrowsDay);
 
@@ -349,9 +349,9 @@ import { Observable } from 'rxjs';
 
       //Compare previous date with current. If they're the same, mark current displayHeaderDate -> false.
       setDisplayHeader(match, matchPosition, allMatchIndex, groupIndex, allMatches){
-        var currentDate: number = new Date(match.EpochTime * 1000).getDate();
+        var currentDate: number = new Date(match.EpochTime * 1000).getUTCDate();
         var previousDate: number;
-        allMatchIndex == 0 ? previousDate = 0 : previousDate = new Date((allMatches[allMatchIndex-1].EpochTime * 1000)).getDate();
+        allMatchIndex == 0 ? previousDate = 0 : previousDate = new Date((allMatches[allMatchIndex-1].EpochTime * 1000)).getUTCDate();
         var previousMatchObj: any = allMatches[allMatchIndex - 1];
 
         //If first in the list, or a new date, set true.

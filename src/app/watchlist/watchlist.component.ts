@@ -173,7 +173,7 @@ export class WatchlistComponent implements OnInit, OnDestroy {
       var matchPosition = groupIndex + 1;
 
       watchList.forEach( match => {
-        var matchDate: number = new Date(match.EpochTime * 1000).getDate();
+        var matchDate: number = new Date(match.EpochTime * 1000).getUTCDate();
         //prevDate acts as a switch for setting displayHeaderDate boolean.
         var prevDate: string = "placeHolder";
         if(dateSelected == 'Today & Tomorrow' && groupHeader.League == match.League && (matchDate == dateStart || matchDate == dateEnd) ){
@@ -278,8 +278,8 @@ export class WatchlistComponent implements OnInit, OnDestroy {
             var matchIndex = allData.indexOf(matchObj);
 
             //Returns matchObject time into US.
-            var matchDate: number = new Date(matchObj.EpochTime * 1000).getDate();
-            var prevDate: number = new Date(allData[matchIndex-1].EpochTime * 1000).getDate();
+            var matchDate: number = new Date(matchObj.EpochTime * 1000).getUTCDate();
+            var prevDate: number = new Date(allData[matchIndex-1].EpochTime * 1000).getUTCDate();
             //INJECTS  MATCHES  UNDERNEATH GROUP HEADER
             if(matchObj.isWatched && matchObj.League == groupObj.League && (matchDate == dateEnd || matchDate == dateStart))
             {
@@ -371,7 +371,7 @@ export class WatchlistComponent implements OnInit, OnDestroy {
           allMatchData.forEach( matchObj => {
             var matchIndex = allMatchData.indexOf(matchObj);
             //Returns correct date format for en-GB
-            var matchDate: number = new Date(matchObj.EpochTime * 1000).getDate();
+            var matchDate: number = new Date(matchObj.EpochTime * 1000).getUTCDate();
             //INJECTS  MATCHES  UNDERNEATH GROUP HEADER
             if(matchObj.League == groupHeader.League && (matchDate == dateEnd || matchDate == dateStart))
             {
