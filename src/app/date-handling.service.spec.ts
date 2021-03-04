@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { DateHandlingService } from './date-handling.service';
+import { DateHandlingService } from './services/date-handling.service';
 
 describe('DateHandlingService', () => {
   let service: DateHandlingService;

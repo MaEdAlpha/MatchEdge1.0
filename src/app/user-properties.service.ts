@@ -4,7 +4,8 @@ import { Observable, Subject } from 'rxjs';
 import { CalcSettings } from './calc-settings/calc-settings.model';
 import { CalcSettingsService } from './calc-settings/calc-settings.service';
 import { TriggerOdds } from './match-notification-settings/trigger-odds.model';
-import { UserProperties, TablePreferences } from './user-properties.model';
+import { NotificationBoxService } from './notification-box.service';
+import { TablePreferences } from './user-properties.model';
 
 @Injectable({
   providedIn: 'root'
@@ -59,11 +60,11 @@ export class UserPropertiesService {
 
   //ViewTable User Preferences
   private viewTablePrefs: TablePreferences = {
-    leagueSelection: ['Retrieved from UserPropertiesService'],
+    leagueSelection: ['Get Rid of this Field'],
     timeRange: 'Today & Tomorrow',
     minOdds: '1',
     maxOdds: '10',
-    evFilterValue: '-3',
+    evFilterValue: '0.01',
     maxRatingFilter: '90.50',
     isEvSelected: true,
     dialogDisabled: true,
@@ -137,6 +138,17 @@ export class UserPropertiesService {
       isEvSelected: formObj.isEvSelected,
       dialogDisabled: formObj.dialogDisabled,
     });
+
+    this.viewTablePrefs = {
+      leagueSelection: formObj.leagueSelection,
+      timeRange: formObj.timeRange,
+      minOdds: formObj.minOdds,
+      maxOdds: formObj.maxOdds,
+      evFilterValue: formObj.evFilterValue,
+      maxRatingFilter: formObj.maxRatingFilter,
+      isEvSelected: formObj.isEvSelected,
+      dialogDisabled: formObj.dialogDisabled,
+    }
   }
   //userPreference TablePreferences
   getUserPrefs(): Observable<TablePreferences>{
@@ -166,6 +178,10 @@ export class UserPropertiesService {
 
   getSelectedDate(): string {
     return this.viewTablePrefs.timeRange;
+  }
+
+  getFilterBoolean(): boolean {
+    return this.viewTablePrefs.isEvSelected;
   }
 
   getDialogDisabled(): boolean {

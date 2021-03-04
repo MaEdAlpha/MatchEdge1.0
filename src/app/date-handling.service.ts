@@ -65,4 +65,37 @@ export class DateHandlingService {
   returnUserDate(epochTime:number): Date {
     return new Date(epochTime*1000);
   }
+
+  //used in Notifications Box Service to qualify incoming stream data for user Notification
+  returnBoundaries(selectedDate: string): {lowerLimit:number, upperLimit:number} {
+   var epoch;
+    switch(selectedDate) {
+      case 'Today':
+        // lowerLimit = Current Time in milliseconds Epoch
+        // upperLimit = Today @ midnight or tomorrow 00:00:00
+        epoch={
+          lowerLimit: Date.now(),
+          upperLimit: new Date(new Date().setDate( new Date().getDate() + 1)).setHours(0,0,0,0)
+        }
+        break;
+      case 'Tomorrow':
+        // Example January 1st 21:00:00 (my bed time). We select 'Tomorrow' our... lowerLimit = 02 Jan 00:00:00 & upperLimit = 03 Jan 00:00:00. Returns time in milliseconds ex: 1614877199000
+        epoch = {
+          lowerLimit: new Date( new Date().setDate( new Date().getDate() + 1 ) ).setHours(0,0,0,0),
+          upperLimit: new Date( new Date().setDate( new Date().getDate() + 2 ) ).setHours(0,0,0,0),
+        }
+        break;
+      case 'Today & Tomorrow':
+        // lower = current time
+        // upper = Tomorrow at midnight displayed as the date preceding tomorrow at 00:00:00.
+        epoch = {
+          lowerLimit: Date.now(),
+          upperLimit: new Date( new Date().setDate( new Date().getDate() + 2 ) ).setHours(0,0,0,0),
+        }
+        break;
+      default:
+        console.log("Error Occured WTF man?");
+    }
+    return epoch;
+  }
 }

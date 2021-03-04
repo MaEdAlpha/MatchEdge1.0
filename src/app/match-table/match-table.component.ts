@@ -401,9 +401,10 @@ import { MatCheckbox } from '@angular/material/checkbox';
     }
 
     private getStartEndDaysAtMidnight() {
-      var tomorrowAtMidnight = new Date(new Date().setDate( new Date().getDate() + 1)).setHours(0,0,0,0);
-      var twoDaysFromNowMidnight = new Date(new Date().setDate( new Date().getDate() + 2)).setHours(0,0,0,0)
-      return { forDayOne: tomorrowAtMidnight, forDayTwo: twoDaysFromNowMidnight}
+      //today at midnight is counted as the next day... so when you filter, if you want to include any games at midnight it must be equal to this number.
+      var todayAtMidnight = new Date(new Date().setDate( new Date().getDate() + 1)).setHours(0,0,0,0);
+      var tomorrowAtMidnight = new Date(new Date().setDate( new Date().getDate() + 2)).setHours(0,0,0,0)
+      return { forDayOne: todayAtMidnight, forDayTwo: tomorrowAtMidnight}
     }
 
     //Date formatter
