@@ -35,11 +35,12 @@ export class NotificationBoxService {
 
   //TODO import Datehandling ranges
   showJuicyNotification(streamMatchesArray: any){
+
     var home = streamMatchesArray[0];
     var away = streamMatchesArray[1];
-    var epochNotifications = this.dateHandlingService.returnBoundaries(this.tableDate);
+    var epochNotifications = this.dateHandlingService.returnGenericNotificationBoundaries();
+
     console.log("Current Filter Settings: Notify based off EV = " + this.isEVSelected + " Match Rating Filter = " + this.matchRatingFilter + " EV Filter = " + this.evRatingFilter);
-    console.log(home);
 
     //Need to check if already in Juicy Matches. if()
     if( this.isInEpochLimits(epochNotifications, home) && (this.isEVSelected && home.EVthisBet >= this.evRatingFilter && home.EVthisBet < 100000 ) || (!this.isEVSelected && home.MatchRating >= this.matchRatingFilter) ) {
@@ -69,6 +70,6 @@ export class NotificationBoxService {
   //Need to discuss how to show midnight times.
   isInEpochLimits(epochNotifications, selection): boolean{
     var selectionTime = selection.EpochTime*1000;
-    return (selectionTime <= epochNotifications.upperLimit && selectionTime >= epochNotifications.lowerLimit) ;
+    return (selectionTime <= epochNotifications.upperLimit && selectionTime >= epochNotifications.lowerLimit);
   }
 }
