@@ -16,8 +16,9 @@
               (click)="loadGroup(i); freezeAllMotorFunctions(); show(selection, i)">
               <ng-container *ngIf="selection.ignore==false">
                 <ng-container *ngIf="selection.inRange">
-                  <ng-container *ngIf= "((isEvSelected && +selection['EVthisBet'] >= +prefObj.evFilterValue && +selection['EVthisBet'] < 1000) || (!isEvSelected && (+selection['MatchRating'] == +prefObj.maxRatingFilter || selection['MatchRating'] > (+prefObj.maxRatingFilter - 0.1))))">
-                    <ng-container *ngIf= "( +selection['BackOdds'] <= +maxOddsFilter && +selection['BackOdds'] >= +minOddsFilter)">
+                  <ng-container *ngIf= "( (isEvSelected && +selection['EVthisBet'] >= +prefObj.evFilterValue && +selection['EVthisBet'] < 1000) || (!isEvSelected && (+selection['MatchRating'] == +prefObj.maxRatingFilter || selection['MatchRating'] > (+prefObj.maxRatingFilter - 0.1)) ) )">
+                    <ng-container *ngIf= "( +selection['BackOdds'] <= +maxOddsFilter && +selection['BackOdds'] >= +minOddsFilter )">
+
                       <div class="juicyCell" *ngIf="column.endsWith('BackOdds')">
                         <img  class="odds-img" src="/assets/img/betIcon.png" alt="">
                         <span  class="ticker{{(flickerColmnIndex)}}box" appFlickerData [flickerColmnIndex]="flickerColmnIndex" [isUpdated]="selection.backIsUpdated"> {{ selection[column] | number:'0.2-2'}} </span>
