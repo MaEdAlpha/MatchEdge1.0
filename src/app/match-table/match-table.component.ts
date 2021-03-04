@@ -10,7 +10,7 @@ import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { StatusDisableDialogueComponent } from '../status-disable-dialogue/status-disable-dialogue.component';
 import { ToastrService } from 'ngx-toastr';
 import { NotificationBoxService } from '../notification-box.service';
-import { DatePipe } from '@angular/common';
+import { DatePipe, getLocaleDateFormat } from '@angular/common';
 import { SidenavService } from '../view-table-sidenav/sidenav.service';
 import { UserPropertiesService } from '../user-properties.service';
 import { MatchStatusService } from '../match-status.service';
@@ -356,9 +356,9 @@ import { MatCheckbox } from '@angular/material/checkbox';
 
       //Compare previous date with current. If they're the same, mark current displayHeaderDate -> false.
       setDisplayHeader(match, matchPosition, allMatchIndex, groupIndex, allMatches){
-        var currentDate: number = new Date(match.EpochTime * 1000).getUTCDate();
+        var currentDate: number = new Date(match.EpochTime * 1000).getDate();
         var previousDate: number;
-        allMatchIndex == 0 ? previousDate = 0 : previousDate = new Date((allMatches[allMatchIndex-1].EpochTime * 1000)).getUTCDate();
+        allMatchIndex == 0 ? previousDate = 0 : previousDate = new Date((allMatches[allMatchIndex-1].EpochTime * 1000)).getDate();
         var previousMatchObj: any = allMatches[allMatchIndex - 1];
 
         //If first in the list, or a new date, set true.

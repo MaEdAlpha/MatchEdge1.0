@@ -67,7 +67,7 @@ export class DateHandlingService {
   }
 
   //used in Notifications Box Service to qualify incoming stream data for user Notification
-  returnBoundaries(selectedDate: string): {lowerLimit:number, upperLimit:number} {
+  returnSpecificNotificationBoundaries(selectedDate: string): {lowerLimit:number, upperLimit:number} {
    var epoch;
     switch(selectedDate) {
       case 'Today':
@@ -96,6 +96,15 @@ export class DateHandlingService {
       default:
         console.log("Error Occured WTF man?");
     }
+    return epoch;
+  }
+  //Returns generic notification Boundary of Today & Tomorrow format.
+  returnGenericNotificationBoundaries(): {lowerLimit:number, upperLimit:number} {
+    var epoch;
+      epoch = {
+        lowerLimit: Date.now(),
+        upperLimit: new Date( new Date().setDate( new Date().getDate() + 2 )).setHours(0,0,0,0)
+      }
     return epoch;
   }
 }
