@@ -64,6 +64,7 @@ import { BetAwayDirective } from './directives/bet-away.directive';
 import { IgnoreIconDirective } from './directives/ignore-icon.directive';
 import { HideTableRowDirective } from './directives/hide-table-row.directive';
 import { FlickerDataMatchRatingDirective } from './directives/flicker-data-match-rating.directive';
+import { InactiveMatchDirective } from './directives/inactive-match.directive';
 
 //Pipe
 import { HeaderDatePipe } from './pipes/hdr.datepipe';
@@ -100,7 +101,8 @@ registerLocaleData(localeGB);
     HideTableRowDirective,
     FlickerDataMatchRatingDirective,
     HeaderDatePipe,
-    TimeDatePipe
+    TimeDatePipe,
+    InactiveMatchDirective
   ],
   imports: [
     AppRoutingModule,

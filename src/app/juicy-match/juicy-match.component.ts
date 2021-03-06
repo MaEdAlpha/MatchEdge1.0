@@ -124,7 +124,7 @@ export class JuicyMatchComponent implements OnChanges, OnInit {
 
     this.dateSubscription = this.dateHandlingService.getSelectedDate().subscribe( date => {
       this.tableDateSelected = date;
-      this.getStartEndDays(date);
+      this.getStartEndDays(this.tableDateSelected);
       this.popJuiceInRange();
     });
 
@@ -258,7 +258,9 @@ export class JuicyMatchComponent implements OnChanges, OnInit {
   //Set visibility of selection. Based off selected date and current epoch time.
   dateInRange(selection: any){
     var epoch = this.dateHandlingService.returnSpecificNotificationBoundaries(this.tableDateSelected);
-    ( selection.EpochTime*1000 > Date.now() && selection.EpochTime*1000 <= epoch.upperLimit ) ? selection.inRange = true : selection.inRange = false;
+    if(this.tableDateSelected != undefined){
+      ( selection.EpochTime*1000 > Date.now() && selection.EpochTime*1000 <= epoch.upperLimit ) ? selection.inRange = true : selection.inRange = false;
+    }
    }
 
     show(selection: any, index: number){

@@ -10,7 +10,7 @@
                <ng-container *ngFor="let column of columns" matColumnDef= {{column.field}}>
 
                     <ng-container *ngIf="!column.field.startsWith('B') || !column.field.startsWith('SM')">
-                      <mat-header-cell *matHeaderCellDef> </mat-header-cell>
+                      <mat-header-cell *matHeaderCellDef></mat-header-cell>
                     </ng-container>
                     <!-- Generate Data Cells -->
                     <mat-cell *matCellDef="let row; let i = index">
@@ -125,7 +125,7 @@
 
 
                   <!--DOES NOTHING APPARENTLY. Keep for debug purposes for now <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row> -->
-                    <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+                    <mat-row *matRowDef="let row; columns: displayedColumns; let i=index" class="match-row-details-{{i}}" appInactiveMatch [match]="row" [matchIndex]="i"></mat-row>
                       <!-- Display group header -->
                       <ng-container class="groupHeaderCont" matColumnDef="groupHeader">
                         <mat-cell colspan="10" *matCellDef="let group">
@@ -139,7 +139,7 @@
                           </div>
                         </mat-cell>
                       </ng-container>
-            <mat-row *matRowDef="let row; columns: ['groupHeader']; when: isGroup;" (click)="displayMatches(row)"></mat-row>
+            <mat-row *matRowDef="let row; columns: ['groupHeader']; when: isGroup;" (click)="displayMatches(row)" class="groupHeaderClass"></mat-row>
           </mat-table>
         </div>
 

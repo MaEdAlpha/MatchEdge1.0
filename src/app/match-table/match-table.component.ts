@@ -186,8 +186,8 @@ import { MatCheckbox } from '@angular/material/checkbox';
       console.log(groups);
 
       //Assign values to class object
-      var assignTodaysDay: number = this.dateHandlingService.returnDateSelection('Today & Tomorrow')[0];
-      var assignTomorrowsDay: number = this.dateHandlingService.returnDateSelection('Today & Tomorrow')[1];
+      // var assignTodaysDay: number = this.dateHandlingService.returnDateSelection('Today & Tomorrow')[0];
+      // var assignTomorrowsDay: number = this.dateHandlingService.returnDateSelection('Today & Tomorrow')[1];
 
       // console.log("RAW GROUPS + Dates for Filtering Groups");
       groups.forEach(group => {
@@ -198,7 +198,7 @@ import { MatCheckbox } from '@angular/material/checkbox';
         // console.log(group);
         // console.log(matchesInLeagueGroup);
         matchesInLeagueGroup.forEach( match => {
-          var matchDate: number = new Date(match.EpochTime *1000).getUTCDate();
+          //var matchDate: number = new Date(match.EpochTime *1000).getUTCDate();
           // console.log(matchDate);
           // console.log(assignTodaysDay + " " + assignTomorrowsDay);
 
@@ -206,7 +206,7 @@ import { MatCheckbox } from '@angular/material/checkbox';
             group.isToday = true;
             switch1 = false;
           }
-          if( switch2 && ( match.EpochTime*1000 <= epochCutOff.forDayOne && match.EpochTime*1000 < epochCutOff.forDayTwo ) ){
+          if( switch2 && ( match.EpochTime*1000 >= epochCutOff.forDayOne && match.EpochTime*1000 <= epochCutOff.forDayTwo ) ){
             group.isTomorrow = true;
             switch2 = false
           }
@@ -331,12 +331,18 @@ import { MatCheckbox } from '@angular/material/checkbox';
         //Sometimes a full scrape of a record is not done, and League = '' or null. Need to account for that null.
         if(match.League != null && match.League.includes(rowInfo.League)){
           //Check what date is selected.
-          if(this.viewSelectedDate == 'Today & Tomorrow' && (matchEpoch <= epochCutOff.forDayTwo && matchEpoch >= timeNow )) {
+          if(this.viewSelectedDate == 'Today & Tomorrow' && (matchEpoch <= epochCutOff.forDayTwo && matchEpoch >= epochCutOff.forStartOfDayOne )) {
+
+            matchEpoch <= timeNow ? match.isPastPrime = true : match.isPastPrime = false; //Set boolean for styling
+
             this.setDisplayHeader(match, matchPosition, matchIndex, groupIndex, allMatches);
             this.viewTableList.splice(matchPosition, 0, match);
             matchPosition++;
           }
-          if(this.viewSelectedDate == "Today" && (matchEpoch < epochCutOff.forDayOne && matchEpoch >= timeNow )) {
+          if(this.viewSelectedDate == "Today" && (matchEpoch < epochCutOff.forDayOne && matchEpoch >= epochCutOff.forStartOfDayOne )) {
+
+            matchEpoch <= timeNow ? match.isPastPrime = true : match.isPastPrime = false; //Set boolean for styling
+
             this.setDisplayHeader(match, matchPosition, matchIndex, groupIndex, allMatches);
             this.viewTableList.splice(matchPosition, 0 , match);
             matchPosition++;
@@ -345,14 +351,18 @@ import { MatCheckbox } from '@angular/material/checkbox';
             this.setDisplayHeader(match, matchPosition, matchIndex, groupIndex, allMatches);
             this.viewTableList.splice(matchPosition, 0, match);
             matchPosition++;
-            }
           }
-        });
+
+        }
+
+
+      });
         //setup match time format the client displays on the view table
         this.viewTableList = this.addFixturesDate(this.viewTableList);
+        console.log(this.viewTableList);
 
         return this.viewTableList
-      }
+    }
 
       //Compare previous date with current. If they're the same, mark current displayHeaderDate -> false.
       setDisplayHeader(match, matchPosition, allMatchIndex, groupIndex, allMatches){
@@ -402,9 +412,10 @@ import { MatCheckbox } from '@angular/material/checkbox';
 
     private getStartEndDaysAtMidnight() {
       //today at midnight is counted as the next day... so when you filter, if you want to include any games at midnight it must be equal to this number.
+      var yesterdayAtMidnight = new Date(new Date().setDate( new Date().getDate())).setHours(0,0,0,0);
       var todayAtMidnight = new Date(new Date().setDate( new Date().getDate() + 1)).setHours(0,0,0,0);
       var tomorrowAtMidnight = new Date(new Date().setDate( new Date().getDate() + 2)).setHours(0,0,0,0)
-      return { forDayOne: todayAtMidnight, forDayTwo: tomorrowAtMidnight}
+      return { forStartOfDayOne: yesterdayAtMidnight, forDayOne: todayAtMidnight, forDayTwo: tomorrowAtMidnight}
     }
 
     //Date formatter
