@@ -331,7 +331,7 @@ import { MatCheckbox } from '@angular/material/checkbox';
         //Sometimes a full scrape of a record is not done, and League = '' or null. Need to account for that null.
         if(match.League != null && match.League.includes(rowInfo.League)){
           //Check what date is selected.
-          if(this.viewSelectedDate == 'Today & Tomorrow' && (matchEpoch <= epochCutOff.forDayTwo && matchEpoch >= epochCutOff.forStartOfDayOne )) {
+          if(this.viewSelectedDate == 'Today & Tomorrow' && (matchEpoch >= epochCutOff.forStartOfDayOne && matchEpoch <= epochCutOff.forDayTwo && matchEpoch >= epochCutOff.forStartOfDayOne )) {
 
             matchEpoch <= timeNow ? match.isPastPrime = true : match.isPastPrime = false; //Set boolean for styling
 
@@ -339,7 +339,7 @@ import { MatCheckbox } from '@angular/material/checkbox';
             this.viewTableList.splice(matchPosition, 0, match);
             matchPosition++;
           }
-          if(this.viewSelectedDate == "Today" && (matchEpoch < epochCutOff.forDayOne && matchEpoch >= epochCutOff.forStartOfDayOne )) {
+          if(this.viewSelectedDate == "Today" && (matchEpoch <= epochCutOff.forDayOne && matchEpoch >= epochCutOff.forStartOfDayOne )) {
 
             matchEpoch <= timeNow ? match.isPastPrime = true : match.isPastPrime = false; //Set boolean for styling
 
