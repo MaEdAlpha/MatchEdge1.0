@@ -192,26 +192,34 @@ export class JuicyMatchComponent implements OnChanges, OnInit {
     this.endDay = dateValidator[1];
   }
 
-  LayOdds(backOdds: number, layOdds:number, steakYum: number):number{
-      var laySteak = (+backOdds/ +layOdds)* +steakYum;
-
+  LayStake(backOdds: number, layOdds:number, steakYum: number):number{
+      var laySteak = (+backOdds / +layOdds)* +steakYum;
     return laySteak;
   }
 
-  FTA(stake:number, backOdds: number, layStake: number):number{
-    return (+stake*(+backOdds - 1)+ +layStake);
+  FTA(stake:number, backOdds: number, layOdds:number):number{
+    var layStake = (+backOdds / +layOdds) * +stake;
+    return (+stake * (+backOdds - 1) + +layStake);
   }
 
-  TotalEV(occurence:number, stake:number, backOdds:number, layStake:number ):number{
+  TotalEV(occurence:number, stake:number, backOdds:number, layOdds:number, steakYum:number):number{
+    var layStake = (+backOdds / +layOdds) * +steakYum;
    var result:number = +(+stake * (+backOdds - 1) + +layStake)+ (+layStake- +stake)*(+occurence-1);
    return result;
   }
 
-  ROI(stake:number, evThisBet:number):number{
+  ROI(stake:number, backOdds: number, layOdds:number, occurence:number):number{
+    var layStake = (+backOdds / +layOdds) * +stake;
+    var fullTurnAround = +stake * (+backOdds -1) + +layStake;
+    var ql = +(+layStake- +stake);
+    var evTotal = +(fullTurnAround + ( +ql * (+occurence -1)));
+    var evThisBet = + (evTotal / occurence );
+
     return +((evThisBet/stake)*100);
   }
 
-  QL(layStake:number, stake:number){
+  QL(backOdds: number, layOdds:number, stake:number){
+    var layStake = (+backOdds / +layOdds) * stake;
     return +(+layStake - +stake);
   }
 

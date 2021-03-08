@@ -99,7 +99,7 @@
                               <div class="words-container">
                                 <b>LAY</b>
                                     <!-- <input formControlName="LayStake" class = "value-box-lay"  placeholder="{{selection.LayStake | currency:'GBP'}}"> -->
-                                    <input class="value-box-lay"   [readOnly]="true" placeholder="{{LayOdds(getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value, getGroup(i).get('Stake').value) | currency:'GBP' }}">
+                                    <input class="value-box-lay"   [readOnly]="true" placeholder="{{LayStake(getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value, getGroup(i).get('Stake').value) | currency:'GBP' }}">
                                   </div>
 
                                   <div class="words-container">
@@ -110,7 +110,7 @@
                                     </div>
 
                                     <div class="words-container">
-                                      <b> <span id="liability"> YOUR LIABILITY: </span><span class="row3-value">{{ Liability(getGroup(i).get('LayOdds').value, LayOdds(getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value, getGroup(i).get('Stake').value)) | currency:'GBP'}}</span></b>
+                                      <b> <span id="liability"> YOUR LIABILITY: </span><span class="row3-value">{{ Liability(getGroup(i).get('LayOdds').value, LayStake(getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value, getGroup(i).get('Stake').value)) | currency:'GBP'}}</span></b>
                                     </div>
 
                                     <div class="external-link-button" id="smlnk"><a mat-raised-button href= {{selection.UrlSmarkets}} target="_blank">OPEN EVENT</a></div>
@@ -123,11 +123,11 @@
                                   <div class="selection-figures row4-row1">
                                     <div class="r1 r1-col1">
                                       <h3 class="selection-figures-content1">FTA Returns:</h3>
-                                <span class="selection-figures-content1">{{ FTA( getGroup(i).get('Stake').value, getGroup(i).get('BackOdds').value, getGroup(i).get('LayStake').value  ) | currency:'GBP'}}</span>
+                                <span class="selection-figures-content1">{{ FTA( getGroup(i).get('Stake').value, getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value) | currency:'GBP'}}</span>
                               </div>
                               <div class="r1 r1-col2">
                                 <h3 class="selection-figures-content2">ROI: </h3>
-                                <span class="selection-figures-content1"> {{ ROI(getGroup(i).get('Stake').value, selection.EVthisBet) | number:'0.2-2'}} %</span></div>
+                                <span class="selection-figures-content1"> {{ ROI(getGroup(i).get('Stake').value, getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value, selection.FTAround) | number:'0.2-2'}} %</span></div>
                               </div>
 
                               <div class="rcd-btn">
@@ -139,12 +139,12 @@
                               <div class="selection-figures row4-row2">
                                 <div class="r2 r2-col1">
                                   <h3 class="selection-figures-content1">Total EV: </h3>
-                                  <span class="selection-figures-content2">{{ TotalEV( selection.FTAround,  getGroup(i).get('Stake').value, getGroup(i).get('BackOdds').value, getGroup(i).get('LayStake').value)  | currency:'GBP' }}</span>
+                                  <span class="selection-figures-content2">{{ TotalEV( selection.FTAround,  getGroup(i).get('Stake').value, getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value, getGroup(i).get('Stake').value)  | currency:'GBP' }}</span>
                                 </div>
 
                                 <div class="r2 r2-col2">
                                   <h3 class="selection-figures-content2">QL: </h3>
-                                  <span class="selection-figures-content2"> {{QL(getGroup(i).get('LayStake').value, getGroup(i).get('Stake').value) | currency:'GBP'}}  </span>
+                                  <span class="selection-figures-content2"> {{QL( getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value, getGroup(i).get('Stake').value) | currency:'GBP'}}  </span>
                                 </div>
                               </div>
 
