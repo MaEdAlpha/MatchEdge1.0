@@ -23,11 +23,11 @@ export class DateHandlingService {
   returnDateSelection(dateSelected: string): number[] {
     //Testing Values
     // console.log("Testing dates hardcoded, comment out for real dates")
-    //  var today = 27
-    //  var tomorrow = today + 1;
+     var today = 7
+     var tomorrow = today + 1;
 
-    var today = new Date(Date.now()).getUTCDate();
-    var tomorrow = today + 1;
+    // var today = new Date(Date.now()).getUTCDate();
+    // var tomorrow = today + 1;
 
     //console.log(today + " " + tomorrow);
 
