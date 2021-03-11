@@ -37,7 +37,7 @@
                       <!-- use directive for displaying matchRating values -->
                       <div class="juicyCell" *ngIf="column.endsWith('Rating')">
                         <span class="mr{{flickerColmnIndex}}box" appFlickerDataMatchRating [isUpdated]="selection.matchRatingUpdated"> {{selection[column] | number: '0.2-2'}}% </span>
-                      </div> 
+                      </div>
                       <div class="juicyCell FTAround" *ngIf="column.endsWith('Around')">
                         <span> {{selection[column] | number: '0.2-2'}} </span>
                       </div>
@@ -99,13 +99,13 @@
                                     <input class="value-box-lay"   [readOnly]="true" placeholder="{{LayStake(getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value, getGroup(i).get('Stake').value) | currency:'GBP' }}">
                                   </div>
 
-                                  <div class="exchange-words-container">                                   
+                                  <div class="exchange-words-container">
                                       <!-- Ever going to need to manually change this value? -->
                                       <p class="exchange-atodds-style">AT ODDS </p> <input formControlName="LayOdds" class = "value-box-lay"  placeholder="{{selection.LayOdds | number:'0.2-2'}}">
                                     </div>
 
                                     <div class="exchange-words-container">
-                                      <p class="exchange-liability-style" id="liability">YOUR LIABILITY:</p> <p><div class="exchange-layamount-style">{{ Liability(getGroup(i).get('LayOdds').value, LayOdds(getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value, getGroup(i).get('Stake').value)) | currency:'GBP'}}</div>  
+                                      <p class="exchange-liability-style" id="liability">YOUR LIABILITY:</p> <p><div class="exchange-layamount-style">{{ Liability(getGroup(i).get('LayOdds').value, LayStake(getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value, getGroup(i).get('Stake').value)) | currency:'GBP'}}</div>
                                     </div>
 
                                     <div class="exchange-button-container" id="smlnk"><a class="mat-raised-button-bookie-exchange" mat-raised-button href= {{selection.UrlSmarkets}} target="_blank">OPEN EVENT</a></div>
@@ -113,7 +113,7 @@
 
                                 </div>
 
-    
+
                                 <div class="jm-exp-details-col2row3">
 
                                   <div class="selection-figures row4-row1">
@@ -128,7 +128,8 @@
 
                               <div class="rcd-btn">
                                 <button mat-raised-button class="exp-button">Record Bet</button>
-                                <p class="betState">Lay bet is</p><button mat-raised-button class="betState" [style.background]="selection.activeBetState ? 'green' : 'red'" (click)="selection.activeBetState = !selection.activeBetState">{{ selection.activeBetState ? 'Matched' : 'Unmatched'}}</button>
+                                <p class="betState">Lay bet is</p>
+                                <button mat-raised-button class="bet-state-button" [style.background]="selection.activeBetState ? 'green' : 'red'" (click)="selection.activeBetState = !selection.activeBetState">{{ selection.activeBetState ? 'Matched' : 'Unmatched'}}</button>
                                 <!-- button match / unmatched  -->
                               </div>
 

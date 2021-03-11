@@ -160,7 +160,7 @@ tr.juicyMatch-row:not(.juicyMatch-expanded-row):active { /* when main container 
   .hideTR {
     visibility: collapse;
   }
-  
+
   /* Flicker */
 .backDirective {
   color: white;
@@ -293,13 +293,13 @@ div.jm-exp-details-row1 {
  /* Bookie and exchange logo + juicy bet details */
  .exchange-img{
   width: 30%;
-  vertical-align: middle;    
+  vertical-align: middle;
   margin-top: 4%;
   margin-bottom: 5%;
 }
 .bookie-img {
   width: 40%;
-  vertical-align: middle;    
+  vertical-align: middle;
   margin-top: 4%;
   margin-bottom: 5%;
 }
@@ -378,7 +378,7 @@ padding-top: 8%;
     justify-items: center;
     width: 20%;
     position: relaative;
-    
+
   }
 /* Lay Bet style and layout*/
 .jm-exp-details-col2row2 {
@@ -442,7 +442,7 @@ padding-top: 8%;
     width: 20%;
     height: 100%;
     }
-  
+
 
 /* Record bet button*/
 .exp-button {
@@ -487,10 +487,10 @@ padding-top: 8%;
   opacity: 1;
 }
 
-.betState {
+.bet-state-button {
   color: white;
-  width: 15px;
-  left: 10%;  
+  width: fit-content;
+  /* left: 10%; */
 }
 p.betState {
   display: inline-flex;
