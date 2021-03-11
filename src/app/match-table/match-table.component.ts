@@ -127,7 +127,11 @@ import { MatCheckbox } from '@angular/material/checkbox';
         this.buildGroupHeaders(this.matches, 0);
         this.cleanGroups(this.masterGroup);
         //assign only league groups that match user selected date
-        this.dataSource.data = this.setGroupsToDate(this.masterGroup);
+        this.setGroupsToDate(this.masterGroup);
+        this.tableGroups.forEach( group => {
+          this.dataSource.data = this.addToListOnClick(this.matches, this.tableGroups, group);
+        })
+        //need to att to list on Click for it to populate
         console.log("--Matches From DB--");
          console.log(this.matches);
       });
@@ -153,7 +157,8 @@ import { MatCheckbox } from '@angular/material/checkbox';
         this.setStartEndDays(dateSelection);
         this.tableGroups=[];
         this.cycleFixtures();
-      })
+      });
+
       //LIVE UPDATES UNCOMMENT
       this.webSocketService.openWebSocket();
     }
@@ -266,12 +271,15 @@ import { MatCheckbox } from '@angular/material/checkbox';
       this.tableGroups=[];
       masterGroup.forEach( group => {
         if(this.viewSelectedDate == 'Today' && group.isToday){
+            group.expanded = true;
             this.tableGroups.push(group);
         }
         else if (this.viewSelectedDate == 'Tomorrow' && group.isTomorrow) {
+            group.expanded = true;
             this.tableGroups.push(group);
         }
         else if (this.viewSelectedDate == 'Today & Tomorrow' && (group.isTomorrow || group.isToday) ) {
+            group.expanded = true;
             this.tableGroups.push(group);
         }
       });
