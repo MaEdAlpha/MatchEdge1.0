@@ -266,12 +266,15 @@ import { MatCheckbox } from '@angular/material/checkbox';
       this.tableGroups=[];
       masterGroup.forEach( group => {
         if(this.viewSelectedDate == 'Today' && group.isToday){
+            group.expanded = true;
             this.tableGroups.push(group);
         }
         else if (this.viewSelectedDate == 'Tomorrow' && group.isTomorrow) {
+            group.expanded = true;
             this.tableGroups.push(group);
         }
         else if (this.viewSelectedDate == 'Today & Tomorrow' && (group.isTomorrow || group.isToday) ) {
+            group.expanded = true;
             this.tableGroups.push(group);
         }
       });
