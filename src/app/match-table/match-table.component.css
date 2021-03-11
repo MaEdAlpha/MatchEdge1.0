@@ -10,19 +10,19 @@
 
 mat-table {
   margin-top: 3px;
-  border: solid 1px #bf9851;
+  border: solid 1px #ffffff;
 }
 
 mat-row, mat-header-row {
-  background: #263238;
+  background: #404040;
   color: white;
 }
 
 .OccA, .OccH {
   margin-right: auto;
     margin-left: auto;
-    background: black;
-    color: white;
+    background: #202020;
+    color: #ffbf0e;
     padding: 6px;
     border-radius: 5px;
     font-size: large;
@@ -166,7 +166,7 @@ div.footer-container{
 img {
   width: 20%;
   vertical-align: middle;
-  margin-right: 2px;
+  margin-right: 10px;
 }
 
 .bookie-logo, .exchange-logo{
@@ -203,21 +203,30 @@ span.Home, span.Away {
 
 span.BHome, span.BAway, span.SMHome, span.SMAway, span.BHome, span.BAway {
   color: white;
-  font-size: 15px;
+  font-size: 20px;
   font-weight: 500;
-  padding: 5px;
-  /* padding-left: 20px;
-  padding-right: 20px; */
-  border-radius: 10px;
+  padding: 10px;
+  padding-left: 50px;
+  padding-right: 50px;
+  border-radius: 5px;
+  
 }
 
 .odds-container{
   margin-left: auto;
   margin-right: auto;
 }
+.homeodds-container{
+  margin-left: auto;  
+}
+.awayodds-container{
+  margin-right: auto;
+}
 span.BAway, span.BHome{
-  background: green;
-
+  background: #f9a825;
+ background-image: linear-gradient(to top, #f5b95a, #ee9a12);
+  font-family: Bahnschrift SemiBold;
+  font-size: large;
 }
 
 span.SMAway, span.SMHome{
@@ -225,7 +234,7 @@ span.SMAway, span.SMHome{
 }
 
 mat-header-cell.cdk-column-Home, mat-header-cell.cdk-column-Away, mat-header-cell.cdk-column-FixturesDate {
-  background: #272929;
+  background: #404040;
 }
 
 .mat-icon-button {
@@ -257,14 +266,35 @@ mat-header-cell.cdk-column-Home, mat-header-cell.cdk-column-Away, mat-header-cel
   font-size: 10px;
 }
 
+.OccCell {
+  padding: 10px;
+  margin-right: auto;
+  margin-left: auto;
+}
+.homeOccCell {
+  padding: 10px;
+  margin-right: 5px;  
+}
+.awayOccCell {
+  padding: 10px;
+  margin-left: 5px;
+}
 .viewCell {
     padding: 2px;
     margin-right: auto;
     margin-left: auto;
 }
+.homelogoCell {
+  padding: 2px;
+  margin-left: auto;
+}
+.awaylogoCell {
+  padding: 2px;
+  margin-right: auto;  
+}
 
 button.viewCell {
-  background: #afafaf;
+  background: #ffffff;
 }
 
 .match-inactive{
