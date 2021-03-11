@@ -1,3 +1,4 @@
+/*Page Header*/
 table, .table-title, .no-content {
   width: 100%;
   margin-left: auto;
@@ -9,12 +10,20 @@ table, .table-title, .no-content {
   padding-top: 30px;
   height: 200px;
 }
-
 table, .no-content {
   height: 400px;
   background: #e0e1e2;
 }
+.hdr-items {
+  display: inline-block;
+}
+.hdr-tabs {
+  width: 75%;
+  margin-left: auto;
+  margin-right: auto;
+}
 
+/*Main Container for all */
 .table-container {
   margin-bottom: 130px;
   scroll-behavior: smooth;
@@ -23,44 +32,35 @@ table, .no-content {
   height: 60%;
 }
 
-.table-title{
-  color: white;
-  text-align: center;
-}
-
-.hdr-items {
-  display: inline-block;
-}
-
-.hdr-tabs {
-  width: 75%;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-#optionSelect {
-  float: left;
-  vertical-align: bottom;
-}
-
-/* Mat Table dynamic column class names */
+/* Main Juicy column headers hooks and rows juicy rows */
 .mat-column-BackOdds, .mat-column-LayOdds, .mat-column-EVthisBet, .mat-column-MatchRating {
   text-align: center;
   font-size: large;
   font-weight: 500;
 }
-
 .mat-cell {
-  border-right:  1px solid #00000012;
+  /*-right:  1px solid #00000012;*/
   line-height: 0%;
-  padding-left: 10px;
+  padding-left: 5px;
+  padding-right: 5px;
   border-bottom-width: 0;
+}
+.mat-raised-button-bookie-exchange {
+    position: absolute;
+    left: 84%;
+  }
+
+.mat-cell-withdata { /*Added this class to add borders to only the cells/rows that have content *?
+  /*border-right:  1px solid #bebcbc;*/
+  line-height: 0%;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom:  1px solid #bebcbc;
 }
 .mat-column-Selection {
   font-size: large;
   font-weight: 500;
 }
-
 tr.juicyMatch-detail-row {
   height:0;
 }
@@ -69,98 +69,22 @@ tr.juicyMatch-detail-row {
 tr.juicyMatch-row:not(.juicyMatch-expanded-row):hover {
   background: whitesmoke;
 }
-
-/* when main container clicked, change color */
-tr.juicyMatch-row:not(.juicyMatch-expanded-row):active {
+tr.juicyMatch-row:not(.juicyMatch-expanded-row):active { /* when main container clicked, change color */
   background: rgb(255, 191, 14);
 }
-
 .juicyMatch td {
   border-bottom-width: 0;
 }
-
 .juicyCell {
   margin-left: auto;
   margin-right: auto;
   position: relative;
   width: fit-content;
 }
-
-/* hides second container */
-.juicyMatch-detail {
+.juicyMatch-detail { /* hides juicy detaisl */
   overflow: hidden;
   display: grid;
   background:whitesmoke;
-}
-
-/* multiple row divs in expandable section */
-div.jm-exp-details-row1 {
-  display: inline-flex;
-  width: 100%;
-  height: 300px;
-  background: #d2d2d2;
-}
-
-div.jm-exp-details-row4 {
-/* expandable container: row 1 */
-  display: block;
-}
-
-.jm-exp-details-col2row3{
-  width: 100%;
-  float: right;
-}
-
-.selection-figures {
-  display: contents;
-  width: 60%;
-}
-
-.rcd-btn {
-  width: 30%;
-  float: right;
-}
-
-
-.r1, .r2 {
-  width: 35%;
-  display: inline-block;
-}
-
-.selection-figures-content1 {
-  width: 25%;
-  display: inline-flex;
-}
-
-.selection-figures-content2 {
-  width: 20%;
-  display: inline-flex;
-}
-
-
-
-#logo {
-  border: rgb(100 75 9) 1px solid;
-  width: 100px;
-  display: inline-block;
-  height: 100px;
-  vertical-align: middle;
-  margin: 2.5%;
-  border-radius: 15px;
-  background: radial-gradient(at 50% 0, #9fa1a0, transparent 70%),
-  linear-gradient(0deg, #232e34, transparent 50%) bottom;
-  padding: 10px;
-}
-
-#prev-odds {
-  margin-top: 25px;
-}
-#logo>img {
-  height: 100%;
-}
-
-div.row1-first {
-  width: 20%;
 }
 #selection {
   width: 100%;
@@ -169,132 +93,15 @@ div.row1-first {
   margin-top: 6%;
   text-align: center;
 }
-
-.jm-exp-details-col2-cont {
-  width: 100%;
-  display: inline-block;
-}
-
-/* div.row1-second {
-  width: 20%;
-}
-
-div.row1-third {
-  width: 18%;
-}
-
-div.row1-fourth {
-  width: 18%;
-} */
-
-.row1-second, .row1-third, .row1-fourth {
-  width: 20%;
-  vertical-align: top;
-  margin-top: 5%;
-  text-align: center;
-}
-
-/* expandable container: rows 2 and 3 - User direction section */
-.jm-exp-details-col2row1, .jm-exp-details-col2row2{
-  font-size: larger;
-  text-align: center;
-  padding-top: 15px;
-  padding-bottom:15px;
-  margin: 15px;
-}
-
-/* Bet Prompt Guide Divs */
-.jm-exp-details-col2row1 {
-  background: #90cab6;
-}
-
-.jm-exp-details-col2row2 {
-  background: #a1c2c7;
-  color: black;
-}
-.jm-exp-details-col2row2>b{
-  color: black;
-}
-
-/* expandable container: row 4 - numbers */
-.row4 {
-  padding-left: 4%;
-  text-align: center;
-  background: whitesmoke;
-}
-
-
-
-button {
-  vertical-align: middle;
-}
-
-.row4-hdr {
-  width: 100%;
-}
-
-.exp-button {
-  padding: 2%;
-  width: 40%;
-  margin: 5px;
-}
-
-/* User Direction rows 2 and 3 - back & lay value containers */
-.value-box-back, .selection-box {
-  background:  whitesmoke;
-}
-
-.value-box-lay {
-  background: rgb(255, 255, 255);
-}
-
-.value-box-back, .value-box-lay, .selection-box {
-  width: 30%;
-  font-size: medium;
-  padding-right: 5px;
-  padding-left: 5px;
-  text-align: center;
-  margin-left: 5px;
-  vertical-align: middle;
-}
-
-.user-directions {
-  font-size: x-large;
-  width: 100%;
-  display: inline-block;
-}
-
-.external-link-button{
-  width: 15%;
-  display: inline-block;
-}
-
-div.row3-value{
-  margin-right: 30%;
-  float: right;
-  padding-top: 10px;
-  margin-top:30px;
-  font-weight: 600;
-  font-size: x-large;
-}
-
-span.row3-value {
-  background:  rgb(136, 136, 218);
-  padding: 4px;
-}
-
-/* column header hooks */
 #column0hdr, #column1hdr,#column2hdr,#column3hdr,#column4hdr, #column5hdr {
   font-size: medium;
   font-weight: 400px;
   border-right: 1px solid #00000012;
 }
-
 #column0hdr, #column1hdr,#column2hdr {
   text-align: left;
   padding-left: 10px;
 }
-
 .cdk-column-LayOdds>span {
   background: green;
   color: white;
@@ -303,26 +110,30 @@ span.row3-value {
   padding-right: 10px;
   border-radius: 5px;
 }
-
-
 .FTAround>span {
-  background: black;
-  color: white;
+  background: #37474F;
+  color: #ffbf0e;
   border-radius: 6px;
   font-size: large;
   padding: 6px;
 }
-.ticker4box {
-  background: green;
+.ticker3box {
+  background: #126E51;
   color: white;
   padding: 6px;
   padding-left: 10px;
   padding-right: 10px;
   border-radius: 5px;
 }
-
+.ticker4box {
+  background: #005EA6;
+  color: white;
+  padding: 6px;
+  padding-left: 10px;
+  padding-right: 10px;
+  border-radius: 5px;
+}
 .ticker5box {
-
   background: blue;
   color: white;
   padding: 6px;
@@ -330,25 +141,27 @@ span.row3-value {
   padding-right: 10px;
   border-radius: 5px;
 }
-
 .ev6box {
-  background:#ffdf1b;
+  background: rgb(184, 184, 184);
   color: black;
   padding: 6px;
   padding-left: 10px;
   padding-right: 10px;
   border-radius: 5px;
 }
-
 .mr7box {
-  background:#7adfdf;
+  background: rgb(184, 184, 184);
   color: black;
   padding: 6px;
   padding-left: 10px;
   padding-right: 10px;
   border-radius: 5px;
 }
-
+  .hideTR {
+    visibility: collapse;
+  }
+  
+  /* Flicker */
 .backDirective {
   color: white;
   padding: 6px;
@@ -365,7 +178,6 @@ span.row3-value {
   100%	{ background-color: #64c58d; color: #052044; }
 
 }
-
 .flickDirectiveLay {
   color: white;
   padding: 6px;
@@ -381,11 +193,6 @@ span.row3-value {
   75%		{ background-color: #4283d8; color: #426897; }
   100%	{ background-color: #649ce4; color: #052044; }
 }
-
-tr.mat-header-row{
-  height: 20px;
-}
-
 .flickDirectiveEV {
   color: white;
   padding: 6px;
@@ -401,7 +208,6 @@ tr.mat-header-row{
   75%		{ background-color: #e2d689; color: #426897; }
   100%	{ background-color: #ffdf1b; color: #052044; }
 }
-
 .flickDirectiveMR {
   color: white;
   padding: 6px;
@@ -417,39 +223,264 @@ tr.mat-header-row{
   75%		{ background-color: #ff01d5; color: #426897; }
   100%	{ background-color: #e49ac8; color: #052044; }
 }
-  .hideTR {
-    visibility: collapse;
-  }
 
-  .words-container{
-    width: 20%;
-    display: inline-block;
-    margin-left: auto;
-    margin-right: auto;
-  }
+/* Main table format */
+tr.mat-header-row{
+  height: 20px;
+}
 
-  .words-container>p {
-    display: inline-block;
-  }
-  #liability {
-    font-size: medium;
-  }
+/*Layout for team name and logo*/
+div.row1-first {
+  width: 20%;
+}
+.row1-second, .row1-third, .row1-fourth {
+  width: 20%;
+  vertical-align: top;
+  margin-top: 5%;
+  text-align: center;
+}
 
-  .exchange-img, .bookie-img {
-    width: 45%;
-    vertical-align: middle;
-  }
+/* Parent container for all back and lay bet details including logo*/
+div.jm-exp-details-row1 {
+  display: inline-flex;
+  width: 100%;
+  height: 300px;
+  background: #d2d2d2;
+}
+/* Parent container for all back and lay bet details excluding logo*/
+.jm-exp-details-col2-cont {
+  width: 100%;
+  display: inline-block;
+}
 
   .shadow {
     box-shadow: inset -5px -3px 10px #000000;
     border-radius: 8px;
  }
 
+ /* Bookie and exchange logo in main row of juicy table */
  .odds-img{
   width: 20px;
   margin: 5px;
   vertical-align: middle;
  }
+ #logo>img {
+  height: 100%;
+}
+ #prev-odds {
+  margin-top: 25px;
+}
+#logo {
+  border: rgb(100 75 9) 1px solid;
+  width: 100px;
+  display: inline-block;
+  height: 100px;
+  vertical-align: middle;
+  margin: 2.5%;
+  border-radius: 15px;
+  background: radial-gradient(at 50% 0, #9fa1a0, transparent 70%),
+  linear-gradient(0deg, #232e34, transparent 50%) bottom;
+  padding: 10px;
+}
+
+ /* Container for back bet and lay bet instructions*/
+  .user-directions {
+  font-size: x-large;
+  width: 100%;
+  display: inline-block;
+}
+
+ /* Bookie and exchange logo + juicy bet details */
+ .exchange-img{
+  width: 30%;
+  vertical-align: middle;    
+  margin-top: 4%;
+  margin-bottom: 5%;
+}
+.bookie-img {
+  width: 40%;
+  vertical-align: middle;    
+  margin-top: 4%;
+  margin-bottom: 5%;
+}
+
+/* Editable text boxes that allow user input for back and lay odds and back stake*/
+.value-box-back, .selection-box {
+  background:  whitesmoke;
+  }
+.value-box-lay {
+  background: rgb(255, 255, 255);
+}
+.value-box-back, .value-box-lay, .selection-box {
+  width: 30%;
+  font-size: medium;
+  padding-right: 5px;
+  padding-left: 5px;
+  text-align: center;
+  vertical-align: middle;
+  margin-top: 5%;
+  }
+
+
+/* Back Bet style and layout*/
+.jm-exp-details-col2row1, .jm-exp-details-col2row2{
+  text-align: center;
+  padding-top: 0px;
+  padding-bottom:0px;
+  margin: 5px;
+}
+.jm-exp-details-col2row1 {
+  background: #126E51;
+}
+.bookie-button-container {
+  display: inline-grid;
+  width: 18%;
+  vertical-align: super;
+}
+.bookie-words-container {
+  display: inline-grid;
+  color: #ececec;
+  justify-items: center;
+  width: 20%;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  margin-bottom: 5px;
+}
+.bookie-goto-style {
+  width: 100%;
+  align-items: center;
+  padding-top: 10%;
+  }
+.bookie-bet-style {
+  width: 100%;
+  padding-top: 10%;
+  }
+.bookie-atodds-style {
+  width: 100%;
+  padding-top: 10%;
+  }
+.bookie-for-style {
+width: 100%;
+padding-top: 10%;
+}
+.bookie-teamname-style {
+  width: 100%;
+  font-size: large;
+  padding-right: 5px;
+  padding-left: 5px;
+  text-align: center;
+  vertical-align: middle;
+  margin-top: 5%;
+  }
+  .bookie-button-style {
+    vertical-align: middle;
+    justify-items: center;
+    width: 20%;
+    position: relaative;
+    
+  }
+/* Lay Bet style and layout*/
+.jm-exp-details-col2row2 {
+  background: #383838;
+  color: rgb(255, 255, 255);
+}
+.jm-exp-details-col2row2>b{
+  color: black;
+}
+.exchange-words-container{
+  display: inline-grid;
+  justify-items: center;
+  width: 20%;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  margin-bottom: 5px;
+}
+.exchange-words-container>p {
+  display: inline-block;
+  color: #ffffff;
+}
+.exchange-button-container {
+  display: inline-grid;
+  width: 18%;
+  vertical-align: super;
+}
+#liability {
+  font-size: large;
+}
+
+.exchange-goto-style {
+  width: 100%;
+  align-items: center;
+  padding-top: 10%;
+  }
+.exchange-lay-style {
+  width: 100%;
+  padding-top: 10%;
+  }
+.exchange-atodds-style {
+  width: 100%;
+  padding-top: 10%;
+  }
+.exchange-liability-style {
+width: 100%;
+padding-top: 10%;
+}
+.exchange-layamount-style {
+  width: 100%;
+  font-size: large;
+  padding-right: 5px;
+  padding-left: 5px;
+  text-align: center;
+  vertical-align: middle;
+  margin-top: 5%;
+  }
+  .exchange-button-style {
+    vertical-align: middle;
+    justify-items: center;
+    width: 20%;
+    height: 100%;
+    }
+  
+
+/* Record bet button*/
+.exp-button {
+  padding: 0%;
+    width: 110px;
+    margin-top: 14px;
+    left: 42%;
+}
+.rcd-btn {
+  width: 30%;
+  float: right;
+}
+
+/* Additional bet details*/
+.jm-exp-details-col2row3{
+  width: 100%;
+  float: right;
+  margin-top: 5px;
+}
+.r1, .r2 {
+  width: 35%;
+  display: inline-block;
+}
+.selection-figures-content1 {
+  width: 25%;
+  display: inline-flex;
+  font-size: large;
+}
+.selection-figures-content2 {
+  width: 50%;
+  display: inline-flex;
+  font-size: large;
+}
+.selection-figures {
+  display: contents;
+  width: 60%;
+}
+
 
  input::placeholder {
   background: #fff;
@@ -460,6 +491,7 @@ tr.mat-header-row{
 .betState {
   color: white;
   width: 110px;
+  left: 10%;  
 }
 p.betState {
   display: inline-flex;
@@ -470,3 +502,4 @@ p.betState {
   color: black;
   width: fit-content;
 }
+

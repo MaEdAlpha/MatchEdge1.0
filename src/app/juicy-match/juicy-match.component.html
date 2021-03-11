@@ -11,7 +11,7 @@
            <!--/////TODO////// set ng-container to display just back/lay EV and Match Rating headers -->
            <th mat-header-cell *matHeaderCellDef id="column{{flickerColmnIndex}}hdr"></th>
             <td mat-cell
-              class="mat-column{{flickerColmnIndex}}-data"
+              class="mat-column{{flickerColmnIndex}}-data mat-cell-withdata"
               *matCellDef="let selection; let i = dataIndex"
               (click)="loadGroup(i); freezeAllMotorFunctions(); show(selection, i)">
               <ng-container *ngIf="selection.ignore==false">
@@ -30,14 +30,13 @@
 
 
                       <div class="juicyCell" *ngIf="column.endsWith('Bet')">
-                        <span class="ev{{flickerColmnIndex}}box juicyCell" appFlickerDataEv [isUpdated]="selection.evIsUpdated"> {{selection[column]}} </span>
+                        <span class="ev{{flickerColmnIndex}}box juicyCell" appFlickerDataEv [isUpdated]="selection.evIsUpdated">   £{{selection[column] | number: '0.2-2'}} </span>
                       </div>
 
                       <!-- use directive for displaying matchRating values -->
                       <div class="juicyCell" *ngIf="column.endsWith('Rating')">
-                        <span class="mr{{flickerColmnIndex}}box" appFlickerDataMatchRating [isUpdated]="selection.matchRatingUpdated"> {{selection[column]}} </span>
-                      </div>
-
+                        <span class="mr{{flickerColmnIndex}}box" appFlickerDataMatchRating [isUpdated]="selection.matchRatingUpdated"> {{selection[column] | number: '0.2-2'}}% </span>
+                      </div> 
                       <div class="juicyCell FTAround" *ngIf="column.endsWith('Around')">
                         <span> {{selection[column] | number: '0.2-2'}} </span>
                       </div>
@@ -59,80 +58,77 @@
              <ng-container *ngIf="expandedElement === selection">
                <form [formGroup]="selectionValues">
 
-               <div class="jm-exp-details-row1">
-                 <div class="row1 row1-first">
-                   <div class="jed-cell1" id="selection"><h1>{{selection.Selection}}</h1>
+               <div class="jm-exp-details-row1"> <!--Main container for juicy match-->
+                 <div class="row1 row1-first">  <!--Team name and Logo-->
+                   <div class="jed-cell1" id="selection"><h1>{{selection.Selection}}</h1><!--Contains logo and prev odds. -->
                           <div class="jed-cell1" id="logo"><img src="/assets/img/fcLogo/{{selection.Logo}}.png"> </div>
                           <div class="jed-cell" id="prev-odds"><p> <b> {{i}} PREV. BACK ODDS</b></p><h3> {{selection.b365HPrev[0].Odds | number:'0.2-2'}} | H - A | {{selection.b365APrev[0].Odds | number:'0.2-2'}}</h3></div>
-                        </div>
-                        </div>
+                    </div>
+                  </div>
 
-                        <div class="jm-exp-details-col2-cont">
-                          <div class="jm-exp-details-col2row1 shadow">
-                            <div class="user-directions">
-                              <div class="words-container">
-                                <p>GO TO  <img class="bookie-img" src="/assets/img/bet365II.png"></p>
+                        <div class="jm-exp-details-col2-cont"> <!--Container for betting instructions and info-->
+                          <div class="jm-exp-details-col2row1 shadow"> <!--Outer container for back bet instructions-->
+                            <div class="user-directions"> <!--inner container for back bet elements-->
+                              <div class="bookie-words-container"> <!--Container for each group within the row-->
+                                <p class = "bookie-goto-style">GO TO</p> <img class="bookie-img" src="/assets/img/bet365II.png">
                               </div>
-                              <div class="words-container">
-
-                                <b>BET</b> <input formControlName="Stake" class = "value-box-back" placeholder="{{getGroup(i).get('Stake').value}}">
+                              <div class="bookie-words-container">
+                                <p class="bookie-bet-style">BET</p> <input formControlName="Stake" class = "value-box-back" placeholder="{{getGroup(i).get('Stake').value}}">
                               </div>
-                              <div class="words-container">
-                               <p> AT ODDS OF </p>
-                               <input formControlName="BackOdds" class = "value-box-back"  placeholder="{{getGroup(i).get('BackOdds').value | number:'0.2-2'}}">
+                              <div class="bookie-words-container">
+                                <p class= "bookie-atodds-style">AT ODDS </p><input formControlName="BackOdds" class = "value-box-back"  placeholder="{{getGroup(i).get('BackOdds').value | number:'0.2-2'}}">
                               </div>
-                              <div class="words-container">
-                                <b>FOR  </b> <span class="selection-box">{{selection.Selection}}</span>
+                              <div class="bookie-words-container">
+                                <p class= "bookie-for-style">FOR </p> <p><div class="bookie-teamname-style">{{selection.Selection}}</div>
                               </div>
-                                <div class="external-link-button" id="bet365lnk"><a mat-raised-button href= {{selection.UrlB365}} >OPEN EVENT</a></div>
-                            </div>
+                              <div class="bookie-button-container" id="bet365lnk"><a class="mat-raised-button-bookie-exchange" mat-raised-button href= {{selection.UrlB365}} >OPEN EVENT</a></div>
+                              </div>
 
                           </div>
 
                           <div class="jm-exp-details-col2row2 shadow">
                             <div class="user-directions">
-                              <div class="words-container">
-                                <p>GO TO  <img class="exchange-img" src="/assets/img/smarketsII.png"></p>
+                              <div class="exchange-words-container">
+                                <p class="exchange-bet-style">GO TO </p> <img class="exchange-img" src="/assets/img/smarketsII.png">
                               </div>
 
-                              <div class="words-container">
-                                <b>LAY</b>
+                              <div class="exchange-words-container">
+                                <p class="exchange-lay-style">LAY </p>
                                     <!-- <input formControlName="LayStake" class = "value-box-lay"  placeholder="{{selection.LayStake | currency:'GBP'}}"> -->
                                     <input class="value-box-lay"   [readOnly]="true" placeholder="{{LayOdds(getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value, getGroup(i).get('Stake').value) | currency:'GBP' }}">
                                   </div>
 
-                                  <div class="words-container">
-
-                                    <p> AT ODDS OF
+                                  <div class="exchange-words-container">                                   
                                       <!-- Ever going to need to manually change this value? -->
-                                      <input formControlName="LayOdds" class = "value-box-lay"  placeholder="{{selection.LayOdds | number:'0.2-2'}}">
+                                      <p class="exchange-atodds-style">AT ODDS </p> <input formControlName="LayOdds" class = "value-box-lay"  placeholder="{{selection.LayOdds | number:'0.2-2'}}">
                                     </div>
 
-                                    <div class="words-container">
-                                      <b> <span id="liability"> YOUR LIABILITY: </span><span class="row3-value">{{ Liability(getGroup(i).get('LayOdds').value, LayOdds(getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value, getGroup(i).get('Stake').value)) | currency:'GBP'}}</span></b>
+                                    <div class="exchange-words-container">
+                                      <p class="exchange-liability-style" id="liability">YOUR LIABILITY:</p> <p><div class="exchange-layamount-style">{{ Liability(getGroup(i).get('LayOdds').value, LayOdds(getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value, getGroup(i).get('Stake').value)) | currency:'GBP'}}</div>  
                                     </div>
 
-                                    <div class="external-link-button" id="smlnk"><a mat-raised-button href= {{selection.UrlSmarkets}} target="_blank">OPEN EVENT</a></div>
+                                    <div class="exchange-button-container" id="smlnk"><a class="mat-raised-button-bookie-exchange" mat-raised-button href= {{selection.UrlSmarkets}} target="_blank">OPEN EVENT</a></div>
                                   </div>
 
                                 </div>
 
+    
                                 <div class="jm-exp-details-col2row3">
 
                                   <div class="selection-figures row4-row1">
                                     <div class="r1 r1-col1">
-                                      <h3 class="selection-figures-content1">FTA Returns:</h3>
-                                <span class="selection-figures-content1">{{ FTA( getGroup(i).get('Stake').value, getGroup(i).get('BackOdds').value, getGroup(i).get('LayStake').value  ) | currency:'GBP'}}</span>
+                                      <h3 class="selection-figures-content1">ROI:</h3>
+                                <span class="selection-figures-content1">{{ ROI(getGroup(i).get('Stake').value, selection.EVthisBet) | number:'0.2-2'}} %</span>
                               </div>
                               <div class="r1 r1-col2">
-                                <h3 class="selection-figures-content2">ROI: </h3>
-                                <span class="selection-figures-content1"> {{ ROI(getGroup(i).get('Stake').value, selection.EVthisBet) | number:'0.2-2'}} %</span></div>
+                                <h3 class="selection-figures-content2">Full Turnaround: </h3>
+                                <span class="selection-figures-content2"> {{ FTA( getGroup(i).get('Stake').value, getGroup(i).get('BackOdds').value, getGroup(i).get('LayStake').value  ) | currency:'GBP'}}</span></div>
                               </div>
 
                               <div class="rcd-btn">
-                                <button mat-raised-button class="exp-button">Record Bet</button>
-                                <p class="betState">Lay bet is</p><button mat-raised-button class="betState" [style.background]="selection.activeBetState ? 'green' : 'red'" (click)="selection.activeBetState = !selection.activeBetState">{{ selection.activeBetState ? 'Matched' : 'Unmatched'}}</button>
+                              <p class="betState">Lay bet is</p><button mat-raised-button class="betState" [style.background]="selection.activeBetState ? 'green' : 'red'" (click)="selection.activeBetState = !selection.activeBetState">{{ selection.activeBetState ? 'Matched' : 'Unmatched'}}</button>
                                 <!-- button match / unmatched  -->
+                                <button mat-raised-button class="exp-button">Record Bet</button>
                               </div>
 
                               <div class="selection-figures row4-row2">
@@ -142,7 +138,7 @@
                                 </div>
 
                                 <div class="r2 r2-col2">
-                                  <h3 class="selection-figures-content2">QL: </h3>
+                                  <h3 class="selection-figures-content2">Qualifying Loss: </h3>
                                   <span class="selection-figures-content2"> {{QL(getGroup(i).get('LayStake').value, getGroup(i).get('Stake').value) | currency:'GBP'}}  </span>
                                 </div>
                               </div>
