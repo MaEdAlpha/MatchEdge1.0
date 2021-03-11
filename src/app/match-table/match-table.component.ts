@@ -202,7 +202,7 @@ import { MatCheckbox } from '@angular/material/checkbox';
           // console.log(matchDate);
           // console.log(assignTodaysDay + " " + assignTomorrowsDay);
 
-          if( switch1 && ( match.EpochTime*1000 < epochCutOff.forDayOne && match.EpochTime*1000 > Date.now() )){
+          if( switch1 && ( match.EpochTime*1000 < epochCutOff.forDayOne && match.EpochTime*1000 > epochCutOff.forStartOfDayOne )){
             group.isToday = true;
             switch1 = false;
           }
@@ -235,8 +235,6 @@ import { MatCheckbox } from '@angular/material/checkbox';
         { return true; }
       }
       groups = groups.filter(nonRelevantGroups);
-      // console.log("Updated master Group --");
-      // console.log(groups);
       this.saveMasterGroup(groups);
       this.masterGroup = groups
     }
@@ -331,7 +329,7 @@ import { MatCheckbox } from '@angular/material/checkbox';
         //Sometimes a full scrape of a record is not done, and League = '' or null. Need to account for that null.
         if(match.League != null && match.League.includes(rowInfo.League)){
           //Check what date is selected.
-          if(this.viewSelectedDate == 'Today & Tomorrow' && (matchEpoch >= epochCutOff.forStartOfDayOne && matchEpoch <= epochCutOff.forDayTwo && matchEpoch >= epochCutOff.forStartOfDayOne )) {
+          if(this.viewSelectedDate == 'Today & Tomorrow' && ( matchEpoch >= epochCutOff.forStartOfDayOne && matchEpoch <= epochCutOff.forDayTwo )) {
 
             matchEpoch <= timeNow ? match.isPastPrime = true : match.isPastPrime = false; //Set boolean for styling
 
