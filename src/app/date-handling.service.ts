@@ -66,6 +66,15 @@ export class DateHandlingService {
     return new Date(epochTime*1000);
   }
 
+  //Returns epoch-based-time-boundaries for each day (milliseconds)
+  getStartEndDaysAtMidnight(): {forStartOfDayOne:number, forDayOne:number, forDayTwo:number} {
+    //today at midnight is counted as the next day... so when you filter, if you want to include any games at midnight it must be equal to this number.
+    var yesterdayAtMidnight = new Date(new Date().setDate( new Date().getDate())).setHours(0,0,0,0);
+    var todayAtMidnight = new Date(new Date().setDate( new Date().getDate() + 1)).setHours(0,0,0,0);
+    var tomorrowAtMidnight = new Date(new Date().setDate( new Date().getDate() + 2)).setHours(0,0,0,0)
+    return { forStartOfDayOne: yesterdayAtMidnight, forDayOne: todayAtMidnight, forDayTwo: tomorrowAtMidnight}
+  }
+
   //used in Notifications Box Service to qualify incoming stream data for user Notification
   returnSpecificNotificationBoundaries(selectedDate: string): {lowerLimit:number, upperLimit:number} {
    var epoch;

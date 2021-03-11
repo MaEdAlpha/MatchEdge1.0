@@ -157,14 +157,16 @@ export class WatchlistComponent implements OnInit, OnDestroy {
     this.dataSource.data = this.displayList;
   }
 
+  //watchlist code ripped from addToListOnClick() in match-table.
   setLists(watchList: any[], masterGroup: Group[], dateSelected:string) {
 
     //clear displayList:
     this.displayList = [];
-
+    //Assign leagueHeader object to a list only for matches selected to watch
     this.setGroupHeaders(watchList, masterGroup, this.displayList);
+    //return time-boundary values to display in  table.
+    var epochCutOff = this.dateHandlingService.getStartEndDaysAtMidnight();
 
-    var { dateStart, dateEnd } : { dateStart: number; dateEnd: number; } = this.getStartEndDates(dateSelected);
 
       //need to organize list  and display fixture dates.
     this.masterGroup.forEach( groupHeader => {
@@ -173,24 +175,24 @@ export class WatchlistComponent implements OnInit, OnDestroy {
       var matchPosition = groupIndex + 1;
 
       watchList.forEach( match => {
-        var matchDate: number = new Date(match.EpochTime * 1000).getUTCDate();
+        var matchTime: number = match.EpochTime*1000;
         //prevDate acts as a switch for setting displayHeaderDate boolean.
         var prevDate: string = "placeHolder";
-        if(dateSelected == 'Today & Tomorrow' && groupHeader.League == match.League && (matchDate == dateStart || matchDate == dateEnd) ){
+        if(dateSelected == 'Today & Tomorrow' && groupHeader.League == match.League && (matchTime >= epochCutOff.forStartOfDayOne && matchTime  <= epochCutOff.forDayTwo) ){
           this.setDisplayHeader(match, matchPosition, groupIndex, prevDate);
           this.displayList.splice(matchPosition, 0, match);
           prevDate = match.Details;
           matchPosition++;
         }
 
-        if(dateSelected == 'Today' && groupHeader.League == match.League && matchDate == dateStart)
+        if(dateSelected == 'Today' && groupHeader.League == match.League && matchTime >= epochCutOff.forStartOfDayOne && matchTime <= epochCutOff.forDayOne)
         {
           this.setDisplayHeader(match, matchPosition, groupIndex, prevDate);
           this.displayList.splice(matchPosition, 0, match);
           prevDate = match.Details;
           matchPosition++;
         }
-        if(dateSelected == 'Tomorrow' && groupHeader.League == match.League && matchDate == dateEnd)
+        if(dateSelected == 'Tomorrow' && groupHeader.League == match.League && matchTime >= epochCutOff.forDayOne && matchTime <= epochCutOff.forDayTwo)
         {
           this.setDisplayHeader(match, matchPosition, groupIndex, prevDate);
           this.displayList.splice(matchPosition, 0, match);
