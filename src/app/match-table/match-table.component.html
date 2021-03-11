@@ -9,7 +9,7 @@
             <!-- Generate Column Headers -->
                <ng-container *ngFor="let column of columns" matColumnDef= {{column.field}}>
 
-                    <ng-container *ngIf="!column.field.startsWith('B') || !column.field.startsWith('SM')">
+                    <ng-container *ngIf="!column.field.startsWith('B')">
                       <mat-header-cell *matHeaderCellDef></mat-header-cell>
                     </ng-container>
                     <!-- Generate Data Cells -->
@@ -17,109 +17,39 @@
                       <!-- TODO filter by dates epoch time is less than time.now epoch time then do not display. -->
                       <!-- <ng-container *ngIf="oldNews(row['EpochTime'])"> -->
 
-                        <ng-container *ngIf="!column.field.endsWith('Status')">
-                          <ng-container *ngIf="column.field.endsWith('BHome') || column.field.endsWith('SMHome') || column.field.endsWith('OccH') || column.field.endsWith('OccA') || column.field.endsWith('BAway') || column.field.endsWith('SMAway')">
-                            <div class="odds-container">
-                              <ng-container *ngIf="column.field.endsWith('BHome') || column.field.endsWith('BAway')" > <img class="bookie-logo" src="/assets/img/betIconIII.png" alt=""></ng-container>
-                              <ng-container *ngIf="column.field.endsWith('SMHome') || column.field.endsWith('SMAway') " > <img class="exchange-logo" src="/assets/img/smarketsIcon.png" alt=""></ng-container>
-                              <span class="{{column.field}} viewCell"> {{ row[column.field] | number:'0.2-2'}}</span>
+                       
+                          <ng-container *ngIf="column.field.endsWith('BHome') || column.field.endsWith('OccH')">
+                            <div class="homeodds-container">
+                              <ng-container *ngIf="column.field.endsWith('BHome')" ></ng-container>
+                              <span class="{{column.field}} homeOccCell"> {{ row[column.field] | number:'0.2-2'}}</span>
                             </div>
                           </ng-container>
 
-                          <ng-container *ngIf="column.field.startsWith('Home') || column.field.startsWith('Away') ">
-                            <span class="{{column.field}} viewCell"> {{ row[column.field] }}</span>
+                          <ng-container *ngIf="column.field.endsWith('OccA') || column.field.endsWith('BAway')">
+                            <div class="awayodds-container">
+                              <ng-container *ngIf="column.field.endsWith('BAway')" ></ng-container>
+                              <span class="{{column.field}} awayOccCell"> {{ row[column.field] | number:'0.2-2'}}</span>
+                            </div>
+                          </ng-container>
+
+                          <ng-container *ngIf="column.field.startsWith('Home')">
+                            <div class="{{column.field}} homelogoCell"> {{ row[column.field].substring(0, 15) }}  </div>
+                            <span class="{{column.field}} homelogoCell"> <img class="bookie-logo" src="/assets/img/fcLogo/{{row[column.field].toLowerCase().split(' ').join('-')}}.png" alt=""> </span>                           
+                          </ng-container>
+
+                          <ng-container *ngIf="column.field.startsWith('Away') ">
+                            <span class="{{column.field}} awaylogoCell"> <img class="bookie-logo" src="/assets/img/fcLogo/{{row[column.field].toLowerCase().split(' ').join('-')}}.png" alt=""> </span>
+                            <div class="{{column.field}} awaylogoCell"> {{ row[column.field].substring(0, 15) }}  </div>
                           </ng-container>
 
                           <ng-container *ngIf="column.field.startsWith('FixturesDate')">
-                            <button mat-raised-button class="fixturesDateBtn" [style.background]="row.isWatched ? 'rgb(249, 168, 37)' : 'rgb(195, 195, 195)'"(click)="addToWatchList(row);">
+                            <button mat-raised-button class="fixturesDateBtn" [style.background]="row.isWatched ? 'linear-gradient(to top, #f5b95a, #ee9a12)' : 'rgb(195, 195, 195)'"(click)="addToWatchList(row);">
                               <div class="fixturesText">
                                 <div class="fixturesDate"> {{row[column.field]}} </div>
                                 <div class="fixturesTime"> {{row['FixturesTime']}} </div>
                               </div>
                             </button>
                           </ng-container>
-                        </ng-container>
-
-                        <ng-container *ngIf="column.field.endsWith('Status')">
-                          <div class="dirStatusContainer">
-                            <ng-container *ngIf="column.field.endsWith('HStatus')">
-                              <ng-container>
-                                <button mat-icon-button
-                                  (click)="row.HStatus.notify=!row.HStatus.notify"
-                                  class="{{column.field}} viewCell">
-                                  <mat-icon>
-                                    add_alert
-                                  </mat-icon>
-                                </button>
-                              </ng-container>
-
-                              <ng-container >
-                                <button mat-icon-button
-                                  class="{{column.field}} viewCell"
-                                  (click)="ignoreHomeSelection(row)"
-                                  appIgnoreIcon
-                                  [ignoreStatus]="row.HStatus.ignore">
-                                  <mat-icon>
-                                    block
-                                  </mat-icon>
-                                </button>
-                              </ng-container>
-
-                              <ng-container>
-                                <button mat-icon-button
-                                  class="{{column.field}} viewCell"
-                                  (click)="row.HStatus.bet=!row.HStatus.activeBet"
-                                  appBetHome [hBetStatus]="row.HStatus.activeBet"
-                                  id="hStatusMoney">
-                                  <mat-icon>
-                                    attach_money
-                                  </mat-icon>
-                              </button>
-                              </ng-container>
-                            </ng-container>
-
-                            <!-- AWAY STATUS CONFIG -->
-                            <ng-container *ngIf="column.field.endsWith('AStatus')">
-                              <ng-container>
-                                <button mat-icon-button
-                                  (click)="row.AStatus.notify=!row.AStatus.notify"
-                                  class="{{column.field}} viewCell">
-                                  <mat-icon>
-                                    add_alert
-                                  </mat-icon>
-                                </button>
-                              </ng-container>
-
-                              <ng-container >
-                                <button mat-icon-button
-                                  class="{{column.field}} viewCell"
-                                  (click)="ignoreAwaySelection(row)"
-                                  appIgnoreIcon
-                                  [ignoreStatus]="row.AStatus.ignore">
-                                  <mat-icon>
-                                    block
-                                  </mat-icon>
-                                </button>
-                              </ng-container>
-
-                              <ng-container>
-                                <button mat-icon-button
-                                  class="{{column.field}} viewCell"
-                                  appBetAway
-                                  (click)="row.AStatus.bet=!row.AStatus.activeBet"
-                                  appBetAway [aBetStatus]="row.AStatus.activeBet"
-                                  id="hStatusMoney">
-                                  <mat-icon>
-                                    attach_money
-                                  </mat-icon>
-                              </button>
-                              </ng-container>
-                            </ng-container>
-                          </div>
-
-                      </ng-container>
-
-                    <!-- </ng-container> -->
                     </mat-cell>
                 </ng-container>
 
