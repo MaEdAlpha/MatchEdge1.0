@@ -8,16 +8,14 @@
           <mat-table mat-table [dataSource] ="dataSource">
             <!-- Generate Column Headers -->
                <ng-container *ngFor="let column of columns" matColumnDef= {{column.field}}>
+                      <mat-header-cell *matHeaderCellDef> <span>{{column.field}}  </span></mat-header-cell>
 
-                    <ng-container *ngIf="!column.field.startsWith('B')">
-                      <mat-header-cell *matHeaderCellDef></mat-header-cell>
-                    </ng-container>
                     <!-- Generate Data Cells -->
                     <mat-cell *matCellDef="let row; let i = index">
                       <!-- TODO filter by dates epoch time is less than time.now epoch time then do not display. -->
                       <!-- <ng-container *ngIf="oldNews(row['EpochTime'])"> -->
 
-                       
+
                           <ng-container *ngIf="column.field.endsWith('BHome') || column.field.endsWith('OccH')">
                             <div class="homeodds-container">
                               <ng-container *ngIf="column.field.endsWith('BHome')" ></ng-container>
@@ -34,7 +32,7 @@
 
                           <ng-container *ngIf="column.field.startsWith('Home')">
                             <div class="{{column.field}} homelogoCell"> {{ row[column.field].substring(0, 15) }}  </div>
-                            <span class="{{column.field}} homelogoCell"> <img class="bookie-logo" src="/assets/img/fcLogo/{{row[column.field].toLowerCase().split(' ').join('-')}}.png" alt=""> </span>                           
+                            <span class="{{column.field}} homelogoCell"> <img class="bookie-logo" src="/assets/img/fcLogo/{{row[column.field].toLowerCase().split(' ').join('-')}}.png" alt=""> </span>
                           </ng-container>
 
                           <ng-container *ngIf="column.field.startsWith('Away') ">
@@ -51,11 +49,12 @@
                             </button>
                           </ng-container>
                     </mat-cell>
-                </ng-container>
+              </ng-container>
 
 
                   <!--DOES NOTHING APPARENTLY. Keep for debug purposes for now <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row> -->
-                    <mat-row *matRowDef="let row; columns: displayedColumns; let i=index" class="match-row-details-{{i}}" appInactiveMatch [match]="row" [matchIndex]="i"></mat-row>
+                  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                  <mat-row *matRowDef="let row; columns: displayedColumns; let i=index" class="match-row-details-{{i}}" appInactiveMatch [match]="row" [matchIndex]="i"></mat-row>
                       <!-- Display group header -->
                       <ng-container class="groupHeaderCont" matColumnDef="groupHeader">
                         <mat-cell colspan="10" *matCellDef="let group">

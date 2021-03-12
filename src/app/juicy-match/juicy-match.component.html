@@ -119,11 +119,11 @@
                                   <div class="selection-figures row4-row1">
                                     <div class="r1 r1-col1">
                                       <h3 class="selection-figures-content1">ROI:</h3>
-                                <span class="selection-figures-content1">{{ ROI(getGroup(i).get('Stake').value, selection.EVthisBet) | number:'0.2-2'}} %</span>
+                                <span class="selection-figures-content1">{{ ROI(getGroup(i).get('Stake').value, getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value, selection.FTAround) | number:'0.2-2'}} %</span>
                               </div>
                               <div class="r1 r1-col2">
                                 <h3 class="selection-figures-content2">Full Turnaround: </h3>
-                                <span class="selection-figures-content2"> {{ FTA( getGroup(i).get('Stake').value, getGroup(i).get('BackOdds').value, getGroup(i).get('LayStake').value  ) | currency:'GBP'}}</span></div>
+                                <span class="selection-figures-content2"> {{ FTA( getGroup(i).get('Stake').value, getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value  ) | currency:'GBP'}}</span></div>
                               </div>
 
                               <div class="rcd-btn">
