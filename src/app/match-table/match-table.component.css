@@ -9,7 +9,7 @@
 }
 
 mat-table {
-  margin-top: 3px;
+  margin-top: 20px;
   border: solid 1px #ffffff;
 }
 
@@ -207,7 +207,7 @@ span.BHome, span.BAway, span.SMHome, span.SMAway, span.BHome, span.BAway {
   padding-left: 50px;
   padding-right: 50px;
   border-radius: 5px;
-  
+
 }
 
 .odds-container{
@@ -215,7 +215,7 @@ span.BHome, span.BAway, span.SMHome, span.SMAway, span.BHome, span.BAway {
   margin-right: auto;
 }
 .homeodds-container{
-  margin-left: auto;  
+  margin-left: auto;
 }
 .awayodds-container{
   margin-right: auto;
@@ -271,7 +271,7 @@ mat-header-cell.cdk-column-Home, mat-header-cell.cdk-column-Away, mat-header-cel
 }
 .homeOccCell {
   padding: 10px;
-  margin-right: 5px;  
+  margin-right: 5px;
 }
 .awayOccCell {
   padding: 10px;
@@ -288,7 +288,7 @@ mat-header-cell.cdk-column-Home, mat-header-cell.cdk-column-Away, mat-header-cel
 }
 .awaylogoCell {
   padding: 2px;
-  margin-right: auto;  
+  margin-right: auto;
 }
 
 button.viewCell {

@@ -1,23 +1,10 @@
 <div class="hdr-cont">
-  <div class="hdr-top-row">
-    <div class="hdr-tabs-left">
-      <mat-form-field class="hdr-date" appearance="fill">
-        <mat-label> Selected Time </mat-label>
-        <mat-select
-          [(value)]="viewThisDate" name="dateSelect">
-          <mat-option [value]="dayRange.viewValue" *ngFor="let dayRange of dateSelect" (click)="sendDateSelection(dayRange.viewValue)">
-            {{dayRange.viewValue}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
 
-    </div>
-  </div>
-
-  <div class="hdr-bottom-row">
-    <div class="hdr-tabs-right">
       <div class="table-tabs">
-        <button mat-raised-button (click)="displaySelectedTable(tableTitle)">{{ tableTitle }}
+        <button mat-raised-button
+          class="fixtures-watchlist-btn"
+          (click)="displaySelectedTable(tableTitle)">  {{ tableTitle }}
+
           <mat-slide-toggle
           class="toggle-btn-table"
           (change) = "toggleTable($event)">
@@ -26,8 +13,21 @@
               Should look like a button
                 Should have a mat-slide-toggle that sets showTable(1) / showTable(2) -->
 
-        <button mat-raised-button (click)="showTable(3); initIgnoreList()">Juicy</button>
-        <button mat-raised-button (click)="showTable(4)">Active</button>
+        <button mat-raised-button class="generic-btn" (click)="showTable(3); initIgnoreList()">Juicy</button>
+        <button mat-raised-button class="generic-btn" (click)="showTable(4)">Active</button>
+      </div>
+
+      <div class="date-selector">
+        <mat-form-field class="hdr-date" appearance="fill">
+          <mat-label> Selected Time </mat-label>
+          <mat-select
+            [(value)]="viewThisDate" name="dateSelect">
+            <mat-option [value]="dayRange.viewValue" *ngFor="let dayRange of dateSelect" (click)="sendDateSelection(dayRange.viewValue)">
+              {{dayRange.viewValue}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
       </div>
       <!-- <mat-form-field class="hdr-selector" appearance="fill">
         <mat-label>View Selector</mat-label>
@@ -38,6 +38,6 @@
         </mat-select>
       </mat-form-field> -->
       <!-- <button class="hdr-btn"  id="hdr-hide" mat-raised-button (click)="toggle()">Main Table <mat-icon><span *ngIf="!isTableHidden">visibility_on</span><span *ngIf="isTableHidden">visibility_off</span></mat-icon></button> -->
-    </div>
-  </div>
+
 </div>
+
