@@ -101,6 +101,7 @@ export class JuicyMatchComponent implements OnChanges, OnInit {
     this.prefObj = this.userPrefService.getTablePrefs();
     this.isEvSelected = Boolean(this.prefObj.isEvSelected);
     this.allIndvMatches = [];
+    this.tableDateSelected = this.userPrefService.getSelectedDate();
     this.getStartEndDays(this.userPrefService.getSelectedDate());
 
     this.individualMatchesSub = this.juicyMHService.getJuicyUpdateListener().subscribe( (singleMatchData) => {
@@ -280,5 +281,10 @@ export class JuicyMatchComponent implements OnChanges, OnInit {
         LayOdds: selection.LayOdds,
       });
       //use a method to reset the formGroup values to selectionObject values.
+    }
+
+    method(){
+      console.log("Empty Method here");
+
     }
 }

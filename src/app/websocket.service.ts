@@ -27,13 +27,8 @@ export class WebsocketService {
       this.eventSource.onmessage = (event) => {
         console.log("In EventSource On Message!");
        // console.log(event.data);
-
-        //emit this event to match-table. Compare the values of smarkets and bet365 odds to currently stored values. Just overwrite these odds, no need to check.
-        var streamObj = JSON.parse(event.data);
-        //console.log(streamObj);
-
-        // //emit changes to match-table and also juicy match.
-        this.matchesService.addToUpdatedMatches(streamObj);
+       //emit this event to match-table. Compare the values of smarkets and bet365 odds to currently stored values. Just overwrite these odds, no need to check.
+       this.matchesService.addToUpdatedMatches(JSON.parse(event.data));
       };
     }
 

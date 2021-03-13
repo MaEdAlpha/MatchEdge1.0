@@ -4,6 +4,8 @@ import { MatchStatusService } from '../match-status.service';
 import { UserPropertiesService } from '../user-properties.service';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { SidenavService } from '../view-table-sidenav/sidenav.service';
+import { Subscription } from 'rxjs';
+import { NotificationBoxService } from '../notification-box.service';
 
 interface DateOptions {
   value: string;
@@ -26,7 +28,9 @@ export class TopLayerFiltersComponent implements OnInit, OnChanges {
   @Output() emitDateSelect: EventEmitter<string> = new EventEmitter<string>();
   @Output() emitIgnoreList: EventEmitter<string[]> = new EventEmitter<string[]>();
 
-  constructor( private userPref: UserPropertiesService, private matchStatusService: MatchStatusService, private dateHandlingService: DateHandlingService) { }
+  private userClickSubscription: Subscription;
+
+  constructor( private userPref: UserPropertiesService, private matchStatusService: MatchStatusService, private dateHandlingService: DateHandlingService, private notificationService: NotificationBoxService) { }
 
       //first layer filter
       viewThisDate:string;
@@ -54,6 +58,18 @@ export class TopLayerFiltersComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this.viewThisDate = this.userPref.getSelectedDate();
+
+    this.userClickSubscription = this.notificationService.getNotificationPing().subscribe( matchObject => {
+      console.log("Click registerd in TLF");
+
+      matchObject.notificationIsActivated ? this.goToThisJuicy() : console.log("returned false");
+    })
+
+    //setup an observable to listen for a change  that executes a method to go to Juicy Matches
+  }
+
+  ngOnDestroy(){
+    this.userClickSubscription.unsubscribe();
   }
 
   showTable(value:number) {
@@ -66,6 +82,7 @@ export class TopLayerFiltersComponent implements OnInit, OnChanges {
     this.hideTable.emit(this.displayFixtures);
   }
 
+  //Delete this? not necessary
   sendDateSelection(value: string){
     this.viewThisDate = value;
     // Update UserPref Range value
@@ -80,6 +97,10 @@ export class TopLayerFiltersComponent implements OnInit, OnChanges {
   }
   initIgnoreList(){
     this.emitIgnoreList.emit(this.matchStatusService.getIgnoreList());
+  }
+
+  goToThisJuicy(){
+    this.hideTable.emit(3);
   }
 }
 

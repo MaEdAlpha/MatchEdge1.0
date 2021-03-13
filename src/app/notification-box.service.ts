@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Injectable } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-import { Subject, Subscription } from 'rxjs';
+import { Observable, Subject, Subscription } from 'rxjs';
 import { DateHandlingService } from './date-handling.service';
 import { UserPropertiesService } from './user-properties.service';
 
@@ -13,12 +13,13 @@ export class NotificationBoxService {
   public evRatingFilter: number = this.userPropService.getEV();
   public isEVSelected: boolean = this.userPropService.getFilterBoolean();
   public tableDate: string = this.userPropService.getSelectedDate();
+  private clickSubject = new Subject<{notificationIsActivated: boolean, matchObject: any }>();
 
   juicyFilterChange: Subscription;
 
   constructor(private toast: ToastrService, private userPropService: UserPropertiesService, private dateHandlingService: DateHandlingService) {
-    //Observable necessary? Don't think so, supposedly it decouples. Can't I just call getEV() etc....
-    this.juicyFilterChange = this.userPropService.getUserPrefs().subscribe(filterSettings => {
+
+      this.juicyFilterChange = this.userPropService.getUserPrefs().subscribe(filterSettings => {
       this.matchRatingFilter = +filterSettings.maxRatingFilter,
       this.evRatingFilter = +filterSettings.evFilterValue,
       this.isEVSelected = filterSettings.isEvSelected,
@@ -44,21 +45,29 @@ export class NotificationBoxService {
 
     //Need to check if already in Juicy Matches. if()
     if( this.isInEpochLimits(epochNotifications, home) && (this.isEVSelected && home.EVthisBet >= this.evRatingFilter && home.EVthisBet < 100000 ) || (!this.isEVSelected && home.MatchRating >= this.matchRatingFilter) ) {
-      this.toast.info(home.Selection + ": </br> EV: " + home.EVthisBet + "</br> MR: " + home.MatchRating, "Juicy Match Detected!").onTap.subscribe( (x) => {
+      this.toast.info(home.Selection + ": </br> EV: " + home.EVthisBet + "</br> MR: " + home.MatchRating, "Click to view " + home.Selection + " in Juicy Match.").onTap.subscribe( (x) => {
         this.toastr(home);
       });
     }
 
-    if( this.isInEpochLimits(epochNotifications, home) && (this.isEVSelected && away.EVthisBet >= this.evRatingFilter ) || ( !this.isEVSelected && away.MatchRating >= this.matchRatingFilter) ){
-      this.toast.success(away.Selection + ": </br> EV: " + away.EVthisBet + "</br> MR: " + away.MatchRating, "Juicy Match Detected!").onTap.subscribe( (x) => {
+    if( this.isInEpochLimits(epochNotifications, away) && (this.isEVSelected && away.EVthisBet >= this.evRatingFilter && away.EVthisBet < 100000 ) || ( !this.isEVSelected && away.MatchRating >= this.matchRatingFilter) ){
+      this.toast.success(away.Selection + ": </br> EV: " + away.EVthisBet + "</br> MR: " + away.MatchRating, "Click to view " + away.Selection + " in Juicy Match.").onTap.subscribe( (x) => {
+        //When a user taps the notification.
         this.toastr(away);
       });
     }
   }
 
   toastr(selection){
+    var goToJuicyTable = { notificationIsActivated: true, matchObject: selection }
+    this.clickSubject.next(goToJuicyTable);
     console.log("Go to Juicy, expand the selection.");
     console.log(selection);
+  }
+
+
+  getNotificationPing(): Observable<any>{
+    return this.clickSubject.asObservable();
   }
 
   updateFilters(ev, mr, isEVSelected, dateSelected){
@@ -70,6 +79,8 @@ export class NotificationBoxService {
   //Need to discuss how to show midnight times.
   isInEpochLimits(epochNotifications, selection): boolean{
     var selectionTime = selection.EpochTime*1000;
+    console.log(selection);
+
     return (selectionTime <= epochNotifications.upperLimit && selectionTime >= epochNotifications.lowerLimit);
   }
 }

@@ -63,7 +63,7 @@
                  <div class="row1 row1-first">  <!--Team name and Logo-->
                    <div class="jed-cell1" id="selection"><h1>{{selection.Selection}}</h1><!--Contains logo and prev odds. -->
                           <div class="jed-cell1" id="logo"><img src="/assets/img/fcLogo/{{selection.Logo}}.png"> </div>
-                          <div class="jed-cell" id="prev-odds"><p> <b> {{i}} PREV. BACK ODDS</b></p><h3> {{selection.b365HPrev[0].Odds | number:'0.2-2'}} | H - A | {{selection.b365APrev[0].Odds | number:'0.2-2'}}</h3></div>
+                          <div class="jed-cell" id="prev-odds"><p> <b> {{i}} PREV. BACK ODDS</b></p><h3> {{selection.b365HPrev[selection.b365HPrev.length - 1].odds | number:'0.2-2'}} | H - A | {{selection.b365APrev[selection.b365APrev.length - 1].odds | number:'0.2-2'}}</h3></div>
                     </div>
                   </div>
 

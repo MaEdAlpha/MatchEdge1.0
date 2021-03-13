@@ -181,7 +181,7 @@ getMatchStats(match){
         //console.log(match.Home + ": stake: " + this.stake + " bOdds" + this.backOdds + " lay: " + this.layOdds + " layStake " + this.layStake + " liability" + this.liability + " ql " + this.ql + " oneInXgames " + this.oneInXgames + " ft " + this.ft + " evThisBet " + this.evThisBet + " " + this.stake + " ");
             this.singleHomeMatch =  {
               EventStart: streamObj.StartDateTime,
-              EpochTime: streamObj.EpochTime,
+              EpochTime: streamObj.unixDateTimestamp,
               Stake: this.stake,
               LayStake: this.layStake,
               Fixture: streamObj.HomeTeamName + " vs " + streamObj.AwayTeamName,
@@ -231,7 +231,7 @@ getMatchStats(match){
        //console.log(match.Home + ": stake: " + this.stake + " bOdds" + this.backOdds + " lay: " + this.layOdds + " layStake " + this.layStake + " liability" + this.liability + " ql " + this.ql + " oneInXgames " + this.oneInXgames + " ft " + this.ft + " evThisBet " + this.evThisBet + " " + this.stake + " ");
             this.singleAwayMatch =  {
               EventStart: streamObj.StartDateTime,
-              EpochTime: streamObj.EpochTime,
+              EpochTime: streamObj.unixDateTimestamp,
               Stake: this.stake,
               LayStake: this.layStake,
               Fixture: streamObj.HomeTeamName + " vs " + streamObj.AwayTeamName,

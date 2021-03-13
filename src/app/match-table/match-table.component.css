@@ -9,7 +9,7 @@
 }
 
 mat-table {
-  margin-top: 20px;
+  margin-top: 30px;
   border: solid 1px #ffffff;
 }
 
@@ -37,10 +37,6 @@ mat-row, mat-header-row {
   margin-bottom: 100px;
   color:white;
   text-align: center;
-}
-
-.leagueToggleSelect {
-  display: none;
 }
 
 .mat-column-Details {
@@ -91,7 +87,6 @@ mat-row, mat-header-row {
   width: 200px;
   display: flex;
 }
-
 
 .awStatus{
   background: #13530b;
@@ -144,15 +139,35 @@ div.footer-container{
 .leagueToggleSelect{
   float: right;
   display: inline-flex;
+  margin-top: 6px;
 }
+
 .leagueGroupContainer>h2 {
   display: inline;
   color: whitesmoke;
 }
 
 .leagueGroupContainer{
-  text-align: center;
+ display: flex;
+ width: 100%;
+}
+
+.league-item > h2 {
+  color: white;
+  vertical-align: middle;
+}
+
+.league-item:last-child { margin-left:auto }
+
+.league-item {
   width: 100%;
+  text-align: center;
+  height: 40px;
+  margin-top: 4px;
+}
+
+.league-title{
+  background: wheat;
 }
 
 .mat-column-OccH>span, .mat-column-OccA>span {
@@ -299,5 +314,98 @@ button.viewCell {
   opacity: 0.6;
   background: grey;
 }
+
+/* Home | Away */
+.cdk-column-Home,
+.cdk-column-Away
+ {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 min-content !important;
+  width: fit-content !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+
+  word-break: break-word;
+
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
+/* Dates */
+.cdk-column-FixturesDate{
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 7% !important;
+  width: fit-content !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+
+  word-break: break-word;
+
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
+/* Empty Cells */
+.cdk-column-SMAway,
+.cdk-column-AStatus,
+.cdk-column-SMHome,
+.cdk-column-HStatus {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 2% !important;
+  width: fit-content !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+
+  word-break: break-word;
+
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+
+}
+
+/* Occurences */
+.cdk-column-OccH,
+.cdk-column-OccA {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 5% !important;
+  width: fit-content !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+
+  word-break: break-word;
+
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
+
+/* Bet365 Odds */
+.cdk-column-BHome,
+.cdk-column-BAway {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 10% !important;
+  width: fit-content !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+
+  word-break: break-word;
+
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
+
+
 
 

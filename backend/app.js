@@ -69,7 +69,7 @@ async function updateMatches(client){
 
 app.get('/api/updates',  function(req, res) {
   res.writeHead(200, {
-    'Content-Type': 'text/event-stream; charset=utf-8',
+    'Content-Type': 'text/event-stream',
     'Cache-Control': 'no-cache',
     'Connection': 'keep-alive'
   })
