@@ -11,13 +11,16 @@ export class WebsocketService {
   matchDataStreamStore: any[] = [];
   eventSource: EventSource;
 
-  constructor(private matchesService: MatchesService) { }
+  constructor(private matchesService: MatchesService) {
+
+    this.eventSource = new EventSource('http://localhost:3000/api/updates');
+  }
 
   public openWebSocket() {
 
     // this.eventSource = new EventSource('/');
     if(!!window.EventSource){
-      this.eventSource = new EventSource('http://localhost:3000/api/updates');
+
 
       this.eventSource.onopen = (event) => {
         console.log('WSService.ts .onopen(): ', event);

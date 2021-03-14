@@ -321,7 +321,7 @@ button.viewCell {
  {
   word-wrap: break-word !important;
   white-space: unset !important;
-  flex: 0 0 min-content !important;
+  flex: 0 0 20% !important;
   width: fit-content !important;
   overflow-wrap: break-word;
   word-wrap: break-word;

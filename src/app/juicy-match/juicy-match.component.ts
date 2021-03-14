@@ -13,6 +13,8 @@ import { UserPropertiesService } from '../user-properties.service';
 import { TablePreferences } from '../user-properties.model';
 import { MatchStatusService } from '../match-status.service';
 import { DateHandlingService } from '../date-handling.service';
+import { NotificationBoxService } from '../notification-box.service';
+
 
 
 
@@ -65,9 +67,12 @@ export class JuicyMatchComponent implements OnChanges, OnInit {
   isEvSelected: boolean;
   dataSource:any;
   formattedAmount:any;
+  stream:any;
   @Input() selectionToIgnore: any[];
 
-  constructor(private chRef: ChangeDetectorRef, private sidenav: SidenavService, private juicyMHService: JuicyMatchHandlingService, private matchStatService: MatchStatsService, private matchesService: MatchesService, private userPrefService: UserPropertiesService, private matchStatusService: MatchStatusService, private dateHandlingService: DateHandlingService ) { }
+  notificationSelectedSubscription: Subscription;
+
+  constructor(private chRef: ChangeDetectorRef, private sidenav: SidenavService, private juicyMHService: JuicyMatchHandlingService, private matchStatService: MatchStatsService, private matchesService: MatchesService, private userPrefService: UserPropertiesService, private matchStatusService: MatchStatusService, private dateHandlingService: DateHandlingService, private notificationServices: NotificationBoxService ) { }
 
   ngOnChanges(changes: SimpleChanges)
   {
@@ -112,13 +117,13 @@ export class JuicyMatchComponent implements OnChanges, OnInit {
     //accesses an eventEmitter of streamData that is coming in via MongoDB ChangeStream.  Setsup a subscription to observable.
     this.streamSub = this.matchesService.streamDataUpdate
     .subscribe( (streamObj) => {
+      console.log("Stream INCOMING!");
       //singleMatchPair is a freshly pushed Match object from our database. It is processed in retrieveStreamData.
       this.singleMatchPair = this.matchStatService.retrieveStreamData(streamObj);
       this.singleMatchPair.forEach( (streamObj) => {
         // find match and update the values with stream data coming from DB.
         var indexOfmatch = this.allIndvMatches.findIndex( indvMatch => indvMatch.Selection == streamObj.Selection );
-        indexOfmatch != undefined && this.allIndvMatches[indexOfmatch] ? this.juicyMHService.updateSingleMatch(this.allIndvMatches[indexOfmatch], streamObj, indexOfmatch) : console.log("did not find singleMatch in indvMatch Array");
-        this.chRef.detectChanges();
+        this.stream = indexOfmatch != undefined && this.allIndvMatches[indexOfmatch] ? this.juicyMHService.updateSingleMatch(this.allIndvMatches[indexOfmatch], streamObj, indexOfmatch) : console.log("did not find singleMatch in indvMatch Array");
       });
     });
 
@@ -144,6 +149,10 @@ export class JuicyMatchComponent implements OnChanges, OnInit {
       this.matchRatingFilter= Number(tablePref.maxRatingFilter);
       this.isEvSelected = Boolean(tablePref.isEvSelected);
     });
+
+    this.notificationSelectedSubscription = this.notificationServices.getNotificationPing().subscribe( notification => {
+      this.method(notification);
+    })
   }
 
 
@@ -159,6 +168,7 @@ export class JuicyMatchComponent implements OnChanges, OnInit {
     this.streamSub.unsubscribe();
     this.matchStatService.clear();
     this.dateSubscription.unsubscribe();
+    this.notificationSelectedSubscription.unsubscribe();
   }
 
   //   //TODO possibly hold onto old bet365 updates here? create a new field that writes old data.
@@ -283,8 +293,22 @@ export class JuicyMatchComponent implements OnChanges, OnInit {
       //use a method to reset the formGroup values to selectionObject values.
     }
 
-    method(){
-      console.log("Empty Method here");
+    method(notification){
+      var expandItem = this.allIndvMatches.filter( match =>{
+        if(match.Selection == notification.matchObject.Selection && match.EventStart == notification.matchObject.EventStart) {
+          match.isRedirected = 'Yes';
+          return true;
+        }
+      });
+      console.log(expandItem);
+      this.expandedElement = expandItem;
+      this.chRef.detectChanges();
 
+
+
+    }
+
+    close(selection){
+      selection.isRedirected = 'No';
     }
 }

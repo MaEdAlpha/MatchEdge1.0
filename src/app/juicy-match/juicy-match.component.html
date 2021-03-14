@@ -55,15 +55,15 @@
            <td mat-cell *matCellDef="let selection; let i=dataIndex" [attr.colspan]="columnsToDisplay.length" >
              <!-- <ng-container>            </ng-container> -->
              <div class="juicyMatch-detail"
-             [@detailExpand]="selection == expandedElement ? 'expanded' : 'collapsed'">
-             <ng-container *ngIf="expandedElement === selection">
+             [@detailExpand]="selection == expandedElement || selection.isRedirected == 'Yes' ? 'expanded' : 'collapsed'">
+             <ng-container *ngIf="expandedElement === selection || selection.isRedirected =='Yes'">
                <form [formGroup]="selectionValues">
 
                <div class="jm-exp-details-row1"> <!--Main container for juicy match-->
                  <div class="row1 row1-first">  <!--Team name and Logo-->
                    <div class="jed-cell1" id="selection"><h1>{{selection.Selection}}</h1><!--Contains logo and prev odds. -->
                           <div class="jed-cell1" id="logo"><img src="/assets/img/fcLogo/{{selection.Logo}}.png"> </div>
-                          <div class="jed-cell" id="prev-odds"><p> <b> {{i}} PREV. BACK ODDS</b></p><h3> {{selection.b365HPrev[selection.b365HPrev.length - 1].odds | number:'0.2-2'}} | H - A | {{selection.b365APrev[selection.b365APrev.length - 1].odds | number:'0.2-2'}}</h3></div>
+                          <!-- <div class="jed-cell" id="prev-odds"><p> <b> {{i}} PREV. BACK ODDS</b></p><h3> {{selection.b365HPrev[selection.b365HPrev.length - 1].odds | number:'0.2-2'}} | H - A | {{selection.b365APrev[selection.b365APrev.length - 1].odds | number:'0.2-2'}}</h3></div> -->
                     </div>
                   </div>
 
@@ -164,6 +164,7 @@
               <!-- read ignore status in here -->
               <tr mat-row *matRowDef="let selection; columns: columnsToDisplay;"
               class="juicyMatch-row"
+              [ngClass]="selection.isRedirected == 'Yes' ? 'juicyMatch-expanded-row': null"
               [class.juicyMatch-expanded-row]="expandedElement === selection"
               (click)="expandedElement = expandedElement === selection ? null : selection"
               appHideTableRow [userPref]="prefObj" [backOdds]="selection.BackOdds" [evValue]="selection.EVthisBet" [mrValue]="selection.MatchRating" [ignore]="selection.ignore" [inRange]="selection.inRange">

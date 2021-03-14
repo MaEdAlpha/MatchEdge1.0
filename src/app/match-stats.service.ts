@@ -96,6 +96,7 @@ getMatchStats(match){
           activeBet: match.HStatus.activeBet,
           activeBetState: true,
           inRange: false,
+          isRedirected:'No',
         }
         this.allSingleMatches.push(this.singleHomeMatch);
 
@@ -151,6 +152,7 @@ getMatchStats(match){
           activeBet: match.AStatus.activeBet,
           activeBetState: true,
           inRange: false,
+          isRedirected:'No',
         }
         this.allSingleMatches.push(this.singleAwayMatch);
   }
@@ -202,8 +204,8 @@ getMatchStats(match){
               UrlB365: streamObj.UrlB365,
               UrlSmarkets: streamObj.UrlSmarkets,
               backIsUpdated: false,
-              layIsUpdated:false,
-              evIsUpdated:false,
+              layIsUpdated: false,
+              evIsUpdated: false,
               freezeUpdates: false,
               // b365oddsHCurr: streamObj.B365HomeOdds,
               // b365oddsDrawCurr: streamObj.B365DrawOdds,
@@ -251,9 +253,9 @@ getMatchStats(match){
               Logo: streamObj.AwayTeamName.toLowerCase().split(' ').join('-'),
               UrlB365: streamObj.UrlB365,
               UrlSmarkets: streamObj.UrlSmarkets,
-              backIsUpdated: false,
-              layIsUpdated:false,
-              evIsUpdated:false,
+              backIsUpdated: true,
+              layIsUpdated: true,
+              evIsUpdated: true,
               freezeUpdates: false,
               // b365oddsHCurr: streamObj.B365HomeOdds,
               // b365oddsDrawCurr: streamObj.B365DrawOdds,

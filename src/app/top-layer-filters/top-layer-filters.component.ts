@@ -60,9 +60,9 @@ export class TopLayerFiltersComponent implements OnInit, OnChanges {
     this.viewThisDate = this.userPref.getSelectedDate();
 
     this.userClickSubscription = this.notificationService.getNotificationPing().subscribe( matchObject => {
-      console.log("Click registerd in TLF");
+      console.log("Click registerd in TopFilterComp");
 
-      matchObject.notificationIsActivated ? this.goToThisJuicy() : console.log("returned false");
+      matchObject.notificationIsActivated ? this.goToThisJuicy() : console.log(matchObject + "returned false");
     })
 
     //setup an observable to listen for a change  that executes a method to go to Juicy Matches

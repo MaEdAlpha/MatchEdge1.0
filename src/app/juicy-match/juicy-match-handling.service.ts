@@ -1,4 +1,4 @@
-import { Injectable, EventEmitter } from '@angular/core';
+import { Injectable, EventEmitter, ChangeDetectorRef } from '@angular/core';
 import { MatchStatsService } from '../match-stats.service';
 import { Observable, Subject, from } from "rxjs";
 import { MatchesService } from '../match/matches.service';
@@ -86,6 +86,9 @@ export class JuicyMatchHandlingService {
     //Sets current b365 H/D/A odds to previous odds for reference in expanded drop down
     mainMatch.b365HPrev = mainMatch.b365HCurr;
     mainMatch.b365APrev = mainMatch.b365ACurr;
+
+    console.log(mainMatch);
+
 
     return mainMatch;
   }

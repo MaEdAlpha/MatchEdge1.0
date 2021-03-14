@@ -72,7 +72,7 @@ app.get('/api/updates',  function(req, res) {
     'Content-Type': 'text/event-stream',
     'Cache-Control': 'no-cache',
     'Connection': 'keep-alive'
-  })
+  });
 
   const collection =  client.db("MBEdge").collection("matches");
   const changeStream = collection.watch();

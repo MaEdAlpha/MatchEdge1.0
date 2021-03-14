@@ -61,8 +61,6 @@ export class NotificationBoxService {
   toastr(selection){
     var goToJuicyTable = { notificationIsActivated: true, matchObject: selection }
     this.clickSubject.next(goToJuicyTable);
-    console.log("Go to Juicy, expand the selection.");
-    console.log(selection);
   }
 
 
