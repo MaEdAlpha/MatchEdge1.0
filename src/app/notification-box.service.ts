@@ -59,7 +59,10 @@ export class NotificationBoxService {
   }
 
   toastr(selection){
-    var goToJuicyTable = { notificationIsActivated: true, matchObject: selection }
+    var goToJuicyTable = { notificationIsActivated:false, matchObject: ""};
+    goToJuicyTable = { notificationIsActivated: true, matchObject: selection };
+    console.log(goToJuicyTable);
+
     this.clickSubject.next(goToJuicyTable);
   }
 

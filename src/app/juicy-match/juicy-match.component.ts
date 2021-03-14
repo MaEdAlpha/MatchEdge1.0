@@ -151,7 +151,7 @@ export class JuicyMatchComponent implements OnChanges, OnInit {
     });
 
     this.notificationSelectedSubscription = this.notificationServices.getNotificationPing().subscribe( notification => {
-      this.method(notification);
+      this.openVIANotification(notification);
     })
   }
 
@@ -282,7 +282,9 @@ export class JuicyMatchComponent implements OnChanges, OnInit {
     }
    }
 
-    show(selection: any, index: number){
+    showSelectionValues(selection: any, index: number){
+      console.log(index);
+
       var data: FormGroup = this.getGroup(index);
       data.setValue({
         Stake: selection.Stake,
@@ -293,22 +295,23 @@ export class JuicyMatchComponent implements OnChanges, OnInit {
       //use a method to reset the formGroup values to selectionObject values.
     }
 
-    method(notification){
+    openVIANotification(notification){
       var expandItem = this.allIndvMatches.filter( match =>{
         if(match.Selection == notification.matchObject.Selection && match.EventStart == notification.matchObject.EventStart) {
           match.isRedirected = 'Yes';
+          var index = this.allIndvMatches.indexOf(match);
+          this.showSelectionValues(match, index);
           return true;
         }
       });
-      console.log(expandItem);
       this.expandedElement = expandItem;
       this.chRef.detectChanges();
-
-
+      console.log(expandItem);
 
     }
 
-    close(selection){
+    closeIfRedirected(selection){
       selection.isRedirected = 'No';
+      this.chRef.detectChanges();
     }
 }
