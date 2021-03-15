@@ -59,10 +59,9 @@ export class NotificationBoxService {
   }
 
   toastr(selection){
+    //maybe useless line of code... MongoStream is buggy with an open DB it seems
     var goToJuicyTable = { notificationIsActivated:false, matchObject: ""};
     goToJuicyTable = { notificationIsActivated: true, matchObject: selection };
-    console.log(goToJuicyTable);
-
     this.clickSubject.next(goToJuicyTable);
   }
 
@@ -80,8 +79,6 @@ export class NotificationBoxService {
   //Need to discuss how to show midnight times.
   isInEpochLimits(epochNotifications, selection): boolean{
     var selectionTime = selection.EpochTime*1000;
-    console.log(selection);
-
     return (selectionTime <= epochNotifications.upperLimit && selectionTime >= epochNotifications.lowerLimit);
   }
 }

@@ -13,7 +13,7 @@
             <td mat-cell
               class="mat-column{{flickerColmnIndex}}-data mat-cell-withdata"
               *matCellDef="let selection; let i = dataIndex"
-              (click)="loadGroup(i); freezeAllMotorFunctions(); showSelectionValues(selection, i); closeIfRedirected(selection)">
+              (click)="loadGroup(i); freezeAllMotorFunctions(); showSelectionValues(selection, i); closeIfRedirected(selection, $event)">
               <ng-container *ngIf="selection.ignore==false">
                 <ng-container *ngIf="selection.inRange">
                   <ng-container *ngIf= "( (isEvSelected && +selection['EVthisBet'] >= +prefObj.evFilterValue && +selection['EVthisBet'] < 1000) || (!isEvSelected && (+selection['MatchRating'] == +prefObj.maxRatingFilter || selection['MatchRating'] > (+prefObj.maxRatingFilter - 0.1)) ) )">

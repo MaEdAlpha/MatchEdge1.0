@@ -27,7 +27,7 @@ import { NotificationBoxService } from '../notification-box.service';
     trigger('detailExpand', [
       state('collapsed', style({height: '0px', minHeight: '0'})),
       state('expanded', style({height: '*'})),
-      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+      transition('expanded <=> collapsed', animate('475ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
     ]),
   ],
 })
@@ -284,7 +284,7 @@ export class JuicyMatchComponent implements OnChanges, OnInit {
 
     showSelectionValues(selection: any, index: number){
       console.log(index);
-
+      if(selection.isRedirected)
       var data: FormGroup = this.getGroup(index);
       data.setValue({
         Stake: selection.Stake,
@@ -310,8 +310,16 @@ export class JuicyMatchComponent implements OnChanges, OnInit {
 
     }
 
-    closeIfRedirected(selection){
-      selection.isRedirected = 'No';
-      this.chRef.detectChanges();
+    closeIfRedirected(selection, event: Event){
+      if(selection.isRedirected == 'Yes'){
+        selection.isRedirected = 'No';
+
+        console.log(event);
+
+        event.stopPropagation();
+      } else if (selection.isRedirected == 'No'){
+        console.log("Doing Nothing On Click");
+
+      }
     }
 }
