@@ -14,7 +14,7 @@ import { TablePreferences } from '../user-properties.model';
 import { MatchStatusService } from '../match-status.service';
 import { DateHandlingService } from '../date-handling.service';
 import { NotificationBoxService } from '../notification-box.service';
-import { MatSort } from '@angular/material/sort';
+import { MatSort, Sort } from '@angular/material/sort';
 
 
 
@@ -70,6 +70,7 @@ export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
   dataSource:any;
   formattedAmount:any;
   stream:any;
+  sortedData: Object[];
   @Input() selectionToIgnore: any[];
   @ViewChild(MatSort) sort: MatSort;
 
@@ -86,6 +87,7 @@ export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
         this.allIndvMatches = this.juicyMHService.getSingleMatches(this.allMatches);
          console.log("Converting matches -> selections...");
          console.log(this.allIndvMatches);
+         this.sortedData = this.allIndvMatches;
         if(this.allIndvMatches != undefined){
           console.log("Creating new formArray");
           this.dataSource = new FormArray(this.allIndvMatches.map( x=> this.createForm(x)));
@@ -183,6 +185,29 @@ export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
     console.log("CHECK");
 
   }
+
+  sortData(sort: Sort) {
+    const data = this.allIndvMatches.slice();
+    if (!sort.active || sort.direction === '') {
+      this.sortedData = data;
+      return;
+    }
+
+    function compare(a: number | string, b: number | string, isAsc: boolean) {
+      return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
+    }
+
+    this.sortedData = data.sort((a, b) => {
+      const isAsc = sort.direction === 'asc';
+      switch (sort.active) {
+        case 'EVthisBet': return compare(a['EVthisBet'], b['EVthisBet'], isAsc);
+        case 'MatchRating': return compare(a['MatchRating'], b['MatchRating'], isAsc);
+        default: return 0;
+      }
+    });
+
+  }
+
 
   createForm(data:any)
   {

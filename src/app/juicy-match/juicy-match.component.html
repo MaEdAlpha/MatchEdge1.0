@@ -2,8 +2,8 @@
 <div class="table-container">
 
 
-  <table class="juicyTable" mat-table matSort
-         [dataSource]="allIndvMatches" multiTemplateDataRows class="mat-elevation-z8">
+  <table class="juicyTable" mat-table matSort (matSortChange)="sortData($event)"
+         [dataSource]="sortedData" multiTemplateDataRows class="mat-elevation-z8">
 
          <!-- Container for First tableData layer, nested -->
          <ng-container matColumnDef="{{column}}" *ngFor="let column of columnsToDisplay; let flickerColmnIndex = index">
@@ -61,7 +61,7 @@
 
                <div class="jm-exp-details-row1"> <!--Main container for juicy match-->
                  <div class="row1 row1-first">  <!--Team name and Logo-->
-                   <div class="jed-cell1" id="selection"><h1>{{selection.Selection}}</h1><!--Contains logo and prev odds. -->
+                   <div class="jed-cell1" id="selection"><h1> {{i}} {{selection.Selection}}</h1><!--Contains logo and prev odds. -->
                           <div class="jed-cell1" id="logo"><img src="/assets/img/fcLogo/{{selection.Logo}}.png"> </div>
                           <!-- <div class="jed-cell" id="prev-odds"><p> <b> {{i}} PREV. BACK ODDS</b></p><h3> {{selection.b365HPrev[selection.b365HPrev.length - 1].odds | number:'0.2-2'}} | H - A | {{selection.b365APrev[selection.b365APrev.length - 1].odds | number:'0.2-2'}}</h3></div> -->
                     </div>
