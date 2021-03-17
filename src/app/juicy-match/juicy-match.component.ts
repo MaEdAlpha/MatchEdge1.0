@@ -294,7 +294,6 @@ export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
 
     showSelectionValues(selection: any, index: number){
       console.log(index);
-      if(selection.isRedirected)
       var data: FormGroup = this.getGroup(index);
       data.setValue({
         Stake: selection.Stake,
@@ -310,6 +309,7 @@ export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
         if(match.Selection == notification.matchObject.Selection && match.EventStart == notification.matchObject.EventStart) {
           match.isRedirected = 'Yes';
           var index = this.allIndvMatches.indexOf(match);
+          this.loadGroup(index);
           this.showSelectionValues(match, index);
           return true;
         }
