@@ -502,3 +502,7 @@ p.betState {
   width: fit-content;
 }
 
+th.mat-sort-header-sorted {
+  color: black;
+}
+

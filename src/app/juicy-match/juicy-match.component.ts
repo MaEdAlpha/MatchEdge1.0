@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnDestroy, DoCheck, OnChanges, SimpleChanges, ChangeDetectorRef } from '@angular/core';
+import { AfterViewInit, Component, Input, OnInit, OnDestroy, DoCheck, OnChanges, SimpleChanges, ChangeDetectorRef, ViewChild } from '@angular/core';
 import { JuicyMatchHandlingService } from './juicy-match-handling.service';
 import { TooltipPosition } from '@angular/material/tooltip';
 import { FormControl,FormGroup,FormArray } from '@angular/forms';
@@ -14,6 +14,7 @@ import { TablePreferences } from '../user-properties.model';
 import { MatchStatusService } from '../match-status.service';
 import { DateHandlingService } from '../date-handling.service';
 import { NotificationBoxService } from '../notification-box.service';
+import { MatSort } from '@angular/material/sort';
 
 
 
@@ -25,14 +26,15 @@ import { NotificationBoxService } from '../notification-box.service';
   styleUrls: ['./juicy-match.component.css'],
   animations: [
     trigger('detailExpand', [
-      state('collapsed', style({height: '0px', minHeight: '0'})),
+      state('collapsed, void', style({height: '0px', minHeight: '0'})),
       state('expanded', style({height: '*'})),
-      transition('expanded <=> collapsed', animate('475ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+      transition('expanded <=> void', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)'))
     ]),
   ],
 })
 
-export class JuicyMatchComponent implements OnChanges, OnInit {
+export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
   //Table properties
   @Input() allMatches: any;
   juicyMatches: JuicyMatch[];
@@ -69,6 +71,7 @@ export class JuicyMatchComponent implements OnChanges, OnInit {
   formattedAmount:any;
   stream:any;
   @Input() selectionToIgnore: any[];
+  @ViewChild(MatSort) sort: MatSort;
 
   notificationSelectedSubscription: Subscription;
 
@@ -173,6 +176,13 @@ export class JuicyMatchComponent implements OnChanges, OnInit {
 
   //   //TODO possibly hold onto old bet365 updates here? create a new field that writes old data.
   //   //TODO Also, timestamp showing last update.
+  ngAfterViewInit() {
+    this.dataSource.sort = this.sort;
+    console.log(this.dataSource.sort);
+
+    console.log("CHECK");
+
+  }
 
   createForm(data:any)
   {

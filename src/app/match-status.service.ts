@@ -17,6 +17,7 @@ export class MatchStatusService {
 
   //IGNORE STATUS
   // TODO: NEED TO MAKE OBSERVABLES
+  //TODO: If Observable is not necessary...do we just filter?
   removeFromIgnoreList(selectionToRemove: string) {
     var selectionPosition: number;
     this.ignoreList.forEach( (selectionInList, index) => {
@@ -44,6 +45,9 @@ export class MatchStatusService {
     return this.ignoreList;
   }
 
+  isIgnored(selection):boolean {
+    return this.ignoreList.includes(selection) ? true : false;
+  }
 
   //WATCHLIST STATUS
 

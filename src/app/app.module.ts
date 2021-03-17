@@ -71,6 +71,8 @@ import { HeaderDatePipe } from './pipes/hdr.datepipe';
 import { TimeDatePipe } from './pipes/time.datepipe';
 import { DateHandlingService } from './date-handling.service';
 import { MatchStatusService } from './match-status.service';
+import { MatSortModule } from '@angular/material/sort';
+
 
 registerLocaleData(localeGB);
 
@@ -119,9 +121,10 @@ registerLocaleData(localeGB);
     MatIconModule,
     MatInputModule,
     MatRadioModule,
-    MatSlideToggleModule,
     MatSelectModule,
     MatSidenavModule,
+    MatSlideToggleModule,
+    MatSortModule,
     MatTableModule,
     MatToolbarModule,
     MatTooltipModule,
