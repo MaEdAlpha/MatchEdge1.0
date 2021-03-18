@@ -36,9 +36,6 @@ mat-row, mat-header-row {
   border-bottom: transparent;
 }
 
-.mat-column-Away, .mat-column-Home {
-  padding-left: 10px;
-}
 .lge-title-cont> h1, .home-away-cont> h2 {
   color: black;
   text-align: center;
@@ -159,7 +156,6 @@ img {
 .mat-column-Home, .mat-column-Away, .mat-column-FixturesDate {
   background: white;
   text-align: center;
-
   margin-bottom: 0;
   color: black;
 }
@@ -175,9 +171,10 @@ img {
   width: 100%;
 }
 
-span.Home, span.Away {
+span.home-selection, span.away-selection {
   color: black;
   font-size: 12px;
+  margin-top: 5px;
 }
 
 span.BHome, span.BAway, span.SMHome, span.SMAway, span.BHome, span.BAway {
@@ -206,18 +203,22 @@ mat-header-cell.cdk-column-Home, mat-header-cell.cdk-column-Away, mat-header-cel
   width: 30%;
 }
 
-.fixturesDateBtn {
-  width: 100%;
-  padding: 0px;
-  white-space: normal;
-  background: whitesmoke;
+
+.bookie-logo  {
+  display: inline-flex;
+  border: 2px #f9a825 solid;
+  background: #263238;
+  width: 28px;
+  padding: 5px;
 }
 
-#fixturesText {
-  width: 80%;
-  font-size: 10px;
+.home-fc-logo{
+  border-radius: 0px 3px 3px 15px;
 }
 
+.away-fc-logo{
+  border-radius: 3px 0px 15px 3px;
+}
 .viewCell {
     padding: 2px;
     margin-right: auto;
@@ -228,6 +229,7 @@ button.viewCell {
   background: #afafaf;
 }
 
+/* Home/Away Odds */
 .mat-column-BHome, .mat-column-SMHome, .mat-column-OccH, .mat-column-OccA, .mat-column-BAway, .mat-column-SMAway {
   word-wrap: break-word !important;
   white-space: unset !important;
@@ -242,4 +244,72 @@ button.viewCell {
   -moz-hyphens: auto;
   -webkit-hyphens: auto;
   hyphens: auto;
+}
+
+/* Team Cells */
+.mat-column-Home, .mat-column-Away{
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 15% !important;
+  width: fit-content !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+
+  word-break: break-word;
+
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
+
+/* Match Button */
+.mat-column-FixturesDate{
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 10% !important;
+  width: fit-content !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+
+  word-break: break-word;
+
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
+.team-home-container{
+  margin-left: auto;
+  display: inline-flex;
+}
+
+.team-away-container{
+  margin-right: auto;
+  display: inline-flex;
+}
+
+.fixturesDateBtn {
+  width: 100%;
+  height: 48px;
+  white-space: normal;
+  background: whitesmoke;
+}
+
+ .fixturesDate, .fixturesTime {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.fixturesDate {
+  height: 11px;
+}
+
+.fixturesTime {
+  padding-top: 6px;
+}
+
+#fixturesText {
+  width: 80%;
+  font-size: 10px;
 }
