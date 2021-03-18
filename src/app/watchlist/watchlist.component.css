@@ -228,4 +228,18 @@ button.viewCell {
   background: #afafaf;
 }
 
+.mat-column-BHome, .mat-column-SMHome, .mat-column-OccH, .mat-column-OccA, .mat-column-BAway, .mat-column-SMAway {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 10% !important;
+  width: fit-content !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
 
+  word-break: break-word;
+
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
