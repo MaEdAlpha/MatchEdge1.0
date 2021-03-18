@@ -74,6 +74,17 @@ export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
   @Input() selectionToIgnore: any[];
   @ViewChild(MatSort) sort: MatSort;
 
+  columnHeaders: any[] = [
+    { field: "EventStart" , alias: "Event Start" },
+    { field: "Fixture", alias: "Match" },
+    { field: "Selection", alias: "Selection" },
+    { field: "BackOdds", alias: "Back Odds" },
+    { field: "LayOdds", alias: " Lay Odds" },
+    { field: "FTAround", alias: "FTA" },
+    { field: "EVthisBet", alias: "EV" },
+    { field: "MatchRating", alias: "Match Rating" },
+  ];
+
   notificationSelectedSubscription: Subscription;
 
   constructor(private chRef: ChangeDetectorRef, private sidenav: SidenavService, private juicyMHService: JuicyMatchHandlingService, private matchStatService: MatchStatsService, private matchesService: MatchesService, private userPrefService: UserPropertiesService, private matchStatusService: MatchStatusService, private dateHandlingService: DateHandlingService, private notificationServices: NotificationBoxService ) { }
@@ -205,9 +216,7 @@ export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
         default: return 0;
       }
     });
-
   }
-
 
   createForm(data:any)
   {

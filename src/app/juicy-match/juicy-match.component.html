@@ -6,51 +6,52 @@
          [dataSource]="sortedData" multiTemplateDataRows class="mat-elevation-z8">
 
          <!-- Container for First tableData layer, nested -->
-         <ng-container matColumnDef="{{column}}" *ngFor="let column of columnsToDisplay; let flickerColmnIndex = index">
+         <ng-container matColumnDef="{{column.field}}" *ngFor="let column of columnHeaders; let flickerColmnIndex = index">
            <!--/////TODO////// set ng-container to display just back/lay EV and Match Rating headers -->
-           <th mat-header-cell *matHeaderCellDef mat-sort-header id="column{{flickerColmnIndex}}hdr"> {{column}}</th>
+           <ng-container *ngIf="column.field.endsWith('Rating') || column.field.endsWith('Bet'); else noSortBtn">
+             <th mat-header-cell *matHeaderCellDef mat-sort-header id="column{{flickerColmnIndex}}hdr"> {{column.alias}}</th>
+           </ng-container>
+           <ng-template #noSortBtn>
+             <th mat-header-cell *matHeaderCellDef id="column{{flickerColmnIndex}}hdr"> {{column.alias}}</th>
+           </ng-template>
+
             <td mat-cell
-              class="mat-column{{flickerColmnIndex}}-data mat-cell-withdata"
-              *matCellDef="let selection; let i = dataIndex"
-              (click)="loadGroup(i); freezeAllMotorFunctions(); showSelectionValues(selection, i); closeIfRedirected(selection, $event)">
+                class="mat-column{{flickerColmnIndex}}-data mat-cell-withdata"
+                *matCellDef="let selection; let i = dataIndex"
+                (click)="loadGroup(i); freezeAllMotorFunctions(); showSelectionValues(selection, i); closeIfRedirected(selection, $event)">
 
-              <ng-container *ngIf="selection.ignore==false">
-                <ng-container *ngIf="selection.inRange">
-                  <ng-container *ngIf= "( (isEvSelected && +selection['EVthisBet'] >= +prefObj.evFilterValue && +selection['EVthisBet'] < 1000) || (!isEvSelected && (+selection['MatchRating'] == +prefObj.maxRatingFilter || selection['MatchRating'] > (+prefObj.maxRatingFilter - 0.1)) ) )">
-                    <ng-container *ngIf= "( +selection['BackOdds'] <= +maxOddsFilter && +selection['BackOdds'] >= +minOddsFilter )">
+                <ng-container *ngIf="selection.ignore==false">
+                  <ng-container *ngIf="selection.inRange">
+                    <ng-container *ngIf= "( (isEvSelected && +selection['EVthisBet'] >= +prefObj.evFilterValue && +selection['EVthisBet'] < 1000) || (!isEvSelected && (+selection['MatchRating'] == +prefObj.maxRatingFilter || selection['MatchRating'] > (+prefObj.maxRatingFilter - 0.1)) ) )">
+                      <ng-container *ngIf= "( +selection['BackOdds'] <= +maxOddsFilter && +selection['BackOdds'] >= +minOddsFilter )">
 
-                      <div class="juicyCell" *ngIf="column.endsWith('BackOdds')">
-                        <img  class="odds-img" src="/assets/img/betIcon.png" alt="">
-                        <span  class="ticker{{(flickerColmnIndex)}}box" appFlickerData [flickerColmnIndex]="flickerColmnIndex" [isUpdated]="selection.backIsUpdated"> {{ selection[column] | number:'0.2-2'}} </span>
-                      </div>
-
-                      <div class="juicyCell" *ngIf="column.endsWith('LayOdds')">
-                        <img  class="odds-img" src="/assets/img/smarketsIcon.png" alt="">
-                        <span  class="ticker{{(flickerColmnIndex)}}box" appFlickerDataLay [flickerColmnIndex]="flickerColmnIndex" [isUpdated]="selection.layIsUpdated"> {{ selection[column] | number:'0.2-2' }} </span>
-                      </div>
-
-
-                      <div class="juicyCell" *ngIf="column.endsWith('Bet')">
-                        <span class="ev{{flickerColmnIndex}}box juicyCell" appFlickerDataEv [isUpdated]="selection.evIsUpdated">   £{{selection[column] | number: '0.2-2'}} </span>
-                      </div>
-
-                      <!-- use directive for displaying matchRating values -->
-                      <div class="juicyCell" *ngIf="column.endsWith('Rating')">
-                        <span class="mr{{flickerColmnIndex}}box" appFlickerDataMatchRating [isUpdated]="selection.matchRatingUpdated"> {{selection[column] | number: '0.2-2'}}% </span>
-                      </div>
-                      <div class="juicyCell FTAround" *ngIf="column.endsWith('Around')">
-                        <span> {{selection[column] | number: '0.2-2'}} </span>
-                      </div>
-
-                      <span *ngIf="!column.endsWith('Odds') && !column.endsWith('Bet') && !column.endsWith('Rating') && !column.endsWith('Around')"> {{ selection[column] }}</span>
+                          <div class="juicyCell" *ngIf="column.field.endsWith('BackOdds')">
+                            <img  class="odds-img" src="/assets/img/betIcon.png" alt="">
+                            <span  class="ticker{{(flickerColmnIndex)}}box" appFlickerData [flickerColmnIndex]="flickerColmnIndex" [isUpdated]="selection.backIsUpdated"> {{ selection[column.field] | number:'0.2-2'}} </span>
+                          </div>
+                            <div class="juicyCell" *ngIf="column.field.endsWith('LayOdds')">
+                              <img  class="odds-img" src="/assets/img/smarketsIcon.png" alt="">
+                              <span  class="ticker{{(flickerColmnIndex)}}box" appFlickerDataLay [flickerColmnIndex]="flickerColmnIndex" [isUpdated]="selection.layIsUpdated"> {{ selection[column.field] | number:'0.2-2' }} </span>
+                            </div>
+                              <div class="juicyCell" *ngIf="column.field.endsWith('Bet')">
+                                <span class="ev{{flickerColmnIndex}}box juicyCell" appFlickerDataEv [isUpdated]="selection.evIsUpdated">   £{{selection[column.field] | number: '0.2-2'}} </span>
+                              </div>
+                                <!-- use directive for displaying matchRating values -->
+                                <div class="juicyCell" *ngIf="column.field.endsWith('Rating')">
+                                  <span class="mr{{flickerColmnIndex}}box" appFlickerDataMatchRating [isUpdated]="selection.matchRatingUpdated"> {{selection[column.field] | number: '0.2-2'}}% </span>
+                                </div>
+                                    <div class="juicyCell FTAround" *ngIf="column.field.endsWith('Around')">
+                                      <span> {{selection[column.field] | number: '0.2-2'}} </span>
+                                    </div>
+                                      <span *ngIf="!column.field.endsWith('Odds') && !column.field.endsWith('Bet') && !column.field.endsWith('Rating') && !column.field.endsWith('Around')"> {{ selection[column.field] }}</span>
+                      </ng-container>
                     </ng-container>
                   </ng-container>
                 </ng-container>
-              </ng-container>
             </td>
          </ng-container>
 
-         <!-- @detailExpand is a directive that uses expandedDetail in matColumnDef to create the expanded container -->
+         <!-- @detailExpand is animation for expanded row -->
          <ng-container matColumnDef="expandedDetail">
            <td mat-cell *matCellDef="let selection; let i=dataIndex" [attr.colspan]="columnsToDisplay.length" >
              <!-- <ng-container>            </ng-container> -->
@@ -163,15 +164,13 @@
               <!-- (click) function says: if the expanded Element is this selection object, make it null -->
               <!-- read ignore status in here -->
               <tr mat-row *matRowDef="let selection; columns: columnsToDisplay;"
-              class="juicyMatch-row"
-              [ngClass]="selection.isRedirected == 'Yes' ? 'juicyMatch-expanded-row': null"
-              [class.juicyMatch-expanded-row]="expandedElement === selection"
-              (click)="expandedElement = expandedElement === selection ? null : selection"
-              appHideTableRow [userPref]="prefObj" [backOdds]="selection.BackOdds" [evValue]="selection.EVthisBet" [mrValue]="selection.MatchRating" [ignore]="selection.ignore" [inRange]="selection.inRange">
+                  class="juicyMatch-row"
+                  [ngClass]="selection.isRedirected == 'Yes' ? 'juicyMatch-expanded-row': null"
+                  [class.juicyMatch-expanded-row]="expandedElement === selection"
+                  (click)="expandedElement = expandedElement === selection ? null : selection"
+                  appHideTableRow [userPref]="prefObj" [backOdds]="selection.BackOdds" [evValue]="selection.EVthisBet" [mrValue]="selection.MatchRating" [ignore]="selection.ignore" [inRange]="selection.inRange">
               </tr>
-
               <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="juicyMatch-detail-row"></tr>
-
   </table>
 
   <div class="no-content" *ngIf="noMatchesToDisplay">Currently No Matches Detected</div>
