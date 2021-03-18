@@ -186,6 +186,13 @@ img {
   width: 25px
 }
 
+.bookie-logo {
+  background-image: linear-gradient(to top, #fff8f8, #7a8585);
+  padding: 11%;
+  border-radius: 20px;
+  border: 2px #9e9c9c solid;
+}
+
 mat-header-row{
   min-height: 20px;
 }

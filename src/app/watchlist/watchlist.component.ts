@@ -39,7 +39,7 @@ export class Group {
 
 export class WatchlistComponent implements OnInit, OnDestroy {
 
- displayedColumns: string[] = ['HStatus','BHome','SMHome', 'OccH', 'Home',  'FixturesDate', 'Away', 'OccA' , 'BAway','SMAway', 'AStatus'];
+ displayedColumns: string[] = ['HStatus','BHome','SMHome', 'Home',  'FixturesDate', 'Away' , 'BAway','SMAway', 'AStatus'];
     SecondcolumnsToDisplay: string[] = ['SMHome','BHome', 'BDraw', 'BAway', 'BTTSOdds', 'B25GOdds','SMAway',  'League', 'OccH', 'OccA'];
     columnsToDisplay: string[] = this.displayedColumns.slice();
     @Input() matches: any;
@@ -64,11 +64,11 @@ export class WatchlistComponent implements OnInit, OnDestroy {
       { field: "HStatus" , columnDisplay: "" },
       { field: "BHome", columnDisplay: "Image" },
       { field: "SMHome", columnDisplay: "Image" },
-      { field: "OccH", columnDisplay: "2UP OCC. Home" },
+      // { field: "OccH", columnDisplay: "2UP OCC. Home" },
       { field: "Home", columnDisplay: "" },
       { field: "FixturesDate", columnDisplay: "" },
       { field: "Away", columnDisplay: "" },
-      { field: "OccA", columnDisplay: "2UP OCC. Away" },
+      // { field: "OccA", columnDisplay: "2UP OCC. Away" },
       { field: "BAway", columnDisplay: "Image" },
       { field: "SMAway", columnDisplay: "Image" },
       { field: "AStatus", columnDisplay: "" }
@@ -243,15 +243,6 @@ export class WatchlistComponent implements OnInit, OnDestroy {
       this.groupSubscription.unsubscribe();
     }
 
-    // private matchDateInteger(matchObj: any): number {
-    //   return this.dateHandlingService.convertGBStringDate(matchObj.Details).getMonth()*30 + this.dateHandlingService.convertGBStringDate(matchObj.Details).getDate();
-    // }
-
-
-    removefromWatchList(row: any){
-      console.log("Handle Removing of watchList item");
-
-    }
     //Handles logic for MatTable. It adds and removes match items based off the state of the League Group Header.
     modifiedGroupList(allData: any[], groupList: any[], viewSelection: string) : any[]{
 
@@ -651,6 +642,11 @@ export class WatchlistComponent implements OnInit, OnDestroy {
       } else {
         this.matchStatusService.removeFromIgnoreList(selection);
       }
+    }
+
+    removefromWatchList(row:any){
+      console.log("Need functionality here");
+
     }
 
 }

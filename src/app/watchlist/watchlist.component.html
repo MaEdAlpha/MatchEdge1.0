@@ -14,9 +14,9 @@
               </ng-container>
               <!-- Generate Data Cells -->
               <mat-cell *matCellDef="let row; let i = index">
-
+                  <!-- column.field.endsWith('OccH') || column.field.endsWith('OccA') || -->
                   <ng-container *ngIf="!column.field.endsWith('Status')">
-                    <ng-container *ngIf="column.field.endsWith('BHome') || column.field.endsWith('SMHome') || column.field.endsWith('OccH') || column.field.endsWith('OccA') || column.field.endsWith('BAway') || column.field.endsWith('SMAway')">
+                    <ng-container *ngIf="column.field.endsWith('BHome') || column.field.endsWith('SMHome') ||  column.field.endsWith('BAway') || column.field.endsWith('SMAway')">
                       <span class="{{column.field}} viewCell"> {{ row[column.field] | number:'0.2-2'}}</span>
                     </ng-container>
 
@@ -49,28 +49,6 @@
                       <ng-container *ngIf="column.field.endsWith('HStatus')">
                         <ng-container>
                           <button mat-icon-button
-                            (click)="row.HStatus.notify=!row.HStatus.notify"
-                            class="{{column.field}} viewCell">
-                            <mat-icon>
-                              add_alert
-                            </mat-icon>
-                          </button>
-                        </ng-container>
-
-                        <ng-container >
-                          <button mat-icon-button
-                            class="{{column.field}} viewCell"
-                            (click)="row.HStatus.ignore=!row.HStatus.ignore"
-                            appIgnoreIcon
-                            [ignoreStatus]="row.HStatus.ignore">
-                            <mat-icon>
-                              block
-                            </mat-icon>
-                          </button>
-                        </ng-container>
-
-                        <ng-container>
-                          <button mat-icon-button
                             class="{{column.field}} viewCell"
                             (click)="row.HStatus.bet=!row.HStatus.activeBet"
                             appBetHome [hBetStatus]="row.HStatus.activeBet"
@@ -84,28 +62,6 @@
 
                       <!-- AWAY STATUS CONFIG -->
                       <ng-container *ngIf="column.field.endsWith('AStatus')">
-                        <ng-container>
-                          <button mat-icon-button
-                            (click)="row.AStatus.notify=!row.AStatus.notify"
-                            class="{{column.field}} viewCell">
-                            <mat-icon>
-                              add_alert
-                            </mat-icon>
-                          </button>
-                        </ng-container>
-
-                        <ng-container >
-                          <button mat-icon-button
-                            class="{{column.field}} viewCell"
-                            (click)="row.AStatus.ignore=!row.AStatus.ignore"
-                            appIgnoreIcon
-                            [ignoreStatus]="row.AStatus.ignore">
-                            <mat-icon>
-                              block
-                            </mat-icon>
-                          </button>
-                        </ng-container>
-
                         <ng-container>
                           <button mat-icon-button
                             class="{{column.field}} viewCell"

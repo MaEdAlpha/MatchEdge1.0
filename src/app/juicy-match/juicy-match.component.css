@@ -278,8 +278,7 @@ div.jm-exp-details-row1 {
   vertical-align: middle;
   margin: 2.5%;
   border-radius: 15px;
-  background: radial-gradient(at 50% 0, #9fa1a0, transparent 70%),
-  linear-gradient(0deg, #232e34, transparent 50%) bottom;
+  background: radial-gradient(at 50% 0, #9fa1a0, transparent 70%), linear-gradient(0deg, #586065, transparent 50%) bottom;
   padding: 10px;
 }
 
@@ -330,7 +329,7 @@ div.jm-exp-details-row1 {
   margin: 5px;
 }
 .jm-exp-details-col2row1 {
-  background: #126E51;
+  background: radial-gradient(at 60% 0, #126E51, transparent 80%), linear-gradient(5deg, #095940, transparent 80%) bottom;
 }
 .bookie-button-container {
   display: inline-grid;
@@ -382,11 +381,12 @@ padding-top: 8%;
   }
 /* Lay Bet style and layout*/
 .jm-exp-details-col2row2 {
-  background: #383838;
+  background: radial-gradient(at 60% 0, #383838, transparent 80%), linear-gradient(181deg, #383838, transparent 80%) bottom;
   color: rgb(255, 255, 255);
 }
 .jm-exp-details-col2row2>b{
   color: black;
+
 }
 .exchange-words-container{
   display: inline-grid;
