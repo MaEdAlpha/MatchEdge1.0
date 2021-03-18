@@ -97,7 +97,7 @@ border-bottom-left-radius: 30px;
 }
 
 .dirHBetStatus, .dirABetStatus{
-    color: green;
+    color: #126e51;
     background: white;
     border-radius: 5px;
 }
@@ -187,12 +187,19 @@ span.BHome, span.BAway, span.SMHome, span.SMAway, span.BHome, span.BAway {
 
 }
 span.BAway, span.BHome{
-  background: green;
-
+  background: #f9a825;
+  background-image: linear-gradient(to top, #f5b95a, #ee9a12);
+  font-family: Bahnschrift SemiBold;
+  font-size: large;
+  border-radius: 5px;
+  font-size: large;
 }
 
 span.SMAway, span.SMHome{
-  background: rgb(14, 47, 155);
+  background: #202020;
+  color: #ffbf0e;
+  border-radius: 5px;
+  font-size: large;
 }
 
 mat-header-cell.cdk-column-Home, mat-header-cell.cdk-column-Away, mat-header-cell.cdk-column-FixturesDate {
