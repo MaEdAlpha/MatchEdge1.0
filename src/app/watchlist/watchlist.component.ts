@@ -1,8 +1,8 @@
-import {Component, OnDestroy, OnInit, ViewChild, Input , Output, OnChanges, SimpleChanges, AfterViewInit} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild, Input , Output, OnChanges, SimpleChanges, AfterViewInit, Inject} from '@angular/core';
 import { Subscription } from 'rxjs';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { MatchesService } from '../match/matches.service';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { animate, group, state, style, transition, trigger } from '@angular/animations';
 import { WebsocketService } from '../websocket.service';
 import { Match } from '../match/match.model';
@@ -13,6 +13,7 @@ import { UserPropertiesService } from '../user-properties.service';
 import { DateHandlingService } from '../date-handling.service';
 import { MatchStatusService } from '../match-status.service';
 import { analyzeAndValidateNgModules } from '@angular/compiler';
+import { PopupViewSavedBetsComponent } from '../popup-view-saved-bets/popup-view-saved-bets.component';
 
 export class Group {
   level = 0;
@@ -646,6 +647,21 @@ export class WatchlistComponent implements OnInit, OnDestroy {
 
     removefromWatchList(row:any){
       console.log("Need functionality here");
+
+    }
+
+    openViewBets(row:any, selection:string): void {
+      const dialogRef = this.dialog.open(PopupViewSavedBetsComponent, {
+        width: '250px',
+        data: row
+      });
+
+
+      dialogRef.afterClosed().subscribe(result => {
+        console.log('dialog is SAB popup closed, do something with data');
+
+      })
+      console.log(row);
 
     }
 

@@ -72,6 +72,7 @@ import { TimeDatePipe } from './pipes/time.datepipe';
 import { DateHandlingService } from './date-handling.service';
 import { MatchStatusService } from './match-status.service';
 import { MatSortModule } from '@angular/material/sort';
+import { PopupViewSavedBetsComponent } from './popup-view-saved-bets/popup-view-saved-bets.component';
 
 
 registerLocaleData(localeGB);
@@ -104,7 +105,8 @@ registerLocaleData(localeGB);
     FlickerDataMatchRatingDirective,
     HeaderDatePipe,
     TimeDatePipe,
-    InactiveMatchDirective
+    InactiveMatchDirective,
+    PopupViewSavedBetsComponent
   ],
   imports: [
     AppRoutingModule,
