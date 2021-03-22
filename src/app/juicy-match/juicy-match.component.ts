@@ -15,6 +15,7 @@ import { MatchStatusService } from '../match-status.service';
 import { DateHandlingService } from '../date-handling.service';
 import { NotificationBoxService } from '../notification-box.service';
 import { MatSort, Sort } from '@angular/material/sort';
+import { SavedActiveBetsService } from '../popup-view-saved-bets/saved-active-bets.service';
 
 
 
@@ -87,7 +88,7 @@ export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
 
   notificationSelectedSubscription: Subscription;
 
-  constructor(private chRef: ChangeDetectorRef, private sidenav: SidenavService, private juicyMHService: JuicyMatchHandlingService, private matchStatService: MatchStatsService, private matchesService: MatchesService, private userPrefService: UserPropertiesService, private matchStatusService: MatchStatusService, private dateHandlingService: DateHandlingService, private notificationServices: NotificationBoxService ) { }
+  constructor(private savedActiveBetsService: SavedActiveBetsService, private chRef: ChangeDetectorRef, private sidenav: SidenavService, private juicyMHService: JuicyMatchHandlingService, private matchStatService: MatchStatsService, private matchesService: MatchesService, private userPrefService: UserPropertiesService, private matchStatusService: MatchStatusService, private dateHandlingService: DateHandlingService, private notificationServices: NotificationBoxService ) { }
 
   ngOnChanges(changes: SimpleChanges)
   {
@@ -365,5 +366,9 @@ export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
         console.log("Doing Nothing On Click");
 
       }
+    }
+
+    saveAsActiveBet(row):void{
+      this.savedActiveBetsService.saveToActiveBets(row);
     }
 }

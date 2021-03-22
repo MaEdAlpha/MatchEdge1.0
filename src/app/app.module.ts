@@ -9,7 +9,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { ToastrModule } from 'ngx-toastr';
 import { registerLocaleData } from '@angular/common';
 import { CurrencyPipe } from '@angular/common';
-import localeGB from '@angular/common/locales/en-GB';
+
 
 //Materials
 import { MatButtonModule } from '@angular/material/button';
@@ -75,7 +75,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { PopupViewSavedBetsComponent } from './popup-view-saved-bets/popup-view-saved-bets.component';
 
 
-registerLocaleData(localeGB);
+
 
 @NgModule({
   declarations: [

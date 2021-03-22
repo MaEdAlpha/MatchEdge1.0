@@ -651,18 +651,19 @@ export class WatchlistComponent implements OnInit, OnDestroy {
     }
 
     openViewBets(row:any, selection:string): void {
+
+      selection == 'home' ? row.Selection = row.Home: row.Selection = row.Away;
       const dialogRef = this.dialog.open(PopupViewSavedBetsComponent, {
-        width: '250px',
+        width: '50%',
+        height: '80%',
         data: row
       });
 
 
       dialogRef.afterClosed().subscribe(result => {
         console.log('dialog is SAB popup closed, do something with data');
-
-      })
+      });
       console.log(row);
-
     }
 
 }

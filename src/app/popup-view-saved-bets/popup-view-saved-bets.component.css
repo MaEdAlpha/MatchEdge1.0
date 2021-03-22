@@ -1,0 +1,31 @@
+.sab-table {
+  display: block;
+  margin-right: auto;
+  margin-left: auto;
+  width: 85%;
+  border: 1px solid black;
+}
+
+.sab-row, .sab-title-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.sab-row-item{
+  border: 1px solid salmon;
+  height: fit-content;
+  padding: 2px;
+}
+
+.sab-row-button {
+  width: 50px;
+  height: min-content;
+}
+
+.fc-logo {
+  border: 1px black solid;
+  width: 100px;
+  border-radius: 100px;
+  background: radial-gradient(at 50% 0, #9fa1a0, transparent 70%), linear-gradient(0deg, #586065, transparent 50%) bottom;
+  padding: 5px;
+}
