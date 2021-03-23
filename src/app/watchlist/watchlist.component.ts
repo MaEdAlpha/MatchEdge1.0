@@ -654,7 +654,7 @@ export class WatchlistComponent implements OnInit, OnDestroy {
 
       selection == 'home' ? row.Selection = row.Home: row.Selection = row.Away;
       const dialogRef = this.dialog.open(PopupViewSavedBetsComponent, {
-        width: '50%',
+        width: '70%',
         height: '80%',
         data: row
       });

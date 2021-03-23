@@ -12,9 +12,33 @@
 
   <div class="sab-table">
     <mat-action-list  #activeBets [multiple]="false">
+      <mat-list-option class="sab-row-header">
+        <h3 class="sab-row-item-header"> Time Stamp </h3>
+        <h3 class="sab-row-item-header"> Event Time </h3>
+        <h3 class="sab-row-item-header"> B.Stake </h3>
+        <h3 class="sab-row-item-header"> Back </h3>
+        <h3 class="sab-row-item-header"> L.Stake </h3>
+        <h3 class="sab-row-item-header"> Lay </h3>
+        <h3 class="sab-row-item-header"> Liability </h3>
+        <h3 class="sab-row-item-header"> EV </h3>
+        <h3 class="sab-row-item-header"> FTA </h3>
+        <h3 class="sab-row-item-header"> QL </h3>
+        <h3 class="sab-row-item-header"> ROI </h3>
+        <h3 class="sab-row-item-header"> Spacer </h3>
+      </mat-list-option>
       <mat-list-option *ngFor="let activeBet of importedSabList">
         <div class="sab-row">
-          <p class="sab-row-item">TimeStamp</p> <span class="sab-row-item">{{activeBet.Details}}</span> <span class="sab-row-item">{{activeBet.Home}}</span>
+          <p class="sab-row-item">TimeStamp</p>
+            <span class="sab-row-item"> {{activeBet.matchDetail}}</span>
+            <span class="sab-row-item"> ${{activeBet.stake}}</span>
+            <span class="sab-row-item"> {{activeBet.backOdd}}</span>
+            <span class="sab-row-item"> ${{activeBet.layStake}}</span>
+            <span class="sab-row-item"> {{activeBet.layOdd}}</span>
+            <span class="sab-row-item"> ${{activeBet.liability}}</span>
+            <span class="sab-row-item">  ${{activeBet.ev}}</span>
+            <span class="sab-row-item"> ${{activeBet.fta}}</span>
+            <span class="sab-row-item">  ${{activeBet.ql}}</span>
+            <span class="sab-row-item"> {{activeBet.roi}}%</span>
           <button mat-button-raised (click)="editDeleteSab(activeBet)" class="sab-row-button"> Edit </button>
         </div>
       </mat-list-option>

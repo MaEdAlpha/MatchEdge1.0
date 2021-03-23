@@ -6,13 +6,21 @@
   border: 1px solid black;
 }
 
-.sab-row, .sab-title-container {
+.sab-row, .sab-title-container{
   display: flex;
   justify-content: space-between;
 }
 
+.sab-row-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.sab-row-item-header {
+  /* margin-left: 9%; */
+}
+
 .sab-row-item{
-  border: 1px solid salmon;
   height: fit-content;
   padding: 2px;
 }

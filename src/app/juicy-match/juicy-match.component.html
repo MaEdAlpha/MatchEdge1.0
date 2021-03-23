@@ -124,11 +124,11 @@
                               </div>
                               <div class="r1 r1-col2">
                                 <h3 class="selection-figures-content2">Full Turnaround: </h3>
-                                <span class="selection-figures-content2"> {{ FTA( getGroup(i).get('Stake').value, getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value  ) | currency:'GBP'}}</span></div>
+                                <span class="selection-figures-content2"> {{ FTA(getGroup(i).get('Stake').value, getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value  ) | currency:'GBP'}}</span></div>
                               </div>
 
                               <div class="rcd-btn">
-                                <button mat-raised-button class="exp-button" (click)="saveAsActiveBet(row)">Record Bet</button>
+                                <button mat-raised-button class="exp-button" (click)="saveAsActiveBet(selection, i)">Record Bet</button>
                                 <p class="betState">Lay bet is</p>
                                 <button mat-raised-button class="bet-state-button" [style.background]="selection.activeBetState ? 'green' : 'red'" (click)="selection.activeBetState = !selection.activeBetState">{{ selection.activeBetState ? 'Matched' : 'Unmatched'}}</button>
                                 <!-- button match / unmatched  -->
@@ -137,12 +137,12 @@
                               <div class="selection-figures row4-row2">
                                 <div class="r2 r2-col1">
                                   <h3 class="selection-figures-content1">Total EV: </h3>
-                                  <span class="selection-figures-content2">{{ TotalEV( selection.FTAround,  getGroup(i).get('Stake').value, getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value, getGroup(i).get('Stake').value)  | currency:'GBP' }}</span>
+                                  <span class="selection-figures-content2">{{ TotalEV( selection.FTAround,  getGroup(i).get('Stake').value, getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value)  | currency:'GBP' }}</span>
                                 </div>
 
                                 <div class="r2 r2-col2">
                                   <h3 class="selection-figures-content2">Qualifying Loss: </h3>
-                                  <span class="selection-figures-content2"> {{QL( getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value, getGroup(i).get('Stake').value) | currency:'GBP'}}  </span>
+                                  <span class="selection-figures-content2"> {{ QL( getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value, getGroup(i).get('Stake').value) | currency:'GBP'}}  </span>
                                 </div>
                               </div>
 

@@ -17,6 +17,8 @@ import { NotificationBoxService } from '../notification-box.service';
 import { MatSort, Sort } from '@angular/material/sort';
 import { SavedActiveBetsService } from '../popup-view-saved-bets/saved-active-bets.service';
 
+import { ActiveBet } from '../models/active-bet.model';
+
 
 
 
@@ -130,7 +132,7 @@ export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
       this.allIndvMatches = singleMatchData;
     });
 
-    this.dataSource = new FormArray(this.allIndvMatches.map( x=> this.createForm(x)));
+    this.dataSource = new FormArray(this.allIndvMatches.map( x => this.createForm(x)));
     //accesses an eventEmitter of streamData that is coming in via MongoDB ChangeStream.  Setsup a subscription to observable.
     this.streamSub = this.matchesService.streamDataUpdate
     .subscribe( (streamObj) => {
@@ -224,7 +226,7 @@ export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
     return new FormGroup(
       {
       Stake:new FormControl(data.Stake),
-      LayStake:new FormControl(data.LayStake),
+      LayStake:new FormControl(data.BackOdds / data.LayOdds * data.Stake),
       BackOdds:new FormControl(data.BackOdds),
       LayOdds:new FormControl(data.LayOdds),
       });
@@ -258,8 +260,8 @@ export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
     return (+stake * (+backOdds - 1) + +layStake);
   }
 
-  TotalEV(occurence:number, stake:number, backOdds:number, layOdds:number, steakYum:number):number{
-    var layStake = (+backOdds / +layOdds) * +steakYum;
+  TotalEV(occurence:number, stake:number, backOdds:number, layOdds:number):number{
+    var layStake = (+backOdds / +layOdds) * +stake;
    var result:number = +(+stake * (+backOdds - 1) + +layStake)+ (+layStake- +stake)*(+occurence-1);
    return result;
   }
@@ -368,7 +370,55 @@ export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
       }
     }
 
-    saveAsActiveBet(row):void{
-      this.savedActiveBetsService.saveToActiveBets(row);
+    saveAsActiveBet(row, index):void{
+      /*Create json object with all properties you want to SAB as.
+
+      Fixture
+      Selection
+      MatchDetail
+      bookie stake
+      bookie back odd
+      exchange lay
+      exchange lay odd
+      Liability calc w above
+      Total EV
+      FTA
+      QL
+      ROI
+
+      */
+
+
+      var activeBetObject = this.returnActiveBetObject(row, index);
+      this.savedActiveBetsService.saveToActiveBets(activeBetObject);
+      console.log("Stored data:");
+      console.log(activeBetObject);
+
     }
+
+    returnActiveBetObject(row,index): ActiveBet{
+
+      var activeBetDetails = this.getGroup(index);
+      var backOdd = activeBetDetails.value.BackOdds;
+      var layOdd = activeBetDetails.value.LayOdds;
+      var stake = activeBetDetails.value.Stake;
+
+      var activeBet: ActiveBet = {
+
+        fixture: row.Fixture,
+        selection: row.Selection,
+        matchDetail: row.EventStart ,
+        stake:  stake,
+        backOdd: backOdd,
+        layOdd: layOdd,
+        layStake: +(backOdd/layOdd*stake).toFixed(2),
+        liability: +((layOdd - 1) * +(backOdd/layOdd*stake)).toFixed(2),
+        ev: +this.TotalEV(row.FTAround, stake, backOdd, layOdd).toFixed(2),
+        fta: +this.FTA(stake, backOdd, layOdd).toFixed(2),
+        ql: +this.QL(backOdd, layOdd, stake).toFixed(2),
+        roi: +this.ROI(stake, backOdd, layOdd, row.FTAround).toFixed(2),
+      }
+      return activeBet;
+    }
+
 }
