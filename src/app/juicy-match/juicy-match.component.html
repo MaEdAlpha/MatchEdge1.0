@@ -34,11 +34,11 @@
                               <span  class="ticker{{(flickerColmnIndex)}}box" appFlickerDataLay [flickerColmnIndex]="flickerColmnIndex" [isUpdated]="selection.layIsUpdated"> {{ selection[column.field] | number:'0.2-2' }} </span>
                             </div>
                               <div class="juicyCell" *ngIf="column.field.endsWith('Bet')">
-                                <span class="ev{{flickerColmnIndex}}box juicyCell" appFlickerDataEv [isUpdated]="selection.evIsUpdated">   £{{selection[column.field] | number: '0.2-2'}} </span>
+                                <span class="ev{{flickerColmnIndex}}box juicyCell" appFlickerDataEv [isUpdated]="selection.evIsUpdated">  {{selection[column.field] | number: '0.2-2'}} </span>
                               </div>
                                 <!-- use directive for displaying matchRating values -->
                                 <div class="juicyCell" *ngIf="column.field.endsWith('Rating')">
-                                  <span class="mr{{flickerColmnIndex}}box" appFlickerDataMatchRating [isUpdated]="selection.matchRatingUpdated"> {{selection[column.field] | number: '0.2-2'}}% </span>
+                                  <span class="mr{{flickerColmnIndex}}box" appFlickerDataMatchRating [isUpdated]="selection.matchRatingUpdated"> {{selection[column.field] | number: '0.2-2'}} </span>
                                 </div>
                                     <div class="juicyCell FTAround" *ngIf="column.field.endsWith('Around')">
                                       <span> {{selection[column.field] | number: '0.2-2'}} </span>

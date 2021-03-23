@@ -110,7 +110,7 @@ tr.juicyMatch-row:not(.juicyMatch-expanded-row):active { /* when main container 
   padding-right: 10px;
   border-radius: 5px;
 }
-.FTAround>span {
+.FTAround>span, .ev6box, .mr7box {
   background: #37474F;
   color: #ffbf0e;
   border-radius: 6px;
@@ -141,7 +141,7 @@ tr.juicyMatch-row:not(.juicyMatch-expanded-row):active { /* when main container 
   padding-right: 10px;
   border-radius: 5px;
 }
-.ev6box {
+/* .ev6box {
   background: rgb(184, 184, 184);
   color: black;
   padding: 6px;
@@ -156,7 +156,7 @@ tr.juicyMatch-row:not(.juicyMatch-expanded-row):active { /* when main container 
   padding-left: 10px;
   padding-right: 10px;
   border-radius: 5px;
-}
+} */
   .hideTR {
     visibility: collapse;
   }
