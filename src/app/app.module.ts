@@ -73,6 +73,7 @@ import { DateHandlingService } from './date-handling.service';
 import { MatchStatusService } from './match-status.service';
 import { MatSortModule } from '@angular/material/sort';
 import { PopupViewSavedBetsComponent } from './popup-view-saved-bets/popup-view-saved-bets.component';
+import { PopupFormSavedBetsComponent } from './popup-form-saved-bets/popup-form-saved-bets.component';
 
 
 
@@ -106,7 +107,8 @@ import { PopupViewSavedBetsComponent } from './popup-view-saved-bets/popup-view-
     HeaderDatePipe,
     TimeDatePipe,
     InactiveMatchDirective,
-    PopupViewSavedBetsComponent
+    PopupViewSavedBetsComponent,
+    PopupFormSavedBetsComponent
   ],
   imports: [
     AppRoutingModule,

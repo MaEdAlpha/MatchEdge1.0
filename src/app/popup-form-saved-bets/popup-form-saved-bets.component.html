@@ -1,0 +1,18 @@
+<div mat-dialog-content>
+  <h1>{{data.activeBet.selection}} Selected</h1>
+  <p>Select a bet to Edit? Functionality</p>
+  <mat-form-field appearance="fill">
+    <mat-label>Select an option</mat-label>
+    <mat-select [formControl]="sabControl">
+      <mat-optgroup *ngFor="let sab of sabList">
+        <mat-option *ngFor="let sab of sabList"; value="test">{{sab.selection}}</mat-option>
+      </mat-optgroup>
+    </mat-select>
+  </mat-form-field>
+
+  <p>You selected: put something  here</p>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Go Back</button>
+  <button mat-button [mat-dialog-close]="data.Selection" cdkFocusInitial>Update</button>
+</div>

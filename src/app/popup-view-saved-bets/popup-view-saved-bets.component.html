@@ -5,7 +5,7 @@
 </div>
 
 <ng-container
-  *ngIf="!isEmptyList; then displaySAB else noSavedBets">
+  *ngIf="!isEmptySelectionList; then displaySAB else noSavedBets">
 </ng-container>
 
 <ng-template #displaySAB>
@@ -26,7 +26,7 @@
         <h3 class="sab-row-item-header"> ROI </h3>
         <h3 class="sab-row-item-header"> Spacer </h3>
       </mat-list-option>
-      <mat-list-option *ngFor="let activeBet of importedSabList">
+      <mat-list-option *ngFor="let activeBet of filteredSabList">
         <div class="sab-row">
           <p class="sab-row-item">TimeStamp</p>
             <span class="sab-row-item"> {{activeBet.matchDetail}}</span>
@@ -39,7 +39,7 @@
             <span class="sab-row-item"> ${{activeBet.fta}}</span>
             <span class="sab-row-item">  ${{activeBet.ql}}</span>
             <span class="sab-row-item"> {{activeBet.roi}}%</span>
-          <button mat-button-raised (click)="editDeleteSab(activeBet)" class="sab-row-button"> Edit </button>
+          <button mat-button-raised (click)="editDeleteSab(activeBet, true)" class="sab-row-button"> Edit </button>
         </div>
       </mat-list-option>
     </mat-action-list>
@@ -48,24 +48,13 @@
   <!-- <p>
     Options selected: {{activeBets}}
   </p> -->
-
-
-  <div mat-dialog-content>
-    <p>Make a nested list, should populate all active Bets?</p>
-    <mat-form-field>
-      <mat-label>Favorite Animal</mat-label>
-      <input matInput [(ngModel)]="data.Selection">
-    </mat-form-field>
-  </div>
-  <div mat-dialog-actions>
-    <button mat-button (click)="onNoClick()">Go Back</button>
-    <button mat-button [mat-dialog-close]="data.Selection" cdkFocusInitial>Add Active Bet</button>
-  </div>
 </ng-template>
 
 <ng-template #noSavedBets>
-  <p>You currently have no Active Bets Saved</p>
-  <div mat-dialog-actions>
+  <div class="sab-table">
+    <p class="no-sab-message">You currently have no active bets saved</p>
+  </div>
+  <div mat-dialog-actions class="sab-view-btn-container">
     <button mat-button (click)="onNoClick()">Go Back</button>
     <button mat-button [mat-dialog-close]="data.Selection" cdkFocusInitial>Add Active Bet</button>
   </div>

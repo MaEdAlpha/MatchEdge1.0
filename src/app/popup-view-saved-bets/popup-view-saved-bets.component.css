@@ -25,9 +25,26 @@
   padding: 2px;
 }
 
+.no-sab-message {
+  display: flex;
+  justify-content: center;
+  margin: 0px;
+  padding: 15px;
+  font-size: x-large;
+}
+
 .sab-row-button {
   width: 50px;
   height: min-content;
+}
+
+.sab-view-btn-container {
+  padding: 8px 0;
+    display: flex;
+    min-height: 52px;
+    margin-left: auto;
+    margin-right: auto;
+    width: fit-content;
 }
 
 .fc-logo {

@@ -8,6 +8,7 @@ export class SavedActiveBetsService {
 
   sabArray: ActiveBet[] = []
 
+
   constructor() { }
 
   saveToActiveBets(sab: ActiveBet):void{
@@ -18,5 +19,15 @@ export class SavedActiveBetsService {
 
   getSabList():any[] {
     return this.sabArray;
+  }
+
+  getSelectionSAB(activeBet:ActiveBet): ActiveBet[] {
+      const selectionSAB = this.sabArray.filter( sab => {
+        if(activeBet.selection == sab.selection){
+          return true
+        }
+      });
+
+      return selectionSAB;
   }
 }
