@@ -16,3 +16,9 @@ a {
 .mat-icon {
   vertical-align: middle;
 }
+
+img {
+  position: absolute;
+  left: 47.4%;
+  top: 1.8%;
+}
