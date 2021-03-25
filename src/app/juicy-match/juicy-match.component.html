@@ -8,7 +8,7 @@
          <!-- Container for First tableData layer, nested -->
          <ng-container matColumnDef="{{column.field}}" *ngFor="let column of columnHeaders; let flickerColmnIndex = index">
            <!--/////TODO////// set ng-container to display just back/lay EV and Match Rating headers -->
-           <ng-container *ngIf="column.field.endsWith('Rating') || column.field.endsWith('Bet'); else noSortBtn">
+           <ng-container *ngIf="column.field.endsWith('Rating') || column.field.endsWith('Bet') || column.field.endsWith('Percentage') ; else noSortBtn">
              <th mat-header-cell *matHeaderCellDef mat-sort-header id="column{{flickerColmnIndex}}hdr"> {{column.alias}}</th>
            </ng-container>
            <ng-template #noSortBtn>
@@ -40,10 +40,13 @@
                                 <div class="juicyCell" *ngIf="column.field.endsWith('Rating')">
                                   <span class="mr{{flickerColmnIndex}}box" appFlickerDataMatchRating [isUpdated]="selection.matchRatingUpdated"> {{selection[column.field] | number: '0.2-2'}} </span>
                                 </div>
-                                    <div class="juicyCell FTAround" *ngIf="column.field.endsWith('Around')">
+                                  <div class="juicyCell FTAround" *ngIf="column.field.endsWith('Around')">
+                                    <span> {{selection[column.field] | number: '0.2-2'}} </span>
+                                  </div>
+                                    <div class="juicyCell QLPercentage" *ngIf="column.field.endsWith('Percentage')">
                                       <span> {{selection[column.field] | number: '0.2-2'}} </span>
                                     </div>
-                                      <span *ngIf="!column.field.endsWith('Odds') && !column.field.endsWith('Bet') && !column.field.endsWith('Rating') && !column.field.endsWith('Around')"> {{ selection[column.field] }}</span>
+                                      <span *ngIf="!column.field.endsWith('Odds') && !column.field.endsWith('Bet') && !column.field.endsWith('Rating') && !column.field.endsWith('Around') && !column.field.endsWith('Percentage')"> {{ selection[column.field] }}</span>
                       </ng-container>
                     </ng-container>
                   </ng-container>

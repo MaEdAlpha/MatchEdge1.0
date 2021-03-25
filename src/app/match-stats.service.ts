@@ -22,6 +22,7 @@ export class MatchStatsService {
   evThisBet:number;
   roi: number;
   mRating:number;
+  qlPercentage:number;
 
   private juicyMatches: JuicyMatch[] = [];
   private singleHomeMatch: any;
@@ -55,6 +56,8 @@ getMatchStats(match){
     this.evThisBet = +(this.evTotal/this.oneInXgames).toFixed(2);
     this.roi = +(this.evThisBet/this.stake).toFixed(2);
     this.mRating = +(this.backOdds * 100 / this.layOdds).toFixed(2);
+    this.qlPercentage = +(this.ql/this.ft*100).toFixed(2);
+
 
     //console.log(match.Home + ": stake: " + this.stake + " bOdds" + this.backOdds + " lay: " + this.layOdds + " layStake " + this.layStake + " liability" + this.liability + " ql " + this.ql + " oneInXgames " + this.oneInXgames + " ft " + this.ft + " evThisBet " + this.evThisBet + " " + this.stake + " ");
 
@@ -85,6 +88,7 @@ getMatchStats(match){
           layIsUpdated:false,
           evIsUpdated: false,
           freezeUpdates: false,
+          QLPercentage: this.qlPercentage,
           b365oddsHCurr: match.B365HomeOdds,
           b365oddsDrawCurr: match.B365DrawOdds,
           b365oddsACurr: match.B365AwayOdds,
@@ -113,7 +117,7 @@ getMatchStats(match){
           this.evThisBet = +(this.evTotal/this.oneInXgames).toFixed(2);
           this.roi = +(this.evThisBet/this.stake).toFixed(2);
           this.mRating = +(this.backOdds * 100 / this.layOdds).toFixed(2);
-
+          this.qlPercentage = +(this.ql/this.ft*100).toFixed(2);
 
         this.singleAwayMatch =  {
           EventStart: match.Details,
@@ -141,6 +145,7 @@ getMatchStats(match){
           layIsUpdated:false,
           evIsUpdated: false,
           freezeUpdates: false,
+          QLPercentage: this.qlPercentage,
           b365oddsHCurr: match.B365HomeOdds,
           b365oddsDrawCurr: match.B365DrawOdds,
           b365oddsACurr: match.B365AwayOdds,
@@ -179,7 +184,7 @@ getMatchStats(match){
         this.evThisBet = +(this.evTotal/this.oneInXgames).toFixed(2);
         this.roi = +(this.evThisBet/this.stake).toFixed(2);
         this.mRating = +(this.backOdds * 100 / this.layOdds).toFixed(2);
-
+        this.qlPercentage = +(this.ql/this.ft*100).toFixed(2);
         //console.log(match.Home + ": stake: " + this.stake + " bOdds" + this.backOdds + " lay: " + this.layOdds + " layStake " + this.layStake + " liability" + this.liability + " ql " + this.ql + " oneInXgames " + this.oneInXgames + " ft " + this.ft + " evThisBet " + this.evThisBet + " " + this.stake + " ");
             this.singleHomeMatch =  {
               EventStart: streamObj.StartDateTime,
@@ -210,6 +215,7 @@ getMatchStats(match){
               // b365oddsHCurr: streamObj.B365HomeOdds,
               // b365oddsDrawCurr: streamObj.B365DrawOdds,
               // b365oddsACurr: streamObj.B365AwayOdds,
+              QLPercentage: this.qlPercentage,
               b365HPrev: streamObj.PreviousB365HomeOdds,
               b365APrev: streamObj.PreviousB365AwayOdds,
               b365DrawPrev: 999,
@@ -229,7 +235,7 @@ getMatchStats(match){
         this.evThisBet = +(this.evTotal/this.oneInXgames).toFixed(2);
         this.roi = +(this.evThisBet/this.stake).toFixed(2);
         this.mRating = +(this.backOdds * 100 / this.layOdds).toFixed(2);
-
+        this.qlPercentage = +(this.ql/this.ft*100).toFixed(2);
        //console.log(match.Home + ": stake: " + this.stake + " bOdds" + this.backOdds + " lay: " + this.layOdds + " layStake " + this.layStake + " liability" + this.liability + " ql " + this.ql + " oneInXgames " + this.oneInXgames + " ft " + this.ft + " evThisBet " + this.evThisBet + " " + this.stake + " ");
             this.singleAwayMatch =  {
               EventStart: streamObj.StartDateTime,
@@ -260,6 +266,7 @@ getMatchStats(match){
               // b365oddsHCurr: streamObj.B365HomeOdds,
               // b365oddsDrawCurr: streamObj.B365DrawOdds,
               // b365oddsACurr: streamObj.B365AwayOdds,
+              QLPercentage: this.qlPercentage,
               b365HPrev: streamObj.PreviousB365HomeOdds,
               b365APrev: streamObj.PreviousB365AwayOdds,
               b365DrawPrev: 999,

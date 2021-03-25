@@ -10,9 +10,9 @@ import { SavedActiveBetsService } from '../popup-view-saved-bets/saved-active-be
   styleUrls: ['./popup-form-saved-bets.component.css']
 })
 export class PopupFormSavedBetsComponent implements OnInit {
-  selected = 'test';
   sabList: ActiveBet[]=[];
   sabControl = new FormControl();
+  isEdit:boolean;
 
   constructor(private chRef: ChangeDetectorRef, public dialogRef: MatDialogRef<PopupFormSavedBetsComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any, private savedActiveBetService: SavedActiveBetsService ) {
@@ -20,6 +20,7 @@ export class PopupFormSavedBetsComponent implements OnInit {
 
       console.log(data);
        this.sabList = this.savedActiveBetService.getSelectionSAB(this.data.activeBet);
+       this.isEdit = data.isEdit;
        console.log(this.sabList);
 
      }
@@ -28,7 +29,6 @@ export class PopupFormSavedBetsComponent implements OnInit {
   }
 
   ngAfterViewInit(){
-    this.sabList = this.savedActiveBetService.getSelectionSAB(this.data.activeBet);
     this.chRef.detectChanges();
   }
 

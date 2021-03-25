@@ -1,18 +1,81 @@
-<div mat-dialog-content>
-  <h1>{{data.activeBet.selection}} Selected</h1>
-  <p>Select a bet to Edit? Functionality</p>
-  <mat-form-field appearance="fill">
-    <mat-label>Select an option</mat-label>
-    <mat-select [formControl]="sabControl">
-      <mat-optgroup *ngFor="let sab of sabList">
-        <mat-option *ngFor="let sab of sabList"; value="test">{{sab.selection}}</mat-option>
-      </mat-optgroup>
-    </mat-select>
-  </mat-form-field>
+<ng-container
+ *ngIf="isEdit; then editSavedBet else displayNewForm"></ng-container>
 
-  <p>You selected: put something  here</p>
-</div>
-<div mat-dialog-actions>
-  <button mat-button (click)="onNoClick()">Go Back</button>
-  <button mat-button [mat-dialog-close]="data.Selection" cdkFocusInitial>Update</button>
-</div>
+ <ng-template #editSavedBet>
+   <div mat-dialog-content>
+     <h1>{{data.activeBet.selection}}</h1>
+     <h2> {{data.activeBet.fixture}}</h2>
+     <h3>{{data.activeBet.matchDetail}}</h3>
+
+        <div class="edit-main-fields">
+          <p>TODO Display message verifying updated or not</p>
+          <mat-form-field class="sab-values" appearance="outline">
+            <mat-label>Stake: {{data.activeBet.stake | currency:'GBP'}}</mat-label>
+            <input matInput placeholder="{{data.activeBet.stake}}">
+            <mat-hint>Bet365</mat-hint>
+          </mat-form-field>
+
+         <mat-form-field class="sab-values" appearance="outline">
+           <mat-label>Back Odds: {{data.activeBet.backOdd}}</mat-label>
+           <input matInput placeholder="{{data.activeBet.backOdd}}">
+          </mat-form-field>
+
+          <mat-form-field class="sab-values" appearance="outline">
+            <mat-label>Lay Odds: {{data.activeBet.layOdd}}</mat-label>
+          <input matInput placeholder="{{data.activeBet.layOdd}}">
+        </mat-form-field>
+
+        </div>
+
+
+       <mat-form-field class="sab-values" appearance="outline">
+         <mat-label>Lay Stake: {{data.activeBet.layStake | currency:'GBP'}}</mat-label>
+         <input matInput placeholder="{{data.activeBet.layStake}}">
+         <mat-hint>Smarkets</mat-hint>
+       </mat-form-field>
+
+
+       <mat-form-field class="sab-values" appearance="outline">
+         <mat-label> Liability: {{data.activeBet.liability | currency:'GBP'}}</mat-label>
+         <input matInput placeholder="{{data.activeBet.liability}}">
+       </mat-form-field>
+
+       <mat-form-field class="sab-values" appearance="outline">
+        <mat-label>EV: {{data.activeBet.ev | currency:'GBP'}}</mat-label>
+        <input matInput placeholder="{{data.activeBet.ev}}">
+      </mat-form-field>
+
+      <mat-form-field class="sab-values" appearance="outline">
+        <mat-label>FTA: {{data.activeBet.fta | currency:'GBP'}}</mat-label>
+        <input matInput placeholder="{{data.activeBet.fta}}">
+      </mat-form-field>
+
+      <mat-form-field class="sab-values" appearance="outline">
+        <mat-label>Qualifying Loss: {{data.activeBet.ql | currency:'GBP'}}</mat-label>
+        <input matInput placeholder="{{data.activeBet.ql}}">
+        <mat-hint></mat-hint>
+      </mat-form-field>
+
+      <mat-form-field class="sab-values" appearance="outline">
+        <mat-label>ROI: {{data.activeBet.roi }}</mat-label>
+        <input matInput placeholder="{{data.activeBet.roi}}">
+      </mat-form-field>
+
+      <mat-form-field class="sab-values" appearance="outline">
+        <mat-label>Final P/L: {{data.activeBet.ql | currency:'GBP'}}</mat-label>
+        <input matInput placeholder="{{data.activeBet.ql}}">
+        <mat-hint>Defaulted to QL</mat-hint>
+      </mat-form-field>
+      <button mat-button >Save</button>
+   </div>
+   <div mat-dialog-actions>
+     <!-- <button mat-button (click)="onNoClick()">Go Back</button> -->
+     <button mat-button [mat-dialog-close]="data.Selection" cdkFocusInitial>Update</button>
+   </div>
+ </ng-template>
+
+ <ng-template #displayNewForm>
+  <p>Enter New Match Details for {{data.activeBet.selection}}</p>
+
+ </ng-template>
+

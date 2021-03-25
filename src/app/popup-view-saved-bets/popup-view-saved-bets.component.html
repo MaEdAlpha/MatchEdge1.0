@@ -1,7 +1,9 @@
 <div class="sab-title-container">
   <img class="fc-logo" src="/assets/img/fcLogo/{{data.Selection.toLowerCase().split(' ').join('-')}}.png">
-  <h1 mat-dialog-title> {{data.Selection}}</h1>
-  <h2 mat-dialog-title> {{data.Home}} v. {{data.Away}}</h2>
+  <div class="title-details">
+    <h1 mat-dialog-title> {{data.Selection}}</h1>
+    <h2 mat-dialog-title> {{data.Home}} v. {{data.Away}}</h2>
+  </div>
 </div>
 
 <ng-container
@@ -13,32 +15,26 @@
   <div class="sab-table">
     <mat-action-list  #activeBets [multiple]="false">
       <mat-list-option class="sab-row-header">
-        <h3 class="sab-row-item-header"> Time Stamp </h3>
+        <h3 class="sab-row-item-header"> Created </h3>
         <h3 class="sab-row-item-header"> Event Time </h3>
         <h3 class="sab-row-item-header"> B.Stake </h3>
         <h3 class="sab-row-item-header"> Back </h3>
-        <h3 class="sab-row-item-header"> L.Stake </h3>
         <h3 class="sab-row-item-header"> Lay </h3>
-        <h3 class="sab-row-item-header"> Liability </h3>
-        <h3 class="sab-row-item-header"> EV </h3>
-        <h3 class="sab-row-item-header"> FTA </h3>
+        <h3 class="sab-row-item-header"> FTA Returns </h3>
         <h3 class="sab-row-item-header"> QL </h3>
-        <h3 class="sab-row-item-header"> ROI </h3>
+        <h3 class="sab-row-item-header">Match State</h3>
         <h3 class="sab-row-item-header"> Spacer </h3>
       </mat-list-option>
-      <mat-list-option *ngFor="let activeBet of filteredSabList">
+      <mat-list-option *ngFor="let activeBet of filteredSabList; let i = index">
         <div class="sab-row">
           <p class="sab-row-item">TimeStamp</p>
             <span class="sab-row-item"> {{activeBet.matchDetail}}</span>
-            <span class="sab-row-item"> ${{activeBet.stake}}</span>
+            <span class="sab-row-item"> {{activeBet.stake | currency:'GBP'}}</span>
             <span class="sab-row-item"> {{activeBet.backOdd}}</span>
-            <span class="sab-row-item"> ${{activeBet.layStake}}</span>
             <span class="sab-row-item"> {{activeBet.layOdd}}</span>
-            <span class="sab-row-item"> ${{activeBet.liability}}</span>
-            <span class="sab-row-item">  ${{activeBet.ev}}</span>
-            <span class="sab-row-item"> ${{activeBet.fta}}</span>
-            <span class="sab-row-item">  ${{activeBet.ql}}</span>
-            <span class="sab-row-item"> {{activeBet.roi}}%</span>
+            <span class="sab-row-item"> {{activeBet.fta | currency: 'GBP'}}</span>
+            <span class="sab-row-item">  {{activeBet.ql | currency:'GBP'}}</span>
+
           <button mat-button-raised (click)="editDeleteSab(activeBet, true)" class="sab-row-button"> Edit </button>
         </div>
       </mat-list-option>
@@ -54,9 +50,9 @@
   <div class="sab-table">
     <p class="no-sab-message">You currently have no active bets saved</p>
   </div>
-  <div mat-dialog-actions class="sab-view-btn-container">
-    <button mat-button (click)="onNoClick()">Go Back</button>
-    <button mat-button [mat-dialog-close]="data.Selection" cdkFocusInitial>Add Active Bet</button>
-  </div>
 </ng-template>
 
+<div mat-dialog-actions class="sab-view-btn-container">
+  <!-- <button mat-button (click)="onNoClick()">Go Back</button> -->
+  <button mat-button (click)="onAddClick(data, false)" cdkFocusInitial><mat-icon>add</mat-icon> Active Bet</button>
+</div>

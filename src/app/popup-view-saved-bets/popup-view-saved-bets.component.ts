@@ -41,15 +41,32 @@ export class PopupViewSavedBetsComponent implements AfterViewInit {
       this.dialogRef.close();
     }
 
+    //need match State.
+    onAddClick(activeBet:any, isEdit:boolean):void {
+      console.log(activeBet);
+
+      const dialogRef = this.dialog.open(PopupFormSavedBetsComponent, {
+        width: '33%',
+        height: '66%%',
+        data: {activeBet, isEdit}
+      });
+
+      dialogRef.afterClosed().subscribe( result => {
+        console.log('Form closed');
+
+      })
+
+    }
+
     editDeleteSab(activeBet:ActiveBet, isEdit:boolean): void {
       console.log(activeBet);
       //pass in boolean on whether its an edit, or a manually added active bet
 
       const dialogRef = this.dialog.open(PopupFormSavedBetsComponent, {
-        width: '33%',
-        height: '33%',
+        width: '40%',
+        height: '80%',
         data: {activeBet, isEdit}
-      })
+      });
 
       dialogRef.afterClosed().subscribe( result => {
         console.log('Form closed');

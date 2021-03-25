@@ -1,23 +1,28 @@
 .sab-table {
   display: block;
+  margin-top: 50px;
   margin-right: auto;
   margin-left: auto;
   width: 85%;
   border: 1px solid black;
 }
 
-.sab-row, .sab-title-container{
+.sab-row{
   display: flex;
   justify-content: space-between;
 }
 
+.sab-title-container {
+  display: inline-flex;
+}
+
+.title-details {
+  display: inline-block;
+  margin-left: 10px;
+}
 .sab-row-header {
   display: flex;
   justify-content: space-between;
-}
-
-.sab-row-item-header {
-  /* margin-left: 9%; */
 }
 
 .sab-row-item{

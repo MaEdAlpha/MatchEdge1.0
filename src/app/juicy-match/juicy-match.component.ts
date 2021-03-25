@@ -44,7 +44,7 @@ export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
   noMatchesToDisplay:boolean=true;
   //Used in DOM to select object view container for expansion
   expandedElement: JuicyMatch[] | null;
-  displayedColumns: string[] = ['EventStart', 'Fixture', 'Selection',  'BackOdds', 'LayOdds' , 'FTAround', 'EVthisBet', 'MatchRating'];
+  displayedColumns: string[] = ['EventStart', 'Fixture', 'Selection',  'BackOdds', 'LayOdds' , 'FTAround', 'EVthisBet', 'MatchRating', 'QLPercentage'];
   SecondcolumnsToDisplay: string[] = ['Logo', 'FTAround', 'ReturnRating', 'MatchRating', 'BackOdds', 'LayOdds', 'Liability', 'FTAProfit', 'QL', 'ROI', 'EVthisBet'];
   columnsToDisplay: string[] = this.displayedColumns.slice();
 
@@ -86,6 +86,7 @@ export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
     { field: "FTAround", alias: "FTA" },
     { field: "EVthisBet", alias: "EV ($)" },
     { field: "MatchRating", alias: "Match Rating (%)" },
+    { field: "QLPercentage", alias: "Secret Sauce (%)"},
   ];
 
   notificationSelectedSubscription: Subscription;
