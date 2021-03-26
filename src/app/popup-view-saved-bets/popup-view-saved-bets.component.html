@@ -35,7 +35,7 @@
             <span class="sab-row-item"> {{activeBet.fta | currency: 'GBP'}}</span>
             <span class="sab-row-item">  {{activeBet.ql | currency:'GBP'}}</span>
 
-          <button mat-button-raised (click)="editDeleteSab(activeBet, true)" class="sab-row-button"> Edit </button>
+          <button mat-button (click)="editDeleteSab(activeBet, true)" class="sab-row-button popup-btn"> Edit </button>
         </div>
       </mat-list-option>
     </mat-action-list>
@@ -54,5 +54,5 @@
 
 <div mat-dialog-actions class="sab-view-btn-container">
   <!-- <button mat-button (click)="onNoClick()">Go Back</button> -->
-  <button mat-button (click)="onAddClick(data, false)" cdkFocusInitial><mat-icon>add</mat-icon> Active Bet</button>
+  <button mat-button class="popup-btn" (click)="onAddClick(data, false)" cdkFocusInitial><mat-icon>add</mat-icon> Active Bet</button>
 </div>

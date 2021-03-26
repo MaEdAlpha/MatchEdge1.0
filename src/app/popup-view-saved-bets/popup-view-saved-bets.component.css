@@ -1,10 +1,17 @@
+::ng-deep.mat-dialog-container {
+  background: #192124;
+  border: 1px solid;
+  color: #ffbf0e;
+}
 .sab-table {
   display: block;
   margin-top: 50px;
   margin-right: auto;
   margin-left: auto;
   width: 85%;
-  border: 1px solid black;
+  border: 2px solid #253036;
+  padding: 10px;
+  border-radius: 5px;
 }
 
 .sab-row{
@@ -13,7 +20,10 @@
 }
 
 .sab-title-container {
-  display: inline-flex;
+    display: inline-flex;
+    border: 1px #ffbf0e solid;
+    border-radius: 8px;
+    padding: 10px;
 }
 
 .title-details {
@@ -28,6 +38,8 @@
 .sab-row-item{
   height: fit-content;
   padding: 2px;
+  margin-top: auto;
+  margin-bottom: auto;
 }
 
 .no-sab-message {
@@ -59,3 +71,12 @@
   background: radial-gradient(at 50% 0, #9fa1a0, transparent 70%), linear-gradient(0deg, #586065, transparent 50%) bottom;
   padding: 5px;
 }
+
+::ng-deep.mat-form-field-disabled, ::ng-deep.mat-form-field-label{
+    color: #d6a61c !important;
+}
+
+.popup-btn {
+  border: 1px #222c2f solid !important;
+}
+

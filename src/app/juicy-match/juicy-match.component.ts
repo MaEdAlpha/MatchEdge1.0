@@ -263,8 +263,8 @@ export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
 
   TotalEV(occurence:number, stake:number, backOdds:number, layOdds:number):number{
     var layStake = (+backOdds / +layOdds) * +stake;
-   var result:number = +(+stake * (+backOdds - 1) + +layStake)+ (+layStake- +stake)*(+occurence-1);
-   return result;
+    var result:number = +(+stake * (+backOdds - 1) + +layStake)+ (+layStake- +stake)*(+occurence-1);
+    return result;
   }
 
   ROI(stake:number, backOdds: number, layOdds:number, occurence:number):number{

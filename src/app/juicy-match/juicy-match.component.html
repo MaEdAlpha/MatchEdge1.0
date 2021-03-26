@@ -78,10 +78,12 @@
                                 <p class = "bookie-goto-style">GO TO</p> <img class="bookie-img" src="/assets/img/bet365II.png">
                               </div>
                               <div class="bookie-words-container">
-                                <p class="bookie-bet-style">BET</p> <input formControlName="Stake" class = "value-box-back" placeholder="{{getGroup(i).get('Stake').value}}">
+                                <p class="bookie-bet-style">BET</p>
+                                <input formControlName="Stake" class = "value-box-back" placeholder="{{getGroup(i).get('Stake').value}}">
                               </div>
                               <div class="bookie-words-container">
-                                <p class= "bookie-atodds-style">AT ODDS </p><input formControlName="BackOdds" class = "value-box-back"  placeholder="{{getGroup(i).get('BackOdds').value | number:'0.2-2'}}">
+                                <p class= "bookie-atodds-style">AT ODDS </p>
+                                <input formControlName="BackOdds" class = "value-box-back"  placeholder="{{getGroup(i).get('BackOdds').value | number:'0.2-2'}}">
                               </div>
                               <div class="bookie-words-container">
                                 <p class= "bookie-for-style">FOR </p> <p><div class="bookie-teamname-style">{{selection.Selection}}</div>
