@@ -12,8 +12,8 @@
           <p>TODO Display message verifying updated or not</p>
 
             <mat-form-field class="sab-values" appearance="outline">
-              <mat-label>Stake: {{sabFormValues.get('Stake').value | currency:'GBP'}}</mat-label>
-              <input formControlName="Stake" matInput placeholder="{{sabFormValues.get('Stake').value}}">
+              <mat-label>Current Stake: {{data.activeBet.stake | currency:'GBP'}}</mat-label>
+              <input formControlName="Stake" matInput placeholder="{{getRealtimeUpdate().get('Stake').value}}">
               <mat-hint>Bet365</mat-hint>
             </mat-form-field>
 
@@ -30,8 +30,8 @@
 
           <div class="auto-calculated-fields">
             <mat-form-field class="sab-values" appearance="outline">
-            <mat-label class="auto-calc-label">Lay Stake: {{sabFormValues.get('LayStake').value | currency:'GBP'}}</mat-label>
-            <input class="auto-calc-input" formControlName="LayStake" matInput placeholder="{{ getLayStake( sabFormValues.get('BackOdds').value, sabFormValues.get('LayStake').value, sabFormValues.get('Stake').value) }}" >
+            <mat-label class="auto-calc-label">Lay Stake: {{getLayStake( getRealtimeUpdate().get('BackOdds').value, getRealtimeUpdate().get('LayOdds').value, getRealtimeUpdate().get('Stake').value) | currency:'GBP'}}</mat-label>
+            <input class="auto-calc-input" formControlName="LayStake" matInput placeholder="{{ getLayStake( getRealtimeUpdate().get('BackOdds').value, getRealtimeUpdate().get('LayOdds').value, getRealtimeUpdate().get('Stake').value)  | currency:'GBP'}}" >
             <mat-hint>Smarkets</mat-hint>
           </mat-form-field>
 

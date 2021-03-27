@@ -241,7 +241,7 @@ export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
   {
     // console.log("GETTING GROUP");
 
-    // console.log(this.dataSource.at(index));
+    //console.log(this.dataSource.at(index) as FormGroup);
     return this.dataSource.at(index) as FormGroup
   }
 
