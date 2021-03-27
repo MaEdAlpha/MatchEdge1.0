@@ -33,10 +33,11 @@ table, .no-content {
 }
 
 /* Main Juicy column headers hooks and rows juicy rows */
-.mat-column-BackOdds, .mat-column-LayOdds, .mat-column-EVthisBet, .mat-column-MatchRating {
+.mat-column-BackOdds, .mat-column-LayOdds, .mat-column-EVthisBet, .mat-column-MatchRating, .mat-column-FTAround{
   text-align: center;
   font-size: large;
   font-weight: 500;
+  width: 120px;
 }
 .mat-cell {
   /*-right:  1px solid #00000012;*/
@@ -111,27 +112,31 @@ tr.juicyMatch-row:not(.juicyMatch-expanded-row):active { /* when main container 
   border-radius: 5px;
 }
 .FTAround>span, .ev6box, .mr7box {
-  background: #37474F;
+  background: #333333;
   color: #ffbf0e;
   border-radius: 6px;
   font-size: large;
   padding: 6px;
 }
-.ticker3box {
-  background: #126E51;
+.ticker3box, .ticker4box, .ticker5box {
   color: white;
-  padding: 6px;
-  padding-left: 10px;
-  padding-right: 10px;
-  border-radius: 5px;
+  display: inline;
+  position: absolute;
+  z-index: 2;
+  width: 60%;
+  height: 94%;
+  left: 26px;
+  top: 1px;
+}
+.ticker3box{
+  background: #126e51;
 }
 .ticker4box {
-  background: #005EA6;
-  color: white;
-  padding: 6px;
-  padding-left: 10px;
-  padding-right: 10px;
-  border-radius: 5px;
+  background: #025798;
+}
+
+.fta-ticker-box {
+  background: #4f565c;
 }
 .ticker5box {
   background: blue;
@@ -506,3 +511,54 @@ th.mat-sort-header-sorted {
   color: black;
 }
 
+.b3-odd-cont, .sm-odd-cont, .fta-value-cont {
+  height: 29px;
+  color: #fff;
+  background-size: contain;
+  background-repeat: no-repeat;
+  position: relative;
+  width: 60%;
+  margin-top: 5px;
+  border-radius: 3px;
+}
+
+.b3-odd-cont {
+  background-image: url(/assets/img/b365Odds.png);
+}
+.sm-odd-cont {
+  background-image: url(/assets/img/smOdds.png);
+}
+
+.fta-value-cont {
+  background-image: url(/assets/img/2up.png);
+}
+
+.odd-text {
+  position: absolute;
+  top: 15px;
+  left: 5px;
+}
+.fta-value-text {
+  position: absolute;
+  top: 15px;
+  left: 38px;
+}
+
+.secret-sauce-accent {
+  background: #263238;
+  color: #ffbf0e;
+  font-size: small;
+  font-weight: 500;
+}
+
+th.mat-column-Fixture, th.mat-column-EventStart, th.mat-column-Selection {
+  background: #263238;
+    color: #263238;
+}
+::ng-deep.mat-sort-header-content{
+  margin-left: auto;
+  margin-right: auto;
+}
+::ng-deep.mat-sort-header-arrow {
+  color: #ffbf0e;
+}
