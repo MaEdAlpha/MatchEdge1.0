@@ -39,7 +39,7 @@ export class PopupFormSavedBetsComponent implements OnInit {
   private createForm(data: any) {
     return this.sabFormValues = this.fb.group({
       Stake:new FormControl(data.activeBet.stake),
-      LayStake: new FormControl(data.activeBet.backOdd / data.activeBet.layOdd * data.activeBet.stake),
+      LayStake: new FormControl((data.activeBet.backOdd / data.activeBet.layOdd * data.activeBet.stake).toPrecision(2)),
       BackOdds: new FormControl(data.activeBet.backOdd),
       LayOdds: new FormControl(data.activeBet.layOdd),
     });
@@ -65,8 +65,8 @@ export class PopupFormSavedBetsComponent implements OnInit {
 
   getLayStake(backOdds:number, layOdds:number, stake:number):string {
     var layStake:number = (+backOdds / +layOdds)* + stake;
-
-    return layStake.toPrecision(2);
+    this.sabFormValues.get('LayStake').setValue(layStake.toFixed(2));
+    return layStake.toFixed(2);
   }
 
   testMethod(data){

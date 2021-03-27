@@ -31,7 +31,7 @@
           <div class="auto-calculated-fields">
             <mat-form-field class="sab-values" appearance="outline">
             <mat-label class="auto-calc-label">Lay Stake: {{getLayStake( getRealtimeUpdate().get('BackOdds').value, getRealtimeUpdate().get('LayOdds').value, getRealtimeUpdate().get('Stake').value) | currency:'GBP'}}</mat-label>
-            <input class="auto-calc-input" formControlName="LayStake" matInput placeholder="{{ getLayStake( getRealtimeUpdate().get('BackOdds').value, getRealtimeUpdate().get('LayOdds').value, getRealtimeUpdate().get('Stake').value)  | currency:'GBP'}}" >
+            <input class="auto-calc-input" formControlName="LayStake" matInput placeholder="{{ data.activeBet.layStake.toFixed(2)}}" >
             <mat-hint>Smarkets</mat-hint>
           </mat-form-field>
 
