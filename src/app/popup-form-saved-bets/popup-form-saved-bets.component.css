@@ -2,15 +2,68 @@
   border: 1px #222c2f solid !important;
 }
 
-.auto-calculated-fields{
-  border: 1px black solid;
+.sab-values {
+  position: relative;
+  float: right;
+  text-align: right;
+  width: 100px;
+  margin-top: 2%;
+  margin-right: 5%;
 }
 
 .update-message {
   color: red;
-  width: 100%;
   margin-left: auto;
   margin-right: auto;
   min-height: 30px;
   text-align: center;
+}
+
+.over-ride-pl {
+  display: inline-flex;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 10px;
+}
+
+.bookie-row {
+  margin-left: auto;
+  position: relative;
+  background: radial-gradient(at 52% 0, #126E51, transparent 80%),
+              linear-gradient(201deg, #095940, transparent 76%) top;
+  color: white;
+}
+
+.exchange-row {
+  background: radial-gradient(at 60% 0, #383838, transparent 80%),
+              linear-gradient(181deg, #383838, transparent 80%) bottom;
+  color: white;
+}
+
+.exchange-row, .auto-calculated-fields, .bookie-row {
+  border: 1px black solid;
+  height: 100px;
+  width: 100%;
+  margin-bottom: 5px;
+  border-radius: 5px;
+}
+
+.auto-calculated-fields {
+  background: radial-gradient(at 60% 0, #4a8195, #11171a 80%),
+              linear-gradient(181deg, #383838, transparent 80%) bottom;
+  color: white;
+}
+
+mat-hint {
+  color: white;
+}
+
+.bookie-link {
+  height: 54px;
+  color: #fff;
+  background-size: cover;
+  width: 180px;
+  margin-top: 5px;
+  border-radius: 3px;
+  background-image: url(/assets/img/bet365II.png);
 }

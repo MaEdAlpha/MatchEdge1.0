@@ -22,7 +22,7 @@
         <h3 class="sab-row-item-header"> Lay Odds</h3>
         <h3 class="sab-row-item-header"> FTA Returns </h3>
         <h3 class="sab-row-item-header"> QL </h3>
-        <h3 class="sab-row-item-header">Match State</h3>
+        <h3 class="sab-row-item-header"> Match State</h3>
         <h3 class="sab-row-item-header"> Spacer </h3>
         <h3 class="sab-row-item-header"> Spacer </h3>
       </mat-list-option>
@@ -34,7 +34,7 @@
             <span class="sab-row-item"> {{activeBet.backOdd}}</span>
             <span class="sab-row-item"> {{activeBet.layOdd}}</span>
             <span class="sab-row-item"> {{activeBet.fta | currency: 'GBP'}}</span>
-            <span class="sab-row-item">  {{activeBet.ql | currency:'GBP'}}</span>
+            <span class="sab-row-item"> {{activeBet.ql | currency:'GBP'}}</span>
             <span class="sab-row-item"> <span> {{activeBet.betState ? 'Matched': 'Unmatched'}}</span></span>
 
 
@@ -57,5 +57,5 @@
 
 <div mat-dialog-actions class="sab-view-btn-container">
   <!-- <button mat-button (click)="onNoClick()">Go Back</button> -->
-  <button mat-button class="popup-btn" (click)="onAddClick(data, false)" cdkFocusInitial><mat-icon>add</mat-icon> Active Bet</button>
+  <button mat-button class="popup-btn" (click)="onAddClick(false)" cdkFocusInitial><mat-icon>add</mat-icon> Active Bet</button>
 </div>

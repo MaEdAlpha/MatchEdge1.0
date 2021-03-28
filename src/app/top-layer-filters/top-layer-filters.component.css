@@ -4,7 +4,7 @@
 }
 
 ::ng-deep.mat-form-field-type-mat-select:not(.mat-form-field-disabled) .mat-form-field-flex {
-  background: rgb(255, 255, 255);
+  /* background: rgb(255, 255, 255); */
 }
 
 .hdr-cont {
@@ -58,5 +58,5 @@ div.table-tabs > button {
 }
 
 ::ng-deep.mat-form-field-flex{
-  background: #37474f !important;
+  /* background: #37474f !important; */
 }

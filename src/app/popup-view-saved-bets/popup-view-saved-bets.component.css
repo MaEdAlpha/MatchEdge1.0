@@ -1,7 +1,7 @@
 ::ng-deep.mat-dialog-container {
-  background: #192124;
+  /* background: #192124;
   border: 1px solid;
-  color: #ffbf0e;
+  color: #ffbf0e; */
 }
 .sab-table {
   display: block;
@@ -73,7 +73,7 @@
 }
 
 ::ng-deep.mat-form-field-disabled, ::ng-deep.mat-form-field-label{
-    color: #d6a61c !important;
+    /* color: #d6a61c !important; */
 }
 
 .popup-btn {
