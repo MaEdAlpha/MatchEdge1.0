@@ -12,5 +12,8 @@ export interface ActiveBet {
   fta:number;
   ql:number;
   roi:number;
+  betState:boolean;
+  occ:number;
+  pl:number;
 
 }

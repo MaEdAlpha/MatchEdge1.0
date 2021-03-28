@@ -141,7 +141,7 @@
                               <div class="rcd-btn">
                                 <button mat-raised-button class="exp-button" (click)="saveAsActiveBet(selection, i)">Record Bet</button>
                                 <p class="betState">Lay bet is</p>
-                                <button mat-raised-button class="bet-state-button" [style.background]="selection.activeBetState ? 'green' : 'red'" (click)="selection.activeBetState = !selection.activeBetState">{{ selection.activeBetState ? 'Matched' : 'Unmatched'}}</button>
+                                <button mat-raised-button class="bet-state-button" [style.background]="selection.betState ? 'green' : 'red'" (click)="selection.betState = !selection.betState">{{ selection.betState ? 'Matched' : 'Unmatched'}}</button>
                                 <!-- button match / unmatched  -->
                               </div>
 

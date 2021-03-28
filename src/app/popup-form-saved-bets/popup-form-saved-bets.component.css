@@ -5,3 +5,12 @@
 .auto-calculated-fields{
   border: 1px black solid;
 }
+
+.update-message {
+  color: red;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  min-height: 30px;
+  text-align: center;
+}

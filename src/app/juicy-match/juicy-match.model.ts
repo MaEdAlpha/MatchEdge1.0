@@ -33,6 +33,6 @@ export interface JuicyMatch{
   ignore:boolean;
   notify:boolean;
   activeBet:boolean;
-  activeBetState:boolean;
+  betState:boolean;
   inRange:boolean;
 }

@@ -403,9 +403,13 @@ export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
       var backOdd = activeBetDetails.value.BackOdds;
       var layOdd = activeBetDetails.value.LayOdds;
       var stake = activeBetDetails.value.Stake;
+      console.log("Row Data");
+      console.log(row.betState);
+
+      console.log(row);
+
 
       var activeBet: ActiveBet = {
-
         fixture: row.Fixture,
         selection: row.Selection,
         matchDetail: row.EventStart ,
@@ -418,6 +422,9 @@ export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
         fta: +this.FTA(stake, backOdd, layOdd).toFixed(2),
         ql: +this.QL(backOdd, layOdd, stake).toFixed(2),
         roi: +this.ROI(stake, backOdd, layOdd, row.FTAround).toFixed(2),
+        betState: row.betState,
+        occ: row.FTAround,
+        pl: +this.QL(backOdd, layOdd, stake).toFixed(2),
       }
       return activeBet;
     }
