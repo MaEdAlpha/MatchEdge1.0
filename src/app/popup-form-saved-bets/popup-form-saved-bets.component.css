@@ -1,5 +1,37 @@
+::ng-deep.mat-form-field-appearance-outline, ::ng-deep.mat-form-field-prefix, ::ng-deep.mat-form-field-appearance-outline, ::ng-deep.mat-form-field-suffix {
+  top: 0rem!important;
+}
 .popup-btn {
   border: 1px #222c2f solid !important;
+}
+.title-container {
+  display: inline-flex;
+  position: relative;
+  width: 100%;
+}
+.title-details {
+  margin: 0px;
+  width: 88%;
+  display: inline-block;
+}
+
+.text-details {
+  width: 70%;
+  display: grid;
+}
+
+.logo-container {
+  position: absolute;
+  top: 3%;
+  left: 88%;
+}
+
+.logo {
+  width: 60px;
+  border: 1px solid white;
+  padding: 10px;
+  border-radius: 39px;
+  margin-left: auto;
 }
 
 .sab-values {
@@ -58,6 +90,11 @@ mat-hint {
   color: white;
 }
 
+mat-form-field {
+  top: 0px;
+}
+
+
 .bookie-link {
   height: 54px;
   color: #fff;
@@ -66,4 +103,13 @@ mat-hint {
   margin-top: 5px;
   border-radius: 3px;
   background-image: url(/assets/img/bet365II.png);
+}
+
+span  {
+  display: contents !important;
+  position: unset;
+}
+
+hr {
+  margin-top: 5px;
 }

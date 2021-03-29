@@ -412,7 +412,8 @@ export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
       var activeBet: ActiveBet = {
         fixture: row.Fixture,
         selection: row.Selection,
-        matchDetail: row.EventStart ,
+        logo: row.Selection.toLowerCase().split(' ').join('-'),
+        matchDetail: row.EventStart,
         stake:  stake,
         backOdd: backOdd,
         layOdd: layOdd,

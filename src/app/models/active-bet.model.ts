@@ -2,6 +2,7 @@ export interface ActiveBet {
 
   fixture:string;
   selection:string;
+  logo:string;
   matchDetail:string;
   stake:number;
   backOdd:number;

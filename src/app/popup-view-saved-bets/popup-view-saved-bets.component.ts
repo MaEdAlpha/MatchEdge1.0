@@ -47,6 +47,7 @@ export class PopupViewSavedBetsComponent implements AfterViewInit {
       var activeBet: ActiveBet = {
         fixture: this.data.Fixture,
         selection: this.data.Selection,
+        logo: this.data.Selection.toLowerCase().split(' ').join('-'),
         matchDetail: this.data.Details,
         stake: 0,
         backOdd: 0,

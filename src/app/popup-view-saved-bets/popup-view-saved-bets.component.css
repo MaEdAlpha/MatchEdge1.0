@@ -1,8 +1,8 @@
 ::ng-deep.mat-dialog-container {
-  /* background: #192124;
-  border: 1px solid;
-  color: #ffbf0e; */
+  color:#ffffffec;
+  background: #37474f;
 }
+
 .sab-table {
   display: block;
   margin-top: 50px;

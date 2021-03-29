@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Subject, Subscription } from 'rxjs';
 import { ActiveBet } from '../models/active-bet.model';
@@ -28,19 +28,34 @@ export class PopupFormSavedBetsComponent implements OnInit {
      }
 
   private createForm(data: any) {
+
+    var stakeValidator:ValidatorFn[] = [ Validators.required,Validators.pattern("^[0-9\.]*$"), Validators.maxLength(7)];
+    var oddsValidator: ValidatorFn[] = [ Validators.required, Validators.minLength(1),Validators.pattern("^[0-9\.]*$"), Validators.maxLength(6)];
+
     return this.sabFormValues = this.fb.group({
-      Stake:new FormControl(data.activeBet.stake),
-      LayStake: new FormControl((data.activeBet.backOdd / data.activeBet.layOdd * data.activeBet.stake).toPrecision(2)),
-      BackOdds: new FormControl(data.activeBet.backOdd),
-      LayOdds: new FormControl(data.activeBet.layOdd),
+      Stake:new FormControl(data.activeBet.stake, stakeValidator),
+      LayStake: new FormControl({value:(data.activeBet.backOdd / data.activeBet.layOdd * data.activeBet.stake).toPrecision(2), disabled:true}),
+      BackOdds: new FormControl(data.activeBet.backOdd, oddsValidator),
+      LayOdds: new FormControl(data.activeBet.layOdd, oddsValidator),
       Liability: new FormControl(data.activeBet.liability),
-      QL: new FormControl(data.activeBet.ql),
-      EstValue: new FormControl(data.activeBet.ev),
-      FTA: new FormControl(data.activeBet.fta),
-      ROI: new FormControl(data.activeBet.roi),
+      QL: new FormControl({value:data.activeBet.ql, disabled:true}),
+      EstValue: new FormControl({value:data.activeBet.ev, disabled:true}),
+      FTA: new FormControl({value:data.activeBet.fta, disabled:true}),
+      ROI: new FormControl({value:data.activeBet.roi, disabled:true}),
       BetState: new FormControl(data.activeBet.isMatched),
-      PL: new FormControl(data.activeBet.pl),
+      PL: new FormControl({value:data.activeBet.pl, disabled:true}),
     });
+  }
+
+  getErrorMessage() {
+    console.log(this.sabFormValues);
+
+    if(this.sabFormValues.value.BackOdds.hasError('required')){
+      return 'You must enter a value';
+    }
+    if(this.sabFormValues.value.Stake.hasError('maxLength')){
+      return 'Baller, easy nowww!';
+    }
   }
 
   ngOnInit(): void {
@@ -131,5 +146,6 @@ export class PopupFormSavedBetsComponent implements OnInit {
   calcEVTotal(fta:number, ql:number):number {
     return +fta + (+ql * (+this.data.activeBet.occ - 1));
   }
+
 
 }
