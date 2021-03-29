@@ -20,23 +20,38 @@
     <form [formGroup]="sabFormValues">
       <div class="edit-main-fields">
           <div class="bookie-row">
-            <button mat-button class="bookie-link" href= ''></button>
-            <mat-form-field class="sab-values" appearance="fill">
-              <mat-hint align="end">Back Odds</mat-hint>
-              <mat-label>Prev. {{data.activeBet.backOdd}}</mat-label>
-              <input formControlName="BackOdds" required matInput placeholder="{{getRealtimeUpdate().get('BackOdds').value}}">
-              <mat-error *ngIf="sabFormValues.value.BackOdds.invalid">{{getErrorMessage()}}</mat-error>
-            </mat-form-field>
+            <div class="bookie-column1 column-base ">
+              <p> Back Bet</p>
+            </div>
+            <div class="bookie-column2 column-base ">
+              <button mat-button class="bookie-link bookie-container" href= ''></button>
+            </div>
+            <div class="bookie-column3 column-base ">
+              <mat-form-field class="sab-values" appearance="fill">
+                <mat-hint align="end">Back Odds</mat-hint>
+                <mat-label>Prev. {{data.activeBet.backOdd}}</mat-label>
+                <input formControlName="BackOdds" required matInput placeholder="{{getRealtimeUpdate().get('BackOdds').value}}">
+                <mat-error *ngIf="sabFormValues.value.BackOdds.invalid">{{getErrorMessage()}}</mat-error>
+              </mat-form-field>
 
-            <mat-form-field class="sab-values" appearance="fill">
-              <mat-hint align="end">Stake</mat-hint>
-              <mat-label>Prev. {{data.activeBet.stake | currency:'GBP'}}</mat-label>
-              <input formControlName="Stake" required matInput placeholder="{{getRealtimeUpdate().value.stake | slice : '2' | currency : 'GBP':'1.0-0' }}">
-              <span matPrefix>£&nbsp;</span>
-            </mat-form-field>
+              <mat-form-field class="sab-values" appearance="fill">
+                <mat-hint align="end">Stake</mat-hint>
+                <mat-label>Prev. {{data.activeBet.stake | currency:'GBP'}}</mat-label>
+                <input formControlName="Stake" required matInput placeholder="{{getRealtimeUpdate().value.stake | slice : '2' | currency : 'GBP':'1.0-0' }}">
+                <span matPrefix>£&nbsp;</span>
+              </mat-form-field>
+            </div>
           </div>
 
           <div class="exchange-row">
+
+            <div class="exchange-column1 column-base">
+              <p> Lay Bet</p>
+            </div>
+            <div class="exchange-column2 column-base ">
+              <button mat-button class="exchange-link bookie-container" href= ''></button>
+            </div>
+            <div class="exchange-column3 column-base ">
             <mat-form-field class="sab-values" appearance="outline">
               <mat-hint align="end">Lay Odds</mat-hint>
               <mat-label>Prev. {{data.activeBet.layOdd}}</mat-label>
@@ -49,6 +64,7 @@
               <input class="auto-calc-input" formControlName="LayStake" required matInput placeholder="{{getLayStake( getRealtimeUpdate().get('BackOdds').value, getRealtimeUpdate().get('LayOdds').value, getRealtimeUpdate().get('Stake').value) }}" >
               <span matPrefix>£&nbsp;</span>
             </mat-form-field>
+          </div>
           </div>
       </div>
 

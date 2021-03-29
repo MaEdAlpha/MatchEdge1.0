@@ -72,8 +72,8 @@
   padding: 5px;
 }
 
-::ng-deep.mat-form-field-disabled, ::ng-deep.mat-form-field-label{
-    /* color: #d6a61c !important; */
+::ng-deep.mat-form-field-label{
+    color: #d6a61c !important;
 }
 
 .popup-btn {

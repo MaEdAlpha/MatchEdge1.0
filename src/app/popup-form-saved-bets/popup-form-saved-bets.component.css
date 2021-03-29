@@ -1,6 +1,13 @@
 ::ng-deep.mat-form-field-appearance-outline, ::ng-deep.mat-form-field-prefix, ::ng-deep.mat-form-field-appearance-outline, ::ng-deep.mat-form-field-suffix {
   top: 0rem!important;
 }
+
+::ng-deep.mat-dialog-content {
+  min-height: 70vh !important;
+}
+.mat-form-field-label{
+  color: #d61c9e !important;
+}
 .popup-btn {
   border: 1px #222c2f solid !important;
 }
@@ -67,6 +74,7 @@
 }
 
 .exchange-row {
+  position: relative;
   background: radial-gradient(at 60% 0, #383838, transparent 80%),
               linear-gradient(181deg, #383838, transparent 80%) bottom;
   color: white;
@@ -95,16 +103,22 @@ mat-form-field {
 }
 
 
-.bookie-link {
+.bookie-container{
   height: 54px;
   color: #fff;
   background-size: cover;
   width: 180px;
   margin-top: 5px;
   border-radius: 3px;
+}
+
+.bookie-link {
   background-image: url(/assets/img/bet365II.png);
 }
 
+.exchange-link {
+  background-image: url(/assets/img/smarketsII.png);
+}
 span  {
   display: contents !important;
   position: unset;
@@ -112,4 +126,35 @@ span  {
 
 hr {
   margin-top: 5px;
+}
+
+
+.column-base {
+  display: inline-flex;
+  justify-content: space-between;
+  float: left;
+  width: 30%;
+  margin-top: 10px;
+  margin-left: 36px;
+}
+
+.bookie-column1, .exchange-column1 {
+  width: fit-content;
+  margin-top: 6%;
+  margin-left: 10px;
+  font-size: xx-large;
+}
+
+.bookie-column2{
+  margin-left: 45px;
+}
+.exchange-column2{
+  margin-left: 65px;
+}
+.bookie-column3 > mat-form-field, .exchange-column3  > mat-form-field {
+  margin-right: 30px;
+}
+
+.mat-input-element:disabled{
+  color: #d0cdc4 !important;
 }
