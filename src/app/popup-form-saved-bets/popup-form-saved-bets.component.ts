@@ -24,7 +24,6 @@ export class PopupFormSavedBetsComponent implements OnInit {
       this.isEdit = data.isEdit;
       this.isEarlyCashout=false;
       this.createForm(data);
-      console.log(this.sabFormValues.value.Stake);
      }
 
   private createForm(data: any) {
@@ -42,19 +41,15 @@ export class PopupFormSavedBetsComponent implements OnInit {
       EstValue: new FormControl({value:data.activeBet.ev, disabled:true}),
       FTA: new FormControl({value:data.activeBet.fta, disabled:true}),
       ROI: new FormControl({value:data.activeBet.roi, disabled:true}),
-      BetState: new FormControl(data.activeBet.isMatched),
+      BetState: new FormControl(data.activeBet.betState),
       PL: new FormControl({value:data.activeBet.pl, disabled:true}),
     });
   }
 
   getErrorMessage() {
-    console.log(this.sabFormValues);
-
-    if(this.sabFormValues.value.BackOdds.hasError('required')){
-      return 'You must enter a value';
-    }
-    if(this.sabFormValues.value.Stake.hasError('maxLength')){
-      return 'Baller, easy nowww!';
+    var formInput = this.sabFormValues.controls;
+    if(formInput.BackOdds.errors || formInput.Stake.errors || formInput.LayOdds.errors){
+      return 'Invalid entry';
     }
   }
 
@@ -80,6 +75,7 @@ export class PopupFormSavedBetsComponent implements OnInit {
 
   getLayStake(backOdds:number, layOdds:number, stake:number):string {
     var layStake:number = this.calcLayStake(backOdds, layOdds, stake);
+    layStake = this.filterValue(layStake);
     this.sabFormValues.get('LayStake').setValue(layStake.toFixed(2));
     return layStake.toFixed(2);
   }
@@ -87,13 +83,15 @@ export class PopupFormSavedBetsComponent implements OnInit {
   getLiability(backOdds:number, layOdds:number, stake:number ):string{
     var layStake:number = this.calcLayStake(backOdds, layOdds, stake);
     var liability = (layOdds - 1) * layStake;
+    liability = this.filterValue(liability);
     this.sabFormValues.get('Liability').setValue(liability.toFixed(2));
     return liability.toFixed(2);
   }
 
   getQL(backOdds:number, layOdds:number, stake:number):string{
     var layStake:number = this.calcLayStake(backOdds, layOdds, stake);
-    var ql = layStake-stake
+    var ql = layStake-stake;
+    ql = this.filterValue(ql);
     this.sabFormValues.get('QL').setValue(ql.toFixed(2));
     return ql.toFixed(2);
   }
@@ -103,6 +101,7 @@ export class PopupFormSavedBetsComponent implements OnInit {
     var evTotal:number = this.calcEVTotal(fta, ql);
 
     var evThisBet:number = +(evTotal/+this.data.activeBet.occ);
+    evThisBet = this.filterValue(evThisBet);
     this.sabFormValues.get('EstValue').setValue(evThisBet.toFixed(2));
     return evThisBet.toFixed(2);
   }
@@ -110,6 +109,7 @@ export class PopupFormSavedBetsComponent implements OnInit {
   getFTA(backOdds:number, layOdds:number, stake:number):string{
     var layStake:number = this.calcLayStake(backOdds, layOdds, stake);
     var fta:number = (stake * (backOdds - 1 ) + layStake);
+    fta = this.filterValue(fta);
     this.sabFormValues.get('FTA').setValue(fta.toFixed(2));
     return fta.toFixed(2);
   }
@@ -118,6 +118,7 @@ export class PopupFormSavedBetsComponent implements OnInit {
   getROI(backOdds:number, layOdds:number, stake:number):string{
     var evThisBet:number = +this.getEstValue(backOdds, layOdds, stake);
     var roi = (evThisBet/stake);
+    this.filterValue(backOdds) == 999 ? roi = 999: roi = this.filterValue(roi);
     this.sabFormValues.get('ROI').setValue(roi.toFixed(2));
     return roi.toFixed(2);
   }
@@ -145,6 +146,11 @@ export class PopupFormSavedBetsComponent implements OnInit {
 
   calcEVTotal(fta:number, ql:number):number {
     return +fta + (+ql * (+this.data.activeBet.occ - 1));
+  }
+
+  filterValue(input:number){
+    var value = ( isNaN(input) || !isFinite(input)) ? 999:input;
+    return value;
   }
 
 

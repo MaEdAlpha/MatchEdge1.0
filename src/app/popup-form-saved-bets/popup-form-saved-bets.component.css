@@ -41,6 +41,20 @@
   margin-left: auto;
 }
 
+.sab-matched-container {
+  width: 100%;
+  display: inline-block;
+}
+
+.sab-matched-container > mat-form-field {
+  float:right;
+  width: 100px;
+}
+
+::ng-deep.mat-form-field-underline{
+  display: none !important;
+}
+
 .sab-values {
   position: relative;
   float: right;
@@ -59,10 +73,15 @@
 }
 
 .over-ride-pl {
-  display: inline-flex;
+  display: inline-block;
   margin-left: auto;
-  margin-right: auto;
+  margin-top: 26px;
   margin-bottom: 10px;
+  width: 100%;
+}
+
+.pl-input{
+  float: right;
 }
 
 .bookie-row {
