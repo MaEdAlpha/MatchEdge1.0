@@ -16,5 +16,5 @@ export interface ActiveBet {
   betState:boolean;
   occ:number;
   pl:number;
-
+  comment:string;
 }

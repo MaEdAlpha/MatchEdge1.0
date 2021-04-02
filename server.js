@@ -2,11 +2,8 @@
 const app = require('./backend/app');
 const http = require('http'); //default node.js package already installed on node.js
 const debug = require('debug')('node-angular');
-const WebSocket = require( "ws");
-const MongoClient = require("mongodb").MongoClient;
-const { Socket } = require('dgram');
 const EventEmitter = require('events');
-const streamEmitter = new EventEmitter();
+
 
 const normalizePort = val => {
   var port = parseInt(val,10);

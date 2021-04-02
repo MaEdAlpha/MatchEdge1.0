@@ -13,11 +13,10 @@ export class WebsocketService {
 
   constructor(private matchesService: MatchesService) {
 
-    this.eventSource = new EventSource('http://localhost:3000/api/updates');
   }
 
   public openWebSocket() {
-
+    this.eventSource = new EventSource('http://localhost:3000/api/updates');
     // this.eventSource = new EventSource('/');
     if(!!window.EventSource){
 

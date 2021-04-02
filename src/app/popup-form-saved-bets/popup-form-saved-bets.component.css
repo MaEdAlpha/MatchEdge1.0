@@ -65,7 +65,7 @@
 }
 
 .update-message {
-  color: red;
+  color: #126E51;
   margin-left: auto;
   margin-right: auto;
   min-height: 30px;
@@ -82,6 +82,10 @@
 
 .pl-input{
   float: right;
+}
+
+.user-comments {
+  float: left;
 }
 
 .bookie-row {
@@ -177,3 +181,36 @@ hr {
 .mat-input-element:disabled{
   color: #d0cdc4 !important;
 }
+
+.comments-cont {
+  width: 500px;
+}
+
+.user-comments {
+  width: 100%;
+}
+
+.user-update-notification{
+  display: inline-block;
+  width: 50%;
+}
+
+.glow {
+  color: snow;
+  opacity: .75;
+  text-align: center;
+  animation: glow 1s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+  0% {
+    background:#027b5b;
+  }
+  50% {
+    background: #37726a;
+  }
+  100% {
+    background: #0d5d44;
+  }
+}
+

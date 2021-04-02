@@ -426,6 +426,7 @@ export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
         betState: row.betState,
         occ: row.FTAround,
         pl: +this.QL(backOdd, layOdd, stake).toFixed(2),
+        comment: 'testing',
       }
       return activeBet;
     }

@@ -30,7 +30,7 @@ export class PopupFormSavedBetsComponent implements OnInit {
 
     var stakeValidator:ValidatorFn[] = [ Validators.required,Validators.pattern("^[0-9\.]*$"), Validators.maxLength(7)];
     var oddsValidator: ValidatorFn[] = [ Validators.required, Validators.minLength(1),Validators.pattern("^[0-9\.]*$"), Validators.maxLength(6)];
-
+    var commentValidator: ValidatorFn[] = [Validators.maxLength(140)];
     return this.sabFormValues = this.fb.group({
       Stake:new FormControl(data.activeBet.stake, stakeValidator),
       LayStake: new FormControl({value:(data.activeBet.backOdd / data.activeBet.layOdd * data.activeBet.stake).toPrecision(2), disabled:true}),
@@ -42,14 +42,18 @@ export class PopupFormSavedBetsComponent implements OnInit {
       FTA: new FormControl({value:data.activeBet.fta, disabled:true}),
       ROI: new FormControl({value:data.activeBet.roi, disabled:true}),
       BetState: new FormControl(data.activeBet.betState),
-      PL: new FormControl({value:data.activeBet.pl, disabled:true}),
+      MatchInfo: new FormControl(data.activeBet.comment, commentValidator),
+      PL: new FormControl(data.activeBet.pl, stakeValidator),
     });
   }
 
   getErrorMessage() {
     var formInput = this.sabFormValues.controls;
-    if(formInput.BackOdds.errors || formInput.Stake.errors || formInput.LayOdds.errors){
+    if(formInput.BackOdds.errors || formInput.Stake.errors || formInput.LayOdds.errors || formInput.PL.errors){
       return 'Invalid entry';
+    }
+    if(formInput.MatchInfo.errors){
+      return 'Allowed char. ' + '(' + this.sabFormValues.value.MatchInfo.length + '/' + this.sabFormValues.controls.MatchInfo.errors.maxlength.requiredLength + ')';
     }
   }
 
@@ -62,6 +66,7 @@ export class PopupFormSavedBetsComponent implements OnInit {
 
   onNoClick():void {
     this.dialogRef.close();
+    //Input, if edits have been made, dirty == true, then have a popup asking if you want to exit without saving.
   }
 
   updateForm():void {

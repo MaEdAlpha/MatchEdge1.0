@@ -61,6 +61,7 @@ export class PopupViewSavedBetsComponent implements AfterViewInit {
         betState:false,
         occ: this.data.Selection == this.data.Home ? this.data.OccH: this.data.OccA,
         pl: 0,
+        comment: this.data.comment,
       }
 
       const dialogRef = this.dialog.open(PopupFormSavedBetsComponent, {

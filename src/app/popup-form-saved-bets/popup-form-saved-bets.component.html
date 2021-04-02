@@ -16,7 +16,6 @@
       </div>
     </div>
     <hr>
-    <h3 class="update-message"> {{sabFormValues.dirty ? 'Update Changes?' : ''}}</h3>
     <form [formGroup]="sabFormValues">
       <div class="edit-main-fields">
         <div class="sab-matched-container">
@@ -110,18 +109,27 @@
           <span matSuffix>%&nbsp;</span>
           <mat-hint align="end">ROI</mat-hint>
         </mat-form-field>
+      </div>
 
         <div class="over-ride-pl">
           <div class="pl-input">
             <mat-form-field class="sab-values" appearance="outline">
               <mat-hint>Final P/L</mat-hint>
               <mat-label class="auto-calc-label">Current. {{data.activeBet.pl | currency:'GBP'}}</mat-label>
-              <input class="auto-calc-input" formControlName="PL" matInput placeholder="{{data.activeBet.pl}}">
+              <input class="auto-calc-input" formControlName="PL" required matInput placeholder="{{getRealtimeUpdate().get('PL').value}}">
+              <mat-error *ngIf="sabFormValues.controls.PL.errors">{{getErrorMessage()}}</mat-error>
+            </mat-form-field>
+          </div>
+          <div class="comments-cont">
+            <mat-form-field class="user-comments" appearance="outline">
+              <mat-label class="auto-calc-label">Match Comments</mat-label>
+              <textarea class="auto-calc-input" formControlName="MatchInfo" required matInput placeholder="Enter comments here..."></textarea>
+              <mat-hint> Allowed char. ({{sabFormValues.value.MatchInfo.length}}/140)</mat-hint>
+              <mat-error *ngIf="sabFormValues.controls.MatchInfo.errors">{{getErrorMessage()}} </mat-error>
             </mat-form-field>
           </div>
           <!-- <button mat-button class="popup-btn" (click)="isEarlyCashout=!isEarlyCashout" >Override</button> -->
         </div>
-      </div>
 
     </form>
         <!-- How to handle this, all in on form? -->
@@ -129,7 +137,10 @@
 
   <div mat-dialog-actions>
     <button mat-button class="popup-btn" (click)="onNoClick()"> Cancel </button>
-    <button mat-button class="popup-btn" (click)="updateForm()"cdkFocusInitial>Update</button>
+    <button mat-button class="popup-btn" (click)="updateForm()"cdkFocusInitial [ngClass]="{'glow' : sabFormValues.dirty && sabFormValues.status == 'VALID'}">Update</button>
+    <div class="user-update-notification">
+      <h4 class="update-message cdk-global-overlay-wrapper"> {{sabFormValues.dirty && sabFormValues.status == "VALID" ? 'Update Changes?' : ''}}</h4>
+    </div>
   </div>
 </ng-template>
 
