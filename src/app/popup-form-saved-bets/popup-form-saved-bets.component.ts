@@ -16,6 +16,7 @@ export class PopupFormSavedBetsComponent implements OnInit {
   isEdit:boolean;
   isEarlyCashout:boolean;
   sabFormValues: FormGroup;
+  isDisabled:boolean;
 
   constructor(private chRef: ChangeDetectorRef, public dialogRef: MatDialogRef<PopupFormSavedBetsComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any, private savedActiveBetService: SavedActiveBetsService, private fb: FormBuilder ) {
@@ -23,12 +24,13 @@ export class PopupFormSavedBetsComponent implements OnInit {
       this.sabList = this.savedActiveBetService.getSelectionSAB(this.data.activeBet);
       this.isEdit = data.isEdit;
       this.isEarlyCashout=false;
+      this.isDisabled=true;
       this.createForm(data);
      }
 
   private createForm(data: any) {
 
-    var stakeValidator:ValidatorFn[] = [ Validators.required,Validators.pattern("^[0-9\.]*$"), Validators.maxLength(7)];
+    var stakeValidator:ValidatorFn[] = [ Validators.required,Validators.pattern("^[0-9\.\-]*$"), Validators.maxLength(7)];
     var oddsValidator: ValidatorFn[] = [ Validators.required, Validators.minLength(1),Validators.pattern("^[0-9\.]*$"), Validators.maxLength(6)];
     var commentValidator: ValidatorFn[] = [Validators.maxLength(140)];
     return this.sabFormValues = this.fb.group({
@@ -70,11 +72,18 @@ export class PopupFormSavedBetsComponent implements OnInit {
   }
 
   updateForm():void {
-    console.log(this.sabFormValues);
 
+    if(!this.isDisabled){
+      console.log(this.sabFormValues);
+      //save data in directive
+      this.dialogRef.close();
+    }
   }
 
   getRealtimeUpdate(){
+    console.log(this.sabFormValues.touched + " " + this.sabFormValues.status );
+
+    this.sabFormValues.touched && this.sabFormValues.status == 'VALID' ? this.isDisabled=false : this.isDisabled=true;
     return this.sabFormValues;
   }
 

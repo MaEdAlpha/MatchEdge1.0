@@ -137,7 +137,7 @@
 
   <div mat-dialog-actions>
     <button mat-button class="popup-btn" (click)="onNoClick()"> Cancel </button>
-    <button mat-button class="popup-btn" (click)="updateForm()"cdkFocusInitial [ngClass]="{'glow' : sabFormValues.dirty && sabFormValues.status == 'VALID'}">Update</button>
+    <button mat-button class="popup-btn" (click)="updateForm()" [disabled]="isDisabled" [ngClass]="{'glow' : sabFormValues.touched && sabFormValues.status == 'VALID'}">Update</button>
     <div class="user-update-notification">
       <h4 class="update-message cdk-global-overlay-wrapper"> {{sabFormValues.dirty && sabFormValues.status == "VALID" ? 'Update Changes?' : ''}}</h4>
     </div>
