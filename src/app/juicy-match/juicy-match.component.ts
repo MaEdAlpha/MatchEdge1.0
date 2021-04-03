@@ -217,6 +217,7 @@ export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
       switch (sort.active) {
         case 'EVthisBet': return compare(a['EVthisBet'], b['EVthisBet'], isAsc);
         case 'MatchRating': return compare(a['MatchRating'], b['MatchRating'], isAsc);
+        case 'QLPercentage': return compare(a['QLPercentage'], b['QLPercentage'], isAsc);
         default: return 0;
       }
     });
