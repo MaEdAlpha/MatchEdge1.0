@@ -31,6 +31,11 @@
                               <p class="odd-text"> {{ selection[column.field] | number:'0.2-2'}}  </p>
                             </div>
                           </div>
+
+                          <div *ngIf="column.field.endsWith('EpochTime')">
+                            {{selection[column.field]*1000 | date: "dd LLL HH:mm"}}
+
+                          </div>
                             <div class="juicyCell sm-odd-cont" *ngIf="column.field.endsWith('LayOdds')">
                               <!-- <img  class="odds-img" src="/assets/img/smarketsIcon.png" alt=""> -->
                               <div class="ticker{{(flickerColmnIndex)}}box" appFlickerDataLay [flickerColmnIndex]="flickerColmnIndex" [isUpdated]="selection.layIsUpdated">
@@ -52,7 +57,7 @@
                                     <div class="juicyCell QLPercentage" *ngIf="column.field.endsWith('Percentage')">
                                       <span> {{selection[column.field] | number: '0.2-2'}} </span>
                                     </div>
-                                      <span *ngIf="!column.field.endsWith('Odds') && !column.field.endsWith('Bet') && !column.field.endsWith('Rating') && !column.field.endsWith('Around') && !column.field.endsWith('Percentage')"> {{ selection[column.field] }}</span>
+                                      <span *ngIf="!column.field.endsWith('Odds') && !column.field.endsWith('EpochTime') && !column.field.endsWith('Bet') && !column.field.endsWith('Rating') && !column.field.endsWith('Around') && !column.field.endsWith('Percentage')"> {{ selection[column.field] }}</span>
                       </ng-container>
                     </ng-container>
                   </ng-container>
@@ -126,39 +131,40 @@
                                 </div>
 
 
-                                <div class="jm-exp-details-col2row3">
+                              <div class="jm-exp-details-col2row3">
 
                                   <div class="selection-figures row4-row1">
                                     <div class="r1 r1-col1">
                                       <h3 class="selection-figures-content1">ROI:</h3>
-                                <span class="selection-figures-content1">{{ ROI(getGroup(i).get('Stake').value, getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value, selection.FTAround) | number:'0.2-2'}} %</span>
-                              </div>
-                              <div class="r1 r1-col2">
-                                <h3 class="selection-figures-content2">Full Turnaround: </h3>
-                                <span class="selection-figures-content2"> {{ FTA(getGroup(i).get('Stake').value, getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value  ) | currency:'GBP'}}</span></div>
-                              </div>
+                                      <span class="selection-figures-content1">{{ ROI(getGroup(i).get('Stake').value, getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value, selection.FTAround) | number:'0.2-2'}} %</span>
+                                    </div>
 
+                                    <div class="r1 r1-col2">
+                                      <h3 class="selection-figures-content2">FTA: </h3>
+                                      <span class="selection-figures-content2"> {{ FTA(getGroup(i).get('Stake').value, getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value  ) | currency:'GBP'}}</span></div>
+                                    </div>
+
+
+                                    <div class="selection-figures row4-row2">
+                                      <div class="r2 r2-col1">
+                                        <h3 class="selection-figures-content1">EV: </h3>
+                                        <span class="selection-figures-content2">{{ TotalEV( selection.FTAround,  getGroup(i).get('Stake').value, getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value)  | currency:'GBP' }}</span>
+                                      </div>
+
+                                      <div class="r2 r2-col2">
+                                        <h3 class="selection-figures-content2">QL: </h3>
+                                        <span class="selection-figures-content2"> {{ QL( getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value, getGroup(i).get('Stake').value) | currency:'GBP'}}  </span>
+                                      </div>
+                                    </div>
+
+
+                              </div>
                               <div class="rcd-btn">
                                 <button mat-raised-button class="exp-button" (click)="saveAsActiveBet(selection, i)">Record Bet</button>
                                 <p class="betState">Lay bet is</p>
                                 <button mat-raised-button class="bet-state-button" [style.background]="selection.betState ? 'green' : 'red'" (click)="selection.betState = !selection.betState">{{ selection.betState ? 'Matched' : 'Unmatched'}}</button>
                                 <!-- button match / unmatched  -->
                               </div>
-
-                              <div class="selection-figures row4-row2">
-                                <div class="r2 r2-col1">
-                                  <h3 class="selection-figures-content1">Total EV: </h3>
-                                  <span class="selection-figures-content2">{{ TotalEV( selection.FTAround,  getGroup(i).get('Stake').value, getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value)  | currency:'GBP' }}</span>
-                                </div>
-
-                                <div class="r2 r2-col2">
-                                  <h3 class="selection-figures-content2">Qualifying Loss: </h3>
-                                  <span class="selection-figures-content2"> {{ QL( getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value, getGroup(i).get('Stake').value) | currency:'GBP'}}  </span>
-                                </div>
-                              </div>
-
-
-                            </div>
                           </div>
 
                         </div>

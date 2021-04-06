@@ -21,7 +21,8 @@ mat-row {
 .OccA, .OccH {
   margin-right: auto;
     margin-left: auto;
-    background: #202020;
+    /* background: #e0e1e2; */
+    background: radial-gradient(at 50% 0, #9fa1a0, transparent 70%), linear-gradient(0deg, #e0e1e2, transparent 50%) bottom;
     color: #ffbf0e;
     padding: 6px;
     border-radius: 5px;
@@ -242,16 +243,16 @@ span.BHome, span.BAway, span.SMHome, span.SMAway, span.BHome, span.BAway {
 .awayodds-container{
   margin-right: auto;
 }
-span.BAway, span.BHome{
+/* span.BAway, span.BHome{
   background: #f9a825;
  background-image: linear-gradient(to top, #f5b95a, #ee9a12);
   font-family: Bahnschrift SemiBold;
   font-size: large;
-}
+} */
 
-span.SMAway, span.SMHome{
+/* span.SMAway, span.SMHome{
   background: rgb(14, 47, 155);
-}
+} */
 
 mat-header-cell.cdk-column-Home, mat-header-cell.cdk-column-Away, mat-header-cell.cdk-column-FixturesDate {
   background: #404040;
@@ -357,9 +358,7 @@ button.viewCell {
   hyphens: auto;
 }
 /* Empty Cells */
-.cdk-column-SMAway,
 .cdk-column-AStatus,
-.cdk-column-SMHome,
 .cdk-column-HStatus {
   word-wrap: break-word !important;
   white-space: unset !important;
@@ -396,6 +395,8 @@ button.viewCell {
 }
 
 /* Bet365 Odds */
+.cdk-column-SMAway,
+.cdk-column-SMHome,
 .cdk-column-BHome,
 .cdk-column-BAway {
   word-wrap: break-word !important;
@@ -415,4 +416,25 @@ button.viewCell {
 
 
 
+.b3-odd-cont, .sm-odd-cont, .fta-value-cont{
+  height: 29px;
+  color: #263238;
+  background-size: contain;
+  background-repeat: no-repeat;
+  position: relative;
+  width: 60%;
+  margin-top: 5px;
+  border-radius: 10px;
+}
 
+
+.b3-odd-cont {
+  background-image: url(/assets/img/b365Odds.png);
+}
+.sm-odd-cont {
+  background-image: url(/assets/img/smOdds.png);
+}
+
+.fta-value-cont {
+  /* background-image: url(/assets/img/2up.png); */
+}

@@ -462,27 +462,32 @@ padding-top: 8%;
 
 /* Additional bet details*/
 .jm-exp-details-col2row3{
-  width: 100%;
-  float: right;
+  width: 66%;
+  float: left;
   margin-top: 5px;
+  padding: 15px 0px;
+  margin-left: 5px;
+  border-radius: 10px;
+  background: radial-gradient(at 60% 0, #424242, transparent 86%), linear-gradient(5deg, #234e40, transparent 80%) bottom;
+  color: white;
 }
+
 .r1, .r2 {
   width: 35%;
   display: inline-block;
 }
-.selection-figures-content1 {
-  width: 25%;
+.selection-figures-content1, .selection-figures-content2 {
+  width: fit-content;
   display: inline-flex;
   font-size: large;
+  padding-left: 20px;
+  margin: 0;
 }
-.selection-figures-content2 {
-  width: 50%;
-  display: inline-flex;
-  font-size: large;
-}
+
 .selection-figures {
-  display: contents;
-  width: 60%;
+  display: inline-flex;
+  width: 50%;
+  justify-content: space-around;
 }
 
 

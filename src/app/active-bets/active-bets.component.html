@@ -10,13 +10,13 @@
 
 
     <ng-container *ngIf="column.endsWith('isSettled')">
-      <th mat-header-cell *matHeaderCellDef> {{column}} </th>
-      <td mat-cell *matCellDef="let element"> <button mat-raised-button (click)="element[column] = !element[column]; $event.stopPropagation()"> <span *ngIf="element[column]"> Settled</span> <span *ngIf="!element[column]">Unsettled</span>  </button> </td>
+      <th mat-header-cell *matHeaderCellDef> </th>
+      <td mat-cell *matCellDef="let element"> <button mat-raised-button (click)="element[column] = !element[column]; $event.stopPropagation()"> <span *ngIf="element[column]"> Settled</span> <span *ngIf="!element[column]">Open</span>  </button> </td>
     </ng-container>
 
   <ng-container *ngIf="column.endsWith('betState')">
-    <th mat-header-cell *matHeaderCellDef> {{column}}</th>
-    <td mat-cell *matCellDef="let element"> <button mat-raised-button (click)="element[column] = !element[column]; $event.stopPropagation()"> <span *ngIf="element[column]"> Matched </span> <span *ngIf="!element[column]"> Unmatched</span> </button></td>
+    <th mat-header-cell *matHeaderCellDef> Lay Status</th>
+    <td mat-cell *matCellDef="let element"> <button class="status-button" mat-raised-button (click)="element[column] = !element[column]; $event.stopPropagation()"> <span *ngIf="element[column]"> Matched </span> <span *ngIf="!element[column]"> Unmatched</span> </button></td>
 
   </ng-container>
 

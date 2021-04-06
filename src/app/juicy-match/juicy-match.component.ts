@@ -16,12 +16,7 @@ import { DateHandlingService } from '../services/date-handling.service';
 import { NotificationBoxService } from '../services/notification-box.service';
 import { MatSort, Sort } from '@angular/material/sort';
 import { SavedActiveBetsService } from '../services/saved-active-bets.service';
-
 import { ActiveBet } from '../models/active-bet.model';
-
-
-
-
 
 @Component({
   selector: 'app-juicy-match',
@@ -44,7 +39,7 @@ export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
   noMatchesToDisplay:boolean=true;
   //Used in DOM to select object view container for expansion
   expandedElement: JuicyMatch[] | null;
-  displayedColumns: string[] = ['EventStart', 'Fixture', 'Selection',  'BackOdds', 'LayOdds' , 'FTAround', 'EVthisBet', 'MatchRating', 'QLPercentage'];
+  displayedColumns: string[] = ['EpochTime', 'Fixture', 'Selection',  'BackOdds', 'LayOdds' , 'FTAround', 'EVthisBet', 'MatchRating', 'QLPercentage'];
   SecondcolumnsToDisplay: string[] = ['Logo', 'FTAround', 'ReturnRating', 'MatchRating', 'BackOdds', 'LayOdds', 'Liability', 'FTAProfit', 'QL', 'ROI', 'EVthisBet'];
   columnsToDisplay: string[] = this.displayedColumns.slice();
 
@@ -78,7 +73,7 @@ export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
   @ViewChild(MatSort) sort: MatSort;
 
   columnHeaders: any[] = [
-    { field: "EventStart" , alias: "Event Start" },
+    { field: "EpochTime" , alias: "Event Start" },
     { field: "Fixture", alias: "Match" },
     { field: "Selection", alias: "Selection" },
     { field: "BackOdds", alias: "Back Odds" },

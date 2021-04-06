@@ -16,17 +16,32 @@
                       <!-- <ng-container *ngIf="oldNews(row['EpochTime'])"> -->
 
 
-                          <ng-container *ngIf="column.field.endsWith('BHome') || column.field.endsWith('OccH')">
+                          <ng-container *ngIf="column.field.endsWith('BHome') || column.field.endsWith('OccH') || column.field.endsWith('SMHome')">
                             <div class="homeodds-container">
-                              <ng-container *ngIf="column.field.endsWith('BHome')" ></ng-container>
-                              <span class="{{column.field}} homeOccCell"> {{ row[column.field] | number:'0.2-2'}}</span>
+                              <ng-container *ngIf="column.field.endsWith('BHome')" >
+                                <span class="{{column.field}} homeOccCell b3-odd-cont"> {{ row[column.field] | number:'0.2-2'}}</span>
+                              </ng-container>
+                              <ng-container *ngIf="column.field.endsWith('SMHome')">
+                                <span class="{{column.field}} homeOccCell sm-odd-cont"> {{ row[column.field] | number:'0.2-2'}}</span>
+                              </ng-container>
+                              <ng-container *ngIf="column.field.endsWith('OccH')">
+                                <span class="{{column.field}} homeOccCell fta-value-cont"> {{ row[column.field] | number:'1.0-0'}}</span>
+                              </ng-container>
                             </div>
                           </ng-container>
 
-                          <ng-container *ngIf="column.field.endsWith('OccA') || column.field.endsWith('BAway')">
+                          <ng-container *ngIf="column.field.endsWith('OccA') || column.field.endsWith('BAway') || column.field.endsWith('SMAway')">
                             <div class="awayodds-container">
-                              <ng-container *ngIf="column.field.endsWith('BAway')" ></ng-container>
-                              <span class="{{column.field}} awayOccCell"> {{ row[column.field] | number:'0.2-2'}}</span>
+                              <ng-container *ngIf="column.field.endsWith('BAway')" >
+                                <span class="{{column.field}} awayOccCell b3-odd-cont"> {{ row[column.field] | number:'0.2-2'}}</span>
+                              </ng-container>
+                              <ng-container *ngIf="column.field.endsWith('SMAway')">
+                                <span class="{{column.field}} awayOccCell sm-odd-cont"> {{ row[column.field] | number:'0.2-2'}}</span>
+                              </ng-container>
+                              <ng-container *ngIf="column.field.endsWith('OccA')">
+                                <span class="{{column.field}} awayOccCell fta-value-cont"> {{ row[column.field] | number:'1.0-0'}}</span>
+                              </ng-container>
+
                             </div>
                           </ng-container>
 
