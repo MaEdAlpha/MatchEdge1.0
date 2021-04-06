@@ -112,7 +112,7 @@ export class ActiveBetsComponent implements OnInit {
     },
   ];
 
-  columnsToDisplay = ['created', 'fixture', 'selection', 'matchDetail', 'backOdd', 'stake', 'layOdd', 'layStake', 'ql', 'isSettled'];
+  columnsToDisplay = ['created', 'fixture', 'selection', 'matchDetail', 'backOdd', 'stake', 'layOdd', 'layStake', 'ql', 'betState', 'isSettled'];
 
   expandedElement: ActiveBet[] | null;
 
