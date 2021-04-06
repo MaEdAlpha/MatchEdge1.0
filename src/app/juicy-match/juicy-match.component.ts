@@ -6,16 +6,16 @@ import {animate, state, style, transition, trigger} from '@angular/animations';
 
 import { JuicyMatch } from './juicy-match.model';
 import { Subscription } from 'rxjs';
-import { MatchStatsService } from '../match-stats.service';
+import { MatchStatsService } from '../services/match-stats.service';
 import { MatchesService } from '../match/matches.service';
 import { SidenavService } from '../view-table-sidenav/sidenav.service';
-import { UserPropertiesService } from '../user-properties.service';
+import { UserPropertiesService } from '../services/user-properties.service';
 import { TablePreferences } from '../user-properties.model';
-import { MatchStatusService } from '../match-status.service';
-import { DateHandlingService } from '../date-handling.service';
-import { NotificationBoxService } from '../notification-box.service';
+import { MatchStatusService } from '../services/match-status.service';
+import { DateHandlingService } from '../services/date-handling.service';
+import { NotificationBoxService } from '../services/notification-box.service';
 import { MatSort, Sort } from '@angular/material/sort';
-import { SavedActiveBetsService } from '../popup-view-saved-bets/saved-active-bets.service';
+import { SavedActiveBetsService } from '../services/saved-active-bets.service';
 
 import { ActiveBet } from '../models/active-bet.model';
 
@@ -411,10 +411,11 @@ export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
 
 
       var activeBet: ActiveBet = {
+        created: Date.now(),
         fixture: row.Fixture,
         selection: row.Selection,
         logo: row.Selection.toLowerCase().split(' ').join('-'),
-        matchDetail: row.EventStart,
+        matchDetail: row.EpochTime*1000,
         stake:  stake,
         backOdd: backOdd,
         layOdd: layOdd,
@@ -428,6 +429,7 @@ export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
         occ: row.FTAround,
         pl: +this.QL(backOdd, layOdd, stake).toFixed(2),
         comment: 'testing',
+        isSettled: false,
       }
       return activeBet;
     }

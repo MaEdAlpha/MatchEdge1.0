@@ -3,7 +3,7 @@ import { FormArray, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Subject, Subscription } from 'rxjs';
 import { ActiveBet } from '../models/active-bet.model';
-import { SavedActiveBetsService } from '../popup-view-saved-bets/saved-active-bets.service';
+import { SavedActiveBetsService } from '../services/saved-active-bets.service';
 
 @Component({
   selector: 'app-popup-form-saved-bets',

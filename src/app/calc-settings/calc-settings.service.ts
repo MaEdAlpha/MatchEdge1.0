@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { UserPropertiesService } from '../user-properties.service';
+import { UserPropertiesService } from '../services/user-properties.service';
 import { CalcSettings } from './calc-settings.model';
 
 @Injectable({

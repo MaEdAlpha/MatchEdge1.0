@@ -1,8 +1,8 @@
 import { Injectable, EventEmitter } from '@angular/core';
-import { CalcSettingsService } from './calc-settings/calc-settings.service';
+import { CalcSettingsService } from '../calc-settings/calc-settings.service';
 import { UserPropertiesService } from './user-properties.service';
-import { JuicyMatch } from './juicy-match/juicy-match.model';
-import { Match } from './match/match.model';
+import { JuicyMatch } from '../juicy-match/juicy-match.model';
+import { Match } from '../match/match.model';
 import { Observable, Subject, from } from "rxjs";
 import { NotificationBoxService } from './notification-box.service';
 

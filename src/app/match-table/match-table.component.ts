@@ -9,12 +9,12 @@ import { Match } from '../match/match.model';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { StatusDisableDialogueComponent } from '../status-disable-dialogue/status-disable-dialogue.component';
 import { ToastrService } from 'ngx-toastr';
-import { NotificationBoxService } from '../notification-box.service';
+import { NotificationBoxService } from '../services/notification-box.service';
 import { DatePipe, getLocaleDateFormat } from '@angular/common';
 import { SidenavService } from '../view-table-sidenav/sidenav.service';
-import { UserPropertiesService } from '../user-properties.service';
-import { MatchStatusService } from '../match-status.service';
-import { DateHandlingService } from '../date-handling.service';
+import { UserPropertiesService } from '../services/user-properties.service';
+import { MatchStatusService } from '../services/match-status.service';
+import { DateHandlingService } from '../services/date-handling.service';
 import { Observable } from 'rxjs';
 import { MatCheckbox } from '@angular/material/checkbox';
 

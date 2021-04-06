@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { TriggerOdds } from './trigger-odds.model';
-import  { UserPropertiesService } from '../user-properties.service';
+import { TriggerOdds } from '../match-notification-settings/trigger-odds.model';
+import  { UserPropertiesService } from './user-properties.service';
 @Injectable({
   providedIn: 'root'
 })

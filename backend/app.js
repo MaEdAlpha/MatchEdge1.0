@@ -76,7 +76,6 @@ app.get('/api/updates',  function(req, res) {
 
   const collection =  client.db("MBEdge").collection("matches");
   const changeStream = collection.watch();
-  console.log("Listening...");
   changeStream.on('change', (next) => {
     var data = JSON.stringify(next.fullDocument);
     var msg = ("event: message\n" + "data: " + data + "\n\n");

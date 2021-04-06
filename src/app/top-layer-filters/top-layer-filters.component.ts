@@ -1,11 +1,11 @@
 import { Component, OnInit, EventEmitter, Output, OnChanges, SimpleChanges } from '@angular/core';
-import { DateHandlingService } from '../date-handling.service';
-import { MatchStatusService } from '../match-status.service';
-import { UserPropertiesService } from '../user-properties.service';
+import { DateHandlingService } from '../services/date-handling.service';
+import { MatchStatusService } from '../services/match-status.service';
+import { UserPropertiesService } from '../services/user-properties.service';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { SidenavService } from '../view-table-sidenav/sidenav.service';
 import { Subscription } from 'rxjs';
-import { NotificationBoxService } from '../notification-box.service';
+import { NotificationBoxService } from '../services/notification-box.service';
 
 interface DateOptions {
   value: string;

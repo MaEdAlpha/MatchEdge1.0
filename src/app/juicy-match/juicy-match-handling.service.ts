@@ -1,5 +1,5 @@
 import { Injectable, EventEmitter, ChangeDetectorRef } from '@angular/core';
-import { MatchStatsService } from '../match-stats.service';
+import { MatchStatsService } from '../services/match-stats.service';
 import { Observable, Subject, from } from "rxjs";
 import { MatchesService } from '../match/matches.service';
 

@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { TriggerOdds } from './trigger-odds.model';
 import { NgForm } from '@angular/forms';
-import { UserPropertiesService } from '../user-properties.service';
+import { UserPropertiesService } from '../services/user-properties.service';
 
 @Component({
   selector: 'app-match-notification-settings',

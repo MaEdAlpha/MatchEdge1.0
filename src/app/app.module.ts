@@ -32,8 +32,8 @@ import { IsJuicyService } from './juicy-match/is-juicy.service';
 import { JuicyMatchHandlingService } from './juicy-match/juicy-match-handling.service';
 import { MatchDisplayService } from './match/match-display.service';
 import { MatchesService } from './match/matches.service';
-import { MatchNotificationService } from './match-notification-settings/match-notification.service';
-import { UserPropertiesService } from './user-properties.service';
+import { MatchNotificationService } from './services/match-notification.service';
+import { UserPropertiesService } from './services/user-properties.service';
 import { WebsocketService } from './websocket.service';
 
 //Components
@@ -69,11 +69,12 @@ import { InactiveMatchDirective } from './directives/inactive-match.directive';
 //Pipe
 import { HeaderDatePipe } from './pipes/hdr.datepipe';
 import { TimeDatePipe } from './pipes/time.datepipe';
-import { DateHandlingService } from './date-handling.service';
-import { MatchStatusService } from './match-status.service';
+import { DateHandlingService } from './services/date-handling.service';
+import { MatchStatusService } from './services/match-status.service';
 import { MatSortModule } from '@angular/material/sort';
 import { PopupViewSavedBetsComponent } from './popup-view-saved-bets/popup-view-saved-bets.component';
 import { PopupFormSavedBetsComponent } from './popup-form-saved-bets/popup-form-saved-bets.component';
+import { ActiveBetsComponent } from './active-bets/active-bets.component';
 
 
 
@@ -108,7 +109,8 @@ import { PopupFormSavedBetsComponent } from './popup-form-saved-bets/popup-form-
     TimeDatePipe,
     InactiveMatchDirective,
     PopupViewSavedBetsComponent,
-    PopupFormSavedBetsComponent
+    PopupFormSavedBetsComponent,
+    ActiveBetsComponent
   ],
   imports: [
     AppRoutingModule,

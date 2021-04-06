@@ -1,9 +1,9 @@
 export interface ActiveBet {
-
+  created:number;
   fixture:string;
   selection:string;
   logo:string;
-  matchDetail:string;
+  matchDetail:number;
   stake:number;
   backOdd:number;
   layOdd:number;
@@ -17,4 +17,5 @@ export interface ActiveBet {
   occ:number;
   pl:number;
   comment:string;
+  isSettled:boolean;
 }

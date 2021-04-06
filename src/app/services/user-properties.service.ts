@@ -1,11 +1,11 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Observable, Subject } from 'rxjs';
-import { CalcSettings } from './calc-settings/calc-settings.model';
-import { CalcSettingsService } from './calc-settings/calc-settings.service';
-import { TriggerOdds } from './match-notification-settings/trigger-odds.model';
+import { CalcSettings } from '../calc-settings/calc-settings.model';
+import { CalcSettingsService } from '../calc-settings/calc-settings.service';
+import { TriggerOdds } from '../match-notification-settings/trigger-odds.model';
 import { NotificationBoxService } from './notification-box.service';
-import { TablePreferences } from './user-properties.model';
+import { TablePreferences } from '../user-properties.model';
 
 @Injectable({
   providedIn: 'root'

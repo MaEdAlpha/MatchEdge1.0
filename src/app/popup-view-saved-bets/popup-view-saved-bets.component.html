@@ -3,6 +3,7 @@
   <div class="title-details">
     <h1 mat-dialog-title> {{data.Selection}}</h1>
     <h2 mat-dialog-title> {{data.Home}} v. {{data.Away}}</h2>
+    <h2 mat-dialog-title> {{data.EpochTime*1000 | date: 'EEEE dd LLL  HH:mm'}}</h2>
   </div>
 </div>
 
@@ -16,7 +17,7 @@
     <mat-action-list  #activeBets [multiple]="false">
       <mat-list-option class="sab-row-header">
         <h3 class="sab-row-item-header"> Created </h3>
-        <h3 class="sab-row-item-header"> Event Time </h3>
+        <!-- <h3 class="sab-row-item-header"> Event Time </h3> -->
         <h3 class="sab-row-item-header"> Back Stake </h3>
         <h3 class="sab-row-item-header"> Back Odds</h3>
         <h3 class="sab-row-item-header"> Lay Odds</h3>
@@ -24,12 +25,12 @@
         <h3 class="sab-row-item-header"> QL </h3>
         <h3 class="sab-row-item-header"> Match State</h3>
         <h3 class="sab-row-item-header"> Spacer </h3>
-        <h3 class="sab-row-item-header"> Spacer </h3>
+
       </mat-list-option>
       <mat-list-option *ngFor="let activeBet of filteredSabList; let i = index">
         <div class="sab-row">
-          <p class="sab-row-item">TimeStamp</p>
-            <span class="sab-row-item"> {{activeBet.matchDetail}}</span>
+          <p class="sab-row-item"> {{activeBet.created | date:'dd LLL  HH:mm'}}</p>
+            <!-- <span class="sab-row-item"> {{activeBet.matchDetail | date: 'EEE dd LLL  HH:mm' }}</span> -->
             <span class="sab-row-item"> {{activeBet.stake | currency:'GBP'}}</span>
             <span class="sab-row-item"> {{activeBet.backOdd}}</span>
             <span class="sab-row-item"> {{activeBet.layOdd}}</span>

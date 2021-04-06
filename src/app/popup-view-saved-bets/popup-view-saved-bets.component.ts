@@ -1,8 +1,9 @@
 import { AfterViewInit, ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Subscription } from 'rxjs';
 import { ActiveBet } from '../models/active-bet.model';
 import { PopupFormSavedBetsComponent } from '../popup-form-saved-bets/popup-form-saved-bets.component';
-import { SavedActiveBetsService } from './saved-active-bets.service';
+import { SavedActiveBetsService } from '../services/saved-active-bets.service';
 
 @Component({
   selector: 'app-popup-view-saved-bets',
@@ -12,6 +13,7 @@ import { SavedActiveBetsService } from './saved-active-bets.service';
 export class PopupViewSavedBetsComponent implements AfterViewInit {
   importedSabList: ActiveBet [] = [];
   filteredSabList: ActiveBet [] = [];
+  activeBetSubscription: Subscription;
   //masterList
   isEmptyList: boolean = true;
   //selectionsList
@@ -21,14 +23,16 @@ export class PopupViewSavedBetsComponent implements AfterViewInit {
       //gets master list of all SAB
       this.importedSabList = this.savedActiveBetService.getSabList();
 
-      //gets filtered based off of selection
       this.filteredSabList = this.importedSabList.filter(sab => {
         if(sab.selection == data.Selection){
           return true;
         }
       });
+      //gets filtered based off of selection
 
       console.log("Your Filtere SAB list");
+      console.log(this.importedSabList);
+
       console.log(this.filteredSabList);
 
     }
@@ -45,10 +49,11 @@ export class PopupViewSavedBetsComponent implements AfterViewInit {
     onAddClick(isEdit:boolean):void {
       console.log(this.data);
       var activeBet: ActiveBet = {
+        created: Date.now(),
         fixture: this.data.Fixture,
         selection: this.data.Selection,
         logo: this.data.Selection.toLowerCase().split(' ').join('-'),
-        matchDetail: this.data.Details,
+        matchDetail: this.data.EpochTime*1000,
         stake: 0,
         backOdd: 0,
         layOdd: 0,
@@ -62,6 +67,7 @@ export class PopupViewSavedBetsComponent implements AfterViewInit {
         occ: this.data.Selection == this.data.Home ? this.data.OccH: this.data.OccA,
         pl: 0,
         comment: this.data.comment,
+        isSettled: false,
       }
 
       const dialogRef = this.dialog.open(PopupFormSavedBetsComponent, {

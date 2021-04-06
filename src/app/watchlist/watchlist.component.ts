@@ -6,12 +6,12 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 import { animate, group, state, style, transition, trigger } from '@angular/animations';
 import { WebsocketService } from '../websocket.service';
 import { Match } from '../match/match.model';
-import { NotificationBoxService } from '../notification-box.service';
+import { NotificationBoxService } from '../services/notification-box.service';
 import { DatePipe } from '@angular/common';
 import { SidenavService } from '../view-table-sidenav/sidenav.service';
-import { UserPropertiesService } from '../user-properties.service';
-import { DateHandlingService } from '../date-handling.service';
-import { MatchStatusService } from '../match-status.service';
+import { UserPropertiesService } from '../services/user-properties.service';
+import { DateHandlingService } from '../services/date-handling.service';
+import { MatchStatusService } from '../services/match-status.service';
 import { analyzeAndValidateNgModules } from '@angular/compiler';
 import { PopupViewSavedBetsComponent } from '../popup-view-saved-bets/popup-view-saved-bets.component';
 

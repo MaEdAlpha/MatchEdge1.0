@@ -4,7 +4,7 @@ import { FormControl, FormGroup, NgForm } from '@angular/forms';
 import { SidenavService } from './sidenav.service';
 import { MatSelect } from '@angular/material/select';
 import { MatOption } from '@angular/material/core/option';
-import { UserPropertiesService } from '../user-properties.service';
+import { UserPropertiesService } from '../services/user-properties.service';
 import { UserProperties, TablePreferences } from '../user-properties.model';
 import { Subscription } from 'rxjs';
 
