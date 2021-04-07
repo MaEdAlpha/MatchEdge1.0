@@ -15,10 +15,36 @@
               <!-- Generate Data Cells -->
               <mat-cell *matCellDef="let row; let i = index">
                   <!-- column.field.endsWith('OccH') || column.field.endsWith('OccA') || -->
-                  <ng-container *ngIf="!column.field.endsWith('Status')">
-                    <ng-container *ngIf="column.field.endsWith('BHome') || column.field.endsWith('SMHome') ||  column.field.endsWith('BAway') || column.field.endsWith('SMAway')">
-                      <span class="{{column.field}} viewCell"> {{ row[column.field] | number:'0.2-2'}}</span>
-                    </ng-container>
+                  <ng-container *ngIf="column.field.endsWith('BHome') ||  column.field.endsWith('SMHome')">
+                    <div class="homeodds-container">
+                      <ng-container *ngIf="column.field.endsWith('BHome')" >
+                        <span class="{{column.field}} "> {{ row[column.field] | number:'0.2-2'}}</span>
+                      </ng-container>
+                      <ng-container *ngIf="column.field.endsWith('SMHome')">
+                        <span class="{{column.field}} "> {{ row[column.field] | number:'0.2-2'}}</span>
+                      </ng-container>
+                    </div>
+                  </ng-container>
+
+                  <ng-container *ngIf="column.field.endsWith('OccH')">
+                    <span class="{{column.field}} homeOccCell fta-value-cont"> {{ row[column.field] | number:'1.0-0'}}</span>
+                  </ng-container>
+
+                  <ng-container *ngIf=" column.field.endsWith('BAway') || column.field.endsWith('SMAway')">
+                    <div class="awayodds-container">
+                      <ng-container *ngIf="column.field.endsWith('BAway')" >
+                        <span class="{{column.field}} awayOccCell b3-odd-cont"> {{ row[column.field] | number:'0.2-2'}}</span>
+                      </ng-container>
+                      <ng-container *ngIf="column.field.endsWith('SMAway')">
+                        <span class="{{column.field}} awayOccCell sm-odd-cont"> {{ row[column.field] | number:'0.2-2'}}</span>
+                      </ng-container>
+
+                    </div>
+                  </ng-container>
+
+                  <ng-container *ngIf="column.field.endsWith('OccA')">
+                    <span class="{{column.field}} awayOccCell fta-value-cont"> {{ row[column.field] | number:'1.0-0'}}</span>
+                  </ng-container>
 
 
                     <ng-container *ngIf="column.field=='Home'">
@@ -42,7 +68,7 @@
                         </div>
                       </button>
                     </ng-container>
-                  </ng-container>
+
 
                   <ng-container *ngIf="column.field.endsWith('Status')">
                     <div class="dirStatusContainer">

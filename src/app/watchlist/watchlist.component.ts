@@ -40,7 +40,7 @@ export class Group {
 
 export class WatchlistComponent implements OnInit, OnDestroy {
 
- displayedColumns: string[] = ['HStatus','BHome','SMHome', 'Home',  'FixturesDate', 'Away' , 'BAway','SMAway', 'AStatus'];
+ displayedColumns: string[] = ['HStatus','BHome','SMHome', 'OccH','Home',  'FixturesDate', 'Away' , 'OccA','BAway','SMAway', 'AStatus'];
     SecondcolumnsToDisplay: string[] = ['SMHome','BHome', 'BDraw', 'BAway', 'BTTSOdds', 'B25GOdds','SMAway',  'League', 'OccH', 'OccA'];
     columnsToDisplay: string[] = this.displayedColumns.slice();
     @Input() matches: any;
@@ -65,11 +65,11 @@ export class WatchlistComponent implements OnInit, OnDestroy {
       { field: "HStatus" , columnDisplay: "" },
       { field: "BHome", columnDisplay: "Image" },
       { field: "SMHome", columnDisplay: "Image" },
-      // { field: "OccH", columnDisplay: "2UP OCC. Home" },
+      { field: "OccH", columnDisplay: "2UP OCC. Home" },
       { field: "Home", columnDisplay: "" },
       { field: "FixturesDate", columnDisplay: "" },
       { field: "Away", columnDisplay: "" },
-      // { field: "OccA", columnDisplay: "2UP OCC. Away" },
+      { field: "OccA", columnDisplay: "2UP OCC. Away" },
       { field: "BAway", columnDisplay: "Image" },
       { field: "SMAway", columnDisplay: "Image" },
       { field: "AStatus", columnDisplay: "" }

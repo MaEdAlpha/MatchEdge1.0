@@ -16,21 +16,22 @@
                       <!-- <ng-container *ngIf="oldNews(row['EpochTime'])"> -->
 
 
-                          <ng-container *ngIf="column.field.endsWith('BHome') || column.field.endsWith('OccH') || column.field.endsWith('SMHome')">
+                          <ng-container *ngIf="column.field.endsWith('BHome') ||  column.field.endsWith('SMHome')">
                             <div class="homeodds-container">
                               <ng-container *ngIf="column.field.endsWith('BHome')" >
-                                <span class="{{column.field}} homeOccCell b3-odd-cont"> {{ row[column.field] | number:'0.2-2'}}</span>
+                                <span class="{{column.field}} "> {{ row[column.field] | number:'0.2-2'}}</span>
                               </ng-container>
                               <ng-container *ngIf="column.field.endsWith('SMHome')">
-                                <span class="{{column.field}} homeOccCell sm-odd-cont"> {{ row[column.field] | number:'0.2-2'}}</span>
-                              </ng-container>
-                              <ng-container *ngIf="column.field.endsWith('OccH')">
-                                <span class="{{column.field}} homeOccCell fta-value-cont"> {{ row[column.field] | number:'1.0-0'}}</span>
+                                <span class="{{column.field}} "> {{ row[column.field] | number:'0.2-2'}}</span>
                               </ng-container>
                             </div>
                           </ng-container>
 
-                          <ng-container *ngIf="column.field.endsWith('OccA') || column.field.endsWith('BAway') || column.field.endsWith('SMAway')">
+                          <ng-container *ngIf="column.field.endsWith('OccH')">
+                            <span class="{{column.field}} homeOccCell fta-value-cont"> {{ row[column.field] | number:'1.0-0'}}</span>
+                          </ng-container>
+
+                          <ng-container *ngIf=" column.field.endsWith('BAway') || column.field.endsWith('SMAway')">
                             <div class="awayodds-container">
                               <ng-container *ngIf="column.field.endsWith('BAway')" >
                                 <span class="{{column.field}} awayOccCell b3-odd-cont"> {{ row[column.field] | number:'0.2-2'}}</span>
@@ -38,21 +39,26 @@
                               <ng-container *ngIf="column.field.endsWith('SMAway')">
                                 <span class="{{column.field}} awayOccCell sm-odd-cont"> {{ row[column.field] | number:'0.2-2'}}</span>
                               </ng-container>
-                              <ng-container *ngIf="column.field.endsWith('OccA')">
-                                <span class="{{column.field}} awayOccCell fta-value-cont"> {{ row[column.field] | number:'1.0-0'}}</span>
-                              </ng-container>
 
                             </div>
                           </ng-container>
 
+                          <ng-container *ngIf="column.field.endsWith('OccA')">
+                            <span class="{{column.field}} awayOccCell fta-value-cont"> {{ row[column.field] | number:'1.0-0'}}</span>
+                          </ng-container>
+
                           <ng-container *ngIf="column.field.startsWith('Home')">
-                            <div class="{{column.field}} homelogoCell"> {{ row[column.field] }}  </div>
-                            <span class="{{column.field}} homelogoCell"> <img class="bookie-logo" src="/assets/img/fcLogo/{{row[column.field].toLowerCase().split(' ').join('-')}}.png" alt=""> </span>
+                            <div class="{{column.field}} homelogoCell team-info">
+                               {{ row[column.field] }}
+                              <span class="{{column.field}} homelogoCell"> <img class="bookie-logo" src="/assets/img/fcLogo/{{row[column.field].toLowerCase().split(' ').join('-')}}.png" alt=""> </span>
+                            </div>
                           </ng-container>
 
                           <ng-container *ngIf="column.field.startsWith('Away') ">
-                            <span class="{{column.field}} awaylogoCell"> <img class="bookie-logo" src="/assets/img/fcLogo/{{row[column.field].toLowerCase().split(' ').join('-')}}.png" alt=""> </span>
-                            <div class="{{column.field}} awaylogoCell"> {{ row[column.field] }}  </div>
+                            <div class="{{column.field}} awaylogoCell team-info">
+                              <span class="{{column.field}} awaylogoCell"> <img class="bookie-logo" src="/assets/img/fcLogo/{{row[column.field].toLowerCase().split(' ').join('-')}}.png" alt=""> </span>
+                              {{ row[column.field] }}
+                            </div>
                           </ng-container>
 
                           <ng-container *ngIf="column.field.startsWith('FixturesDate')">

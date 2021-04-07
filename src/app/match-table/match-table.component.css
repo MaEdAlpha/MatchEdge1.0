@@ -19,14 +19,19 @@ mat-row {
 }
 
 .OccA, .OccH {
-  margin-right: auto;
-    margin-left: auto;
-    /* background: #e0e1e2; */
-    background: radial-gradient(at 50% 0, #9fa1a0, transparent 70%), linear-gradient(0deg, #e0e1e2, transparent 50%) bottom;
-    color: #ffbf0e;
-    padding: 6px;
-    border-radius: 5px;
-    font-size: large;
+  background: radial-gradient(at 50% 0, #9fa1a0, transparent 70%), linear-gradient(0deg, #e0e1e2, transparent 50%) bottom;
+  border-radius: 5px;
+  padding: 10px;
+  font-size: large;
+}
+.OccA {
+  margin-left: auto;
+  margin-right: 5px;
+}
+
+.OccH {
+    margin-right: auto;
+    margin-left:5px;
 }
 
 
@@ -171,11 +176,6 @@ div.footer-container{
   background: wheat;
 }
 
-.mat-column-OccH>span, .mat-column-OccA>span {
-  color: white;
-  margin-left: auto;
-  margin-right: auto;
-}
 
 img {
   width: 20%;
@@ -222,26 +222,25 @@ span.Home, span.Away {
   font-size: 12px;
 }
 
-span.BHome, span.BAway, span.SMHome, span.SMAway, span.BHome, span.BAway {
+span.BHome,
+span.BAway,
+span.SMHome,
+span.SMAway {
   color: white;
   font-size: 20px;
   font-weight: 500;
   padding: 10px;
-  padding-left: 50px;
-  padding-right: 50px;
   border-radius: 5px;
-
 }
 
 .odds-container{
   margin-left: auto;
   margin-right: auto;
 }
-.homeodds-container{
+
+.awayodds-container, .homeodds-container{
   margin-left: auto;
-}
-.awayodds-container{
-  margin-right: auto;
+  margin-right: 10px;
 }
 /* span.BAway, span.BHome{
   background: #f9a825;
@@ -287,19 +286,7 @@ mat-header-cell.cdk-column-Home, mat-header-cell.cdk-column-Away, mat-header-cel
   font-size: 10px;
 }
 
-.OccCell {
-  padding: 10px;
-  margin-right: auto;
-  margin-left: auto;
-}
-.homeOccCell {
-  padding: 10px;
-  margin-right: 5px;
-}
-.awayOccCell {
-  padding: 10px;
-  margin-left: 5px;
-}
+
 .viewCell {
     padding: 2px;
     margin-right: auto;
@@ -308,10 +295,12 @@ mat-header-cell.cdk-column-Home, mat-header-cell.cdk-column-Away, mat-header-cel
 .homelogoCell {
   padding: 2px;
   margin-left: auto;
+  display: inline-block;
 }
 .awaylogoCell {
   padding: 2px;
   margin-right: auto;
+  display: inline-block;
 }
 
 button.viewCell {
@@ -329,13 +318,10 @@ button.viewCell {
  {
   word-wrap: break-word !important;
   white-space: unset !important;
-  /* flex: 0 0 20% !important; */
-  width: fit-content !important;
+  flex: 0 0 15% !important;
   overflow-wrap: break-word;
   word-wrap: break-word;
-
   word-break: break-word;
-
   -ms-hyphens: auto;
   -moz-hyphens: auto;
   -webkit-hyphens: auto;
@@ -349,9 +335,7 @@ button.viewCell {
   width: fit-content !important;
   overflow-wrap: break-word;
   word-wrap: break-word;
-
   word-break: break-word;
-
   -ms-hyphens: auto;
   -moz-hyphens: auto;
   -webkit-hyphens: auto;
@@ -366,9 +350,7 @@ button.viewCell {
   width: fit-content !important;
   overflow-wrap: break-word;
   word-wrap: break-word;
-
   word-break: break-word;
-
   -ms-hyphens: auto;
   -moz-hyphens: auto;
   -webkit-hyphens: auto;
@@ -385,13 +367,22 @@ button.viewCell {
   width: fit-content !important;
   overflow-wrap: break-word;
   word-wrap: break-word;
-
   word-break: break-word;
-
   -ms-hyphens: auto;
   -moz-hyphens: auto;
   -webkit-hyphens: auto;
   hyphens: auto;
+  background: white;
+}
+
+.cdk-column-OccH{
+  border-radius: 8px 0px 0px 8px;
+  margin-left: 3%;
+}
+
+.cdk-column-OccA{
+  border-radius: 0px 8px 8px 0px;
+  margin-right: 3%;
 }
 
 /* Bet365 Odds */
@@ -401,13 +392,11 @@ button.viewCell {
 .cdk-column-BAway {
   word-wrap: break-word !important;
   white-space: unset !important;
-  flex: 0 0 10% !important;
+  flex: 0 0 7% !important;
   width: fit-content !important;
   overflow-wrap: break-word;
   word-wrap: break-word;
-
   word-break: break-word;
-
   -ms-hyphens: auto;
   -moz-hyphens: auto;
   -webkit-hyphens: auto;
@@ -416,25 +405,35 @@ button.viewCell {
 
 
 
-.b3-odd-cont, .sm-odd-cont, .fta-value-cont{
-  height: 29px;
+.mat-column-SMHome,
+.mat-column-SMAway,
+.mat-column-BHome,
+.mat-column-BAway, .fta-value-cont{
   color: #263238;
   background-size: contain;
   background-repeat: no-repeat;
   position: relative;
-  width: 60%;
-  margin-top: 5px;
   border-radius: 10px;
 }
 
+.mat-column-BHome, .mat-column-SMHome{
+  margin-left: auto;
+  margin-right: 10px;
+}
 
-.b3-odd-cont {
+.mat-column-BAway, .mat-column-SMAway{
+  margin-right: auto;
+  margin-left: 10px;
+}
+
+.mat-column-BHome, .mat-column-BAway {
   background-image: url(/assets/img/b365Odds.png);
 }
-.sm-odd-cont {
+.mat-column-SMHome, .mat-column-SMAway {
   background-image: url(/assets/img/smOdds.png);
 }
 
 .fta-value-cont {
   /* background-image: url(/assets/img/2up.png); */
 }
+
