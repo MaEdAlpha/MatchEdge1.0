@@ -5,6 +5,10 @@
 ::ng-deep.mat-dialog-content {
   min-height: 70vh !important;
 }
+
+div.mat-dialog-content > p{
+  text-align: center;
+}
 .mat-form-field-label{
   color: #d61c9e !important;
 }

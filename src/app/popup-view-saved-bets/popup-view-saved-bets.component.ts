@@ -48,31 +48,32 @@ export class PopupViewSavedBetsComponent implements AfterViewInit {
     //need match State.
     onAddClick(isEdit:boolean):void {
       console.log(this.data);
+
       var activeBet: ActiveBet = {
         created: Date.now(),
-        fixture: this.data.Fixture,
+        fixture: this.data.Home + " vs " + this.data.Away,
         selection: this.data.Selection,
         logo: this.data.Selection.toLowerCase().split(' ').join('-'),
         matchDetail: this.data.EpochTime*1000,
-        stake: 0,
-        backOdd: 0,
-        layOdd: 0,
-        layStake: 0,
-        liability: 0,
-        ev: 0,
-        fta: 0,
-        ql: 0,
-        roi: 0,
+        stake: null,
+        backOdd: null,
+        layOdd: null,
+        layStake: null,
+        liability: null,
+        ev: null,
+        fta: null,
+        ql: null,
+        roi: null,
         betState:false,
         occ: this.data.Selection == this.data.Home ? this.data.OccH: this.data.OccA,
-        pl: 0,
-        comment: this.data.comment,
+        pl: null,
+        comment: null,
         isSettled: false,
       }
 
       const dialogRef = this.dialog.open(PopupFormSavedBetsComponent, {
-        width: '33%',
-        height: '66%%',
+        width: '40%',
+        height: '80%',
         data: {activeBet, isEdit}
       });
 

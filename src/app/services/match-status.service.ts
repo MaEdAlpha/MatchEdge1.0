@@ -6,8 +6,6 @@ import { Observable, Subject } from 'rxjs';
 })
 
 export class MatchStatusService {
-
-
   ignoreList: string[]=[];
   private watchSubject = new Subject<any>();
   private groupSubject = new Subject<any>();
@@ -53,6 +51,10 @@ export class MatchStatusService {
 
   //called at matchTable on Initialization. Used to listen for any changes
   watchMatchSubject( selection: any){
+    console.log("WATCHMATCHOBJ");
+
+    console.log(selection);
+
     this.watchSubject.next(selection);
   }
   getMatchWatchStatus(): Observable<any>{

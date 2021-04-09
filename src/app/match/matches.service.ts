@@ -26,10 +26,8 @@ export class MatchesService {
 
         return matchData.body.map( match => {
           return {
-            HReturn: 202,
             Home: match.HomeTeamName,
             Away: match.AwayTeamName,
-            AReturn: 1+1*100,
             SMHome: +match.SmarketsHomeOdds,
             SMAway: +match.SmarketsAwayOdds,
             BHome: match.B365HomeOdds,

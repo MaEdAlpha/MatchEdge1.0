@@ -107,6 +107,9 @@ export class PopupFormSavedBetsComponent implements OnInit {
     var ql = layStake-stake;
     ql = this.filterValue(ql);
     this.sabFormValues.get('QL').setValue(ql.toFixed(2));
+    if(!this.isEdit){
+      this.sabFormValues.get('PL').setValue(ql.toFixed(2));
+    }
     return ql.toFixed(2);
   }
   getEstValue(backOdds:number, layOdds:number, stake:number):string{

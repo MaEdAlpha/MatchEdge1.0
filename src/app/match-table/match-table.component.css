@@ -14,6 +14,7 @@ mat-table {
 }
 
 mat-row {
+  min-height: 85px !important;
   background: #c3c3c3;
   color: white;
 }
@@ -23,6 +24,7 @@ mat-row {
   border-radius: 5px;
   padding: 10px;
   font-size: large;
+  min-height: 100%;
 }
 .OccA {
   margin-left: auto;
@@ -210,6 +212,7 @@ mat-header-row{
   margin-left: auto;
   margin-right: auto;
   width: 60%;
+  min-height: 48px;
 }
 .cdk-column-Home{
   background: white;
@@ -253,7 +256,9 @@ span.SMAway {
   background: rgb(14, 47, 155);
 } */
 
-mat-header-cell.cdk-column-Home, mat-header-cell.cdk-column-Away, mat-header-cell.cdk-column-FixturesDate {
+mat-header-cell.cdk-column-Home,
+mat-header-cell.cdk-column-Away,
+mat-header-cell.cdk-column-FixturesDate {
   background: #404040;
 }
 
@@ -268,7 +273,8 @@ mat-header-cell.cdk-column-Home, mat-header-cell.cdk-column-Away, mat-header-cel
   background: whitesmoke;
 }
 
- .fixturesDate, .fixturesTime {
+ .fixturesDate,
+ .fixturesTime {
   margin-left: auto;
   margin-right: auto;
 }
@@ -312,26 +318,19 @@ button.viewCell {
   background: grey;
 }
 
-/* Home | Away */
-.cdk-column-Home,
-.cdk-column-Away
- {
+/* mat-column generic styling */
+
+.mat-column-SMAway,
+.mat-column-SMHome,
+.mat-column-BHome,
+.mat-column-BAway,
+.mat-column-OccH,
+.mat-column-OccA,
+.mat-column-Home,
+.mat-column-Away
+{
   word-wrap: break-word !important;
   white-space: unset !important;
-  flex: 0 0 15% !important;
-  overflow-wrap: break-word;
-  word-wrap: break-word;
-  word-break: break-word;
-  -ms-hyphens: auto;
-  -moz-hyphens: auto;
-  -webkit-hyphens: auto;
-  hyphens: auto;
-}
-/* Dates */
-.cdk-column-FixturesDate{
-  word-wrap: break-word !important;
-  white-space: unset !important;
-  flex: 0 0 7% !important;
   width: fit-content !important;
   overflow-wrap: break-word;
   word-wrap: break-word;
@@ -340,22 +339,22 @@ button.viewCell {
   -moz-hyphens: auto;
   -webkit-hyphens: auto;
   hyphens: auto;
+}
+
+/* Home | Away */
+.cdk-column-Home,
+.cdk-column-Away
+{
+  flex: 0 0 15% !important;
+}
+/* Dates */
+.cdk-column-FixturesDate{
+  flex: 0 0 7% !important;
 }
 /* Empty Cells */
 .cdk-column-AStatus,
 .cdk-column-HStatus {
-  word-wrap: break-word !important;
-  white-space: unset !important;
   flex: 0 0 2% !important;
-  width: fit-content !important;
-  overflow-wrap: break-word;
-  word-wrap: break-word;
-  word-break: break-word;
-  -ms-hyphens: auto;
-  -moz-hyphens: auto;
-  -webkit-hyphens: auto;
-  hyphens: auto;
-
 }
 
 /* Occurences */
@@ -408,12 +407,15 @@ button.viewCell {
 .mat-column-SMHome,
 .mat-column-SMAway,
 .mat-column-BHome,
-.mat-column-BAway, .fta-value-cont{
+.mat-column-BAway,
+.fta-value-cont{
   color: #263238;
   background-size: contain;
   background-repeat: no-repeat;
+  background-position: center;
   position: relative;
   border-radius: 10px;
+  min-height: 50px;
 }
 
 .mat-column-BHome, .mat-column-SMHome{
@@ -434,6 +436,6 @@ button.viewCell {
 }
 
 .fta-value-cont {
-  /* background-image: url(/assets/img/2up.png); */
+  min-height: 48px;
 }
 

@@ -4,6 +4,7 @@ mat-header-row {
 }
 
 mat-row {
+  min-height: 50px;
   background: #c3c3c3;
 }
 
@@ -205,14 +206,18 @@ button.viewCell {
   background: #afafaf;
 }
 
-/* Home/Away Odds */
+/* mat-column generic styling  */
 .mat-column-SMAway,
 .mat-column-SMHome,
 .mat-column-BHome,
-.mat-column-BAway {
+.mat-column-BAway,
+.mat-column-OccH,
+.mat-column-OccA,
+.mat-column-Home,
+.mat-column-Away
+{
   word-wrap: break-word !important;
   white-space: unset !important;
-  flex: 0 0 7% !important;
   width: fit-content !important;
   overflow-wrap: break-word;
   word-wrap: break-word;
@@ -223,19 +228,17 @@ button.viewCell {
   hyphens: auto;
 }
 
+/* Home/Away Odds */
+.mat-column-SMAway,
+.mat-column-SMHome,
+.mat-column-BHome,
+.mat-column-BAway {
+  flex: 0 0 7% !important;
+}
+
 .mat-column-OccH,
 .mat-column-OccA {
-  word-wrap: break-word !important;
-  white-space: unset !important;
   flex: 0 0 5% !important;
-  width: fit-content !important;
-  overflow-wrap: break-word;
-  word-wrap: break-word;
-  word-break: break-word;
-  -ms-hyphens: auto;
-  -moz-hyphens: auto;
-  -webkit-hyphens: auto;
-  hyphens: auto;
   background: white;
 }
 
@@ -251,17 +254,7 @@ button.viewCell {
 /* Team Cells */
 .mat-column-Home,
 .mat-column-Away{
-  word-wrap: break-word !important;
-  white-space: unset !important;
   flex: 0 0 14% !important;
-  width: fit-content !important;
-  overflow-wrap: break-word;
-  word-wrap: break-word;
-  word-break: break-word;
-  -ms-hyphens: auto;
-  -moz-hyphens: auto;
-  -webkit-hyphens: auto;
-  hyphens: auto;
 }
 
 /* Match Button */
@@ -342,6 +335,7 @@ button.viewCell {
   color: #263238;
   background-size: contain;
   background-repeat: no-repeat;
+  background-position: center;
   position: relative;
   border-radius: 10px;
 }

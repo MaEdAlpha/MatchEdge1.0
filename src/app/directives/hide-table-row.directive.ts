@@ -9,7 +9,7 @@ export class HideTableRowDirective implements OnChanges{
   @Input() mrValue: number;    //match-rating value
   @Input() backOdds: number;   //backOdds
   //inRange: boolean;   //is in Date Range
-  @Input() ignore: boolean;    //ignore Status
+  @Input() isWatched: boolean;    //ignore Status
   @Input() userPref: TablePreferences;
   @Input() inRange;
 
@@ -22,7 +22,7 @@ export class HideTableRowDirective implements OnChanges{
       //   this.hide();
       // }
 
-  if(this.inRange != undefined || this.ignore != undefined || this.userPref != undefined){
+  if(this.inRange != undefined || this.isWatched != undefined || this.userPref != undefined){
     if(this.userPref.isEvSelected)  {
 
         // console.log(this.selection.Selection+ " Hidden: " + this.selection.ignore);
@@ -71,7 +71,7 @@ export class HideTableRowDirective implements OnChanges{
         this.hide();
       }
      //Ignore status read.
-      if(this.ignore) {
+      if(!this.isWatched) {
         this.hide();
       }
 

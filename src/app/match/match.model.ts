@@ -18,10 +18,8 @@
   }
 
   export interface Fixture {
-    HReturn: number;
     Home: string;
     Away: string;
-    AReturn: number;
     SMHome: number;
     SMAway: number;
     BHome: number;

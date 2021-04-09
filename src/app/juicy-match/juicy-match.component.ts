@@ -57,6 +57,7 @@ export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
   endDay: number
   allIndvMatches: any[];
   singleMatchPair: any;
+  //Abandon hope all ye' who enter this rats nest.
   testBool:boolean;
   prefSub: Subscription;
   prefObj: TablePreferences;
@@ -85,6 +86,7 @@ export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
   ];
 
   notificationSelectedSubscription: Subscription;
+  watchedMatchesSubscription: Subscription;
 
   constructor(private savedActiveBetsService: SavedActiveBetsService, private chRef: ChangeDetectorRef, private sidenav: SidenavService, private juicyMHService: JuicyMatchHandlingService, private matchStatService: MatchStatsService, private matchesService: MatchesService, private userPrefService: UserPropertiesService, private matchStatusService: MatchStatusService, private dateHandlingService: DateHandlingService, private notificationServices: NotificationBoxService ) { }
 
@@ -165,9 +167,15 @@ export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
       this.isEvSelected = Boolean(tablePref.isEvSelected);
     });
 
+    //Watchlist Subscription
+    this.watchedMatchesSubscription = this.matchStatusService.getMatchWatchStatus().subscribe( matchObject => {
+      //find selection and assign correct status to it.
+      this.updateMatchWatchStatus(matchObject);
+    });
+
     this.notificationSelectedSubscription = this.notificationServices.getNotificationPing().subscribe( notification => {
       this.openVIANotification(notification);
-    })
+    });
   }
 
 
@@ -295,6 +303,27 @@ export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
   freezeAllMotorFunctions(){
 
   }
+
+  updateMatchWatchStatus(matchObject: any):void{
+
+
+
+      const matchSelection = this.allIndvMatches.filter( (match)=> {
+        if(match.Selection == matchObject.Home ){
+          match.isWatched = matchObject.isWatched;
+          return true;
+        }
+
+        if(match.Selection == matchObject.Away){
+          match.isWatched = matchObject.isWatched;
+          return true;
+        }
+      });
+
+      // console.log(matchSelection);
+
+  }
+
 
   updateIgnoreStatus(ignoreSelection: any[]){
     if(ignoreSelection.length == 2 ){

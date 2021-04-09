@@ -20,7 +20,7 @@
                 *matCellDef="let selection; let i = dataIndex"
                 (click)="loadGroup(i); freezeAllMotorFunctions(); showSelectionValues(selection, i); closeIfRedirected(selection, $event)">
 
-                <ng-container *ngIf="selection.ignore==false">
+                <ng-container *ngIf="selection.isWatched">
                   <ng-container *ngIf="selection.inRange">
                     <ng-container *ngIf= "( (isEvSelected && +selection['EVthisBet'] >= +prefObj.evFilterValue && +selection['EVthisBet'] < 1000) || (!isEvSelected && (+selection['MatchRating'] == +prefObj.maxRatingFilter || selection['MatchRating'] > (+prefObj.maxRatingFilter - 0.1)) ) )">
                       <ng-container *ngIf= "( +selection['BackOdds'] <= +maxOddsFilter && +selection['BackOdds'] >= +minOddsFilter )">
@@ -185,7 +185,7 @@
                   [ngClass]="selection.isRedirected == 'Yes' ? 'juicyMatch-expanded-row': null"
                   [class.juicyMatch-expanded-row]="expandedElement === selection"
                   (click)="expandedElement = expandedElement === selection ? null : selection"
-                  appHideTableRow [userPref]="prefObj" [backOdds]="selection.BackOdds" [evValue]="selection.EVthisBet" [mrValue]="selection.MatchRating" [ignore]="selection.ignore" [inRange]="selection.inRange">
+                  appHideTableRow [userPref]="prefObj" [backOdds]="selection.BackOdds" [evValue]="selection.EVthisBet" [mrValue]="selection.MatchRating" [isWatched]="selection.isWatched" [inRange]="selection.inRange">
               </tr>
               <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="juicyMatch-detail-row"></tr>
   </table>
