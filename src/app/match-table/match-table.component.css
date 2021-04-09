@@ -14,7 +14,7 @@ mat-table {
 }
 
 mat-row {
-  min-height: 85px !important;
+  min-height: 50px !important;
   background: #c3c3c3;
   color: white;
 }
@@ -241,20 +241,11 @@ span.SMAway {
   margin-right: auto;
 }
 
-.awayodds-container, .homeodds-container{
-  margin-left: auto;
-  margin-right: 10px;
+.awayodds-container,
+.homeodds-container{
+  margin-left: 40%;
 }
-/* span.BAway, span.BHome{
-  background: #f9a825;
- background-image: linear-gradient(to top, #f5b95a, #ee9a12);
-  font-family: Bahnschrift SemiBold;
-  font-size: large;
-} */
 
-/* span.SMAway, span.SMHome{
-  background: rgb(14, 47, 155);
-} */
 
 mat-header-cell.cdk-column-Home,
 mat-header-cell.cdk-column-Away,
@@ -268,7 +259,7 @@ mat-header-cell.cdk-column-FixturesDate {
 
 .fixturesDateBtn {
   width: 100%;
-  height: 48px;
+  height: 45px;
   white-space: normal;
   background: whitesmoke;
 }
@@ -339,6 +330,7 @@ button.viewCell {
   -moz-hyphens: auto;
   -webkit-hyphens: auto;
   hyphens: auto;
+  min-height: 48px;
 }
 
 /* Home | Away */
@@ -350,11 +342,20 @@ button.viewCell {
 /* Dates */
 .cdk-column-FixturesDate{
   flex: 0 0 7% !important;
+  min-height: 48px;
 }
 /* Empty Cells */
 .cdk-column-AStatus,
 .cdk-column-HStatus {
   flex: 0 0 2% !important;
+}
+
+.cdk-column-HStatus {
+  margin-left: auto;
+}
+
+.cdk-column-AStatus {
+  margin-right: auto;
 }
 
 /* Occurences */
@@ -376,12 +377,12 @@ button.viewCell {
 
 .cdk-column-OccH{
   border-radius: 8px 0px 0px 8px;
-  margin-left: 3%;
+  margin-left: 1%;
 }
 
 .cdk-column-OccA{
   border-radius: 0px 8px 8px 0px;
-  margin-right: 3%;
+  margin-right: 1%;
 }
 
 /* Bet365 Odds */
@@ -391,7 +392,7 @@ button.viewCell {
 .cdk-column-BAway {
   word-wrap: break-word !important;
   white-space: unset !important;
-  flex: 0 0 7% !important;
+  flex: 0 0 8% !important;
   width: fit-content !important;
   overflow-wrap: break-word;
   word-wrap: break-word;
@@ -415,27 +416,15 @@ button.viewCell {
   background-position: center;
   position: relative;
   border-radius: 10px;
-  min-height: 50px;
-}
-
-.mat-column-BHome, .mat-column-SMHome{
-  margin-left: auto;
-  margin-right: 10px;
-}
-
-.mat-column-BAway, .mat-column-SMAway{
-  margin-right: auto;
-  margin-left: 10px;
 }
 
 .mat-column-BHome, .mat-column-BAway {
   background-image: url(/assets/img/b365Odds.png);
+  min-height: 40px;
 }
 .mat-column-SMHome, .mat-column-SMAway {
   background-image: url(/assets/img/smOdds.png);
+  min-height: 40px;
 }
 
-.fta-value-cont {
-  min-height: 48px;
-}
 

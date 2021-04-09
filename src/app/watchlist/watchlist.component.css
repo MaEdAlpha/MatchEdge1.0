@@ -261,7 +261,7 @@ button.viewCell {
 .mat-column-FixturesDate{
   word-wrap: break-word !important;
   white-space: unset !important;
-  flex: 0 0 10% !important;
+  flex: 0 0 7% !important;
   width: fit-content !important;
   overflow-wrap: break-word;
   word-wrap: break-word;
