@@ -68,7 +68,6 @@ export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
   isEvSelected: boolean;
   dataSource:any;
   formattedAmount:any;
-  stream:any;
   sortedData: Object[];
   @Input() selectionToIgnore: any[];
   @ViewChild(MatSort) sort: MatSort;
@@ -140,7 +139,7 @@ export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
       this.singleMatchPair.forEach( (streamObj) => {
         // find match and update the values with stream data coming from DB.
         var indexOfmatch = this.allIndvMatches.findIndex( indvMatch => indvMatch.Selection == streamObj.Selection );
-        this.stream = indexOfmatch != undefined && this.allIndvMatches[indexOfmatch] ? this.juicyMHService.updateSingleMatch(this.allIndvMatches[indexOfmatch], streamObj, indexOfmatch) : console.log("did not find singleMatch in indvMatch Array");
+         indexOfmatch != undefined && this.allIndvMatches[indexOfmatch] ? this.juicyMHService.updateSingleMatch(this.allIndvMatches[indexOfmatch], streamObj, indexOfmatch) : console.log("did not find singleMatch in indvMatch Array");
       });
     });
 
@@ -304,24 +303,11 @@ export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
 
   }
 
+  //will have to be able to handle Watchlist Objects being passed to here?
   updateMatchWatchStatus(matchObject: any):void{
-
-
-
-      const matchSelection = this.allIndvMatches.filter( (match)=> {
-        if(match.Selection == matchObject.Home ){
-          match.isWatched = matchObject.isWatched;
-          return true;
-        }
-
-        if(match.Selection == matchObject.Away){
-          match.isWatched = matchObject.isWatched;
-          return true;
-        }
-      });
-
-      // console.log(matchSelection);
-
+    this.allIndvMatches.filter( (individual)=> {
+      if(individual.Selection == matchObject.Home || individual.Selection == matchObject.Away) individual.isWatched = matchObject.isWatched;
+    });
   }
 
 

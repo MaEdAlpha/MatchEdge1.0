@@ -628,10 +628,12 @@ import { MatCheckbox } from '@angular/material/checkbox';
     }
 
     updateNotificationStatus(selection: string, ignoreStatus: boolean){
-      ignoreStatus ? this.matchStatusService.addToIgnoreList(selection) : this.matchStatusService.removeFromIgnoreList(selection);
+      // ignoreStatus ? this.matchStatusService.addToIgnoreList(selection) : this.matchStatusService.removeFromIgnoreList(selection);
     }
 
     addToWatchList(rowData:any){
+      console.log(rowData);
+
       rowData.isWatched = !rowData.isWatched;
       this.matchStatusService.watchMatchSubject(rowData);
     }

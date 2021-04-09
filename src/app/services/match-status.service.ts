@@ -6,7 +6,7 @@ import { Observable, Subject } from 'rxjs';
 })
 
 export class MatchStatusService {
-  ignoreList: string[]=[];
+  watchList: any[]=[];
   private watchSubject = new Subject<any>();
   private groupSubject = new Subject<any>();
   allSelections: any[];
@@ -16,46 +16,54 @@ export class MatchStatusService {
   //IGNORE STATUS
   // TODO: NEED TO MAKE OBSERVABLES
   //TODO: If Observable is not necessary...do we just filter?
-  removeFromIgnoreList(selectionToRemove: string) {
+  removeFromWatchList(selectionToRemove: any) {
     var selectionPosition: number;
-    this.ignoreList.forEach( (selectionInList, index) => {
+    this.watchList.forEach( (selectionInList, index) => {
 
-      if(selectionInList == selectionToRemove){
+      if(selectionInList == selectionToRemove.Home || selectionInList == selectionToRemove.Away){
         selectionPosition = index;
       }
     });
-    this.ignoreList.splice(selectionPosition, 1);
+    this.watchList.splice(selectionPosition, 1);
   }
 
-  addToIgnoreList(selection: string) {
-    this.ignoreList.push(selection);
+  addToWatchList(selection: any) {
+    this.watchList.push(selection);
   }
 
   displayIgnoreList(){
     console.log("MATCHES IN IGNORE LIST: ");
-    this.ignoreList.forEach(selection =>{
+    this.watchList.forEach(selection =>{
       console.log(selection);
     })
   }
 
-  getIgnoreList(): string[]{
-    console.log(this.ignoreList);
-    return this.ignoreList;
+  getWatchList(): any[]{
+    console.log(this.watchList);
+    return this.watchList;
   }
 
-  isIgnored(selection):boolean {
-    return this.ignoreList.includes(selection) ? true : false;
+  isWatched( selection:string):boolean {
+    const matchIsWatched = this.watchList.filter( fixture => {
+      if(fixture.Home == selection) {
+        return true;
+      }
+      if(fixture.Away == selection) {
+        return true;
+      }
+    })
+    return matchIsWatched.length != 0 ? true : false;
   }
 
   //WATCHLIST STATUS
 
   //called at matchTable on Initialization. Used to listen for any changes
   watchMatchSubject( selection: any){
-    console.log("WATCHMATCHOBJ");
-
-    console.log(selection);
-
     this.watchSubject.next(selection);
+
+    selection.isWatched ? this.addToWatchList(selection) : this.removeFromWatchList(selection);
+
+    this.getWatchList();
   }
   getMatchWatchStatus(): Observable<any>{
     return this.watchSubject.asObservable();

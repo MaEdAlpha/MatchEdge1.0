@@ -620,30 +620,31 @@ export class WatchlistComponent implements OnInit, OnDestroy {
       //this.matchStatusService.displayIgnoreList();
     }
 
-    ignoreHomeSelection(matchObject: any){
-      matchObject.HStatus.ignore = !matchObject.HStatus.ignore;
-      console.log("Ignore set to " + matchObject.HStatus.ignore + " for: " + matchObject.Home);
-      this.ignoreList = [matchObject.Home, matchObject.HStatus.ignore];
-      this.updateNotificationStatus(matchObject.Home, matchObject.HStatus.ignore);
-    }
+    //POTENTIALLY REMOVE. DEPENDS IF WE RE_INTRODUCE IGNORE HOME/AWAY
+    // ignoreHomeSelection(matchObject: any){
+    //   matchObject.HStatus.ignore = !matchObject.HStatus.ignore;
+    //   console.log("Ignore set to " + matchObject.HStatus.ignore + " for: " + matchObject.Home);
+    //   this.ignoreList = [matchObject.Home, matchObject.HStatus.ignore];
+    //   this.updateNotificationStatus(matchObject.Home, matchObject.HStatus.ignore);
+    // }
 
-    ignoreAwaySelection(matchObject: any){
-      //toggle ignore status.
-      matchObject.AStatus.ignore = !matchObject.AStatus.ignore;
-      console.log("Ignore set to " + matchObject.AStatus.ignore + " for: " + matchObject.Away);
-      this.ignoreList = [matchObject.Away, matchObject.AStatus.ignore];
+    // ignoreAwaySelection(matchObject: any){
+    //   //toggle ignore status.
+    //   matchObject.AStatus.ignore = !matchObject.AStatus.ignore;
+    //   console.log("Ignore set to " + matchObject.AStatus.ignore + " for: " + matchObject.Away);
+    //   this.ignoreList = [matchObject.Away, matchObject.AStatus.ignore];
 
-      this.updateNotificationStatus(matchObject.Away, matchObject.AStatus.ignore);
-    }
+    //   this.updateNotificationStatus(matchObject.Away, matchObject.AStatus.ignore);
+    // }
 
-    updateNotificationStatus(selection: string, ignoreStatus: boolean){
-      if(ignoreStatus == true)
-      {
-        this.matchStatusService.addToIgnoreList(selection);
-      } else {
-        this.matchStatusService.removeFromIgnoreList(selection);
-      }
-    }
+    // updateNotificationStatus(selection: string, ignoreStatus: boolean){
+    //   if(ignoreStatus == true)
+    //   {
+    //     this.matchStatusService.addToIgnoreList(selection);
+    //   } else {
+    //     this.matchStatusService.removeFromIgnoreList(selection);
+    //   }
+    // }
 
     removefromWatchList(row:any){
       console.log("Need functionality here");

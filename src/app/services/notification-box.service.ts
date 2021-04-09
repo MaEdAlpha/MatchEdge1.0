@@ -2,6 +2,7 @@ import { ChangeDetectorRef, Injectable } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { DateHandlingService } from './date-handling.service';
+import { MatchStatusService } from './match-status.service';
 import { UserPropertiesService } from './user-properties.service';
 
 @Injectable({
@@ -16,8 +17,9 @@ export class NotificationBoxService {
   private clickSubject = new Subject<{notificationIsActivated: boolean, matchObject: any }>();
 
   juicyFilterChange: Subscription;
+  matchStatus:Subscription;
 
-  constructor(private toast: ToastrService, private userPropService: UserPropertiesService, private dateHandlingService: DateHandlingService) {
+  constructor(private toast: ToastrService, private userPropService: UserPropertiesService, private dateHandlingService: DateHandlingService, private matchStatusService: MatchStatusService) {
 
       this.juicyFilterChange = this.userPropService.getUserPrefs().subscribe(filterSettings => {
       this.matchRatingFilter = +filterSettings.maxRatingFilter,
@@ -44,13 +46,13 @@ export class NotificationBoxService {
     console.log("Current Filter Settings: Notify based off EV = " + this.isEVSelected + " Match Rating Filter = " + this.matchRatingFilter + " EV Filter = " + this.evRatingFilter);
 
     //Need to check if already in Juicy Matches. if()
-    if( this.isInEpochLimits(epochNotifications, home) && (this.isEVSelected && home.EVthisBet >= this.evRatingFilter && home.EVthisBet < 100000 ) || (!this.isEVSelected && home.MatchRating >= this.matchRatingFilter) ) {
+    if(this.matchStatusService.isWatched(home.Selection) && (this.isInEpochLimits(epochNotifications, home) && (this.isEVSelected && home.EVthisBet >= this.evRatingFilter && home.EVthisBet < 100000 ) || (!this.isEVSelected && home.MatchRating >= this.matchRatingFilter) ) ) {
       this.toast.info(home.Selection + ": </br> EV: " + home.EVthisBet + "</br> MR: " + home.MatchRating, "Click to view " + home.Selection + " in Juicy Match.").onTap.subscribe( (x) => {
         this.toastr(home);
       });
     }
 
-    if( this.isInEpochLimits(epochNotifications, away) && (this.isEVSelected && away.EVthisBet >= this.evRatingFilter && away.EVthisBet < 100000 ) || ( !this.isEVSelected && away.MatchRating >= this.matchRatingFilter) ){
+    if( this.matchStatusService.isWatched(away.Selection) && (this.isInEpochLimits(epochNotifications, away) && (this.isEVSelected && away.EVthisBet >= this.evRatingFilter && away.EVthisBet < 100000 ) || ( !this.isEVSelected && away.MatchRating >= this.matchRatingFilter) ) ){
       this.toast.success(away.Selection + ": </br> EV: " + away.EVthisBet + "</br> MR: " + away.MatchRating, "Click to view " + away.Selection + " in Juicy Match.").onTap.subscribe( (x) => {
         //When a user taps the notification.
         this.toastr(away);

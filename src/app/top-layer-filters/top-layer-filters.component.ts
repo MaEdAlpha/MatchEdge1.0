@@ -96,7 +96,7 @@ export class TopLayerFiltersComponent implements OnInit, OnChanges {
     this.hideTable.emit(this.displayFixtures);
   }
   initIgnoreList(){
-    this.emitIgnoreList.emit(this.matchStatusService.getIgnoreList());
+    // this.emitIgnoreList.emit(this.matchStatusService.getIgnoreList());
   }
 
   goToThisJuicy(){
