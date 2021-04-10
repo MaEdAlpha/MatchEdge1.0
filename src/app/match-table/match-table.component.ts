@@ -24,7 +24,7 @@ import { MatCheckbox } from '@angular/material/checkbox';
     League = "";
     isActive = false;
     totalCounts = 0;
-    ignoreAll = false;
+    notifyAll = false;
     isToday = false;
     isTomorrow = false;
   }
@@ -551,38 +551,64 @@ import { MatCheckbox } from '@angular/material/checkbox';
       }
     }
 
-    openPopUp($event: MatSlideToggleChange, groupItem: any) {
+    notifyAll(groupRow:any):void{
+      console.log(this.matches);
 
-      if($event.checked == false && !this.dialogDisabled){
-        //if Turning toggle to "OFF", popup dialog box to warn user.
-        let dialogRef =  this.dialog.open(StatusDisableDialogueComponent);
+      //filter by league
+      const leagueMatches = this.matches.filter( (match) => {
+        if(match.League == groupRow.League)
+        {
+          match.isWatched = groupRow.notifyAll;
+          match.AStatus.notify = groupRow.notifyAll;
+          match.HStatus.notify = groupRow.notifyAll;
+          return true;
+        }
+      });
+      console.log(leagueMatches);
 
-        dialogRef.afterClosed()
-          .subscribe( result => {
-            //If user selects "Cancel" then they CONTINUE to watch the league's matches. result = false.
-            //If user selects "Okay" they DISABLE all notifications for that league. result = true.
-            if(result == 'false') {
-              $event.source.checked = true;
-              //TODO send this groupItem to another method. Notifications Services.
-            }
-            if(result == 'true') {
-              $event.source.checked = false;
-              groupItem.ignoreAll = true;
-            }
-          });
-      } else if ($event.checked == true && !this.dialogDisabled) {
-        //if toggle is being clicked "ON", turn on Notifications.
-        groupItem.ignoreAll = false;
-      } else if (this.dialogDisabled) {
-        //If user has selected to ignore popups, then set notifications based off $event.checked
-          $event.source.checked == true ? groupItem.ignoreAll = false : groupItem.ignoreAll = true;
-          console.log("GroupItem: " + groupItem.League + "- ignoreAll: " + groupItem.ignoreAll);
+      leagueMatches.forEach( (match)=> {
+        if(groupRow.notifyAll){
+          console.log("added to watchMatchSubject");
 
-      } else if ($event.checked == false && this.dialogDisabled){
-        groupItem.ignoreAll = true;
-      }
-        this.ignoreAllMatchesToggle(groupItem);
+          this.matchStatusService.watchMatchSubject(match);
+        } else {
+          this.matchStatusService.removeFromWatchList(match);
+        }
+      });
     }
+
+     openPopUp($event: MatSlideToggleChange, groupItem: any) {
+
+    //   if($event.checked == false && !this.dialogDisabled){
+    //     //if Turning toggle to "OFF", popup dialog box to warn user.
+    //     let dialogRef =  this.dialog.open(StatusDisableDialogueComponent);
+
+    //     dialogRef.afterClosed()
+    //       .subscribe( result => {
+    //         //If user selects "Cancel" then they CONTINUE to watch the league's matches. result = false.
+    //         //If user selects "Okay" they DISABLE all notifications for that league. result = true.
+    //         if(result == 'false') {
+    //           $event.source.checked = true;
+    //           //TODO send this groupItem to another method. Notifications Services.
+    //         }
+    //         if(result == 'true') {
+    //           $event.source.checked = false;
+    //           groupItem.ignoreAll = true;
+    //         }
+    //       });
+    //   } else if ($event.checked == true && !this.dialogDisabled) {
+    //     //if toggle is being clicked "ON", turn on Notifications.
+    //     groupItem.ignoreAll = false;
+    //   } else if (this.dialogDisabled) {
+    //     //If user has selected to ignore popups, then set notifications based off $event.checked
+    //       $event.source.checked == true ? groupItem.ignoreAll = false : groupItem.ignoreAll = true;
+    //       console.log("GroupItem: " + groupItem.League + "- ignoreAll: " + groupItem.ignoreAll);
+
+    //   } else if ($event.checked == false && this.dialogDisabled){
+    //     groupItem.ignoreAll = true;
+    //   }
+    //     // this.ignoreAllMatchesToggle(groupItem);
+     }
 
     showToast(typeOfToast: string){
       if(typeOfToast == "enableToggle"){
@@ -598,18 +624,18 @@ import { MatCheckbox } from '@angular/material/checkbox';
     }
       //TODO BUG-FIX WHEN LOCALE_ID WORKS.
       //Re-arranges en-US format MM/DD into DD/MM
-    ignoreAllMatchesToggle(group: Group){
-      var array:any[] = []
-      array.push(group.ignoreAll);
-        this.matches.forEach( match => {
-          if(match.League == group.League){
-            array.push(match.Home);
-            array.push(match.Away);
-          }
-        });
-        this.ignoreList = array;
-      //this.matchStatusService.displayIgnoreList();
-    }
+    // ignoreAllMatchesToggle(group: Group){
+    //   var array:any[] = []
+    //   array.push(group.ignoreAll);
+    //     this.matches.forEach( match => {
+    //       if(match.League == group.League){
+    //         array.push(match.Home);
+    //         array.push(match.Away);
+    //       }
+    //     });
+    //     this.ignoreList = array;
+    //   //this.matchStatusService.displayIgnoreList();
+    // }
 
     ignoreHomeSelection(matchObject: any){
       matchObject.HStatus.ignore = !matchObject.HStatus.ignore;

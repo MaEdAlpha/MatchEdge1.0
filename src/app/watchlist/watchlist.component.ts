@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit, ViewChild, Input , Output, OnChanges, SimpleChanges, AfterViewInit, Inject} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild, Input , Output, OnChanges, SimpleChanges, AfterViewInit, Inject, ChangeDetectorRef} from '@angular/core';
 import { Subscription } from 'rxjs';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { MatchesService } from '../match/matches.service';
@@ -99,7 +99,7 @@ export class WatchlistComponent implements OnInit, OnDestroy {
     @ViewChild(MatTable) table: MatTable<any>;
 
 
-    constructor(private dateHandlingService: DateHandlingService, private matchStatusService: MatchStatusService, private userPref: UserPropertiesService, public datepipe: DatePipe, private sidenav: SidenavService , private matchesService: MatchesService, private webSocketService: WebsocketService, public dialog: MatDialog, private notificationBox: NotificationBoxService) {
+    constructor(private dateHandlingService: DateHandlingService, private matchStatusService: MatchStatusService, private userPref: UserPropertiesService, public datepipe: DatePipe, private sidenav: SidenavService , public dialog: MatDialog, private notificationBox: NotificationBoxService, private chRef: ChangeDetectorRef) {
      } //creates an instance of matchesService. Need to add this in app.module.ts providers:[]
 
 
@@ -127,6 +127,11 @@ export class WatchlistComponent implements OnInit, OnDestroy {
 
         this.setLists(this.watchList, this.masterGroup, this.dateSelected);
         this.dataSource.data = this.displayList;
+      });
+
+      this.userPref.viewTablePrefSelected.subscribe( ()=>{
+        this.checkForOddsChange();
+
       })
 
       this.ignoreList = [];
@@ -667,4 +672,29 @@ export class WatchlistComponent implements OnInit, OnDestroy {
       console.log(row);
     }
 
+    toggleNotification(matchObj:any, isHome:boolean):void{
+      isHome ? matchObj.HStatus.notify = !matchObj.HStatus.notify : matchObj.AStatus.notify = !matchObj.AStatus.notify;
+      //update match-status.services.
+      this.updateMatchStatusList(matchObj, isHome);
+      console.log(matchObj);
+    }
+
+    updateMatchStatusList(matchObj:any, isHome:boolean):void{
+      this.matchStatusService.updateWatchList(matchObj, isHome);
+    }
+
+    //when userPreferences change while on watchlist page, this will change the notify status of the match
+    checkForOddsChange():void{
+      console.log("preferences updated!");
+
+      this.displayList.forEach( rowData => {
+        if(rowData.level == undefined){
+          console.log(rowData);
+          rowData.HStatus.notify = rowData.BHome > this.userPref.getMinOdds() ? true : false;
+          rowData.AStatus.notify = rowData.BAway > this.userPref.getMinOdds() ? true : false;
+          this.updateMatchStatusList(rowData, true);
+          this.updateMatchStatusList(rowData,false);
+        }
+      });
+    }
 }

@@ -124,7 +124,6 @@ export class UserPropertiesService {
 
   setFormValues(formObj: any){
 
-    this.viewTablePrefSelected.emit(this.viewTablePrefs);
 
     console.log(formObj);
 
@@ -149,6 +148,7 @@ export class UserPropertiesService {
       isEvSelected: formObj.isEvSelected,
       dialogDisabled: formObj.dialogDisabled,
     }
+    this.viewTablePrefSelected.emit(this.viewTablePrefs);
   }
   //userPreference TablePreferences
   getUserPrefs(): Observable<TablePreferences>{

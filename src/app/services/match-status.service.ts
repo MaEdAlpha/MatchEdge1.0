@@ -1,5 +1,6 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
+import { UserPropertiesService } from './user-properties.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,7 @@ export class MatchStatusService {
   private groupSubject = new Subject<any>();
   allSelections: any[];
 
-  constructor() { }
+  constructor(private userPreferenceService: UserPropertiesService) { }
 
   //IGNORE STATUS
   // TODO: NEED TO MAKE OBSERVABLES
@@ -29,6 +30,19 @@ export class MatchStatusService {
 
   addToWatchList(selection: any) {
     this.watchList.push(selection);
+  }
+
+  updateWatchList(matchObj: any, isHome:boolean): void{
+    const matchToUpdate = this.watchList.filter(watchListObj => {
+      console.log(watchListObj);
+
+      if(isHome && matchObj.Home == watchListObj.Home && matchObj.EpochTime == watchListObj.EpochTime){
+        watchListObj.HStatus.notify = matchObj.HStatus.notify;
+      }
+      else if (!isHome && matchObj.Away == watchListObj.Away && matchObj.EpochTime == watchListObj.EpochTime){
+        watchListObj.AStatus.notify = matchObj.AStatus.notify;
+      }
+    });
   }
 
   displayIgnoreList(){
@@ -51,7 +65,7 @@ export class MatchStatusService {
       if(fixture.Away == selection) {
         return true;
       }
-    })
+    });
     return matchIsWatched.length != 0 ? true : false;
   }
 
@@ -59,12 +73,19 @@ export class MatchStatusService {
 
   //called at matchTable on Initialization. Used to listen for any changes
   watchMatchSubject( selection: any){
+    //create observable
     this.watchSubject.next(selection);
-
+    //add to list for notification services
     selection.isWatched ? this.addToWatchList(selection) : this.removeFromWatchList(selection);
-
+    //get user preferences for odds and set notification here.
+    this.setNotificationStatus(selection);
     this.getWatchList();
   }
+  private setNotificationStatus(selection: any) {
+    selection.BHome > this.userPreferenceService.getMinOdds() ? selection.HStatus.notify = true : selection.HStatus.notify = false;
+    selection.BAway > this.userPreferenceService.getMinOdds() ? selection.AStatus.notify = true : selection.AStatus.notify = false;
+  }
+
   getMatchWatchStatus(): Observable<any>{
     return this.watchSubject.asObservable();
   }

@@ -89,9 +89,9 @@
                             <div class="league-item">
                               <mat-slide-toggle
                               class="leagueToggleSelect"
-                              [(ngModel)]="!group.ignoreAll"
+                              [(ngModel)]="!group.notifyAll"
                               (change) = "openPopUp($event, group)"
-                              (click)="collapseGroup(group); $event.stopPropagation()"></mat-slide-toggle>
+                              (click)="notifyAll(group)"></mat-slide-toggle>
                             </div>
                           </div>
                         </mat-cell>

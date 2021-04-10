@@ -190,5 +190,4 @@ export class ViewTableSidenavComponent implements OnInit, AfterViewInit {
     this.dialogDisabled = !this.dialogDisabled;
     console.log(this.dialogDisabled);
   }
-
 }

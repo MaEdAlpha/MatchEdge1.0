@@ -135,9 +135,10 @@ img {
   margin-right: auto;
 }
 
-.mat-column-Home, .mat-column-Away, .mat-column-FixturesDate {
-  background: white;
-  text-align: center;
+.mat-column-Home,
+.mat-column-Away,
+.mat-column-FixturesDate {
+  background: #fbfbfb;
   margin-bottom: 0;
   color: black;
 }
@@ -147,25 +148,35 @@ img {
   margin-right: auto;
   width: 60%;
 }
-.cdk-column-Home{
-  background: white;
-  text-align: center;
-  width: 100%;
-}
 
 span.home-selection, span.away-selection {
   color: black;
   font-size: 14px;
-  margin-top: 5px;
   padding: 0px 10px;
 }
 
-span.BHome, span.BAway, span.SMHome, span.SMAway, span.BHome, span.BAway {
+.home-selection {
+  float: right;
+}
+
+.away-selection {
+  float: left;
+}
+.selection-button {
+  width: 100%;
+  padding: 0;
+}
+
+
+span.BHome,
+span.BAway,
+span.SMHome,
+span.SMAway,
+span.BHome,
+span.BAway {
   color: white;
   font-size: 20px;
   font-weight: 500;
-
-
 }
 span.BAway, span.SMAway{
   font-size: 20px;
@@ -190,11 +201,11 @@ span.BHome, span.SMHome{
 }
 
 .home-fc-logo{
-  border-radius: 0px 3px 3px 15px;
+  border-radius: 3px 0px 15px 3px;
 }
 
 .away-fc-logo{
-  border-radius: 3px 0px 15px 3px;
+  border-radius: 0px 3px 3px 15px;
 }
 .viewCell {
     padding: 2px;
@@ -239,7 +250,7 @@ button.viewCell {
 .mat-column-OccH,
 .mat-column-OccA {
   flex: 0 0 5% !important;
-  background: white;
+  background: #fbfbfb;
 }
 
 .cdk-column-OccH{
@@ -288,11 +299,13 @@ button.viewCell {
 }
 
 .team-home-container{
+  width: 100%;
   margin-left: auto;
   display: inline-flex;
 }
 
 .team-away-container{
+  width: 100%;
   margin-right: auto;
   display: inline-flex;
 }
@@ -377,6 +390,19 @@ button.viewCell {
   display: inline-flex;
   margin-left: auto;
   margin-right: 20px;
+}
+
+
+.selection-notify {
+  color: #f9a825;
+  font-size: 15px;
+}
+
+.home-bell {
+  float: left;
+}
+.away-bell {
+  float: right;
 }
 
 
