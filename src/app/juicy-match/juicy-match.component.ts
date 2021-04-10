@@ -110,9 +110,9 @@ export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
     }
 
     if(changes.selectionToIgnore && changes.selectionToIgnore.currentValue && this.selectionToIgnore != undefined) {
-           this.updateIgnoreStatus(this.selectionToIgnore);
-           console.log("Ignore These Selections Below: ");
-           console.log(this.selectionToIgnore);
+      this.updateIgnoreStatus(this.selectionToIgnore);
+      console.log("Ignore These Selections Below: ");
+      console.log(this.selectionToIgnore);
     }
   }
 

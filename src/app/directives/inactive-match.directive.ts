@@ -9,7 +9,7 @@ export class InactiveMatchDirective implements OnInit{
   constructor(private elRef: ElementRef, private renderer: Renderer2) { }
 
   ngOnInit(){
-    this.match.isPastPrime ? this.setsInactiveStyling(): this.methodIsEmptry();
+    this.match.isPastPrime ? this.setsInactiveStyling() : this.methodIsEmptry();
   };
 
   setsInactiveStyling(){

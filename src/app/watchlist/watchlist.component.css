@@ -178,12 +178,18 @@ span.BAway {
   font-size: 20px;
   font-weight: 500;
 }
-span.BAway, span.SMAway{
-  font-size: 20px;
-}
 
-span.BHome, span.SMHome{
+
+span.BHome,
+span.SMHome,
+span.BAway,
+span.SMAway{
   font-size: 20px;
+  padding-top: 1%;
+  height: 50%;
+  line-height: 232%;
+  margin-left: auto;
+  margin-right: 20%;
 }
 
 
@@ -388,13 +394,13 @@ button.viewCell {
 
 .homeodds-container, .awayodds-container {
   display: inline-flex;
-  margin-left: auto;
-  margin-right: 20px;
+  width: 100%;
+  height: 100%;
 }
 
 
 .selection-notify {
-  color: #f9a825;
+  color: #253036;
   font-size: 15px;
 }
 
@@ -405,4 +411,8 @@ button.viewCell {
   float: right;
 }
 
+.match-inactive{
+  opacity: 0.8;
+  background:grey;
+}
 

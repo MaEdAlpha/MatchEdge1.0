@@ -1,5 +1,5 @@
 //Modules
-import { NgModule, LOCALE_ID } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
@@ -7,8 +7,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { ToastrModule } from 'ngx-toastr';
-import { registerLocaleData } from '@angular/common';
-import { CurrencyPipe } from '@angular/common';
+
 
 
 //Materials
@@ -79,6 +78,7 @@ import { ActiveBetsComponent } from './active-bets/active-bets.component';
 
 
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -110,7 +110,7 @@ import { ActiveBetsComponent } from './active-bets/active-bets.component';
     InactiveMatchDirective,
     PopupViewSavedBetsComponent,
     PopupFormSavedBetsComponent,
-    ActiveBetsComponent
+    ActiveBetsComponent,
   ],
   imports: [
     AppRoutingModule,
