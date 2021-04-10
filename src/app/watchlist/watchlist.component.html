@@ -16,7 +16,7 @@
               <mat-cell *matCellDef="let row; let i = index">
                   <!-- column.field.endsWith('OccH') || column.field.endsWith('OccA') || -->
                   <ng-container *ngIf="column.field.endsWith('BHome') ||  column.field.endsWith('SMHome')">
-                    <div class="homeodds-container" [ngClass]="{'match-inactive' : !row.HStatus.notify}">
+                    <div class="homeodds-container" [ngClass]="{'match-inactive odds-container' : !row.HStatus.notify}">
                       <ng-container *ngIf="column.field.endsWith('BHome')" >
                         <span class="{{column.field}} "> {{ row[column.field] | number:'0.2-2'}}</span>
                       </ng-container>
@@ -31,7 +31,7 @@
                   </ng-container>
 
                   <ng-container *ngIf=" column.field.endsWith('BAway') || column.field.endsWith('SMAway')">
-                    <div class="awayodds-container">
+                    <div class="awayodds-container" [ngClass]="{'match-inactive odds-container' : !row.AStatus.notify}">
                       <ng-container *ngIf="column.field.endsWith('BAway')" >
                         <span class="{{column.field}} awayOccCell b3-odd-cont"> {{ row[column.field] | number:'0.2-2'}}</span>
                       </ng-container>

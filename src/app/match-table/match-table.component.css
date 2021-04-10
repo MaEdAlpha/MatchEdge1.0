@@ -404,8 +404,7 @@ button.viewCell {
   hyphens: auto;
 }
 
-
-
+/* exchange image container for odds styles */
 .mat-column-SMHome,
 .mat-column-SMAway,
 .mat-column-BHome,
