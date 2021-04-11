@@ -10,7 +10,7 @@
 
 mat-table {
   margin-top: 30px;
-  border: solid 1px #ffffff;
+  border: solid 0px #ffffff;
 }
 
 mat-row {
@@ -20,10 +20,9 @@ mat-row {
 }
 
 .OccA, .OccH {
-  background: radial-gradient(at 50% 0, #9fa1a0, transparent 70%), linear-gradient(0deg, #e0e1e2, transparent 50%) bottom;
+  background: radial-gradient(at 76% 0, #263238, #263238ad 70%), linear-gradient(0deg, #e0e1e2, transparent 50%) bottom;
   border-radius: 5px;
   padding: 10px;
-  font-size: large;
   min-height: 100%;
 }
 .OccA {
@@ -52,7 +51,7 @@ mat-row {
 }
 
 .mat-column-Away, .mat-column-Home {
-  padding-left: 10px;
+  padding-left: 3px;
 }
 .lge-title-cont> h1, .home-away-cont> h2 {
   color: black;
@@ -171,7 +170,7 @@ div.footer-container{
   width: 100%;
   text-align: center;
   height: 40px;
-  margin-top: 5px;
+  margin-top: 7px;
 }
 
 .league-title{
@@ -232,7 +231,7 @@ span.SMAway {
   color: white;
   font-size: 20px;
   font-weight: 500;
-  padding: 10px;
+  padding-left: 3px;
   border-radius: 5px;
 }
 
@@ -364,7 +363,7 @@ button.viewCell {
 .cdk-column-OccA {
   word-wrap: break-word !important;
   white-space: unset !important;
-  flex: 0 0 5% !important;
+  flex: 0 0 5.5% !important;
   width: fit-content !important;
   overflow-wrap: break-word;
   word-wrap: break-word;
@@ -378,12 +377,12 @@ button.viewCell {
 
 .cdk-column-OccH{
   border-radius: 8px 0px 0px 8px;
-  margin-left: 1%;
+  margin-left: 0%;
 }
 
 .cdk-column-OccA{
   border-radius: 0px 8px 8px 0px;
-  margin-right: 1%;
+  margin-right: 0%;
 }
 
 /* Bet365 Odds */
@@ -393,7 +392,7 @@ button.viewCell {
 .cdk-column-BAway {
   word-wrap: break-word !important;
   white-space: unset !important;
-  flex: 0 0 8% !important;
+  flex: 0 0 7% !important;
   width: fit-content !important;
   overflow-wrap: break-word;
   word-wrap: break-word;
@@ -410,7 +409,7 @@ button.viewCell {
 .mat-column-BHome,
 .mat-column-BAway,
 .fta-value-cont{
-  color: #263238;
+  color: #ffffff;
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
@@ -420,11 +419,15 @@ button.viewCell {
 
 .mat-column-BHome, .mat-column-BAway {
   background-image: url(/assets/img/b365Odds.png);
-  min-height: 40px;
+  min-height: 39px;
+  margin-left: 0px;
+  margin-right: 2px;
 }
 .mat-column-SMHome, .mat-column-SMAway {
   background-image: url(/assets/img/smOdds.png);
-  min-height: 40px;
+  min-height: 39px;
+  margin-left: 0px;
+  margin-right: px;
 }
 
 

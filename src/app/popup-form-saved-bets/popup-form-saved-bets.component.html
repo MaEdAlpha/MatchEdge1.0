@@ -50,6 +50,7 @@
                 <input formControlName="BackOdds"
                 required
                 type="number"
+                step="0.1"
                 matInput
                 placeholder="{{getRealtimeUpdate().get('BackOdds').value}}">
                 <mat-hint align="end">Back Odds</mat-hint>
@@ -70,7 +71,7 @@
             <mat-form-field class="sab-values" appearance="outline">
               <mat-hint align="end">Lay Odds</mat-hint>
               <mat-label>Prev. {{data.activeBet.layOdd}}</mat-label>
-              <input formControlName="LayOdds" required type="number" matInput placeholder="{{getRealtimeUpdate().get('LayOdds').value}}">
+              <input formControlName="LayOdds" required type="number" step="0.1" matInput placeholder="{{getRealtimeUpdate().get('LayOdds').value}}">
               <mat-error *ngIf="sabFormValues.controls.BackOdds.errors">{{getErrorMessage()}}</mat-error>
             </mat-form-field>
 

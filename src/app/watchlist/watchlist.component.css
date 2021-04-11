@@ -185,16 +185,19 @@ span.SMHome,
 span.BAway,
 span.SMAway{
   font-size: 20px;
-  padding-top: 1%;
   height: 50%;
-  line-height: 200%;
-  margin-left: auto;
-  margin-right: 20%;
+  line-height: 100%;
+  margin-left: 40px;
+  margin-right: 0%;
 }
 
 
-.mat-icon-button {
-  width: 30%;
+.mat-icon-buttonHome {
+  margin-left: -5px;
+}
+
+.mat-icon-buttonAway {
+  margin-left: 1px;
 }
 
 
@@ -204,14 +207,13 @@ span.SMAway{
   padding: 3px;
   width: 25px;
   border: 2px #9e9c9c solid;
-  margin-left: 2px;
-  margin-right: 2px;
+  margin-left: 8px;
+  margin-right: 8px;
 }
 
 .viewCell {
     padding: 2px;
-    margin-right: auto;
-    margin-left: auto;
+  
 }
 
 button.viewCell {
@@ -257,17 +259,17 @@ button.viewCell {
 
 .cdk-column-OccH{
   border-radius: 8px 0px 0px 8px;
-  margin-left: 3%;
+  margin-left: 0%;
 }
 
 .cdk-column-OccA{
   border-radius: 0px 8px 8px 0px;
-  margin-right: 3%;
+  margin-right: 0%;
 }
 /* Team Cells */
 .mat-column-Home,
 .mat-column-Away{
-  flex: 0 0 21% !important;
+  flex: 0 0 20.5% !important;
 }
 
 /* Match Button */
@@ -346,7 +348,9 @@ button.viewCell {
 }
 
 #hStatusMoney{
-  background: none !important;
+  background-image: url(/assets/img/jbLogo.png);
+  background-repeat: no-repeat;
+  background-size: cover;
   padding: 0px;
   color: #263238;
 }
@@ -376,7 +380,7 @@ button.viewCell {
   width: 35px;
   padding: 0px;
   font-size: 15px;
-  color: #e0e1e2;
+  color: #ffffff;
 }
 
 .homeOccCell{
@@ -386,26 +390,26 @@ button.viewCell {
   width: 35px;
   padding: 0px;
   font-size: 15px;
-  color: #e0e1e2;
+  color: #ffffff;
 }
 
 .mat-column-BHome, .mat-column-SMHome{
-  margin-left: auto;
-  margin-right: 10px;
+  margin-left: 0px;
+  margin-right: 2px;
 }
 
 .mat-column-BAway, .mat-column-SMAway{
-  margin-right: auto;
-  margin-left: 10px;
+  margin-right: 0px;
+  margin-left: 2px;
 }
 
 .mat-column-BHome, .mat-column-BAway {
   background-image: url(/assets/img/b365Odds.png);
-  min-height: 40px;
+  min-height: 39px;
 }
 .mat-column-SMHome, .mat-column-SMAway {
   background-image: url(/assets/img/smOdds.png);
-  min-height: 40px;
+  min-height: 39px;
 }
 
 .homeodds-container,
@@ -413,7 +417,7 @@ button.viewCell {
   display: inline-flex;
   width: 100%;
   height: 100%;
-  max-height: 40px;
+  max-height: 39px;
   max-width: 100px;
   margin-left: 10px;
 }
@@ -440,9 +444,11 @@ button.viewCell {
 }
 
 .odds-container{
-  border-radius: 10px 0px 0px 10px;
-  margin-left: 8px;
-  margin-right: 8px;
+  border-radius: 10px 0px 0px 8px;
+  margin-left: 9px;
+  margin-right: 9px;
+  padding-top: 8px;
+  padding-bottom: 11px;
 }
 
 .empty-container{

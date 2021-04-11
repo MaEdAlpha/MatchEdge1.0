@@ -37,10 +37,10 @@
                   <ng-container *ngIf=" column.field.endsWith('BAway') || column.field.endsWith('SMAway')">
                     <div class="awayodds-container" [ngClass]="{'match-inactive odds-container' : !row.AStatus.notify}">
                       <ng-container *ngIf="column.field.endsWith('BAway')" >
-                        <span class="{{column.field}} awayOccCell b3-odd-cont"> {{ row[column.field] | number:'0.2-2'}}</span>
+                        <span class="{{column.field}} b3-odd-cont"> {{ row[column.field] | number:'0.2-2'}}</span>
                       </ng-container>
                       <ng-container *ngIf="column.field.endsWith('SMAway')">
-                        <span class="{{column.field}} awayOccCell sm-odd-cont"> {{ row[column.field] | number:'0.2-2'}}</span>
+                        <span class="{{column.field}} sm-odd-cont"> {{ row[column.field] | number:'0.2-2'}}</span>
                       </ng-container>
 
                     </div>
@@ -86,12 +86,12 @@
                     <div class="dirStatusContainer">
                       <ng-container *ngIf="column.field.endsWith('HStatus')">
                           <button mat-icon-button
-                            class="{{column.field}} viewCell"
+                            class="{{column.field}} viewCell mat-icon-buttonHome"
                             (click)="openViewBets(row, 'home')"
                             appBetHome [hBetStatus]="row.HStatus.activeBet"
                             id="hStatusMoney" [ngClass]="{'match-inactive' : !row.HStatus.notify}">
                             <mat-icon>
-                              attach_money
+                              
                             </mat-icon>
                         </button>
                       </ng-container>
@@ -100,13 +100,13 @@
                       <ng-container *ngIf="column.field.endsWith('AStatus')">
                         <ng-container>
                           <button mat-icon-button
-                            class="{{column.field}} viewCell"
+                            class="{{column.field}} viewCell mat-icon-buttonAway"
                             appBetAway
                             (click)="openViewBets(row, 'away')"
                             appBetAway [aBetStatus]="row.AStatus.activeBet"
                             id="hStatusMoney" [ngClass]="{'match-inactive' : !row.AStatus.notify}">
                             <mat-icon>
-                              attach_money
+                             
                             </mat-icon>
                         </button>
                         </ng-container>
