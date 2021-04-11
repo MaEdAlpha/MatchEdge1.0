@@ -152,11 +152,10 @@ export class WatchlistComponent implements OnInit, OnDestroy {
 
       this.watchList.push(matchObject);
     } else if(!matchObject.isWatched) {
-      console.log("updated match removed");
-
       var index: number;
       index = this.watchList.indexOf(matchObject);
       this.watchList.splice(index, 1);
+      this.checkEmptyGroup(this.displayList);
     }
 
     //sort watchlist based off time
@@ -705,6 +704,18 @@ export class WatchlistComponent implements OnInit, OnDestroy {
           rowData.AStatus.notify = rowData.BAway > this.userPref.getMinOdds() ? true : false;
           this.updateMatchStatusList(rowData, true);
           this.updateMatchStatusList(rowData,false);
+        }
+      });
+    }
+
+    checkEmptyGroup(displayList:any):void{
+      displayList.forEach( (displayObj, index) => {
+        console.log(index);
+        console.log(displayObj);
+
+        if(displayObj.level !=undefined && displayObj.level == 1){
+          console.log(displayObj);
+
         }
       });
     }
