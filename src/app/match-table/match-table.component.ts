@@ -24,7 +24,7 @@ import { MatCheckbox } from '@angular/material/checkbox';
     League = "";
     isActive = false;
     totalCounts = 0;
-    notifyAll = false;
+    watchAll = false;
     isToday = false;
     isTomorrow = false;
   }
@@ -161,6 +161,11 @@ import { MatCheckbox } from '@angular/material/checkbox';
 
       //LIVE UPDATES UNCOMMENT
       this.webSocketService.openWebSocket();
+    }
+    sendToWatchListService(matches: any) {
+      matches.forEach(match => {
+        this.matchStatusService.watchMatchSubject(match);
+      });
     }
 
     ngOnDestroy(){
@@ -551,28 +556,31 @@ import { MatCheckbox } from '@angular/material/checkbox';
       }
     }
 
-    notifyAll(groupRow:any):void{
+    watchAll(groupRow:any):void{
       console.log(this.matches);
+      console.log("WatchAll= " + groupRow.watchAll);
 
       //filter by league
       const leagueMatches = this.matches.filter( (match) => {
         if(match.League == groupRow.League)
         {
-          match.isWatched = groupRow.notifyAll;
-          match.AStatus.notify = groupRow.notifyAll;
-          match.HStatus.notify = groupRow.notifyAll;
+          match.isWatched = groupRow.watchAll;
+          match.AStatus.notify = groupRow.watchAll;
+          match.HStatus.notify = groupRow.watchAll;
           return true;
         }
       });
       console.log(leagueMatches);
 
       leagueMatches.forEach( (match)=> {
-        if(groupRow.notifyAll){
-          console.log("added to watchMatchSubject");
-
+        if(groupRow.watchAll){
+          console.log("Added to Subject");
+          this.matchStatusService.addToWatchList(match);
           this.matchStatusService.watchMatchSubject(match);
         } else {
+          console.log("Removed from List")
           this.matchStatusService.removeFromWatchList(match);
+          this.matchStatusService.watchMatchSubject(match);
         }
       });
     }
@@ -659,9 +667,16 @@ import { MatCheckbox } from '@angular/material/checkbox';
 
     addToWatchList(rowData:any){
       console.log(rowData);
-
       rowData.isWatched = !rowData.isWatched;
-      this.matchStatusService.watchMatchSubject(rowData);
+      console.log("RowData.isWatched set to " + rowData.isWatched);
+
+      if(rowData.isWatched){
+        this.matchStatusService.addToWatchList(rowData);
+        this.matchStatusService.watchMatchSubject(rowData);
+      } else {
+        this.matchStatusService.removeFromWatchList(rowData);
+        this.matchStatusService.watchMatchSubject(rowData);
+      }
     }
 
     saveMasterGroup( masterGroup: any){

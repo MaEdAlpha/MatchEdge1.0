@@ -7,6 +7,7 @@ import { UserPropertiesService } from './user-properties.service';
 })
 
 export class MatchStatusService {
+
   watchList: any[]=[];
   private watchSubject = new Subject<any>();
   private groupSubject = new Subject<any>();
@@ -19,6 +20,10 @@ export class MatchStatusService {
   //TODO: If Observable is not necessary...do we just filter?
   removeFromWatchList(selectionToRemove: any) {
     var selectionPosition: number;
+
+    selectionPosition = this.watchList.indexOf(selectionToRemove);
+    console.log("Index is: " + selectionPosition);
+
     this.watchList.forEach( (selectionInList, index) => {
 
       if(selectionInList == selectionToRemove.Home || selectionInList == selectionToRemove.Away){
@@ -29,7 +34,10 @@ export class MatchStatusService {
   }
 
   addToWatchList(selection: any) {
-    this.watchList.push(selection);
+    console.log(" Found selection in watchList? " + this.watchList.includes(selection) );
+    //selection already in watchlist? do nothing, else push.
+    this.watchList.includes(selection) ? null : this.watchList.push(selection);
+
   }
 
   updateWatchList(matchObj: any, isHome:boolean): void{
@@ -38,9 +46,13 @@ export class MatchStatusService {
 
       if(isHome && matchObj.Home == watchListObj.Home && matchObj.EpochTime == watchListObj.EpochTime){
         watchListObj.HStatus.notify = matchObj.HStatus.notify;
+        return true;
       }
       else if (!isHome && matchObj.Away == watchListObj.Away && matchObj.EpochTime == watchListObj.EpochTime){
         watchListObj.AStatus.notify = matchObj.AStatus.notify;
+        return true;
+      } else {
+        return false;
       }
     });
   }
@@ -76,16 +88,19 @@ export class MatchStatusService {
     //create observable
     this.watchSubject.next(selection);
     //add to list for notification services
-    selection.isWatched ? this.addToWatchList(selection) : this.removeFromWatchList(selection);
     //get user preferences for odds and set notification here.
     this.setNotificationStatus(selection);
     this.getWatchList();
   }
+
   private setNotificationStatus(selection: any) {
     selection.BHome > this.userPreferenceService.getMinOdds() ? selection.HStatus.notify = true : selection.HStatus.notify = false;
     selection.BAway > this.userPreferenceService.getMinOdds() ? selection.AStatus.notify = true : selection.AStatus.notify = false;
   }
 
+  unwatchMatchSubject(rowData: any) {
+    throw new Error('Method not implemented.');
+  }
   getMatchWatchStatus(): Observable<any>{
     return this.watchSubject.asObservable();
   }

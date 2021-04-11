@@ -109,6 +109,9 @@ export class WatchlistComponent implements OnInit, OnDestroy {
       this.watchMatchesubscription = this.matchStatusService.getMatchWatchStatus().
       subscribe( matchObject => {
         //triggers each time watchList subject is activated in matchTable Component
+        console.log("SUBSCRIPTION TRIGGERED~!!");
+        console.log(matchObject);
+
         this.updateWatchList(matchObject);
       });
 
@@ -140,9 +143,17 @@ export class WatchlistComponent implements OnInit, OnDestroy {
   private updateWatchList(matchObject: any) {
     //Check state of match. Add or remove it.
     //date validator.
-    if (matchObject.isWatched) {
+    console.log("IN UPDATE WATCHLIST");
+
+    console.log(matchObject);
+
+    if (matchObject.isWatched && !this.watchList.includes(matchObject)) {
+      console.log("updated: match added");
+
       this.watchList.push(matchObject);
-    } else {
+    } else if(!matchObject.isWatched) {
+      console.log("updated match removed");
+
       var index: number;
       index = this.watchList.indexOf(matchObject);
       this.watchList.splice(index, 1);
