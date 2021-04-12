@@ -20,9 +20,21 @@ export class SavedActiveBetsService {
     this.sabListChange.emit(this.sabArray.slice());
   }
 
-  updateActiveBets(sab:ActiveBet):void{
-    //find already saved sab Obj and update any changes.
-    //Duplicates...are you making a reference object or a copy?
+  updateActiveBets(sab:ActiveBet, isEdit: boolean):void{
+    console.log("updated!");
+    console.log(sab);
+
+    if(isEdit){
+      const updatedSab = this.sabArray.filter( savedBet => {
+        if(savedBet.created == sab.created && savedBet.selection == sab.selection){
+          savedBet = sab;
+          return true
+        }
+      });
+      console.log(updatedSab);
+    }else {
+      this.saveToActiveBets(sab);
+    }
   }
 
   getSabListObservable(): Observable<ActiveBet> {

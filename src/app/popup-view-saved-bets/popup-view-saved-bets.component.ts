@@ -15,32 +15,46 @@ export class PopupViewSavedBetsComponent implements AfterViewInit {
   filteredSabList: ActiveBet [] = [];
   activeBetSubscription: Subscription;
   //masterList
-  isEmptyList: boolean = true;
+
   //selectionsList
   isEmptySelectionList: boolean = true;
   constructor( public dialog: MatDialog, public dialogRef: MatDialogRef<PopupViewSavedBetsComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any, private savedActiveBetService: SavedActiveBetsService, private chRef: ChangeDetectorRef) {
       //gets master list of all SAB
+
       this.importedSabList = this.savedActiveBetService.getSabList();
 
       this.filteredSabList = this.importedSabList.filter(sab => {
-        if(sab.selection == data.Selection){
+        if (sab.selection == data.Selection) {
           return true;
         }
       });
-      //gets filtered based off of selection
 
-      console.log("Your Filtere SAB list");
-      console.log(this.importedSabList);
+      this.savedActiveBetService.sabListChange.subscribe( updatedSABList => {
+        console.log("Change detected!");
 
-      console.log(this.filteredSabList);
+       this.importedSabList = updatedSABList;
+
+       this.filteredSabList = this.importedSabList.filter(sab => {
+        if (sab.selection == data.Selection) {
+          return true;
+        }
+        });
+
+       this.checkIfEmpty();
+       this.chRef.detectChanges();
+      });
 
     }
 
     ngAfterViewInit(){
-      this.filteredSabList.length == 0 ? this.isEmptySelectionList = true : this.isEmptySelectionList = false;
+      this.checkIfEmpty();
       this.chRef.detectChanges();
     }
+  private checkIfEmpty() {
+    this.filteredSabList.length == 0 ? this.isEmptySelectionList = true : this.isEmptySelectionList = false;
+  }
+
     onNoClick(): void {
       this.dialogRef.close();
     }
@@ -67,7 +81,7 @@ export class PopupViewSavedBetsComponent implements AfterViewInit {
         betState:false,
         occ: this.data.Selection == this.data.Home ? this.data.OccH: this.data.OccA,
         pl: null,
-        comment: null,
+        comment: ' ',
         isSettled: false,
       }
 

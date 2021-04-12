@@ -35,14 +35,14 @@ export class PopupFormSavedBetsComponent implements OnInit {
     var commentValidator: ValidatorFn[] = [Validators.maxLength(140)];
     return this.sabFormValues = this.fb.group({
       Stake:new FormControl(data.activeBet.stake, stakeValidator),
-      LayStake: new FormControl({value:(data.activeBet.backOdd / data.activeBet.layOdd * data.activeBet.stake).toPrecision(2), disabled:true}),
+      LayStake: new FormControl({value:(data.activeBet.backOdd / data.activeBet.layOdd * data.activeBet.stake).toPrecision(2)}),
       BackOdds: new FormControl(data.activeBet.backOdd, oddsValidator),
       LayOdds: new FormControl(data.activeBet.layOdd, oddsValidator),
       Liability: new FormControl(data.activeBet.liability),
-      QL: new FormControl({value:data.activeBet.ql, disabled:true}),
-      EstValue: new FormControl({value:data.activeBet.ev, disabled:true}),
-      FTA: new FormControl({value:data.activeBet.fta, disabled:true}),
-      ROI: new FormControl({value:data.activeBet.roi, disabled:true}),
+      QL: new FormControl({value:data.activeBet.ql }),
+      EstValue: new FormControl({value:data.activeBet.ev}),
+      FTA: new FormControl({value:data.activeBet.fta}),
+      ROI: new FormControl({value:data.activeBet.roi}),
       BetState: new FormControl(data.activeBet.betState),
       MatchInfo: new FormControl(data.activeBet.comment, commentValidator),
       PL: new FormControl(data.activeBet.pl, stakeValidator),
@@ -72,17 +72,35 @@ export class PopupFormSavedBetsComponent implements OnInit {
   }
 
   updateForm():void {
-
     if(!this.isDisabled){
-      console.log(this.sabFormValues);
+      this.data.isEdit ? this.data.activeBet.created = Date.now() : '';
+      this.data.activeBet.backOdd = this.sabFormValues.value.BackOdds;
+      this.data.activeBet.betState = this.sabFormValues.value.BetState;
+      this.data.activeBet.ev = this.sabFormValues.value.EstValue;
+      this.data.activeBet.fta = this.sabFormValues.value.FTA;
+      this.data.activeBet.layOdd = this.sabFormValues.value.LayOdds;
+      this.data.activeBet.layStake = this.sabFormValues.value.LayStake;
+      this.data.activeBet.liability = this.sabFormValues.value.Liability;
+      this.data.activeBet.comment = this.sabFormValues.value.MatchInfo;
+      this.data.activeBet.pl = this.sabFormValues.value.PL;
+      this.data.activeBet.ql = this.sabFormValues.value.QL;
+      this.data.activeBet.roi = this.sabFormValues.value.ROI;
+      this.data.activeBet.stake = this.sabFormValues.value.Stake;
+
+      this.savedActiveBetService.updateActiveBets( this.data.activeBet as ActiveBet, this.data.isEdit);
+
+
       //save data in directive
       this.dialogRef.close();
     }
   }
 
-  getRealtimeUpdate(){
-    console.log(this.sabFormValues.touched + " " + this.sabFormValues.status );
+  onSubmit(){
+    console.log(this.sabFormValues.value);
 
+  }
+  getRealtimeUpdate(){
+    // console.log(this.sabFormValues.touched + " " + this.sabFormValues.status );
     this.sabFormValues.touched && this.sabFormValues.status == 'VALID' ? this.isDisabled=false : this.isDisabled=true;
     return this.sabFormValues;
   }
