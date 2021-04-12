@@ -53,6 +53,7 @@ export class WatchlistComponent implements OnInit, OnDestroy {
     indexPositions: number[];
     tableSelected: number = 1;
     isNotInList: boolean = false;
+    isTableEmpty: boolean = true;
     panelOpenState = false;
     viewSelectedDate:string;
 
@@ -148,9 +149,8 @@ export class WatchlistComponent implements OnInit, OnDestroy {
     console.log(matchObject);
 
     if (matchObject.isWatched && !this.watchList.includes(matchObject)) {
-      console.log("updated: match added");
-
       this.watchList.push(matchObject);
+      this.isTableEmpty = false;
     } else if(!matchObject.isWatched) {
       var index: number;
       index = this.watchList.indexOf(matchObject);
@@ -225,8 +225,7 @@ export class WatchlistComponent implements OnInit, OnDestroy {
   }
 
   compareDates(a, b){
-
-    if(a.EpochTime > b.EpochTime){
+    if(a.EpochTime < b.EpochTime){
       return 1;
     } else {
       return -1;
@@ -709,14 +708,17 @@ export class WatchlistComponent implements OnInit, OnDestroy {
     }
 
     checkEmptyGroup(displayList:any):void{
+      console.log("List:" + displayList.length);
+      var i:number = 0;
+
       displayList.forEach( (displayObj, index) => {
-        console.log(index);
-        console.log(displayObj);
+        displayObj.level == undefined ? i++ : null;
 
         if(displayObj.level !=undefined && displayObj.level == 1){
           console.log(displayObj);
-
         }
       });
+
+      this.isTableEmpty= i == 0 ? true : false;
     }
 }

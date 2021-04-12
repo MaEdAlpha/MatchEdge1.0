@@ -1,5 +1,9 @@
 <div class="mn-display">
-
+  <ng-container *ngIf="isTableEmpty">
+    <div class="empty-container">
+      <p> Currently no matches selected to watch. <br> Go to the 'Fixtures' table and select some matches.</p>
+    </div>
+  </ng-container>
           <mat-table  mat-table [dataSource] ="dataSource">
             <!-- Generate Column Headers -->
             <ng-container *ngFor="let column of columns" matColumnDef= {{column.field}}>

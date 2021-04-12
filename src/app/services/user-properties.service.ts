@@ -62,8 +62,8 @@ export class UserPropertiesService {
   private viewTablePrefs: TablePreferences = {
     leagueSelection: ['Get Rid of this Field'],
     timeRange: 'Today & Tomorrow',
-    minOdds: '1',
-    maxOdds: '10',
+    minOdds: '2.5',
+    maxOdds: '20',
     evFilterValue: '-10',
     maxRatingFilter: '90.50',
     isEvSelected: true,

@@ -437,3 +437,21 @@ button.viewCell {
   margin-right: 8px;
 }
 
+.empty-container{
+  position: relative;
+  background: #e0e1e2;
+  width: 100%;
+  height: 20em;
+}
+
+.empty-container>p{
+  position: absolute;
+  margin: 0;
+  width: 100%;
+  top: 40%;
+  font-size: 18px;
+  text-align: center;
+  line-height: 1.3;
+}
+
+
