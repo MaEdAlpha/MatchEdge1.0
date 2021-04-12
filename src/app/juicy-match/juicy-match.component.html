@@ -148,7 +148,7 @@
                                     <div class="selection-figures row4-row2">
                                       <div class="r2 r2-col1">
                                         <h3 class="selection-figures-content1">EV: </h3>
-                                        <span class="selection-figures-content2">{{ TotalEV( selection.FTAround,  getGroup(i).get('Stake').value, getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value)  | currency:'GBP' }}</span>
+                                        <span class="selection-figures-content2">{{ TotalEV( selection.FTAround,  getGroup(i).get('Stake').value, getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value)/selection.FTAround  | currency:'GBP' }}</span>
                                       </div>
 
                                       <div class="r2 r2-col2">
