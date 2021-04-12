@@ -73,7 +73,7 @@ export class PopupFormSavedBetsComponent implements OnInit {
 
   updateForm():void {
     if(!this.isDisabled){
-      this.data.isEdit ? this.data.activeBet.created = Date.now() : '';
+      !this.data.isEdit ? this.data.activeBet.created = Date.now() : '';
       this.data.activeBet.backOdd = this.sabFormValues.value.BackOdds;
       this.data.activeBet.betState = this.sabFormValues.value.BetState;
       this.data.activeBet.ev = this.sabFormValues.value.EstValue;
@@ -89,16 +89,11 @@ export class PopupFormSavedBetsComponent implements OnInit {
 
       this.savedActiveBetService.updateActiveBets( this.data.activeBet as ActiveBet, this.data.isEdit);
 
-
       //save data in directive
       this.dialogRef.close();
     }
   }
 
-  onSubmit(){
-    console.log(this.sabFormValues.value);
-
-  }
   getRealtimeUpdate(){
     // console.log(this.sabFormValues.touched + " " + this.sabFormValues.status );
     this.sabFormValues.touched && this.sabFormValues.status == 'VALID' ? this.isDisabled=false : this.isDisabled=true;
