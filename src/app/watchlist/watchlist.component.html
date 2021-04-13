@@ -31,7 +31,7 @@
                   </ng-container>
 
                   <ng-container *ngIf="column.field.endsWith('OccH')">
-                    <span class="{{column.field}} homeOccCell fta-value-cont" [ngClass]="{'match-inactive' : !row.HStatus.notify}"> {{ row[column.field] | number:'1.0-0'}}</span>
+                    <!-- <span class="{{column.field}} homeOccCell fta-value-cont" [ngClass]="{'match-inactive' : !row.HStatus.notify}"> {{ row[column.field] | number:'1.0-0'}}</span> -->
                   </ng-container>
 
                   <ng-container *ngIf=" column.field.endsWith('BAway') || column.field.endsWith('SMAway')">
@@ -47,13 +47,14 @@
                   </ng-container>
 
                   <ng-container *ngIf="column.field.endsWith('OccA')">
-                    <span class="{{column.field}} awayOccCell fta-value-cont" [ngClass]="{'match-inactive' : !row.AStatus.notify}"> {{ row[column.field] | number:'1.0-0'}}</span>
+                    <!-- <span class="{{column.field}} awayOccCell fta-value-cont" [ngClass]="{'match-inactive' : !row.AStatus.notify}"> {{ row[column.field] | number:'1.0-0'}}</span> -->
                   </ng-container>
 
 
                     <ng-container *ngIf="column.field=='Home'">
                       <div class="team-home-container">
                        <button mat-raised-button class="selection-button" (click)="toggleNotification(row, true)" [ngClass]="{'match-inactive' : !row.HStatus.notify}" >
+                        <span class="{{column.field}} homeOccCell fta-value-cont"> {{ row['OccH'] | number:'1.0-0'}}</span>
                         <mat-icon class="selection-notify home-bell" *ngIf="!row.HStatus.notify">notifications_off</mat-icon>
                         <span class="{{column.field.toLowerCase()}}-selection"> {{ row[column.field] }}</span>
                        </button>
@@ -67,6 +68,7 @@
                         <button mat-raised-button class="selection-button" (click)="toggleNotification(row, false)" [ngClass]="{'match-inactive' : !row.AStatus.notify}">
                           <span class="{{column.field.toLowerCase()}}-selection"> {{ row[column.field] }}</span>
                           <mat-icon class="selection-notify away-bell" *ngIf="!row.AStatus.notify">notifications_off</mat-icon>
+                          <span class="{{column.field}} awayOccCell fta-value-cont"> {{ row['OccA'] | number:'1.0-0'}}</span>
                         </button>
                       </div>
                     </ng-container>

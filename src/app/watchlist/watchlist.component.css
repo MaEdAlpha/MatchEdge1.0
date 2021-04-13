@@ -256,7 +256,7 @@ button.viewCell {
 
 .mat-column-OccH,
 .mat-column-OccA {
-  flex: 0 0 5% !important;
+  flex: 0 0 0% !important;
   background: #fbfbfb;
 }
 
@@ -272,7 +272,7 @@ button.viewCell {
 /* Team Cells */
 .mat-column-Home,
 .mat-column-Away{
-  flex: 0 0 14% !important;
+  flex: 0 0 21% !important;
 }
 
 /* Match Button */
@@ -368,7 +368,7 @@ button.viewCell {
   border-radius: 10px;
 }
 .fta-value-cont {
-  background: radial-gradient(at 50% 0, #9fa1a0, transparent 70%), linear-gradient(0deg, #e0e1e2, transparent 50%) bottom;
+  background: radial-gradient(at 76% 0, #263238, #263238ad 70%), linear-gradient(0deg, #e0e1e2, transparent 50%) bottom;
   border-radius: 5px;
   padding: 10px;
   font-size: large;
@@ -377,11 +377,15 @@ button.viewCell {
 .awayOccCell{
   margin-left: auto;
   margin-right: 5px;
+  float: right;
+  height: 20px;
 }
 
 .homeOccCell{
   margin-right: auto;
   margin-left: 5px;
+  height: 20px;
+  float: left;
 }
 
 .mat-column-BHome, .mat-column-SMHome{
