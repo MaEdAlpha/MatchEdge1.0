@@ -72,7 +72,7 @@
               [@detailExpand]="selection == expandedElement || selection.isRedirected == 'Yes' ? 'expanded' : 'collapsed'">
 
               <ng-container *ngIf="expandedElement === selection || selection.isRedirected =='Yes'">
-                <form [formGroup]="selectionValues">
+                <form class="form-container"  [formGroup]="selectionValues">
 
                 <div class="jm-exp-details"> <!--Expansion container for juicy match-->
 
@@ -129,7 +129,7 @@
 
                         <div class="exchange-container">
                           <div class="exchange-row">
-                            <button mat-raised-button class="bet-state-button" [style.background]="selection.betState ? 'green' : 'red'" (click)="selection.betState = !selection.betState">{{ selection.betState ? 'Matched' : 'Unmatched'}}</button>
+                            <button mat-raised-button class="bet-state-button" [style.background]="selection.betState ? ' #076044' : '#8a0606'" (click)="selection.betState = !selection.betState">{{ selection.betState ? 'Matched' : 'Unmatched'}}</button>
                           </div>
                           <div class="exchange-row">
                             <p class="liability-text">Liability:</p>

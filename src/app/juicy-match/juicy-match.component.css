@@ -4,6 +4,9 @@ table, .table-title, .no-content {
   margin-left: auto;
   margin-right: auto;
 }
+.form-container {
+  height: 100%;
+}
 
 th.mat-header-cell:first-of-type, td.mat-cell:first-of-type, td.mat-footer-cell:first-of-type,
 th.mat-header-cell:last-of-type, td.mat-cell:last-of-type, td.mat-footer-cell:last-of-type{
@@ -78,8 +81,8 @@ tr.juicyMatch-row:not(.juicyMatch-expanded-row):active { /* when main container 
 }
 .juicyMatch-detail { /* hides juicy detaisl */
   overflow: hidden;
-  display: grid;
   background:whitesmoke;
+  height: 100%;
 }
 .selection {
   text-align: center;
@@ -263,7 +266,7 @@ div.selection-logo-cont {
 div.jm-exp-details {
   display: inline-flex;
   width: 100%;
-  height: fit-content;
+  height: 100%;
   background: #d2d2d2;
 }
 /* Parent container for all back and lay bet details excluding logo*/
@@ -274,7 +277,6 @@ div.jm-exp-details {
 
   .shadow {
     box-shadow: inset -5px -3px 10px #000000;
-    border-radius: 8px;
  }
 
  /* Bookie and exchange logo in main row of juicy table */
@@ -331,7 +333,6 @@ div.jm-exp-details {
   height: 100%;
   padding-top: 0px;
   padding-bottom:0px;
-  border-radius: 10px;
 }
 
 .bookie{
@@ -348,7 +349,8 @@ div.jm-exp-details {
 
 /* Additional bet details*/
 .calculated{
-  background: radial-gradient(at 60% 0, #424242, transparent 86%), linear-gradient(5deg, #234e40, transparent 80%) bottom;
+  background: radial-gradient(at 111% 0, #4f8ca2, #172329 66%),
+              linear-gradient( 231deg, #383838, transparent 80%) bottom;
   color: white;
 }
 
@@ -357,9 +359,13 @@ div.jm-exp-details {
   width: 100%;
 }
 
+.mat-hint{
+  color: white;
+}
+
 /* Lay Bet style and layout*/
 .exchange {
-  background: radial-gradient(at 60% 0, #383838, transparent 80%), linear-gradient(181deg, #383838, transparent 80%) bottom;
+  background: radial-gradient(at 153% 0, #e0e1e2, #19222b 66%), linear-gradient(101deg, #e0e1e2, #171d1dd9 146%) bottom;
   color: rgb(255, 255, 255);
 }
 
@@ -451,8 +457,9 @@ div.jm-exp-details {
 }
 
 .liability-amount{
-  padding-left: 10px;
   margin-right: auto;
+  margin-left: 5px;
+  font-size: x-large;
 }
 
 .exchange-atodds-style {
@@ -522,7 +529,7 @@ padding-top: 8%;
 
 .bet-state-button {
   color: white;
-  width: fit-content;
+  width: 75%;
   margin-top: 10px;
   margin-left: auto;
   margin-right: auto;
