@@ -4,6 +4,11 @@ table, .table-title, .no-content {
   margin-left: auto;
   margin-right: auto;
 }
+
+th.mat-header-cell:first-of-type, td.mat-cell:first-of-type, td.mat-footer-cell:first-of-type,
+th.mat-header-cell:last-of-type, td.mat-cell:last-of-type, td.mat-footer-cell:last-of-type{
+  padding: 0px;
+}
 .no-content {
   color: black;
   text-align: center;
@@ -40,17 +45,11 @@ table, .no-content {
   width: 120px;
 }
 .mat-cell {
-  /*-right:  1px solid #00000012;*/
-  padding-left: 5px;
-  padding-right: 5px;
   border-bottom-width: 0;
 }
 
 .mat-cell-withdata { /*Added this class to add borders to only the cells/rows that have content *?
   /*border-right:  1px solid #bebcbc;*/
-  line-height: 0%;
-  padding-left: 5px;
-  padding-right: 5px;
   border-bottom:  1px solid #bebcbc;
 }
 .mat-column-Selection {
@@ -324,12 +323,12 @@ div.jm-exp-details {
 /* Back Bet style and layout*/
 .bookie,
 .exchange,
-.calculated-values
+.calculated
 {
   display: inline-flex;
   float: left;
   text-align: center;
-  height: 90%;
+  height: 100%;
   padding-top: 0px;
   padding-bottom:0px;
   border-radius: 10px;
@@ -339,16 +338,23 @@ div.jm-exp-details {
   width: 25%;
   background: radial-gradient(at 60% 0, #126E51, transparent 80%), linear-gradient(5deg, #095940, transparent 80%) bottom;
 }
-.exchange,
-.calculated-values{
+.exchange{
   width: 33%;
 }
 
+.calculated {
+  width:40%;
+}
 
 /* Additional bet details*/
-.calculated-values{
+.calculated{
   background: radial-gradient(at 60% 0, #424242, transparent 86%), linear-gradient(5deg, #234e40, transparent 80%) bottom;
   color: white;
+}
+
+.comments-cont {
+  padding: 10px;
+  width: 100%;
 }
 
 /* Lay Bet style and layout*/
@@ -381,15 +387,23 @@ div.jm-exp-details {
   float: left;
 }
 
-.exchange-container{
+.exchange-container,
+.calculated-container{
   width: 33%;
   float: left;
 }
 
 .bookie-row,
-.exchange-row {
+.exchange-row,
+.calculated-row {
   display: inline-flex;
   width: 100%;
+}
+
+.calculated-row> h3, span, button{
+  margin: 0px;
+  margin-left: auto;
+  margin-right: auto;
 }
 .bookie-text-lhs,
 .bookie-text-rhs,
@@ -479,14 +493,20 @@ padding-top: 8%;
   width: 35%;
   display: inline-block;
 }
-.selection-figures-content1, .selection-figures-content2 {
+.calculated-text,
+.calculated-value{
   width: fit-content;
   display: inline-flex;
   font-size: large;
   padding-left: 20px;
-  margin: 0;
 }
 
+.value-divider{
+  margin: 0;
+  margin-left: 18%;
+  margin-right: auto;
+  width: 70%;
+}
 .selection-figures {
   display: inline-flex;
   width: 50%;
@@ -545,12 +565,12 @@ th.mat-sort-header-sorted {
 
 .odd-text {
   position: absolute;
-  top: 15px;
+  top: 5px;
   left: 5px;
 }
 .fta-value-text {
   position: absolute;
-  top: 15px;
+  top: 6px;
   left: 38px;
 }
 
@@ -571,4 +591,8 @@ th.mat-column-Fixture, th.mat-column-EventStart, th.mat-column-Selection {
 }
 ::ng-deep.mat-sort-header-arrow {
   color: #ffbf0e;
+}
+
+span.calculated-value{
+  padding: 4px;
 }

@@ -233,6 +233,7 @@ export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
       LayStake:new FormControl(data.BackOdds / data.LayOdds * data.Stake),
       BackOdds:new FormControl(data.BackOdds),
       LayOdds:new FormControl(data.LayOdds),
+      MatchInfo: new FormControl('Notes here'),
       });
   }
 
@@ -349,6 +350,7 @@ export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
         LayStake: selection.LayStake,
         BackOdds: selection.BackOdds,
         LayOdds: selection.LayOdds,
+        MatchInfo: 'Comments here',
       });
       //use a method to reset the formGroup values to selectionObject values.
     }
@@ -414,6 +416,7 @@ export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
       var backOdd = activeBetDetails.value.BackOdds;
       var layOdd = activeBetDetails.value.LayOdds;
       var stake = activeBetDetails.value.Stake;
+      var matchInfo = activeBetDetails.value.MatchInfo;
       console.log("Row Data");
       console.log(row.betState);
 
@@ -438,7 +441,7 @@ export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
         betState: row.betState,
         occ: row.FTAround,
         pl: +this.QL(backOdd, layOdd, stake).toFixed(2),
-        comment: 'testing',
+        comment: matchInfo,
         isSettled: false,
       }
       return activeBet;

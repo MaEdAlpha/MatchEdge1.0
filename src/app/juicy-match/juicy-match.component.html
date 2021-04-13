@@ -138,32 +138,47 @@
                         </div>
                     </div>
 
-                    <div class="calculated-values">
-                        <div class="selection-figures row4-row1">
-                          <div class="r1 r1-col1">
-                            <h3 class="selection-figures-content1">ROI:</h3>
-                            <span class="selection-figures-content1">{{ ROI(getGroup(i).get('Stake').value, getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value, selection.FTAround) | number:'0.2-2'}} %</span>
-                          </div>
-
-                          <div class="r1 r1-col2">
-                            <h3 class="selection-figures-content2">FTA: </h3>
-                            <span class="selection-figures-content2"> {{ FTA(getGroup(i).get('Stake').value, getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value  ) | currency:'GBP'}}</span></div>
-                          </div>
-
-
-                          <div class="selection-figures row4-row2">
-                            <div class="r2 r2-col1">
-                              <h3 class="selection-figures-content1">EV: </h3>
-                              <span class="selection-figures-content2">{{ TotalEV( selection.FTAround,  getGroup(i).get('Stake').value, getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value)/selection.FTAround  | currency:'GBP' }}</span>
-                            </div>
-
-                            <div class="r2 r2-col2">
-                              <h3 class="selection-figures-content2">QL: </h3>
-                              <span class="selection-figures-content2"> {{ QL( getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value, getGroup(i).get('Stake').value) | currency:'GBP'}}  </span>
-                            </div>
-                          </div>
-
+                    <div class="calculated shadow">
+                      <!-- Calculated Values -->
+                      <div class="calculated-container">
+                        <div class="calculated-row">
+                          <h3 class="calculated-text">ROI:</h3>
+                          <span class="calculated-value">{{ ROI(getGroup(i).get('Stake').value, getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value, selection.FTAround) | number:'0.2-2'}} %</span>
+                        </div>
+                        <hr class="value-divider">
+                        <div class="calculated-row">
+                          <h3 class="calculated-text">FTA: </h3>
+                            <span class="calculated-value"> {{ FTA(getGroup(i).get('Stake').value, getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value  ) | currency:'GBP'}}</span>
+                        </div>
+                        <hr class="value-divider">
+                        <div class="calculated-row">
+                          <h3 class="calculated-text">EV: </h3>
+                          <span class="calculated-value">{{ TotalEV( selection.FTAround,  getGroup(i).get('Stake').value, getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value)/selection.FTAround  | currency:'GBP' }}</span>
+                        </div>
+                      </div>
+                      <!-- Comment Box -->
+                      <div class="calculated-container">
+                        <div class="comments-cont">
+                          <mat-form-field class="user-comments" appearance="outline">
+                            <mat-label class="auto-calc-label">Match Comments</mat-label>
+                            <textarea class="auto-calc-input" formControlName="MatchInfo" required matInput placeholder="Enter comments here..."></textarea>
+                            <mat-hint> Allowed char. ({{selectionValues.value.MatchInfo == null ? selectionValues.value.MatchInfo == ' ' : selectionValues.value.MatchInfo.length}}/140)</mat-hint>
+                            <mat-error *ngIf="selectionValues.controls.MatchInfo.errors">{{getErrorMessage()}} </mat-error>
+                          </mat-form-field>
+                        </div>
+                      </div>
+                      <!-- QL and record Bet -->
+                      <div class="calculated-container">
+                        <div class="calculated-row">
+                          <h3 class="calculated-text">Qualifying Loss: </h3>
+                        </div>
+                        <div class="calculated-row">
+                          <span class="calculated-value"> {{ QL( getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value, getGroup(i).get('Stake').value) | currency:'GBP'}}  </span>
+                        </div>
+                        <div class="calculated-row">
                           <button mat-raised-button class="exp-button" (click)="saveAsActiveBet(selection, i)">Record Bet</button>
+                        </div>
+                      </div>
 
                     </div>
                   </div>
