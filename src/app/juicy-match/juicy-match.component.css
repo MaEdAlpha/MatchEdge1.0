@@ -306,19 +306,22 @@ div.jm-exp-details {
 
 /* Editable text boxes that allow user input for back and lay odds and back stake*/
 .value-box-back, .selection-box {
-  background:  whitesmoke;
-  }
+  background:  #f5f5f5ab;
+}
+.value-box-lay::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  background:  #eeeeee07;
+}
 .value-box-lay {
-  background: rgb(255, 255, 255);
+  background: #eeeeee61;
 }
 .value-box-back, .value-box-lay, .selection-box {
-  width: 30%;
+  width: 80px;
   font-size: medium;
   padding-right: 5px;
   padding-left: 5px;
-  text-align: center;
+  text-align: right;
   vertical-align: middle;
-  margin-top: 5%;
+  margin-top: 1%;
   }
 
 
@@ -406,6 +409,10 @@ div.jm-exp-details {
   width: 100%;
 }
 
+.bookie-row,
+.exchange-row{
+  margin-top: 10px;
+}
 .calculated-row> h3, span, button{
   margin: 0px;
   margin-left: auto;
@@ -417,7 +424,6 @@ div.jm-exp-details {
 .exchange-text-mid,
 .exchange-text-rhs{
   color: #ececec;
-  padding-top: 8%;
   float: left;
 }
 
