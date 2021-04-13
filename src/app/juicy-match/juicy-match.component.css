@@ -41,15 +41,10 @@ table, .no-content {
 }
 .mat-cell {
   /*-right:  1px solid #00000012;*/
-  line-height: 0%;
   padding-left: 5px;
   padding-right: 5px;
   border-bottom-width: 0;
 }
-.mat-raised-button-bookie-exchange {
-    position: absolute;
-    left: 84%;
-  }
 
 .mat-cell-withdata { /*Added this class to add borders to only the cells/rows that have content *?
   /*border-right:  1px solid #bebcbc;*/
@@ -87,13 +82,33 @@ tr.juicyMatch-row:not(.juicyMatch-expanded-row):active { /* when main container 
   display: grid;
   background:whitesmoke;
 }
-#selection {
-  width: 100%;
-  display: inline-block;
-  vertical-align: top;
-  margin-top: 6%;
+.selection {
   text-align: center;
 }
+
+.selection>p{
+  margin: 0px;
+}
+
+#logo {
+  width: 100%;
+}
+.logo-img-cont{
+  border: rgb(38 50 56) 1px solid;
+  height: 30px;
+  width: 30px;
+  border-radius: 11px;
+  background: radial-gradient(at 50% 0,#9fa1a0,transparent 70%),
+              linear-gradient(0deg,#586065, transparent 50%) bottom;
+  padding: 10px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 10px;
+}
+.logo-img-cont>img{
+  width: 100%;
+}
+
 #column0hdr, #column1hdr,#column2hdr,#column3hdr,#column4hdr, #column5hdr {
   font-size: medium;
   font-weight: 400px;
@@ -235,8 +250,8 @@ tr.mat-header-row{
 }
 
 /*Layout for team name and logo*/
-div.row1-first {
-  width: 20%;
+div.selection-logo-cont {
+  width: 10%;
 }
 .row1-second, .row1-third, .row1-fourth {
   width: 20%;
@@ -246,14 +261,14 @@ div.row1-first {
 }
 
 /* Parent container for all back and lay bet details including logo*/
-div.jm-exp-details-row1 {
+div.jm-exp-details {
   display: inline-flex;
   width: 100%;
-  height: 300px;
+  height: fit-content;
   background: #d2d2d2;
 }
 /* Parent container for all back and lay bet details excluding logo*/
-.jm-exp-details-col2-cont {
+.jm-expanded-container {
   width: 100%;
   display: inline-block;
 }
@@ -269,29 +284,9 @@ div.jm-exp-details-row1 {
   margin: 5px;
   vertical-align: middle;
  }
- #logo>img {
-  height: 100%;
-}
+
  #prev-odds {
   margin-top: 25px;
-}
-#logo {
-  border: rgb(100 75 9) 1px solid;
-  width: 100px;
-  display: inline-block;
-  height: 100px;
-  vertical-align: middle;
-  margin: 2.5%;
-  border-radius: 15px;
-  background: radial-gradient(at 50% 0, #9fa1a0, transparent 70%), linear-gradient(0deg, #586065, transparent 50%) bottom;
-  padding: 10px;
-}
-
- /* Container for back bet and lay bet instructions*/
-  .user-directions {
-  font-size: x-large;
-  width: 100%;
-  display: inline-block;
 }
 
  /* Bookie and exchange logo + juicy bet details */
@@ -327,47 +322,95 @@ div.jm-exp-details-row1 {
 
 
 /* Back Bet style and layout*/
-.jm-exp-details-col2row1, .jm-exp-details-col2row2{
+.bookie,
+.exchange,
+.calculated-values
+{
+  display: inline-flex;
+  float: left;
   text-align: center;
+  height: 90%;
   padding-top: 0px;
   padding-bottom:0px;
-  margin: 5px;
+  border-radius: 10px;
 }
-.jm-exp-details-col2row1 {
+
+.bookie{
+  width: 25%;
   background: radial-gradient(at 60% 0, #126E51, transparent 80%), linear-gradient(5deg, #095940, transparent 80%) bottom;
 }
+.exchange,
+.calculated-values{
+  width: 33%;
+}
+
+
+/* Additional bet details*/
+.calculated-values{
+  background: radial-gradient(at 60% 0, #424242, transparent 86%), linear-gradient(5deg, #234e40, transparent 80%) bottom;
+  color: white;
+}
+
+/* Lay Bet style and layout*/
+.exchange {
+  background: radial-gradient(at 60% 0, #383838, transparent 80%), linear-gradient(181deg, #383838, transparent 80%) bottom;
+  color: rgb(255, 255, 255);
+}
+
+.exchange>b{
+  color: black;
+}
+
 .bookie-button-container {
-  display: inline-grid;
-  width: 18%;
-  vertical-align: super;
+  background-image: url(/assets/img/bet365II.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 100px;
+  height: 30px;
 }
-.bookie-words-container {
-  display: inline-grid;
+
+.exchange-button-container{
+  background-image: url(/assets/img/smarketsII.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 100px;
+  height: 30px;
+}
+.bookie-container {
+  width: 50%;
+  float: left;
+}
+
+.exchange-container{
+  width: 33%;
+  float: left;
+}
+
+.bookie-row,
+.exchange-row {
+  display: inline-flex;
+  width: 100%;
+}
+.bookie-text-lhs,
+.bookie-text-rhs,
+.exchange-text-lhs,
+.exchange-text-mid,
+.exchange-text-rhs{
   color: #ececec;
-  justify-items: center;
-  width: 20%;
-  margin-left: auto;
-  margin-right: auto;
-  text-align: center;
-  margin-bottom: 0px;
+  padding-top: 8%;
+  float: left;
 }
-.bookie-goto-style {
-  width: 100%;
-  align-items: center;
-  padding-top: 8%;
-  }
-.bookie-bet-style {
-  width: 100%;
-  padding-top: 8%;
-  }
-.bookie-atodds-style {
-  width: 100%;
-  padding-top: 8%;
-  }
-.bookie-for-style {
-width: 100%;
-padding-top: 8%;
+
+.bookie-text-rhs,
+.exchange-text-mid,
+.exchange-text-rhs {
+  width: fit-content;
 }
+.bookie-text-lhs,
+.exchange-text-lhs {
+  width: 100%;
+}
+
 .bookie-teamname-style {
   width: 100%;
   font-size: large;
@@ -377,53 +420,27 @@ padding-top: 8%;
   vertical-align: middle;
   margin-top: 5%;
   }
-  .bookie-button-style {
-    vertical-align: middle;
-    justify-items: center;
-    width: 20%;
-    position: relaative;
-
-  }
-/* Lay Bet style and layout*/
-.jm-exp-details-col2row2 {
-  background: radial-gradient(at 60% 0, #383838, transparent 80%), linear-gradient(181deg, #383838, transparent 80%) bottom;
-  color: rgb(255, 255, 255);
-}
-.jm-exp-details-col2row2>b{
-  color: black;
-
-}
-.exchange-words-container{
-  display: inline-grid;
+.bookie-button-style {
+  vertical-align: middle;
   justify-items: center;
   width: 20%;
-  margin-left: auto;
-  margin-right: auto;
-  text-align: center;
-  margin-bottom: 0px;
-}
-.exchange-words-container>p {
-  display: inline-block;
-  color: #ffffff;
-}
-.exchange-button-container {
-  display: inline-grid;
-  width: 18%;
-  vertical-align: super;
-}
-#liability {
-  font-size: large;
+  position: relaative;
+
 }
 
-.exchange-goto-style {
-  width: 100%;
-  align-items: center;
+.liability-text,
+.liability-amount {
+  width: fit-content;
   padding-top: 8%;
-  }
-.exchange-lay-style {
-  width: 100%;
-  padding-top: 8%;
-  }
+  margin-left: auto;
+  font-size: larger;
+}
+
+.liability-amount{
+  padding-left: 10px;
+  margin-right: auto;
+}
+
 .exchange-atodds-style {
   width: 100%;
   padding-top: 8%;
@@ -455,22 +472,8 @@ padding-top: 8%;
     width: 110px;
     margin-top: 14px;
 }
-.rcd-btn {
-  width: 30%;
-  float: right;
-}
 
-/* Additional bet details*/
-.jm-exp-details-col2row3{
-  width: 66%;
-  float: left;
-  margin-top: 5px;
-  padding: 15px 0px;
-  margin-left: 5px;
-  border-radius: 10px;
-  background: radial-gradient(at 60% 0, #424242, transparent 86%), linear-gradient(5deg, #234e40, transparent 80%) bottom;
-  color: white;
-}
+
 
 .r1, .r2 {
   width: 35%;
@@ -500,7 +503,9 @@ padding-top: 8%;
 .bet-state-button {
   color: white;
   width: fit-content;
-  /* left: 10%; */
+  margin-top: 10px;
+  margin-left: auto;
+  margin-right: auto;
 }
 p.betState {
   display: inline-flex;
