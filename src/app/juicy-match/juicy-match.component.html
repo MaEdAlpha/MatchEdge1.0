@@ -93,43 +93,43 @@
 
                         <div class="bookie-container">
                             <p class="bookie-text-lhs">Back Bet</p>
-                            <a class="bookie-button-container" mat-raised-button href= {{selection.UrlB365}} ></a>
+                              <button tabindex="-1" class="bookie-button-container shadow" mat-raised-button href= {{selection.UrlB365}} ></button>
                         </div>
 
                         <div class="bookie-container">
                           <div class="bookie-row">
                             <p class="bookie-text-rhs">Stake</p>
-                            <input formControlName="Stake" class = "value-box-back" placeholder="{{getGroup(i).get('Stake').value}}">
+                            <input formControlName="Stake" class = "value-box-back"  placeholder="{{getGroup(i).get('Stake').value}}">
                           </div>
 
                           <div class="bookie-row">
                             <p class= "bookie-text-rhs">Odds </p>
-                            <input formControlName="BackOdds" class = "value-box-back"  placeholder="{{getGroup(i).get('BackOdds').value | number:'0.2-2'}}">
+                            <input tabindex="0" formControlName="BackOdds" class = "value-box-back"  placeholder="{{getGroup(i).get('BackOdds').value | number:'0.2-2'}}">
                           </div>
                         </div>
                     </div>
 
                     <div class="exchange shadow">
-                        <div class="exchange-container">
+                        <div class="exchange-container" >
                           <p class="exchange-text-lhs">Lay Bet </p>
-                          <a class="exchange-button-container mat-raised-button-bookie-exchange" mat-raised-button href= {{selection.UrlSmarkets}} target="_blank"></a>
+                          <button tabindex="-1" class="exchange-button-container mat-raised-button-bookie-exchange shadow" mat-raised-button href={{selection.UrlSmarkets}}></button>
                           <p>Comm. GetValue</p>
                         </div>
 
-                        <div class="exchange-container">
+                        <div class="exchange-container" >
                           <div class="exchange-row">
                             <p class="exchange-text-mid">Stake </p>
-                            <input class="value-box-lay"   [readOnly]="true" placeholder="{{LayStake(getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value, getGroup(i).get('Stake').value) | currency:'GBP' }}">
+                            <input tabindex="6" class="value-box-lay" [readOnly]="true" placeholder="{{LayStake(getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value, getGroup(i).get('Stake').value) | currency:'GBP' }}">
                           </div>
                           <div class="exchange-row">
                             <p class="exchange-text-mid">Odds </p>
-                            <input formControlName="LayOdds" class = "value-box-lay" placeholder="{{selection.LayOdds | number:'0.2-2'}}">
+                            <input tabindex="0" formControlName="LayOdds" class = "value-box-lay"  placeholder="{{selection.LayOdds | number:'0.2-2'}}">
                           </div>
                         </div>
 
                         <div class="exchange-container">
-                          <div class="exchange-row">
-                            <button mat-raised-button class="bet-state-button" [style.background]="selection.betState ? ' #076044' : '#8a0606'" (click)="selection.betState = !selection.betState">{{ selection.betState ? 'Matched' : 'Unmatched'}}</button>
+                          <div class="exchange-row" tabindex="1">
+                            <button  mat-raised-button class="bet-state-button"  [style.background]="selection.betState ? ' #076044' : '#8a0606'" (click)="selection.betState = !selection.betState">{{ selection.betState ? 'Matched' : 'Unmatched'}}</button>
                           </div>
                           <div class="exchange-row">
                             <p class="liability-text">Liability:</p>
@@ -159,7 +159,7 @@
                       <!-- Comment Box -->
                       <div class="calculated-container">
                         <div class="comments-cont">
-                          <mat-form-field class="user-comments" appearance="outline">
+                          <mat-form-field tabindex="1" class="user-comments" appearance="outline">
                             <mat-label class="auto-calc-label">Match Comments</mat-label>
                             <textarea class="auto-calc-input" formControlName="MatchInfo" required matInput placeholder="Enter comments here..."></textarea>
                             <mat-hint> Allowed char. ({{selectionValues.value.MatchInfo == null ? selectionValues.value.MatchInfo == ' ' : selectionValues.value.MatchInfo.length}}/140)</mat-hint>
@@ -176,7 +176,7 @@
                           <span class="calculated-value"> {{ QL( getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value, getGroup(i).get('Stake').value) | currency:'GBP'}}  </span>
                         </div>
                         <div class="calculated-row">
-                          <button mat-raised-button class="exp-button" (click)="saveAsActiveBet(selection, i)">Record Bet</button>
+                          <button tabindex="0" mat-raised-button class="exp-button"  (click)="saveAsActiveBet(selection, i)">Record Bet</button>
                         </div>
                       </div>
 

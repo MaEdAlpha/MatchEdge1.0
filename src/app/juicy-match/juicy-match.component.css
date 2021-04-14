@@ -540,6 +540,11 @@ padding-top: 8%;
   margin-left: auto;
   margin-right: auto;
 }
+
+.bet-state-button:focus,
+.exp-button:focus {
+  color: #ffc235
+}
 p.betState {
   display: inline-flex;
   margin-right: 7px;

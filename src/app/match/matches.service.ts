@@ -42,7 +42,7 @@ export class MatchesService {
             OccH: match.OccurrenceHome,
             OccA: match.OccurrenceAway,
             UrlB365: match.URLB365,
-            UrlSmarkets: match.URLSmarkets,
+            UrlSmarkets: 'https://'+ match.URLSmarkets,
             PreviousB365HomeOdds: match.PreviousB365HomeOdds,
             PreviousB365AwayOdds: match.PreviousB365AwayOdds,
             HStatus: {notify: false, activeBet: false, ignore: false },
