@@ -147,7 +147,9 @@ export class PopupFormSavedBetsComponent implements OnInit {
 
   getROI(backOdds:number, layOdds:number, stake:number):string{
     var evThisBet:number = +this.getEstValue(backOdds, layOdds, stake);
-    var roi = (evThisBet/stake);
+    console.log(evThisBet);
+
+    var roi = (evThisBet/stake)*100;
     this.filterValue(backOdds) == 999 ? roi = 999: roi = this.filterValue(roi);
     this.sabFormValues.get('ROI').setValue(roi.toFixed(2));
     return roi.toFixed(2);
