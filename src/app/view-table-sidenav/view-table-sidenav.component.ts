@@ -52,71 +52,6 @@ export class ViewTableSidenavComponent implements OnInit, AfterViewInit {
   evPlaceholder: string;
   dialogDisabled: boolean;
 
-  leaguesControl: FormControl;
-
-       leagues: string[] = [
-         'England Championship',
-         'England League 1',
-         'England League 2',
-         'England Premier League',
-         'France Ligue 1',
-         'Germany Bundesliga I',
-         'Italy Serie A',
-         'Scotland Premiership',
-         'Spain Primera Liga',
-         'UEFA Champions League',
-         'UEFA Europa League',
-      ];
-
-      leagueGroups: LeagueGroup[] = [
-        {
-          country: 'United Kingdom',
-          leagues: [
-            'England Championship',
-            'England League 1',
-            'England League 2',
-            'England Premier League'
-          ]
-        },
-        {
-          country: 'UEFA',
-          leagues: [
-            'UEFA Champions League',
-            'UEFA Europa League',
-          ]
-        },
-        {
-          country: 'Spain',
-          leagues: [
-            'Spain Primera Liga'
-          ]
-        },
-        {
-          country: 'Germany',
-          leagues: [
-            "Germany Bundesliga I"
-          ]
-        },
-        {
-          country: 'Italy',
-          leagues: [
-            'Italy Serie A'
-          ]
-        },
-        {
-          country: 'France',
-          leagues: [
-            'France Ligue 1'
-          ]
-        }
-      ];
-
-      ranges: TimeRange[] = [
-        { timeKey: '0', timeValue: 'Today & Tomorrow' },
-        { timeKey: '1', timeValue: 'Today' },
-        { timeKey: '2', timeValue: 'Tomorrow' }
-      ];
-
       filters: any[] = [
         { option: 'EV', value: '1' },
         { option: 'Match Rating', value: '2' },
@@ -194,10 +129,6 @@ export class ViewTableSidenavComponent implements OnInit, AfterViewInit {
     this.allSelected = newStatus;
   }
 
-  getLeagueSelection(){
-    //TODO input service to call on userLeague Selection default.
-    return this.leagues;
-  }
 
   showMe(){
     this.dialogDisabled = !this.dialogDisabled;
