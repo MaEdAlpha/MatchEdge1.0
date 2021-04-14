@@ -29,8 +29,12 @@ export interface UserProperties
     timeRange: string;
     minOdds: string;
     maxOdds: string;
-    evFilterValue: string;
-    maxRatingFilter: string;
+    evFilterValueI: string;
+    evFilterValueII: string;
+    matchRatingFilterI: string;
+    matchRatingFilterII: string;
+    secretSauceI:string;
+    secretSauceII:string;
     isEvSelected:string;
     dialogDisabled: boolean;
   },
@@ -41,8 +45,12 @@ export interface TablePreferences {
   timeRange: string;
   minOdds: string;
   maxOdds: string;
-  evFilterValue: string;
-  maxRatingFilter: string;
-  isEvSelected: boolean;
+  evFilterValueI: string;
+  evFilterValueII:string;
+  matchRatingFilterI:string;
+  matchRatingFilterII: string;
+  secretSauceI:string;
+  secretSauceII:string;
+  isEvSelected: string;
   dialogDisabled: boolean;
 }

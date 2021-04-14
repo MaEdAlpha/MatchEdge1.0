@@ -22,8 +22,8 @@
 
                 <ng-container *ngIf="selection.isWatched">
                   <ng-container *ngIf="selection.inRange">
-                    <ng-container *ngIf= "( (isEvSelected && +selection['EVthisBet'] >= +prefObj.evFilterValue && +selection['EVthisBet'] < 1000) || (!isEvSelected && (+selection['MatchRating'] == +prefObj.maxRatingFilter || selection['MatchRating'] > (+prefObj.maxRatingFilter - 0.1)) ) )">
-                      <ng-container *ngIf= "( +selection['BackOdds'] <= +maxOddsFilter && +selection['BackOdds'] >= +minOddsFilter )">
+                    <ng-container *ngIf= "( (isEvSelected == 1 && +selection['EVthisBet'] >= +prefObj.evFilterValueI && +selection['EVthisBet'] <= 1000) || (isEvSelected == 2 && (+selection['MatchRating'] == +prefObj.matchRatingFilterI || selection['MatchRating'] > (+prefObj.matchRatingFilterI - 0.02)) ) || (isEvSelected == 3 && (+selection['QLPercentage'] == +prefObj.secretSauceI || selection['QLPercentage'] > (+prefObj.secretSauceI) ) ) )">
+                    <ng-container *ngIf= "( +maxOddsFilter >= +selection['BackOdds'] && +selection['BackOdds'] >= +minOddsFilter )">
 
                           <div class="juicyCell b3-odd-cont" *ngIf="column.field.endsWith('BackOdds')">
                             <!-- <img  class="odds-img" src="/assets/img/betIcon.png" alt=""> -->
@@ -200,7 +200,7 @@
               [ngClass]="selection.isRedirected == 'Yes' ? 'juicyMatch-expanded-row': null"
               [class.juicyMatch-expanded-row]="expandedElement === selection"
               (click)="expandedElement = expandedElement === selection ? null : selection"
-              appHideTableRow [userPref]="prefObj" [backOdds]="selection.BackOdds" [evValue]="selection.EVthisBet" [mrValue]="selection.MatchRating" [isWatched]="selection.isWatched" [inRange]="selection.inRange">
+              appHideTableRow [userPref]="prefObj" [backOdds]="selection.BackOdds" [evValue]="selection.EVthisBet" [mrValue]="selection.MatchRating" [ssValue]="selection.QLPercentage" [isWatched]="selection.isWatched" [inRange]="selection.inRange">
           </tr>
           <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="juicyMatch-detail-row"></tr>
   </table>

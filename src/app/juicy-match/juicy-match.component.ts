@@ -61,11 +61,12 @@ export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
   testBool:boolean;
   prefSub: Subscription;
   prefObj: TablePreferences;
-  evFilter: number;
+  evFilterI: number;
   minOddsFilter: number;
   maxOddsFilter: number;
   matchRatingFilter: number;
-  isEvSelected: boolean;
+  secretSauceFilter: number;
+  isEvSelected: number;
   dataSource:any;
   formattedAmount:any;
   sortedData: Object[];
@@ -120,7 +121,7 @@ export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
   ngOnInit(){
     //Get initial user settings on initialization. For this to work, need to use HTTP Get request of userPreferences at page load.
     this.prefObj = this.userPrefService.getTablePrefs();
-    this.isEvSelected = Boolean(this.prefObj.isEvSelected);
+    this.isEvSelected = +this.prefObj.isEvSelected;
     this.allIndvMatches = [];
     this.tableDateSelected = this.userPrefService.getSelectedDate();
     this.getStartEndDays(this.userPrefService.getSelectedDate());
@@ -151,7 +152,7 @@ export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
     });
 
     //set userPreference Values
-    this.evFilter = this.userPrefService.getEV();
+    this.evFilterI = this.userPrefService.getEV();
     this.matchRatingFilter = this.userPrefService.getMR();
     this.minOddsFilter= this.userPrefService.getMinOdds();
     this.maxOddsFilter= this.userPrefService.getMaxOdds();
@@ -159,11 +160,12 @@ export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
     //subscribe to userPreference Values
     this.prefSub = this.userPrefService.getUserPrefs().subscribe( tablePref => {
       this.prefObj = tablePref;
-      this.evFilter = Number(tablePref.evFilterValue);
+      this.evFilterI = Number(tablePref.evFilterValueI);
       this.minOddsFilter= Number(tablePref.minOdds);
       this.maxOddsFilter= Number(tablePref.maxOdds);
-      this.matchRatingFilter= Number(tablePref.maxRatingFilter);
-      this.isEvSelected = Boolean(tablePref.isEvSelected);
+      this.matchRatingFilter= Number(tablePref.matchRatingFilterI);
+      this.secretSauceFilter= Number(tablePref.secretSauceI);
+      this.isEvSelected = +(tablePref.isEvSelected);
     });
 
     //Watchlist Subscription

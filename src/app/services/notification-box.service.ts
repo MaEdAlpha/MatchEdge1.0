@@ -10,9 +10,10 @@ import { UserPropertiesService } from './user-properties.service';
 })
 export class NotificationBoxService {
 
-  public matchRatingFilter: number = this.userPropService.getMR();
-  public evRatingFilter: number = this.userPropService.getEV();
-  public isEVSelected: boolean = this.userPropService.getFilterBoolean();
+  public matchRatingFilterNotification: number = this.userPropService.getMR();
+  public evNotificationFilter: number = this.userPropService.getEV();
+  public secretSauceNotification: number = this.userPropService.getSS();
+  public isEVSelected: number = this.userPropService.getFilterSelection();
   public tableDate: string = this.userPropService.getSelectedDate();
   private clickSubject = new Subject<{notificationIsActivated: boolean, matchObject: any }>();
 
@@ -22,9 +23,10 @@ export class NotificationBoxService {
   constructor(private toast: ToastrService, private userPropService: UserPropertiesService, private dateHandlingService: DateHandlingService, private matchStatusService: MatchStatusService) {
 
       this.juicyFilterChange = this.userPropService.getUserPrefs().subscribe(filterSettings => {
-      this.matchRatingFilter = +filterSettings.maxRatingFilter,
-      this.evRatingFilter = +filterSettings.evFilterValue,
-      this.isEVSelected = filterSettings.isEvSelected,
+      this.matchRatingFilterNotification = +filterSettings.matchRatingFilterII,
+      this.evNotificationFilter = +filterSettings.evFilterValueII,
+      this.secretSauceNotification = +filterSettings.secretSauceII,
+      this.isEVSelected = +filterSettings.isEvSelected,
       this.tableDate = filterSettings.timeRange
     });
    }
@@ -43,16 +45,16 @@ export class NotificationBoxService {
     var away = streamMatchesArray[1];
     var epochNotifications = this.dateHandlingService.returnGenericNotificationBoundaries();
 
-    console.log("Current Filter Settings: Notify based off EV = " + this.isEVSelected + " Match Rating Filter = " + this.matchRatingFilter + " EV Filter = " + this.evRatingFilter);
+    console.log("Current Filter Settings: Notify based off EV = " + this.isEVSelected + " Match Rating Filter = " + this.matchRatingFilterNotification + " EV Filter = " + this.evNotificationFilter);
 
     //Need to check if already in Juicy Matches. if()
-    if(this.matchStatusService.isWatched(home.Selection) && (this.isInEpochLimits(epochNotifications, home) && (this.isEVSelected && home.EVthisBet >= this.evRatingFilter && home.EVthisBet < 100000 ) || (!this.isEVSelected && home.MatchRating >= this.matchRatingFilter) ) ) {
+    if(this.matchStatusService.isWatched(home.Selection) && (this.isInEpochLimits(epochNotifications, home) && (this.isEVSelected == 1 && home.EVthisBet >= this.evNotificationFilter && home.EVthisBet < 100000 ) || (this.isEVSelected == 2 && home.MatchRating >= this.matchRatingFilterNotification) || (this.isEVSelected == 3 && home.QLPercentage >= this.secretSauceNotification) ) ) {
       this.toast.info(home.Selection + ": </br> EV: " + home.EVthisBet + "</br> MR: " + home.MatchRating, "Click to view " + home.Selection + " in Juicy Match.").onTap.subscribe( (x) => {
         this.toastr(home);
       });
     }
 
-    if( this.matchStatusService.isWatched(away.Selection) && (this.isInEpochLimits(epochNotifications, away) && (this.isEVSelected && away.EVthisBet >= this.evRatingFilter && away.EVthisBet < 100000 ) || ( !this.isEVSelected && away.MatchRating >= this.matchRatingFilter) ) ){
+    if( this.matchStatusService.isWatched(away.Selection) && (this.isInEpochLimits(epochNotifications, away) && (this.isEVSelected && away.EVthisBet >= this.evNotificationFilter && away.EVthisBet < 100000 ) || ( this.isEVSelected == 2 && away.MatchRating >= this.matchRatingFilterNotification) || (this.isEVSelected == 3 && away.QLPercentage >= this.secretSauceNotification) ) ) {
       this.toast.success(away.Selection + ": </br> EV: " + away.EVthisBet + "</br> MR: " + away.MatchRating, "Click to view " + away.Selection + " in Juicy Match.").onTap.subscribe( (x) => {
         //When a user taps the notification.
         this.toastr(away);
@@ -73,8 +75,8 @@ export class NotificationBoxService {
   }
 
   updateFilters(ev, mr, isEVSelected, dateSelected){
-    this.evRatingFilter = ev;
-    this.matchRatingFilter = mr;
+    this.evNotificationFilter = ev;
+    this.matchRatingFilterNotification = mr;
     this.isEVSelected = isEVSelected;
     this.tableDate = dateSelected;
   }

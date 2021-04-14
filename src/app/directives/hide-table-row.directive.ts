@@ -7,6 +7,7 @@ import { TablePreferences } from '../user-properties.model';
 export class HideTableRowDirective implements OnChanges{
   @Input() evValue: number;    //updated from mongoStreamWatch
   @Input() mrValue: number;    //match-rating value
+  @Input() ssValue: number;    //secret Sauce
   @Input() backOdds: number;   //backOdds
   //inRange: boolean;   //is in Date Range
   @Input() isWatched: boolean;    //ignore Status
@@ -16,25 +17,21 @@ export class HideTableRowDirective implements OnChanges{
   constructor(private renderer: Renderer2, private elRef: ElementRef) {  }
 
   ngOnChanges(changes: SimpleChanges){
-    //Set values upon change.
-    //Hide or show expanded element based off criteria.
-    // if(this.inRange == true){
-      //   this.hide();
-      // }
 
+  //filter out Groups
   if(this.inRange != undefined || this.isWatched != undefined || this.userPref != undefined){
-    if(this.userPref.isEvSelected)  {
+    if(+this.userPref.isEvSelected == 1)  {
 
         // console.log(this.selection.Selection+ " Hidden: " + this.selection.ignore);
         if(changes.evValue) { //if ev has a value constantly loop over this.
-          if(this.inRange == true && +this.evValue >= +this.userPref.evFilterValue && +this.backOdds >= +this.userPref.minOdds && +this.backOdds <= +this.userPref.maxOdds){ //evValue less than filter setting. hide. larger than. show.
+          if(this.inRange == true && +this.evValue >= +this.userPref.evFilterValueI && +this.backOdds >= +this.userPref.minOdds && +this.backOdds <= +this.userPref.maxOdds){ //evValue less than filter setting. hide. larger than. show.
             this.show();
           } else {
             this.hide();
           }
         } else { //if EV reading is larger than the filter  go in here.
-            //for evValues less than the evFilter setting, hide the empty container.
-          +this.evValue >= +this.userPref.evFilterValue && +this.backOdds >= +this.userPref.minOdds && +this.backOdds <= +this.userPref.maxOdds  ? this.show() : this.hide();
+            //for evValues less than the evFilterValueI setting, hide the empty container.
+          +this.evValue >= +this.userPref.evFilterValueI && +this.backOdds >= +this.userPref.minOdds && +this.backOdds <= +this.userPref.maxOdds  ? this.show() : this.hide();
         }
 
         //If we don't have odds evValue Infinity value
@@ -42,20 +39,34 @@ export class HideTableRowDirective implements OnChanges{
           this.hide();
         }
 
-      } else {
+      } else if(+this.userPref.isEvSelected == 2 ) {
 
-          if( this.inRange == true && +this.mrValue >= +this.userPref.maxRatingFilter && this.mrValue <= 100 && +this.backOdds >= +this.userPref.minOdds && +this.backOdds <= +this.userPref.maxOdds){
+          if( this.inRange == true && +this.mrValue >= +this.userPref.matchRatingFilterI && this.mrValue <= 100 && +this.backOdds >= +this.userPref.minOdds && +this.backOdds <= +this.userPref.maxOdds){
             this.show();
           }
-          if(+this.mrValue >= +this.userPref.maxRatingFilter && this.mrValue <= 100 && +this.backOdds <= +this.userPref.minOdds){
+          if(+this.mrValue >= +this.userPref.matchRatingFilterI && this.mrValue <= 100 && +this.backOdds <= +this.userPref.minOdds){
             this.hide();
           }
-          if(+this.mrValue >= +this.userPref.maxRatingFilter && this.mrValue <= 100 && +this.backOdds >= +this.userPref.maxOdds){
+          if(+this.mrValue >= +this.userPref.matchRatingFilterI && this.mrValue <= 100 && +this.backOdds >= +this.userPref.maxOdds){
             this.hide();
           }
-          if (+this.mrValue <= +this.userPref.maxRatingFilter){
+          if (+this.mrValue <= +this.userPref.matchRatingFilterI){
             this.hide();
           }
+      } else if(+this.userPref.isEvSelected == 3 ) {
+
+        if( this.inRange == true && +this.ssValue >= +this.userPref.matchRatingFilterI && this.ssValue <= 100 && +this.backOdds >= +this.userPref.minOdds && +this.backOdds <= +this.userPref.maxOdds){
+          this.show();
+        }
+        if(+this.ssValue >= +this.userPref.secretSauceI && this.ssValue <= 100 && +this.backOdds <= +this.userPref.minOdds){
+          this.hide();
+        }
+        if(+this.ssValue >= +this.userPref.secretSauceI && this.ssValue <= 100 && +this.backOdds >= +this.userPref.maxOdds){
+          this.hide();
+        }
+        if (+this.ssValue <= +this.userPref.secretSauceI){
+          this.hide();
+        }
       }
 
       //To handle production Error "changesAfterViewInit detected:

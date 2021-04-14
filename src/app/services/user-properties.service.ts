@@ -11,6 +11,7 @@ import { TablePreferences } from '../user-properties.model';
   providedIn: 'root'
 })
 export class UserPropertiesService {
+
   //
   triggerOddsSelected = new EventEmitter<TriggerOdds[]>();
 
@@ -64,9 +65,13 @@ export class UserPropertiesService {
     timeRange: 'Today & Tomorrow',
     minOdds: '2.5',
     maxOdds: '20',
-    evFilterValue: '-10',
-    maxRatingFilter: '90.50',
-    isEvSelected: true,
+    evFilterValueI: '-10',
+    evFilterValueII: '99',
+    matchRatingFilterI: '90.50',
+    matchRatingFilterII: '92.00',
+    secretSauceI: '1.00',
+    secretSauceII: '2.00',
+    isEvSelected: '1',
     dialogDisabled: true,
   };
 
@@ -132,8 +137,12 @@ export class UserPropertiesService {
       timeRange: formObj.timeRange,
       minOdds: formObj.minOdds,
       maxOdds: formObj.maxOdds,
-      evFilterValue: formObj.evFilterValue,
-      maxRatingFilter: formObj.maxRatingFilter,
+      evFilterValueI: formObj.evFilterValueI,
+      evFilterValueII: formObj.evFilterValueII,
+      matchRatingFilterI: formObj.matchRatingFilterI,
+      matchRatingFilterII: formObj.matchRatingFilterII,
+      secretSauceI: formObj.secretSauceI,
+      secretSauceII: formObj.secretSauceII,
       isEvSelected: formObj.isEvSelected,
       dialogDisabled: formObj.dialogDisabled,
     });
@@ -143,8 +152,12 @@ export class UserPropertiesService {
       timeRange: formObj.timeRange,
       minOdds: formObj.minOdds,
       maxOdds: formObj.maxOdds,
-      evFilterValue: formObj.evFilterValue,
-      maxRatingFilter: formObj.maxRatingFilter,
+      evFilterValueI: formObj.evFilterValueI,
+      evFilterValueII: formObj.evFilterValueII,
+      matchRatingFilterI: formObj.matchRatingFilterI,
+      matchRatingFilterII: formObj.matchRatingFilterII,
+      secretSauceI: formObj.secretSauceI,
+      secretSauceII: formObj.secretSauceII,
       isEvSelected: formObj.isEvSelected,
       dialogDisabled: formObj.dialogDisabled,
     }
@@ -156,12 +169,16 @@ export class UserPropertiesService {
   }
 
   getEV():number{
-    return Number(this.viewTablePrefs.evFilterValue);
+    return Number(this.viewTablePrefs.evFilterValueI);
   }
 
   getMR(): number{
     //TODO add MatchRating in sidenav
-    return Number(this.viewTablePrefs.maxRatingFilter);
+    return Number(this.viewTablePrefs.matchRatingFilterI);
+  }
+
+  getSS(): number {
+    return Number(this.viewTablePrefs.secretSauceI);
   }
 
   getMinOdds(): number{
@@ -180,8 +197,8 @@ export class UserPropertiesService {
     return this.viewTablePrefs.timeRange;
   }
 
-  getFilterBoolean(): boolean {
-    return this.viewTablePrefs.isEvSelected;
+  getFilterSelection(): number {
+    return +this.viewTablePrefs.isEvSelected;
   }
 
   getDialogDisabled(): boolean {

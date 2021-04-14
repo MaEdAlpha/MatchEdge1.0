@@ -40,11 +40,15 @@ export class ViewTableSidenavComponent implements OnInit, AfterViewInit {
 
   prefObj: TablePreferences;
   timeRange: string;
-  evFilter: number;
+  evFilterI: number;
+  evFilterII: number;
   minOddsFilter: number;
   maxOddsFilter: number;
-  matchRatingFilter: number;
-  isEvSelected: boolean;
+  matchRatingFilterI: number;
+  matchRatingFilterII:number;
+  secretSauceI:number;
+  secretSauceII:number;
+  isEvSelected: string;
   evPlaceholder: string;
   dialogDisabled: boolean;
 
@@ -114,8 +118,9 @@ export class ViewTableSidenavComponent implements OnInit, AfterViewInit {
       ];
 
       filters: any[] = [
-        { option: 'EV', value: true },
-        { option: 'Match Rating', value: false }
+        { option: 'EV', value: '1' },
+        { option: 'Match Rating', value: '2' },
+        { option: 'Secret Sauce', value: '3'}
       ]
 
   constructor(private sidenavService: SidenavService, private userPrefService: UserPropertiesService) {}
@@ -130,8 +135,12 @@ export class ViewTableSidenavComponent implements OnInit, AfterViewInit {
       'timeRange': new FormControl(this.prefObj.timeRange),
       'minOdds': new FormControl(this.prefObj.minOdds),
       'maxOdds': new FormControl(this.prefObj.maxOdds),
-      'evFilterValue': new FormControl(this.prefObj.evFilterValue),
-      'maxRatingFilter': new FormControl(this.prefObj.maxRatingFilter),
+      'evFilterValueI': new FormControl(this.prefObj.evFilterValueI),
+      'evFilterValueII': new FormControl(this.prefObj.evFilterValueII),
+      'matchRatingFilterI': new FormControl(this.prefObj.matchRatingFilterI),
+      'matchRatingFilterII': new FormControl(this.prefObj.matchRatingFilterII),
+      'secretSauceI': new FormControl(this.prefObj.secretSauceI),
+      'secretSauceII': new FormControl(this.prefObj.secretSauceII),
       'isEvSelected': new FormControl(this.prefObj.isEvSelected),
       'dialogDisabled': new FormControl(this.prefObj.dialogDisabled),
     });
@@ -140,12 +149,16 @@ export class ViewTableSidenavComponent implements OnInit, AfterViewInit {
     this.userPrefSubscription = this.userPrefService.getUserPrefs().subscribe( tablePref => {
       this.prefObj = tablePref;
       this.timeRange = tablePref.timeRange;
-      this.evFilter = Number(tablePref.evFilterValue);
+      this.evFilterI = Number(tablePref.evFilterValueI);
+      this.evFilterII= Number(tablePref.evFilterValueII);
       this.minOddsFilter= Number(tablePref.minOdds);
       this.maxOddsFilter= Number(tablePref.maxOdds);
-      this.matchRatingFilter= Number(tablePref.maxRatingFilter);
+      this.matchRatingFilterI= Number(tablePref.matchRatingFilterI);
+      this.matchRatingFilterII=Number(tablePref.matchRatingFilterII);
+      this.secretSauceI= Number(tablePref.secretSauceI);
+      this.secretSauceII=Number(tablePref.secretSauceII);
       this.isEvSelected = tablePref.isEvSelected;
-      this.evPlaceholder = this.filters[0].value == this.isEvSelected ? "EV" : "Match Rating";
+      this.evPlaceholder = this.filters[0].value == 1 ? "EV" : this.filters[1].value == 2 ? "Match Rating" : this.filters[2].value == 3 ? "Secret Sauce" : "null" ;
       this.dialogDisabled = tablePref.dialogDisabled;
     });
   }
