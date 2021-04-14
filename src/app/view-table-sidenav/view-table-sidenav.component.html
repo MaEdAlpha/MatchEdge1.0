@@ -14,50 +14,6 @@
                 <h1> Select Leagues </h1>
                 <!-- point to viewTableForm : FormGroup  -->
                   <form (ngSubmit)="onSubmit()" [formGroup]="viewTableForm">
-                    <mat-checkbox
-                      formControlName="dialogDisabled"
-                      [value] = "dialogDisabled"
-                      (click)="showMe()">
-                      Disable ignore league notification.
-                    </mat-checkbox>
-
-                    <mat-form-field appearance="fill">
-                      <mat-label>{{leagues}}</mat-label>
-                        <mat-select
-                          class="league-dropdown"
-                          formControlName="leagueSelection"
-                          #select
-                          multiple>
-                          <mat-select-trigger>
-                            {{viewTableForm.value.leagueSelection ? viewTableForm.value.leagueSelection[0] : ''}}
-                            <span *ngIf="viewTableForm.value.leagueSelection.length > 1" class="example-additional-selection">
-                              (+{{viewTableForm.value?.leagueSelection.length - 1}} {{viewTableForm.value?.leagueSelection.length === 2 ? 'other' : 'others'}})
-                            </span>
-                          </mat-select-trigger>
-
-                          <div class="select-all">
-                            <mat-checkbox   [(ngModel)]="allSelected"
-                                            [ngModelOptions]="{standalone: true}"
-                                            (change)="toggleAllSelection()">All</mat-checkbox>
-                          </div>
-                          <mat-optgroup *ngFor="let group of leagueGroups" [label]="group.country">
-                            <mat-option (click)="optionClick()" *ngFor="let league of group.leagues" [value]="league"> {{league}}</mat-option>
-                          </mat-optgroup>
-                        </mat-select>
-                      </mat-form-field>
-
-                      <br>
-                      <h1 class="header">Select Time</h1>
-                      <mat-form-field appearance="fill">
-                        <mat-label> {{ timeRange }}</mat-label>
-                        <mat-select
-                          formControlName="timeRange"
-                          [value]="selectedTime">
-                          <mat-option *ngFor="let range of ranges" [value]="range.timeValue"> {{range.timeValue}} </mat-option>
-                        </mat-select>
-                      </mat-form-field>
-
-                      <br>
 
                       <h1 class="header">Odds Range</h1>
 
