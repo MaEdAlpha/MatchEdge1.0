@@ -21,7 +21,6 @@ export class HideTableRowDirective implements OnChanges{
   //filter out Groups
   if(this.inRange != undefined || this.isWatched != undefined || this.userPref != undefined){
     if(+this.userPref.isEvSelected == 1)  {
-
         // console.log(this.selection.Selection+ " Hidden: " + this.selection.ignore);
         if(changes.evValue) { //if ev has a value constantly loop over this.
           if(this.inRange == true && +this.evValue >= +this.userPref.evFilterValueI && +this.backOdds >= +this.userPref.minOdds && +this.backOdds <= +this.userPref.maxOdds){ //evValue less than filter setting. hide. larger than. show.
@@ -44,10 +43,10 @@ export class HideTableRowDirective implements OnChanges{
           if( this.inRange == true && +this.mrValue >= +this.userPref.matchRatingFilterI && this.mrValue <= 100 && +this.backOdds >= +this.userPref.minOdds && +this.backOdds <= +this.userPref.maxOdds){
             this.show();
           }
-          if(+this.mrValue >= +this.userPref.matchRatingFilterI && this.mrValue <= 100 && +this.backOdds <= +this.userPref.minOdds){
+          if(+this.mrValue >= +this.userPref.matchRatingFilterI && this.mrValue <= 100 && +this.backOdds < +this.userPref.minOdds){
             this.hide();
           }
-          if(+this.mrValue >= +this.userPref.matchRatingFilterI && this.mrValue <= 100 && +this.backOdds >= +this.userPref.maxOdds){
+          if(+this.mrValue >= +this.userPref.matchRatingFilterI && this.mrValue <= 100 && +this.backOdds > +this.userPref.maxOdds){
             this.hide();
           }
           if (+this.mrValue <= +this.userPref.matchRatingFilterI){
@@ -58,10 +57,10 @@ export class HideTableRowDirective implements OnChanges{
         if( this.inRange == true && +this.ssValue >= +this.userPref.secretSauceI && this.ssValue <= 100 && +this.backOdds >= +this.userPref.minOdds && +this.backOdds <= +this.userPref.maxOdds){
           this.show();
         }
-        if(+this.ssValue >= +this.userPref.secretSauceI && this.ssValue <= 100 && +this.backOdds <= +this.userPref.minOdds){
+        if(+this.ssValue >= +this.userPref.secretSauceI && this.ssValue <= 100 && +this.backOdds < +this.userPref.minOdds){
           this.hide();
         }
-        if(+this.ssValue >= +this.userPref.secretSauceI && this.ssValue <= 100 && +this.backOdds >= +this.userPref.maxOdds){
+        if(+this.ssValue >= +this.userPref.secretSauceI && this.ssValue <= 100 && +this.backOdds > +this.userPref.maxOdds){
           this.hide();
         }
         if (+this.ssValue <= +this.userPref.secretSauceI){
