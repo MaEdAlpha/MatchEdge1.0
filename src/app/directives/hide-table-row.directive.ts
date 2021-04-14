@@ -55,7 +55,7 @@ export class HideTableRowDirective implements OnChanges{
           }
       } else if(+this.userPref.isEvSelected == 3 ) {
 
-        if( this.inRange == true && +this.ssValue >= +this.userPref.matchRatingFilterI && this.ssValue <= 100 && +this.backOdds >= +this.userPref.minOdds && +this.backOdds <= +this.userPref.maxOdds){
+        if( this.inRange == true && +this.ssValue >= +this.userPref.secretSauceI && this.ssValue <= 100 && +this.backOdds >= +this.userPref.minOdds && +this.backOdds <= +this.userPref.maxOdds){
           this.show();
         }
         if(+this.ssValue >= +this.userPref.secretSauceI && this.ssValue <= 100 && +this.backOdds <= +this.userPref.minOdds){
