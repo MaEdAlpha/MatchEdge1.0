@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Subject, Subscription } from 'rxjs';
 import { ActiveBet } from '../models/active-bet.model';
 import { SavedActiveBetsService } from '../services/saved-active-bets.service';
@@ -31,7 +31,7 @@ export class PopupFormSavedBetsComponent implements OnInit {
   private createForm(data: any) {
 
     var stakeValidator:ValidatorFn[] = [ Validators.required,Validators.pattern("^[0-9\.\-]*$"), Validators.maxLength(7)];
-    var oddsValidator: ValidatorFn[] = [ Validators.required, Validators.minLength(1),Validators.pattern("^[0-9\.]*$"), Validators.maxLength(6)];
+    var oddsValidator: ValidatorFn[] = [ Validators.required, Validators.minLength(1), Validators.pattern("^[0-9\.]*$"), Validators.maxLength(6)];
     var commentValidator: ValidatorFn[] = [Validators.maxLength(140)];
     return this.sabFormValues = this.fb.group({
       Stake:new FormControl(data.activeBet.stake, stakeValidator),

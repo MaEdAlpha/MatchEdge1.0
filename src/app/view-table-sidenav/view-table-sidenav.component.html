@@ -12,7 +12,9 @@
               <div class="vt-settings-container">
                 <!-- point to viewTableForm : FormGroup  -->
                   <form (ngSubmit)="onSubmit()" [formGroup]="viewTableForm">
-
+                    <div *ngIf="viewTableForm.errors && (viewTableForm.touched || viewTableForm.dirty)" class="cross-validation-error-message alert alert-danger">
+                      Something went wrong! Most likely your notification's filter is less than your table view filter setting for the following fields: {{ getFormErrorMessage() }}
+                    </div>
                       <h1 class="header">Odds Range</h1>
                       <mat-hint>Matches within this range will only show in Juicy and send alerts</mat-hint>
 
@@ -25,6 +27,7 @@
                               matInput
                               placeholder="{{ minOddsFilter }}">
                               <mat-hint>Currently saved: {{ minOddsFilter }}</mat-hint>
+                              <mat-error *ngIf="viewTableForm.controls.minOdds.errors">{{getErrorMessage()}}</mat-error>
                           </mat-form-field>
 
                           </div>
@@ -35,8 +38,10 @@
                             <input
                               formControlName="maxOdds"
                               matInput
+                              required
                               placeholder= "{{ maxOddsFilter}}">
-                              <mat-hint>Currently saved: {{ maxOddsFilter}}</mat-hint>
+                              <mat-hint>Currently saved: {{maxOddsFilter}}</mat-hint>
+                              <mat-error *ngIf="viewTableForm.controls.maxOdds.errors">{{getErrorMessage()}}</mat-error>
                           </mat-form-field>
                         </div>
                       </div>
@@ -48,22 +53,24 @@
                       <div class="ev-filter-container">
                         <div class="ev-row">
                           <mat-form-field appearance="fill">
-                            <mat-label>EV to show in Juicy Table</mat-label>
+                            <mat-label>Value that filters matches to show in Juicy Table</mat-label>
                             <input
                               formControlName="evFilterValueI"
                               matInput
                               placeholder= "{{ evFilterI }}">
                               <mat-hint>Currently saved: {{ evFilterI }}</mat-hint>
+                              <mat-error *ngIf="viewTableForm.controls.evFilterValueI.errors">{{getErrorMessage()}}</mat-error>
                           </mat-form-field>
                         </div>
                         <div class="ev-row">
                           <mat-form-field appearance="fill">
-                            <mat-label>EV for notification</mat-label>
+                            <mat-label>Value that filters matches for notifications</mat-label>
                             <input
                               formControlName="evFilterValueII"
                               matInput
                               placeholder= "{{ evFilterII }}">
                               <mat-hint>Currently saved: {{ evFilterII }}</mat-hint>
+                              <mat-error *ngIf="viewTableForm.controls.evFilterValueII.errors">{{getErrorMessage()}}</mat-error>
                           </mat-form-field>
                         </div>
                       </div>
@@ -73,23 +80,26 @@
                       <div class="mr-filter-container">
                         <div class="mr-row">
                           <mat-form-field appearance="fill">
-                            <mat-label>Match to show in Juicy Table</mat-label>
+                            <mat-label>Value that filters matches to show in Juicy Table</mat-label>
                             <input
                               formControlName="matchRatingFilterI"
                               matInput
                               placeholder= "{{ matchRatingFilterI }}">
                               <mat-hint>Currently saved: {{ matchRatingFilterI }}</mat-hint>
+                              <mat-error *ngIf="viewTableForm.controls.matchRatingFilterI.errors">{{getErrorMessage()}}</mat-error>
                           </mat-form-field>
 
                         </div>
                         <div class="mr-row">
                           <mat-form-field appearance="fill">
-                            <mat-label>Match for notifications</mat-label>
+                            <mat-label>Value that filters matches for notifications</mat-label>
                             <input
                               formControlName="matchRatingFilterII"
                               matInput
+                              required
                               placeholder= "{{ matchRatingFilterII }}">
                               <mat-hint>Currently saved: {{ matchRatingFilterII }}</mat-hint>
+                              <mat-error *ngIf="viewTableForm.controls.matchRatingFilterII.errors">{{getErrorMessage()}}</mat-error>
                           </mat-form-field>
                         </div>
                       </div>
@@ -98,23 +108,25 @@
                       <div class="secret-sauce-container">
                         <div class="ss-row">
                           <mat-form-field appearance="fill">
-                            <mat-label>The Sauce to show in Juicy Table</mat-label>
+                            <mat-label>Value that filters matches to show in Juicy Table</mat-label>
                             <input
                               formControlName="secretSauceI"
                               matInput
                               placeholder= "{{ secretSauceI }}">
                               <mat-hint>Currently saved: {{ secretSauceI }}</mat-hint>
+                              <mat-error *ngIf="viewTableForm.controls.secretSauceI.errors">{{getErrorMessage()}}</mat-error>
                           </mat-form-field>
 
                         </div>
                         <div class="ss-row">
                           <mat-form-field appearance="fill">
-                            <mat-label>The Sauce for notifications</mat-label>
+                            <mat-label>Value that filters matches for notifications</mat-label>
                             <input
                               formControlName="secretSauceII"
                               matInput
                               placeholder= "{{ secretSauceII }}">
                               <mat-hint>Currently saved: {{ secretSauceII }}</mat-hint>
+                              <mat-error *ngIf="viewTableForm.controls.secretSauceII.errors">{{getErrorMessage()}}</mat-error>
                           </mat-form-field>
 
                         </div>
@@ -133,7 +145,7 @@
 
 
                       <div class="btn-wrapper">
-                        <button mat-raised-button class="save-preference">Save Preferences</button>
+                        <button mat-raised-button [disabled]="viewTableForm.errors" class="save-preference">Save Preferences</button>
                       </div>
                     </form>
 
