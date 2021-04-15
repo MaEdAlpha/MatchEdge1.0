@@ -37,10 +37,13 @@
             </div>
             <div class="bookie-column3 column-base ">
               <mat-form-field class="sab-values" appearance="fill">
-                <mat-hint align="end">Back Odds</mat-hint>
                 <mat-label>Prev. {{data.activeBet.backOdd}}</mat-label>
-                <input formControlName="BackOdds" required matInput placeholder="{{getRealtimeUpdate().get('BackOdds').value}}">
-                <mat-error *ngIf="sabFormValues.controls.BackOdds.errors">{{getErrorMessage()}}</mat-error>
+                <input formControlName="BackOdds"
+                required
+                matInput
+                placeholder="{{getRealtimeUpdate().get('BackOdds').value}}">
+                <mat-hint align="end">Back Odds</mat-hint>
+                <!-- <mat-error *ngIf="sabFormValues.controls.BackOdds.errors">{{getErrorMessage()}}</mat-error> -->
               </mat-form-field>
 
               <mat-form-field class="sab-values" appearance="fill">

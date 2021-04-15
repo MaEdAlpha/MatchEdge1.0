@@ -1,12 +1,13 @@
-import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
-import { FormControl, FormGroup, NgForm } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, ValidatorFn, Validators} from '@angular/forms';
 import { SidenavService } from './sidenav.service';
 import { MatSelect } from '@angular/material/select';
 import { MatOption } from '@angular/material/core/option';
 import { UserPropertiesService } from '../services/user-properties.service';
 import { UserProperties, TablePreferences } from '../user-properties.model';
 import { Subscription } from 'rxjs';
+import { evValidator, mrValidator, oddsValidator, ssValidator } from '../directives/compare-filter-settings.directive';
 
 
 interface LeagueGroup {
@@ -36,8 +37,6 @@ export class ViewTableSidenavComponent implements OnInit, AfterViewInit {
   selectedTime: string;
   viewTableForm: FormGroup;
   userPrefSubscription: Subscription;
-
-
   prefObj: TablePreferences;
   timeRange: string;
   evFilterI: number;
@@ -51,6 +50,7 @@ export class ViewTableSidenavComponent implements OnInit, AfterViewInit {
   isEvSelected: string;
   evPlaceholder: string;
   dialogDisabled: boolean;
+  enableSaveButton:boolean = true;
 
       filters: any[] = [
         { option: 'EV', value: '1' },
@@ -58,27 +58,29 @@ export class ViewTableSidenavComponent implements OnInit, AfterViewInit {
         { option: 'Secret Sauce', value: '3'}
       ]
 
-  constructor(private sidenavService: SidenavService, private userPrefService: UserPropertiesService) {}
+  constructor(private sidenavService: SidenavService, private userPrefService: UserPropertiesService, private chRef: ChangeDetectorRef) {}
 
   ngOnInit(): void {
 
     this.prefObj = this.userPrefService.getFormValues();
     this.dialogDisabled= this.prefObj.dialogDisabled;
 
+    var filterValidator: ValidatorFn[] = [Validators.required, Validators.pattern("^[0-9\.\-]*$"), Validators.maxLength(7)]
+
     this.viewTableForm = new FormGroup({
       'leagueSelection': new FormControl(this.prefObj.leagueSelection),
-      'timeRange': new FormControl(this.prefObj.timeRange),
-      'minOdds': new FormControl(this.prefObj.minOdds),
-      'maxOdds': new FormControl(this.prefObj.maxOdds),
-      'evFilterValueI': new FormControl(this.prefObj.evFilterValueI),
-      'evFilterValueII': new FormControl(this.prefObj.evFilterValueII),
-      'matchRatingFilterI': new FormControl(this.prefObj.matchRatingFilterI),
-      'matchRatingFilterII': new FormControl(this.prefObj.matchRatingFilterII),
-      'secretSauceI': new FormControl(this.prefObj.secretSauceI),
-      'secretSauceII': new FormControl(this.prefObj.secretSauceII),
+      'timeRange': new FormControl(this.prefObj.timeRange, filterValidator),
+      'minOdds': new FormControl(this.prefObj.minOdds, filterValidator),
+      'maxOdds': new FormControl(this.prefObj.maxOdds, filterValidator),
+      'evFilterValueI': new FormControl(this.prefObj.evFilterValueI, filterValidator),
+      'evFilterValueII': new FormControl(this.prefObj.evFilterValueII, filterValidator),
+      'matchRatingFilterI': new FormControl(this.prefObj.matchRatingFilterI, filterValidator),
+      'matchRatingFilterII': new FormControl(this.prefObj.matchRatingFilterII, filterValidator ),
+      'secretSauceI': new FormControl(this.prefObj.secretSauceI, filterValidator),
+      'secretSauceII': new FormControl(this.prefObj.secretSauceII, filterValidator),
       'isEvSelected': new FormControl(this.prefObj.isEvSelected),
       'dialogDisabled': new FormControl(this.prefObj.dialogDisabled),
-    });
+    }, { validators: [oddsValidator, evValidator, mrValidator, ssValidator]});
 
     //Subscribe to update. Retrieves UserPreferences from Service. Subscribes to it.
     this.userPrefSubscription = this.userPrefService.getUserPrefs().subscribe( tablePref => {
@@ -110,7 +112,93 @@ export class ViewTableSidenavComponent implements OnInit, AfterViewInit {
 
     this.sidenavService.toggle();
   }
+  filterValueValidator(firstNumber:number): ValidatorFn
+  {
+    return (control: AbstractControl): { [key: string]: any } | null =>
+    +control.value >= firstNumber ? null : {valueTooLow: control.value};
+    // return (control:FormControl) =>{
+    //   const form=control.parent;
+    //   if (form){
+    //     const min = form.get('matchRatingFilterI');
+    //     const max = form.get('matchRatingFilterII');
+    //     return min.value && max.value && +max.value > +min.value ? null : {error:'This value must be larger than the "filter value to show in Juicy" '};
+    //   }
+    // }
+  }
+  getErrorMessage() {
+    var formInput = this.viewTableForm.controls;
 
+    if(formInput.minOdds.errors || formInput.maxOdds.errors || formInput.evFilterValueI.errors || formInput.evFilterValueII.errors || formInput.matchRatingFilterI.errors || formInput.matchRatingFilterII.errors || formInput.secretSauceI.errors || formInput.secretSauceII.errors){
+      return 'Invalid entry, please enter a valid number'
+    }
+  }
+
+  getFormErrorMessage():string{
+
+    var errorCount = Object.keys(this.viewTableForm.errors).length;
+
+    if(errorCount == 1){
+      this.enableSaveButton = false;
+
+      if(this.viewTableForm.errors.oddsMismatch){
+        return " Odds filter";
+      }
+        if(this.viewTableForm.errors.evMismatch){
+        return " EV filter";
+      }
+        if(this.viewTableForm.errors.mrMismatch){
+        return " Match Rating filter";
+      }
+        if(this.viewTableForm.errors.ssMismatch){
+        return " Secret Sauce filter";
+      }
+
+    }
+    if(errorCount == 2){
+      this.enableSaveButton = false;
+      if(this.viewTableForm.errors.oddsMismatch && this.viewTableForm.errors.evMismatch){
+        return " Odds and EV filters";
+      }
+        if(this.viewTableForm.errors.oddsMismatch && this.viewTableForm.errors.mrMismatch ){
+        return " Odds and Match Rating";
+      }
+        if(this.viewTableForm.errors.oddsMismatch  && this.viewTableForm.errors.ssMismatch ){
+        return " Odds and Secret Sauce filters";
+      }
+        if(this.viewTableForm.errors.evMismatch && this.viewTableForm.errors.ssMismatch ){
+        return " EV and Secret Sauce filters";
+      }
+       if( this.viewTableForm.errors.evMismatch && this.viewTableForm.errors.mrMismatch ){
+        return " EV and Match Rating filters";
+      }
+      if( this.viewTableForm.errors.mrMismatch && this.viewTableForm.errors.ssMismatch ){
+        return " Match Rating, and Secret Sauce filters";
+      }
+
+    }
+    if(errorCount == 3){
+      this.enableSaveButton = false;
+      if(this.viewTableForm.errors.oddsMismatch && this.viewTableForm.errors.evMismatch && this.viewTableForm.errors.mrMismatch ){
+        return " Odds, EV, and Match Rating filters";
+      }
+        if(this.viewTableForm.errors.oddsMismatch && this.viewTableForm.errors.evMismatch  && this.viewTableForm.errors.ssMismatch ){
+        return " Odds, EV, and Secret Sauce filters";
+      }
+        if(this.viewTableForm.errors.evMismatch && this.viewTableForm.errors.mrMismatch && this.viewTableForm.errors.ssMismatch ){
+        return " EV, Match Rating, and Secret Sauce filters";
+      }
+      if(this.viewTableForm.errors.oddsMismatch && this.viewTableForm.errors.mrMismatch && this.viewTableForm.errors.ssMismatch ){
+        return " Odds Range, Match Rating, and Secret Sauce filters";
+      }
+
+    }
+    if(errorCount == 4){
+      this.enableSaveButton = false;
+      if(this.viewTableForm.errors.oddsMismatch && this.viewTableForm.errors.evMismatch && this.viewTableForm.errors.mrMismatch && this.viewTableForm.errors.ssMismatch ){
+        return " Odds, EV, Match Rating, and Secret Sauce filters";
+      }
+    }
+  }
   toggleAllSelection(){
     if (this.allSelected) {
       this.select.options.forEach((item: MatOption) => item.select());
@@ -129,6 +217,11 @@ export class ViewTableSidenavComponent implements OnInit, AfterViewInit {
     this.allSelected = newStatus;
   }
 
+  getRealtimeUpdate(){
+    // console.log(this.sabFormValues.touched + " " + this.sabFormValues.status );
+    this.viewTableForm.touched && this.viewTableForm.status == 'VALID' ? this.enableSaveButton=true : this.enableSaveButton=false;
+    return this.viewTableForm;
+  }
 
   showMe(){
     this.dialogDisabled = !this.dialogDisabled;
