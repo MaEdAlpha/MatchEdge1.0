@@ -68,6 +68,11 @@ div.mat-dialog-content > p{
   margin-right: 5%;
 }
 
+.sab-values-auto-calc {
+  width: 85px;
+  margin-right: 10px;
+}
+
 .update-message {
   color: #126E51;
   margin-left: auto;

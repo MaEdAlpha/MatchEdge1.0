@@ -1,3 +1,4 @@
+import { ThisReceiver } from '@angular/compiler';
 import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -41,6 +42,8 @@ export class PopupFormSavedBetsComponent implements OnInit {
       Liability: new FormControl(data.activeBet.liability),
       QL: new FormControl({value:data.activeBet.ql }),
       EstValue: new FormControl({value:data.activeBet.ev}),
+      MRValue: new FormControl({value:data.activeBet.mr}),
+      Sauce: new FormControl({value:data.activeBet.sauce}),
       FTA: new FormControl({value:data.activeBet.fta}),
       ROI: new FormControl({value:data.activeBet.roi}),
       BetState: new FormControl(data.activeBet.betState),
@@ -77,6 +80,8 @@ export class PopupFormSavedBetsComponent implements OnInit {
       this.data.activeBet.backOdd = this.sabFormValues.value.BackOdds;
       this.data.activeBet.betState = this.sabFormValues.value.BetState;
       this.data.activeBet.ev = this.sabFormValues.value.EstValue;
+      this.data.activeBet.mr = this.sabFormValues.value.MRValue;
+      this.data.activeBet.sauce = this.sabFormValues.value.Sauce;
       this.data.activeBet.fta = this.sabFormValues.value.FTA;
       this.data.activeBet.layOdd = this.sabFormValues.value.LayOdds;
       this.data.activeBet.layStake = this.sabFormValues.value.LayStake;
@@ -124,6 +129,22 @@ export class PopupFormSavedBetsComponent implements OnInit {
       this.sabFormValues.get('PL').setValue(ql.toFixed(2));
     }
     return ql.toFixed(2);
+  }
+  getSauce(backOdds:number, layOdds:number, stake:number):string{
+    var fta = +this.getFTA(stake, backOdds, layOdds);
+    var ql = +this.getQL(backOdds, layOdds, stake);
+    var qlPercentage = +(ql/fta*100);
+    qlPercentage = this.filterValue(qlPercentage);
+    this.sabFormValues.get('Sauce').setValue(qlPercentage.toFixed(2));
+    return qlPercentage.toFixed(2);
+
+  }
+
+  getMatchRating(backOdds:number, layOdds:number):string{
+    var matchRating = +(backOdds/layOdds)*100;
+    matchRating = this.filterValue(matchRating);
+    this.sabFormValues.get('MRValue').setValue(matchRating.toFixed(2));
+    return matchRating.toFixed(2);
   }
   getEstValue(backOdds:number, layOdds:number, stake:number):string{
     var fta:number = this.calcFTA(backOdds,layOdds, stake);

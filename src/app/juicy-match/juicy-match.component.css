@@ -510,10 +510,14 @@ padding-top: 8%;
 .calculated-value{
   width: fit-content;
   display: inline-flex;
-  font-size: large;
+  font-size: 110%;
   padding-left: 20px;
 }
 
+.calculated-value-lhs,
+.calculated-text-lhs {
+  font-size: 90%;
+}
 .value-divider{
   margin: 0;
   margin-left: 18%;
