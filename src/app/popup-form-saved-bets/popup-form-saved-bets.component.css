@@ -219,3 +219,7 @@ hr {
   }
 }
 
+::ng-deep.mat-form-field-subscript-wrapper {
+  font-size: 85% !important;
+}
+
