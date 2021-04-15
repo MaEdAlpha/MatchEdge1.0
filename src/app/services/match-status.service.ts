@@ -76,6 +76,8 @@ export class MatchStatusService {
       }
       if(fixture.Away == selection) {
         return true;
+      } else {
+        return false;
       }
     });
     return matchIsWatched.length != 0 ? true : false;
