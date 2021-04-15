@@ -53,8 +53,8 @@ getMatchStats(match){
     this.oneInXgames = match.OccH;
     this.ft = +(this.stake * (this.backOdds - 1) + this.layStake).toFixed(2);
     this.evTotal = +(this.ft + (this.ql * (this.oneInXgames - 1))).toFixed(2);
-    this.evThisBet = +(this.evTotal/this.oneInXgames).toFixed(2);
     this.roi = +(this.evThisBet/this.stake).toFixed(2);
+    this.evThisBet = +(this.evTotal/this.oneInXgames).toFixed(2);
     this.mRating = +(this.backOdds * 100 / this.layOdds).toFixed(2);
     this.qlPercentage = +(this.ql/this.ft*100).toFixed(2);
 

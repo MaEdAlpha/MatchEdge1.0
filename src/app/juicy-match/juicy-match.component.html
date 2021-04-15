@@ -142,18 +142,28 @@
                       <!-- Calculated Values -->
                       <div class="calculated-container">
                         <div class="calculated-row">
-                          <h3 class="calculated-text">ROI:</h3>
-                          <span class="calculated-value">{{ ROI(getGroup(i).get('Stake').value, getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value, selection.FTAround) | number:'0.2-2'}} %</span>
+                          <h3 class="calculated-text .calculated-text-lhs">ROI:</h3>
+                          <span class="calculated-value calculated-value-lhs">{{ ROI(getGroup(i).get('Stake').value, getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value, selection.FTAround) | number:'0.2-2'}} %</span>
                         </div>
                         <hr class="value-divider">
                         <div class="calculated-row">
-                          <h3 class="calculated-text">FTA: </h3>
-                            <span class="calculated-value"> {{ FTA(getGroup(i).get('Stake').value, getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value  ) | currency:'GBP'}}</span>
+                          <h3 class="calculated-text .calculated-text-lhs">FTA: </h3>
+                            <span class="calculated-value calculated-value-lhs"> {{ FTA(getGroup(i).get('Stake').value, getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value  ) | currency:'GBP'}}</span>
                         </div>
                         <hr class="value-divider">
                         <div class="calculated-row">
-                          <h3 class="calculated-text">EV: </h3>
-                          <span class="calculated-value">{{ TotalEV( selection.FTAround,  getGroup(i).get('Stake').value, getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value)/selection.FTAround  | currency:'GBP' }}</span>
+                          <h3 class="calculated-text .calculated-text-lhs">EV: </h3>
+                          <span class="calculated-value calculated-value-lhs">{{ TotalEV( selection.FTAround,  getGroup(i).get('Stake').value, getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value)/selection.FTAround  | currency:'GBP' }}</span>
+                        </div>
+                        <hr class="value-divider">
+                        <div class="calculated-row">
+                          <h3 class="calculated-text .calculated-text-lhs">MR: </h3>
+                          <span class="calculated-value calculated-value-lhs calculated-value-lhs">{{ NewMatchRating( selection.FTAround,  getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value)  | number:'0.2-2' }}</span>
+                        </div>
+                        <hr class="value-divider">
+                        <div class="calculated-row">
+                          <h3 class="calculated-text .calculated-text-lhs">SS: </h3>
+                          <span class="calculated-value calculated-value-lhs">{{ NewSS(  getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value, getGroup(i).get('Stake').value ) | number:'0.2-2' }} %</span>
                         </div>
                       </div>
                       <!-- Comment Box -->

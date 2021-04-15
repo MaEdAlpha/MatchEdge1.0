@@ -75,6 +75,8 @@ export class PopupViewSavedBetsComponent implements AfterViewInit {
         layStake: null,
         liability: null,
         ev: null,
+        mr: null,
+        sauce: null,
         fta: null,
         ql: null,
         roi: null,

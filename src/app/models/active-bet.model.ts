@@ -10,6 +10,8 @@ export interface ActiveBet {
   layStake:number;
   liability:number;
   ev:number;
+  mr:number;
+  sauce:number;
   fta:number;
   ql:number;
   roi:number;

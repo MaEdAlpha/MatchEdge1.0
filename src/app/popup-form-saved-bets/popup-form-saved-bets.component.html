@@ -86,34 +86,47 @@
 
       <div class="auto-calculated-fields">
 
-        <mat-form-field class="sab-values" appearance="outline">
+        <mat-form-field class="sab-values sab-values-auto-calc" appearance="outline">
           <input class="auto-calc-input" formControlName="QL" matInput readonly placeholder="{{getQL( getRealtimeUpdate().get('BackOdds').value, getRealtimeUpdate().get('LayOdds').value, getRealtimeUpdate().get('Stake').value) }}">
           <span matPrefix>£&nbsp;</span>
           <mat-hint align="end">QL</mat-hint>
         </mat-form-field>
 
-        <mat-form-field class="sab-values" appearance="outline">
+        <mat-form-field class="sab-values sab-values-auto-calc" appearance="outline">
           <input class="auto-calc-input" formControlName="Liability" matInput readonly placeholder="{{getLiability( getRealtimeUpdate().get('BackOdds').value, getRealtimeUpdate().get('LayOdds').value, getRealtimeUpdate().get('Stake').value )}}">
           <mat-hint align="end">Liability</mat-hint>
         </mat-form-field>
 
-        <mat-form-field class="sab-values" appearance="outline">
+        <mat-form-field class="sab-values sab-values-auto-calc" appearance="outline">
           <input class="auto-calc-input" formControlName="FTA" matInput readonly placeholder="{{getFTA( getRealtimeUpdate().get('BackOdds').value, getRealtimeUpdate().get('LayOdds').value, getRealtimeUpdate().get('Stake').value )}}">
           <span matPrefix>£&nbsp;</span>
           <mat-hint align="end">FTA</mat-hint>
         </mat-form-field>
 
-        <mat-form-field class="sab-values" appearance="outline">
+        <mat-form-field class="sab-values sab-values-auto-calc" appearance="outline">
+          <input class="auto-calc-input" formControlName="ROI" matInput readonly placeholder="{{ getROI( getRealtimeUpdate().get('BackOdds').value, getRealtimeUpdate().get('LayOdds').value, getRealtimeUpdate().get('Stake').value )}}">
+          <span matSuffix>%&nbsp;</span>
+          <mat-hint align="end">ROI</mat-hint>
+        </mat-form-field>
+
+        <mat-form-field class="sab-values sab-values-auto-calc" appearance="outline">
+          <input class="auto-calc-input" formControlName="Sauce" matInput readonly placeholder="{{getSauce( getRealtimeUpdate().get('BackOdds').value, getRealtimeUpdate().get('LayOdds').value, getRealtimeUpdate().get('Stake').value )}}">
+          <span matPrefix>£&nbsp;</span>
+          <mat-hint align="end">SS</mat-hint>
+        </mat-form-field>
+
+        <mat-form-field class="sab-values sab-values-auto-calc" appearance="outline">
+          <input class="auto-calc-input" formControlName="MRValue" matInput readonly placeholder="{{getMatchRating( getRealtimeUpdate().get('BackOdds').value, getRealtimeUpdate().get('LayOdds').value )}}">
+          <span matPrefix>£&nbsp;</span>
+          <mat-hint align="end">MR</mat-hint>
+        </mat-form-field>
+
+        <mat-form-field class="sab-values sab-values-auto-calc" appearance="outline">
           <input class="auto-calc-input" formControlName="EstValue" matInput readonly placeholder="{{getEstValue( getRealtimeUpdate().get('BackOdds').value, getRealtimeUpdate().get('LayOdds').value, getRealtimeUpdate().get('Stake').value )}}">
           <span matPrefix>£&nbsp;</span>
           <mat-hint align="end">EV</mat-hint>
         </mat-form-field>
 
-        <mat-form-field class="sab-values" appearance="outline">
-          <input class="auto-calc-input" formControlName="ROI" matInput readonly placeholder="{{ getROI( getRealtimeUpdate().get('BackOdds').value, getRealtimeUpdate().get('LayOdds').value, getRealtimeUpdate().get('Stake').value )}}">
-          <span matSuffix>%&nbsp;</span>
-          <mat-hint align="end">ROI</mat-hint>
-        </mat-form-field>
       </div>
 
         <div class="over-ride-pl">

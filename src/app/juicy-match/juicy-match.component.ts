@@ -273,6 +273,17 @@ export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
     return result;
   }
 
+  NewMatchRating(backOdds:number, layOdds:number){
+    return +(backOdds/layOdds)*100;
+  }
+
+  NewSS(backOdds:number,layOdds:number,stake:number){
+    var fta = this.FTA(stake, backOdds, layOdds);
+    var ql = this.QL(backOdds, layOdds, stake);
+    var qlPercentage = +(ql/fta*100).toFixed(2);
+    return qlPercentage;
+  }
+
   ROI(stake:number, backOdds: number, layOdds:number, occurence:number):number{
     var layStake = (+backOdds / +layOdds) * +stake;
     var fullTurnAround = +stake * (+backOdds -1) + +layStake;
@@ -437,6 +448,8 @@ export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
         layStake: +(backOdd/layOdd*stake).toFixed(2),
         liability: +((layOdd - 1) * +(backOdd/layOdd*stake)).toFixed(2),
         ev: +this.TotalEV(row.FTAround, stake, backOdd, layOdd).toFixed(2),
+        mr: +this.NewMatchRating(backOdd, layOdd),
+        sauce: +this.NewSS(backOdd, layOdd, stake),
         fta: +this.FTA(stake, backOdd, layOdd).toFixed(2),
         ql: +this.QL(backOdd, layOdd, stake).toFixed(2),
         roi: +this.ROI(stake, backOdd, layOdd, row.FTAround).toFixed(2),
