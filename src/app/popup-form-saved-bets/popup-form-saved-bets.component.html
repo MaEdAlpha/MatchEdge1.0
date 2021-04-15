@@ -40,7 +40,7 @@
               <mat-form-field class="sab-values" appearance="fill">
                 <mat-hint align="end">Back Stake</mat-hint>
                 <mat-label>Prev. {{data.activeBet.stake | currency:'GBP'}}</mat-label>
-                <input formControlName="Stake" required matInput placeholder="{{getRealtimeUpdate().value.stake | slice : '2' | currency : 'GBP':'1.0-0' }}">
+                <input formControlName="Stake" type="number" required  matInput placeholder="{{getRealtimeUpdate().value.stake | slice : '2' | currency : 'GBP':'1.0-0' }}">
                 <span matPrefix>£&nbsp;</span>
                 <mat-error *ngIf="sabFormValues.controls.BackOdds.errors">{{getErrorMessage()}}</mat-error>
               </mat-form-field>
@@ -49,10 +49,11 @@
                 <mat-label>Prev. {{data.activeBet.backOdd}}</mat-label>
                 <input formControlName="BackOdds"
                 required
+                type="number"
                 matInput
                 placeholder="{{getRealtimeUpdate().get('BackOdds').value}}">
                 <mat-hint align="end">Back Odds</mat-hint>
-                <!-- <mat-error *ngIf="sabFormValues.controls.BackOdds.errors">{{getErrorMessage()}}</mat-error> -->
+                <mat-error *ngIf="sabFormValues.controls.BackOdds.errors">{{getErrorMessage()}}</mat-error>
               </mat-form-field>
             </div>
           </div>
@@ -69,7 +70,7 @@
             <mat-form-field class="sab-values" appearance="outline">
               <mat-hint align="end">Lay Odds</mat-hint>
               <mat-label>Prev. {{data.activeBet.layOdd}}</mat-label>
-              <input formControlName="LayOdds" required [readOnly]="true" matInput placeholder="{{getRealtimeUpdate().get('LayOdds').value}}">
+              <input formControlName="LayOdds" required type="number" matInput placeholder="{{getRealtimeUpdate().get('LayOdds').value}}">
               <mat-error *ngIf="sabFormValues.controls.BackOdds.errors">{{getErrorMessage()}}</mat-error>
             </mat-form-field>
 
