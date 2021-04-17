@@ -16,6 +16,7 @@ export class NotificationBoxService {
   public isEVSelected: number = this.userPropService.getFilterSelection();
   public tableDate: string = this.userPropService.getSelectedDate();
   private clickSubject = new Subject<{notificationIsActivated: boolean, matchObject: any }>();
+  private alertPlaying: boolean = false;
 
   juicyFilterChange: Subscription;
   matchStatus:Subscription;
@@ -44,18 +45,23 @@ export class NotificationBoxService {
     var home = streamMatchesArray[0];
     var away = streamMatchesArray[1];
     var epochNotifications = this.dateHandlingService.returnGenericNotificationBoundaries();
+    console.log("EV notification: " + this.evNotificationFilter);
+
 
     console.log("Current Filter Settings: Notify based off EV = " + this.isEVSelected + " Match Rating Filter = " + this.matchRatingFilterNotification + " EV Filter = " + this.evNotificationFilter);
 
     //Need to check if already in Juicy Matches. if()
     if(this.matchStatusService.isWatched(home.Selection) && (this.isInEpochLimits(epochNotifications, home) && (this.isEVSelected == 1 && home.EVthisBet >= this.evNotificationFilter && home.EVthisBet < 100000 ) || (this.isEVSelected == 2 && home.MatchRating >= this.matchRatingFilterNotification) || (this.isEVSelected == 3 && home.QLPercentage >= this.secretSauceNotification) ) ) {
       this.toast.info(home.Selection + ": </br> EV: " + home.EVthisBet + "</br> MR: " + home.MatchRating, "Click to view " + home.Selection + " in Juicy Match.").onTap.subscribe( (x) => {
+        console.log("SHOW NOTIFICATION!!!!");
+
         this.toastr(home);
       });
     }
 
     if( this.matchStatusService.isWatched(away.Selection) && (this.isInEpochLimits(epochNotifications, away) && (this.isEVSelected && away.EVthisBet >= this.evNotificationFilter && away.EVthisBet < 100000 ) || ( this.isEVSelected == 2 && away.MatchRating >= this.matchRatingFilterNotification) || (this.isEVSelected == 3 && away.QLPercentage >= this.secretSauceNotification) ) ) {
       this.toast.success(away.Selection + ": </br> EV: " + away.EVthisBet + "</br> MR: " + away.MatchRating, "Click to view " + away.Selection + " in Juicy Match.").onTap.subscribe( (x) => {
+        console.log("SHOW NOTIFICATION!!!!");
         //When a user taps the notification.
         this.toastr(away);
       });
@@ -63,10 +69,13 @@ export class NotificationBoxService {
   }
 
   toastr(selection){
-    //maybe useless line of code... MongoStream is buggy with an open DB it seems
-    var goToJuicyTable = { notificationIsActivated:false, matchObject: ""};
-    goToJuicyTable = { notificationIsActivated: true, matchObject: selection };
-    this.clickSubject.next(goToJuicyTable);
+
+    // play audio
+    if(selection.notify && !this.alertPlaying ){
+      //play audio clip with timeout setting alertPlaying  = true.. play audio then set alerPlaying back to false.
+    } else {
+      //do not play audio clip.
+    }
   }
 
 

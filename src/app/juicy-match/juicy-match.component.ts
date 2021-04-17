@@ -96,7 +96,7 @@ export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
     if(changes.allMatches && changes.allMatches.currentValue) {
 
       if(this.allIndvMatches.length == 0){
-        this.allIndvMatches = this.juicyMHService.getSingleMatches(this.allMatches);
+        this.allIndvMatches = this.matchStatService.getSingleMatches(this.allMatches);
          console.log("Converting matches -> selections...");
          console.log(this.allIndvMatches);
          this.sortedData = this.allIndvMatches;
@@ -126,9 +126,13 @@ export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
     this.tableDateSelected = this.userPrefService.getSelectedDate();
     this.getStartEndDays(this.userPrefService.getSelectedDate());
 
-    this.individualMatchesSub = this.juicyMHService.getJuicyUpdateListener().subscribe( (singleMatchData) => {
-      this.allIndvMatches = singleMatchData;
-    });
+    // this.individualMatchesSub = this.juicyMHService.getJuicyUpdateListener().subscribe( (singleMatchData) => {
+    //   this.allIndvMatches = singleMatchData;
+    //   console.log("MHService");
+
+    //   console.log(singleMatchData);
+
+    // });
 
     this.dataSource = new FormArray(this.allIndvMatches.map( x => this.createForm(x)));
     //accesses an eventEmitter of streamData that is coming in via MongoDB ChangeStream.  Setsup a subscription to observable.
@@ -190,7 +194,7 @@ export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
   ngOnDestroy() {
     this.individualMatchesSub.unsubscribe();
     this.streamSub.unsubscribe();
-    this.matchStatService.clear();
+    // this.matchStatService.clear();
     this.dateSubscription.unsubscribe();
     this.notificationSelectedSubscription.unsubscribe();
   }
@@ -418,6 +422,7 @@ export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
 
       var activeBetObject = this.returnActiveBetObject(row, index);
       this.savedActiveBetsService.saveToActiveBets(activeBetObject);
+      row.activeBet = true;
       console.log("Stored data:");
       console.log(activeBetObject);
 

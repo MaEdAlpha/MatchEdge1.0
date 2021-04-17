@@ -189,6 +189,10 @@ export class UserPropertiesService {
     return Number(this.viewTablePrefs.maxOdds);
   }
 
+  getOptionSelected(): number {
+    return Number(this.viewTablePrefs.isEvSelected);
+  }
+
   getTablePrefs(): TablePreferences {
     return this.viewTablePrefs;
   }

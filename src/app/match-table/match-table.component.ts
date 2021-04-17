@@ -562,7 +562,7 @@ import { MatCheckbox } from '@angular/material/checkbox';
 
       //filter by league
       const leagueMatches = this.matches.filter( (match) => {
-        if(match.League == groupRow.League)
+        if(match.League == groupRow.League && match.EpochTime*1000 > Date.now())
         {
           match.isWatched = groupRow.watchAll;
           match.AStatus.notify = groupRow.watchAll;
