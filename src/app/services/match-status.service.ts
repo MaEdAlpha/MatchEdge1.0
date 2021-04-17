@@ -1,4 +1,5 @@
 import { Injectable, EventEmitter } from '@angular/core';
+import { throwToolbarMixedModesError } from '@angular/material/toolbar';
 import { Observable, Subject } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { UserPropertiesService } from './user-properties.service';
@@ -63,6 +64,21 @@ export class MatchStatusService {
         return false;
       }
     });
+  }
+
+  updateWatchListFromStream(selection){
+    var isHome:boolean;
+    const matchToUpdate = this.watchList.filter( fixture => {
+      if( (fixture.Home == selection.Selection || fixture.Away == selection.Selection) && fixture.EpochTime == selection.EpochTime ) {
+        isHome = (fixture.Home == selection.Selection) ? true : false;
+        return true;
+      } else {
+        return false;
+      }
+    });
+    console.log("Length " + matchToUpdate.length);
+    (matchToUpdate.length > 0) ? (isHome ? matchToUpdate[0].HStatus.notify = selection.notify : matchToUpdate[0].AStatus.notify = selection.notify) : null;
+    console.log(matchToUpdate[0])
   }
 
   displayIgnoreList(){

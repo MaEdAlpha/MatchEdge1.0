@@ -40,21 +40,12 @@ export class NotificationBoxService {
   }
 
   //TODO import Datehandling ranges
-  showJuicyNotification(streamMatchesArray: any){
-
-    var streamObj = streamMatchesArray;
-    // var away = streamMatchesArray[1];
+  showJuicyNotification(streamObj: any){
     var epochNotifications = this.dateHandlingService.returnGenericNotificationBoundaries();
-    console.log("EV notification: " + this.evNotificationFilter);
+    console.log(streamObj);
 
-
-    console.log("Current Filter Settings: Notify based off EV = " + this.isEVSelected + " Match Rating Filter = " + this.matchRatingFilterNotification + " EV Filter = " + this.evNotificationFilter);
-
-    //Need to check if already in Juicy Matches. if()
     if(this.matchStatusService.isWatched(streamObj.Selection) && (this.isInEpochLimits(epochNotifications, streamObj) && (this.isEVSelected == 1 && streamObj.EVthisBet >= this.evNotificationFilter && streamObj.EVthisBet < 100000 ) || (this.isEVSelected == 2 && streamObj.MatchRating >= this.matchRatingFilterNotification) || (this.isEVSelected == 3 && streamObj.QLPercentage >= this.secretSauceNotification) ) ) {
-      this.toast.info(streamObj.Selection + ": </br> EV: " + streamObj.EVthisBet + "</br> MR: " + streamObj.MatchRating, "Click to view " + streamObj.Selection + " in Juicy Match.").onTap.subscribe( (x) => {
-        console.log("SHOW NOTIFICATION!!!!");
-
+      this.toast.info(streamObj.Fixture + "</br>" + streamObj.Selection + "</br> Back: " + streamObj.BackOdds + "</br> Lay: " + streamObj.LayOdds).onTap.subscribe( (x) => {
         this.toastr(streamObj);
       });
     }
@@ -69,10 +60,14 @@ export class NotificationBoxService {
   }
 
   toastr(selection){
-
+    var goToJuicyTable = { notificationIsActivated: true, matchObject: selection }
+    this.clickSubject.next(goToJuicyTable);
     // play audio
-    if(selection.notify && !this.alertPlaying ){
+    if(selection.notify && !selection.userAware && !this.alertPlaying ){
       //play audio clip with timeout setting alertPlaying  = true.. play audio then set alerPlaying back to false.
+      //change boolean to highlight row differently in JuicyMatch
+      selection.userAware = true;
+      selection.isJuicy = true;
     } else {
       //do not play audio clip.
     }

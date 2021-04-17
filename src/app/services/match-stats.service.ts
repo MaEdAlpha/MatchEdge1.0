@@ -201,6 +201,8 @@ getMatchStats(match){
       inRange: isUpdatedValue ? null : false,
       isRedirected: isUpdatedValue ? null : 'No',
       isWatched: isUpdatedValue ? null : false,
+      isJuicy: isUpdatedValue ? null : false,
+      userAware: isUpdatedValue ? null : false,
     }
     //Debug juicy object
     // console.log("JUICYYYY Object created!");

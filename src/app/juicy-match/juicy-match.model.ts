@@ -38,6 +38,8 @@ export interface JuicyMatch{
   inRange:boolean;
   isRedirected:string;
   isWatched:boolean;
+  isJuicy:boolean;
+  userAware:boolean;
 }
 
 export interface MatchStats{
