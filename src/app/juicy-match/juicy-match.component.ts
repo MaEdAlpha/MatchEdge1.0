@@ -465,4 +465,11 @@ export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
       return activeBet;
     }
 
+
+    toggleIsTouched(selection){
+      if(selection.isJuicy && selection.userAware){
+        selection.isJuicy = false;
+        selection.userAware= false;
+      }
+    }
 }

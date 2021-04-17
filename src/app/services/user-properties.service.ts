@@ -172,6 +172,10 @@ export class UserPropertiesService {
     return Number(this.viewTablePrefs.evFilterValueI);
   }
 
+  getEVNotification():number{
+    return Number(this.viewTablePrefs.evFilterValueII);
+  }
+
   getMR(): number{
     //TODO add MatchRating in sidenav
     return Number(this.viewTablePrefs.matchRatingFilterI);

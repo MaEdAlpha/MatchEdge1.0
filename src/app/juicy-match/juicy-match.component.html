@@ -209,7 +209,8 @@
               class="juicyMatch-row"
               [ngClass]="selection.isRedirected == 'Yes' ? 'juicyMatch-expanded-row': null"
               [class.juicyMatch-expanded-row]="expandedElement === selection"
-              (click)="expandedElement = expandedElement === selection ? null : selection"
+              (click)="expandedElement = expandedElement === selection ? null : selection; toggleIsTouched(selection);"
+              [appTouchIt] [isTouched]="selection.isJuicy"
               appHideTableRow [userPref]="prefObj" [backOdds]="selection.BackOdds" [evValue]="selection.EVthisBet" [mrValue]="selection.MatchRating" [ssValue]="selection.QLPercentage" [isWatched]="selection.isWatched" [inRange]="selection.inRange">
           </tr>
           <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="juicyMatch-detail-row"></tr>

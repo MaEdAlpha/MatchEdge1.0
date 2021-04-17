@@ -59,7 +59,7 @@ export class JuicyMatchHandlingService {
 
     //TODO : handle notifications filters here?
     mainMatch = this.matchStatService.updateSelection(mainMatch);
-    if(valueChanged) this.notificationService.showJuicyNotification(mainMatch);
+    mainMatch =  valueChanged ? this.notificationService.showJuicyNotification(mainMatch) : mainMatch;
 
     // //Detect change in EVTotal, trigger flicker animation.
     // if(mainMatch.EVTotal != streamChangeMatch.EVTotal)

@@ -11,7 +11,7 @@ import { UserPropertiesService } from './user-properties.service';
 export class NotificationBoxService {
 
   public matchRatingFilterNotification: number = this.userPropService.getMR();
-  public evNotificationFilter: number = this.userPropService.getEV();
+  public evNotificationFilter: number = this.userPropService.getEVNotification();
   public secretSauceNotification: number = this.userPropService.getSS();
   public isEVSelected: number = this.userPropService.getFilterSelection();
   public tableDate: string = this.userPropService.getSelectedDate();
@@ -40,16 +40,48 @@ export class NotificationBoxService {
   }
 
   //TODO import Datehandling ranges
-  showJuicyNotification(streamObj: any){
+  showJuicyNotification(mainMatch: any){
     var epochNotifications = this.dateHandlingService.returnGenericNotificationBoundaries();
-    console.log(streamObj);
+    console.log(mainMatch);
 
-    if(this.matchStatusService.isWatched(streamObj.Selection) && (this.isInEpochLimits(epochNotifications, streamObj) && (this.isEVSelected == 1 && streamObj.EVthisBet >= this.evNotificationFilter && streamObj.EVthisBet < 100000 ) || (this.isEVSelected == 2 && streamObj.MatchRating >= this.matchRatingFilterNotification) || (this.isEVSelected == 3 && streamObj.QLPercentage >= this.secretSauceNotification) ) ) {
-      this.toast.info(streamObj.Fixture + "</br>" + streamObj.Selection + "</br> Back: " + streamObj.BackOdds + "</br> Lay: " + streamObj.LayOdds).onTap.subscribe( (x) => {
-        this.toastr(streamObj);
-      });
+    if(this.matchStatusService.isWatched(mainMatch.Selection) && this.isInEpochLimits(epochNotifications, mainMatch) ) {
+      switch(this.isEVSelected){
+        case 1:
+          if(mainMatch.EVthisBet >= this.evNotificationFilter && mainMatch.EVthisBet < 100000 ){
+            console.log(mainMatch);
+
+            // play audio
+            if(mainMatch.notify && !mainMatch.userAware ){
+              //play audio clip with timeout setting alertPlaying  = true.. play audio then set alerPlaying back to false.
+              //change boolean to highlight row differently in JuicyMatch
+              console.log("IN EV");
+              mainMatch.isJuicy = true;
+              mainMatch.userAware = true;
+
+              return mainMatch;
+            } else {
+              console.log("In Second ");
+            }
+            mainMatch = this.toastIt(mainMatch);
+          }
+          break;
+        case 2:
+          if( mainMatch.MatchRating >= this.matchRatingFilterNotification) {
+            mainMatch = this.toastIt(mainMatch);
+          }
+          break;
+        case 3:
+          if(mainMatch.QLPercentage >= this.secretSauceNotification) {
+            mainMatch = this.toastIt(mainMatch);
+          }
+          break;
+          default:
+            console.log("something didn't register");
+      }
+
     }
 
+    return mainMatch;
     // if( this.matchStatusService.isWatched(away.Selection) && (this.isInEpochLimits(epochNotifications, away) && (this.isEVSelected && away.EVthisBet >= this.evNotificationFilter && away.EVthisBet < 100000 ) || ( this.isEVSelected == 2 && away.MatchRating >= this.matchRatingFilterNotification) || (this.isEVSelected == 3 && away.QLPercentage >= this.secretSauceNotification) ) ) {
     //   this.toast.success(away.Selection + ": </br> EV: " + away.EVthisBet + "</br> MR: " + away.MatchRating, "Click to view " + away.Selection + " in Juicy Match.").onTap.subscribe( (x) => {
     //     console.log("SHOW NOTIFICATION!!!!");
@@ -59,18 +91,18 @@ export class NotificationBoxService {
     // }
   }
 
-  toastr(selection){
-    var goToJuicyTable = { notificationIsActivated: true, matchObject: selection }
+  private toastIt(mainMatch: any) {
+    this.toast.info(mainMatch.Fixture + "</br>" + mainMatch.Selection + "</br> Back: " + mainMatch.BackOdds + "</br> Lay: " + mainMatch.LayOdds).onTap.subscribe((x) => {
+      mainMatch = this.toastr(mainMatch);
+    });
+    return mainMatch;
+  }
+
+  //Brings to Juicy on Top
+  toastr(updatedMainMatch){
+    var goToJuicyTable = { notificationIsActivated: true, matchObject: updatedMainMatch }
     this.clickSubject.next(goToJuicyTable);
-    // play audio
-    if(selection.notify && !selection.userAware && !this.alertPlaying ){
-      //play audio clip with timeout setting alertPlaying  = true.. play audio then set alerPlaying back to false.
-      //change boolean to highlight row differently in JuicyMatch
-      selection.userAware = true;
-      selection.isJuicy = true;
-    } else {
-      //do not play audio clip.
-    }
+
   }
 
 

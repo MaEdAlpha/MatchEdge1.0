@@ -618,3 +618,7 @@ th.mat-column-Fixture, th.mat-column-EventStart, th.mat-column-Selection {
 span.calculated-value{
   padding: 4px;
 }
+
+.touchRow {
+  background:#ffc235;;
+}

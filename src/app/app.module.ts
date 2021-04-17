@@ -65,6 +65,7 @@ import { HideTableRowDirective } from './directives/hide-table-row.directive';
 import { FlickerDataMatchRatingDirective } from './directives/flicker-data-match-rating.directive';
 import { InactiveMatchDirective } from './directives/inactive-match.directive';
 import { CompareFilterSettingsDirective } from './directives/compare-filter-settings.directive';
+import { TouchItDirective } from './directives/touch-it.directive';
 
 //Pipe
 import { HeaderDatePipe } from './pipes/hdr.datepipe';
@@ -113,6 +114,7 @@ import { ActiveBetsComponent } from './active-bets/active-bets.component';
     PopupFormSavedBetsComponent,
     ActiveBetsComponent,
     CompareFilterSettingsDirective,
+    TouchItDirective,
   ],
   imports: [
     AppRoutingModule,
