@@ -37,6 +37,7 @@ export interface JuicyMatch{
   betState:boolean;
   inRange:boolean;
   isRedirected:string;
+  isWatched:boolean;
 }
 
 export interface MatchStats{
