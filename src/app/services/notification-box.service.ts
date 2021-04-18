@@ -17,6 +17,8 @@ export class NotificationBoxService {
   public tableDate: string = this.userPropService.getSelectedDate();
   private clickSubject = new Subject<{notificationIsActivated: boolean, matchObject: any }>();
   private alertPlaying: boolean = false;
+  private audioEnabled: boolean = this.userPropService.getAudioPreferences();
+  private notificationActive: boolean = this.userPropService.getNotificationLock();
 
   juicyFilterChange: Subscription;
   matchStatus:Subscription;
@@ -45,41 +47,47 @@ export class NotificationBoxService {
     console.log(mainMatch);
 
     if(this.matchStatusService.isWatched(mainMatch.Selection) && this.isInEpochLimits(epochNotifications, mainMatch) ) {
-      switch(this.isEVSelected){
-        case 1:
-          if(mainMatch.EVthisBet >= this.evNotificationFilter && mainMatch.EVthisBet < 100000 ){
-            console.log(mainMatch);
 
-            // play audio
-            if(mainMatch.notify && !mainMatch.userAware ){
-              //play audio clip with timeout setting alertPlaying  = true.. play audio then set alerPlaying back to false.
-              //change boolean to highlight row differently in JuicyMatch
-              console.log("IN EV");
-              mainMatch.isJuicy = true;
-              mainMatch.userAware = true;
+      if(mainMatch.notify && !mainMatch.userAware ){
+        switch(this.isEVSelected){
+            case 1:
+              if(mainMatch.EVthisBet >= this.evNotificationFilter && mainMatch.EVthisBet < 100000 ){
 
-              return mainMatch;
-            } else {
-              console.log("In Second ");
+                  mainMatch = this.toastIt(mainMatch);
+                  //play audio if settings enables it
+                  (this.audioEnabled) ? this.playAudio() : null;
+                  mainMatch.isJuicy = true;
+                  mainMatch.userAware = true;
+                }
+                break;
+            case 2:
+              if( mainMatch.MatchRating >= this.matchRatingFilterNotification) {
+
+                mainMatch = this.toastIt(mainMatch);
+                //play audio if settings enables it
+                (this.audioEnabled) ? this.playAudio() : null;
+                mainMatch.isJuicy = true;
+                mainMatch.userAware = true;
+              }
+              break;
+            case 3:
+              if(mainMatch.QLPercentage <= this.secretSauceNotification) {
+
+                mainMatch = this.toastIt(mainMatch);
+                //play audio if settings enables it
+                (this.audioEnabled) ? this.playAudio() : null;
+                mainMatch.isJuicy = true;
+                mainMatch.userAware = true;
+              }
+              break;
+            default:
+              console.log("something didn't register");
             }
-            mainMatch = this.toastIt(mainMatch);
           }
-          break;
-        case 2:
-          if( mainMatch.MatchRating >= this.matchRatingFilterNotification) {
-            mainMatch = this.toastIt(mainMatch);
-          }
-          break;
-        case 3:
-          if(mainMatch.QLPercentage >= this.secretSauceNotification) {
-            mainMatch = this.toastIt(mainMatch);
-          }
-          break;
-          default:
-            console.log("something didn't register");
+      } else {
+        console.log("In Empty SwitchCaseBlock ");
       }
 
-    }
 
     return mainMatch;
     // if( this.matchStatusService.isWatched(away.Selection) && (this.isInEpochLimits(epochNotifications, away) && (this.isEVSelected && away.EVthisBet >= this.evNotificationFilter && away.EVthisBet < 100000 ) || ( this.isEVSelected == 2 && away.MatchRating >= this.matchRatingFilterNotification) || (this.isEVSelected == 3 && away.QLPercentage >= this.secretSauceNotification) ) ) {
@@ -119,6 +127,22 @@ export class NotificationBoxService {
   //Need to discuss how to show midnight times.
   isInEpochLimits(epochNotifications, selection): boolean{
     var selectionTime = selection.EpochTime*1000;
-    return (selectionTime <= epochNotifications.upperLimit && selectionTime >= epochNotifications.lowerLimit);
+    return (selectionTime <= epochNotifications.upperLimit && selectionTime >= Date.now());
+  }
+
+  playAudio(){
+    if(this.userPropService.getNotificationLock()){
+      var audio = new Audio();
+      audio.src = './assets/audio/notify2.mp3';
+      audio.play();
+      this.userPropService.setNotificationLock(false);
+      console.log("lock set to " + this.userPropService.getNotificationLock());
+
+      setTimeout( () => {
+        this.userPropService.setNotificationLock(true);
+        console.log("timeout lock set to : " + this.userPropService.getNotificationLock());
+
+      } ,3000);
+    }
   }
 }
