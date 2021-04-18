@@ -111,8 +111,6 @@ export class WatchlistComponent implements OnInit, OnDestroy {
       subscribe( matchObject => {
         //triggers each time watchList subject is activated in matchTable Component
         console.log("SUBSCRIPTION TRIGGERED~!!");
-        console.log(matchObject);
-
         this.updateWatchList(matchObject);
       });
 
@@ -692,7 +690,7 @@ export class WatchlistComponent implements OnInit, OnDestroy {
       this.matchStatusService.updateWatchList(matchObj, isHome);
     }
 
-    //when userPreferences change while on watchlist page, this will change the notify status of the match
+    //when userPreferences is updated by user, this will change the notify status of the match
     checkForOddsChange():void{
       console.log("preferences updated!");
 
@@ -720,5 +718,10 @@ export class WatchlistComponent implements OnInit, OnDestroy {
       });
 
       this.isTableEmpty= i == 0 ? true : false;
+    }
+
+    triggerRemoveIcon(selection: any){
+      console.log(selection);
+
     }
 }

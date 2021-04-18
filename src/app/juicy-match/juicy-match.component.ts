@@ -55,8 +55,8 @@ export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
   tableDateSelected: string;
   startDay: number;
   endDay: number
-  allIndvMatches: any[];
-  singleMatchPair: any;
+  allIndvMatches: JuicyMatch[];
+  juicyMatchStreamUpdate: JuicyMatch;
   //Abandon hope all ye' who enter this rats nest.
   testBool:boolean;
   prefSub: Subscription;
@@ -96,13 +96,14 @@ export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
     if(changes.allMatches && changes.allMatches.currentValue) {
 
       if(this.allIndvMatches.length == 0){
-        this.allIndvMatches = this.juicyMHService.getSingleMatches(this.allMatches);
+        //Creates juicyMatch object with calculated stats.
+        this.allIndvMatches = this.matchStatService.getSelectionStatCalcs(this.allMatches);
          console.log("Converting matches -> selections...");
          console.log(this.allIndvMatches);
          this.sortedData = this.allIndvMatches;
         if(this.allIndvMatches != undefined){
           console.log("Creating new formArray");
-          this.dataSource = new FormArray(this.allIndvMatches.map( x=> this.createForm(x)));
+          this.dataSource = new FormArray(this.allIndvMatches.map( x=> this.createForm(x) ) );
           //is what lets HTML see which matches to display. without this, you need to trigger date change in toplayer filter to initalize match load.
           this.popJuiceInRange();
         }
@@ -126,22 +127,24 @@ export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
     this.tableDateSelected = this.userPrefService.getSelectedDate();
     this.getStartEndDays(this.userPrefService.getSelectedDate());
 
-    this.individualMatchesSub = this.juicyMHService.getJuicyUpdateListener().subscribe( (singleMatchData) => {
-      this.allIndvMatches = singleMatchData;
-    });
-
     this.dataSource = new FormArray(this.allIndvMatches.map( x => this.createForm(x)));
     //accesses an eventEmitter of streamData that is coming in via MongoDB ChangeStream.  Setsup a subscription to observable.
     this.streamSub = this.matchesService.streamDataUpdate
     .subscribe( (streamObj) => {
       console.log("Stream INCOMING!");
-      //singleMatchPair is a freshly pushed Match object from our database. It is processed in retrieveStreamData.
-      this.singleMatchPair = this.matchStatService.retrieveStreamData(streamObj);
-      this.singleMatchPair.forEach( (streamObj) => {
-        // find match and update the values with stream data coming from DB.
-        var indexOfmatch = this.allIndvMatches.findIndex( indvMatch => indvMatch.Selection == streamObj.Selection );
-         indexOfmatch != undefined && this.allIndvMatches[indexOfmatch] ? this.juicyMHService.updateSingleMatch(this.allIndvMatches[indexOfmatch], streamObj, indexOfmatch) : console.log("did not find singleMatch in indvMatch Array");
+      var lookupIndex: number[] = []
+
+      lookupIndex.push( this.allIndvMatches.findIndex( (indvMatch) => indvMatch.Selection == streamObj.HomeTeamName ) );
+      lookupIndex.push( this.allIndvMatches.findIndex( (indvMatch) => indvMatch.Selection == streamObj.AwayTeamName ) );
+      console.log(lookupIndex);
+
+      lookupIndex.forEach( indexOfmatch => {
+        var juicyMatchBase = this.allIndvMatches[indexOfmatch];
+        //singleMatchPair is a freshly pushed Match object from our database. It is processed in retrieveStreamData.
+        this.juicyMatchStreamUpdate =  (indexOfmatch != undefined && this.allIndvMatches[indexOfmatch]) ? this.matchStatService.retrieveStreamData(streamObj, juicyMatchBase.Selection ) : null;
+        (indexOfmatch != undefined && this.allIndvMatches[indexOfmatch]) ? this.juicyMHService.updateSingleMatch( juicyMatchBase, this.juicyMatchStreamUpdate, indexOfmatch) : console.log("did not find singleMatch in indvMatch Array");
       });
+
     });
 
 
@@ -190,7 +193,7 @@ export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
   ngOnDestroy() {
     this.individualMatchesSub.unsubscribe();
     this.streamSub.unsubscribe();
-    this.matchStatService.clear();
+    // this.matchStatService.clear();
     this.dateSubscription.unsubscribe();
     this.notificationSelectedSubscription.unsubscribe();
   }
@@ -324,7 +327,6 @@ export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
     });
   }
 
-
   updateIgnoreStatus(ignoreSelection: any[]){
     if(ignoreSelection.length == 2 ){
       this.allIndvMatches.forEach( selection => {
@@ -418,6 +420,7 @@ export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
 
       var activeBetObject = this.returnActiveBetObject(row, index);
       this.savedActiveBetsService.saveToActiveBets(activeBetObject);
+      row.activeBet = true;
       console.log("Stored data:");
       console.log(activeBetObject);
 
@@ -462,4 +465,11 @@ export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
       return activeBet;
     }
 
+
+    toggleIsTouched(selection){
+      if(selection.isJuicy && selection.userAware){
+        selection.isJuicy = false;
+        selection.userAware= false;
+      }
+    }
 }

@@ -11,13 +11,13 @@ import { TablePreferences } from '../user-properties.model';
   providedIn: 'root'
 })
 export class UserPropertiesService {
-
   //
   triggerOddsSelected = new EventEmitter<TriggerOdds[]>();
 
   //for sending to JuicyTable Filter method
   viewTablePrefSelected = new EventEmitter<any>();
   userPrefSub = new Subject<TablePreferences>();
+  private lockAudio:boolean = true;
 
   private smCommission:number = 2.05;
   //TODO re-write to notifPref defaultTriggers in UserProperties Model
@@ -73,6 +73,7 @@ export class UserPropertiesService {
     secretSauceII: '2.00',
     isEvSelected: '1',
     dialogDisabled: true,
+    audioEnabled: true,
   };
 
   constructor() { }
@@ -145,6 +146,7 @@ export class UserPropertiesService {
       secretSauceII: formObj.secretSauceII,
       isEvSelected: formObj.isEvSelected,
       dialogDisabled: formObj.dialogDisabled,
+      audioEnabled: formObj.audioEnabled,
     });
 
     this.viewTablePrefs = {
@@ -160,6 +162,7 @@ export class UserPropertiesService {
       secretSauceII: formObj.secretSauceII,
       isEvSelected: formObj.isEvSelected,
       dialogDisabled: formObj.dialogDisabled,
+      audioEnabled: formObj.audioEnabled,
     }
     this.viewTablePrefSelected.emit(this.viewTablePrefs);
   }
@@ -170,6 +173,10 @@ export class UserPropertiesService {
 
   getEV():number{
     return Number(this.viewTablePrefs.evFilterValueI);
+  }
+
+  getEVNotification():number{
+    return Number(this.viewTablePrefs.evFilterValueII);
   }
 
   getMR(): number{
@@ -189,6 +196,10 @@ export class UserPropertiesService {
     return Number(this.viewTablePrefs.maxOdds);
   }
 
+  getOptionSelected(): number {
+    return Number(this.viewTablePrefs.isEvSelected);
+  }
+
   getTablePrefs(): TablePreferences {
     return this.viewTablePrefs;
   }
@@ -203,5 +214,17 @@ export class UserPropertiesService {
 
   getDialogDisabled(): boolean {
     return this.viewTablePrefs.dialogDisabled;
+  }
+
+  getAudioPreferences(): boolean {
+    return this.viewTablePrefs.audioEnabled;
+  }
+
+  setNotificationLock(state:boolean){
+    this.lockAudio = state;
+  }
+
+  getNotificationLock(): boolean {
+    return this.lockAudio;
   }
 }

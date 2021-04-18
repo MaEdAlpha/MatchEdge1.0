@@ -11,11 +11,14 @@ import { UserPropertiesService } from './user-properties.service';
 export class NotificationBoxService {
 
   public matchRatingFilterNotification: number = this.userPropService.getMR();
-  public evNotificationFilter: number = this.userPropService.getEV();
+  public evNotificationFilter: number = this.userPropService.getEVNotification();
   public secretSauceNotification: number = this.userPropService.getSS();
   public isEVSelected: number = this.userPropService.getFilterSelection();
   public tableDate: string = this.userPropService.getSelectedDate();
   private clickSubject = new Subject<{notificationIsActivated: boolean, matchObject: any }>();
+  private alertPlaying: boolean = false;
+  private audioEnabled: boolean = this.userPropService.getAudioPreferences();
+  private notificationActive: boolean = this.userPropService.getNotificationLock();
 
   juicyFilterChange: Subscription;
   matchStatus:Subscription;
@@ -39,34 +42,75 @@ export class NotificationBoxService {
   }
 
   //TODO import Datehandling ranges
-  showJuicyNotification(streamMatchesArray: any){
-
-    var home = streamMatchesArray[0];
-    var away = streamMatchesArray[1];
+  showJuicyNotification(mainMatch: any){
     var epochNotifications = this.dateHandlingService.returnGenericNotificationBoundaries();
+    console.log(mainMatch);
 
-    console.log("Current Filter Settings: Notify based off EV = " + this.isEVSelected + " Match Rating Filter = " + this.matchRatingFilterNotification + " EV Filter = " + this.evNotificationFilter);
+    if(this.matchStatusService.isWatched(mainMatch.Selection) && this.isInEpochLimits(epochNotifications, mainMatch) ) {
 
-    //Need to check if already in Juicy Matches. if()
-    if(this.matchStatusService.isWatched(home.Selection) && (this.isInEpochLimits(epochNotifications, home) && (this.isEVSelected == 1 && home.EVthisBet >= this.evNotificationFilter && home.EVthisBet < 100000 ) || (this.isEVSelected == 2 && home.MatchRating >= this.matchRatingFilterNotification) || (this.isEVSelected == 3 && home.QLPercentage >= this.secretSauceNotification) ) ) {
-      this.toast.info(home.Selection + ": </br> EV: " + home.EVthisBet + "</br> MR: " + home.MatchRating, "Click to view " + home.Selection + " in Juicy Match.").onTap.subscribe( (x) => {
-        this.toastr(home);
-      });
-    }
+      if(mainMatch.notify && !mainMatch.userAware ){
+        switch(this.isEVSelected){
+            case 1:
+              if(mainMatch.EVthisBet >= this.evNotificationFilter && mainMatch.EVthisBet < 100000 ){
 
-    if( this.matchStatusService.isWatched(away.Selection) && (this.isInEpochLimits(epochNotifications, away) && (this.isEVSelected && away.EVthisBet >= this.evNotificationFilter && away.EVthisBet < 100000 ) || ( this.isEVSelected == 2 && away.MatchRating >= this.matchRatingFilterNotification) || (this.isEVSelected == 3 && away.QLPercentage >= this.secretSauceNotification) ) ) {
-      this.toast.success(away.Selection + ": </br> EV: " + away.EVthisBet + "</br> MR: " + away.MatchRating, "Click to view " + away.Selection + " in Juicy Match.").onTap.subscribe( (x) => {
-        //When a user taps the notification.
-        this.toastr(away);
-      });
-    }
+                  mainMatch = this.toastIt(mainMatch);
+                  //play audio if settings enables it
+                  (this.audioEnabled) ? this.playAudio() : null;
+                  mainMatch.isJuicy = true;
+                  mainMatch.userAware = true;
+                }
+                break;
+            case 2:
+              if( mainMatch.MatchRating >= this.matchRatingFilterNotification) {
+
+                mainMatch = this.toastIt(mainMatch);
+                //play audio if settings enables it
+                (this.audioEnabled) ? this.playAudio() : null;
+                mainMatch.isJuicy = true;
+                mainMatch.userAware = true;
+              }
+              break;
+            case 3:
+              if(mainMatch.QLPercentage >= this.secretSauceNotification) {
+
+                mainMatch = this.toastIt(mainMatch);
+                //play audio if settings enables it
+                (this.audioEnabled) ? this.playAudio() : null;
+                mainMatch.isJuicy = true;
+                mainMatch.userAware = true;
+              }
+              break;
+            default:
+              console.log("something didn't register");
+            }
+          }
+      } else {
+        console.log("In Empty SwitchCaseBlock ");
+      }
+
+
+    return mainMatch;
+    // if( this.matchStatusService.isWatched(away.Selection) && (this.isInEpochLimits(epochNotifications, away) && (this.isEVSelected && away.EVthisBet >= this.evNotificationFilter && away.EVthisBet < 100000 ) || ( this.isEVSelected == 2 && away.MatchRating >= this.matchRatingFilterNotification) || (this.isEVSelected == 3 && away.QLPercentage >= this.secretSauceNotification) ) ) {
+    //   this.toast.success(away.Selection + ": </br> EV: " + away.EVthisBet + "</br> MR: " + away.MatchRating, "Click to view " + away.Selection + " in Juicy Match.").onTap.subscribe( (x) => {
+    //     console.log("SHOW NOTIFICATION!!!!");
+    //     //When a user taps the notification.
+    //     this.toastr(away);
+    //   });
+    // }
   }
 
-  toastr(selection){
-    //maybe useless line of code... MongoStream is buggy with an open DB it seems
-    var goToJuicyTable = { notificationIsActivated:false, matchObject: ""};
-    goToJuicyTable = { notificationIsActivated: true, matchObject: selection };
+  private toastIt(mainMatch: any) {
+    this.toast.info(mainMatch.Fixture + "</br>" + mainMatch.Selection + "</br> Back: " + mainMatch.BackOdds + "</br> Lay: " + mainMatch.LayOdds).onTap.subscribe((x) => {
+      mainMatch = this.toastr(mainMatch);
+    });
+    return mainMatch;
+  }
+
+  //Brings to Juicy on Top
+  toastr(updatedMainMatch){
+    var goToJuicyTable = { notificationIsActivated: true, matchObject: updatedMainMatch }
     this.clickSubject.next(goToJuicyTable);
+
   }
 
 
@@ -83,6 +127,22 @@ export class NotificationBoxService {
   //Need to discuss how to show midnight times.
   isInEpochLimits(epochNotifications, selection): boolean{
     var selectionTime = selection.EpochTime*1000;
-    return (selectionTime <= epochNotifications.upperLimit && selectionTime >= epochNotifications.lowerLimit);
+    return (selectionTime <= epochNotifications.upperLimit && selectionTime >= Date.now());
+  }
+
+  playAudio(){
+    if(this.userPropService.getNotificationLock()){
+      var audio = new Audio();
+      audio.src = './assets/audio/notify2.mp3';
+      audio.play();
+      this.userPropService.setNotificationLock(false);
+      console.log("lock set to " + this.userPropService.getNotificationLock());
+
+      setTimeout( () => {
+        this.userPropService.setNotificationLock(true);
+        console.log("timeout lock set to : " + this.userPropService.getNotificationLock());
+
+      } ,3000);
+    }
   }
 }

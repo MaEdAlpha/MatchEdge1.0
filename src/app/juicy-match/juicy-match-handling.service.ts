@@ -2,18 +2,19 @@ import { Injectable, EventEmitter, ChangeDetectorRef } from '@angular/core';
 import { MatchStatsService } from '../services/match-stats.service';
 import { Observable, Subject, from } from "rxjs";
 import { MatchesService } from '../match/matches.service';
+import { NotificationBoxService } from '../services/notification-box.service';
+import { UserPropertiesService } from '../services/user-properties.service';
+import { MatchStatusService } from '../services/match-status.service';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class JuicyMatchHandlingService {
-  private filteredMatches:any;
-  private allIndividualMatchesArray: any;
 
   public singleMatchesUpdated = new Subject<any>();
 
-  constructor(private matchStatService: MatchStatsService, private matchesService: MatchesService) { }
+  constructor(private matchStatService: MatchStatsService, private matchStatusService: MatchStatusService, private userPropertiesService: UserPropertiesService, private notificationService: NotificationBoxService) { }
 
   //Parses Fixtures into Selections
   getSingleMatches(_allMatches){
@@ -34,61 +35,41 @@ export class JuicyMatchHandlingService {
   }
 
 
-  updateSingleMatch(mainMatch, streamChangeMatch, index){
-    //TODO possibly hold onto old bet365 updates here? create a new field that writes old data.
-    //TODO Also, timestamp showing last update.
-
-    mainMatch.Stake = streamChangeMatch.Stake;
-    mainMatch.LayStake = streamChangeMatch.LayStake;
-    //Detect change in BackOdds, trigger flicker animation.
-    if(mainMatch.BackOdds != streamChangeMatch.BackOdds)
+  updateSingleMatch(mainMatch, juicyMatchStreamUpdate, index){
+    //If this streamChange meets criteria. send notification popup with sound.
+    var valueChanged: boolean = false;
+    // console.log("Stream Log");
+    // console.log(juicyMatchStreamUpdate);
+     console.log(mainMatch);
+    juicyMatchStreamUpdate.BackOdds >= this.userPropertiesService.getMinOdds() && juicyMatchStreamUpdate.BackOdds <=  this.userPropertiesService.getMaxOdds() ? mainMatch.notify = true : mainMatch.notify = false;
+    //Update notify boolean for watchList, incase any updates come in where odds drop, it should disable realtime in Watchlist.
+    this.matchStatusService.updateWatchListFromStream(mainMatch);
+    // //Detect change in BackOdds, trigger flicker animation.
+    if(mainMatch.BackOdds != juicyMatchStreamUpdate.BackOdds || mainMatch.LayOdds != juicyMatchStreamUpdate.LayOdds )
     {
-      mainMatch.BackOdds = streamChangeMatch.BackOdds;
       console.log("BACKODDS UPDATED AT INDEX: " + index);
-      mainMatch.backIsUpdated = true;
-
+      mainMatch.BackOdds != juicyMatchStreamUpdate.BackOdds ?( mainMatch.backIsUpdated = true && (mainMatch.BackOdds = juicyMatchStreamUpdate.BackOdds) ) : null;
+      mainMatch.LayOdds != juicyMatchStreamUpdate.LayOdds ? ( mainMatch.layIsUpdated = true  && (mainMatch.LayOdds = juicyMatchStreamUpdate.LayOdds) ) : null;
+      valueChanged = true;
       setTimeout(()=>{
         mainMatch.backIsUpdated = false;
-      }, 3000);
-      console.log("backisUpdated: " + mainMatch.backIsUpdated);
-      //pass action for animation here
-    }
-    //Detect change in Lay Odds, trigger flicker animation.
-    if(mainMatch.LayOdds != streamChangeMatch.LayOdds)
-    {
-      mainMatch.LayOdds = streamChangeMatch.LayOdds;
-      mainMatch.layIsUpdated = true;
-      //delay setting property back to false to allow CSS animation and avoid rendering issues.
-      setTimeout(()=>{
         mainMatch.layIsUpdated = false;
       }, 3000);
     }
 
-    mainMatch.FTAround = streamChangeMatch.FTAround;
-    mainMatch.FTAProfit = streamChangeMatch.FTAProfit;
+    //TODO : handle notifications filters here?
+    mainMatch = this.matchStatService.updateSelection(mainMatch);
+    mainMatch =  valueChanged ? this.notificationService.showJuicyNotification(mainMatch) : mainMatch;
 
-    //Detect change in EVTotal, trigger flicker animation.
-    if(mainMatch.EVTotal != streamChangeMatch.EVTotal)
-    {
-      mainMatch.EVTotal = streamChangeMatch.EVTotal;
-      mainMatch.evIsUpdated = true;
-      setTimeout( ()=>{
-        mainMatch.evIsUpdated = false;
-      }, 3000);
-    }
-
-    mainMatch.EVthisBet = streamChangeMatch.EVthisBet;
-    mainMatch.ReturnRating = streamChangeMatch.ReturnRating;
-    mainMatch.MatchRating = streamChangeMatch.MatchRating;
-    mainMatch.Liability = streamChangeMatch.Liability;
-    mainMatch.QL = streamChangeMatch.QL;
-    mainMatch.ROI = streamChangeMatch.ROI;
-    //Sets current b365 H/D/A odds to previous odds for reference in expanded drop down
-    mainMatch.b365HPrev = mainMatch.b365HCurr;
-    mainMatch.b365APrev = mainMatch.b365ACurr;
-
-    console.log(mainMatch);
-
+    // //Detect change in EVTotal, trigger flicker animation.
+    // if(mainMatch.EVTotal != streamChangeMatch.EVTotal)
+    // {
+      //   mainMatch.EVTotal = streamChangeMatch.EVTotal;
+      //   mainMatch.evIsUpdated = true;
+      //   setTimeout( ()=>{
+        //     mainMatch.evIsUpdated = false;
+        //   }, 3000);
+        // }
 
     return mainMatch;
   }

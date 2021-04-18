@@ -37,6 +37,7 @@ export interface UserProperties
     secretSauceII:string;
     isEvSelected:string;
     dialogDisabled: boolean;
+    audioEnabled: boolean;
   },
 }
 
@@ -53,4 +54,5 @@ export interface TablePreferences {
   secretSauceII:string;
   isEvSelected: string;
   dialogDisabled: boolean;
+  audioEnabled: boolean;
 }
