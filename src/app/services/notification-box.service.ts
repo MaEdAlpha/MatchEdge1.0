@@ -155,7 +155,7 @@ export class NotificationBoxService {
   showToast(message, title, mainMatch): ActiveToast<any>{
     var toast: ActiveToast<any>;
     toast = this.toast.show(message, title,{
-      disableTimeOut: true,
+      disableTimeOut: false,
       tapToDismiss: true,
       toastClass: "toast border-gold",
       closeButton: false,
