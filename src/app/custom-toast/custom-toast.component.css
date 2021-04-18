@@ -3,8 +3,8 @@
   background-image: url(/assets/img/notification-background.png);
   background-size: contain;
   background-repeat: no-repeat;
-  color: white;
-  position: absolute;
+  color: black;
+  position: relative;
   overflow: hidden;
   margin: 0 0 6px;
   padding: 10px 10px 10px 10px;
@@ -23,13 +23,12 @@ border-top:4px solid #04c4f3;
 border-top: 4px solid #51d21a;
 }
 :host.border-red{
-border-top: 1px solid #ffc235);
+border-top: 1px solid #ffc235;
 }
 
 .toast-close-button{
 color: #999;
 opacity: 1;
-
 }
 .toast-close-button:hover{
 color: #02ceff;
@@ -39,7 +38,7 @@ color: #02ceff;
         color: #111;
     }
 .custom-message{
-color: #333;
+color: black;
 background: blue;
 }
 

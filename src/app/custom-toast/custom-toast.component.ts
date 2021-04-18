@@ -57,7 +57,7 @@ export interface IToastButton {
 })
 export class CustomToastComponent extends Toast {
   // used for demo purposes
-  undoString = 'undo';
+  undoString = 'customthing here';
 
   // constructor is only necessary when not using AoT
   constructor(

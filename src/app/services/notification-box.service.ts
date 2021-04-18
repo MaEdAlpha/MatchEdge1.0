@@ -53,7 +53,7 @@ export class NotificationBoxService {
             case 1:
               if(mainMatch.EVthisBet >= this.evNotificationFilter && mainMatch.EVthisBet < 100000 ){
 
-                  mainMatch = this.toastIt(mainMatch);
+                  this.toastIt(mainMatch);
                   //play audio if settings enables it
                   (this.audioEnabled) ? this.playAudio() : null;
                   mainMatch.isJuicy = true;
@@ -100,10 +100,12 @@ export class NotificationBoxService {
   }
 
   private toastIt(mainMatch: any) {
-    this.toast.success(mainMatch.Fixture + "</br>" + mainMatch.Selection + "</br> Back: " + mainMatch.BackOdds + "</br> Lay: " + mainMatch.LayOdds).onTap.subscribe((x) => {
-      this.showToast();
+
+      var message: string =  "</br> Back: " + mainMatch.BackOdds + "</br> Lay: " + mainMatch.LayOdds;
+      var title: string = mainMatch.Fixture + "</br>" + mainMatch.Selection;
+      this.showToast(message, title);
       mainMatch = this.toastr(mainMatch);
-    });
+
     return mainMatch;
   }
 
@@ -136,24 +138,25 @@ export class NotificationBoxService {
       var audio = new Audio();
       audio.src = './assets/audio/notify2.mp3';
       audio.play();
-      this.userPropService.setNotificationLock(false);
-      console.log("lock set to " + this.userPropService.getNotificationLock());
 
       setTimeout( () => {
-        this.userPropService.setNotificationLock(true);
+        this.userPropService.setNotificationLock(false);
         console.log("timeout lock set to : " + this.userPropService.getNotificationLock());
 
       } ,3000);
+      console.log("lock set to " + this.userPropService.getNotificationLock());
+      this.userPropService.setNotificationLock(true);
     }
   }
 
-  showToast=()=>{
-    this.toast.show("Test",null,{
+  showToast=(message, title)=>{
+    this.toast.show(message, title,{
       disableTimeOut: true,
-      tapToDismiss: false,
+      tapToDismiss: true,
       toastClass: "toast border-red",
-      closeButton: true,
-      positionClass:'bottom-left'
+      closeButton: false,
+      positionClass:'toast-bottom-right',
+
     });
   }
 }

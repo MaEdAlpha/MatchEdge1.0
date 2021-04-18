@@ -108,33 +108,30 @@ export class WatchlistComponent implements OnInit, OnDestroy {
 
       //Assigns listener for any matches in view-table that are clicked to be watched.
       this.watchMatchesubscription = this.matchStatusService.getMatchWatchStatus().
-      subscribe( matchObject => {
-        //triggers each time watchList subject is activated in matchTable Component
-        console.log("SUBSCRIPTION TRIGGERED~!!");
-        this.updateWatchList(matchObject);
-      });
+        subscribe( matchObject => {
+          this.updateWatchList(matchObject);
+        });
 
       this.groupSubscription = this.matchStatusService.getMasterGroup().
-      subscribe( groupList => {
-        this.masterGroup = groupList;
-      });
-
+        subscribe( groupList => {
+          this.masterGroup = groupList;
+        });
 
           //Subscribe to Event listener in matches Service for StreamChange data. Update this.matches.
       this.dateSelected = this.userPref.getSelectedDate();
 
-      this.dateSubscription = this.dateHandlingService.getSelectedDate().subscribe( dateSelected => {
-        this.dateSelected = dateSelected;
-        console.log("Date Change detected");
+      this.dateSubscription = this.dateHandlingService.getSelectedDate().
+        subscribe( dateSelected => {
+          this.dateSelected = dateSelected;
+          this.setLists(this.watchList, this.masterGroup, this.dateSelected);
+          this.dataSource.data = this.displayList;
+        });
 
-        this.setLists(this.watchList, this.masterGroup, this.dateSelected);
-        this.dataSource.data = this.displayList;
-      });
+      this.userPref.viewTablePrefSelected.
+        subscribe( ()=>{
+          this.checkForOddsChange();
 
-      this.userPref.viewTablePrefSelected.subscribe( ()=>{
-        this.checkForOddsChange();
-
-      })
+        });
 
       this.ignoreList = [];
     }
@@ -142,10 +139,6 @@ export class WatchlistComponent implements OnInit, OnDestroy {
   private updateWatchList(matchObject: any) {
     //Check state of match. Add or remove it.
     //date validator.
-    console.log("IN UPDATE WATCHLIST");
-
-    console.log(matchObject);
-
     if (matchObject.isWatched && !this.watchList.includes(matchObject)) {
       this.watchList.push(matchObject);
       this.isTableEmpty = false;
@@ -676,14 +669,12 @@ export class WatchlistComponent implements OnInit, OnDestroy {
       dialogRef.afterClosed().subscribe(result => {
         console.log('dialog is SAB popup closed, do something with data');
       });
-      console.log(row);
     }
 
     toggleNotification(matchObj:any, isHome:boolean):void{
       isHome ? matchObj.HStatus.notify = !matchObj.HStatus.notify : matchObj.AStatus.notify = !matchObj.AStatus.notify;
       //update match-status.services.
       this.updateMatchStatusList(matchObj, isHome);
-      console.log(matchObj);
     }
 
     updateMatchStatusList(matchObj:any, isHome:boolean):void{
@@ -706,14 +697,14 @@ export class WatchlistComponent implements OnInit, OnDestroy {
     }
 
     checkEmptyGroup(displayList:any):void{
-      console.log("List:" + displayList.length);
+      // console.log("List:" + displayList.length);
       var i:number = 0;
 
       displayList.forEach( (displayObj, index) => {
         displayObj.level == undefined ? i++ : null;
 
         if(displayObj.level !=undefined && displayObj.level == 1){
-          console.log(displayObj);
+          //
         }
       });
 

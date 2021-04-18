@@ -102,6 +102,12 @@ export class TopLayerFiltersComponent implements OnInit, OnChanges {
   goToThisJuicy(){
     this.hideTable.emit(3);
   }
+
+  showCustomToast(){
+    var message: string =  "</br>" + "Ryan Jessup " + "</br> Back: " + "20" + "</br> Lay: " + "21";
+    var title: string = "Ryan vs. Bryan";
+    this.notificationService.showToast(message, title);
+  }
 }
 
 //   modifiedGroupList(data: any[], groupList: any[]) : any[]{
