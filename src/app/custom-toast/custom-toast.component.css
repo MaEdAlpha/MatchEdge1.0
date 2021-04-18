@@ -16,35 +16,27 @@
   bottom: 0px;
 }
 
-:host.border-blue{
-border-top:4px solid #04c4f3;
-}
-:host.border-green{
-border-top: 4px solid #51d21a;
-}
-:host.border-red{
+:host.border-gold{
 border-top: 1px solid #ffc235;
 }
-
-.toast-close-button{
-color: #999;
-opacity: 1;
-}
-.toast-close-button:hover{
-color: #02ceff;
+.toast-title{
+  margin-top: 15%;
+  text-align: center;
+  color: #ef9e1b;
+  font-size: 125%;
 }
 
-.custom-title{
-        color: #111;
-    }
-.custom-message{
-color: black;
-background: blue;
+
+.backOdds{
+  margin-top: 10%;
+  margin-left: 50%;
 }
 
-.button {
-background: green;
-color: pink;
-padding: 5px;
-margin: 3px;
+.backOdds > div.subheader {
+  font-size: 150%;
+  text-align: center;
+  color: white;
+}
+.toast-message{
+  margin-top: 2%;
 }

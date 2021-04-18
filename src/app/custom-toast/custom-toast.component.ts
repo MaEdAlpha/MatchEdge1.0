@@ -68,8 +68,9 @@ export class CustomToastComponent extends Toast {
   }
 
   action(event: Event) {
+    console.log(event);
+
     event.stopPropagation();
-    this.undoString = 'undid';
     this.toastPackage.triggerAction();
     return false;
   }

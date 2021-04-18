@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Injectable } from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
+import { ActiveToast, ToastrService } from 'ngx-toastr';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { DateHandlingService } from './date-handling.service';
 import { MatchStatusService } from './match-status.service';
@@ -101,19 +101,22 @@ export class NotificationBoxService {
 
   private toastIt(mainMatch: any) {
 
-      var message: string =  "</br> Back: " + mainMatch.BackOdds + "</br> Lay: " + mainMatch.LayOdds;
-      var title: string = mainMatch.Fixture + "</br>" + mainMatch.Selection;
-      this.showToast(message, title);
-      mainMatch = this.toastr(mainMatch);
+      var message: string = "<div class='subheader'> " + mainMatch.Selection + "</div> <div class='backOdds'> Back: " + mainMatch.BackOdds + "</div> <div class='layOdds'></br> Lay: " + mainMatch.LayOdds +"</div>";
+      var title: string = mainMatch.Fixture;
+      this.showToast(message, title, mainMatch).onTap.subscribe( () => {
+        this.toastr(mainMatch);
+      });
 
     return mainMatch;
   }
 
   //Brings to Juicy on Top
   toastr(updatedMainMatch){
+    setTimeout( () => {
+      updatedMainMatch.isJuicy = false;
+    }, 2000);
     var goToJuicyTable = { notificationIsActivated: true, matchObject: updatedMainMatch }
     this.clickSubject.next(goToJuicyTable);
-
   }
 
 
@@ -149,14 +152,17 @@ export class NotificationBoxService {
     }
   }
 
-  showToast=(message, title)=>{
-    this.toast.show(message, title,{
+  showToast(message, title, mainMatch): ActiveToast<any>{
+    var toast: ActiveToast<any>;
+    toast = this.toast.show(message, title,{
       disableTimeOut: true,
       tapToDismiss: true,
-      toastClass: "toast border-red",
+      toastClass: "toast border-gold",
       closeButton: false,
       positionClass:'toast-bottom-right',
-
+      messageClass: 'backOdds',
     });
+
+    return toast;
   }
 }
