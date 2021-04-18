@@ -71,7 +71,7 @@ export class NotificationBoxService {
               }
               break;
             case 3:
-              if(mainMatch.QLPercentage <= this.secretSauceNotification) {
+              if(mainMatch.QLPercentage >= this.secretSauceNotification) {
 
                 mainMatch = this.toastIt(mainMatch);
                 //play audio if settings enables it
