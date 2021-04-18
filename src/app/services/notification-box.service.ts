@@ -100,7 +100,8 @@ export class NotificationBoxService {
   }
 
   private toastIt(mainMatch: any) {
-    this.toast.info(mainMatch.Fixture + "</br>" + mainMatch.Selection + "</br> Back: " + mainMatch.BackOdds + "</br> Lay: " + mainMatch.LayOdds).onTap.subscribe((x) => {
+    this.toast.success(mainMatch.Fixture + "</br>" + mainMatch.Selection + "</br> Back: " + mainMatch.BackOdds + "</br> Lay: " + mainMatch.LayOdds).onTap.subscribe((x) => {
+      this.showToast();
       mainMatch = this.toastr(mainMatch);
     });
     return mainMatch;
@@ -144,5 +145,15 @@ export class NotificationBoxService {
 
       } ,3000);
     }
+  }
+
+  showToast=()=>{
+    this.toast.show("Test",null,{
+      disableTimeOut: true,
+      tapToDismiss: false,
+      toastClass: "toast border-red",
+      closeButton: true,
+      positionClass:'bottom-left'
+    });
   }
 }

@@ -1,31 +1,23 @@
-<div class="row">
+<div class="row" [style.display]="state.value === 'inactive' ? 'none' : ''">
   <div class="col-9">
-    <div *ngIf="title"
-      [class]="options.titleClass"
-      [attr.aria-label]="title"
-      class="custom-title">
+    <div *ngIf="title" [class]="options.titleClass" [attr.aria-label]="title">
       {{ title }}
     </div>
     <div *ngIf="message && options.enableHtml" role="alert" aria-live="polite"
-      class="custom-message"
       [class]="options.messageClass" [innerHTML]="message">
     </div>
     <div *ngIf="message && !options.enableHtml" role="alert" aria-live="polite"
-      class="custom-message"
       [class]="options.messageClass" [attr.aria-label]="message">
       {{ message }}
     </div>
   </div>
   <div class="col-3 text-right">
-    <!-- <a class="btn btn-sm button" (click)="action($event)">
-     {{options.chen}}
-    </a> -->
-    <a *ngFor="let btn of options.buttons" class="btn btn-sm button" (click)="action(btn)">
-      {{btn.title}}
+    <a *ngIf="!options.closeButton" class="btn btn-pink btn-sm" (click)="action($event)">
+      {{ undoString }}
     </a>
-    <!-- <a *ngIf="options.closeButton" (click)="remove()" class="btn btn-sm toast-close-button">
-      &times;
-    </a> -->
+    <a *ngIf="options.closeButton" (click)="remove()" class="btn btn-pink btn-sm">
+      close
+    </a>
   </div>
 </div>
 <div *ngIf="options.progressBar">

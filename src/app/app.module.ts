@@ -76,6 +76,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { PopupViewSavedBetsComponent } from './popup-view-saved-bets/popup-view-saved-bets.component';
 import { PopupFormSavedBetsComponent } from './popup-form-saved-bets/popup-form-saved-bets.component';
 import { ActiveBetsComponent } from './active-bets/active-bets.component';
+import { CustomToastComponent } from './custom-toast/custom-toast.component';
 
 
 
@@ -115,6 +116,7 @@ import { ActiveBetsComponent } from './active-bets/active-bets.component';
     ActiveBetsComponent,
     CompareFilterSettingsDirective,
     TouchItDirective,
+    CustomToastComponent
   ],
   imports: [
     AppRoutingModule,
@@ -140,6 +142,7 @@ import { ActiveBetsComponent } from './active-bets/active-bets.component';
     MatTooltipModule,
     ReactiveFormsModule,
     ToastrModule.forRoot( {
+      toastComponent: CustomToastComponent,
       timeOut: 10000,
       onActivateTick: true,
       tapToDismiss: false,
@@ -147,11 +150,11 @@ import { ActiveBetsComponent } from './active-bets/active-bets.component';
       progressBar: true,
       extendedTimeOut: 2000,
       closeButton: true,
-
       positionClass: 'toast-bottom-right',
       preventDuplicates: false,
     }),
   ],
+  entryComponents: [CustomToastComponent],
   providers: [  MatchesService,
                  WebsocketService,
                   UserPropertiesService,

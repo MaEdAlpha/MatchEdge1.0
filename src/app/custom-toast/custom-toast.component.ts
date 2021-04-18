@@ -8,7 +8,7 @@ import {
 } from '@angular/animations';
 import { Component } from '@angular/core';
 
-import { Toast, ToastrService, ToastPackage, IndividualConfig} from 'ngx-toastr';
+import { Toast, ToastrService, ToastPackage} from 'ngx-toastr';
 
 export interface IToastButton {
   id: string;
@@ -67,10 +67,10 @@ export class CustomToastComponent extends Toast {
     super(toastrService, toastPackage);
   }
 
-  action(btn: IToastButton) {
+  action(event: Event) {
     event.stopPropagation();
-    this.toastPackage.triggerAction(btn);
-    this.toastrService.clear();
+    this.undoString = 'undid';
+    this.toastPackage.triggerAction();
     return false;
   }
 }
