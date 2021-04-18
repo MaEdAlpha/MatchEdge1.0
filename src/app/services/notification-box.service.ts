@@ -103,7 +103,7 @@ export class NotificationBoxService {
 
       var message: string = "<div class='subheader'> " + mainMatch.Selection + "</div> <div class='backOdds'> Back: " + mainMatch.BackOdds + "</div> <div class='layOdds'></br> Lay: " + mainMatch.LayOdds +"</div>";
       var title: string = mainMatch.Fixture;
-      this.showToast(message, title, mainMatch).onTap.subscribe( () => {
+      this.showToast(message, title).onTap.subscribe( () => {
         this.toastr(mainMatch);
       });
 
@@ -143,16 +143,16 @@ export class NotificationBoxService {
       audio.play();
 
       setTimeout( () => {
-        this.userPropService.setNotificationLock(false);
+        this.userPropService.setNotificationLock(true);
         console.log("timeout lock set to : " + this.userPropService.getNotificationLock());
 
       } ,3000);
+      this.userPropService.setNotificationLock(false);
       console.log("lock set to " + this.userPropService.getNotificationLock());
-      this.userPropService.setNotificationLock(true);
     }
   }
 
-  showToast(message, title, mainMatch): ActiveToast<any>{
+  showToast(message, title): ActiveToast<any>{
     var toast: ActiveToast<any>;
     toast = this.toast.show(message, title,{
       disableTimeOut: false,
