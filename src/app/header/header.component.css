@@ -21,4 +21,5 @@ img {
   position: absolute;
   left: 47.4%;
   top: 1.8%;
+  z-index: 5
 }

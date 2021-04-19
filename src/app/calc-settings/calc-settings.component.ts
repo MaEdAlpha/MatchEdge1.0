@@ -37,6 +37,9 @@ export class CalcSettingsComponent implements OnInit {
         user4Stakes: this.userStakes[4].stake,
         user5Stakes: this.userStakes[5].stake,
         user6Stakes: this.userStakes[6].stake,
+        user7Stakes: this.userStakes[7].stake,
+        user8Stakes: this.userStakes[8].stake,
+        user9Stakes: this.userStakes[9].stake,
       }
     });
   }
@@ -58,6 +61,9 @@ export class CalcSettingsComponent implements OnInit {
      this.userStakes[4].stake = stakeValues.form.value.stakeData.user4Stakes;
      this.userStakes[5].stake = stakeValues.form.value.stakeData.user5Stakes;
      this.userStakes[6].stake = stakeValues.form.value.stakeData.user6Stakes;
+     this.userStakes[7].stake = stakeValues.form.value.stakeData.user7Stakes;
+     this.userStakes[8].stake = stakeValues.form.value.stakeData.user8Stakes;
+     this.userStakes[9].stake = stakeValues.form.value.stakeData.user9Stakes;
     this.calcSettingsService.saveToUserProfile(this.userStakes);
   }
   setStakes(){
@@ -70,6 +76,9 @@ export class CalcSettingsComponent implements OnInit {
         user4Stakes: this.defaultStakes[4].stake,
         user5Stakes: this.defaultStakes[5].stake,
         user6Stakes: this.defaultStakes[6].stake,
+        user7Stakes: this.defaultStakes[7].stake,
+        user8Stakes: this.defaultStakes[8].stake,
+        user9Stakes: this.defaultStakes[9].stake,
       }
     });
   }

@@ -4,8 +4,8 @@ const app = express(); //important: app is just a chain of middleware. Funnel of
 const MongoClient = require("mongodb").MongoClient;
 const EventEmitter = require('events');
 
-const connectionString = "mongodb+srv://Dan:x6RTQn5bD79QLjkJ@cluster0.uljb3.gcp.mongodb.net/MBEdge?retryWrites=true&w=majority";
-//const connectionString = "mongodb+srv://Randy:thaiMyShoe456@clusterme.lfzcj.mongodb.net/MBEdge?retryWrites=true&w=majority";
+//const connectionString = "mongodb+srv://Dan:x6RTQn5bD79QLjkJ@cluster0.uljb3.gcp.mongodb.net/MBEdge?retryWrites=true&w=majority";
+const connectionString = "mongodb+srv://Randy:thaiMyShoe456@clusterme.lfzcj.mongodb.net/MBEdge?retryWrites=true&w=majority";
 const client = new MongoClient(connectionString, {useUnifiedTopology: true, useNewUrlParser: true});
 //Initialize changeStream for database
 const streamEmitter = new EventEmitter();

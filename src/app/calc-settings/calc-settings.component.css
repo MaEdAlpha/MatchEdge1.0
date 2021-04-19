@@ -1,54 +1,84 @@
-mat-side-nav-container {
-  position: relative;
-  float: right;
+hr {
+  width: 95% !important;
+  align-items: center;
 }
 
-mat-drawer-backdrop {
-  visibility: visible;
+h1 {
+  margin-left: 2%;
 }
 
-mat-sidenav, mat-sidenav-content {
-  padding: 16px;
-  height: 500px;
-}
-
-mat-sidenav {
-  background-color: #f9a825;
+.header-container {
   width: 100%;
-  height: 100%;
+  display: inline-flex;
 }
 
-mat-sidenav-content {
-  background-color:   #263238;
-  color: #f9a825;
-  text-align: center;
+.header {
+  width: 13%;
+}
+.odds-header{
+  margin-left: 33%;
+}
+.stake-header {
+  margin-left: 1px;
+}
 
+form {
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .preference-container {
-  text-align: center;
   margin-top: 40px;
+  width: 100%;
+}
+
+.preferred-stake-cont,
+.estimated-value-cont {
+  width: 50%;
+  display: inline-grid;
+  float: left;
 }
 .stake-field-cont {
   width: 100%;
 }
-div.stake-field-cont>p,input {
-  width: 40%;
-  display: inline;
+
+.stake-range,
+.stake-input-cont {
+  display: inline-block;
+  text-align: center;
 }
 
-.stake-header {
-  display: inline;
-  width: 50%;
-  padding: 10%;
+.stake-input {
+  border: 1px solid #263238;
+  background: #3a4a52;
+  opacity: 0.5;
+  text-align: right;
 }
-input.stake-input {
-  margin-left: 5%;
-  width: 20%;
+
+input::placeholder {
+  color: white;
+  opacity: 1;
 }
+
+.stake-range{
+  width: 30%;
+}
+
+.stake-input-cont{
+  width: 25%;
+}
+
+
+.fta-container,
+.exchange-container {
+  min-height: 150px;
+  padding: 20px;
+}
+
 #final-range {
   margin-left:13%;
 }
+
 
 .inner-nav {
   float: left;

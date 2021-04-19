@@ -24,6 +24,7 @@ import { MatTableModule} from '@angular/material/table';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSelectModule } from '@angular/material/select';
+import { MatTabsModule } from '@angular/material/tabs';
 
 //Services
 import { CalcSettingsService } from './calc-settings/calc-settings.service';
@@ -138,6 +139,7 @@ import { CustomToastComponent } from './custom-toast/custom-toast.component';
     MatSlideToggleModule,
     MatSortModule,
     MatTableModule,
+    MatTabsModule,
     MatToolbarModule,
     MatTooltipModule,
     ReactiveFormsModule,

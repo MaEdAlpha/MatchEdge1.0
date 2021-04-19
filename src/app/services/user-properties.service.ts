@@ -38,9 +38,33 @@ export class UserPropertiesService {
   ];
 //NOTE, stake:100 with oddsLow:0 should be changed later. Development purposes
 //TODO re-write to calcPref in UserPropertiesModel
-  private userStakes: CalcSettings[] = [{stake: 100, oddsLow: 0, oddsHigh:2.0}, {stake: 80, oddsLow: 2, oddsHigh: 3},{stake: 60, oddsLow: 3, oddsHigh: 4}, {stake: 50, oddsLow: 4, oddsHigh: 5}, {stake: 40, oddsLow: 5, oddsHigh: 6}, {stake: 20, oddsLow: 6, oddsHigh: 7}, {stake: 10, oddsLow: 7, oddsHigh: 10000}];
-  private defaultStakes: CalcSettings[] = [{stake: 999, oddsLow: 1.5, oddsHigh:2.0}, {stake: 80, oddsLow: 2, oddsHigh: 3},{stake: 60, oddsLow: 3, oddsHigh: 4}, {stake: 50, oddsLow: 4, oddsHigh: 5}, {stake: 40, oddsLow: 5, oddsHigh: 6}, {stake: 20, oddsLow: 6, oddsHigh: 7}, {stake: 10, oddsLow: 7, oddsHigh: 10000}];
-  private oddsRange: string[] =  ["1.5 - 2.0", "2.0 - 3.0", "3.0 - 4.0 ", "4.0 - 5.0", "5.0 - 6.0", "6.0 - 7.0", "    > 7.0 "];
+  private userStakes: CalcSettings[] = [
+                                        {stake: 100, oddsLow: null, oddsHigh:2.01},
+                                        {stake: 80, oddsLow: 2.01, oddsHigh: 3},
+                                        {stake: 60, oddsLow: 3.01, oddsHigh: 4},
+                                        {stake: 50, oddsLow: 4.01, oddsHigh: 5},
+                                        {stake: 40, oddsLow: 5.01, oddsHigh: 6},
+                                        {stake: 20, oddsLow: 6.01, oddsHigh: 8},
+                                        {stake: 10, oddsLow: 8.01, oddsHigh: 10},
+                                        {stake: 10, oddsLow: 10.01, oddsHigh: 12},
+                                        {stake: 5, oddsLow: 7, oddsHigh: 14},
+                                        {stake: 1, oddsLow: 14.01, oddsHigh: 100000000},
+                                                                                ];
+
+
+  private defaultStakes: CalcSettings[] = [
+                                            {stake: 100, oddsLow: 0, oddsHigh:2.01},
+                                            {stake: 80, oddsLow: 2.01, oddsHigh: 3},
+                                            {stake: 60, oddsLow: 3.01, oddsHigh: 4},
+                                            {stake: 50, oddsLow: 4.01, oddsHigh: 5},
+                                            {stake: 40, oddsLow: 5.01, oddsHigh: 6},
+                                            {stake: 20, oddsLow: 6.01, oddsHigh: 8},
+                                            {stake: 10, oddsLow: 8.01, oddsHigh: 10},
+                                            {stake: 10, oddsLow: 10.01, oddsHigh: 12},
+                                            {stake: 12.01, oddsLow: 7, oddsHigh: 14},
+                                            {stake: 10, oddsLow: 14.01, oddsHigh: 100000000},
+                                                                                        ];
+  private oddsRange: string[] =  ["< 2.00 ", "2.01 - 3.00", "3.01 - 4.00 ", "4.01 - 5.00", "5.01 - 6.00 ", "6.01 - 8.00", "8.01 - 10.00","10.01 - 12.00", "12.01 - 14.00", "   > 14.0 "];
 
   private dbOdds: TriggerOdds[] = [
     {start: 1.50, finish: 1.75 },

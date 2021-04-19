@@ -1,42 +1,43 @@
-<mat-sidenav-container>
-  <mat-sidenav mode="over" #sidenav [(opened)]="isOpened" position="end">
-    <button mat-raised-button color= "primary" class="inner-nav" (click)="sidenav.close();" ><mat-icon>arrow_forward_ios</mat-icon></button>
-    <div class="calculator">
-      <h1>Calculator Settings</h1>
-      <mat-checkbox> Auto hide games after bet is logged</mat-checkbox>
-      <mat-checkbox [(ngModel)]="defaultChecked" (click)="setStakes()"> Apply default stake preferences </mat-checkbox>
-      <div class="preference-container">
-        <div class="stake-input">
-          <p class="stake-header">Odds Range</p>
-          <p class="stake-header">Stake</p>
+    <div class="preference-container">
+
+      <div class="preferred-stake-cont">
+        <h1>Preferred Stakes</h1>
+        <div class="header-container">
+          <p class="odds-header header">Odds Range</p>
+          <p class="stake-header header">Stake</p>
+        </div>
 
 
           <form (ngSubmit)="saveStakePref(stakeValues)" #stakeValues="ngForm">
-            <div
-            class="stakeContainerForm"
-            ngModelGroup="stakeData"
-            #stakeDataHook="ngModelGroup">
-            <div *ngFor ="let stake of userStakes; let i = index">
-
-              <div class="stake-field-cont">
-                <p>{{stakeRanges[i]}} </p>
-                <input
-                class= "stake-input"
-                type="text"
-                ngModel
-                name="user{{i}}Stakes"
-                required>
-              </div>
-
+            <div class="stakeContainerForm"
+                 ngModelGroup="stakeData"
+                 #stakeDataHook="ngModelGroup">
+                <div *ngFor="let stake of userStakes; let i = index">
+                  <div class="stake-field-cont">
+                    <div class="stake-range">
+                      <p>{{stakeRanges[i]}} </p>
+                    </div>
+                    <div class="stake-input-cont">
+                      <input
+                      class="stake-input"
+                      type="number"
+                      ngModel
+                      matInput
+                      name="user{{i}}Stakes"
+                      placeholder="{{stake.stake | currency:'GBP' }}"
+                      required>
+                    </div>
+                  </div>
+                </div>
             </div>
-          </div>
 
-          <div *ngIf = "stakeValues.touched">
+          <div class="save-preferred-stakes" *ngIf = "stakeValues.touched">
             <button
              type="submit"
              [disabled]="!stakeValues.valid"
              (click)="isSaved=true">Save</button>
           </div>
+
           <div class="default-preference" *ngIf="defaultChecked">Default Steak Settings applied! Please save.</div>
           <div class="formControlMsg" *ngIf="!stakeValues.valid">Please fill in all highlighted boxes!</div>
           <div class="submitButton" *ngIf="isSaved && !stakeValues.pristine">Preferences Saved!</div>
@@ -99,17 +100,37 @@
               id=final-range
               value={{stakes[6]}}>
           </div> -->
-        </div>
-
       </div>
+
+      <div class="estimated-value-cont">
+
+          <h1>Estimated Value Preferences</h1>
+          <div class="fta-container">
+            <div class="ev-content-row1">
+              <p>Calculate expected value using</p>
+              <p> <b>INPUT FTA OPTION DROP DOWN </b></p>
+            </div>
+
+            <div class="ev-content-row2">
+              <p> The <b>FTA rating</b> along with the <b>Preferred Stake</b> are used to calculate the estimated value of any 2up bet. </p>
+            </div>
+          </div>
+
+        <hr class="separator">
+
+          <div class="exchange-container">
+            <h1>Exchanges</h1>
+            <h3>Primary Exchange</h3>
+
+              <b>EXCHANGE DROP DOWN</b>
+
+            <h3>Commission Rates</h3>
+            <img src="../assets/img/smarketsIcon.png" alt="">
+          </div>
+      </div>
+
     </div>
     <div class="smarkets"></div>
     <div class="alerts-notifications"></div>
 
-  </mat-sidenav>
-  <mat-sidenav-content>
-    <button class="outer-nav" mat-button (click)="isOpened=!isOpened; populateStakes()">
-      Match Settings
-    </button>
-  </mat-sidenav-content>
-</mat-sidenav-container>
+
