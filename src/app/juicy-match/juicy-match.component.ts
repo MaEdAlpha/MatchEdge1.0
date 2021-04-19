@@ -50,8 +50,9 @@ export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
   //Icon properties
   isDisplayHidden: boolean = true;
   private individualMatchesSub: Subscription;
-  private streamSub: Subscription;
   private dateSubscription: Subscription;
+  private streamSub: Subscription;
+  private clearJuicySubscription: Subscription;
   tableDateSelected: string;
   startDay: number;
   endDay: number
@@ -147,7 +148,6 @@ export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
 
     });
 
-
     this.dateSubscription = this.dateHandlingService.getSelectedDate().subscribe( date => {
       this.tableDateSelected = date;
       this.getStartEndDays(this.tableDateSelected);
@@ -180,6 +180,11 @@ export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
     this.notificationSelectedSubscription = this.notificationServices.getNotificationPing().subscribe( notification => {
       this.openVIANotification(notification);
     });
+
+    this.clearJuicySubscription = this.juicyMHService.listenToClearJuicyButton().subscribe( buttonIsClicked => {
+      this.resetIsJuicy();
+      console.log("Clear button Clicked!");
+    });
   }
 
 
@@ -194,6 +199,7 @@ export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
     this.individualMatchesSub.unsubscribe();
     this.streamSub.unsubscribe();
     // this.matchStatService.clear();
+    this.clearJuicySubscription.unsubscribe();
     this.dateSubscription.unsubscribe();
     this.notificationSelectedSubscription.unsubscribe();
   }
@@ -203,9 +209,6 @@ export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
   ngAfterViewInit() {
     this.dataSource.sort = this.sort;
     console.log(this.dataSource.sort);
-
-    console.log("CHECK");
-
   }
 
   sortData(sort: Sort) {
@@ -252,6 +255,13 @@ export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
 
     //console.log(this.dataSource.at(index) as FormGroup);
     return this.dataSource.at(index) as FormGroup
+  }
+
+  resetJuicyStates(isClicked:boolean){
+    if(isClicked){
+      console.log("Reset all Juicy? " + isClicked);
+
+    }
   }
 
   private getStartEndDays(selectedDateStr: string) {
@@ -305,6 +315,7 @@ export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
   Liability(layOdds:number, layStake:number):number {
     return +(+layOdds - 1 )* +layStake;
   }
+
   hide(){
     this.isDisplayHidden = !this.isDisplayHidden;
   }
@@ -312,6 +323,7 @@ export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
   toggleSideNav(){
     this.sidenav.toggle();
   }
+
   loadGroup(i:number){
     this.selectionValues = this.getGroup(i);
   }
@@ -322,8 +334,9 @@ export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
 
   //will have to be able to handle Watchlist Objects being passed to here?
   updateMatchWatchStatus(matchObject: any):void{
-    this.allIndvMatches.filter( (individual)=> {
-      if(individual.Selection == matchObject.Home || individual.Selection == matchObject.Away) individual.isWatched = matchObject.isWatched;
+    this.allIndvMatches.filter( (listedMatch) => {
+      this.dateInRange(listedMatch);
+      if(listedMatch.Selection == matchObject.Home || listedMatch.Selection == matchObject.Away) listedMatch.isWatched = matchObject.isWatched;
     });
   }
 
@@ -400,23 +413,6 @@ export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
     }
 
     saveAsActiveBet(row, index):void{
-      /*Create json object with all properties you want to SAB as.
-
-      Fixture
-      Selection
-      MatchDetail
-      bookie stake
-      bookie back odd
-      exchange lay
-      exchange lay odd
-      Liability calc w above
-      Total EV
-      FTA
-      QL
-      ROI
-
-      */
-
 
       var activeBetObject = this.returnActiveBetObject(row, index);
       this.savedActiveBetsService.saveToActiveBets(activeBetObject);
@@ -433,11 +429,10 @@ export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
       var layOdd = activeBetDetails.value.LayOdds;
       var stake = activeBetDetails.value.Stake;
       var matchInfo = activeBetDetails.value.MatchInfo;
+
       console.log("Row Data");
       console.log(row.betState);
-
       console.log(row);
-
 
       var activeBet: ActiveBet = {
         created: Date.now(),
@@ -465,11 +460,32 @@ export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
       return activeBet;
     }
 
+    resetIsJuicy(){
+      this.allIndvMatches.filter( (match) => {
+        //update match each time to clear matches no longer in juicy.
+        this.dateInRange(match);
+       if(match.isJuicy){
+          match.isJuicy = false;
+          match.userAware = false;
+        }
+      });
+    }
 
     toggleIsTouched(selection){
+      console.log("Touched!");
+      console.log(selection);
+
+
       if(selection.isJuicy && selection.userAware){
-        selection.isJuicy = false;
-        selection.userAware= false;
+        setTimeout( () => {
+          selection.userAware= false;
+          selection.isJuicy = false;
+          console.log("resetting values...maybe push to another service for changes?");
+
+          console.log(selection);
+        }, 1000)
       }
+
+
     }
 }

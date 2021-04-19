@@ -49,21 +49,16 @@ export class MatchStatusService {
 
       if(isHome && matchObj.Home == watchListObj.Home && matchObj.EpochTime == watchListObj.EpochTime){
         watchListObj.HStatus.notify = matchObj.HStatus.notify;
-        console.log(matchObj.Home + " notify set to: " + matchObj.HStatus.notify);
-        console.log(watchListObj);
         return true;
       }
       else if (!isHome && matchObj.Away == watchListObj.Away && matchObj.EpochTime == watchListObj.EpochTime){
         watchListObj.AStatus.notify = matchObj.AStatus.notify;
-        console.log(matchObj.Away + " notify set to: " + matchObj.AStatus.notify);
-        console.log(watchListObj);
         return true;
       } else {
-        console.log(matchObj.Home + " vs. " + matchObj.Away + " not found!");
-
         return false;
       }
     });
+    console.log(matchToUpdate);
   }
 
   updateWatchListFromStream(selection){

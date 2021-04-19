@@ -145,10 +145,9 @@ import { MatCheckbox } from '@angular/material/checkbox';
       //StreamChange data. Updates individual matches, where toast should be triggered.
      this.tableSubscription = this.matchesService.streamDataUpdate
       .subscribe( (streamObj) => {
-        console.log("---Incoming SSE---");
+
         var indexOfmatch = this.matches.findIndex( match => match.Home == streamObj.HomeTeamName && match.Away == streamObj.AwayTeamName);
         indexOfmatch != undefined && this.matches[indexOfmatch] ? this.updateMatch(this.matches[indexOfmatch], streamObj) : console.log( streamObj.HomeTeamName + " vs. " + streamObj.AwayTeamName + " not found");
-
       });
 
       //Update Start/End Dates
@@ -334,8 +333,6 @@ import { MatCheckbox } from '@angular/material/checkbox';
 
       allMatches.forEach( match => {
         //Get Match Date only
-        var unixDate = new Date(match.EpochTime*1000);
-        var matchDate: number = unixDate.getUTCDate();
         var matchEpoch: number = match.EpochTime*1000;
         //position of match in your match list retrieved from DB.
         var matchIndex: number = allMatches.indexOf(match);
@@ -523,8 +520,6 @@ import { MatCheckbox } from '@angular/material/checkbox';
     }
 
     updateMatch(match, streamMatch){
-      console.log("Match Updating....");
-
       if(streamMatch.SmarketsHomeOdds != 0 && streamMatch.SmarketsAwayOdds != 0)
       {
         match.SMHome = streamMatch.SmarketsHomeOdds;
@@ -559,10 +554,11 @@ import { MatCheckbox } from '@angular/material/checkbox';
     watchAll(groupRow:any):void{
       console.log(this.matches);
       console.log("WatchAll= " + groupRow.watchAll);
-
+      var epochCutOff = this.getStartEndDaysAtMidnight();
       //filter by league
       const leagueMatches = this.matches.filter( (match) => {
-        if(match.League == groupRow.League && match.EpochTime*1000 > Date.now())
+        var matchEpoch:number = match.EpochTime*1000;
+        if(match.League == groupRow.League && ( matchEpoch >= epochCutOff.forStartOfDayOne && matchEpoch <= epochCutOff.forDayTwo ))
         {
           match.isWatched = groupRow.watchAll;
           match.AStatus.notify = groupRow.watchAll;

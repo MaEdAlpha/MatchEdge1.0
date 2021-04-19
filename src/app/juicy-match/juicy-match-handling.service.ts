@@ -13,6 +13,7 @@ import { MatchStatusService } from '../services/match-status.service';
 export class JuicyMatchHandlingService {
 
   public singleMatchesUpdated = new Subject<any>();
+  private clearJuicyStyling = new Subject<boolean>();
 
   constructor(private matchStatService: MatchStatsService, private matchStatusService: MatchStatusService, private userPropertiesService: UserPropertiesService, private notificationService: NotificationBoxService) { }
 
@@ -34,13 +35,26 @@ export class JuicyMatchHandlingService {
     return this.singleMatchesUpdated.asObservable();
   }
 
+  clearJuicyClicked(isClicked:boolean){
+    if(isClicked){
+      this.clearJuicyStyling.next(isClicked);
+    }
+  }
+
+  listenToClearJuicyButton():Observable<any>{
+    return this.clearJuicyStyling.asObservable();
+  }
+
 
   updateSingleMatch(mainMatch, juicyMatchStreamUpdate, index){
     //If this streamChange meets criteria. send notification popup with sound.
     var valueChanged: boolean = false;
-    // console.log("Stream Log");
-    // console.log(juicyMatchStreamUpdate);
-     console.log(mainMatch);
+    console.log("-----Stream Log----");
+    console.log("Stream");
+    console.log(juicyMatchStreamUpdate);
+    console.log("mainMatch");
+    console.log(mainMatch);
+    console.log("-----Stream Log----");
     juicyMatchStreamUpdate.BackOdds >= this.userPropertiesService.getMinOdds() && juicyMatchStreamUpdate.BackOdds <=  this.userPropertiesService.getMaxOdds() ? mainMatch.notify = true : mainMatch.notify = false;
     //Update notify boolean for watchList, incase any updates come in where odds drop, it should disable realtime in Watchlist.
     this.matchStatusService.updateWatchListFromStream(mainMatch);
@@ -48,7 +62,7 @@ export class JuicyMatchHandlingService {
     if(mainMatch.BackOdds != juicyMatchStreamUpdate.BackOdds || mainMatch.LayOdds != juicyMatchStreamUpdate.LayOdds )
     {
       console.log("BACKODDS UPDATED AT INDEX: " + index);
-      mainMatch.BackOdds != juicyMatchStreamUpdate.BackOdds ?( mainMatch.backIsUpdated = true && (mainMatch.BackOdds = juicyMatchStreamUpdate.BackOdds) ) : null;
+      mainMatch.BackOdds != juicyMatchStreamUpdate.BackOdds ? ( mainMatch.backIsUpdated = true && (mainMatch.BackOdds = juicyMatchStreamUpdate.BackOdds) ) : null;
       mainMatch.LayOdds != juicyMatchStreamUpdate.LayOdds ? ( mainMatch.layIsUpdated = true  && (mainMatch.LayOdds = juicyMatchStreamUpdate.LayOdds) ) : null;
       valueChanged = true;
       setTimeout(()=>{
@@ -57,7 +71,6 @@ export class JuicyMatchHandlingService {
       }, 3000);
     }
 
-    //TODO : handle notifications filters here?
     mainMatch = this.matchStatService.updateSelection(mainMatch);
     mainMatch =  valueChanged ? this.notificationService.showJuicyNotification(mainMatch) : mainMatch;
 

@@ -5,7 +5,7 @@ import { Directive, ElementRef, Input, OnInit, Renderer2 } from '@angular/core';
 })
 export class InactiveMatchDirective implements OnInit{
 @Input() match:any;
-@Input() matchIndex: number;
+
   constructor(private elRef: ElementRef, private renderer: Renderer2) { }
 
   ngOnInit(){

@@ -113,7 +113,6 @@ getMatchStats(match){
         this.awayMatchStats.layOdds = streamObj.SmarketsAwayOdds;
         this.awayMatchStats.occurence = streamObj.OccurrenceAway;
         this.awayMatchStats = this.calculateMatchStats(this.awayMatchStats);
-
         //Create Juicy Object
         juicyStreamBuild = MatchStatsService.createJuicyObject(streamObj, this.awayMatchStats, 'away', true);
     }

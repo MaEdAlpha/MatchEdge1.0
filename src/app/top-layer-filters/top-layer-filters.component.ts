@@ -6,6 +6,7 @@ import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { SidenavService } from '../view-table-sidenav/sidenav.service';
 import { Subscription } from 'rxjs';
 import { NotificationBoxService } from '../services/notification-box.service';
+import { JuicyMatchHandlingService } from '../juicy-match/juicy-match-handling.service';
 
 interface DateOptions {
   value: string;
@@ -26,11 +27,11 @@ export class TopLayerFiltersComponent implements OnInit, OnChanges {
   displayFixtures: number;
   @Output() hideTable: EventEmitter<number> = new EventEmitter<number>();
   @Output() emitDateSelect: EventEmitter<string> = new EventEmitter<string>();
-  @Output() emitIgnoreList: EventEmitter<string[]> = new EventEmitter<string[]>();
+  clearAllJuicy:boolean = false;
 
   private userClickSubscription: Subscription;
 
-  constructor( private userPref: UserPropertiesService, private matchStatusService: MatchStatusService, private dateHandlingService: DateHandlingService, private notificationService: NotificationBoxService) { }
+  constructor( private userPref: UserPropertiesService, private juicyMatchHandlingService: JuicyMatchHandlingService, private dateHandlingService: DateHandlingService, private notificationService: NotificationBoxService) { }
 
       //first layer filter
       viewThisDate:string;
@@ -101,6 +102,13 @@ export class TopLayerFiltersComponent implements OnInit, OnChanges {
 
   goToThisJuicy(){
     this.hideTable.emit(3);
+  }
+
+  clearJuicyClicked(){
+    this.clearAllJuicy = !this.clearAllJuicy;
+    this.juicyMatchHandlingService.clearJuicyClicked(this.clearAllJuicy);
+    this.clearAllJuicy = !this.clearAllJuicy;
+    //send little notification that
   }
 
   showCustomToast(){

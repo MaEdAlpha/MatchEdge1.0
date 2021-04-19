@@ -73,7 +73,7 @@
                       </div>
                     </ng-container>
                     <ng-container *ngIf="column.field.startsWith('FixturesDate')">
-                      <button mat-raised-button class="fixturesDateBtn" [style.background]="row.isWatched ? 'rgb(249, 168, 37)' : 'rgb(195, 195, 195)'"(click)="triggerRemoveIcon(row);">
+                      <button mat-raised-button class="fixturesDateBtn" [style.background]="row.isWatched ? 'rgb(249, 168, 37)' : 'rgb(195, 195, 195)'" (click)="triggerRemoveIcon(row);">
                         <div class="fixturesText">
                           <div class="fixturesDate"> {{row[column.field]}} </div>
                           <div class="fixturesTime"> {{row['FixturesTime']}} </div>
@@ -91,7 +91,7 @@
                             appBetHome [hBetStatus]="row.HStatus.activeBet"
                             id="hStatusMoney" [ngClass]="{'match-inactive' : !row.HStatus.notify}">
                             <mat-icon>
-                              
+
                             </mat-icon>
                         </button>
                       </ng-container>
@@ -106,7 +106,7 @@
                             appBetAway [aBetStatus]="row.AStatus.activeBet"
                             id="hStatusMoney" [ngClass]="{'match-inactive' : !row.AStatus.notify}">
                             <mat-icon>
-                             
+
                             </mat-icon>
                         </button>
                         </ng-container>
@@ -117,7 +117,7 @@
               </mat-cell>
             </ng-container>
               <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-              <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+              <mat-row *matRowDef="let row; columns: displayedColumns" appInactiveMatch [match]="row"></mat-row>
 
                 <ng-container class="groupHeaderCont" matColumnDef="groupHeader">
                   <ng-container *matCellDef="let group">

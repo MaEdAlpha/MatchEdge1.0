@@ -52,7 +52,6 @@ export class NotificationBoxService {
         switch(this.isEVSelected){
             case 1:
               if(mainMatch.EVthisBet >= this.evNotificationFilter && mainMatch.EVthisBet < 100000 ){
-
                   this.toastIt(mainMatch);
                   //play audio if settings enables it
                   (this.audioEnabled) ? this.playAudio() : null;
@@ -62,7 +61,6 @@ export class NotificationBoxService {
                 break;
             case 2:
               if( mainMatch.MatchRating >= this.matchRatingFilterNotification) {
-
                 mainMatch = this.toastIt(mainMatch);
                 //play audio if settings enables it
                 (this.audioEnabled) ? this.playAudio() : null;
@@ -72,7 +70,6 @@ export class NotificationBoxService {
               break;
             case 3:
               if(mainMatch.QLPercentage >= this.secretSauceNotification) {
-
                 mainMatch = this.toastIt(mainMatch);
                 //play audio if settings enables it
                 (this.audioEnabled) ? this.playAudio() : null;
@@ -100,10 +97,10 @@ export class NotificationBoxService {
   }
 
   private toastIt(mainMatch: any) {
-
       var message: string = "<div class='subheader'> " + mainMatch.Selection + "</div> <div class='backOdds'> Back: " + mainMatch.BackOdds + "</div> <div class='layOdds'></br> Lay: " + mainMatch.LayOdds +"</div>";
       var title: string = mainMatch.Fixture;
       this.showToast(message, title).onTap.subscribe( () => {
+        //if toast is tapped, bring user to juicy table via this message.
         this.toastr(mainMatch);
       });
 

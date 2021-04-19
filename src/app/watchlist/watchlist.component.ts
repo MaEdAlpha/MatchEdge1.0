@@ -83,10 +83,14 @@ export class WatchlistComponent implements OnInit, OnDestroy {
     expandedSubCar: any[] = [];
 
     //userPreference dialog popup
-    //TODO add to UserPreference
+    //watches any watchlist toggles.
     private watchMatchesubscription: Subscription;
+    //watches any date change toggles
     private dateSubscription: Subscription;
+    //watches any new leauges that enter.
     private groupSubscription: Subscription;
+    //watches stream
+    private watchListSubscription:Subscription;
     dateSelected: string;
 
     watchStateChange:any;
@@ -100,7 +104,7 @@ export class WatchlistComponent implements OnInit, OnDestroy {
     @ViewChild(MatTable) table: MatTable<any>;
 
 
-    constructor(private dateHandlingService: DateHandlingService, private matchStatusService: MatchStatusService, private userPref: UserPropertiesService, public datepipe: DatePipe, private sidenav: SidenavService , public dialog: MatDialog, private notificationBox: NotificationBoxService, private chRef: ChangeDetectorRef) {
+    constructor(private matchesService: MatchesService, private dateHandlingService: DateHandlingService, private matchStatusService: MatchStatusService, private userPref: UserPropertiesService, public datepipe: DatePipe, private sidenav: SidenavService , public dialog: MatDialog, private notificationBox: NotificationBoxService, private chRef: ChangeDetectorRef) {
      } //creates an instance of matchesService. Need to add this in app.module.ts providers:[]
 
 
@@ -130,8 +134,16 @@ export class WatchlistComponent implements OnInit, OnDestroy {
       this.userPref.viewTablePrefSelected.
         subscribe( ()=>{
           this.checkForOddsChange();
-
         });
+
+              //StreamChange data. Updates individual matches, where toast should be triggered.
+      this.watchListSubscription = this.matchesService.streamDataUpdate
+      .subscribe( (streamObj) => {
+        if(this.matches != undefined){
+          var indexOfmatch = this.matches.findIndex( (match: { Home: string; Away: string; }) => {match.Home == streamObj.HomeTeamName && match.Away == streamObj.AwayTeamName});
+          this.matches[indexOfmatch] = indexOfmatch != undefined && this.matches[indexOfmatch] ? this.matchesService.updateMatch(this.matches[indexOfmatch], streamObj) : this.matches[indexOfmatch];
+        }
+      });
 
       this.ignoreList = [];
     }
@@ -185,21 +197,21 @@ export class WatchlistComponent implements OnInit, OnDestroy {
         var matchTime: number = match.EpochTime*1000;
         //prevDate acts as a switch for setting displayHeaderDate boolean.
         var prevDate: string = "placeHolder";
-        if(dateSelected == 'Today & Tomorrow' && groupHeader.League == match.League && (matchTime >= epochCutOff.forStartOfDayOne && matchTime  <= epochCutOff.forDayTwo) ){
+        if(dateSelected == 'Today & Tomorrow' && groupHeader.League == match.League && (matchTime >= epochCutOff.forStartOfDayOne && matchTime  < epochCutOff.forDayTwo) ){
           this.setDisplayHeader(match, matchPosition, groupIndex, prevDate);
           this.displayList.splice(matchPosition, 0, match);
           prevDate = match.Details;
           matchPosition++;
         }
 
-        if(dateSelected == 'Today' && groupHeader.League == match.League && matchTime >= epochCutOff.forStartOfDayOne && matchTime <= epochCutOff.forDayOne)
+        if(dateSelected == 'Today' && groupHeader.League == match.League && matchTime >= epochCutOff.forStartOfDayOne && matchTime < epochCutOff.forDayOne)
         {
           this.setDisplayHeader(match, matchPosition, groupIndex, prevDate);
           this.displayList.splice(matchPosition, 0, match);
           prevDate = match.Details;
           matchPosition++;
         }
-        if(dateSelected == 'Tomorrow' && groupHeader.League == match.League && matchTime >= epochCutOff.forDayOne && matchTime <= epochCutOff.forDayTwo)
+        if(dateSelected == 'Tomorrow' && groupHeader.League == match.League && matchTime >= epochCutOff.forDayOne && matchTime < epochCutOff.forDayTwo)
         {
           this.setDisplayHeader(match, matchPosition, groupIndex, prevDate);
           this.displayList.splice(matchPosition, 0, match);
@@ -216,7 +228,7 @@ export class WatchlistComponent implements OnInit, OnDestroy {
   }
 
   compareDates(a, b){
-    if(a.EpochTime < b.EpochTime){
+    if(a.EpochTime > b.EpochTime){
       return 1;
     } else {
       return -1;
@@ -239,480 +251,468 @@ export class WatchlistComponent implements OnInit, OnDestroy {
           leagueGroup.Details = false;
           displayList.push(leagueGroup);
         }
-        });
+      });
       return displayList
   }
 
-    ngOnDestroy(){
-      this.watchMatchesubscription.unsubscribe();
-      this.dateSubscription.unsubscribe();
-      this.groupSubscription.unsubscribe();
-    }
+  ngOnDestroy(){
+    this.watchMatchesubscription.unsubscribe();
+    this.dateSubscription.unsubscribe();
+    this.groupSubscription.unsubscribe();
+    this.watchListSubscription.unsubscribe();
+  }
 
-    //Handles logic for MatTable. It adds and removes match items based off the state of the League Group Header.
-    modifiedGroupList(allData: any[], groupList: any[], viewSelection: string) : any[]{
+  //Handles logic for MatTable. It adds and removes match items based off the state of the League Group Header.
+  modifiedGroupList(allData: any[], groupList: any[], viewSelection: string) : any[]{
 
-      var dateValidator: number[] = this.dateHandlingService.returnDateSelection(viewSelection);
+    var dateValidator: number[] = this.dateHandlingService.returnDateSelection(viewSelection);
 
-      var dateStart: number = dateValidator[0];
-      var dateEnd: number = dateValidator[1];
-      //console.log("DateStart: " + dateStart + " DateEnd " + dateEnd);
-      //TODO BUG-FIX WHEN LOCALE_ID WORKS.
+    var dateStart: number = dateValidator[0];
+    var dateEnd: number = dateValidator[1];
+    //console.log("DateStart: " + dateStart + " DateEnd " + dateEnd);
+    //TODO BUG-FIX WHEN LOCALE_ID WORKS.
 
-      groupList.forEach( groupObj => {
-        //add group Object into masterList if not found in this.masterList.
-        //FIRST IF
-        if(!this.masterList.includes(groupObj)){
-          this.masterList.push(groupObj);
-        }
-
-        //groupObj is expaned but is not active. =? Remove any matchObject from master list then set Group isActive to true.
-        //SECOND
-
-          var groupIndex = this.masterList.indexOf(groupObj);
-          var matchPosition = groupIndex + 1;
-
-
-          allData.forEach( matchObj => {
-            var matchIndex = allData.indexOf(matchObj);
-
-            //Returns matchObject time into US.
-            var matchDate: number = new Date(matchObj.EpochTime * 1000).getUTCDate();
-            var prevDate: number = new Date(allData[matchIndex-1].EpochTime * 1000).getUTCDate();
-            //INJECTS  MATCHES  UNDERNEATH GROUP HEADER
-            if(matchObj.isWatched && matchObj.League == groupObj.League && (matchDate == dateEnd || matchDate == dateStart))
-            {
-              if(matchPosition == groupIndex + 1){
-                matchObj.displayHeaderDate = true;
-              }
-              else if (matchDate != prevDate) {
-                matchObj.displayHeaderDate = true;
-              }
-              else {
-                matchObj.displayHeaderDate = false;
-              }
-              var index = matchPosition;
-              //splice (index, number, obj) == take match object, place it in at index value, 0 means don't replace it, just insert 'matchObj' at 'index'.
-              this.masterList.splice(index, 0, matchObj);
-              matchPosition ++;
-              groupObj.isActive = true;
-            }
-          });
-
-          //If no matches within specified date were found, remove this group
-          if(!groupObj.isActive){
-            this.masterList.splice(groupIndex,1);
-          }
-
-        //REMOVES MATCHES FROM UNDERNEATH GROUP HEADER
-        // this cleans up the matches. When you click a groupLeague that is open. It changes to expanded = false. isActive = true.
-
-      });
-      this.masterList = this.addFixturesDate(this.masterList);
-
-      return this.masterList;
-    }
-
-    addFixturesDate(matchList: any[] ): any[]{
-
-      matchList.forEach( matchObj => {
-        //TODO BUG-FIX WHEN LOCALE_ID WORKS.
-        if(matchObj.displayHeaderDate){
-          //All of Angular is using Datepipes to conver by en-US locale, not en-GB. For the time being, everything must be converted to english Locale
-          var gbDateFormat = this.dateHandlingService.switchDaysWithMonths(matchObj.Details);
-          matchObj.FixturesDate = this.datepipe.transform(gbDateFormat, 'EEE dd MMM \n  HH:mm');
-        }else {
-          matchObj.FixturesDate = this.datepipe.transform(matchObj.Details, 'HH:mm');
-        }
-      });
-      return matchList;
-    }
-    //Takes selected date and updates in match-TableComponent.
-    updateFixtures($event) {
-      this.viewSelectedDate = $event;
-      var groupWithStates : any[] = [];
-      //Case if user just toggles dates without expanding any leagues.
-      if(this.masterList.length == 0){
-        this.dataSource.data = this.getGroupListInit(this.allData, 0);
-        //case where group(s) are expaned.
-      }  else  {
-        //gets all groups with current state.
-        this.masterList.forEach( obj => {
-          if(obj.level == 1 ){
-            console.log(obj);
-            console.log("put me in a new list");
-            groupWithStates.push(obj);
-          }
-        });
-        //Clears all matches in lists, leaves only Group WITH their active states.
-        this.dataSource.data = this.showUpdatedView(this.allData, groupWithStates, this.viewSelectedDate);
-      }
-    }
-
-    //Returns an updated list of matches Using Date selection
-    showUpdatedView(allMatchData: any[], groupWithStates: any[], dateOption: string): any[] {
-      this.masterList = [];
-      var dateValidator: number[] = this.dateHandlingService.returnDateSelection(dateOption);
-      var dateStart: number = dateValidator[0];
-      var dateEnd: number = dateValidator[1];
-
-      groupWithStates.forEach(groupHeader => {
-        //populate table with groups first. Little redundant, refactor later.
-        if(!this.masterList.includes(groupHeader)){
-          this.masterList.push(groupHeader);
-        }
-        //insert matches beneath group headers with updated Date Range.
-        if(groupHeader.expanded && groupHeader.isActive)
-        {
-          var groupIndex = this.masterList.indexOf(groupHeader);
-          var matchPosition = groupIndex + 1;
-
-          allMatchData.forEach( matchObj => {
-            var matchIndex = allMatchData.indexOf(matchObj);
-            //Returns correct date format for en-GB
-            var matchDate: number = new Date(matchObj.EpochTime * 1000).getUTCDate();
-            //INJECTS  MATCHES  UNDERNEATH GROUP HEADER
-            if(matchObj.League == groupHeader.League && (matchDate == dateEnd || matchDate == dateStart))
-            {
-              if(matchPosition == groupIndex + 1){
-                matchObj.displayHeaderDate = true;
-              }
-              else if (matchObj.Details.substring(0,2) != allMatchData[matchIndex-1].Details.substring(0,2)) {
-                matchObj.displayHeaderDate = true;
-              }
-              else {
-                matchObj.displayHeaderDate = false;
-              }
-
-              var index = matchPosition;
-              //splice (index, number, obj) == take match object, place it in at index value, 0 means don't replace it, just insert.
-              this.masterList.splice(index, 0, matchObj);
-              matchPosition ++;
-            }
-          });
-        }
-      });
-      this.masterList = this.addFixturesDate(this.masterList);
-      return this.masterList;
-    }
-
-
-
-    openAllGroups(){
-      this._leagueGroups.forEach(element => {
-        element.expanded = true;
-      });
-      console.log(this._leagueGroups);
-    }
-
-    //What populates View table initially. It returns an array of objects of Group class.
-    getGroupListInit(matchList: any[], level: number): any[]{
-      //create a group object for each league
-      let groups = this.uniqueBy(
-        matchList.map(matchObj => {
-          const result = new Group();
-          result.level = level + 1;
-          for (let i = 0; i <= level; i++) {
-            result['League'] = matchObj['League'];
-            // result = League  row = Fixture Object. row['League']
-            //console.log(row);
-
-            //console.log("League: " + result[groupByColumns[0]] + " Home Team: " + row['Home']);
-          }
-          //console.log(result);
-          return result;
-        }),
-        //Why? This is a bit dodgy code
-        JSON.stringify
-      );
-
-      const currentColumn = 'League';
-
-      groups.forEach(group => {
-        //filter all data to matching brands, for each group. add total count to group property
-        const rowsInGroup = matchList.filter( matchObj => group[currentColumn] === matchObj[currentColumn] );
-          //  console.log(group);
-          // console.log(rowsInGroup);
-
-        group.totalCounts = rowsInGroup.length;
-        //this.expandedSubCar = [];
-      });
-
-      // sort alphabetically
-      groups = groups.sort((a: any, b: any) => {
-        const isAsc = "asc";
-        return this.compare(a.League, b.League, isAsc);
-      });
-
-      //asign groups to _leagueGroups for calling later on click() expand functionality.
-      this._leagueGroups = groups;
-      //returns an alphabetically organized group list
-      //console.log(this._leagueGroups);
-      return groups;
-    }
-
-    uniqueBy(a, key) {
-      const seen = {};
-      return a.filter(item => {
-        const k = key(item);
-        // key is JSON.stringify
-        // k = {"level":1,"expanded":false,"totalCounts":0,"brand":"Jaguar"}
-        //seen.hasOwnProperty(k)) passes each stringified object to filter whether that brand is registerd or not.
-        return seen.hasOwnProperty(k) ? false : (seen[k] = true);
-      });
-    }
-
-    private compare(a, b, isAsc) {
-      return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
-    }
-
-    addGroupsNew(
-      allGroup: any[],
-      data: any[],
-      groupByColumns: string[],
-      dataRow: any
-      ): any[] {
-      return this.getSublevelNew(allGroup, data, 0, groupByColumns, dataRow);
-    }
-
-    //returns subGroup()
-    getSublevelNew(
-      allGroup: any[],
-      data: any[],
-      level: number,
-      groupByColumns: string[],
-      dataRow: any
-    ): any[] {
-
-      if (level >= groupByColumns.length) {
-        //returns all matches without group separator.
-        return data;
+    groupList.forEach( groupObj => {
+      //add group Object into masterList if not found in this.masterList.
+      //FIRST IF
+      if(!this.masterList.includes(groupObj)){
+        this.masterList.push(groupObj);
       }
 
-      const currentColumn = groupByColumns[level];
-      let subGroups = [];
-      //console.log(allGroup);
-      allGroup.forEach(group => {
-        //Set a constant rowsInGroup, where each match selection and your group.league are the same
-          const rowsInGroup = data.filter(
-          row => group[currentColumn] === row[currentColumn]
-        );
-          // console.log(group[currentColumn]);
-          // console.log(rowsInGroup);
+      //groupObj is expaned but is not active. =? Remove any matchObject from master list then set Group isActive to true.
+      //SECOND
 
-        group.totalCounts = rowsInGroup.length;
+        var groupIndex = this.masterList.indexOf(groupObj);
+        var matchPosition = groupIndex + 1;
 
-        if (group.League == dataRow.League.toString()) {
-          group.expanded = dataRow.expanded;
-          const subGroup = this.getSublevelNew(
-            allGroup,
-            rowsInGroup,
-            level + 1,
-            groupByColumns,
-            dataRow.League.toString()
-          );
 
-          this.expandedSubCar = subGroup;
-          subGroup.unshift(group);
-          subGroups = subGroups.concat(subGroup);
+        allData.forEach( matchObj => {
+          var matchIndex = allData.indexOf(matchObj);
 
-        } else {
-          subGroups = subGroups.concat(group);
-        }
-      });
-      return subGroups;
-    }
-
-    isGroup(index, item): boolean {
-        return item.level;
-    }
-
-    watchForMatchUpdates() {
-      this.matchStream.forEach(streamMatch => {
-          this.matches.forEach( (match) => {
-            //created id value
-            var matchId = match.Home + " " + match.Away + " " + match.Details;
-            if(matchId == streamMatch._id){
-              if(streamMatch.SmarketsHomeOdds != 0 && streamMatch.SmarketsAwayOdds != 0)
-                {
-                match.SMHome = streamMatch.SmarketsHomeOdds;
-                match.SMAway = streamMatch.SmarketsAwayOdds;
-                }
-                if(streamMatch.B365HomeOdds != 0 && streamMatch.B365AwayOdds != 0)
-                {
-                  match.BHome = streamMatch.B365HomeOdds;
-                  match.BAway = streamMatch.B365AwayOdds;
-                }
-                if(streamMatch.OccurrenceAway != 0){
-                  match.BTTSOdds = streamMatch.B365BTTSOdds;
-                  match.B25GOdds = streamMatch.B365O25GoalsOdds;
-                  match.OccH = streamMatch.OccurenceHome;
-                  match.OccA = streamMatch.OccurrenceAway;
-                }
-                if(matchId !== streamMatch._id)
-                {
-                  this.isNotInList = true;
-                }
-              } else {
-              }
-          })
-
-          if(this.isNotInList || this.matches.length == 0)
+          //Returns matchObject time into US.
+          var matchDate: number = new Date(matchObj.EpochTime * 1000).getUTCDate();
+          var prevDate: number = new Date(allData[matchIndex-1].EpochTime * 1000).getUTCDate();
+          //INJECTS  MATCHES  UNDERNEATH GROUP HEADER
+          if(matchObj.isWatched && matchObj.League == groupObj.League && (matchDate == dateEnd || matchDate == dateStart))
           {
-            console.log("not in list");
-            console.log(streamMatch);
-            this.isNotInList=false;
-          }
-        })
-    }
-
-
-
-    updateMatch(match, streamMatch){
-      if(streamMatch.SmarketsHomeOdds != 0 && streamMatch.SmarketsAwayOdds != 0)
-      {
-        match.SMHome = streamMatch.SmarketsHomeOdds;
-        match.SMAway = streamMatch.SmarketsAwayOdds;
-      }
-      if(streamMatch.B365HomeOdds != 0 && streamMatch.B365AwayOdds != 0)
-      {
-        match.BHome = streamMatch.B365HomeOdds;
-        match.BAway = streamMatch.B365AwayOdds;
-      }
-      if(streamMatch.OccurrenceAway != 0){
-        match.BTTSOdds = streamMatch.B365BTTSOdds;
-        match.B25GOdds = streamMatch.B365O25GoalsOdds;
-        match.BDraw = streamMatch.B365DrawOdds;
-        match.OccH = streamMatch.OccurrenceHome;
-        match.OccA = streamMatch.OccurrenceAway;
-      }
-    }
-
-    // dateSelection(dateSelected:string): number[]{
-
-    //   return this.dateHandlingService.returnDateSelection(this.dateHandlingService.returnDateSelection(dateSelected);
-
-    // }
-
-
-
-    showToast(typeOfToast: string){
-      if(typeOfToast == "enableToggle"){
-        this.notificationBox.enableToggleToast();
-      }
-      if(typeOfToast == "default"){
-        this.notificationBox.showNotification();
-      }
-    }
-
-
-    toggleSideNav(){
-      this.sidenav.toggle();
-    }
-      //TODO BUG-FIX WHEN LOCALE_ID WORKS.
-      //Re-arranges en-US format MM/DD into DD/MM
-
-    ignoreAllMatchesToggle(group: Group){
-      var array:any[] = []
-      array.push(group.ignoreAll);
-        this.matches.forEach( match => {
-          if(match.League == group.League){
-            array.push(match.Home);
-            array.push(match.Away);
+            if(matchPosition == groupIndex + 1){
+              matchObj.displayHeaderDate = true;
+            }
+            else if (matchDate != prevDate) {
+              matchObj.displayHeaderDate = true;
+            }
+            else {
+              matchObj.displayHeaderDate = false;
+            }
+            var index = matchPosition;
+            //splice (index, number, obj) == take match object, place it in at index value, 0 means don't replace it, just insert 'matchObj' at 'index'.
+            this.masterList.splice(index, 0, matchObj);
+            matchPosition ++;
+            groupObj.isActive = true;
           }
         });
-        this.ignoreList = array;
-      //this.matchStatusService.displayIgnoreList();
-    }
 
-    //POTENTIALLY REMOVE. DEPENDS IF WE RE_INTRODUCE IGNORE HOME/AWAY
-    // ignoreHomeSelection(matchObject: any){
-    //   matchObject.HStatus.ignore = !matchObject.HStatus.ignore;
-    //   console.log("Ignore set to " + matchObject.HStatus.ignore + " for: " + matchObject.Home);
-    //   this.ignoreList = [matchObject.Home, matchObject.HStatus.ignore];
-    //   this.updateNotificationStatus(matchObject.Home, matchObject.HStatus.ignore);
-    // }
+        //If no matches within specified date were found, remove this group
+        if(!groupObj.isActive){
+          this.masterList.splice(groupIndex,1);
+        }
 
-    // ignoreAwaySelection(matchObject: any){
-    //   //toggle ignore status.
-    //   matchObject.AStatus.ignore = !matchObject.AStatus.ignore;
-    //   console.log("Ignore set to " + matchObject.AStatus.ignore + " for: " + matchObject.Away);
-    //   this.ignoreList = [matchObject.Away, matchObject.AStatus.ignore];
+      //REMOVES MATCHES FROM UNDERNEATH GROUP HEADER
+      // this cleans up the matches. When you click a groupLeague that is open. It changes to expanded = false. isActive = true.
 
-    //   this.updateNotificationStatus(matchObject.Away, matchObject.AStatus.ignore);
-    // }
+    });
+    this.masterList = this.addFixturesDate(this.masterList);
 
-    // updateNotificationStatus(selection: string, ignoreStatus: boolean){
-    //   if(ignoreStatus == true)
-    //   {
-    //     this.matchStatusService.addToIgnoreList(selection);
-    //   } else {
-    //     this.matchStatusService.removeFromIgnoreList(selection);
-    //   }
-    // }
+    return this.masterList;
+  }
 
-    removefromWatchList(row:any){
-      console.log("Need functionality here");
+  addFixturesDate(matchList: any[] ): any[]{
 
-    }
-
-    openViewBets(row:any, selection:string): void {
-
-      selection == 'home' ? row.Selection = row.Home: row.Selection = row.Away;
-      const dialogRef = this.dialog.open(PopupViewSavedBetsComponent, {
-        width: '70%',
-        height: '80%',
-        data: row
-      });
-
-
-      dialogRef.afterClosed().subscribe(result => {
-        console.log('dialog is SAB popup closed, do something with data');
-      });
-    }
-
-    toggleNotification(matchObj:any, isHome:boolean):void{
-      isHome ? matchObj.HStatus.notify = !matchObj.HStatus.notify : matchObj.AStatus.notify = !matchObj.AStatus.notify;
-      //update match-status.services.
-      this.updateMatchStatusList(matchObj, isHome);
-    }
-
-    updateMatchStatusList(matchObj:any, isHome:boolean):void{
-      this.matchStatusService.updateWatchList(matchObj, isHome);
-    }
-
-    //when userPreferences is updated by user, this will change the notify status of the match
-    checkForOddsChange():void{
-      console.log("preferences updated!");
-
-      this.displayList.forEach( rowData => {
-        if(rowData.level == undefined){
-          console.log(rowData);
-          rowData.HStatus.notify = rowData.BHome > this.userPref.getMinOdds() ? true : false;
-          rowData.AStatus.notify = rowData.BAway > this.userPref.getMinOdds() ? true : false;
-          this.updateMatchStatusList(rowData, true);
-          this.updateMatchStatusList(rowData,false);
+    matchList.forEach( matchObj => {
+      //TODO BUG-FIX WHEN LOCALE_ID WORKS.
+      if(matchObj.displayHeaderDate){
+        //All of Angular is using Datepipes to conver by en-US locale, not en-GB. For the time being, everything must be converted to english Locale
+        var gbDateFormat = this.dateHandlingService.switchDaysWithMonths(matchObj.Details);
+        matchObj.FixturesDate = this.datepipe.transform(gbDateFormat, 'EEE dd MMM \n  HH:mm');
+      }else {
+        matchObj.FixturesDate = this.datepipe.transform(matchObj.Details, 'HH:mm');
+      }
+    });
+    return matchList;
+  }
+  //Takes selected date and updates in match-TableComponent.
+  updateFixtures($event) {
+    this.viewSelectedDate = $event;
+    var groupWithStates : any[] = [];
+    //Case if user just toggles dates without expanding any leagues.
+    if(this.masterList.length == 0){
+      this.dataSource.data = this.getGroupListInit(this.allData, 0);
+      //case where group(s) are expaned.
+    }  else  {
+      //gets all groups with current state.
+      this.masterList.forEach( obj => {
+        if(obj.level == 1 ){
+          console.log(obj);
+          console.log("put me in a new list");
+          groupWithStates.push(obj);
         }
       });
+      //Clears all matches in lists, leaves only Group WITH their active states.
+      this.dataSource.data = this.showUpdatedView(this.allData, groupWithStates, this.viewSelectedDate);
+    }
+  }
+
+  //Returns an updated list of matches Using Date selection
+  showUpdatedView(allMatchData: any[], groupWithStates: any[], dateOption: string): any[] {
+    this.masterList = [];
+    var dateValidator: number[] = this.dateHandlingService.returnDateSelection(dateOption);
+    var dateStart: number = dateValidator[0];
+    var dateEnd: number = dateValidator[1];
+
+    groupWithStates.forEach(groupHeader => {
+      //populate table with groups first. Little redundant, refactor later.
+      if(!this.masterList.includes(groupHeader)){
+        this.masterList.push(groupHeader);
+      }
+      //insert matches beneath group headers with updated Date Range.
+      if(groupHeader.expanded && groupHeader.isActive)
+      {
+        var groupIndex = this.masterList.indexOf(groupHeader);
+        var matchPosition = groupIndex + 1;
+
+        allMatchData.forEach( matchObj => {
+          var matchIndex = allMatchData.indexOf(matchObj);
+          //Returns correct date format for en-GB
+          var matchDate: number = new Date(matchObj.EpochTime * 1000).getUTCDate();
+          //INJECTS  MATCHES  UNDERNEATH GROUP HEADER
+          if(matchObj.League == groupHeader.League && (matchDate == dateEnd || matchDate == dateStart))
+          {
+            if(matchPosition == groupIndex + 1){
+              matchObj.displayHeaderDate = true;
+            }
+            else if (matchObj.Details.substring(0,2) != allMatchData[matchIndex-1].Details.substring(0,2)) {
+              matchObj.displayHeaderDate = true;
+            }
+            else {
+              matchObj.displayHeaderDate = false;
+            }
+
+            var index = matchPosition;
+            //splice (index, number, obj) == take match object, place it in at index value, 0 means don't replace it, just insert.
+            this.masterList.splice(index, 0, matchObj);
+            matchPosition ++;
+          }
+        });
+      }
+    });
+    this.masterList = this.addFixturesDate(this.masterList);
+    return this.masterList;
+  }
+
+
+
+  openAllGroups(){
+    this._leagueGroups.forEach(element => {
+      element.expanded = true;
+    });
+    console.log(this._leagueGroups);
+  }
+
+  //What populates View table initially. It returns an array of objects of Group class.
+  getGroupListInit(matchList: any[], level: number): any[]{
+    //create a group object for each league
+    let groups = this.uniqueBy(
+      matchList.map(matchObj => {
+        const result = new Group();
+        result.level = level + 1;
+        for (let i = 0; i <= level; i++) {
+          result['League'] = matchObj['League'];
+          // result = League  row = Fixture Object. row['League']
+          //console.log(row);
+
+          //console.log("League: " + result[groupByColumns[0]] + " Home Team: " + row['Home']);
+        }
+        //console.log(result);
+        return result;
+      }),
+      //Why? This is a bit dodgy code
+      JSON.stringify
+    );
+
+    const currentColumn = 'League';
+
+    groups.forEach(group => {
+      //filter all data to matching brands, for each group. add total count to group property
+      const rowsInGroup = matchList.filter( matchObj => group[currentColumn] === matchObj[currentColumn] );
+        //  console.log(group);
+        // console.log(rowsInGroup);
+
+      group.totalCounts = rowsInGroup.length;
+      //this.expandedSubCar = [];
+    });
+
+    // sort alphabetically
+    groups = groups.sort((a: any, b: any) => {
+      const isAsc = "asc";
+      return this.compare(a.League, b.League, isAsc);
+    });
+
+    //asign groups to _leagueGroups for calling later on click() expand functionality.
+    this._leagueGroups = groups;
+    //returns an alphabetically organized group list
+    //console.log(this._leagueGroups);
+    return groups;
+  }
+
+  uniqueBy(a, key) {
+    const seen = {};
+    return a.filter(item => {
+      const k = key(item);
+      // key is JSON.stringify
+      // k = {"level":1,"expanded":false,"totalCounts":0,"brand":"Jaguar"}
+      //seen.hasOwnProperty(k)) passes each stringified object to filter whether that brand is registerd or not.
+      return seen.hasOwnProperty(k) ? false : (seen[k] = true);
+    });
+  }
+
+  private compare(a, b, isAsc) {
+    return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
+  }
+
+  addGroupsNew(
+    allGroup: any[],
+    data: any[],
+    groupByColumns: string[],
+    dataRow: any
+    ): any[] {
+    return this.getSublevelNew(allGroup, data, 0, groupByColumns, dataRow);
+  }
+
+  //returns subGroup()
+  getSublevelNew(
+    allGroup: any[],
+    data: any[],
+    level: number,
+    groupByColumns: string[],
+    dataRow: any
+  ): any[] {
+
+    if (level >= groupByColumns.length) {
+      //returns all matches without group separator.
+      return data;
     }
 
-    checkEmptyGroup(displayList:any):void{
-      // console.log("List:" + displayList.length);
-      var i:number = 0;
+    const currentColumn = groupByColumns[level];
+    let subGroups = [];
+    //console.log(allGroup);
+    allGroup.forEach(group => {
+      //Set a constant rowsInGroup, where each match selection and your group.league are the same
+        const rowsInGroup = data.filter(
+        row => group[currentColumn] === row[currentColumn]
+      );
+        // console.log(group[currentColumn]);
+        // console.log(rowsInGroup);
 
-      displayList.forEach( (displayObj, index) => {
-        displayObj.level == undefined ? i++ : null;
+      group.totalCounts = rowsInGroup.length;
 
-        if(displayObj.level !=undefined && displayObj.level == 1){
-          //
+      if (group.League == dataRow.League.toString()) {
+        group.expanded = dataRow.expanded;
+        const subGroup = this.getSublevelNew(
+          allGroup,
+          rowsInGroup,
+          level + 1,
+          groupByColumns,
+          dataRow.League.toString()
+        );
+
+        this.expandedSubCar = subGroup;
+        subGroup.unshift(group);
+        subGroups = subGroups.concat(subGroup);
+
+      } else {
+        subGroups = subGroups.concat(group);
+      }
+    });
+    return subGroups;
+  }
+
+  isGroup(index, item): boolean {
+      return item.level;
+  }
+
+  watchForMatchUpdates() {
+    this.matchStream.forEach(streamMatch => {
+        this.matches.forEach( (match) => {
+          //created id value
+          var matchId = match.Home + " " + match.Away + " " + match.Details;
+          if(matchId == streamMatch._id){
+            if(streamMatch.SmarketsHomeOdds != 0 && streamMatch.SmarketsAwayOdds != 0)
+              {
+              match.SMHome = streamMatch.SmarketsHomeOdds;
+              match.SMAway = streamMatch.SmarketsAwayOdds;
+              }
+              if(streamMatch.B365HomeOdds != 0 && streamMatch.B365AwayOdds != 0)
+              {
+                match.BHome = streamMatch.B365HomeOdds;
+                match.BAway = streamMatch.B365AwayOdds;
+              }
+              if(streamMatch.OccurrenceAway != 0){
+                match.BTTSOdds = streamMatch.B365BTTSOdds;
+                match.B25GOdds = streamMatch.B365O25GoalsOdds;
+                match.OccH = streamMatch.OccurenceHome;
+                match.OccA = streamMatch.OccurrenceAway;
+              }
+              if(matchId !== streamMatch._id)
+              {
+                this.isNotInList = true;
+              }
+            } else {
+            }
+        })
+
+        if(this.isNotInList || this.matches.length == 0)
+        {
+          console.log("not in list");
+          console.log(streamMatch);
+          this.isNotInList=false;
         }
       });
+  }
 
-      this.isTableEmpty= i == 0 ? true : false;
+  updateMatch(match, streamMatch){
+    if(streamMatch.SmarketsHomeOdds != 0 && streamMatch.SmarketsAwayOdds != 0)
+    {
+      match.SMHome = streamMatch.SmarketsHomeOdds;
+      match.SMAway = streamMatch.SmarketsAwayOdds;
     }
-
-    triggerRemoveIcon(selection: any){
-      console.log(selection);
-
+    if(streamMatch.B365HomeOdds != 0 && streamMatch.B365AwayOdds != 0)
+    {
+      match.BHome = streamMatch.B365HomeOdds;
+      match.BAway = streamMatch.B365AwayOdds;
     }
+    if(streamMatch.OccurrenceAway != 0){
+      match.BTTSOdds = streamMatch.B365BTTSOdds;
+      match.B25GOdds = streamMatch.B365O25GoalsOdds;
+      match.BDraw = streamMatch.B365DrawOdds;
+      match.OccH = streamMatch.OccurrenceHome;
+      match.OccA = streamMatch.OccurrenceAway;
+    }
+  }
+
+  showToast(typeOfToast: string){
+    if(typeOfToast == "enableToggle"){
+      this.notificationBox.enableToggleToast();
+    }
+    if(typeOfToast == "default"){
+      this.notificationBox.showNotification();
+    }
+  }
+
+
+  toggleSideNav(){
+    this.sidenav.toggle();
+  }
+
+  ignoreAllMatchesToggle(group: Group){
+    var array:any[] = []
+    array.push(group.ignoreAll);
+      this.matches.forEach( match => {
+        if(match.League == group.League){
+          array.push(match.Home);
+          array.push(match.Away);
+        }
+      });
+      this.ignoreList = array;
+    //this.matchStatusService.displayIgnoreList();
+  }
+
+  //POTENTIALLY REMOVE. DEPENDS IF WE RE_INTRODUCE IGNORE HOME/AWAY
+  // ignoreHomeSelection(matchObject: any){
+  //   matchObject.HStatus.ignore = !matchObject.HStatus.ignore;
+  //   console.log("Ignore set to " + matchObject.HStatus.ignore + " for: " + matchObject.Home);
+  //   this.ignoreList = [matchObject.Home, matchObject.HStatus.ignore];
+  //   this.updateNotificationStatus(matchObject.Home, matchObject.HStatus.ignore);
+  // }
+
+  // ignoreAwaySelection(matchObject: any){
+  //   //toggle ignore status.
+  //   matchObject.AStatus.ignore = !matchObject.AStatus.ignore;
+  //   console.log("Ignore set to " + matchObject.AStatus.ignore + " for: " + matchObject.Away);
+  //   this.ignoreList = [matchObject.Away, matchObject.AStatus.ignore];
+
+  //   this.updateNotificationStatus(matchObject.Away, matchObject.AStatus.ignore);
+  // }
+
+  // updateNotificationStatus(selection: string, ignoreStatus: boolean){
+  //   if(ignoreStatus == true)
+  //   {
+  //     this.matchStatusService.addToIgnoreList(selection);
+  //   } else {
+  //     this.matchStatusService.removeFromIgnoreList(selection);
+  //   }
+  // }
+
+  removefromWatchList(row:any){
+    console.log("Need functionality here");
+  }
+
+  openViewBets(row:any, selection:string): void {
+
+    selection == 'home' ? row.Selection = row.Home: row.Selection = row.Away;
+    const dialogRef = this.dialog.open(PopupViewSavedBetsComponent, {
+      width: '70%',
+      height: '80%',
+      data: row
+    });
+
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('dialog is SAB popup closed, do something with data');
+    });
+  }
+
+  toggleNotification(matchObj:any, isHome:boolean):void{
+    isHome ? matchObj.HStatus.notify = !matchObj.HStatus.notify : matchObj.AStatus.notify = !matchObj.AStatus.notify;
+    //update match-status.services.
+    this.updateMatchStatusList(matchObj, isHome);
+  }
+
+  updateMatchStatusList(matchObj:any, isHome:boolean):void{
+    this.matchStatusService.updateWatchList(matchObj, isHome);
+  }
+
+  //when userPreferences is updated by user, this will change the notify status of the match
+  checkForOddsChange():void{
+    console.log("preferences updated!");
+
+    this.displayList.forEach( rowData => {
+      if(rowData.level == undefined){
+        console.log(rowData);
+        rowData.HStatus.notify = rowData.BHome > this.userPref.getMinOdds() ? true : false;
+        rowData.AStatus.notify = rowData.BAway > this.userPref.getMinOdds() ? true : false;
+        this.updateMatchStatusList(rowData, true);
+        this.updateMatchStatusList(rowData,false);
+      }
+    });
+  }
+
+  checkEmptyGroup(displayList:any):void{
+    // console.log("List:" + displayList.length);
+    var i:number = 0;
+
+    displayList.forEach( (displayObj, index) => {
+      displayObj.level == undefined ? i++ : null;
+
+      if(displayObj.level !=undefined && displayObj.level == 1){
+        //
+      }
+    });
+
+    this.isTableEmpty= i == 0 ? true : false;
+  }
+
+  triggerRemoveIcon(selection: any){
+    console.log("Trigger Remove From Watchlist Functionality here.")
+    console.log(selection);
+  }
 }

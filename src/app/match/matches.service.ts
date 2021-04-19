@@ -64,5 +64,27 @@ export class MatchesService {
     this.streamDataUpdate.emit(_streamObj);
   }
 
+  updateMatch(match, streamMatch){
+    if(streamMatch.SmarketsHomeOdds != 0 && streamMatch.SmarketsAwayOdds != 0)
+    {
+      match.SMHome = streamMatch.SmarketsHomeOdds;
+      match.SMAway = streamMatch.SmarketsAwayOdds;
+    }
+    if(streamMatch.B365HomeOdds != 0 && streamMatch.B365AwayOdds != 0)
+    {
+      match.BHome = streamMatch.B365HomeOdds;
+      match.BAway = streamMatch.B365AwayOdds;
+    }
+    if(streamMatch.OccurrenceAway != 0){
+      match.BTTSOdds = streamMatch.B365BTTSOdds;
+      match.B25GOdds = streamMatch.B365O25GoalsOdds;
+      match.BDraw = streamMatch.B365DrawOdds;
+      match.OccH = streamMatch.OccurrenceHome;
+      match.OccA = streamMatch.OccurrenceAway;
+    }
+
+    return match
+  }
+
 
 }

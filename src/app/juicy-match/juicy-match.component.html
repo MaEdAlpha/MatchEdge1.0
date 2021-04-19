@@ -104,7 +104,7 @@
 
                           <div class="bookie-row">
                             <p class= "bookie-text-rhs">Odds </p>
-                            <input tabindex="0" formControlName="BackOdds" class = "value-box-back"  placeholder="{{getGroup(i).get('BackOdds').value | number:'0.2-2'}}">
+                            <input tabindex="0" formControlName="BackOdds" type="number"step="0.1" class="value-box-back"  placeholder="{{getGroup(i).get('BackOdds').value | number:'0.2-2'}}">
                           </div>
                         </div>
                     </div>
@@ -123,7 +123,7 @@
                           </div>
                           <div class="exchange-row">
                             <p class="exchange-text-mid">Odds </p>
-                            <input tabindex="0" formControlName="LayOdds" class = "value-box-lay"  placeholder="{{selection.LayOdds | number:'0.2-2'}}">
+                            <input tabindex="0" formControlName="LayOdds" type="number"step="0.1" class = "value-box-lay"  placeholder="{{selection.LayOdds | number:'0.2-2'}}">
                           </div>
                         </div>
 
@@ -158,7 +158,7 @@
                         <hr class="value-divider">
                         <div class="calculated-row">
                           <h3 class="calculated-text .calculated-text-lhs">MR: </h3>
-                          <span class="calculated-value calculated-value-lhs calculated-value-lhs">{{ NewMatchRating( selection.FTAround,  getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value)  | number:'0.2-2' }}</span>
+                          <span class="calculated-value calculated-value-lhs calculated-value-lhs">{{ NewMatchRating( getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value)  | number:'0.2-2' }}</span>
                         </div>
                         <hr class="value-divider">
                         <div class="calculated-row">

@@ -62,7 +62,7 @@
                           </ng-container>
 
                           <ng-container *ngIf="column.field.startsWith('FixturesDate')">
-                            <button mat-raised-button class="fixturesDateBtn" [style.background]="row.isWatched ? 'linear-gradient(to top, #f5b95a, #ee9a12)' : 'rgb(195, 195, 195)'"(click)="addToWatchList(row);">
+                            <button mat-raised-button class="fixturesDateBtn" [style.background]="row.isWatched ? 'linear-gradient(to top, #f5b95a, #ee9a12)' : 'rgb(195, 195, 195)'" (click)="addToWatchList(row);">
                               <div class="fixturesText">
                                 <div class="fixturesDate"> {{row[column.field]}} </div>
                                 <div class="fixturesTime"> {{row['FixturesTime']}} </div>
@@ -75,7 +75,7 @@
 
                   <!--DOES NOTHING APPARENTLY. Keep for debug purposes for now <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row> -->
                   <mat-header-row *matHeaderRowDef="displayedColumns" ></mat-header-row>
-                  <mat-row *matRowDef="let row; columns: displayedColumns; let i=index" class="match-row-details-{{i}}" appInactiveMatch [match]="row" [matchIndex]="i"></mat-row>
+                  <mat-row *matRowDef="let row; columns: displayedColumns; let i=index" class="match-row-details-{{i}}" appInactiveMatch [match]="row" ></mat-row>
                       <!-- Display group header -->
                       <ng-container class="groupHeaderCont" matColumnDef="groupHeader">
                         <mat-cell colspan="10" *matCellDef="let group">
@@ -102,12 +102,12 @@
 
         <!-- Display WatchList -->
         <div [style.visibility]="tableSelected == 2 ? 'visible' : 'collapse' "[style.height]="tableSelected == 2 ? ' ' : '0' " [style.margin-bottom]="tableSelected == 2 ? '5px' : '0'" [style.display]="tableSelected == 2 ? 'inline' : '' ">
-          <app-watchlist (hideTable)="displaySelectedTable($event)"></app-watchlist>
+          <app-watchlist></app-watchlist>
         </div>
 
         <!-- Display Juicy Table -->
         <div [style.visibility]="tableSelected == 3 ? 'visible' : 'collapse' "[style.height]="tableSelected == 3 ? ' ' : '0' " [style.margin-bottom]="tableSelected == 3 ? '5px' : '0'" [style.display]="tableSelected == 3 ? 'inline' : '' ">
-          <app-juicy-match [allMatches] ="matches"></app-juicy-match>
+          <app-juicy-match [allMatches]="matches"></app-juicy-match>
         </div>
         <!-- Display Active Bets -->
         <div [style.visibility]="tableSelected == 4 ? 'visible' : 'collapse' "[style.height]="tableSelected == 4 ? ' ' : '0' " [style.margin-bottom]="tableSelected == 4 ? '5px' : '0'" [style.display]="tableSelected == 4 ? 'inline' : '' ">
