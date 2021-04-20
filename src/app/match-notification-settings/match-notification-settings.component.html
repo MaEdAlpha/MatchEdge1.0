@@ -7,10 +7,13 @@
             Account
         </mat-tab>
         <mat-tab class="setting-content" label="Preferences">
-          <app-calc></app-calc>
+          <app-calc [preferenceFormValues]="settingsForm.value.preferences" (preferenceFormChange)="updatePreferenceChanges($event)"></app-calc>
         </mat-tab>
-        <mat-tab class="setting-content" label="Filters">Content 3</mat-tab>
+        <mat-tab class="setting-content" label="Filters">
+          <app-filter-settings></app-filter-settings>
+        </mat-tab>
       </mat-tab-group>
+      <button (click)="test()">Parent Test</button>
     </div>
   </div>
 </div>

@@ -16,10 +16,10 @@ h1 {
   width: 13%;
 }
 .odds-header{
-  margin-left: 33%;
+  margin-left: 10%;
 }
 .stake-header {
-  margin-left: 1px;
+  margin-left: 40px;
 }
 
 form {
@@ -38,6 +38,10 @@ form {
   display: inline-grid;
   float: left;
 }
+
+.preferred-stake-cont{
+  margin-left: 0%;
+}
 .stake-field-cont {
   width: 100%;
 }
@@ -45,7 +49,6 @@ form {
 .stake-range,
 .stake-input-cont {
   display: inline-block;
-  text-align: center;
 }
 
 .stake-input {
@@ -53,6 +56,8 @@ form {
   background: #3a4a52;
   opacity: 0.5;
   text-align: right;
+  width: 30%;
+  margin-left: 20px;
 }
 
 input::placeholder {
@@ -61,11 +66,14 @@ input::placeholder {
 }
 
 .stake-range{
-  width: 30%;
+  margin-left: 60px;
+  text-align: center;
+  width: 13%;
 }
 
 .stake-input-cont{
-  width: 25%;
+  width: fit-content;
+  margin-left: 20px;
 }
 
 

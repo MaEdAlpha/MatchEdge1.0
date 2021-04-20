@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { TriggerOdds } from './trigger-odds.model';
-import { NgForm } from '@angular/forms';
+import { FormControl, FormGroup, NgForm } from '@angular/forms';
 import { UserPropertiesService } from '../services/user-properties.service';
 
 @Component({
@@ -12,6 +12,7 @@ export class MatchNotificationSettingsComponent implements OnInit {
   smCommission: number;
   onEditClick = false;
   defaultSmCommiss: number = 2.00;
+  settingsForm: FormGroup;
 
 
   @ViewChild('triggerData') triggerDataForm: NgForm;
@@ -30,59 +31,58 @@ export class MatchNotificationSettingsComponent implements OnInit {
         this.triggerOdds = triggerOdds;
         }
       );
-  }
 
-  onSaveCommission() {
-    console.log(this.smCommission);
-    //TODO send this variable to database
-    this.userPropertiesService.setCommission(this.smCommission);
-    this.onEditClick=!this.onEditClick;
+      this.settingsForm = new FormGroup({
+        account: new FormGroup({
+                                UserName: new FormControl(this.userPropertiesService.getUserSettings().account.username),
+                                FirstName: new FormControl(this.userPropertiesService.getUserSettings().account.firstName),
+                                LastName: new FormControl(this.userPropertiesService.getUserSettings().account.lastName),
+                                Email: new FormControl(this.userPropertiesService.getUserSettings().account.email),
+                                Quote: new FormControl(this.userPropertiesService.getUserSettings().account.quote),
+        }),
+        preferences:new FormGroup({
+                                  PrefStake1: new FormControl(this.userPropertiesService.getUserSettings().preferences.userPrefferedStakes[0].stake),
+                                  PrefStake2: new FormControl(this.userPropertiesService.getUserSettings().preferences.userPrefferedStakes[1].stake),
+                                  PrefStake3: new FormControl(this.userPropertiesService.getUserSettings().preferences.userPrefferedStakes[2].stake),
+                                  PrefStake4: new FormControl(this.userPropertiesService.getUserSettings().preferences.userPrefferedStakes[3].stake),
+                                  PrefStake5: new FormControl(this.userPropertiesService.getUserSettings().preferences.userPrefferedStakes[4].stake),
+                                  PrefStake6: new FormControl(this.userPropertiesService.getUserSettings().preferences.userPrefferedStakes[5].stake),
+                                  PrefStake7: new FormControl(this.userPropertiesService.getUserSettings().preferences.userPrefferedStakes[6].stake),
+                                  PrefStake8: new FormControl(this.userPropertiesService.getUserSettings().preferences.userPrefferedStakes[7].stake),
+                                  PrefStake9: new FormControl(this.userPropertiesService.getUserSettings().preferences.userPrefferedStakes[8].stake),
+                                  PrefStake10: new FormControl(this.userPropertiesService.getUserSettings().preferences.userPrefferedStakes[9].stake),
+                                  SelectedFTA: new FormControl(this.userPropertiesService.getUserSettings().preferences.ftaOption),
+                                  SelectedExchange: new FormControl(this.userPropertiesService.getUserSettings().preferences.exchangeOption.name),
+                                  SelectedCommission: new FormControl(this.userPropertiesService.getUserSettings().preferences.exchangeOption.commission)
+        }),
+        filters: new FormGroup({
+                               MinOdds: new FormControl( this.userPropertiesService.getUserSettings().filters.viewTable.minOdds),
+                               MaxOdds: new FormControl( this.userPropertiesService.getUserSettings().filters.viewTable.maxOdds),
+                               EVI: new FormControl(this.userPropertiesService.getUserSettings().filters.viewTable.evFilterValueI),
+                               EVII: new FormControl(this.userPropertiesService.getUserSettings().filters.viewTable.evFilterValueII),
+                               MRI: new FormControl(this.userPropertiesService.getUserSettings().filters.viewTable.matchRatingFilterI),
+                               MRII: new FormControl(this.userPropertiesService.getUserSettings().filters.viewTable.matchRatingFilterII),
+                               SSI: new FormControl(this.userPropertiesService.getUserSettings().filters.viewTable.secretSauceI),
+                               SSII: new FormControl(this.userPropertiesService.getUserSettings().filters.viewTable.secretSauceII),
+                               Filter: new FormControl(this.userPropertiesService.getUserSettings().filters.viewTable.isEvSelected),
+                               Audio: new FormControl(this.userPropertiesService.getUserSettings().filters.viewTable.audioEnabled),
+        })
+      });
   }
 
   onSubmitTrigger(fTriggerData: NgForm)
   {
-    const formTriggerData = fTriggerData.form.value.triggerData;
-    this.triggerOdds[0].start = formTriggerData.toStart0;
-    this.triggerOdds[0].finish = formTriggerData.toFinish0;
-    this.triggerOdds[1].start = formTriggerData.toStart1;
-    this.triggerOdds[1].finish = formTriggerData.toFinish1;
-    this.triggerOdds[2].start = formTriggerData.toStart2;
-    this.triggerOdds[2].finish = formTriggerData.toFinish2;
-    this.triggerOdds[3].start = formTriggerData.toStart3;
-    this.triggerOdds[3].finish = formTriggerData.toFinish3;
-    this.triggerOdds[4].start = formTriggerData.toStart4;
-    this.triggerOdds[4].finish= formTriggerData.toFinish4
-    this.triggerOdds[5].start = formTriggerData.toStart5;
-    this.triggerOdds[5].finish= formTriggerData.toFinish5;
-    this.triggerOdds[6].start = formTriggerData.toStart6;
-    this.triggerOdds[6].finish= formTriggerData.toFinish6;
-    this.triggerOdds[7].start = formTriggerData.toStart7;
-    this.triggerOdds[7].finish= formTriggerData.toFinish7;
-    this.triggerOdds[8].start = formTriggerData.toStart8;
-    this.triggerOdds[8].finish = formTriggerData.toFinish8;
-    this.triggerOdds[9].start = formTriggerData.toStart9;
-    this.triggerOdds[9].finish = formTriggerData.toFinish9;
-    this.triggerOdds[10].start = formTriggerData.toStart10;
-    this.triggerOdds[10].finish = formTriggerData.toFinish10;
-    this.triggerOdds[11].start = formTriggerData.toStart11;
-    this.triggerOdds[11].finish = formTriggerData.toFinish11;
-    this.triggerOdds[12].start = formTriggerData.toStart12;
-    this.triggerOdds[12].finish = formTriggerData.toFinish12;
-    //TODO Use matches Service to write this to DB.
-    this.userPropertiesService.triggerOddsSelected.emit(this.triggerOdds);
-    // this.triggerOdds.forEach(item => {
-    //   console.log(item);
-
-    // })
+    // Save all forms that have come back validated.
   }
 
-  getCommission()
-  {
-    //TODO call on matchServices to return the Commission Value that is saved in DB
+  test(){
+    console.log(this.settingsForm);
   }
 
-  saveCommission()
-  {
-    //TODO use matchServices to write to DB.
+  updatePreferenceChanges(value: any){
+    console.log("Change detected in parent");
+
+    console.log(value);
+
   }
 }
