@@ -141,7 +141,7 @@
                   </div>
 
                   <div class="ss-input-text">
-                    Display results with a Qualifying Loss % less than {{viewTbleForm.get('secreSauceI').value}}%.
+                    Display results with a Qualifying Loss % less than {{viewTableForm.get('secretSauceI').value}}%.
                   </div>
                   <div class="ss-input">
                     <mat-form-field appearance="fill">
@@ -175,7 +175,7 @@
               </div>
             </ng-container>
                <div *ngIf="viewTableForm.errors && (viewTableForm.touched || viewTableForm.dirty)" class="cross-validation-error-message alert alert-danger">
-                Something went wrong! Most likely your notification's filter is less than your table view filter setting for the following fields: {{ getFormErrorMessage() }}
+                Something went wrong! Most likely the second value in your 'Secondary Filter' is less than your table view filter setting for the following fields: {{ getFormErrorMessage() }}
               </div>
 
       </div>
