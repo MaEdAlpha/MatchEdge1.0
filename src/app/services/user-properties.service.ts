@@ -5,59 +5,79 @@ import { CalcSettings } from '../calc-settings/calc-settings.model';
 import { CalcSettingsService } from '../calc-settings/calc-settings.service';
 import { TriggerOdds } from '../match-notification-settings/trigger-odds.model';
 import { NotificationBoxService } from './notification-box.service';
-import { TablePreferences } from '../user-properties.model';
+import { TablePreferences, UserSettings } from '../user-properties.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserPropertiesService {
-  //
+  //Don't need this
   triggerOddsSelected = new EventEmitter<TriggerOdds[]>();
-
   //for sending to JuicyTable Filter method
   viewTablePrefSelected = new EventEmitter<any>();
   userPrefSub = new Subject<TablePreferences>();
   private lockAudio:boolean = true;
-
   private smCommission:number = 2.05;
-  //TODO re-write to notifPref defaultTriggers in UserProperties Model
+
   private defaultOdds: TriggerOdds[] = [
-    {start: 9.99, finish: 9.99 },
-    {start: 9.99, finish: 9.99 },
-    {start: 9.99, finish: 9.99 },
-    {start: 9.99, finish: 9.99 },
-    {start: 9.99, finish: 9.99 },
-    {start: 9.99, finish: 9.99 },
-    {start: 9.99, finish: 9.99 },
-    {start: 9.99, finish: 9.99 },
-    {start: 9.99, finish: 9.99 },
-    {start: 9.99, finish: 9.99 },
-    {start: 9.99, finish: 9.99 },
-    {start: 9.99, finish: 9.99 },
-    {start: 9.99, finish: 9.99}
-  ];
-//NOTE, stake:100 with oddsLow:0 should be changed later. Development purposes
-//TODO re-write to calcPref in UserPropertiesModel
-  private userStakes: CalcSettings[] = [{stake: 100, oddsLow: 0, oddsHigh:2.0}, {stake: 80, oddsLow: 2, oddsHigh: 3},{stake: 60, oddsLow: 3, oddsHigh: 4}, {stake: 50, oddsLow: 4, oddsHigh: 5}, {stake: 40, oddsLow: 5, oddsHigh: 6}, {stake: 20, oddsLow: 6, oddsHigh: 7}, {stake: 10, oddsLow: 7, oddsHigh: 10000}];
-  private defaultStakes: CalcSettings[] = [{stake: 999, oddsLow: 1.5, oddsHigh:2.0}, {stake: 80, oddsLow: 2, oddsHigh: 3},{stake: 60, oddsLow: 3, oddsHigh: 4}, {stake: 50, oddsLow: 4, oddsHigh: 5}, {stake: 40, oddsLow: 5, oddsHigh: 6}, {stake: 20, oddsLow: 6, oddsHigh: 7}, {stake: 10, oddsLow: 7, oddsHigh: 10000}];
-  private oddsRange: string[] =  ["1.5 - 2.0", "2.0 - 3.0", "3.0 - 4.0 ", "4.0 - 5.0", "5.0 - 6.0", "6.0 - 7.0", "    > 7.0 "];
+                                        {start: 9.99, finish: 9.99 },
+                                        {start: 9.99, finish: 9.99 },
+                                        {start: 9.99, finish: 9.99 },
+                                        {start: 9.99, finish: 9.99 },
+                                        {start: 9.99, finish: 9.99 },
+                                        {start: 9.99, finish: 9.99 },
+                                        {start: 9.99, finish: 9.99 },
+                                        {start: 9.99, finish: 9.99 },
+                                        {start: 9.99, finish: 9.99 },
+                                        {start: 9.99, finish: 9.99 },
+                                        {start: 9.99, finish: 9.99 },
+                                        {start: 9.99, finish: 9.99 },
+                                        {start: 9.99, finish: 9.99}
+                                      ];
 
   private dbOdds: TriggerOdds[] = [
-    {start: 1.50, finish: 1.75 },
-    {start: 1.76, finish: 1.99 },
-    {start: 2, finish: 2.04 },
-    {start: 2.46, finish: 2.52 },
-    {start: 2.82, finish: 2.9 },
-    {start: 3.2, finish: 3.3 },
-    {start: 4.5, finish: 4.7 },
-    {start: 5.4, finish: 5.7 },
-    {start: 6.2, finish: 6.6 },
-    {start: 7.6, finish: 8.2 },
-    {start: 8.8, finish: 9.6 },
-    {start: 10, finish: 11 },
-    {start: 14, finish: 16}
-  ];
+                                    {start: 1.50, finish: 1.75 },
+                                    {start: 1.76, finish: 1.99 },
+                                    {start: 2, finish: 2.04 },
+                                    {start: 2.46, finish: 2.52 },
+                                    {start: 2.82, finish: 2.9 },
+                                    {start: 3.2, finish: 3.3 },
+                                    {start: 4.5, finish: 4.7 },
+                                    {start: 5.4, finish: 5.7 },
+                                    {start: 6.2, finish: 6.6 },
+                                    {start: 7.6, finish: 8.2 },
+                                    {start: 8.8, finish: 9.6 },
+                                    {start: 10, finish: 11 },
+                                    {start: 14, finish: 16}
+                                  ];
+  //NOTE, stake:100 with oddsLow:0 should be changed later. Development purposes
+  //TODO re-write to calcPref in UserPropertiesModel
+  private userStakes: CalcSettings[] = [
+                                        {stake: 100, oddsLow: null, oddsHigh:2.01},
+                                        {stake: 80, oddsLow: 2.01, oddsHigh: 3},
+                                        {stake: 60, oddsLow: 3.01, oddsHigh: 4},
+                                        {stake: 50, oddsLow: 4.01, oddsHigh: 5},
+                                        {stake: 40, oddsLow: 5.01, oddsHigh: 6},
+                                        {stake: 20, oddsLow: 6.01, oddsHigh: 8},
+                                        {stake: 10, oddsLow: 8.01, oddsHigh: 10},
+                                        {stake: 10, oddsLow: 10.01, oddsHigh: 12},
+                                        {stake: 5, oddsLow: 7, oddsHigh: 14},
+                                        {stake: 1, oddsLow: 14.01, oddsHigh: 100000000},
+                                                                                ];
 
+  private defaultStakes: CalcSettings[] = [
+                                            {stake: 100, oddsLow: 0, oddsHigh:2.01},
+                                            {stake: 80, oddsLow: 2.01, oddsHigh: 3},
+                                            {stake: 60, oddsLow: 3.01, oddsHigh: 4},
+                                            {stake: 50, oddsLow: 4.01, oddsHigh: 5},
+                                            {stake: 40, oddsLow: 5.01, oddsHigh: 6},
+                                            {stake: 20, oddsLow: 6.01, oddsHigh: 8},
+                                            {stake: 10, oddsLow: 8.01, oddsHigh: 10},
+                                            {stake: 10, oddsLow: 10.01, oddsHigh: 12},
+                                            {stake: 12.01, oddsLow: 7, oddsHigh: 14},
+                                            {stake: 10, oddsLow: 14.01, oddsHigh: 100000000},
+                                                                                        ];
+  private oddsRange: string[] =  ["< 2.00 ", "2.01 - 3.00", "3.01 - 4.00 ", "4.01 - 5.00", "5.01 - 6.00 ", "6.01 - 8.00", "8.01 - 10.00","10.01 - 12.00", "12.01 - 14.00", "   > 14.0 "];
 
   //ViewTable User Preferences
   private viewTablePrefs: TablePreferences = {
@@ -76,10 +96,30 @@ export class UserPropertiesService {
     audioEnabled: true,
   };
 
+  private settings: UserSettings = {
+      account: { username: "chaarlie",
+                 firstName: "ryan",
+                 lastName: "anderson",
+                 email: "juicyBets@fmail.com",
+                 quote: "giddyup",
+                 password:"salty"
+               },
+
+      preferences: { userPrefferedStakes: this.userStakes,
+                     ftaOption: 'generic',
+                     exchangeOption: {name: 'Smarkets', commission: 2}
+                   },
+
+      filters:     { viewTable: this.viewTablePrefs}
+  }
+
   constructor() { }
 
-  getUserProperties() {
+  getUserSettings(): UserSettings {
     //http GET request to retrieve user properties from DB;
+    // assign to settings: UserSettings.
+
+    return  this.settings;
   }
 
   getCommission(){
@@ -130,7 +170,6 @@ export class UserPropertiesService {
 
   setFormValues(formObj: any){
 
-
     console.log(formObj);
 
     this.userPrefSub.next({
@@ -170,6 +209,7 @@ export class UserPropertiesService {
   getUserPrefs(): Observable<TablePreferences>{
     return this.userPrefSub.asObservable();
   }
+
 
   getEV():number{
     return Number(this.viewTablePrefs.evFilterValueI);

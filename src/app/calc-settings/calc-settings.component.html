@@ -1,115 +1,92 @@
-<mat-sidenav-container>
-  <mat-sidenav mode="over" #sidenav [(opened)]="isOpened" position="end">
-    <button mat-raised-button color= "primary" class="inner-nav" (click)="sidenav.close();" ><mat-icon>arrow_forward_ios</mat-icon></button>
-    <div class="calculator">
-      <h1>Calculator Settings</h1>
-      <mat-checkbox> Auto hide games after bet is logged</mat-checkbox>
-      <mat-checkbox [(ngModel)]="defaultChecked" (click)="setStakes()"> Apply default stake preferences </mat-checkbox>
-      <div class="preference-container">
-        <div class="stake-input">
-          <p class="stake-header">Odds Range</p>
-          <p class="stake-header">Stake</p>
+<form (ngSubmit)="saveStakePref()" [formGroup]="preferenceForm">
+    <div class="preference-container">
 
-
-          <form (ngSubmit)="saveStakePref(stakeValues)" #stakeValues="ngForm">
-            <div
-            class="stakeContainerForm"
-            ngModelGroup="stakeData"
-            #stakeDataHook="ngModelGroup">
-            <div *ngFor ="let stake of userStakes; let i = index">
-
-              <div class="stake-field-cont">
-                <p>{{stakeRanges[i]}} </p>
-                <input
-                class= "stake-input"
-                type="text"
-                ngModel
-                name="user{{i}}Stakes"
-                required>
-              </div>
-
-            </div>
-          </div>
-
-          <div *ngIf = "stakeValues.touched">
-            <button
-             type="submit"
-             [disabled]="!stakeValues.valid"
-             (click)="isSaved=true">Save</button>
-          </div>
-          <div class="default-preference" *ngIf="defaultChecked">Default Steak Settings applied! Please save.</div>
-          <div class="formControlMsg" *ngIf="!stakeValues.valid">Please fill in all highlighted boxes!</div>
-          <div class="submitButton" *ngIf="isSaved && !stakeValues.pristine">Preferences Saved!</div>
-          <div class="submitButton" *ngIf="isSaved && stakeValues.pristine">Please edit some values first...</div>
-        </form>
-
-        <!-- <div class="stake-field-cont">
-            <p>1.5 - 2.0 </p>
-            <input
-              class= "stake-input"
-              type="text"
-              id=first-range
-              value={{stakes[0]}}>
-          </div>
-          <div class="stake-field-cont">
-            <p>2.0 - 3.0 </p>
-            <input
-            class= "stake-input"
-            type="text"
-            id=second-range
-            value={{stakes[1]}}>
-          </div>
-          <div class="stake-field-cont">
-            <p>3.0 - 4.0 </p>
-            <input
-            class= "stake-input"
-            type="text"
-            id=third-range
-            value={{stakes[2]}}>
-          </div>
-          <div class="stake-field-cont">
-            <p>4.0 - 5.0 </p>
-            <input
-              class= "stake-input"
-              type="text"
-              id=fourth-range
-              value={{stakes[3]}}>
-          </div>
-          <div class="stake-field-cont">
-            <p>5.0 - 6.0 </p>
-            <input
-              class= "stake-input"
-              type="text"
-              id=fifth-range
-              value={{stakes[4]}}>
-          </div>
-          <div class="stake-field-cont">
-            <p>6.0 - 7.0 </p>
-            <input
-              class= "stake-input"
-              type="text"
-              id=sixth-range
-              value={{stakes[5]}}>
-          </div>
-          <div class="stake-field-cont">
-            <p> > 7.0 </p>
-            <input
-              class= "stake-input"
-              type="text"
-              id=final-range
-              value={{stakes[6]}}>
-          </div> -->
+      <div class="preferred-stake-cont">
+        <h1>Preferred Stakes</h1>
+        <div class="header-container">
+          <p class="odds-header header">Odds Range</p>
+          <p class="stake-header header">Stake</p>
         </div>
 
+
+        <div class="stakeContainerForm">
+          <div formArrayName="stakes">
+            <div *ngFor="let stake of stakes.controls; index as i;">
+
+              <div class="stake-field-cont">
+                <div class="stake-range">
+                  <p>{{stakeRanges[i]}} </p>
+                </div>
+                <div class="stake-input-cont">
+                    <input
+                    class="stake-input"
+                    type="number"
+                    step="0.1"
+                    matInput
+                    [formControlName]="i"
+                    placeholder="Stake"
+                    required>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
       </div>
-    </div>
+
+      <div class="estimated-value-cont">
+        <div formArrayName="options">
+
+            <h1>Estimated Value Preferences</h1>
+            <div class="fta-container">
+              <div class="ev-content-row1">
+                  <mat-form-field appearance="fill">
+                    <mat-label> FTA Option</mat-label>
+                    <mat-select formControlName="FTASelected">
+                      <mat-option *ngFor="let ftaSelect of ftaSelection" [value]="ftaSelect.value">
+                        {{ftaSelect.viewValue}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+              </div>
+                <p class="ev-row1-text">Calculate expected value using:  {{preferenceForm.get('options').value[0] == 'custom' ? 'Custom FTA Rating' : ' General 1/65 Bet Avg' }}</p>
+            </div>
+
+              <div class="ev-content-row2">
+                <p> The <b>FTA rating</b> along with the <b>Preferred Stake</b> are used to calculate the estimated value of any 2up bet. </p>
+              </div>
+
+              <hr class="separator">
+
+              <div class="exchange-container">
+                <h1>Exchanges</h1>
+                <h3>Primary Exchange</h3>
+                  <mat-form-field appearance="fill">
+                    <mat-select formControlName="Exchange">
+                      <mat-option *ngFor="let exchangeSelect of exchangeSelection"  [value]="exchangeSelect.value">
+                        {{exchangeSelect.viewValue}}
+                      </mat-option>
+                    </mat-select>
+                    <mat-label> {{preferenceForm.value.options.Exchange}}</mat-label>
+                  </mat-form-field>
+
+
+                  <h3>Commission Rates</h3>
+                  <img src="../assets/img/smarketsIcon.png" alt="">
+                  <mat-form-field>
+                    <mat-label>Smarkets</mat-label>
+                    <input formControlName="Commission" matInput placeholder="{{preferenceForm.get('options').value[2]}}" [value]="preferenceForm.get('options').value[2]">
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+
+
+
+          </div>
     <div class="smarkets"></div>
     <div class="alerts-notifications"></div>
+    <button (click)="test()"> Calc Settings Test</button>
+  </form>
 
-  </mat-sidenav>
-  <mat-sidenav-content>
-    <button class="outer-nav" mat-button (click)="isOpened=!isOpened; populateStakes()">
-      Match Settings
-    </button>
-  </mat-sidenav-content>
-</mat-sidenav-container>
+

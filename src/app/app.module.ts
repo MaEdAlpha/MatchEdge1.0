@@ -24,6 +24,7 @@ import { MatTableModule} from '@angular/material/table';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSelectModule } from '@angular/material/select';
+import { MatTabsModule } from '@angular/material/tabs';
 
 //Services
 import { CalcSettingsService } from './calc-settings/calc-settings.service';
@@ -77,6 +78,8 @@ import { PopupViewSavedBetsComponent } from './popup-view-saved-bets/popup-view-
 import { PopupFormSavedBetsComponent } from './popup-form-saved-bets/popup-form-saved-bets.component';
 import { ActiveBetsComponent } from './active-bets/active-bets.component';
 import { CustomToastComponent } from './custom-toast/custom-toast.component';
+import { FilterSettingsComponent } from './filter-settings/filter-settings.component';
+import { AccountSettingsComponent } from './account-settings/account-settings.component';
 
 
 
@@ -116,7 +119,9 @@ import { CustomToastComponent } from './custom-toast/custom-toast.component';
     ActiveBetsComponent,
     CompareFilterSettingsDirective,
     TouchItDirective,
-    CustomToastComponent
+    CustomToastComponent,
+    FilterSettingsComponent,
+    AccountSettingsComponent
   ],
   imports: [
     AppRoutingModule,
@@ -138,6 +143,7 @@ import { CustomToastComponent } from './custom-toast/custom-toast.component';
     MatSlideToggleModule,
     MatSortModule,
     MatTableModule,
+    MatTabsModule,
     MatToolbarModule,
     MatTooltipModule,
     ReactiveFormsModule,

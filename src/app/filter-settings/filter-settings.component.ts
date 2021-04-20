@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { AbstractControl, FormControl, FormGroup, ValidatorFn, Validators} from '@angular/forms';
-import { SidenavService } from './sidenav.service';
 import { MatSelect } from '@angular/material/select';
 import { MatOption } from '@angular/material/core/option';
 import { UserPropertiesService } from '../services/user-properties.service';
@@ -21,12 +20,11 @@ interface TimeRange {
 }
 
 @Component({
-  selector: 'app-view-table-sidenav',
-  templateUrl: './view-table-sidenav.component.html',
-  styleUrls: ['./view-table-sidenav.component.css'],
+  selector: 'app-filter-settings',
+  templateUrl: './filter-settings.component.html',
+  styleUrls: ['./filter-settings.component.css']
 })
-
-export class ViewTableSidenavComponent implements OnInit, AfterViewInit {
+export class FilterSettingsComponent implements OnInit {
   @ViewChild('select') select: MatSelect;
   @ViewChild('sidenav') public sidenav: MatSidenav;
   //sidnav modetype
@@ -53,12 +51,13 @@ export class ViewTableSidenavComponent implements OnInit, AfterViewInit {
   enableSaveButton:boolean = true;
 
       filters: any[] = [
-        { option: 'EV', value: '1' },
-        { option: 'Match Rating', value: '2' },
-        { option: 'Secret Sauce', value: '3'}
+        { option: 'Expected Value (£)', value: '1' },
+        { option: 'Match Rating (%)', value: '2' },
+        { option: 'Qualifying Loss (%)', value: '3'}
       ]
 
-  constructor(private sidenavService: SidenavService, private userPrefService: UserPropertiesService, private chRef: ChangeDetectorRef) {}
+  constructor( private userPrefService: UserPropertiesService, private chRef: ChangeDetectorRef) {}
+
 
   ngOnInit(): void {
 
@@ -101,7 +100,7 @@ export class ViewTableSidenavComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.sidenavService.setSidenav(this.sidenav);
+
   }
 
   onSubmit(){
@@ -109,21 +108,11 @@ export class ViewTableSidenavComponent implements OnInit, AfterViewInit {
     emit this so services can hear and set to matchStats/juicymatch component.
     set in program to validate for juicy matches. */
     this.userPrefService.setFormValues(this.viewTableForm.value);
-
-    this.sidenavService.toggle();
   }
   filterValueValidator(firstNumber:number): ValidatorFn
   {
     return (control: AbstractControl): { [key: string]: any } | null =>
     +control.value >= firstNumber ? null : {valueTooLow: control.value};
-    // return (control:FormControl) =>{
-    //   const form=control.parent;
-    //   if (form){
-    //     const min = form.get('matchRatingFilterI');
-    //     const max = form.get('matchRatingFilterII');
-    //     return min.value && max.value && +max.value > +min.value ? null : {error:'This value must be larger than the "filter value to show in Juicy" '};
-    //   }
-    // }
   }
   getErrorMessage() {
     var formInput = this.viewTableForm.controls;
