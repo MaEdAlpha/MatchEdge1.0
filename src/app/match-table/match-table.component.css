@@ -21,9 +21,15 @@ mat-row {
 
 .OccA, .OccH {
   background: radial-gradient(at 76% 0, #263238, #263238ad 70%), linear-gradient(0deg, #e0e1e2, transparent 50%) bottom;
-  border-radius: 5px;
-  padding: 10px;
+  border-radius: 5px;  
   min-height: 100%;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    padding-left: 8.5px;
+    padding-right: 8.5px;
+    padding-top: 8px;
+    padding-bottom: 8px;
 }
 .OccA {
   margin-left: auto;
@@ -185,12 +191,12 @@ img {
 }
 
 .bookie-logo, .exchange-logo{
-  width: 25px
+  width: 30px
 }
 
 .bookie-logo {
   background-image: linear-gradient(to top, #fff8f8, #7a8585);
-  padding: 11%;
+  padding: 6%;
   border-radius: 20px;
   border: 2px #9e9c9c solid;
 }
@@ -415,14 +421,14 @@ button.viewCell {
   background-repeat: no-repeat;
   background-position: center;
   position: relative;
-  border-radius: 10px;
+  border-radius: 5px;
 }
 
 .mat-column-BHome, .mat-column-BAway {
   background-image: url(/assets/img/b365Odds.png);
   min-height: 39px;
   margin-left: 0px;
-  margin-right: 2px;
+  margin-right: -10px;
 }
 .mat-column-SMHome, .mat-column-SMAway {
   background-image: url(/assets/img/smOdds.png);

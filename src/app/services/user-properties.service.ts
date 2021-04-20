@@ -65,7 +65,7 @@ export class UserPropertiesService {
     timeRange: 'Today & Tomorrow',
     minOdds: '2.5',
     maxOdds: '20',
-    evFilterValueI: '0',
+    evFilterValueI: '-20',
     evFilterValueII: '1',
     matchRatingFilterI: '95',
     matchRatingFilterII: '97',

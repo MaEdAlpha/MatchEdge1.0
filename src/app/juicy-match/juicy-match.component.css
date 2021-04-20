@@ -129,7 +129,7 @@ tr.juicyMatch-row:not(.juicyMatch-expanded-row):active { /* when main container 
   border-radius: 5px;
 }
 .FTAround>span, .ev6box, .mr7box {
-  background: #333333;
+  background: #263238;
   color: #ffbf0e;
   border-radius: 6px;
   font-size: large;
@@ -142,14 +142,14 @@ tr.juicyMatch-row:not(.juicyMatch-expanded-row):active { /* when main container 
   z-index: 2;
   width: 60%;
   height: 94%;
-  left: 26px;
+  left: 37px;
   top: 1px;
 }
 .ticker3box{
   background: #126e51;
 }
 .ticker4box {
-  background: #025798;
+  background: #003366;
 }
 
 .fta-ticker-box {
@@ -275,9 +275,6 @@ div.jm-exp-details {
   display: inline-block;
 }
 
-  .shadow {
-    box-shadow: inset -5px -3px 10px #000000;
- }
 
  /* Bookie and exchange logo in main row of juicy table */
  .odds-img{
@@ -306,13 +303,27 @@ div.jm-exp-details {
 
 /* Editable text boxes that allow user input for back and lay odds and back stake*/
 .value-box-back, .selection-box {
-  background:  #f5f5f5ab;
+  background:  #ffffff;
 }
 .value-box-lay::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
-  background:  #eeeeee07;
+  background:  #2d363e;
 }
+.value-box-laystake::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  background:  #2d363e;
+  color: white;
+}
+.value-box-laystake {
+  background: #2d363e;
+  width: 80px;
+  font-size: medium;
+  padding-right: 5px;
+  padding-left: 5px;
+  text-align: right;
+  vertical-align: middle;
+  margin-top: 1%;
+  }
 .value-box-lay {
-  background: #eeeeee61;
+  background: #ffffff;
 }
 .value-box-back, .value-box-lay, .selection-box {
   width: 80px;
@@ -338,24 +349,54 @@ div.jm-exp-details {
   padding-bottom:0px;
 }
 
+.bookiecontainer{
+  border-style: solid;
+    width: 85%;
+    height: 83%;
+    color: #538878;
+    padding-left: 0px;
+    border-radius: 35px;
+    background: radial-gradient(at 60% 0, #126E51, transparent 80%), linear-gradient(5deg, #095940, transparent 80%) bottom;
+    padding-right: 10px;
+}
+
+.exchangecontainer{
+  border-style: solid;
+    width: 90%;
+    height: 83%;
+    color: #ffffff;
+    padding-left: 0px;
+    border-radius: 35px;
+    background: radial-gradient(at 153% 0, #e0e1e2, #19222b 66%), linear-gradient(101deg, #e0e1e2, #171d1dd9 146%) bottom;
+    margin-left: -35px;
+}
+
+.calculatedcontainer{
+  border-style: solid;
+    width: -webkit-fill-available;
+    height: 83%;
+    color: #487e92;
+    padding-left: 0px;
+    border-radius: 35px;
+    background: radial-gradient(at 111% 0, #4f8ca2, #172329 66%), linear-gradient( 231deg, #383838, transparent 80%) bottom;
+    margin-left: -72px;
+
+}
+
 .bookie{
   width: 25%;
-  background: radial-gradient(at 60% 0, #126E51, transparent 80%), linear-gradient(5deg, #095940, transparent 80%) bottom;
+  padding-top: 7px;
 }
 .exchange{
   width: 33%;
+  padding-top: 7px;
 }
 
 .calculated {
   width:40%;
+  padding-top: 7px;
 }
 
-/* Additional bet details*/
-.calculated{
-  background: radial-gradient(at 111% 0, #4f8ca2, #172329 66%),
-              linear-gradient( 231deg, #383838, transparent 80%) bottom;
-  color: white;
-}
 
 .comments-cont {
   padding: 10px;
@@ -366,11 +407,7 @@ div.jm-exp-details {
   color: white;
 }
 
-/* Lay Bet style and layout*/
-.exchange {
-  background: radial-gradient(at 153% 0, #e0e1e2, #19222b 66%), linear-gradient(101deg, #e0e1e2, #171d1dd9 146%) bottom;
-  color: rgb(255, 255, 255);
-}
+
 
 .exchange>b{
   color: black;
@@ -394,12 +431,26 @@ div.jm-exp-details {
 .bookie-container {
   width: 50%;
   float: left;
+  padding-top: 10px;
 }
 
-.exchange-container,
+.exchange-container{
+  width: 33%;
+  float: left;
+  padding-top: 10px;
+}
+
 .calculated-container{
   width: 33%;
   float: left;
+  padding-top: 2px;
+  padding-bottom: 0px;
+}
+.calculated-container-comments{
+  width: 33%;
+  float: left;
+  padding-top: 0px;
+  padding-bottom: 0px;
 }
 
 .bookie-row,
@@ -411,13 +462,19 @@ div.jm-exp-details {
 
 .bookie-row,
 .exchange-row{
-  margin-top: 10px;
+  margin-top: 5px;
 }
 .calculated-row> h3, span, button{
   margin: 0px;
   margin-left: auto;
   margin-right: auto;
 }
+
+.exchange-text-comm{
+  font: 400 10px/20px Roboto, "Helvetica Neue", sans-serif;
+  letter-spacing: normal;
+}
+
 .bookie-text-lhs,
 .bookie-text-rhs,
 .exchange-text-lhs,
@@ -430,7 +487,11 @@ div.jm-exp-details {
 .bookie-text-rhs,
 .exchange-text-mid,
 .exchange-text-rhs {
-  width: fit-content;
+  width: 18%;
+  margin-right: 20px;
+  margin-top: 10px;
+  padding-top: 4px;
+  margin-bottom: 0px;
 }
 .bookie-text-lhs,
 .exchange-text-lhs {
@@ -457,15 +518,15 @@ div.jm-exp-details {
 .liability-text,
 .liability-amount {
   width: fit-content;
-  padding-top: 8%;
+  padding-top: 5%;
   margin-left: auto;
-  font-size: larger;
+  font-size: small;
 }
 
 .liability-amount{
   margin-right: auto;
   margin-left: 5px;
-  font-size: x-large;
+  font-size: small;
 }
 
 .exchange-atodds-style {
@@ -497,7 +558,8 @@ padding-top: 8%;
 .exp-button {
   padding: 0%;
     width: 110px;
-    margin-top: 14px;
+    margin-top: 5px;
+    margin-left: 70px;
 }
 
 
@@ -510,10 +572,14 @@ padding-top: 8%;
 .calculated-value{
   width: fit-content;
   display: inline-flex;
-  font-size: 110%;
+  font-size: 90%;
   padding-left: 20px;
+  color: white;
 }
 
+.calculated-value-fta-ql{
+  font-size: 120%;
+}
 .calculated-value-lhs,
 .calculated-text-lhs {
   font-size: 90%;
@@ -523,6 +589,7 @@ padding-top: 8%;
   margin-left: 18%;
   margin-right: auto;
   width: 70%;
+  margin-top: -5px;
 }
 .selection-figures {
   display: inline-flex;
@@ -540,7 +607,7 @@ padding-top: 8%;
 .bet-state-button {
   color: white;
   width: 75%;
-  margin-top: 10px;
+  margin-top: 5px;
   margin-left: auto;
   margin-right: auto;
 }
@@ -569,31 +636,41 @@ th.mat-sort-header-sorted {
   background-size: contain;
   background-repeat: no-repeat;
   position: relative;
-  width: 60%;
-  margin-top: 5px;
+  width: 81%;
   border-radius: 3px;
 }
 
 .b3-odd-cont {
   background-image: url(/assets/img/b365Odds.png);
+  min-height: 39px;
 }
 .sm-odd-cont {
   background-image: url(/assets/img/smOdds.png);
+  min-height: 39px;
 }
 
 .fta-value-cont {
-  background-image: url(/assets/img/2up.png);
+  background: radial-gradient(at 76% 0, #263238, #263238ad 70%), linear-gradient(0deg, #e0e1e2, transparent 50%) bottom;
+  border-radius: 5px;
+  width: 8px;
+  padding-left: 13px;
+  padding-right: 13px;
+  padding-top: 3px;
+  padding-bottom: 3px;
 }
 
 .odd-text {
   position: absolute;
-  top: 5px;
-  left: 5px;
+  top: 9px;
+  left: 4px;
 }
 .fta-value-text {
   position: absolute;
-  top: 6px;
-  left: 38px;
+  top: 7px;
+  left: 8px;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-size: 15px;
+  font-weight: 500;
 }
 
 .secret-sauce-accent {

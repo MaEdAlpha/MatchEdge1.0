@@ -54,7 +54,7 @@
                                         <p class="fta-value-text"> {{selection[column.field].toFixed(0)}} </p>
                                       </div>
                                   </div>
-                                    <div class="juicyCell QLPercentage" *ngIf="column.field.endsWith('Percentage')">
+                                    <div class="juicyCell QLPercentage FTAround" *ngIf="column.field.endsWith('Percentage')">
                                       <span> {{selection[column.field] | number: '0.2-2'}} </span>
                                     </div>
                                       <span *ngIf="!column.field.endsWith('Odds') && !column.field.endsWith('EpochTime') && !column.field.endsWith('Bet') && !column.field.endsWith('Rating') && !column.field.endsWith('Around') && !column.field.endsWith('Percentage')"> {{ selection[column.field] }}</span>
@@ -90,6 +90,7 @@
 
                   <div class="jm-expanded-container"> <!-- Relevant match values -->
                     <div class="bookie shadow">
+                      <div class="bookiecontainer">
 
                         <div class="bookie-container">
                             <p class="bookie-text-lhs">Back Bet</p>
@@ -107,19 +108,21 @@
                             <input tabindex="0" formControlName="BackOdds" type="number"step="0.1" class="value-box-back"  placeholder="{{getGroup(i).get('BackOdds').value | number:'0.2-2'}}">
                           </div>
                         </div>
+                      </div>    
                     </div>
 
                     <div class="exchange shadow">
+                      <div class="exchangecontainer">
                         <div class="exchange-container" >
                           <p class="exchange-text-lhs">Lay Bet </p>
                           <button tabindex="-1" class="exchange-button-container mat-raised-button-bookie-exchange shadow" mat-raised-button href={{selection.UrlSmarkets}}></button>
-                          <p>Comm. GetValue</p>
+                          <p class="exchange-text-comm">Comm. GetValue</p>
                         </div>
 
                         <div class="exchange-container" >
                           <div class="exchange-row">
                             <p class="exchange-text-mid">Stake </p>
-                            <input tabindex="6" class="value-box-lay" [readOnly]="true" placeholder="{{LayStake(getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value, getGroup(i).get('Stake').value) | currency:'GBP' }}">
+                            <input tabindex="6" class="value-box-laystake" [readOnly]="true" placeholder="{{LayStake(getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value, getGroup(i).get('Stake').value) | currency:'GBP' }}">
                           </div>
                           <div class="exchange-row">
                             <p class="exchange-text-mid">Odds </p>
@@ -133,41 +136,15 @@
                           </div>
                           <div class="exchange-row">
                             <p class="liability-text">Liability:</p>
-                            <p class="liability-amount"><b>{{ Liability(getGroup(i).get('LayOdds').value, LayStake(getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value, getGroup(i).get('Stake').value)) | currency:'GBP'}} </b></p>
+                            <p class="liability-amount">{{ Liability(getGroup(i).get('LayOdds').value, LayStake(getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value, getGroup(i).get('Stake').value)) | currency:'GBP'}} </p>
                           </div>
                         </div>
-                    </div>
-
-                    <div class="calculated shadow">
-                      <!-- Calculated Values -->
-                      <div class="calculated-container">
-                        <div class="calculated-row">
-                          <h3 class="calculated-text .calculated-text-lhs">ROI:</h3>
-                          <span class="calculated-value calculated-value-lhs">{{ ROI(getGroup(i).get('Stake').value, getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value, selection.FTAround) | number:'0.2-2'}} %</span>
-                        </div>
-                        <hr class="value-divider">
-                        <div class="calculated-row">
-                          <h3 class="calculated-text .calculated-text-lhs">FTA: </h3>
-                            <span class="calculated-value calculated-value-lhs"> {{ FTA(getGroup(i).get('Stake').value, getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value  ) | currency:'GBP'}}</span>
-                        </div>
-                        <hr class="value-divider">
-                        <div class="calculated-row">
-                          <h3 class="calculated-text .calculated-text-lhs">EV: </h3>
-                          <span class="calculated-value calculated-value-lhs">{{ TotalEV( selection.FTAround,  getGroup(i).get('Stake').value, getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value)/selection.FTAround  | currency:'GBP' }}</span>
-                        </div>
-                        <hr class="value-divider">
-                        <div class="calculated-row">
-                          <h3 class="calculated-text .calculated-text-lhs">MR: </h3>
-                          <span class="calculated-value calculated-value-lhs calculated-value-lhs">{{ NewMatchRating( getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value)  | number:'0.2-2' }}</span>
-                        </div>
-                        <hr class="value-divider">
-                        <div class="calculated-row">
-                          <h3 class="calculated-text .calculated-text-lhs">SS: </h3>
-                          <span class="calculated-value calculated-value-lhs">{{ NewSS(  getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value, getGroup(i).get('Stake').value ) | number:'0.2-2' }} %</span>
-                        </div>
                       </div>
+                    </div>
+                    <div class="calculated shadow">
+                      <div class="calculatedcontainer">
                       <!-- Comment Box -->
-                      <div class="calculated-container">
+                      <div class="calculated-container-comments">
                         <div class="comments-cont">
                           <mat-form-field tabindex="1" class="user-comments" appearance="outline">
                             <mat-label class="auto-calc-label">Match Comments</mat-label>
@@ -177,19 +154,45 @@
                           </mat-form-field>
                         </div>
                       </div>
+                      <!-- Calculated Values -->
+                      <div class="calculated-container">
+                        <div class="calculated-row">
+                          <h3 class="calculated-text calculated-text-lhs">ROI:</h3>
+                          <span class="calculated-value calculated-value-lhs">{{ ROI(getGroup(i).get('Stake').value, getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value, selection.FTAround) | number:'0.2-2'}} %</span>
+                        </div>
+                        <hr class="value-divider">
+                        <div class="calculated-row">
+                          <h3 class="calculated-text calculated-text-lhs">EV: </h3>
+                          <span class="calculated-value calculated-value-lhs">{{ TotalEV( selection.FTAround,  getGroup(i).get('Stake').value, getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value)/selection.FTAround  | currency:'GBP' }}</span>
+                        </div>
+                        <hr class="value-divider">
+                        <div class="calculated-row">
+                          <h3 class="calculated-text calculated-text-lhs">MR: </h3>
+                          <span class="calculated-value calculated-value-lhs calculated-value-lhs">{{ NewMatchRating( getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value)  | number:'0.2-2' }} %</span>
+                        </div>
+                        <hr class="value-divider">
+                        <div class="calculated-row">
+                          <h3 class="calculated-text calculated-text-lhs">QL%: </h3>
+                          <span class="calculated-value calculated-value-lhs">{{ NewSS(  getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value, getGroup(i).get('Stake').value ) | number:'0.2-2' }} %</span>
+                        </div>
+                      </div>
+                      
                       <!-- QL and record Bet -->
                       <div class="calculated-container">
                         <div class="calculated-row">
-                          <h3 class="calculated-text">Qualifying Loss: </h3>
+                          <h3 class="calculated-text calculated-value-fta-ql">FTA: </h3>
+                            <span class="calculated-value calculated-value-fta-ql"> {{ FTA(getGroup(i).get('Stake').value, getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value  ) | currency:'GBP'}}</span>
                         </div>
+                        <hr class="value-divider">
                         <div class="calculated-row">
-                          <span class="calculated-value"> {{ QL( getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value, getGroup(i).get('Stake').value) | currency:'GBP'}}  </span>
+                          <h3 class="calculated-text calculated-value-fta-ql">QL: </h3>
+                          <span class="calculated-value  calculated-value-fta-ql"> {{ QL( getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value, getGroup(i).get('Stake').value) | currency:'GBP'}}  </span>
                         </div>
                         <div class="calculated-row">
                           <button tabindex="0" mat-raised-button class="exp-button"  (click)="saveAsActiveBet(selection, i)">Record Bet</button>
                         </div>
                       </div>
-
+                    </div>
                     </div>
                   </div>
                 </div>
