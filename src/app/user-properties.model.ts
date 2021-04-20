@@ -18,6 +18,7 @@ export interface AccountDetails{
   lastName: string;
   email: string;
   quote: string;
+  password: string;
 }
 
 export interface TablePreferences {

@@ -79,6 +79,7 @@ import { PopupFormSavedBetsComponent } from './popup-form-saved-bets/popup-form-
 import { ActiveBetsComponent } from './active-bets/active-bets.component';
 import { CustomToastComponent } from './custom-toast/custom-toast.component';
 import { FilterSettingsComponent } from './filter-settings/filter-settings.component';
+import { AccountSettingsComponent } from './account-settings/account-settings.component';
 
 
 
@@ -119,7 +120,8 @@ import { FilterSettingsComponent } from './filter-settings/filter-settings.compo
     CompareFilterSettingsDirective,
     TouchItDirective,
     CustomToastComponent,
-    FilterSettingsComponent
+    FilterSettingsComponent,
+    AccountSettingsComponent
   ],
   imports: [
     AppRoutingModule,

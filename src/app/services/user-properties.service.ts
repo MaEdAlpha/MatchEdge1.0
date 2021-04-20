@@ -101,7 +101,8 @@ export class UserPropertiesService {
                  firstName: "ryan",
                  lastName: "anderson",
                  email: "juicyBets@fmail.com",
-                 quote: "giddyup"
+                 quote: "giddyup",
+                 password:"salty"
                },
 
       preferences: { userPrefferedStakes: this.userStakes,

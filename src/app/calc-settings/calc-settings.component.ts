@@ -63,7 +63,7 @@ export class CalcSettingsComponent implements OnInit {
     this.preferenceForm.valueChanges.subscribe( value => {
       this.preferenceFormChange.emit(value);
 
-    })
+    });
   }
 
   get stakes(): FormArray {
