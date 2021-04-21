@@ -57,16 +57,16 @@ export class MatchNotificationSettingsComponent implements OnInit {
                                   SelectedCommission: new FormControl(this.userPropertiesService.getUserSettings().preferences.exchangeOption.commission)
         }),
         filters: new FormGroup({
-                               MinOdds: new FormControl( this.userPropertiesService.getUserSettings().filters.viewTable.minOdds),
-                               MaxOdds: new FormControl( this.userPropertiesService.getUserSettings().filters.viewTable.maxOdds),
-                               EVI: new FormControl(this.userPropertiesService.getUserSettings().filters.viewTable.evFilterValueI),
-                               EVII: new FormControl(this.userPropertiesService.getUserSettings().filters.viewTable.evFilterValueII),
-                               MRI: new FormControl(this.userPropertiesService.getUserSettings().filters.viewTable.matchRatingFilterI),
-                               MRII: new FormControl(this.userPropertiesService.getUserSettings().filters.viewTable.matchRatingFilterII),
-                               SSI: new FormControl(this.userPropertiesService.getUserSettings().filters.viewTable.secretSauceI),
-                               SSII: new FormControl(this.userPropertiesService.getUserSettings().filters.viewTable.secretSauceII),
-                               Filter: new FormControl(this.userPropertiesService.getUserSettings().filters.viewTable.isEvSelected),
-                               Audio: new FormControl(this.userPropertiesService.getUserSettings().filters.viewTable.audioEnabled),
+                                MinOdds: new FormControl( this.userPropertiesService.getUserSettings().filters.minOdds),
+                                MaxOdds: new FormControl( this.userPropertiesService.getUserSettings().filters.maxOdds),
+                                EVI: new FormControl(this.userPropertiesService.getUserSettings().filters.evFilterValueI),
+                                EVII: new FormControl(this.userPropertiesService.getUserSettings().filters.evFilterValueII),
+                                MRI: new FormControl(this.userPropertiesService.getUserSettings().filters.matchRatingFilterI),
+                                MRII: new FormControl(this.userPropertiesService.getUserSettings().filters.matchRatingFilterII),
+                                SSI: new FormControl(this.userPropertiesService.getUserSettings().filters.secretSauceI),
+                                SSII: new FormControl(this.userPropertiesService.getUserSettings().filters.secretSauceII),
+                                Filter: new FormControl(this.userPropertiesService.getUserSettings().filters.isEvSelected),
+                                Audio: new FormControl(this.userPropertiesService.getUserSettings().filters.audioEnabled),
         })
       });
   }
@@ -78,19 +78,61 @@ export class MatchNotificationSettingsComponent implements OnInit {
 
   test(){
     console.log(this.settingsForm);
+    console.log(this.settingsForm.get('account').get('UserName').setValue('Chuckles'));
+    console.log(this.settingsForm.get('account').get('UserName').value);
+
   }
 
-  updatePreferenceChanges(value: any){
-    console.log("Change detected in parent");
-
-    console.log(value);
+  savePreferences(){
 
   }
 
   updateAccountChanges(value:any){
-    console.log("Change detected in parent");
+    this.settingsForm.controls['account'].setValue({
+      UserName: value.UserName,
+      FirstName: value.FirstName,
+      LastName: value.LastName,
+      Email: value.Email,
+      Quote: value.Quote,
+      Password: value.Password
+    });
+  }
 
-    console.log(value);
+  updatePreferenceChanges(value: any){
+    this.settingsForm.controls['preferences'].setValue({
+      PrefStake1: value.stakes[0],
+      PrefStake2: value.stakes[1],
+      PrefStake3: value.stakes[2],
+      PrefStake4: value.stakes[3],
+      PrefStake5: value.stakes[4],
+      PrefStake6: value.stakes[5],
+      PrefStake7: value.stakes[6],
+      PrefStake8: value.stakes[7],
+      PrefStake9: value.stakes[8],
+      PrefStake10: value.stakes[9],
+      SelectedFTA: value.options.FTASelected,
+      SelectedExchange: value.options.Exchange,
+      SelectedCommission: value.options.Commission
+    });
+  }
 
+  updateFilterChanges(value:any){
+    this.settingsForm.controls['filters'].setValue({
+      MinOdds: value.minOdds,
+      MaxOdds:  value.maxOdds,
+      EVI: value.evFilterValueI,
+      EVII: value.evFilterValueII,
+      MRI: value.matchRatingFilterI,
+      MRII: value.matchRatingFilterII,
+      SSI: value.secretSauceI,
+      SSII: value.secretSauceII,
+      Filter: value.isEvSelected,
+      Audio: value.isAudioEnabled
+    });
+  }
+
+  saveUserSettings(){
+    this.userPropertiesService.saveUserSettings(this.settingsForm.value);
   }
 }
+

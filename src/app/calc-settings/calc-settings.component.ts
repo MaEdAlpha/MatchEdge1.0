@@ -12,7 +12,7 @@ import { CalcSettingsService } from './calc-settings.service';
 export class CalcSettingsComponent implements OnInit {
 
   @Input() preferenceFormValues: any;
-  @Output() preferenceFormChange= new EventEmitter<any>();
+  @Output() preferenceFormValuesChange= new EventEmitter<any>();
   preferenceForm: FormGroup;
   isOpened: boolean = false;
   defaultChecked: boolean = true;
@@ -61,7 +61,7 @@ export class CalcSettingsComponent implements OnInit {
     // this.populateStakes();
 
     this.preferenceForm.valueChanges.subscribe( value => {
-      this.preferenceFormChange.emit(value);
+      this.preferenceFormValuesChange.emit(value);
 
     });
   }

@@ -4,16 +4,17 @@
     <div class="settings-options">
       <mat-tab-group mat-align-tabs="center">
         <mat-tab class="setting-content" label="Account">
-            <app-account-settings [accountFormValues]="settingsForm.value.account" (accountFormChange)="updateAccountChanges($event)"></app-account-settings>
+            <app-account-settings [accountFormValues]="settingsForm.value.account" (accountFormValuesChange)="updateAccountChanges($event)"></app-account-settings>
         </mat-tab>
         <mat-tab class="setting-content" label="Preferences">
-          <app-calc [preferenceFormValues]="settingsForm.value.preferences" (preferenceFormChange)="updatePreferenceChanges($event)"></app-calc>
+          <app-calc [preferenceFormValues]="settingsForm.value.preferences" (preferenceFormValuesChange)="updatePreferenceChanges($event)"></app-calc>
         </mat-tab>
         <mat-tab class="setting-content" label="Filters">
-          <app-filter-settings></app-filter-settings>
+          <app-filter-settings [filtersFormValues]="settingsForm.value.filters" (filtersFormValuesChange)="updateFilterChanges($event)"></app-filter-settings>
         </mat-tab>
       </mat-tab-group>
       <button (click)="test()">Parent Test</button>
+      <button (click)="saveUserSettings()">Save</button>
     </div>
   </div>
 </div>
@@ -21,81 +22,3 @@
 
 
 
-  <!-- <div class="notifContainer">
-
-
-    <div class="left-column">
-      <div class="alertsContainer">
-        <h1>Alerts & Notifications</h1>
-
-        <mat-checkbox> Minimum Match Rating %</mat-checkbox>
-        <mat-checkbox> Minimum Return %</mat-checkbox>
-        <mat-checkbox> 100/1 Trigger Odds</mat-checkbox>
-      </div>
-
-      <div class="smContainer">
-        <h1>Smarkets Settings</h1>
-        <div class="sm-commiss"> Smarkets Commission is currently set to {{smCommission}}%</div>
-        <div class="commisionEditCont"*ngIf="onEditClick">
-          <input
-            type="text"
-            [(ngModel)]="smCommission"
-            required
-            #commissionInput>
-        </div>
-      <button mat-raised-button (click)="onEditClick=!onEditClick"> Edit</button>
-      <div *ngIf="onEditClick">
-        <button mat-raised-button
-          (click)="onSaveCommission()"
-          [disabled]="!smCommission">Save</button>
-      </div>
-      </div>
-    </div>
-
-    <div class="right-column">
-
-      <form (ngSubmit)="onSubmitTrigger(triggerData)" #triggerData="ngForm">
-        <div class="triggerOddsMain">
-
-          <h1>Trigger Odds 100/1</h1>
-          <div
-            class="triggerContainerForm"
-            ngModelGroup="triggerData"
-            #triggerDataHook="ngModelGroup">
-              <div *ngFor = "let odd of triggerOdds; let i = index">
-
-                <div class="centerColumns">
-                    <label for="toStart{{i}}">{{i}}</label>
-                    <input
-                      type="text"
-                      class="triggerInput"
-                      [(ngModel)] ="odd.start"
-                      name="toStart{{+i}}"
-                      required
-                      #startHook = "ngModel" >
-                    <p id="triggerDivider">--</p>
-                    <input
-                     type="text"
-                     class="triggerInput"
-                     [(ngModel)] ="odd.finish"
-                     name="toFinish{{+i}}"
-                     required
-                     #finishHook = "ngModel">
-                    <p class="rangeVar">{{(odd.finish - odd.start).toFixed(2)}}</p>
-                </div>
-
-              </div>
-
-              <button
-               type="submit"
-               [disabled]="!triggerData.valid">Save</button>
-          </div>
-         </div>
-
-      </form>
-
-      <div class="calc-settings">
-        <app-calc></app-calc>
-      </div>
-    </div>
-  </div> -->

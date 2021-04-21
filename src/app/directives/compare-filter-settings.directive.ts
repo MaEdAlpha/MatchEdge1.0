@@ -26,7 +26,7 @@ export const evValidator: ValidatorFn = (control: AbstractControl): ValidationEr
 export const mrValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
   const mrI = control.get('matchRatingFilterI');
   const mrII = control.get('matchRatingFilterII');
-  return (mrI && mrII && +mrII.value < +mrI.value) ? {mrMismatch:true}: null
+  return (mrI && mrII && ((+mrII.value < +mrI.value) || (+mrI.value > 100) || (+mrII.value > 100))) ? {mrMismatch:true}: null
 };
 
 export const ssValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {

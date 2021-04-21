@@ -81,7 +81,6 @@ export class UserPropertiesService {
 
   //ViewTable User Preferences
   private viewTablePrefs: TablePreferences = {
-    leagueSelection: ['Get Rid of this Field'],
     timeRange: 'Today & Tomorrow',
     minOdds: '2.5',
     maxOdds: '20',
@@ -92,7 +91,6 @@ export class UserPropertiesService {
     secretSauceI: '-1.5',
     secretSauceII: '-1.2',
     isEvSelected: '1',
-    dialogDisabled: true,
     audioEnabled: true,
   };
 
@@ -110,7 +108,7 @@ export class UserPropertiesService {
                      exchangeOption: {name: 'Smarkets', commission: 2}
                    },
 
-      filters:     { viewTable: this.viewTablePrefs}
+      filters:     this.viewTablePrefs
   }
 
   constructor() { }
@@ -173,7 +171,7 @@ export class UserPropertiesService {
     console.log(formObj);
 
     this.userPrefSub.next({
-      leagueSelection: formObj.leagueSelection,
+
       timeRange: formObj.timeRange,
       minOdds: formObj.minOdds,
       maxOdds: formObj.maxOdds,
@@ -184,12 +182,11 @@ export class UserPropertiesService {
       secretSauceI: formObj.secretSauceI,
       secretSauceII: formObj.secretSauceII,
       isEvSelected: formObj.isEvSelected,
-      dialogDisabled: formObj.dialogDisabled,
       audioEnabled: formObj.audioEnabled,
     });
 
     this.viewTablePrefs = {
-      leagueSelection: formObj.leagueSelection,
+
       timeRange: formObj.timeRange,
       minOdds: formObj.minOdds,
       maxOdds: formObj.maxOdds,
@@ -200,10 +197,55 @@ export class UserPropertiesService {
       secretSauceI: formObj.secretSauceI,
       secretSauceII: formObj.secretSauceII,
       isEvSelected: formObj.isEvSelected,
-      dialogDisabled: formObj.dialogDisabled,
       audioEnabled: formObj.audioEnabled,
     }
     this.viewTablePrefSelected.emit(this.viewTablePrefs);
+  }
+
+  saveUserSettings(settingsForm){
+    console.log(settingsForm);
+    console.log(this.settings);
+    this.settings = {...this.settings, account: {
+                                                  username: settingsForm.account.UserName,
+                                                  email: settingsForm.account.Email,
+                                                  firstName: settingsForm.account.FirstName,
+                                                  lastName: settingsForm.account.LastName,
+                                                  password: settingsForm.account.Password,
+                                                  quote: settingsForm.account.quote
+                                                },
+                                        preferences: {
+                                                        userPrefferedStakes: [settingsForm.preferences.PrefStake1,
+                                                        settingsForm.preferences.PrefStake2,
+                                                        settingsForm.preferences.PrefStake3,
+                                                        settingsForm.preferences.PrefStake4,
+                                                        settingsForm.preferences.PrefStake5,
+                                                        settingsForm.preferences.PrefStake6,
+                                                        settingsForm.preferences.PrefStake7,
+                                                        settingsForm.preferences.PrefStake8,
+                                                        settingsForm.preferences.PrefStake9,
+                                                        settingsForm.preferences.PrefStake10 ],
+                                                        ftaOption: settingsForm.preferences.SelectedFTA,
+                                                        exchangeOption: { name: settingsForm.preferences.SelectedExchange, commission: settingsForm.preferences.SelectedCommission}
+                                                      },
+                                        filters:   {
+                                                    timeRange: this.viewTablePrefs.timeRange,
+                                                    minOdds: settingsForm.filters.MinOdds,
+                                                    maxOdds: settingsForm.filters.MaxOdds,
+                                                    evFilterValueI: settingsForm.filters.EVI,
+                                                    evFilterValueII: settingsForm.filters.EVII,
+                                                    matchRatingFilterI: settingsForm.filters.MRI,
+                                                    matchRatingFilterII: settingsForm.filters.MRII,
+                                                    secretSauceI: settingsForm.filters.SSI,
+                                                    secretSauceII: settingsForm.filters.SSII,
+                                                    isEvSelected: settingsForm.filters.Filter,
+                                                    audioEnabled: settingsForm.filters.Audio,
+                                                   }
+                      }
+
+                      console.log("SAVED!!!!!");
+                      console.log(this.settings);
+
+
   }
   //userPreference TablePreferences
   getUserPrefs(): Observable<TablePreferences>{
@@ -250,10 +292,6 @@ export class UserPropertiesService {
 
   getFilterSelection(): number {
     return +this.viewTablePrefs.isEvSelected;
-  }
-
-  getDialogDisabled(): boolean {
-    return this.viewTablePrefs.dialogDisabled;
   }
 
   getAudioPreferences(): boolean {

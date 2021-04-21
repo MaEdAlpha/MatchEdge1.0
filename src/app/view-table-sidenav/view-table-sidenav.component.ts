@@ -63,12 +63,11 @@ export class ViewTableSidenavComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
 
     this.prefObj = this.userPrefService.getFormValues();
-    this.dialogDisabled= this.prefObj.dialogDisabled;
+
 
     var filterValidator: ValidatorFn[] = [Validators.required, Validators.pattern("^[0-9\.\-]*$"), Validators.maxLength(7)]
 
     this.viewTableForm = new FormGroup({
-      'leagueSelection': new FormControl(this.prefObj.leagueSelection),
       'timeRange': new FormControl(this.prefObj.timeRange, filterValidator),
       'minOdds': new FormControl(this.prefObj.minOdds, filterValidator),
       'maxOdds': new FormControl(this.prefObj.maxOdds, filterValidator),
@@ -79,7 +78,7 @@ export class ViewTableSidenavComponent implements OnInit, AfterViewInit {
       'secretSauceI': new FormControl(this.prefObj.secretSauceI, filterValidator),
       'secretSauceII': new FormControl(this.prefObj.secretSauceII, filterValidator),
       'isEvSelected': new FormControl(this.prefObj.isEvSelected),
-      'dialogDisabled': new FormControl(this.prefObj.dialogDisabled),
+
     }, { validators: [oddsValidator, evValidator, mrValidator, ssValidator]});
 
     //Subscribe to update. Retrieves UserPreferences from Service. Subscribes to it.
@@ -96,7 +95,7 @@ export class ViewTableSidenavComponent implements OnInit, AfterViewInit {
       this.secretSauceII=Number(tablePref.secretSauceII);
       this.isEvSelected = tablePref.isEvSelected;
       this.evPlaceholder = this.filters[0].value == 1 ? "EV" : this.filters[1].value == 2 ? "Match Rating" : this.filters[2].value == 3 ? "Secret Sauce" : "null" ;
-      this.dialogDisabled = tablePref.dialogDisabled;
+
     });
   }
 

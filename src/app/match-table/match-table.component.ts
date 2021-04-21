@@ -91,9 +91,8 @@ import { MatCheckbox } from '@angular/material/checkbox';
 
     expandedCar: any[] = [];
     expandedSubCar: any[] = [];
-    //userPreference dialog popup
+
     //TODO add to UserPreference
-    preferenceSubscription: Subscription;
     dialogDisabled: boolean;
     displayHeaderDate: boolean = true;
 
@@ -111,7 +110,6 @@ import { MatCheckbox } from '@angular/material/checkbox';
       //INIT
       this.matches = this.matchesService.getMatches(); //fetches matches from matchesService
       this.viewSelectedDate = this.userPref.getSelectedDate();
-      this.dialogDisabled = this.userPref.getDialogDisabled();
       this.setStartEndDays(this.viewSelectedDate);
       this.ignoreList = [];
       this.tableGroups = [];
@@ -134,12 +132,6 @@ import { MatCheckbox } from '@angular/material/checkbox';
         //need to att to list on Click for it to populate
         console.log("--Matches From DB--");
          console.log(this.matches);
-      });
-
-      //UserPreferences
-      this.preferenceSubscription = this.userPref.getUserPrefs()
-      .subscribe( userPrefs => {
-        this.dialogDisabled = userPrefs.dialogDisabled;
       });
 
       //StreamChange data. Updates individual matches, where toast should be triggered.
@@ -173,7 +165,6 @@ import { MatCheckbox } from '@angular/material/checkbox';
       this.tableSubscription.unsubscribe();
       this.webSocketService.closeWebSocket();
       this.dateSubscription.unsubscribe();
-      this.preferenceSubscription.unsubscribe();
     }
 
     //Creates Group headers. Should only be called once in your code, or it resets the state of these LeagueGroupHeaders

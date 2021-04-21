@@ -101,15 +101,16 @@
             <div class="mr-filter-container">
               <div class="mr-row">
                 <div class="mr-text">
-                  Display results with a Match Rating (%) between {{viewTableForm.get('matchRatingFilterI').value}}% - 100%
+                  Display results with a Match Rating % between: <span [ngStyle]="{'color':viewTableForm.controls.matchRatingFilterI.errors ? 'red' : 'white'}">{{!viewTableForm.controls.matchRatingFilterI.errors ? (viewTableForm.get('matchRatingFilterI').value + '% - 100%') : ' Invalid entry, please enter a Match Rating % between 0-100'}}</span>
                 </div>
                 <div class="mr-input">
                   <mat-form-field appearance="fill">
                     <input
                       formControlName="matchRatingFilterI"
                       matInput
+                      required
                       placeholder= "{{ matchRatingFilterI }}">
-                      <mat-error *ngIf="viewTableForm.controls.matchRatingFilterI.errors">{{getErrorMessage()}}</mat-error>
+                      <mat-error *ngIf="viewTableForm.controls.matchRatingFilterI.errors || viewTableForm.controls.errors?.mrMismatch">{{getErrorMessage()}}</mat-error>
                   </mat-form-field>
                 </div>
               </div>
@@ -177,7 +178,7 @@
                <div *ngIf="viewTableForm.errors && (viewTableForm.touched || viewTableForm.dirty)" class="cross-validation-error-message alert alert-danger">
                 Something went wrong! Most likely the second value in your 'Secondary Filter' is less than your table view filter setting for the following fields: {{ getFormErrorMessage() }}
               </div>
-
+              <button (click)="test()">Test</button>
       </div>
     </div>
   </form>

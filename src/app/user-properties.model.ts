@@ -9,7 +9,7 @@ export interface UserSettings {
                                                 exchangeOption: { name:string, commission: number}
                                              },
 
-                                filters:     {  viewTable: TablePreferences; },
+                                filters:     TablePreferences;
                               }
 
 export interface AccountDetails{
@@ -22,7 +22,6 @@ export interface AccountDetails{
 }
 
 export interface TablePreferences {
-  leagueSelection: string[];
   timeRange: string;
   minOdds: string;
   maxOdds: string;
@@ -33,6 +32,5 @@ export interface TablePreferences {
   secretSauceI:string;
   secretSauceII:string;
   isEvSelected: string;
-  dialogDisabled: boolean;
   audioEnabled: boolean;
 }

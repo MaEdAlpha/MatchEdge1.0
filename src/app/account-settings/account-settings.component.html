@@ -5,32 +5,32 @@
 <form [formGroup]="accountForm" >
   <mat-form-field class="account-details" appearance="fill">
     <mat-label>Username:</mat-label>
-    <input type="text" formControlName="UserName" require readonly matInput placeholder="{{accountForm.get('UserName').value}}">
+    <input formControlName="UserName" required readonly matInput placeholder="{{accountForm.get('UserName').value}}">
   </mat-form-field>
 
   <mat-form-field class="account-details" appearance="fill">
     <mat-label>First name:</mat-label>
-    <input type="text" formControlName="FirstName" require matInput placeholder="{{accountForm.get('FirstName').value}}">
+    <input formControlName="FirstName" required matInput placeholder="{{accountForm.get('FirstName').value}}">
   </mat-form-field>
 
   <mat-form-field class="account-details" appearance="fill">
     <mat-label>Last name:</mat-label>
-    <input type="text" formControlName="LastName" require matInput placeholder="{{accountForm.get('LastName').value}}">
+    <input formControlName="LastName" required matInput placeholder="{{accountForm.get('LastName').value}}">
   </mat-form-field>
 
   <mat-form-field class="account-details" appearance="fill">
     <mat-label>Email:</mat-label>
-    <input type="text" formControlName="Email" require matInput placeholder="{{accountForm.get('Email').value}}">
+    <input formControlName="Email" required matInput placeholder="{{accountForm.get('Email').value}}">
   </mat-form-field>
 
   <mat-form-field class="account-details" appearance="fill">
     <mat-label>Change quote:</mat-label>
-    <input type="text" formControlName="Quote" require matInput placeholder="{{accountForm.get('Quote').value}}">
+    <input formControlName="Quote" required matInput placeholder="{{accountForm.get('Quote').value}}">
   </mat-form-field>
 
   <mat-form-field class="account-details" appearance="fill">
     <mat-label>Change Password:</mat-label>
-    <input type="text" formControlName="Password" matInput placeholder="Enter new password">
+    <input formControlName="Password" matInput placeholder="Enter new password">
   </mat-form-field>
 
 </form>

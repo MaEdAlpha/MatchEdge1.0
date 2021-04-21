@@ -26,8 +26,10 @@ export class AccountSettingsComponent implements OnInit {
       Password: new FormControl(this.accountFormValues.Password)
     });
 
-    this.accountForm.valueChanges.subscribe( value => {
+    this.accountForm.valueChanges.subscribe( (value) => {
       this.accountFormValuesChange.emit(value);
+      console.log(value);
+
     });
   }
 
