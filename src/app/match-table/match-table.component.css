@@ -34,11 +34,13 @@ mat-row {
 .OccA {
   margin-left: auto;
   margin-right: 5px;
+  padding-right: 9px;
 }
 
 .OccH {
-    margin-right: auto;
     margin-left:5px;
+    padding-left: 9px;
+    padding-right: 8px;
 }
 
 
@@ -190,16 +192,31 @@ img {
   margin-right: 10px;
 }
 
-.bookie-logo, .exchange-logo{
-  width: 30px
+.bookie-logo-home {
+  background-image: linear-gradient(to top, #fff8f8, #7a8585);
+    border-radius: 25px;
+    padding: 2px;
+    width: 34px;
+    height: 34px;
+    border: 2px #9e9c9c solid;
+    margin-left: 10%;
+    margin-top: 1px;
+    margin-bottom: 0px;
+    margin-right: 11px;
+}
+.bookie-logo-away {
+  background-image: linear-gradient(to top, #fff8f8, #7a8585);
+    border-radius: 25px;
+    padding: 2px;
+    width: 34px;
+    height: 34px;
+    border: 2px #9e9c9c solid;
+    margin-left: 12%;
+    margin-top: 1px;
+    margin-bottom: 0px;
+    margin-right: 11px;
 }
 
-.bookie-logo {
-  background-image: linear-gradient(to top, #fff8f8, #7a8585);
-  padding: 6%;
-  border-radius: 20px;
-  border: 2px #9e9c9c solid;
-}
 
 mat-header-row{
   display: none;
@@ -237,7 +254,7 @@ span.SMAway {
   color: white;
   font-size: 20px;
   font-weight: 500;
-  padding-left: 3px;
+  padding-left: 0px;
   border-radius: 5px;
 }
 
@@ -248,8 +265,9 @@ span.SMAway {
 
 .awayodds-container,
 .homeodds-container{
-  margin-left: 44%;
+  margin-left: 50px;
   max-height: 15px;
+  margin-bottom: 6px;
 }
 
 
@@ -265,8 +283,8 @@ mat-header-cell.cdk-column-FixturesDate {
 
 .fixturesDateBtn {
   width: 100%;
-  height: 45px;
-  margin-bottom: 1px;
+  height: 48px;
+  margin-bottom: 0px;
   white-space: normal;
   background: whitesmoke;
 }
@@ -300,10 +318,11 @@ mat-header-cell.cdk-column-FixturesDate {
   padding: 2px;
   margin-left: auto;
   display: inline-block;
+  padding-left: 2.5px;
 }
 .awaylogoCell {
   padding: 2px;
-  margin-right: auto;
+  margin-right: 2px;
   display: inline-block;
 }
 
@@ -338,13 +357,18 @@ button.viewCell {
   -webkit-hyphens: auto;
   hyphens: auto;
   min-height: 48px;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-size: 14px;
+  font-weight: 500;
 }
 
 /* Home | Away */
 .cdk-column-Home,
 .cdk-column-Away
 {
-  flex: 0 0 15% !important;
+  flex: 0 0 15% !important;  
+  height: 49px;
+  padding-left: 0;
 }
 /* Dates */
 .cdk-column-FixturesDate{
@@ -380,12 +404,12 @@ button.viewCell {
   -webkit-hyphens: auto;
   hyphens: auto;
   background: white;
+  padding-top: 1px;
 }
 
 .cdk-column-OccH{
   border-radius: 8px 0px 0px 8px;
-  margin-left: 0%;
-}
+  }
 
 .cdk-column-OccA{
   border-radius: 0px 8px 8px 0px;
@@ -422,19 +446,20 @@ button.viewCell {
   background-position: center;
   position: relative;
   border-radius: 5px;
+  margin-bottom: 0.5px;
 }
 
 .mat-column-BHome, .mat-column-BAway {
   background-image: url(/assets/img/b365Odds.png);
   min-height: 39px;
-  margin-left: 0px;
-  margin-right: -10px;
+  margin-left: 2px;
+  margin-right: -8px;
 }
 .mat-column-SMHome, .mat-column-SMAway {
   background-image: url(/assets/img/smOdds.png);
   min-height: 39px;
   margin-left: 0px;
-  margin-right: px;
+  margin-right: 2px;
 }
 
 

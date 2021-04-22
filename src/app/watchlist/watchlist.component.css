@@ -138,7 +138,6 @@ img {
 .mat-column-Home,
 .mat-column-Away,
 .mat-column-FixturesDate {
-  background: #fbfbfb;
   margin-bottom: 0;
   color: black;
 }
@@ -149,10 +148,15 @@ img {
   width: 60%;
 }
 
-span.home-selection, span.away-selection {
+span.home-selection{
   color: black;
   font-size: 14px;
-  padding: 0px 10px;
+  padding: 4px 63px;
+}
+span.away-selection {
+  color: black;
+  font-size: 14px;
+  padding: 4px 4px;
 }
 
 .home-selection {
@@ -163,9 +167,11 @@ span.home-selection, span.away-selection {
   float: left;
 }
 .selection-button {
+  margin-right: 0px;
   width: 100%;
-  height: 40px;
+  height: 49px;
   padding: 0;
+  border-radius: 0px 0px 0px 0px;
 }
 
 
@@ -202,14 +208,28 @@ span.SMAway{
 }
 
 
-.bookie-logo  {
+.bookie-logo-home  {
   background-image: linear-gradient(to top, #fff8f8, #7a8585);
-  border-radius: 20px;
-  padding: 3px;
-  width: 30px;
+  border-radius: 25px;
+  padding: 2px;
+  width: 34px;
+  height: 34px;
   border: 2px #9e9c9c solid;
-  margin-left: 7px;
+  margin-left: 74%;
   margin-right: 8px;
+  margin-top: 2.3px;
+}
+.bookie-logo-away  {
+  background-image: linear-gradient(to top, #fff8f8, #7a8585);
+  border-radius: 25px;
+  padding: 2px;
+  width: 34px;
+  height: 34px;
+  border: 2px #9e9c9c solid;
+  margin-left: 3%;
+  margin-right: 8px;
+  margin-top: 2.3px;
+  float: left;
 }
 
 .viewCell {
@@ -268,9 +288,13 @@ button.viewCell {
   margin-right: 0%;
 }
 /* Team Cells */
-.mat-column-Home,
+.mat-column-Home{
+  flex: 0 0 20.5% !important;
+  border-radius: 8px 0px 0px 8px;
+}
 .mat-column-Away{
   flex: 0 0 20.5% !important;
+  border-radius: 0px 8px 8px 0px;
 }
 
 /* Match Button */
@@ -327,9 +351,10 @@ button.viewCell {
 
 .fixturesDateBtn {
   width: 100%;
-  height: 48px;
+  height: 49px;
   white-space: normal;
   background: #f2f2f2  !important;
+  border-radius: 0px;
 }
 
  .fixturesDate, .fixturesTime {
@@ -380,6 +405,7 @@ button.viewCell {
   float: right;
   margin-left: auto;
   margin-right: 5px;
+  margin-top: 4.5px;
   width: 35px;
   padding: 0px;
   font-size: 15px;
@@ -390,6 +416,7 @@ button.viewCell {
   float: left;
   margin-left: 5px;
   margin-right: auto;
+  margin-top: 4.5px;
   width: 35px;
   padding: 0px;
   font-size: 15px;
@@ -399,11 +426,13 @@ button.viewCell {
 .mat-column-BHome, .mat-column-SMHome{
   margin-left: -10px;
   margin-right: 2px;
+  margin-bottom: 2px;
 }
 
 .mat-column-BAway, .mat-column-SMAway{
   margin-right: -10px;
   margin-left: 2px;
+  margin-bottom: 2px;
 }
 
 .mat-column-BHome, .mat-column-BAway {
@@ -418,11 +447,11 @@ button.viewCell {
 .homeodds-container,
 .awayodds-container {
   display: inline-flex;
-  width: 100%;
-  height: 100%;
-  max-height: 15px;
-  max-width: 100px;
-  margin-left: 10px;
+    width: 100%;
+    height: 100%;
+    max-height: 20px;
+    max-width: 100px;
+    margin-left: 5px;
 }
 .selection-notify{
   position: relative;
@@ -435,23 +464,25 @@ button.viewCell {
 
 .home-bell {
   float: left;
+  margin-right: -24px;
 }
 .away-bell {
   float:right;
-  height: 100%;
+  
 }
 .match-inactive{
   opacity: 0.8;
   background:grey;
-  max-width: 100%;
 }
 
 .odds-container{
-  border-radius: 10px 0px 0px 8px;
-  margin-left: 9px;
-  margin-right: 9px;
-  padding-top: 8px;
-  padding-bottom: 11px;
+  border-radius: 8px 0px 0px 8px;
+  margin-left: 10.5px;
+  margin-right: 10px;
+  padding-top: 9px;
+  padding-bottom: 10px;
+  padding-left: 0px;
+  padding-right: 11.5px;
 }
 
 .empty-container{

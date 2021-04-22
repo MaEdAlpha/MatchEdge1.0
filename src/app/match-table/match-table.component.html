@@ -50,13 +50,13 @@
                           <ng-container *ngIf="column.field.startsWith('Home')">
                             <div class="{{column.field}} homelogoCell team-info">
                                {{ row[column.field] }}
-                              <span class="{{column.field}} homelogoCell"> <img class="bookie-logo" src="/assets/img/fcLogo/{{row[column.field].toLowerCase().split(' ').join('-')}}.png" alt=""> </span>
+                              <span class="{{column.field}} homelogoCell"> <img class="bookie-logo-home" src="/assets/img/fcLogo/{{row[column.field].toLowerCase().split(' ').join('-')}}.png" alt=""> </span>
                             </div>
                           </ng-container>
 
                           <ng-container *ngIf="column.field.startsWith('Away') ">
                             <div class="{{column.field}} awaylogoCell team-info">
-                              <span class="{{column.field}} awaylogoCell"> <img class="bookie-logo" src="/assets/img/fcLogo/{{row[column.field].toLowerCase().split(' ').join('-')}}.png" alt=""> </span>
+                              <span class="{{column.field}} awaylogoCell"> <img class="bookie-logo-away" src="/assets/img/fcLogo/{{row[column.field].toLowerCase().split(' ').join('-')}}.png" alt=""> </span>
                               {{ row[column.field] }}
                             </div>
                           </ng-container>
