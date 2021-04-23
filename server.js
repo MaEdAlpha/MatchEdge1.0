@@ -2,7 +2,7 @@
 const app = require('./backend/app');
 const http = require('http'); //default node.js package already installed on node.js
 const debug = require('debug')('node-angular');
-const EventEmitter = require('events');
+
 
 
 const normalizePort = val => {
