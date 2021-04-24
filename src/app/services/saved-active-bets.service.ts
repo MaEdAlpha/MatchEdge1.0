@@ -67,13 +67,6 @@ export class SavedActiveBetsService {
 
   //Used strictly for Juicy. Creates a new SAB
   saveToActiveBets(sab: ActiveBet){
-    //need to emit each update so it passes any new items to the components listening.
-
-    // this.http.get("http://localhost:3000/api/user")
-    //           .subscribe( responseData => {
-      //                       console.log(responseData);
-      // });
-
       this.http.post("http://localhost:3000/api/sab", sab)
       .subscribe( (sabEntry: { _id:string}) => {
         sab.id = sabEntry._id;
@@ -81,6 +74,14 @@ export class SavedActiveBetsService {
       this.sabListChange.emit(sab);
 
     //each post made, do you retrieve the id and update it in observable? i.e get response data and add into subject this.sabUpdated.next(sab.dataPostedToDB)?
+  }
+
+  patchToActiveBets(sab:ActiveBet){
+    this.http.put("http://localhost:3000/api/sab/" + sab.id, sab)
+    .subscribe( (sabEntry) => {
+      console.log( sabEntry);
+
+    });
   }
 
   deleteSAB(sabID:string){
@@ -91,26 +92,21 @@ export class SavedActiveBetsService {
     });
   }
 
-  updateSAB(id:string):void{
-
-  }
 
 
 
   updateActiveBets(sab:ActiveBet, isEdit: boolean):void{
-    console.log("updated!");
-    console.log(sab);
 
     if(isEdit){
       //PATCH http Request needed to DB.
-      this.updateSAB(sab.id);
+      this.patchToActiveBets(sab);
       const updatedSab = this.sabArray.filter( savedBet => {
         if(savedBet.created == sab.created && savedBet.selection == sab.selection){
           savedBet = sab;
+
           return true
         }
       });
-      console.log(updatedSab);
     }else {
       this.saveToActiveBets(sab);
     }

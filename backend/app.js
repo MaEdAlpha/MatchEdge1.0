@@ -158,6 +158,38 @@ app.post('/api/sab', async(req,res) => {
   }
 });
 
+app.put('/api/sab/:id', async(req,res,next) => {
+  try{
+    const _id = new ObjectID(req.params.id);
+    const col = await client.db("JuicyClients").collection("juicy_users_sab");
+    console.log(req.body);
+    col.updateOne({ "_id": _id},
+                  { "$set": {
+                              "created": req.body.created,
+                              "fixture": req.body.fixture,
+                              "selection": req.body.selection,
+                              "stake": req.body.stake,
+                              "backOdd": req.body.backOdd,
+                              "layOdd": req.body.layOdd,
+                              "layStake": req.body.layStake,
+                              "liability": req.body.liability,
+                              "ev":req.body.ev,
+                              "mr":req.body.mr,
+                              "sauce":req.body.sauce,
+                              "fta": req.body.fta,
+                              "ql": req.body.ql,
+                              "roi": req.body.roi,
+                              "betState": req.body.betState,
+                              "pl": req.body.pl,
+                              "comment": req.body.comment }}, function(error,response){
+                                                              console.log(response);
+                                                              res.status(201).json({response});
+                                                            })
+  }catch (e) {
+
+  }
+});
+
 app.delete("/api/sab/:id", async(req,res,next) => {
   try{
     const _id = new ObjectID(req.params.id);

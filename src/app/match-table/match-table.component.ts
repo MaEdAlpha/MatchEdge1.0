@@ -120,49 +120,56 @@ import { ActiveBet } from '../models/active-bet.model';
       this.savedActiveBets = this.savedActiveBetsService.getActiveBets();
       //Subscribe to changes you want upudates on /Matches/Dates/StreamWatch/UserPreferences
 
+      //Populate Master SAB List upon loading website.
       this.sabSubscription = this.savedActiveBetsService.getsabUpdatedListener().subscribe( (sabData: any) => {
         this.savedActiveBets = sabData;
-        console.log("SABLIST");
-
+        console.log("SABLIST Populated");
         console.log(this.savedActiveBets);
-
       });
 
-      //Listense for updates to SAB. Is what dynamically populates SAB list
+      //Listense for updates to SAB. This dynamically populates SAB list.
       this.savedActiveBetsService.sabListChange.subscribe( sabUpdate => {
-        this.savedActiveBets.push(sabUpdate);
-      });
+                                                                          this.savedActiveBets.push(sabUpdate);
+                                                                        }
+                                                          );
 
+      //Listens for any DELETE requests made to DB. Returns ObjectId, and removes locally stored object.
       this.savedActiveBetsService.removeFromList.subscribe( sabId => {
-        this.savedActiveBets = this.savedActiveBets.filter( sab => {
-          if(sab.id == sabId){
-            console.log(sab.id + " Deleted!");
-            var index =  this.savedActiveBets.indexOf(sab);
-            this.savedActiveBets.splice(index,1);
-            return false;
-          } else {
-            return true;
-          }
-        })
-      })
-      //Changes to match data
-      this.matchesSub = this.matchesService.getMatchUpdateListener() //subscribe to matches for any changes.
-      .subscribe(( matchData: any) => {
-        //Takeout bad data
+                                                                      //Refreshes list to reflect removed SAB.
+                                                                        this.savedActiveBets = this.savedActiveBets
+                                                                        .filter( sab => {
+                                                                                          if(sab.id == sabId){
+                                                                                            console.log("S.A.B: " + sab.id + " Removed form DB!");
+                                                                                            var index =  this.savedActiveBets.indexOf(sab);
+                                                                                            this.savedActiveBets.splice(index,1);
+                                                                                            return false;
+                                                                                          } else {
+                                                                                            return true;
+                                                                                          }
+                                                                                        }
+                                                                              )
+                                                                      }
+                                                            );
 
-        this.matches = this.sanitizeList(matchData);
-        // Set up and clean groups
-        this.buildGroupHeaders(this.matches, 0);
-        this.cleanGroups(this.masterGroup);
-        //assign only league groups that match user selected date
-        this.setGroupsToDate(this.masterGroup);
-        this.tableGroups.forEach( group => {
-          this.dataSource.data = this.addToListOnClick(this.matches, this.tableGroups, group);
-        })
-        //need to att to list on Click for it to populate
-        console.log("--Matches From DB--");
-         console.log(this.matches);
-      });
+
+      //Initializes matches -> Selections.
+
+      this.matchesSub = this.matchesService.getMatchUpdateListener()
+      .subscribe( ( matchData: any) => {
+                                          //Takeout bad data
+                                          this.matches = this.sanitizeList(matchData);
+                                          // Set up and clean groups
+                                          this.buildGroupHeaders(this.matches, 0);
+                                          this.cleanGroups(this.masterGroup);
+                                          //assign only league groups that match user selected date
+                                          this.setGroupsToDate(this.masterGroup);
+                                          // Click League headers feature.
+                                          this.tableGroups.forEach( group => {
+                                                                              this.dataSource.data = this.addToListOnClick(this.matches, this.tableGroups, group);
+                                                                              }
+                                                                  );
+                                        }
+                 );
 
       //StreamChange data. Updates individual matches, where toast should be triggered.
      this.tableSubscription = this.matchesService.streamDataUpdate
