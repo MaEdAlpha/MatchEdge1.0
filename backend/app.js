@@ -4,6 +4,8 @@ const cors = require('cors');
 
 const app = express(); //important: app is just a chain of middleware. Funnel of functions that do things to the request. read values. manipulate...send responses etc
 const MongoClient = require("mongodb").MongoClient;
+var ObjectID = require('mongodb').ObjectID;
+
 const EventEmitter = require('events');
 
 //const connectionString = "mongodb+srv://Dan:x6RTQn5bD79QLjkJ@cluster0.uljb3.gcp.mongodb.net/MBEdge?retryWrites=true&w=majority";
@@ -102,13 +104,7 @@ app.get('/api/updates',  function(req, res) {
 
 });
 
-
-// app.get('/' , (req, res) => {
-//   res.send("Hi Ryan");
-// });
-
 //input path and middleware for executing MongoStream.
-
 
 app.get('/api/matches', async(req, res) => {
   try{
@@ -118,6 +114,7 @@ app.get('/api/matches', async(req, res) => {
    res.status(200).json({body})
   } catch (e) {
     console.log(e);
+    res.status(403).json({message:"Message to User"})
   }
 });
 
@@ -126,7 +123,6 @@ app.get('/api/user', async(req,res) => {
     const cursor = await client.db("JuicyClients").collection("juicy_users").find({});
     const matchesList = await cursor.toArray();
     let body = matchesList;
-    console.log(body);
     if(body != undefined) {res.status(200).json({body})}
   } catch (e) {
     console.log(e);
@@ -138,7 +134,6 @@ app.get('/api/user/sabs', async(req,res) => {
     const cursor = await client.db("JuicyClients").collection("juicy_users_sab").find({});
     const sabList = await cursor.toArray();
     let body = sabList;
-    console.log(body);
     res.status(200).json({body})
   } catch (e) {
     console.log(e);
@@ -146,17 +141,43 @@ app.get('/api/user/sabs', async(req,res) => {
 });
 
 app.post('/api/sab', async(req,res) => {
+
   try {
       const col = await client.db("JuicyClients").collection("juicy_users_sab");
-      const result = await col.insertOne(req.body);
-      console.log("Saved to DB!");
-      console.log(req.body);
-      res.status(200);
-      return result;
+      const result = await col.insertOne(req.body, function(error, response){
+        if(!error){
+          console.log("Succesfully written to DB!");
+          res.status(201).json({_id: response.insertedId});
+        }else{
+          console.log("Oooops, shit fucked up when writing to DB!  ");
+          res.status(404).json({error});
+        }
+      });
     }catch (e) {
     console.log(e);
   }
 });
+
+app.delete("/api/sab/:id", async(req,res,next) => {
+  try{
+    const _id = new ObjectID(req.params.id);
+    const col = await client.db("JuicyClients").collection("juicy_users_sab");
+    col.deleteOne({ _id: _id}, function(error,response){
+      if(response.deletedCount != 0){
+        res.status(201).json({deletedCount: response.deletedCount});
+      } else {
+        res.status(400).json({deletedCount: response.deletedCount})
+      }
+    });
+
+  }catch (e){
+    console.log("something went wrong when deleting");
+  }
+
+
+});
+
+
 
 // async(req, res) => {
 //   const sabEntry = req.body;

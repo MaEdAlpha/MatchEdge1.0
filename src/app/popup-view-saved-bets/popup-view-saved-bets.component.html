@@ -39,7 +39,8 @@
             <span class="sab-row-item"> <span> {{activeBet.betState ? 'Matched': 'Unmatched'}}</span></span>
 
 
-          <button mat-button (click)="editDeleteSab(activeBet, true)" class="sab-row-button popup-btn"> Edit </button>
+          <button mat-button (click)="editDeleteSab(activeBet, true); showMe(activeBet); " class="sab-row-button popup-btn"> Edit </button>
+          <button mat-button (click)="deleteSab(activeBet)" class="sab-row-button popup-btn"> Delete</button>
         </div>
       </mat-list-option>
     </mat-action-list>

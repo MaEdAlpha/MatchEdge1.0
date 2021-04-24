@@ -18,6 +18,7 @@ import { DateHandlingService } from '../services/date-handling.service';
 import { Observable } from 'rxjs';
 import { MatCheckbox } from '@angular/material/checkbox';
 import { SavedActiveBetsService } from '../services/saved-active-bets.service';
+import { ActiveBet } from '../models/active-bet.model';
 
   export class Group {
     level = 0;
@@ -50,7 +51,7 @@ import { SavedActiveBetsService } from '../services/saved-active-bets.service';
     SecondcolumnsToDisplay: string[] = ['SMHome','BHome', 'BDraw', 'BAway', 'BTTSOdds', 'B25GOdds','SMAway',  'League', 'OccH', 'OccA'];
     columnsToDisplay: string[] = this.displayedColumns.slice();
     matches: any;
-    savedActiveBets: any;
+    savedActiveBets: ActiveBet[];
     @Output() ignoreList: string[];
     matchStream: any;
     expandedElement: any[] | null;
@@ -127,9 +128,22 @@ import { SavedActiveBetsService } from '../services/saved-active-bets.service';
 
       });
 
+      //Listense for updates to SAB. Is what dynamically populates SAB list
       this.savedActiveBetsService.sabListChange.subscribe( sabUpdate => {
         this.savedActiveBets.push(sabUpdate);
+      });
 
+      this.savedActiveBetsService.removeFromList.subscribe( sabId => {
+        this.savedActiveBets = this.savedActiveBets.filter( sab => {
+          if(sab.id == sabId){
+            console.log(sab.id + " Deleted!");
+            var index =  this.savedActiveBets.indexOf(sab);
+            this.savedActiveBets.splice(index,1);
+            return false;
+          } else {
+            return true;
+          }
+        })
       })
       //Changes to match data
       this.matchesSub = this.matchesService.getMatchUpdateListener() //subscribe to matches for any changes.

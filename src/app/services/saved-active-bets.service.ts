@@ -13,11 +13,12 @@ export class SavedActiveBetsService {
   sabArrayfromDB: ActiveBet[] = [];
   private activeBetSubject = new Subject<ActiveBet>();
   sabListChange = new EventEmitter<ActiveBet>();
+  removeFromList = new EventEmitter<string>();
   public sabUpdated = new Subject<any>();
 
   constructor(private http: HttpClient) { }
 
-  getActiveBets(){
+  getActiveBets(): ActiveBet[]{
     //should be able to pass in userID to lookup all activeBets relative to the user
     this.http.get<{body:any[]}>("http://localhost:3000/api/user/sabs"
     )
@@ -57,6 +58,7 @@ export class SavedActiveBetsService {
                                               this.sabUpdated.next(savedActiveBets);
                                             }
                                             );
+    return this.sabArrayfromDB;
   }
 
   getsabUpdatedListener(): Observable<any>{
@@ -64,7 +66,7 @@ export class SavedActiveBetsService {
   }
 
   //Used strictly for Juicy. Creates a new SAB
-  saveToActiveBets(sab: ActiveBet):void{
+  saveToActiveBets(sab: ActiveBet){
     //need to emit each update so it passes any new items to the components listening.
 
     // this.http.get("http://localhost:3000/api/user")
@@ -73,23 +75,24 @@ export class SavedActiveBetsService {
       // });
 
       this.http.post("http://localhost:3000/api/sab", sab)
-      .subscribe( sabEntry => {
-        console.log("POST CREATED!!!");
-        console.log(sabEntry);
+      .subscribe( (sabEntry: { _id:string}) => {
+        sab.id = sabEntry._id;
       });
       this.sabListChange.emit(sab);
-
-      this.getActiveBets();
 
     //each post made, do you retrieve the id and update it in observable? i.e get response data and add into subject this.sabUpdated.next(sab.dataPostedToDB)?
   }
 
-  deleteSAB():void{
+  deleteSAB(sabID:string){
     //pass UID to database and remove this SAB from db
+    this.http.delete("http://localhost:3000/api/sab/" + sabID)
+    .subscribe( (data: {deletedCount: number}) => {
+      data.deletedCount == 1 ?  this.removeFromList.emit(sabID) : this.removeFromList.emit("Error");
+    });
   }
 
-  updateSAB():void{
-    //pass UID to database and update this SAB with new fields
+  updateSAB(id:string):void{
+
   }
 
 
@@ -100,6 +103,7 @@ export class SavedActiveBetsService {
 
     if(isEdit){
       //PATCH http Request needed to DB.
+      this.updateSAB(sab.id);
       const updatedSab = this.sabArray.filter( savedBet => {
         if(savedBet.created == sab.created && savedBet.selection == sab.selection){
           savedBet = sab;

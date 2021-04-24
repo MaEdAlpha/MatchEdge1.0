@@ -24,26 +24,45 @@ export class PopupViewSavedBetsComponent implements AfterViewInit {
 
       this.importedSabList = this.data.list;
 
-      this.filteredSabList = this.importedSabList.filter(sab => {
-        if (sab.selection == data.row.Selection) {
-          return true;
-        }
-      });
+      this.filteredSabList = this.filterList(data);
 
-      this.savedActiveBetService.sabListChange.subscribe( (updatedSABList:ActiveBet) => {
-        console.log("Change detected!");
-
+      //Refresh list for any newly added SAB
+      this.savedActiveBetService.sabListChange.subscribe( () => {
        this.filteredSabList = this.importedSabList.filter(sab => {
         if (sab.selection == data.row.Selection) {
           return true;
+        } else {
+          return false;
         }
       });
        this.checkIfEmpty();
        this.chRef.detectChanges();
       });
 
+      //Update list for any deleted SAB
+      this.savedActiveBetService.removeFromList.subscribe( (sabID)=> {
 
+        this.importedSabList.filter( sab => {
+          if(sab.id == sabID){
+            console.log("FOUND!!!");
+            var index = this.importedSabList.indexOf(sab);
+            this.importedSabList.splice(index, 1);
+            return true;
+          };
+        });
+
+        this.filteredSabList = this.filterList(data);
+        this.filteredSabList.length == 0 ? this.isEmptySelectionList = true : this.isEmptySelectionList = false;
+      });
     }
+
+  private filterList(data: any): ActiveBet[] {
+    return this.filteredSabList = this.importedSabList.filter(sab => {
+      if (sab.selection == data.row.Selection) {
+        return true;
+      }
+    });
+  }
 
     ngAfterViewInit(){
       this.checkIfEmpty();
@@ -59,6 +78,10 @@ export class PopupViewSavedBetsComponent implements AfterViewInit {
       this.dialogRef.close();
     }
 
+    showMe(sab:any){
+      console.log(sab);
+
+    }
     //need match State.
     onAddClick(isEdit:boolean):void {
       console.log(this.data);
@@ -114,7 +137,11 @@ export class PopupViewSavedBetsComponent implements AfterViewInit {
       dialogRef.afterClosed().subscribe( result => {
         console.log('Form closed');
 
-      })
+      });
+    }
+
+    deleteSab(activeBet: ActiveBet){
+      this.savedActiveBetService.deleteSAB(activeBet.id);
     }
 
   }
