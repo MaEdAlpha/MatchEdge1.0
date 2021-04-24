@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit, ViewChild, Input , Output, OnChanges, Simp
 import { Subscription } from 'rxjs';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { MatchesService } from '../match/matches.service';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { animate, group, state, style, transition, trigger } from '@angular/animations';
 import { WebsocketService } from '../websocket.service';
 import { Match } from '../match/match.model';
@@ -14,6 +14,7 @@ import { DateHandlingService } from '../services/date-handling.service';
 import { MatchStatusService } from '../services/match-status.service';
 import { analyzeAndValidateNgModules } from '@angular/compiler';
 import { PopupViewSavedBetsComponent } from '../popup-view-saved-bets/popup-view-saved-bets.component';
+import { ActiveBet } from '../models/active-bet.model';
 
 export class Group {
   level = 0;
@@ -44,6 +45,7 @@ export class WatchlistComponent implements OnInit, OnDestroy {
     SecondcolumnsToDisplay: string[] = ['SMHome','BHome', 'BDraw', 'BAway', 'BTTSOdds', 'B25GOdds','SMAway',  'League', 'OccH', 'OccA'];
     columnsToDisplay: string[] = this.displayedColumns.slice();
     @Input() matches: any;
+    @Input() sabList: any;
     @Output() ignoreList: string[];
     matchStream: any;
     expandedElement: any[] | null;
@@ -659,11 +661,16 @@ export class WatchlistComponent implements OnInit, OnDestroy {
   openViewBets(row:any, selection:string): void {
 
     selection == 'home' ? row.Selection = row.Home: row.Selection = row.Away;
-    const dialogRef = this.dialog.open(PopupViewSavedBetsComponent, {
-      width: '70%',
-      height: '80%',
-      data: row
-    });
+    const list: ActiveBet[] = this.sabList;
+    console.log(this.sabList);
+
+    //filtered SAB List based off selection.
+
+    const matDialogConfig = new MatDialogConfig();
+    matDialogConfig.width = '70%';
+    matDialogConfig.height ='80%';
+    matDialogConfig.data = {row, list};
+    const dialogRef = this.dialog.open(PopupViewSavedBetsComponent, matDialogConfig);
 
 
     dialogRef.afterClosed().subscribe(result => {

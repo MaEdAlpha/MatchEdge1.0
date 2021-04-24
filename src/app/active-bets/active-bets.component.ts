@@ -119,8 +119,8 @@ export class ActiveBetsComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.sabServices.sabListChange.subscribe( (sabArray: ActiveBet[]) =>{
-      this.ACTIVE_BETS = sabArray;
+    this.sabServices.sabListChange.subscribe( (sabArray: ActiveBet) =>{
+      this.ACTIVE_BETS.push(sabArray);
       this.dataSource = this.ACTIVE_BETS;
     });
   }

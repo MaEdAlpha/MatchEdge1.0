@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, Inject, Input, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 import { ActiveBet } from '../models/active-bet.model';
@@ -11,9 +11,9 @@ import { SavedActiveBetsService } from '../services/saved-active-bets.service';
   styleUrls: ['./popup-view-saved-bets.component.css']
 })
 export class PopupViewSavedBetsComponent implements AfterViewInit {
-  importedSabList: ActiveBet [] = [];
   filteredSabList: ActiveBet [] = [];
   activeBetSubscription: Subscription;
+  importedSabList: ActiveBet[] = []
   //masterList
 
   //selectionsList
@@ -22,28 +22,26 @@ export class PopupViewSavedBetsComponent implements AfterViewInit {
     @Inject(MAT_DIALOG_DATA) public data: any, private savedActiveBetService: SavedActiveBetsService, private chRef: ChangeDetectorRef) {
       //gets master list of all SAB
 
-      this.importedSabList = this.savedActiveBetService.getSabList();
+      this.importedSabList = this.data.list;
 
       this.filteredSabList = this.importedSabList.filter(sab => {
-        if (sab.selection == data.Selection) {
+        if (sab.selection == data.row.Selection) {
           return true;
         }
       });
 
-      this.savedActiveBetService.sabListChange.subscribe( updatedSABList => {
+      this.savedActiveBetService.sabListChange.subscribe( (updatedSABList:ActiveBet) => {
         console.log("Change detected!");
 
-       this.importedSabList = updatedSABList;
-
        this.filteredSabList = this.importedSabList.filter(sab => {
-        if (sab.selection == data.Selection) {
+        if (sab.selection == data.row.Selection) {
           return true;
         }
-        });
-
+      });
        this.checkIfEmpty();
        this.chRef.detectChanges();
       });
+
 
     }
 
@@ -51,8 +49,10 @@ export class PopupViewSavedBetsComponent implements AfterViewInit {
       this.checkIfEmpty();
       this.chRef.detectChanges();
     }
+
+
   private checkIfEmpty() {
-    this.filteredSabList.length == 0 ? this.isEmptySelectionList = true : this.isEmptySelectionList = false;
+    this.filteredSabList.length == 0 && this.filteredSabList != undefined ? this.isEmptySelectionList = true : this.isEmptySelectionList = false;
   }
 
     onNoClick(): void {
@@ -64,11 +64,12 @@ export class PopupViewSavedBetsComponent implements AfterViewInit {
       console.log(this.data);
 
       var activeBet: ActiveBet = {
+        id:null,
         created: Date.now(),
-        fixture: this.data.Home + " vs " + this.data.Away,
-        selection: this.data.Selection,
-        logo: this.data.Selection.toLowerCase().split(' ').join('-'),
-        matchDetail: this.data.EpochTime*1000,
+        fixture: this.data.row.Home + " vs " + this.data.row.Away,
+        selection: this.data.row.Selection,
+        logo: this.data.row.Selection.toLowerCase().split(' ').join('-'),
+        matchDetail: this.data.row.EpochTime*1000,
         stake: null,
         backOdd: null,
         layOdd: null,
@@ -81,7 +82,7 @@ export class PopupViewSavedBetsComponent implements AfterViewInit {
         ql: null,
         roi: null,
         betState:false,
-        occ: this.data.Selection == this.data.Home ? this.data.OccH: this.data.OccA,
+        occ: this.data.row.Selection == this.data.row.Home ? this.data.row.OccH: this.data.row.OccA,
         pl: null,
         comment: ' ',
         isSettled: false,

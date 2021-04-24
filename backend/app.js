@@ -10,6 +10,24 @@ const EventEmitter = require('events');
 const connectionString = "mongodb+srv://Randy:thaiMyShoe456@clusterme.lfzcj.mongodb.net/MBEdge?retryWrites=true&w=majority";
 const client = new MongoClient(connectionString, {useUnifiedTopology: true, useNewUrlParser: true});
 
+async function connectDB(client){
+
+  try {
+    await client.connect( {useUnifiedTopology: true, useNewUrlParser: true, useFindAndModify: false})
+    .then(() =>  { console.log('Connected to database!')})
+    .catch(() => { console.log('Connection failed!');});
+    // await updateMatches(client);
+    // await listDatabases(client);
+    // await showMatches(client);
+    // await showUsers(client);
+  } catch (e) {
+    console.error(e);
+  } finally {
+    // Do nothing.. do we need to close the client?
+  }
+}
+
+connectDB(client).catch(console.error);
 //Initialize changeStream for database
 const streamEmitter = new EventEmitter();
 
@@ -32,24 +50,7 @@ app.use((req, res, next) => {
     app.use(express.urlencoded({ extended: true }));
 
     //add route to handle requests for a specific path
-async function connectDB(client){
 
-  try {
-    await client.connect( {useUnifiedTopology: true, useNewUrlParser: true, useFindAndModify: false})
-    .then(() =>  { console.log('Connected to database!')})
-    .catch(() => { console.log('Connection failed!');});
-      // await updateMatches(client);
-      // await listDatabases(client);
-      // await showMatches(client);
-      // await showUsers(client);
-  } catch (e) {
-      console.error(e);
-  } finally {
-    // Do nothing.. do we need to close the client?
-  }
-}
-
-connectDB(client).catch(console.error);
 
 async function listDatabases(client) {
   databasesList = await client.db().admin().listDatabases();
@@ -125,6 +126,19 @@ app.get('/api/user', async(req,res) => {
     const cursor = await client.db("JuicyClients").collection("juicy_users").find({});
     const matchesList = await cursor.toArray();
     let body = matchesList;
+    console.log(body);
+    if(body != undefined) {res.status(200).json({body})}
+  } catch (e) {
+    console.log(e);
+  }
+});
+
+app.get('/api/user/sabs', async(req,res) => {
+  try{
+    const cursor = await client.db("JuicyClients").collection("juicy_users_sab").find({});
+    const sabList = await cursor.toArray();
+    let body = sabList;
+    console.log(body);
     res.status(200).json({body})
   } catch (e) {
     console.log(e);

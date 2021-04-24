@@ -435,6 +435,7 @@ export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
       console.log(row);
 
       var activeBet: ActiveBet = {
+        id: null,
         created: Date.now(),
         fixture: row.Fixture,
         selection: row.Selection,

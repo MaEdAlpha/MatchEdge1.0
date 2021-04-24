@@ -17,6 +17,7 @@ import { MatchStatusService } from '../services/match-status.service';
 import { DateHandlingService } from '../services/date-handling.service';
 import { Observable } from 'rxjs';
 import { MatCheckbox } from '@angular/material/checkbox';
+import { SavedActiveBetsService } from '../services/saved-active-bets.service';
 
   export class Group {
     level = 0;
@@ -49,6 +50,7 @@ import { MatCheckbox } from '@angular/material/checkbox';
     SecondcolumnsToDisplay: string[] = ['SMHome','BHome', 'BDraw', 'BAway', 'BTTSOdds', 'B25GOdds','SMAway',  'League', 'OccH', 'OccA'];
     columnsToDisplay: string[] = this.displayedColumns.slice();
     matches: any;
+    savedActiveBets: any;
     @Output() ignoreList: string[];
     matchStream: any;
     expandedElement: any[] | null;
@@ -99,11 +101,12 @@ import { MatCheckbox } from '@angular/material/checkbox';
     private matchesSub: Subscription;
     private dateSubscription: Subscription;
     private tableSubscription: Subscription;
+    private sabSubscription: Subscription;
     private firstPass = true;
     todayDate: number;
     tomorrowDate: number;
 
-    constructor(private chRef: ChangeDetectorRef, private userPref: UserPropertiesService, public datepipe: DatePipe, private sidenav: SidenavService , private matchesService: MatchesService, private webSocketService: WebsocketService, public dialog: MatDialog, private notificationBox: NotificationBoxService, private matchStatusService: MatchStatusService, private dateHandlingService: DateHandlingService) {
+    constructor(private savedActiveBetsService: SavedActiveBetsService, private chRef: ChangeDetectorRef, private userPref: UserPropertiesService, public datepipe: DatePipe, private sidenav: SidenavService , private matchesService: MatchesService, private webSocketService: WebsocketService, public dialog: MatDialog, private notificationBox: NotificationBoxService, private matchStatusService: MatchStatusService, private dateHandlingService: DateHandlingService) {
     }
 
     ngOnInit() {
@@ -113,8 +116,21 @@ import { MatCheckbox } from '@angular/material/checkbox';
       this.setStartEndDays(this.viewSelectedDate);
       this.ignoreList = [];
       this.tableGroups = [];
+      this.savedActiveBets = this.savedActiveBetsService.getActiveBets();
       //Subscribe to changes you want upudates on /Matches/Dates/StreamWatch/UserPreferences
 
+      this.sabSubscription = this.savedActiveBetsService.getsabUpdatedListener().subscribe( (sabData: any) => {
+        this.savedActiveBets = sabData;
+        console.log("SABLIST");
+
+        console.log(this.savedActiveBets);
+
+      });
+
+      this.savedActiveBetsService.sabListChange.subscribe( sabUpdate => {
+        this.savedActiveBets.push(sabUpdate);
+
+      })
       //Changes to match data
       this.matchesSub = this.matchesService.getMatchUpdateListener() //subscribe to matches for any changes.
       .subscribe(( matchData: any) => {

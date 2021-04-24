@@ -1,4 +1,5 @@
 export interface ActiveBet {
+  id:number;
   created:number;
   fixture:string;
   selection:string;

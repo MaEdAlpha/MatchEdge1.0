@@ -90,6 +90,7 @@ export class PopupFormSavedBetsComponent implements OnInit {
       this.data.activeBet.ql = this.sabFormValues.value.QL;
       this.data.activeBet.roi = this.sabFormValues.value.ROI;
       this.data.activeBet.stake = this.sabFormValues.value.Stake;
+      console.log(this.data.activeBet);
 
       this.savedActiveBetService.updateActiveBets( this.data.activeBet as ActiveBet, this.data.isEdit);
 
@@ -167,8 +168,6 @@ export class PopupFormSavedBetsComponent implements OnInit {
 
   getROI(backOdds:number, layOdds:number, stake:number):string{
     var evThisBet:number = +this.getEstValue(backOdds, layOdds, stake);
-    console.log(evThisBet);
-
     var roi = (evThisBet/stake)*100;
     this.filterValue(backOdds) == 999 ? roi = 999: roi = this.filterValue(roi);
     this.sabFormValues.get('ROI').setValue(roi.toFixed(2));

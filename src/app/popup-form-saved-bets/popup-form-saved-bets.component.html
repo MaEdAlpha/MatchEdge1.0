@@ -253,15 +253,27 @@
         </mat-form-field>
 
         <mat-form-field class="sab-values" appearance="outline">
-          <input class="auto-calc-input" formControlName="EstValue" matInput readonly placeholder="{{getEstValue( getRealtimeUpdate().get('BackOdds').value, getRealtimeUpdate().get('LayOdds').value, getRealtimeUpdate().get('Stake').value )}}">
-          <span matPrefix>£&nbsp;</span>
-          <mat-hint align="end">EV</mat-hint>
-        </mat-form-field>
-
-        <mat-form-field class="sab-values" appearance="outline">
           <input class="auto-calc-input" formControlName="ROI" matInput readonly placeholder="{{ getROI( getRealtimeUpdate().get('BackOdds').value, getRealtimeUpdate().get('LayOdds').value, getRealtimeUpdate().get('Stake').value )}}">
           <span matSuffix>%&nbsp;</span>
           <mat-hint align="end">ROI</mat-hint>
+        </mat-form-field>
+
+        <mat-form-field class="sab-values sab-values-auto-calc" appearance="outline">
+          <input class="auto-calc-input" formControlName="Sauce" matInput readonly placeholder="{{getSauce( getRealtimeUpdate().get('BackOdds').value, getRealtimeUpdate().get('LayOdds').value, getRealtimeUpdate().get('Stake').value )}}">
+          <span matPrefix>£&nbsp;</span>
+          <mat-hint align="end">SS</mat-hint>
+        </mat-form-field>
+
+        <mat-form-field class="sab-values sab-values-auto-calc" appearance="outline">
+          <input class="auto-calc-input" formControlName="MRValue" matInput readonly placeholder="{{getMatchRating( getRealtimeUpdate().get('BackOdds').value, getRealtimeUpdate().get('LayOdds').value )}}">
+          <span matPrefix>£&nbsp;</span>
+          <mat-hint align="end">MR</mat-hint>
+        </mat-form-field>
+
+        <mat-form-field class="sab-values" appearance="outline">
+          <input class="auto-calc-input" formControlName="EstValue" matInput readonly placeholder="{{getEstValue( getRealtimeUpdate().get('BackOdds').value, getRealtimeUpdate().get('LayOdds').value, getRealtimeUpdate().get('Stake').value )}}">
+          <span matPrefix>£&nbsp;</span>
+          <mat-hint align="end">EV</mat-hint>
         </mat-form-field>
       </div>
 
@@ -294,8 +306,6 @@
           </mat-form-field>
         </div>
         </form>
-        <!-- How to handle this, all in on form? -->
-        <!-- How to handle this, all in on form? -->
       </div>
 
       <div mat-dialog-actions>
