@@ -1,10 +1,10 @@
 <div class = "container">
   <div class="main-container">
     <div>
-      <form (ngSubmit)="onLogin(formData)" #formData="ngForm">
+      <form (ngSubmit)="onSignup(signUpData)" #signUpData="ngForm">
         <div id="user-data" ngModelGroup="userData" #userDataHook="ngModelGroup">
 
-          <h1>Login</h1>
+          <h1>Sign-up</h1>
             <mat-form-field class="form-group" appearance="fill">
               <mat-label for="email">E-Mail</mat-label>
               <input
@@ -66,7 +66,7 @@
 
       <p *ngIf="!userDataHook.valid && userDataHook.touched">Please fill in all fields in order to proceed with signing up.</p>
       <!-- <button mat-raised-button class="suggestUser" (click)="suggestUserName()" type="button">Suggest a Username</button> -->
-      <button mat-raised-button type="submit" [disabled]="!formData.valid">Login</button>
+      <button mat-raised-button type="submit" [disabled]="!signUpData.valid">Signup</button>
     </form>
 
   </div>

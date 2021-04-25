@@ -81,6 +81,7 @@ import { ActiveBetsComponent } from './active-bets/active-bets.component';
 import { CustomToastComponent } from './custom-toast/custom-toast.component';
 import { FilterSettingsComponent } from './filter-settings/filter-settings.component';
 import { AccountSettingsComponent } from './account-settings/account-settings.component';
+import { SignupComponent } from './auth/signup/signup.component';
 
 
 
@@ -122,7 +123,8 @@ import { AccountSettingsComponent } from './account-settings/account-settings.co
     TouchItDirective,
     CustomToastComponent,
     FilterSettingsComponent,
-    AccountSettingsComponent
+    AccountSettingsComponent,
+    SignupComponent,
   ],
   imports: [
     AppRoutingModule,
