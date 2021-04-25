@@ -31,3 +31,7 @@ img {
   padding: 5px 14px;
   border-radius: 6px;
 }
+
+.settings-img:hover {
+  opacity: 0.8;
+}

@@ -1,16 +1,16 @@
 
 const express = require('express'); //import express
 const cors = require('cors');
-
-const app = express(); //important: app is just a chain of middleware. Funnel of functions that do things to the request. read values. manipulate...send responses etc
 const MongoClient = require("mongodb").MongoClient;
-var ObjectID = require('mongodb').ObjectID;
-
-const EventEmitter = require('events');
+const ObjectID = require('mongodb').ObjectID;
 
 //const connectionString = "mongodb+srv://Dan:x6RTQn5bD79QLjkJ@cluster0.uljb3.gcp.mongodb.net/MBEdge?retryWrites=true&w=majority";
 const connectionString = "mongodb+srv://Randy:thaiMyShoe456@clusterme.lfzcj.mongodb.net/MBEdge?retryWrites=true&w=majority";
+const userRoutes = require("./routes/user");
+
 const client = new MongoClient(connectionString, {useUnifiedTopology: true, useNewUrlParser: true});
+const app = express(); //important: app is just a chain of middleware. Funnel of functions that do things to the request. read values. manipulate...send responses etc
+
 
 async function connectDB(client){
 
@@ -31,8 +31,6 @@ async function connectDB(client){
 
 connectDB(client).catch(console.error);
 //Initialize changeStream for database
-const streamEmitter = new EventEmitter();
-
 
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -205,27 +203,12 @@ app.delete("/api/sab/:id", async(req,res,next) => {
   }catch (e){
     console.log("something went wrong when deleting");
   }
-
-
 });
 
+      app.use("/api/user", userRoutes);
 
 
-// async(req, res) => {
-//   const sabEntry = req.body;
-//   console.log(sabEntry);
-//   try{
-//     const cursor = await client.db("JuicyClients").collection("juicy_users_sab").insertOne(sabEntry);
-//     const sabEntry = await cursor.toArray();
-//     let body = sabEntry;
-//     res.status(200).json({body})
-//     //pass information  that you want to insert into JuicyClient.juicy_user_data
-//   }catch (e) {
-//     console.log(e);
-//   }
-// })
-
-// //need to export this in the module.exports object.
+     //need to export this in the module.exports object.
     module.exports = app; //sends the constant app and all its middleware. import it to server.js
 
 

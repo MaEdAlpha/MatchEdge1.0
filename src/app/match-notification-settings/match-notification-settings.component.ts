@@ -76,6 +76,10 @@ export class MatchNotificationSettingsComponent implements OnInit {
     // Save all forms that have come back validated.
   }
 
+  onClickClose(){
+
+  }
+
   test(){
     console.log(this.settingsForm);
     console.log(this.settingsForm.get('account').get('UserName').setValue('Chuckles'));

@@ -1,10 +1,11 @@
 <mat-toolbar>
   <button mat-raised-button color = "primary"><span><a routerLink="/matches" routerLinkActive="mat-accent">MatchEdge</a></span></button>
-  <img src="/assets/img/jbLogo.png" alt="">
+
+    <img class="settings-img" (click)="displayNotification=!displayNotification; notificSettingsClicked(displayNotification)" src="/assets/img/jbLogo.png">
+
   <div class="button-container">
       <button mat-raised-button color="primary"><a routerLink="/login" routerLinkActive="mat-accent">Login</a></button>
       <button mat-raised-button color="primary"><a routerLink="/signup" routerLinkActive="mat-accent">Signup</a></button>
-      <button mat-raised-button color=primary (click)="displayNotification=!displayNotification; notificSettingsClicked(displayNotification)"><a> Settings </a></button>
   </div>
 </mat-toolbar>
 
