@@ -26,7 +26,7 @@ export class AppComponent {
     this.auth.user$.subscribe(
       (profile) => {
         (this.profileJson = JSON.stringify(profile, null, 2));
-        // console.log(profile);
+        console.log(this.profileJson);
         this.isAuthenticated = profile != null ?  true : false;
       }
     );

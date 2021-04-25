@@ -3,6 +3,8 @@ const express = require('express'); //import express
 const cors = require('cors');
 const MongoClient = require("mongodb").MongoClient;
 const ObjectID = require('mongodb').ObjectID;
+const jwt = require('express-jwt');
+const jwks = require('jwks-rsa');
 
 //const connectionString = "mongodb+srv://Dan:x6RTQn5bD79QLjkJ@cluster0.uljb3.gcp.mongodb.net/MBEdge?retryWrites=true&w=majority";
 const connectionString = "mongodb+srv://Randy:thaiMyShoe456@clusterme.lfzcj.mongodb.net/MBEdge?retryWrites=true&w=majority";
@@ -49,7 +51,23 @@ app.use((req, res, next) => {
     app.use(express.json());
     app.use(express.urlencoded({ extended: true }));
 
-    //add route to handle requests for a specific path
+var jwtCheck = jwt({
+      secret: jwks.expressJwtSecret({
+      cache: true,
+      rateLimit: true,
+      jwksRequestsPerMinute: 5,
+      jwksUri: 'https://dev-juicy-bets.eu.auth0.com/.well-known/jwks.json'
+}),
+    audience: 'https://juicy-bets.com',
+    issuer: 'https://dev-juicy-bets.eu.auth0.com/',
+    algorithms: ['RS256']
+});
+
+app.use(jwtCheck);
+
+app.get('/authorized', function (req, res) {
+    res.send('Secured Resource');
+});
 
 
 async function listDatabases(client) {
