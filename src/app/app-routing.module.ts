@@ -1,15 +1,17 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { AuthGuard } from '@auth0/auth0-angular';
 
 //Components
-import { LoginComponent } from './auth/login/login.component';
-import { SignupComponent } from './auth/signup/signup.component';
+import { LandingPageComponent } from './landing-page/landing-page.component';
+import { MatchNotificationSettingsComponent } from './match-notification-settings/match-notification-settings.component';
 import { MatchTableComponent } from './match-table/match-table.component';
 
 const routes: Routes = [
-  { path: 'login', component: LoginComponent },
-  { path: 'matches', component: MatchTableComponent },
-  { path: 'signup', component: SignupComponent }
+  { path: '', component: LandingPageComponent, pathMatch:'full',},
+  // { path: 'settings', component: MatchNotificationSettingsComponent},
+  { path: 'matches', component: MatchTableComponent, canActivate: [AuthGuard] },
+
 ];
 
 

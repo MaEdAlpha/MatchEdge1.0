@@ -15,7 +15,7 @@ export class HeaderComponent {
   }
 
   notificSettingsClicked(_displayNotification:boolean){
-    this.notificationSettings.emit(_displayNotification);
+      this.notificationSettings.emit(_displayNotification);
   }
 
   //TODO

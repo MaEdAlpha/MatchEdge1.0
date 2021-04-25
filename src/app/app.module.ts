@@ -9,8 +9,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { ToastrModule } from 'ngx-toastr';
 
-
-
+//Auth0
+import { AuthModule } from '@auth0/auth0-angular';
+import { environment as env } from '../environments/environment';
 //Materials
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -53,6 +54,12 @@ import { TopLayerFiltersComponent } from './top-layer-filters/top-layer-filters.
 import { WatchlistComponent } from './watchlist/watchlist.component';
 import { ViewTableSidenavComponent } from './view-table-sidenav/view-table-sidenav.component';
 import { StatusDisableDialogueComponent } from './status-disable-dialogue/status-disable-dialogue.component';
+import { SignupComponent } from './auth/signup/signup.component';
+import { AuthLoginButtonComponent } from './auth/auth-login-button/auth-login-button.component';
+import { AuthSignupButtonComponent } from './auth/auth-signup-button/auth-signup-button.component';
+import { AuthLogoutButtonComponent } from './auth/auth-logout-button/auth-logout-button.component';
+import { AuthenticationButtonComponent } from './auth/authentication-button/authentication-button.component';
+import { AuthNavComponent } from './auth/auth-nav/auth-nav.component';
 
 //Directives
 import { FlickerDataDirective } from './directives/flicker-notification.directive';
@@ -81,16 +88,10 @@ import { ActiveBetsComponent } from './active-bets/active-bets.component';
 import { CustomToastComponent } from './custom-toast/custom-toast.component';
 import { FilterSettingsComponent } from './filter-settings/filter-settings.component';
 import { AccountSettingsComponent } from './account-settings/account-settings.component';
-import { SignupComponent } from './auth/signup/signup.component';
-import { AuthModule } from '@auth0/auth0-angular';
-import { environment as env } from '../environments/environment';
-import { AuthLoginButtonComponent } from './auth/auth-login-button/auth-login-button.component';
-import { AuthSignupButtonComponent } from './auth/auth-signup-button/auth-signup-button.component';
-import { AuthLogoutButtonComponent } from './auth/auth-logout-button/auth-logout-button.component';
-import { AuthenticationButtonComponent } from './auth/authentication-button/authentication-button.component';
-import { AuthNavComponent } from './auth/auth-nav/auth-nav.component';
+import { LandingPageComponent } from './landing-page/landing-page.component';
 
-
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AuthHttpInterceptor } from '@auth0/auth0-angular';
 
 
 
@@ -136,7 +137,8 @@ import { AuthNavComponent } from './auth/auth-nav/auth-nav.component';
     AuthSignupButtonComponent,
     AuthLogoutButtonComponent,
     AuthenticationButtonComponent,
-    AuthNavComponent
+    AuthNavComponent,
+    LandingPageComponent
   ],
   imports: [
     AppRoutingModule,
@@ -165,6 +167,9 @@ import { AuthNavComponent } from './auth/auth-nav/auth-nav.component';
     RouterModule,
     AuthModule.forRoot({
       ...env.auth,
+      httpInterceptor: {
+        allowedList: [`${env.dev.serverUrl}/api/users`],
+      }
     }),
     ToastrModule.forRoot( {
       toastComponent: CustomToastComponent,
@@ -190,6 +195,11 @@ import { AuthNavComponent } from './auth/auth-nav/auth-nav.component';
                        JuicyMatchHandlingService,
                         DateHandlingService,
                           MatchStatusService,
+                          {
+                            provide: HTTP_INTERCEPTORS,
+                            useClass:AuthHttpInterceptor,
+                            multi:true,
+                          }
   ],
 
   bootstrap: [AppComponent]

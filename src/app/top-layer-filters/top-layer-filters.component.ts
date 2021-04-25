@@ -7,6 +7,9 @@ import { SidenavService } from '../view-table-sidenav/sidenav.service';
 import { Subscription } from 'rxjs';
 import { NotificationBoxService } from '../services/notification-box.service';
 import { JuicyMatchHandlingService } from '../juicy-match/juicy-match-handling.service';
+import { HttpClient } from '@angular/common/http';
+import { environment as env } from '../../environments/environment';
+import { UserSettings } from '../user-properties.model';
 
 interface DateOptions {
   value: string;
@@ -31,7 +34,7 @@ export class TopLayerFiltersComponent implements OnInit, OnChanges {
 
   private userClickSubscription: Subscription;
 
-  constructor( private userPref: UserPropertiesService, private juicyMatchHandlingService: JuicyMatchHandlingService, private dateHandlingService: DateHandlingService, private notificationService: NotificationBoxService) { }
+  constructor( private http: HttpClient, private userPref: UserPropertiesService, private juicyMatchHandlingService: JuicyMatchHandlingService, private dateHandlingService: DateHandlingService, private notificationService: NotificationBoxService) { }
 
       //first layer filter
       viewThisDate:string;
@@ -115,6 +118,12 @@ export class TopLayerFiltersComponent implements OnInit, OnChanges {
     var message: string =  "</br>" + "Ryan Jessup " + "</br> Back: " + "20" + "</br> Lay: " + "21";
     var title: string = "Ryan vs. Bryan";
     this.notificationService.showToast(message, title);
+    this.http
+    .get(`${env.dev.serverUrl}/api/users`)
+    .subscribe( (responseData: {body:UserSettings}) => {
+                console.log(responseData.body[0]);
+    });
+
   }
 }
 

@@ -7,7 +7,7 @@
   <ng-template #loaded>
     <app-header (notificationSettings)="displayPanel($event)" ></app-header>
     <hr>
-    <div *ngIf="_displayNotification">
+    <div *ngIf="_displayNotification && isAuthenticated">
       <app-match-notification-settings ></app-match-notification-settings>
     </div>
 

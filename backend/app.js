@@ -116,7 +116,7 @@ app.get('/api/matches', async(req, res) => {
   }
 });
 
-app.get('/api/user', async(req,res) => {
+app.get('/api/users', async(req,res) => {
   try{
     const cursor = await client.db("JuicyClients").collection("juicy_users").find({});
     const matchesList = await cursor.toArray();

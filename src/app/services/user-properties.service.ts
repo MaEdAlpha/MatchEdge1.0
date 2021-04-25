@@ -6,6 +6,9 @@ import { CalcSettingsService } from '../calc-settings/calc-settings.service';
 import { TriggerOdds } from '../match-notification-settings/trigger-odds.model';
 import { NotificationBoxService } from './notification-box.service';
 import { TablePreferences, UserSettings } from '../user-properties.model';
+import { HttpClient } from '@angular/common/http';
+import { environment as env } from '../../environments/environment';
+
 
 @Injectable({
   providedIn: 'root'
@@ -111,11 +114,10 @@ export class UserPropertiesService {
       filters:     this.viewTablePrefs
   }
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
 
   getUserSettings(): UserSettings {
     //http GET request to retrieve user properties from DB;
-    // assign to settings: UserSettings.
 
     return  this.settings;
   }

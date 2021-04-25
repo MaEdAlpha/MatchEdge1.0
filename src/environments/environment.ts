@@ -1,4 +1,4 @@
-import { domain, clientId } from '../../auth_config.json';
+import { domain, clientId, audience, serverUrl  } from '../../auth_config.json';
 
 export const environment = {
   production: false,
@@ -6,5 +6,9 @@ export const environment = {
     domain,
     clientId,
     redirectUri: window.location.origin,
+    audience,
+  },
+  dev: {
+    serverUrl,
   },
 };

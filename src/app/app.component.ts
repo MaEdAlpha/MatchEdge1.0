@@ -14,7 +14,8 @@ export class AppComponent {
   title = 'JuicyBets';
   storedMatches: any;
   _displayNotification:boolean;
-
+  profileJson: string= null;
+  isAuthenticated: boolean;
 
   constructor(public auth: AuthService) {
 
@@ -22,11 +23,15 @@ export class AppComponent {
 
   ngOnInit(){
 
+    this.auth.user$.subscribe(
+      (profile) => {
+        (this.profileJson = JSON.stringify(profile, null, 2));
+        // console.log(profile);
+        this.isAuthenticated = profile != null ?  true : false;
+      }
+    );
   }
 
-  onMatchAdded(){
-
-  }
 
   displayPanel(event: boolean){
     this._displayNotification = event;
