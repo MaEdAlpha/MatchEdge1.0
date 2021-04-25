@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-
+import { AuthService } from '@auth0/auth0-angular';
 
 @Component({
   selector: 'app-account-settings',
@@ -10,10 +10,11 @@ import { FormControl, FormGroup } from '@angular/forms';
 export class AccountSettingsComponent implements OnInit {
   @Input() accountFormValues: any;
   @Output() accountFormValuesChange = new EventEmitter<any>();
-
+  profileJson: string = null;
   accountForm: FormGroup;
 
-  constructor() { }
+  constructor(public auth: AuthService) {}
+
 
   ngOnInit(): void {
 
@@ -31,6 +32,10 @@ export class AccountSettingsComponent implements OnInit {
       console.log(value);
 
     });
+
+    this.auth.user$.subscribe(
+      (profile) => (this.profileJson = JSON.stringify(profile, null, 2))
+    );
   }
 
 

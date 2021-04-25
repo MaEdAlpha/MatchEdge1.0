@@ -82,6 +82,13 @@ import { CustomToastComponent } from './custom-toast/custom-toast.component';
 import { FilterSettingsComponent } from './filter-settings/filter-settings.component';
 import { AccountSettingsComponent } from './account-settings/account-settings.component';
 import { SignupComponent } from './auth/signup/signup.component';
+import { AuthModule } from '@auth0/auth0-angular';
+import { environment as env } from '../environments/environment';
+import { AuthLoginButtonComponent } from './auth/auth-login-button/auth-login-button.component';
+import { AuthSignupButtonComponent } from './auth/auth-signup-button/auth-signup-button.component';
+import { AuthLogoutButtonComponent } from './auth/auth-logout-button/auth-logout-button.component';
+import { AuthenticationButtonComponent } from './auth/authentication-button/authentication-button.component';
+import { AuthNavComponent } from './auth/auth-nav/auth-nav.component';
 
 
 
@@ -125,6 +132,11 @@ import { SignupComponent } from './auth/signup/signup.component';
     FilterSettingsComponent,
     AccountSettingsComponent,
     SignupComponent,
+    AuthLoginButtonComponent,
+    AuthSignupButtonComponent,
+    AuthLogoutButtonComponent,
+    AuthenticationButtonComponent,
+    AuthNavComponent
   ],
   imports: [
     AppRoutingModule,
@@ -151,6 +163,9 @@ import { SignupComponent } from './auth/signup/signup.component';
     MatTooltipModule,
     ReactiveFormsModule,
     RouterModule,
+    AuthModule.forRoot({
+      ...env.auth,
+    }),
     ToastrModule.forRoot( {
       toastComponent: CustomToastComponent,
       timeOut: 10000,

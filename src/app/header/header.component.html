@@ -3,9 +3,10 @@
 
     <img class="settings-img" (click)="displayNotification=!displayNotification; notificSettingsClicked(displayNotification)" src="/assets/img/jbLogo.png">
 
-  <div class="button-container">
-      <button mat-raised-button color="primary"><a routerLink="/login" routerLinkActive="mat-accent">Login</a></button>
-      <button mat-raised-button color="primary"><a routerLink="/signup" routerLinkActive="mat-accent">Signup</a></button>
+    <div class="button-container">
+      <app-auth-nav></app-auth-nav>
+      <!-- <button mat-raised-button color="primary"><a routerLink="/login" routerLinkActive="mat-accent">Login</a></button>
+      <button mat-raised-button color="primary"><a routerLink="/signup" routerLinkActive="mat-accent">Signup</a></button> -->
   </div>
 </mat-toolbar>
 

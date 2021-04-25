@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AuthService } from '@auth0/auth0-angular';
 import { Subscription } from 'rxjs';
 import { Match } from './match/match.model';
 import { MatchesService } from './match/matches.service';
@@ -10,12 +11,12 @@ import { SavedActiveBetsService } from './services/saved-active-bets.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'MatchEdge';
+  title = 'JuicyBets';
   storedMatches: any;
   _displayNotification:boolean;
 
 
-  constructor(){
+  constructor(public auth: AuthService) {
 
   }
 
