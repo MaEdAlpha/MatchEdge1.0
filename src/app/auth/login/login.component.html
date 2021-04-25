@@ -1,6 +1,6 @@
 <h1>Login Page</h1>
 <div class = "container">
-  <div class="row">
+  <div class="main-container">
     <div>
       <form (ngSubmit)="onSubmit(formData)" #formData="ngForm">
         <div
@@ -8,54 +8,60 @@
          ngModelGroup="userData"
          #userDataHook="ngModelGroup">
 
-          <div class="form-group">
-            <label for="username"> Username</label>
-            <input
-              type="text"
-              id="username"
-              class="form-control"
-              ngModel
-              name="username"
-              required
-              #usernameHook = "ngModel">
-          </div>
+            <mat-form-field class="form-group" appearance="fill">
+              <mat-label for="username"> Username</mat-label>
+              <input
+                type="text"
+                id="username"
+                class="form-control"
+                matInput
+                ngModel
+                name="username"
+                required
+                #usernameHook = "ngModel">
+            </mat-form-field>
 
-          <div class="form-group">
-            <label for="email">Mail</label>
+
+          <mat-form-field class="form-group" appearance="fill">
+            <mat-label for="email">Mail</mat-label>
             <input
             type="email"
             id="email"
             class="form-control"
+            matInput
             ngModel
             name="email"
             required
             email
             #emailHook="ngModel">
-          </div>
+          </mat-form-field>
           <p *ngIf="!emailHook.pristine && emailHook.status === 'INVALID' && emailHook.touched">Please enter a correct username and email address!</p>
         </div>
 
-        <div class="form-group">
+        <mat-form-field class="form-group" appearance="outline">
 
-          <label for="secret">Secret Question</label>
-          <select
+          <mat-label for="secret">Secret Question</mat-label>
+          <mat-select
           id="secret"
           class="form-control"
           [ngModel]="defaultQuestion"
+          matInput
           name="secret"
           required>
-          <option value="location">Your favorite place</option>
-          <option value="teacher">Your favorite teacher</option>
-        </select>
+          <mat-option value="location">Your favorite place</mat-option>
+          <mat-option value="teacher">Your favorite teacher</mat-option>
+        </mat-select>
 
-      </div>
-      <div class="form-group">
+        </mat-form-field>
+      <mat-form-field class="form-group" appearance="fill">
         <textarea
         name="questionAnswer"
         rows="3"
+        matInput
+        placeholder="Answer:"
         [(ngModel)]="answer"></textarea>
         <p>You entered: {{ answer }}</p>
-      </div>
+      </mat-form-field>
 
       <p *ngIf="!userDataHook.valid && userDataHook.touched">Please fill in all fields in order to proceed with signing up.</p>
       <button mat-raised-button class="suggestUser" (click)="suggestUserName()" type="button">Suggest a Username</button>

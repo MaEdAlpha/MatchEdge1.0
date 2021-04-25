@@ -1,5 +1,6 @@
 //Modules
 import { NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
 import { AppRoutingModule } from './app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
@@ -41,7 +42,7 @@ import { AppComponent } from './app.component';
 import { CalcSettingsComponent } from './calc-settings/calc-settings.component';
 import { HeaderComponent } from './header/header.component';
 import { JuicyMatchComponent } from './juicy-match/juicy-match.component';
-import { LoginComponent } from './login/login.component';
+import { LoginComponent } from './auth/login/login.component';
 import { MatchComponent } from './match/match.component';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatchNotificationSettingsComponent } from './match-notification-settings/match-notification-settings.component';
@@ -147,6 +148,7 @@ import { AccountSettingsComponent } from './account-settings/account-settings.co
     MatToolbarModule,
     MatTooltipModule,
     ReactiveFormsModule,
+    RouterModule,
     ToastrModule.forRoot( {
       toastComponent: CustomToastComponent,
       timeOut: 10000,

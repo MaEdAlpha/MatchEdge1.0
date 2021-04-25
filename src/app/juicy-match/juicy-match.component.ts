@@ -49,7 +49,6 @@ export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
   selectionValues: FormGroup;
   //Icon properties
   isDisplayHidden: boolean = true;
-  private individualMatchesSub: Subscription;
   private dateSubscription: Subscription;
   private streamSub: Subscription;
   private clearJuicySubscription: Subscription;
@@ -196,7 +195,7 @@ export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
   }
 
   ngOnDestroy() {
-    this.individualMatchesSub.unsubscribe();
+
     this.streamSub.unsubscribe();
     // this.matchStatService.clear();
     this.clearJuicySubscription.unsubscribe();

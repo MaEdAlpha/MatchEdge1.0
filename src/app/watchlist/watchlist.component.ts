@@ -695,8 +695,8 @@ export class WatchlistComponent implements OnInit, OnDestroy {
     this.displayList.forEach( rowData => {
       if(rowData.level == undefined){
         console.log(rowData);
-        rowData.HStatus.notify = rowData.BHome > this.userPref.getMinOdds() ? true : false;
-        rowData.AStatus.notify = rowData.BAway > this.userPref.getMinOdds() ? true : false;
+        rowData.HStatus.notify = rowData.BHome >= this.userPref.getMinOdds() ? true : false;
+        rowData.AStatus.notify = rowData.BAway >= this.userPref.getMinOdds() ? true : false;
         this.updateMatchStatusList(rowData, true);
         this.updateMatchStatusList(rowData,false);
       }

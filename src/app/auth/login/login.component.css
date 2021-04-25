@@ -2,10 +2,12 @@ h1, label, p{
   color:white;
 }
 
-.row  {
-  border: royalblue 1px solid;
+.main-container  {
+  background: #37474f;
   margin-left: auto;
-  margin-right:auto;
+  margin-right: auto;
+  border-radius: 10px;
+  padding: 100px;
   width: 50%;
   height: 100%;
 }
@@ -18,7 +20,8 @@ input, select {
 }
 .container {
   border: white 1px solid;
-  height: 500px;
+  padding: 100px;
+  height: 100%;
   display: flex;
   margin: 2rem 0;
   justify-content: flex-start;
@@ -40,14 +43,22 @@ label {
   text-align: right;
 }
 
+mat-label{
+  color: white;
+}
+
+input {
+  color: white;
+}
+
+.mat-select-value-text, .mat-select-min-line, ::ng-deep.mat-select-value {
+  color: white !important;
+}
 button {
   display: inline;
   margin-left: 70%;
 }
 
-input.ng-invalid.ng-touched, select.ng-invalid.ng-touched {
-  border: red 2px solid;
-}
 
 textarea{
     margin-top: 40px;

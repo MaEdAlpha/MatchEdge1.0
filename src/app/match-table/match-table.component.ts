@@ -32,7 +32,6 @@ import { ActiveBet } from '../models/active-bet.model';
   }
 
   @Component({
-    selector: 'app-match-table',
     templateUrl: './match-table.component.html',
     styleUrls: ['./match-table.component.css'],
     animations: [
