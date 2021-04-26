@@ -2,6 +2,7 @@ import { CalcSettings } from './calc-settings/calc-settings.model';
 
 //This will store userSelected properties into a DB. Will GET at initial login, and update settings
 export interface UserSettings {
+                                juicyId: string;
                                 account: AccountDetails,
 
                                 preferences: {  userPrefferedStakes: CalcSettings[];
@@ -18,7 +19,6 @@ export interface AccountDetails{
   lastName: string;
   email: string;
   quote: string;
-  password: string;
 }
 
 export interface TablePreferences {

@@ -167,8 +167,11 @@ import { AuthHttpInterceptor } from '@auth0/auth0-angular';
     RouterModule,
     AuthModule.forRoot({
       ...env.auth,
+       // Request this scope at user authentication time
       httpInterceptor: {
-        allowedList: [`${env.dev.serverUrl}/api/users`],
+        allowedList: [
+                      `${env.dev.serverUrl}/api/updates`,
+                     ],
       }
     }),
     ToastrModule.forRoot( {

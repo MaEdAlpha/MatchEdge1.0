@@ -6,7 +6,7 @@ import { CalcSettingsService } from '../calc-settings/calc-settings.service';
 import { TriggerOdds } from '../match-notification-settings/trigger-odds.model';
 import { NotificationBoxService } from './notification-box.service';
 import { TablePreferences, UserSettings } from '../user-properties.model';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment as env } from '../../environments/environment';
 
 
@@ -98,12 +98,12 @@ export class UserPropertiesService {
   };
 
   private settings: UserSettings = {
+      juicyId: "ObjectId(xxxx)",
       account: { username: "chaarlie",
                  firstName: "ryan",
                  lastName: "anderson",
                  email: "juicyBets@fmail.com",
                  quote: "giddyup",
-                 password:"salty"
                },
 
       preferences: { userPrefferedStakes: this.userStakes,
@@ -117,9 +117,18 @@ export class UserPropertiesService {
   constructor(private http: HttpClient) { }
 
   getUserSettings(): UserSettings {
-    //http GET request to retrieve user properties from DB;
 
     return  this.settings;
+  }
+
+  getSettings(email:string): void {
+    //http GET request to retrieve user properties from DB;
+    var data: {email: string} = {email: email};
+
+    this.http.put<{body: any[]}>("http://localhost:3000/api/connect", data).subscribe( body => {
+      console.log(body);
+      //pass id to new route to  return user user settings && all saved active bets.
+    });
   }
 
   getCommission(){
@@ -212,7 +221,6 @@ export class UserPropertiesService {
                                                   email: settingsForm.account.Email,
                                                   firstName: settingsForm.account.FirstName,
                                                   lastName: settingsForm.account.LastName,
-                                                  password: settingsForm.account.Password,
                                                   quote: settingsForm.account.quote
                                                 },
                                         preferences: {

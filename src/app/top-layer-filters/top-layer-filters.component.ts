@@ -118,8 +118,9 @@ export class TopLayerFiltersComponent implements OnInit, OnChanges {
     var message: string =  "</br>" + "Ryan Jessup " + "</br> Back: " + "20" + "</br> Lay: " + "21";
     var title: string = "Ryan vs. Bryan";
     this.notificationService.showToast(message, title);
+
     this.http
-    .get(`${env.dev.serverUrl}/api/users`)
+    .get(`${env.dev.serverUrl}/api/user-settings`)
     .subscribe( (responseData: {body:UserSettings}) => {
                 console.log(responseData.body[0]);
     });

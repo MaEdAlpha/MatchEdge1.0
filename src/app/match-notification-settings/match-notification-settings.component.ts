@@ -39,7 +39,7 @@ export class MatchNotificationSettingsComponent implements OnInit {
                                 LastName: new FormControl(this.userPropertiesService.getUserSettings().account.lastName),
                                 Email: new FormControl(this.userPropertiesService.getUserSettings().account.email),
                                 Quote: new FormControl(this.userPropertiesService.getUserSettings().account.quote),
-                                Password: new FormControl(this.userPropertiesService.getUserSettings().account.password)
+
         }),
         preferences:new FormGroup({
                                   PrefStake1: new FormControl(this.userPropertiesService.getUserSettings().preferences.userPrefferedStakes[0].stake),
