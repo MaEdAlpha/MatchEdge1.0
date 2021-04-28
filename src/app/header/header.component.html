@@ -1,5 +1,5 @@
 <mat-toolbar>
-  <button mat-raised-button color = "primary"><span><a routerLink="/matches" routerLinkActive="mat-accent">MatchEdge</a></span></button>
+  <button mat-raised-button (click)="test()" color = "primary"><span><a routerLink="/matches" routerLinkActive="mat-accent">MatchEdge</a></span></button>
 
   <a><img class="settings-img" (click)="displayNotification=!displayNotification; notificSettingsClicked(displayNotification)" src="/assets/img/jbLogo.png"></a>
 

@@ -20,7 +20,7 @@ export class SavedActiveBetsService {
 
   getActiveBets(): ActiveBet[]{
     //should be able to pass in userID to lookup all activeBets relative to the user
-    this.http.get<{body:any[]}>("http://localhost:3000/api/user/sabs")
+    this.http.get<{body:any[]}>("http://localhost:3000/api/sab/sabs")
     .pipe(map( (mappedSAB) => {
       return mappedSAB.body.map((sab) => {
                                                 return {

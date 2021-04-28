@@ -35,15 +35,15 @@ export class AppComponent {
           - if the email in the profile does not exist, create a new UserSettings Model with
           -
         */
-        this.isAuthenticated ? this.getUserSettings(profile.email) : '';
+        this.isAuthenticated ? this.getUserSettings(profile.email, profile.sub) : '';
       }
     );
   }
 
-  getUserSettings(userEmail: string):void {
+  getUserSettings(userEmail: string, sub:string):void {
     console.log("Going to service: " + userEmail);
 
-    this.userPropertiesService.getSettings(userEmail);
+    this.userPropertiesService.getSettings(userEmail, sub);
   }
   displayPanel(event: boolean){
     this._displayNotification = event;

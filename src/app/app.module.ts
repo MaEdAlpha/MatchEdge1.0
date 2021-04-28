@@ -8,6 +8,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { ToastrModule } from 'ngx-toastr';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AuthInterceptor } from './auth/auth-interceptor';
 
 //Auth0
 import { AuthModule } from '@auth0/auth0-angular';
@@ -90,8 +92,6 @@ import { FilterSettingsComponent } from './filter-settings/filter-settings.compo
 import { AccountSettingsComponent } from './account-settings/account-settings.component';
 import { LandingPageComponent } from './landing-page/landing-page.component';
 
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { AuthHttpInterceptor } from '@auth0/auth0-angular';
 
 
 
@@ -170,7 +170,7 @@ import { AuthHttpInterceptor } from '@auth0/auth0-angular';
        // Request this scope at user authentication time
       httpInterceptor: {
         allowedList: [
-                      `${env.dev.serverUrl}/api/updates`,
+                      '${env.dev.serverUrl}'
                      ],
       }
     }),
@@ -199,9 +199,10 @@ import { AuthHttpInterceptor } from '@auth0/auth0-angular';
                         DateHandlingService,
                           MatchStatusService,
                           {
+                            //Injecting authToken into req.headers, nee to provide an injectable
                             provide: HTTP_INTERCEPTORS,
-                            useClass:AuthHttpInterceptor,
-                            multi:true,
+                            useClass: AuthInterceptor,
+                            multi: true,
                           }
   ],
 

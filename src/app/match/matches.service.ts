@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, Subject } from "rxjs";
 import { map } from 'rxjs/operators'
 import { Injectable, EventEmitter } from '@angular/core';
+import { UserPropertiesService } from '../services/user-properties.service';
 
 
 
@@ -17,7 +18,6 @@ export class MatchesService {
   constructor(private http: HttpClient) {}
   //TODO update all Emitters to Observables
   getMatches() {
-
     this.http
       .get<{body: any[]}> (
         "http://localhost:3000/api/matches"

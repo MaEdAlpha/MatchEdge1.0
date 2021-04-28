@@ -1,7 +1,7 @@
-//need to import http package from node.js
-const app = require('./backend/app');
+
 const http = require('http'); //default node.js package already installed on node.js
 const debug = require('debug')('node-angular');
+const app = require('./backend/app');
 
 
 
@@ -56,46 +56,3 @@ server.on("error", onError);
 server.on("listening", onListening);
 //set port you want to host server at. for now, we do localhost 3000
 server.listen(port);
-
-// create a server constant (without app express. Example of the most basic server)
-
-                          // const server = http.createServer((req, res) => {
-                          //   res.end('My First Response');
-                          // });
-
-
-
-                          // 'use strict';
-
-                          // const express = require('express');
-                          // const path = require('path');
-                          // const { createServer } = require('http');
-
-                          // const WebSocket = require('ws');
-
-                          // const app = express();
-                          // app.use(express.static(path.join(__dirname, '/public')));
-
-                          // const server = createServer(app);
-                          // const wss = new WebSocket.Server({ server });
-
-                          // wss.on('connection', function (ws) {
-                          //   const id = setInterval(function () {
-                          //     ws.send(JSON.stringify(process.memoryUsage()), function () {
-                          //       //
-                          //       // Ignore errors.
-                          //       //
-                          //     });
-                          //   }, 100);
-                          //   console.log('started client interval');
-
-                          //   ws.on('close', function () {
-                          //     console.log('stopping client interval');
-                          //     clearInterval(id);
-                          //   });
-                          // });
-
-                          // server.listen(3000, function () {
-                          //   console.log('Listening on http://localhost:3000');
-                          // });
-

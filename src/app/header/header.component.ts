@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import {RouterModule} from '@angular/router';
+import { UserPropertiesService } from '../services/user-properties.service';
 
 @Component({
   selector: 'app-header',
@@ -7,6 +8,7 @@ import {RouterModule} from '@angular/router';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent {
+  constructor(private userService: UserPropertiesService){}
   @Output() notificationSettings = new EventEmitter<boolean>();
   displayNotification: boolean;
 
@@ -18,6 +20,9 @@ export class HeaderComponent {
       this.notificationSettings.emit(_displayNotification);
   }
 
+  test(){
+    console.log(this.userService.getToken());
+  }
   //TODO
   // Add attribute directive to listen for ESC key to change displayNotificatin to false
 }

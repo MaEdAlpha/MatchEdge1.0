@@ -8,6 +8,7 @@ import { NotificationBoxService } from './notification-box.service';
 import { TablePreferences, UserSettings } from '../user-properties.model';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment as env } from '../../environments/environment';
+import { map } from 'rxjs/operators';
 
 
 @Injectable({
@@ -18,9 +19,12 @@ export class UserPropertiesService {
   triggerOddsSelected = new EventEmitter<TriggerOdds[]>();
   //for sending to JuicyTable Filter method
   viewTablePrefSelected = new EventEmitter<any>();
+  userToken = new EventEmitter<string>();
   userPrefSub = new Subject<TablePreferences>();
+  tokenSubscription = new Subject<string>();
   private lockAudio:boolean = true;
   private smCommission:number = 2.05;
+  private token: string;
 
   private defaultOdds: TriggerOdds[] = [
                                         {start: 9.99, finish: 9.99 },
@@ -121,14 +125,19 @@ export class UserPropertiesService {
     return  this.settings;
   }
 
-  getSettings(email:string): void {
+  getSettings(email:string, sub:string): void {
     //http GET request to retrieve user properties from DB;
-    var data: {email: string} = {email: email};
-
-    this.http.put<{body: any[]}>("http://localhost:3000/api/connect", data).subscribe( body => {
-      console.log(body);
-      //pass id to new route to  return user user settings && all saved active bets.
+    var data: {email: string, sub: string} = {email: email, sub:sub};
+    var userData;
+    this.http.put<{body: any[]}>("http://localhost:3000/api/user/connect", data)
+    .subscribe( (body) => {
+                            userData = body;
+                            this.token = userData.token;
+                            this.tokenSubscription.next(userData.token);
+                            console.log(body);
+                            this.settings = userData.userDetails;
     });
+
   }
 
   getCommission(){
@@ -152,6 +161,13 @@ export class UserPropertiesService {
     return this.userStakes;
   }
 
+  getToken(){
+    return this.token;
+  }
+
+  getUserToken():Observable<string>{
+    return this.tokenSubscription.asObservable();
+  }
   accessDefaultStakes() {
     return this.defaultStakes;
   }
