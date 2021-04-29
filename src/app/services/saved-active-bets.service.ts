@@ -1,8 +1,9 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { EventEmitter, Injectable } from '@angular/core';
 import { Subject, Observable, Subscription} from 'rxjs';
 import { ActiveBet } from '../models/active-bet.model';
 import { map } from 'rxjs/operators'
+import { UserPropertiesService } from './user-properties.service';
 
 @Injectable({
   providedIn: 'root'
@@ -16,11 +17,14 @@ export class SavedActiveBetsService {
   removeFromList = new EventEmitter<string>();
   public sabUpdated = new Subject<any>();
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private userPropService: UserPropertiesService) { }
 
   getActiveBets(): ActiveBet[]{
     //should be able to pass in userID to lookup all activeBets relative to the user
-    this.http.get<{body:any[]}>("http://localhost:3000/api/sab/sabs")
+    var customParams: HttpParams = new HttpParams().append('juId', this.userPropService.getUserId());
+    console.log(customParams);
+
+    this.http.get<{body:any[]}>("http://localhost:3000/api/sab/sabs",  {params:customParams})
     .pipe(map( (mappedSAB) => {
       return mappedSAB.body.map((sab) => {
                                                 return {

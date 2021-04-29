@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs';
 import { ActiveBet } from '../models/active-bet.model';
 import { PopupFormSavedBetsComponent } from '../popup-form-saved-bets/popup-form-saved-bets.component';
 import { SavedActiveBetsService } from '../services/saved-active-bets.service';
+import { UserPropertiesService } from '../services/user-properties.service';
 
 @Component({
   selector: 'app-popup-view-saved-bets',
@@ -18,7 +19,7 @@ export class PopupViewSavedBetsComponent implements AfterViewInit {
 
   //selectionsList
   isEmptySelectionList: boolean = true;
-  constructor( public dialog: MatDialog, public dialogRef: MatDialogRef<PopupViewSavedBetsComponent>,
+  constructor( public userPropService: UserPropertiesService, public dialog: MatDialog, public dialogRef: MatDialogRef<PopupViewSavedBetsComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any, private savedActiveBetService: SavedActiveBetsService, private chRef: ChangeDetectorRef) {
       //gets master list of all SAB
 
@@ -88,6 +89,7 @@ export class PopupViewSavedBetsComponent implements AfterViewInit {
 
       var activeBet: ActiveBet = {
         id:null,
+        juId: this.userPropService.getUserId(),
         created: Date.now(),
         fixture: this.data.row.Home + " vs " + this.data.row.Away,
         selection: this.data.row.Selection,

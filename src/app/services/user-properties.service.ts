@@ -132,10 +132,11 @@ export class UserPropertiesService {
     this.http.put<{body: any[]}>("http://localhost:3000/api/user/connect", data)
     .subscribe( (body) => {
                             userData = body;
+                            console.log(userData.userDetails);
                             this.token = userData.token;
                             this.tokenSubscription.next(userData.token);
-                            console.log(body);
                             this.settings = userData.userDetails;
+                            this.settings.juicyId = userData.userDetails._id;
     });
 
   }
@@ -274,6 +275,10 @@ export class UserPropertiesService {
 
   }
   //userPreference TablePreferences
+
+  getUserId(): string {
+    return this.settings.juicyId;
+  }
   getUserPrefs(): Observable<TablePreferences>{
     return this.userPrefSub.asObservable();
   }

@@ -87,7 +87,6 @@ app.put(`/api/user/connect`, async (req,res) => {
                                             //where you get response of pre-existing user authenticate here.
                                             authenticateUser(req.body.email, req.body.sub)
                                             .then( generatedToken => {
-                                              console.log("User Token Generated: " + generatedToken);
                                               res.status(201).json({token: generatedToken, userDetails: response});
                                             });
 
@@ -105,12 +104,13 @@ app.put(`/api/user/connect`, async (req,res) => {
 /////////////////////////////////////////////////////////////////////////////////////////
 //               INITIAL MATCHES AND STREAM DATA API                                  //
 ////////////////////////////////////////////////////////////////////////////////////////
-app.get(`/api/updates`, checkAuth,  function(req, res) {
+//TODO: Authenticat UPDATES API Call. Need to pass token in here and assign to writeHead(200)
+app.get(`/api/updates`,  function(req, res) {
 
   res.writeHead(200, {
     'Content-Type': 'text/event-stream',
     'Cache-Control': 'no-cache',
-    'Connection': 'keep-alive'
+    'Connection': 'keep-alive',
   });
 
     try{
@@ -145,9 +145,11 @@ app.get('/api/matches', checkAuth, async(req, res) => {
 //Get all SAB **TODO** Need to get all SABS with ObjectID of user Only.
 app.get('/api/sab/sabs', async(req,res) => {
   try{
-    const cursor = await client.db("JuicyClients").collection("juicy_users_sab").find({});
+    const filter = { "juId": req.query.juId }
+    const cursor = await client.db("JuicyClients").collection("juicy_users_sab").find(filter);
     const sabList = await cursor.toArray();
     let body = sabList;
+    console.log(body);
     res.status(200).json({body})
   } catch (e) {
     console.log(e);
@@ -155,6 +157,7 @@ app.get('/api/sab/sabs', async(req,res) => {
 });
 
 //Create a SAB
+//*TODO Append juicyID onto document for lookup at initialization
 app.post('/api/sab', checkAuth, async(req,res) => {
 
   try {

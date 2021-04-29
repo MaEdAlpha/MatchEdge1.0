@@ -8,7 +8,8 @@ export class AuthInterceptor implements HttpInterceptor {
 
   intercept(req: HttpRequest<any>, next: HttpHandler){
     const  authToken = this.userService.getToken();
-    console.log(authToken);
+    console.log("===>Intcpr Called: " + authToken);
+
 
 
     //manipulate request to use token. Must clone or it breaks.

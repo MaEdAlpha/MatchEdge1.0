@@ -435,6 +435,7 @@ export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
 
       var activeBet: ActiveBet = {
         id: null,
+        juId: this.userPrefService.getUserId(),
         created: Date.now(),
         fixture: row.Fixture,
         selection: row.Selection,
