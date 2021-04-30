@@ -55,6 +55,11 @@ export class FilterSettingsComponent implements OnInit {
         { option: 'Qualifying Loss (%)', value: '3'}
       ]
 
+      ftaSelection: { value:string, viewValue:string} [] = [
+        { value:'custom', viewValue:'FTA Rating'},
+        { value:'generic', viewValue:'1/65 Average'}
+      ]
+    
   constructor( private userPrefService: UserPropertiesService, private chRef: ChangeDetectorRef) {}
 
 

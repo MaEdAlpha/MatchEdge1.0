@@ -1,0 +1,26 @@
+.main-container{
+    width: 75%;
+    display: inline-block;
+    margin-left: 2%;  
+    margin-top: 2%;
+  }
+.personal-details{
+    width: 75%;
+    display: inline-block;
+    margin-left: 35%;  
+    margin-top: -2%;
+  }
+
+  .account-details{
+    width: 75%;
+    display: inline-block;
+    margin-left: 2%;  
+  }
+  .account-header{
+      margin-top: 20px;
+  }
+  .password-header{
+    margin-top: 0px;
+}
+
+  

@@ -3,6 +3,9 @@
 
       <div class="preferred-stake-cont">
         <h1>Preferred Stakes</h1>
+        <div class="pref-stake-text">
+          Set the default back stake amount that you would usually use for each odds range.
+        </div>
         <div class="header-container">
           <p class="odds-header header">Odds Range</p>
           <p class="stake-header header">Stake</p>
@@ -33,60 +36,57 @@
           </div>
         </div>
       </div>
-
+      <div class ="vertical"></div>
+        
       <div class="estimated-value-cont">
         <div formArrayName="options">
 
-            <h1>Estimated Value Preferences</h1>
-            <div class="fta-container">
-              <div class="ev-content-row1">
+        <div class="fta-container">
+          <h1>Estimated Value Preferences</h1>
+          <p class="estimated-value-text"> Apply either the Juicy-Bets 2up occurrence value or the average 1/65 to calculate the Estimated Value of a bet. </p>   
+                        <div class="ev-content-row1">
                   <mat-form-field appearance="fill">
-                    <mat-label> FTA Option</mat-label>
-                    <mat-select formControlName="FTASelected">
+                                        <mat-select formControlName="Occ.">
                       <mat-option *ngFor="let ftaSelect of ftaSelection" [value]="ftaSelect.value">
                         {{ftaSelect.viewValue}}
                       </mat-option>
                     </mat-select>
                   </mat-form-field>
               </div>
-                <p class="ev-row1-text">Calculate expected value using:  {{preferenceForm.get('options').value[0] == 'custom' ? 'Custom FTA Rating' : ' General 1/65 Bet Avg' }}</p>
+              <p class="estimated-value-text"> The <b>FTA rating</b> will be applied with your saved <b>Preferred Stake</b> to calculate the estimated value of matches shown in the Juicy-Bets table. </p>
+              
             </div>
+            <div class="horizontal"></div>
 
-              <div class="ev-content-row2">
-                <p> The <b>FTA rating</b> along with the <b>Preferred Stake</b> are used to calculate the estimated value of any 2up bet. </p>
-              </div>
 
-              <hr class="separator">
 
               <div class="exchange-container">
                 <h1>Exchanges</h1>
                 <h3>Primary Exchange</h3>
+                <mat-form-field appearance="fill">
+                  <mat-select formControlName="Exchange">
+                    <mat-option *ngFor="let exchangeSelect of exchangeSelection"  [value]="exchangeSelect.value">
+                      {{exchangeSelect.viewValue}}
+                    </mat-option>
+                  </mat-select>
+                  <mat-label class="value-selector"> {{preferenceForm.value.options.Exchange}}</mat-label>
+                </mat-form-field>
+
+
+                  <h3>Commission % Rates</h3>
                   <mat-form-field appearance="fill">
-                    <mat-select formControlName="Exchange">
-                      <mat-option *ngFor="let exchangeSelect of exchangeSelection"  [value]="exchangeSelect.value">
-                        {{exchangeSelect.viewValue}}
-                      </mat-option>
-                    </mat-select>
-                    <mat-label> {{preferenceForm.value.options.Exchange}}</mat-label>
-                  </mat-form-field>
-
-
-                  <h3>Commission Rates</h3>
-                  <img src="../assets/img/smarketsIcon.png" alt="">
-                  <mat-form-field>
-                    <mat-label>Smarkets</mat-label>
+                    <mat-label class="value-selector"> Smarkets</mat-label>
                     <input formControlName="Commission" matInput placeholder="{{preferenceForm.get('options').value[2]}}" [value]="preferenceForm.get('options').value[2]">
-                  </mat-form-field>
+                    </mat-form-field>
+                
                 </div>
               </div>
             </div>
 
-
-
           </div>
     <div class="smarkets"></div>
     <div class="alerts-notifications"></div>
-    <button (click)="test()"> Calc Settings Test</button>
+
   </form>
 
 
