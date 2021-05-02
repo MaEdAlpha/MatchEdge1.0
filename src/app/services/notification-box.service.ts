@@ -27,7 +27,7 @@ export class NotificationBoxService {
 
       this.juicyFilterChange = this.userPropService.getUserPrefs().subscribe(filterSettings => {
       this.matchRatingFilterNotification = +filterSettings.matchRatingFilterII,
-      this.evNotificationFilter = +filterSettings.evFilterValueII,
+      this.evNotificationFilter = +filterSettings.evFVI,
       this.secretSauceNotification = +filterSettings.secretSauceII,
       this.isEVSelected = +filterSettings.isEvSelected,
       this.tableDate = filterSettings.timeRange

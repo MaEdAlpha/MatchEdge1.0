@@ -23,14 +23,14 @@ export class HideTableRowDirective implements OnChanges{
     if(+this.userPref.isEvSelected == 1)  {
         // console.log(this.selection.Selection+ " Hidden: " + this.selection.ignore);
         if(changes.evValue) { //if ev has a value constantly loop over this.
-          if(this.inRange == true && +this.evValue >= +this.userPref.evFilterValueI && +this.backOdds >= +this.userPref.minOdds && +this.backOdds <= +this.userPref.maxOdds){ //evValue less than filter setting. hide. larger than. show.
+          if(this.inRange == true && +this.evValue >= +this.userPref.evFVI && +this.backOdds >= +this.userPref.minOdds && +this.backOdds <= +this.userPref.maxOdds){ //evValue less than filter setting. hide. larger than. show.
             this.show();
           } else {
             this.hide();
           }
         } else { //if EV reading is larger than the filter  go in here.
             //for evValues less than the evFilterValueI setting, hide the empty container.
-          +this.evValue >= +this.userPref.evFilterValueI && +this.backOdds >= +this.userPref.minOdds && +this.backOdds <= +this.userPref.maxOdds  ? this.show() : this.hide();
+          +this.evValue >= +this.userPref.evFVI && +this.backOdds >= +this.userPref.minOdds && +this.backOdds <= +this.userPref.maxOdds  ? this.show() : this.hide();
         }
 
         //If we don't have odds evValue Infinity value

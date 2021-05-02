@@ -63,39 +63,39 @@ app.put(`/api/user/connect`, async (req,res) => {
 
   //Return user Settings or Generate Default User settings for login if a new user.
   //Also generate and send back a token.
-                  client.db("JuicyClients")
-                    .collection("juicy_users")
-                        .findOne( filter, function(error,response){
-                                        try{
-                                          error ? console.log(error) : '';
-                                          // console.log(response);
-                                          //if null, create a new user.
-                                          if(response == null){
-                                            console.log("NEW USER DETECTED!!!");
-                                            //Create new document
-                                            createNewUserDocument( req.body.email).then( response => {
-                                              console.log(req.body.sub);
-                                              //where you get results of new user authenticate here.
-                                              authenticateUser(req.body.email, req.body.sub)
-                                              .then( generatedToken =>{
-                                                 res.status(201).json({token: generatedToken.token, expiry: generatedToken.expires, userDetails: response})
-                                                });
+  client.db("JuicyClients")
+    .collection("juicy_users")
+        .findOne( filter, function(error,response){
+                        try{
+                          error ? console.log(error) : '';
+                          // console.log(response);
+                          //if null, create a new user.
+                          if(response == null){
+                            console.log("NEW USER DETECTED!!!");
+                            //Create new document
+                            createNewUserDocument( req.body.email).then( response => {
+                              console.log(req.body.sub);
+                              //where you get results of new user authenticate here.
+                              authenticateUser(req.body.email, req.body.sub)
+                              .then( generatedToken =>{
+                                  res.status(201).json({token: generatedToken.token, expiry: generatedToken.expires, userDetails: response})
+                                });
 
-                                            });
+                            });
 
-                                          } else {
-                                            console.log(req.body.sub);
-                                            // console.log(response);
-                                            //where you get response of pre-existing user authenticate here.
-                                            authenticateUser(req.body.email, req.body.sub)
-                                            .then( generatedToken => {
-                                              console.log(generatedToken);
-                                              res.status(201).json({token: generatedToken.token, expiry: generatedToken.expires , userDetails: response});
-                                            });
+                          } else {
+                            console.log(req.body.sub);
+                            // console.log(response);
+                            //where you get response of pre-existing user authenticate here.
+                            authenticateUser(req.body.email, req.body.sub)
+                            .then( generatedToken => {
+                              console.log(generatedToken);
+                              res.status(201).json({token: generatedToken.token, expiry: generatedToken.expires , userDetails: response});
+                            });
 
-                                          }
-                                        } catch (e){ console.log("error at connection!: " + e);}
-                                      })
+                          }
+                        } catch (e){ console.log("error at connection!: " + e);}
+                      })
     });
 
     //Authentication
@@ -178,6 +178,19 @@ app.post('/api/sab', checkAuth, async(req,res) => {
     console.log(e);
   }
 });
+
+app.put('/api/user/settings', checkAuth, async(req,res,next) => {
+  try {
+    console.log("PARAMS");
+    console.log(req.body);
+    const _id = new ObjectID(req.body.juicyId);
+    const col = await client.db("JuicyClients").collection("juicy_users").findOne({"_id":_id}, function(error,response){
+      console.log(response);
+    });
+  }catch (e){
+    console.log(e);
+  }
+})
 
 //update SAB
 app.put('/api/sab/:id', checkAuth, async(req,res,next) => {
@@ -274,7 +287,7 @@ function createNewUserDocument(userEmail){
                                       },
                             "filters": {
                                       "timeRange":"Today & Tomorrow",
-                                      "mindOdds": "2.5",
+                                      "minOdds": "2.5",
                                       "maxOdds": "20",
                                       "evFVI":"-20",
                                       "evFVII":"1",
@@ -325,7 +338,7 @@ function createNewUserDocument(userEmail){
       return response;
     });
   }
-  async function updateMatches(client){S
+  async function updateMatches(client){
     const collection = client.db("MBEdge").collection("matches");
     const changeStream = collection.watch();
     changeStream.on('change', (next) => {

@@ -162,7 +162,7 @@ export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
     //subscribe to userPreference Values
     this.prefSub = this.userPrefService.getUserPrefs().subscribe( tablePref => {
       this.prefObj = tablePref;
-      this.evFilterI = Number(tablePref.evFilterValueI);
+      this.evFilterI = Number(tablePref.evFVI);
       this.minOddsFilter= Number(tablePref.minOdds);
       this.maxOddsFilter= Number(tablePref.maxOdds);
       this.matchRatingFilter= Number(tablePref.matchRatingFilterI);

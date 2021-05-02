@@ -60,7 +60,8 @@ export class FilterSettingsComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.prefObj = this.userPrefService.getFormValues();
+    this.evPlaceholder = +this.filtersFormValues.Filter == 1 ? "EV" : +this.filtersFormValues.Filter == 2 ? "Match Rating" : +this.filtersFormValues.Filter == 3 ? "Secret Sauce" : "null" ;
+    console.log(this.evPlaceholder);
 
     var filterValidator: ValidatorFn[] = [Validators.required, Validators.pattern("^[0-9\.\-]*$"), Validators.maxLength(7)];
     var mrFilterValidator: ValidatorFn[] = [Validators.required, Validators.pattern("^[0-9\.\-]*$"), Validators.maxLength(7), Validators.max(100), Validators.min(0)]
@@ -83,8 +84,8 @@ export class FilterSettingsComponent implements OnInit {
     this.userPrefSubscription = this.userPrefService.getUserPrefs().subscribe( tablePref => {
       this.prefObj = tablePref;
       this.timeRange = tablePref.timeRange;
-      this.evFilterI = Number(tablePref.evFilterValueI);
-      this.evFilterII= Number(tablePref.evFilterValueII);
+      this.evFilterI = Number(tablePref.evFVI);
+      this.evFilterII= Number(tablePref.evFVII);
       this.minOddsFilter= Number(tablePref.minOdds);
       this.maxOddsFilter= Number(tablePref.maxOdds);
       this.matchRatingFilterI= Number(tablePref.matchRatingFilterI);
@@ -92,7 +93,7 @@ export class FilterSettingsComponent implements OnInit {
       this.secretSauceI= Number(tablePref.secretSauceI);
       this.secretSauceII=Number(tablePref.secretSauceII);
       this.isEvSelected = tablePref.isEvSelected;
-      this.evPlaceholder = this.filters[0].value == 1 ? "EV" : this.filters[1].value == 2 ? "Match Rating" : this.filters[2].value == 3 ? "Secret Sauce" : "null" ;
+      this.evPlaceholder = +this.filtersFormValues.Filter == 1 ? "EV" : +this.filtersFormValues.Filter == 2 ? "Match Rating" : +this.filtersFormValues.Filter == 3 ? "Secret Sauce" : "null" ;
       this.audioEnabled = tablePref.audioEnabled;
     });
 
@@ -109,6 +110,8 @@ export class FilterSettingsComponent implements OnInit {
    /* send this data to user preferences and other webservices for handling.
     emit this so services can hear and set to matchStats/juicymatch component.
     set in program to validate for juicy matches. */
+    console.log(this.viewTableForm.value);
+
     this.userPrefService.setFormValues(this.viewTableForm.value);
   }
   filterValueValidator(firstNumber:number): ValidatorFn
@@ -204,7 +207,7 @@ export class FilterSettingsComponent implements OnInit {
 
   test(){
     console.log(this.filtersFormValues);
-    console.log(this.viewTableForm.errors?.mrMismatch);
+
 
 
   }

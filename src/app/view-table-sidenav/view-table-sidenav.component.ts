@@ -71,8 +71,8 @@ export class ViewTableSidenavComponent implements OnInit, AfterViewInit {
       'timeRange': new FormControl(this.prefObj.timeRange, filterValidator),
       'minOdds': new FormControl(this.prefObj.minOdds, filterValidator),
       'maxOdds': new FormControl(this.prefObj.maxOdds, filterValidator),
-      'evFilterValueI': new FormControl(this.prefObj.evFilterValueI, filterValidator),
-      'evFilterValueII': new FormControl(this.prefObj.evFilterValueII, filterValidator),
+      'evFilterValueI': new FormControl(this.prefObj.evFVI, filterValidator),
+      'evFilterValueII': new FormControl(this.prefObj.evFVII, filterValidator),
       'matchRatingFilterI': new FormControl(this.prefObj.matchRatingFilterI, filterValidator),
       'matchRatingFilterII': new FormControl(this.prefObj.matchRatingFilterII, filterValidator ),
       'secretSauceI': new FormControl(this.prefObj.secretSauceI, filterValidator),
@@ -85,8 +85,8 @@ export class ViewTableSidenavComponent implements OnInit, AfterViewInit {
     this.userPrefSubscription = this.userPrefService.getUserPrefs().subscribe( tablePref => {
       this.prefObj = tablePref;
       this.timeRange = tablePref.timeRange;
-      this.evFilterI = Number(tablePref.evFilterValueI);
-      this.evFilterII= Number(tablePref.evFilterValueII);
+      this.evFilterI = Number(tablePref.evFVI);
+      this.evFilterII= Number(tablePref.evFVII);
       this.minOddsFilter= Number(tablePref.minOdds);
       this.maxOddsFilter= Number(tablePref.maxOdds);
       this.matchRatingFilterI= Number(tablePref.matchRatingFilterI);

@@ -25,8 +25,8 @@ export interface TablePreferences {
   timeRange: string;
   minOdds: string;
   maxOdds: string;
-  evFilterValueI: string;
-  evFilterValueII:string;
+  evFVI: string;
+  evFVII:string;
   matchRatingFilterI:string;
   matchRatingFilterII: string;
   secretSauceI:string;

@@ -98,8 +98,8 @@ export class UserPropertiesService {
     timeRange: 'Today & Tomorrow',
     minOdds: '2.5',
     maxOdds: '20',
-    evFilterValueI: '-20',
-    evFilterValueII: '1',
+    evFVI: '-20',
+    evFVII: '1',
     matchRatingFilterI: '95',
     matchRatingFilterII: '97',
     secretSauceI: '-1.5',
@@ -141,8 +141,24 @@ export class UserPropertiesService {
                             console.log(body);
                             this.token = userData.token;
                             this.tokenSubscription.next(userData.token);
-                            this.settings = userData.userDetails;
+                            this.settings.account = userData.userDetails.account;
+                            this.settings.filters = {
+                                                      timeRange: userData.userDetails.filters.timeRange,
+                                                      minOdds: userData.userDetails.filters.minOdds,
+                                                      maxOdds: userData.userDetails.filters.maxOdds,
+                                                      evFVI: userData.userDetails.filters.evFVI,
+                                                      evFVII: userData.userDetails.filters.evFVII,
+                                                      matchRatingFilterI: userData.userDetails.filters.mrFVI,
+                                                      matchRatingFilterII: userData.userDetails.filters.mrFVII,
+                                                      secretSauceI: userData.userDetails.filters.ssFVI,
+                                                      secretSauceII: userData.userDetails.filters.ssFVII,
+                                                      isEvSelected: userData.userDetails.filters.fvSelected,
+                                                      audioEnabled: userData.userDetails.filters.audioEnabled,
+                                                    }
+                            this.settings.preferences = userData.userDetails.preferences;
                             this.settings.juicyId = userData.userDetails._id;
+                            console.log(this.settings);
+
     });
   }
   //get token and save to localStorage
@@ -218,8 +234,8 @@ export class UserPropertiesService {
       timeRange: formObj.timeRange,
       minOdds: formObj.minOdds,
       maxOdds: formObj.maxOdds,
-      evFilterValueI: formObj.evFilterValueI,
-      evFilterValueII: formObj.evFilterValueII,
+      evFVI: formObj.evFilterValueI,
+      evFVII: formObj.evFilterValueII,
       matchRatingFilterI: formObj.matchRatingFilterI,
       matchRatingFilterII: formObj.matchRatingFilterII,
       secretSauceI: formObj.secretSauceI,
@@ -228,13 +244,13 @@ export class UserPropertiesService {
       audioEnabled: formObj.audioEnabled,
     });
 
-    this.viewTablePrefs = {
+    this.settings.filters = {
 
       timeRange: formObj.timeRange,
       minOdds: formObj.minOdds,
       maxOdds: formObj.maxOdds,
-      evFilterValueI: formObj.evFilterValueI,
-      evFilterValueII: formObj.evFilterValueII,
+      evFVI: formObj.evFilterValueI,
+      evFVII: formObj.evFilterValueII,
       matchRatingFilterI: formObj.matchRatingFilterI,
       matchRatingFilterII: formObj.matchRatingFilterII,
       secretSauceI: formObj.secretSauceI,
@@ -273,8 +289,8 @@ export class UserPropertiesService {
                                                     timeRange: this.viewTablePrefs.timeRange,
                                                     minOdds: settingsForm.filters.MinOdds,
                                                     maxOdds: settingsForm.filters.MaxOdds,
-                                                    evFilterValueI: settingsForm.filters.EVI,
-                                                    evFilterValueII: settingsForm.filters.EVII,
+                                                    evFVI: settingsForm.filters.EVI,
+                                                    evFVII: settingsForm.filters.EVII,
                                                     matchRatingFilterI: settingsForm.filters.MRI,
                                                     matchRatingFilterII: settingsForm.filters.MRII,
                                                     secretSauceI: settingsForm.filters.SSI,
@@ -286,7 +302,7 @@ export class UserPropertiesService {
 
                       console.log("SAVED!!!!!");
                       console.log(this.settings);
-
+                      this.http.put<any>("http://localhost:3000/api/user/settings", this.settings).subscribe();
 
   }
   //userPreference TablePreferences
@@ -300,11 +316,11 @@ export class UserPropertiesService {
 
 
   getEV():number{
-    return Number(this.viewTablePrefs.evFilterValueI);
+    return Number(this.viewTablePrefs.evFVI);
   }
 
   getEVNotification():number{
-    return Number(this.viewTablePrefs.evFilterValueII);
+    return Number(this.viewTablePrefs.evFVII);
   }
 
   getMR(): number{

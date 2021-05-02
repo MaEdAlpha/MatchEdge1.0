@@ -59,8 +59,8 @@ export class MatchNotificationSettingsComponent implements OnInit {
         filters: new FormGroup({
                                 MinOdds: new FormControl( this.userPropertiesService.getUserSettings().filters.minOdds),
                                 MaxOdds: new FormControl( this.userPropertiesService.getUserSettings().filters.maxOdds),
-                                EVI: new FormControl(this.userPropertiesService.getUserSettings().filters.evFilterValueI),
-                                EVII: new FormControl(this.userPropertiesService.getUserSettings().filters.evFilterValueII),
+                                EVI: new FormControl(this.userPropertiesService.getUserSettings().filters.evFVI),
+                                EVII: new FormControl(this.userPropertiesService.getUserSettings().filters.evFVII),
                                 MRI: new FormControl(this.userPropertiesService.getUserSettings().filters.matchRatingFilterI),
                                 MRII: new FormControl(this.userPropertiesService.getUserSettings().filters.matchRatingFilterII),
                                 SSI: new FormControl(this.userPropertiesService.getUserSettings().filters.secretSauceI),
@@ -82,8 +82,8 @@ export class MatchNotificationSettingsComponent implements OnInit {
 
   test(){
     console.log(this.settingsForm);
-    console.log(this.settingsForm.get('account').get('UserName').setValue('Chuckles'));
-    console.log(this.settingsForm.get('account').get('UserName').value);
+    console.log(this.userPropertiesService.getUserSettings());
+
 
   }
 
