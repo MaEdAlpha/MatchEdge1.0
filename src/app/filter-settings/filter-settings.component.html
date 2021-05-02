@@ -43,14 +43,14 @@
               <h3 class="header">Filter Results by:</h3>
               <mat-form-field appearance="fill">
                 <mat-select
-                  formControlName="isEvSelected"
-                  [value]="isEvSelected"
+                  formControlName="fvSelected"
+                  [value]="fvSelected"
                   placeholder="{{evPlaceholder}}">
                   <mat-option *ngFor="let filter of filters" [value]="filter.value"> {{filter.option}} </mat-option>
                 </mat-select>
               </mat-form-field>
 
-            <ng-container *ngIf="viewTableForm.get('isEvSelected').value == 1">
+            <ng-container *ngIf="viewTableForm.get('fvSelected').value == 1">
               <h1 class="header">EV Filter</h1>
 
               <div class="ev-filter-container">
@@ -95,7 +95,7 @@
               </div>
             </ng-container>
 
-            <ng-container *ngIf="viewTableForm.get('isEvSelected').value == 2">
+            <ng-container *ngIf="viewTableForm.get('fvSelected').value == 2">
               <h1 class="header">Match Rating Filter</h1>
 
             <div class="mr-filter-container">
@@ -133,7 +133,7 @@
             </div>
             </ng-container>
 
-            <ng-container *ngIf="viewTableForm.get('isEvSelected').value == 3" >
+            <ng-container *ngIf="viewTableForm.get('fvSelected').value == 3" >
               <h1 class="header">Qualifying Loss (%)</h1>
               <div class="secret-sauce-container">
                 <div class="ss-row">

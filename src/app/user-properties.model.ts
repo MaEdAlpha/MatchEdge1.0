@@ -31,6 +31,6 @@ export interface TablePreferences {
   matchRatingFilterII: string;
   secretSauceI:string;
   secretSauceII:string;
-  isEvSelected: string;
+  fvSelected: string;
   audioEnabled: boolean;
 }

@@ -20,7 +20,7 @@ export class HideTableRowDirective implements OnChanges{
 
   //filter out Groups
   if(this.inRange != undefined || this.isWatched != undefined || this.userPref != undefined){
-    if(+this.userPref.isEvSelected == 1)  {
+    if(+this.userPref.fvSelected == 1)  {
         // console.log(this.selection.Selection+ " Hidden: " + this.selection.ignore);
         if(changes.evValue) { //if ev has a value constantly loop over this.
           if(this.inRange == true && +this.evValue >= +this.userPref.evFVI && +this.backOdds >= +this.userPref.minOdds && +this.backOdds <= +this.userPref.maxOdds){ //evValue less than filter setting. hide. larger than. show.
@@ -38,7 +38,7 @@ export class HideTableRowDirective implements OnChanges{
           this.hide();
         }
 
-      } else if(+this.userPref.isEvSelected == 2 ) {
+      } else if(+this.userPref.fvSelected == 2 ) {
 
           if( this.inRange == true && +this.mrValue >= +this.userPref.matchRatingFilterI && this.mrValue <= 100 && +this.backOdds >= +this.userPref.minOdds && +this.backOdds <= +this.userPref.maxOdds){
             this.show();
@@ -52,7 +52,7 @@ export class HideTableRowDirective implements OnChanges{
           if (+this.mrValue <= +this.userPref.matchRatingFilterI){
             this.hide();
           }
-      } else if(+this.userPref.isEvSelected == 3 ) {
+      } else if(+this.userPref.fvSelected == 3 ) {
 
         if( this.inRange == true && +this.ssValue >= +this.userPref.secretSauceI && this.ssValue <= 100 && +this.backOdds >= +this.userPref.minOdds && +this.backOdds <= +this.userPref.maxOdds){
           this.show();

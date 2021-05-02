@@ -13,7 +13,7 @@ export class NotificationBoxService {
   public matchRatingFilterNotification: number = this.userPropService.getMR();
   public evNotificationFilter: number = this.userPropService.getEVNotification();
   public secretSauceNotification: number = this.userPropService.getSS();
-  public isEVSelected: number = this.userPropService.getFilterSelection();
+  public fvSelected: number = this.userPropService.getFilterSelection();
   public tableDate: string = this.userPropService.getSelectedDate();
   private clickSubject = new Subject<{notificationIsActivated: boolean, matchObject: any }>();
   private alertPlaying: boolean = false;
@@ -29,7 +29,7 @@ export class NotificationBoxService {
       this.matchRatingFilterNotification = +filterSettings.matchRatingFilterII,
       this.evNotificationFilter = +filterSettings.evFVI,
       this.secretSauceNotification = +filterSettings.secretSauceII,
-      this.isEVSelected = +filterSettings.isEvSelected,
+      this.fvSelected = +filterSettings.fvSelected,
       this.tableDate = filterSettings.timeRange
     });
    }
@@ -49,7 +49,7 @@ export class NotificationBoxService {
     if(this.matchStatusService.isWatched(mainMatch.Selection) && this.isInEpochLimits(epochNotifications, mainMatch) ) {
 
       if(mainMatch.notify && !mainMatch.userAware ){
-        switch(this.isEVSelected){
+        switch(this.fvSelected){
             case 1:
               if(mainMatch.EVthisBet >= this.evNotificationFilter && mainMatch.EVthisBet < 100000 ){
                   this.toastIt(mainMatch);
@@ -87,7 +87,7 @@ export class NotificationBoxService {
 
 
     return mainMatch;
-    // if( this.matchStatusService.isWatched(away.Selection) && (this.isInEpochLimits(epochNotifications, away) && (this.isEVSelected && away.EVthisBet >= this.evNotificationFilter && away.EVthisBet < 100000 ) || ( this.isEVSelected == 2 && away.MatchRating >= this.matchRatingFilterNotification) || (this.isEVSelected == 3 && away.QLPercentage >= this.secretSauceNotification) ) ) {
+    // if( this.matchStatusService.isWatched(away.Selection) && (this.isInEpochLimits(epochNotifications, away) && (this.fvSelected && away.EVthisBet >= this.evNotificationFilter && away.EVthisBet < 100000 ) || ( this.fvSelected == 2 && away.MatchRating >= this.matchRatingFilterNotification) || (this.fvSelected == 3 && away.QLPercentage >= this.secretSauceNotification) ) ) {
     //   this.toast.success(away.Selection + ": </br> EV: " + away.EVthisBet + "</br> MR: " + away.MatchRating, "Click to view " + away.Selection + " in Juicy Match.").onTap.subscribe( (x) => {
     //     console.log("SHOW NOTIFICATION!!!!");
     //     //When a user taps the notification.
@@ -121,10 +121,10 @@ export class NotificationBoxService {
     return this.clickSubject.asObservable();
   }
 
-  updateFilters(ev, mr, isEVSelected, dateSelected){
+  updateFilters(ev, mr, fvSelected, dateSelected){
     this.evNotificationFilter = ev;
     this.matchRatingFilterNotification = mr;
-    this.isEVSelected = isEVSelected;
+    this.fvSelected = fvSelected;
     this.tableDate = dateSelected;
   }
   //Need to discuss how to show midnight times.

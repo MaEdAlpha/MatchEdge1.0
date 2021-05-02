@@ -66,7 +66,7 @@ export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
   maxOddsFilter: number;
   matchRatingFilter: number;
   secretSauceFilter: number;
-  isEvSelected: number;
+  fvSelected: number;
   dataSource:any;
   formattedAmount:any;
   sortedData: Object[];
@@ -122,7 +122,7 @@ export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
   ngOnInit(){
     //Get initial user settings on initialization. For this to work, need to use HTTP Get request of userPreferences at page load.
     this.prefObj = this.userPrefService.getTablePrefs();
-    this.isEvSelected = +this.prefObj.isEvSelected;
+    this.fvSelected = +this.prefObj.fvSelected;
     this.allIndvMatches = [];
     this.tableDateSelected = this.userPrefService.getSelectedDate();
     this.getStartEndDays(this.userPrefService.getSelectedDate());
@@ -167,7 +167,7 @@ export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
       this.maxOddsFilter= Number(tablePref.maxOdds);
       this.matchRatingFilter= Number(tablePref.matchRatingFilterI);
       this.secretSauceFilter= Number(tablePref.secretSauceI);
-      this.isEvSelected = +(tablePref.isEvSelected);
+      this.fvSelected = +(tablePref.fvSelected);
     });
 
     //Watchlist Subscription

@@ -65,7 +65,7 @@ export class MatchNotificationSettingsComponent implements OnInit {
                                 MRII: new FormControl(this.userPropertiesService.getUserSettings().filters.matchRatingFilterII),
                                 SSI: new FormControl(this.userPropertiesService.getUserSettings().filters.secretSauceI),
                                 SSII: new FormControl(this.userPropertiesService.getUserSettings().filters.secretSauceII),
-                                Filter: new FormControl(this.userPropertiesService.getUserSettings().filters.isEvSelected),
+                                Filter: new FormControl(this.userPropertiesService.getUserSettings().filters.fvSelected),
                                 Audio: new FormControl(this.userPropertiesService.getUserSettings().filters.audioEnabled),
         })
       });
@@ -130,7 +130,7 @@ export class MatchNotificationSettingsComponent implements OnInit {
       MRII: value.matchRatingFilterII,
       SSI: value.secretSauceI,
       SSII: value.secretSauceII,
-      Filter: value.isEvSelected,
+      Filter: value.fvSelected,
       Audio: value.isAudioEnabled
     });
   }

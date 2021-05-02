@@ -184,9 +184,60 @@ app.put('/api/user/settings', checkAuth, async(req,res,next) => {
     console.log("PARAMS");
     console.log(req.body);
     const _id = new ObjectID(req.body.juicyId);
-    const col = await client.db("JuicyClients").collection("juicy_users").findOne({"_id":_id}, function(error,response){
-      console.log(response);
-    });
+    // const col = await client.db("JuicyClients").collection("juicy_users").findOne({"_id":_id}, function(error,response){
+    //   console.log(response);
+    // });
+    let filter = {"_id":_id};
+    let options = {upsert: false}
+    let update =  { $set: { "account":{   "username": req.body.account.username,
+                                      "firstName": req.body.account.firstName,
+                                      "email": req.body.account.email,
+                                      "lastName": req.body.account.lastName,
+                                      "quote":req.body.account.quote,
+                                      "password":"getRidOfThisField",
+                                  },
+                                  "preferences": {
+                                    "userPrefferedStakes":[
+                                                              {"stake":req.body.preferences.userPrefferedStakes[0], "oddsLow": 0.1, "oddsHigh":2.01},
+                                                              {"stake":req.body.preferences.userPrefferedStakes[1], "oddsLow": 2.01, "oddsHigh":3},
+                                                              {"stake":req.body.preferences.userPrefferedStakes[2], "oddsLow": 3.01, "oddsHigh":4},
+                                                              {"stake":req.body.preferences.userPrefferedStakes[3], "oddsLow": 4.01, "oddsHigh":5},
+                                                              {"stake":req.body.preferences.userPrefferedStakes[4], "oddsLow": 5.01, "oddsHigh":6},
+                                                              {"stake":req.body.preferences.userPrefferedStakes[5], "oddsLow": 6.01, "oddsHigh":8},
+                                                              {"stake":req.body.preferences.userPrefferedStakes[6], "oddsLow": 8.01, "oddsHigh":10},
+                                                              {"stake":req.body.preferences.userPrefferedStakes[7], "oddsLow": 10.01, "oddsHigh":12},
+                                                              {"stake":req.body.preferences.userPrefferedStakes[8], "oddsLow": 12.01, "oddsHigh":14},
+                                                              {"stake":req.body.preferences.userPrefferedStakes[9], "oddsLow": 14.01, "oddsHigh":2000}
+                                                          ],
+                                    "ftaOption":req.body.preferences.ftaOption,
+                                    "exchangeOption":{
+                                                      "name":req.body.preferences.exchangeOption.name,
+                                                      "commission":req.body.preferences.exchangeOption.commission,
+                                                    }
+                                    },
+                                  "filters": {
+                                    "timeRange":req.body.filters.timeRange,
+                                    "minOdds":req.body.filters.minOdds ,
+                                    "maxOdds":req.body.filters.maxOdds ,
+                                    "evFVI":req.body.filters.evFVI,
+                                    "evFVII":req.body.filters.evFVII,
+                                    "mrFVI":req.body.filters.matchRatingFilterI,
+                                    "mrFVII":req.body.filters.matchRatingFilterII,
+                                    "ssFVI":req.body.filters.secretSauceI,
+                                    "ssFVII":req.body.filters.secretSauceII,
+                                    "fvSelected":req.body.filters.fvSelected,
+                                    "audioEnabled":req.body.filters.audioEnabled,
+                                    }
+                                  }
+
+
+    }
+    return new Promise(function(resolve,reject) {
+      client.db("JuicyClients").collection("juicy_users")
+                              .updateOne( filter, update, options, function(error,response){
+                                 resolve(response);
+                              });
+                            });
   }catch (e){
     console.log(e);
   }

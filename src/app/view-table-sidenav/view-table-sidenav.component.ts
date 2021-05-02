@@ -47,7 +47,7 @@ export class ViewTableSidenavComponent implements OnInit, AfterViewInit {
   matchRatingFilterII:number;
   secretSauceI:number;
   secretSauceII:number;
-  isEvSelected: string;
+  fvSelected: string;
   evPlaceholder: string;
   dialogDisabled: boolean;
   enableSaveButton:boolean = true;
@@ -77,7 +77,7 @@ export class ViewTableSidenavComponent implements OnInit, AfterViewInit {
       'matchRatingFilterII': new FormControl(this.prefObj.matchRatingFilterII, filterValidator ),
       'secretSauceI': new FormControl(this.prefObj.secretSauceI, filterValidator),
       'secretSauceII': new FormControl(this.prefObj.secretSauceII, filterValidator),
-      'isEvSelected': new FormControl(this.prefObj.isEvSelected),
+      'fvSelected': new FormControl(this.prefObj.fvSelected),
 
     }, { validators: [oddsValidator, evValidator, mrValidator, ssValidator]});
 
@@ -93,7 +93,7 @@ export class ViewTableSidenavComponent implements OnInit, AfterViewInit {
       this.matchRatingFilterII=Number(tablePref.matchRatingFilterII);
       this.secretSauceI= Number(tablePref.secretSauceI);
       this.secretSauceII=Number(tablePref.secretSauceII);
-      this.isEvSelected = tablePref.isEvSelected;
+      this.fvSelected = tablePref.fvSelected;
       this.evPlaceholder = this.filters[0].value == 1 ? "EV" : this.filters[1].value == 2 ? "Match Rating" : this.filters[2].value == 3 ? "Secret Sauce" : "null" ;
 
     });

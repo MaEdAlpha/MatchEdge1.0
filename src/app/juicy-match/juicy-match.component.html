@@ -22,7 +22,7 @@
 
                 <ng-container *ngIf="selection.isWatched">
                   <ng-container *ngIf="selection.inRange">
-                    <ng-container *ngIf= "( (isEvSelected == 1 && +selection['EVthisBet'] >= +prefObj.evFilterValueI && +selection['EVthisBet'] <= 1000) || (isEvSelected == 2 && (+selection['MatchRating'] == +prefObj.matchRatingFilterI || selection['MatchRating'] > (+prefObj.matchRatingFilterI - 0.02)) ) || (isEvSelected == 3 && (+selection['QLPercentage'] == +prefObj.secretSauceI || selection['QLPercentage'] > (+prefObj.secretSauceI) ) ) )">
+                    <ng-container *ngIf= "( (fvSelected == 1 && +selection['EVthisBet'] >= +prefObj.evFilterValueI && +selection['EVthisBet'] <= 1000) || (fvSelected == 2 && (+selection['MatchRating'] == +prefObj.matchRatingFilterI || selection['MatchRating'] > (+prefObj.matchRatingFilterI - 0.02)) ) || (fvSelected == 3 && (+selection['QLPercentage'] == +prefObj.secretSauceI || selection['QLPercentage'] > (+prefObj.secretSauceI) ) ) )">
                     <ng-container *ngIf= "( +maxOddsFilter >= +selection['BackOdds'] && +selection['BackOdds'] >= +minOddsFilter )">
 
                           <div class="juicyCell b3-odd-cont" *ngIf="column.field.endsWith('BackOdds')">
@@ -108,7 +108,7 @@
                             <input tabindex="0" formControlName="BackOdds" type="number"step="0.1" class="value-box-back"  placeholder="{{getGroup(i).get('BackOdds').value | number:'0.2-2'}}">
                           </div>
                         </div>
-                      </div>    
+                      </div>
                     </div>
 
                     <div class="exchange shadow">
@@ -176,7 +176,7 @@
                           <span class="calculated-value calculated-value-lhs">{{ NewSS(  getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value, getGroup(i).get('Stake').value ) | number:'0.2-2' }} %</span>
                         </div>
                       </div>
-                      
+
                       <!-- QL and record Bet -->
                       <div class="calculated-container">
                         <div class="calculated-row">

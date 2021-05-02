@@ -44,7 +44,7 @@ export class FilterSettingsComponent implements OnInit {
   matchRatingFilterII:number;
   secretSauceI:number;
   secretSauceII:number;
-  isEvSelected: string;
+  fvSelected: string;
   evPlaceholder: string;
   audioEnabled: boolean;
   enableSaveButton:boolean = true;
@@ -61,7 +61,7 @@ export class FilterSettingsComponent implements OnInit {
   ngOnInit(): void {
 
     this.evPlaceholder = +this.filtersFormValues.Filter == 1 ? "EV" : +this.filtersFormValues.Filter == 2 ? "Match Rating" : +this.filtersFormValues.Filter == 3 ? "Secret Sauce" : "null" ;
-    console.log(this.evPlaceholder);
+    console.log(this.filtersFormValues);
 
     var filterValidator: ValidatorFn[] = [Validators.required, Validators.pattern("^[0-9\.\-]*$"), Validators.maxLength(7)];
     var mrFilterValidator: ValidatorFn[] = [Validators.required, Validators.pattern("^[0-9\.\-]*$"), Validators.maxLength(7), Validators.max(100), Validators.min(0)]
@@ -76,7 +76,7 @@ export class FilterSettingsComponent implements OnInit {
       'matchRatingFilterII': new FormControl(this.filtersFormValues.MRII, mrFilterValidator),
       'secretSauceI': new FormControl(this.filtersFormValues.SSI, filterValidator),
       'secretSauceII': new FormControl(this.filtersFormValues.SSII, filterValidator),
-      'isEvSelected': new FormControl(this.filtersFormValues.Filter),
+      'fvSelected': new FormControl(this.filtersFormValues.Filter),
       'isAudioEnabled': new FormControl(this.filtersFormValues.Audio),
     }, { validators: [oddsValidator, evValidator, mrValidator, ssValidator]});
 
@@ -92,7 +92,7 @@ export class FilterSettingsComponent implements OnInit {
       this.matchRatingFilterII=Number(tablePref.matchRatingFilterII);
       this.secretSauceI= Number(tablePref.secretSauceI);
       this.secretSauceII=Number(tablePref.secretSauceII);
-      this.isEvSelected = tablePref.isEvSelected;
+      this.fvSelected = tablePref.fvSelected;
       this.evPlaceholder = +this.filtersFormValues.Filter == 1 ? "EV" : +this.filtersFormValues.Filter == 2 ? "Match Rating" : +this.filtersFormValues.Filter == 3 ? "Secret Sauce" : "null" ;
       this.audioEnabled = tablePref.audioEnabled;
     });

@@ -104,7 +104,7 @@ export class UserPropertiesService {
     matchRatingFilterII: '97',
     secretSauceI: '-1.5',
     secretSauceII: '-1.2',
-    isEvSelected: '1',
+    fvSelected: '1',
     audioEnabled: true,
   };
 
@@ -138,6 +138,8 @@ export class UserPropertiesService {
     this.http.put<{token:string, userDetails: UserSettings}>("http://localhost:3000/api/user/connect", data)
     .subscribe( (body) => {
                             userData = body;
+                            console.log('DB CALL FOR SETTINGS!!!-------------');
+
                             console.log(body);
                             this.token = userData.token;
                             this.tokenSubscription.next(userData.token);
@@ -152,7 +154,7 @@ export class UserPropertiesService {
                                                       matchRatingFilterII: userData.userDetails.filters.mrFVII,
                                                       secretSauceI: userData.userDetails.filters.ssFVI,
                                                       secretSauceII: userData.userDetails.filters.ssFVII,
-                                                      isEvSelected: userData.userDetails.filters.fvSelected,
+                                                      fvSelected: userData.userDetails.filters.fvSelected,
                                                       audioEnabled: userData.userDetails.filters.audioEnabled,
                                                     }
                             this.settings.preferences = userData.userDetails.preferences;
@@ -240,7 +242,7 @@ export class UserPropertiesService {
       matchRatingFilterII: formObj.matchRatingFilterII,
       secretSauceI: formObj.secretSauceI,
       secretSauceII: formObj.secretSauceII,
-      isEvSelected: formObj.isEvSelected,
+      fvSelected: formObj.fvSelected,
       audioEnabled: formObj.audioEnabled,
     });
 
@@ -255,7 +257,7 @@ export class UserPropertiesService {
       matchRatingFilterII: formObj.matchRatingFilterII,
       secretSauceI: formObj.secretSauceI,
       secretSauceII: formObj.secretSauceII,
-      isEvSelected: formObj.isEvSelected,
+      fvSelected: formObj.fvSelected,
       audioEnabled: formObj.audioEnabled,
     }
     this.viewTablePrefSelected.emit(this.viewTablePrefs);
@@ -295,7 +297,7 @@ export class UserPropertiesService {
                                                     matchRatingFilterII: settingsForm.filters.MRII,
                                                     secretSauceI: settingsForm.filters.SSI,
                                                     secretSauceII: settingsForm.filters.SSII,
-                                                    isEvSelected: settingsForm.filters.Filter,
+                                                    fvSelected: settingsForm.filters.Filter,
                                                     audioEnabled: settingsForm.filters.Audio,
                                                    }
                       }
@@ -341,7 +343,7 @@ export class UserPropertiesService {
   }
 
   getOptionSelected(): number {
-    return Number(this.viewTablePrefs.isEvSelected);
+    return Number(this.viewTablePrefs.fvSelected);
   }
 
   getTablePrefs(): TablePreferences {
@@ -353,7 +355,7 @@ export class UserPropertiesService {
   }
 
   getFilterSelection(): number {
-    return +this.viewTablePrefs.isEvSelected;
+    return +this.viewTablePrefs.fvSelected;
   }
 
   getAudioPreferences(): boolean {
