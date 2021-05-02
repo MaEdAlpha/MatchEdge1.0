@@ -49,7 +49,7 @@
                     </mat-select>
                   </mat-form-field>
               </div>
-                <p class="ev-row1-text">Calculate expected value using:  {{preferenceForm.get('options').value[0] == 'custom' ? 'Custom FTA Rating' : ' General 1/65 Bet Avg' }}</p>
+                <p class="ev-row1-text">Calculate expected value using:  {{options.get('FTASelected').value == 'generic' ? ftaSelection[1].viewValue : ftaSelection[0].viewValue }}</p>
             </div>
 
               <div class="ev-content-row2">

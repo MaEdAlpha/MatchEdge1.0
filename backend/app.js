@@ -74,10 +74,12 @@ app.put(`/api/user/connect`, async (req,res) => {
                                             console.log("NEW USER DETECTED!!!");
                                             //Create new document
                                             createNewUserDocument( req.body.email).then( response => {
-                                              // console.log(result);
                                               console.log(req.body.sub);
                                               //where you get results of new user authenticate here.
-                                              authenticateUser(req.body.email, req.body.sub).then( token => res.status(201).json({body:token, userDetails: response}));
+                                              authenticateUser(req.body.email, req.body.sub)
+                                              .then( generatedToken =>{
+                                                 res.status(201).json({token: generatedToken.token, expiry: generatedToken.expires, userDetails: response})
+                                                });
 
                                             });
 
@@ -87,7 +89,8 @@ app.put(`/api/user/connect`, async (req,res) => {
                                             //where you get response of pre-existing user authenticate here.
                                             authenticateUser(req.body.email, req.body.sub)
                                             .then( generatedToken => {
-                                              res.status(201).json({token: generatedToken, userDetails: response});
+                                              console.log(generatedToken);
+                                              res.status(201).json({token: generatedToken.token, expiry: generatedToken.expires , userDetails: response});
                                             });
 
                                           }
@@ -105,7 +108,7 @@ app.put(`/api/user/connect`, async (req,res) => {
 //               INITIAL MATCHES AND STREAM DATA API                                  //
 ////////////////////////////////////////////////////////////////////////////////////////
 //TODO: Authenticat UPDATES API Call. Need to pass token in here and assign to writeHead(200)
-app.get(`/api/updates`,  function(req, res) {
+app.get(`/api/updates`, function(req, res) {
 
   res.writeHead(200, {
     'Content-Type': 'text/event-stream',
@@ -234,33 +237,34 @@ async function authenticateUser(userEmail, userId){
   let pv_key = "super_secret_key";
   let encodedData =  {email: userEmail, userId: userId };
   let options =  {expiresIn: "1h"};
+  let expirationSeconds = 3600 //convert "1h" string into seconds
   const token =  await jwt.sign(encodedData, pv_key, options,);
-  return token;
+  return {token: token, expires: expirationSeconds };
 }
 
 function createNewUserDocument(userEmail){
   //UpdateOne parameters
   const filter = {"account.email": userEmail}
   const options = { upsert:true };
-  const update = { $set: { "account":{   "username":"upsert",
-                                        "firstName":"upsert",
-                                        "lastName":"upsert",
+  const update = { $set: { "account":{   "username":"JuicyUser",
+                                        "firstName":"John",
+                                        "lastName":"Doe",
                                         "email": userEmail,
-                                        "quote":"test",
+                                        "quote":"Lalala",
                                         "password":"test",
                                      },
                             "preferences": {
                                       "userPrefferedStakes":[
-                                                              {"stake":0, "oddsLow": 0, "oddsHigh":0},
-                                                              {"stake":9, "oddsLow": 0, "oddsHigh":0},
-                                                              {"stake":9, "oddsLow": 0, "oddsHigh":0},
-                                                              {"stake":9, "oddsLow": 0, "oddsHigh":0},
-                                                              {"stake":9, "oddsLow": 0, "oddsHigh":0},
-                                                              {"stake":9, "oddsLow": 0, "oddsHigh":0},
-                                                              {"stake":9, "oddsLow": 0, "oddsHigh":0},
-                                                              {"stake":9, "oddsLow": 0, "oddsHigh":0},
-                                                              {"stake":9, "oddsLow": 0, "oddsHigh":0},
-                                                              {"stake":9, "oddsLow": 0, "oddsHigh":0}
+                                                              {"stake":100, "oddsLow": 0.1, "oddsHigh":2.01},
+                                                              {"stake":80, "oddsLow": 2.01, "oddsHigh":3},
+                                                              {"stake":60, "oddsLow": 3.01, "oddsHigh":4},
+                                                              {"stake":50, "oddsLow": 4.01, "oddsHigh":5},
+                                                              {"stake":40, "oddsLow": 5.01, "oddsHigh":6},
+                                                              {"stake":20, "oddsLow": 6.01, "oddsHigh":8},
+                                                              {"stake":10, "oddsLow": 8.01, "oddsHigh":10},
+                                                              {"stake":10, "oddsLow": 10.01, "oddsHigh":12},
+                                                              {"stake":5, "oddsLow": 12.01, "oddsHigh":14},
+                                                              {"stake":1, "oddsLow": 14.01, "oddsHigh":2000}
                                                             ],
                                       "ftaOption":"generic",
                                       "exchangeOption":{
@@ -270,16 +274,16 @@ function createNewUserDocument(userEmail){
                                       },
                             "filters": {
                                       "timeRange":"Today & Tomorrow",
-                                      "mindOdds": "default",
-                                      "maxOdds": "default",
-                                      "evFVI":"-default",
-                                      "evFVII":"default",
-                                      "mrFVI":"default",
-                                      "mrFVII":"default",
-                                      "ssFVI":"-default",
-                                      "ssFVII":"default",
+                                      "mindOdds": "2.5",
+                                      "maxOdds": "20",
+                                      "evFVI":"-20",
+                                      "evFVII":"1",
+                                      "mrFVI":"95",
+                                      "mrFVII":"97",
+                                      "ssFVI":"-1.5",
+                                      "ssFVII":"-1.2",
                                       "fvSelected":1,
-                                      "audioEnabled":false,
+                                      "audioEnabled":true,
                                       }
 
                            }
@@ -290,7 +294,7 @@ function createNewUserDocument(userEmail){
                               .updateOne( filter, update, options, function(error,response){
                                   console.log("UPDATED:!");
                                   console.log(response.upsertedId._id);
-                                 resolve(client.db("JuicyClients").db("JuicyClients").collection("juicy_users").findOne(filter));
+                                 resolve(client.db("JuicyClients").collection("juicy_users").findOne(filter));
                               });
                             });
 }

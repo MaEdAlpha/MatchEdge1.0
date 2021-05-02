@@ -16,6 +16,8 @@ export class WebsocketService {
   }
 
   public openWebSocket() {
+    console.log("STREAM CONNECT");
+
     this.eventSource = new EventSource('http://localhost:3000/api/updates');
     // this.eventSource = new EventSource('/');
     if(!!window.EventSource){

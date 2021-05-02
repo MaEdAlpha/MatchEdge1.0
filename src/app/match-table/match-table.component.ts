@@ -173,9 +173,12 @@ import { ActiveBet } from '../models/active-bet.model';
       //StreamChange data. Updates individual matches, where toast should be triggered.
      this.tableSubscription = this.matchesService.streamDataUpdate
       .subscribe( (streamObj) => {
-
         var indexOfmatch = this.matches.findIndex( match => match.Home == streamObj.HomeTeamName && match.Away == streamObj.AwayTeamName);
         indexOfmatch != undefined && this.matches[indexOfmatch] ? this.updateMatch(this.matches[indexOfmatch], streamObj) : console.log( streamObj.HomeTeamName + " vs. " + streamObj.AwayTeamName + " not found");
+
+        //Execute a simple cycle to see if EpochTime*1000 < Date.Now()
+        //If it is, then change set to Inactive. and set a boolean to reset the next fixturesDate header.
+        this.checkDateHeaders();
       });
 
       //Update Start/End Dates
@@ -345,14 +348,16 @@ import { ActiveBet } from '../models/active-bet.model';
     }
     //Adds matches underneath their respective League header.
     addToListOnClick(allMatches, tableGroups, rowInfo): any[] {
+
       //assign league group to viewTable List.
       tableGroups.forEach(leagueGroup => {
         if(!this.viewTableList.includes(leagueGroup)){
           this.viewTableList.push(leagueGroup);
         }
       });
-      //Set the LeagueGroupHeader (i.e Premier League header) index to groupIndex.
+      //Get the index of the League header clicked.
       var groupIndex = this.viewTableList.indexOf(rowInfo);
+
       //Set the first displayed match to index position +1 of groupIndex.
       var matchPosition = groupIndex + 1;
       var timeNow = Date.now();
@@ -361,19 +366,20 @@ import { ActiveBet } from '../models/active-bet.model';
       allMatches.forEach( match => {
         //Get Match Date only
         var matchEpoch: number = match.EpochTime*1000;
-        //position of match in your match list retrieved from DB.
+        //Find the position of the match in the MasterList form DB.
         var matchIndex: number = allMatches.indexOf(match);
         //Sometimes a full scrape of a record is not done, and League = '' or null. Need to account for that null.
         if(match.League != null && match.League.includes(rowInfo.League)){
-          //Check what date is selected.
+          //Conditional for Today&Tomorrow .
           if(this.viewSelectedDate == 'Today & Tomorrow' && ( matchEpoch >= epochCutOff.forStartOfDayOne && matchEpoch <= epochCutOff.forDayTwo )) {
-
+            //Sets inactive Styling for table row.
             matchEpoch <= timeNow ? match.isPastPrime = true : match.isPastPrime = false; //Set boolean for styling
 
             this.setDisplayHeader(match, matchPosition, matchIndex, groupIndex, allMatches);
             this.viewTableList.splice(matchPosition, 0, match);
             matchPosition++;
           }
+          //Conditional for Today
           if(this.viewSelectedDate == "Today" && (matchEpoch <= epochCutOff.forDayOne && matchEpoch >= epochCutOff.forStartOfDayOne )) {
 
             matchEpoch <= timeNow ? match.isPastPrime = true : match.isPastPrime = false; //Set boolean for styling
@@ -382,12 +388,12 @@ import { ActiveBet } from '../models/active-bet.model';
             this.viewTableList.splice(matchPosition, 0 , match);
             matchPosition++;
           }
+          //Conditional for Tomorrow only.
           if(this.viewSelectedDate == "Tomorrow" && (matchEpoch <= epochCutOff.forDayTwo && matchEpoch >= epochCutOff.forDayOne)){
             this.setDisplayHeader(match, matchPosition, matchIndex, groupIndex, allMatches);
             this.viewTableList.splice(matchPosition, 0, match);
             matchPosition++;
           }
-
         }
 
 
@@ -404,11 +410,14 @@ import { ActiveBet } from '../models/active-bet.model';
         var currentDate: number = new Date(match.EpochTime * 1000).getDate();
         var previousDate: number;
         allMatchIndex == 0 ? previousDate = 0 : previousDate = new Date((allMatches[allMatchIndex-1].EpochTime * 1000)).getDate();
+        var currentMatchObj: any = allMatches[allMatchIndex]
         var previousMatchObj: any = allMatches[allMatchIndex - 1];
 
         //If first in the list, or a new date, set true.
         (matchPosition == (groupIndex + 1) || (previousDate != 0 && currentDate != previousDate && match.League == previousMatchObj.League)) ? match.displayHeaderDate = true : match.displayHeaderDate = false;
-      }
+         //If current match and previous match are of the same league, and the previous match is pastPrime. display the date header.
+        ( allMatchIndex > 0 && currentMatchObj.League == previousMatchObj.League && previousMatchObj.isPastPrime == true && currentMatchObj.isPastPrime != previousMatchObj.isPastPrime && currentMatchObj.EpochTime*1000 < Date.now() ) ? match.displayHeaderDate = true : '';
+        }
 
       removeFromListOnClick(viewTableList, tableGroups, rowInfo): any[] {
 
@@ -456,7 +465,6 @@ import { ActiveBet } from '../models/active-bet.model';
     //Date formatter
     addFixturesDate(matchList: any[] ): any[]{
       console.log(matchList);
-      var count=0;
       matchList.forEach( matchObj => {
         if(matchObj.level != 1 && matchObj.Details != undefined ){
           var localDate: Date = new Date(matchObj.EpochTime * 1000);
@@ -468,7 +476,6 @@ import { ActiveBet } from '../models/active-bet.model';
             matchObj.FixturesTime = this.datepipe.transform(localDate, 'HH:mm');
           }
         }
-        count++;
       });
       return matchList;
     }
@@ -710,5 +717,8 @@ import { ActiveBet } from '../models/active-bet.model';
        return (epochTime*1000 < Date.now());
     }
 
+    checkDateHeaders():void{
+      // this.viewTableList = this.hideFixtures
+    }
 }
 

@@ -41,7 +41,6 @@ export class UserPropertiesService {
                                         {start: 9.99, finish: 9.99 },
                                         {start: 9.99, finish: 9.99}
                                       ];
-
   private dbOdds: TriggerOdds[] = [
                                     {start: 1.50, finish: 1.75 },
                                     {start: 1.76, finish: 1.99 },
@@ -71,7 +70,6 @@ export class UserPropertiesService {
                                         {stake: 5, oddsLow: 7, oddsHigh: 14},
                                         {stake: 1, oddsLow: 14.01, oddsHigh: 100000000},
                                                                                 ];
-
   private defaultStakes: CalcSettings[] = [
                                             {stake: 100, oddsLow: 0, oddsHigh:2.01},
                                             {stake: 80, oddsLow: 2.01, oddsHigh: 3},
@@ -84,7 +82,16 @@ export class UserPropertiesService {
                                             {stake: 12.01, oddsLow: 7, oddsHigh: 14},
                                             {stake: 10, oddsLow: 14.01, oddsHigh: 100000000},
                                                                                         ];
-  private oddsRange: string[] =  ["< 2.00 ", "2.01 - 3.00", "3.01 - 4.00 ", "4.01 - 5.00", "5.01 - 6.00 ", "6.01 - 8.00", "8.01 - 10.00","10.01 - 12.00", "12.01 - 14.00", "   > 14.0 "];
+  private oddsRange: string[] =  ["< 2.00 ",
+                                  "2.01 - 3.00",
+                                  "3.01 - 4.00",
+                                  "4.01 - 5.00",
+                                  "5.01 - 6.00 ",
+                                  "6.01 - 8.00",
+                                  "8.01 - 10.00",
+                                  "10.01 - 12.00",
+                                  "12.01 - 14.00",
+                                  "   > 14.0 "];
 
   //ViewTable User Preferences
   private viewTablePrefs: TablePreferences = {
@@ -117,7 +124,6 @@ export class UserPropertiesService {
 
       filters:     this.viewTablePrefs
   }
-
   constructor(private http: HttpClient) { }
 
   getUserSettings(): UserSettings {
@@ -129,16 +135,25 @@ export class UserPropertiesService {
     //http GET request to retrieve user properties from DB;
     var data: {email: string, sub: string} = {email: email, sub:sub};
     var userData;
-    this.http.put<{body: any[]}>("http://localhost:3000/api/user/connect", data)
+    this.http.put<{token:string, userDetails: UserSettings}>("http://localhost:3000/api/user/connect", data)
     .subscribe( (body) => {
                             userData = body;
-                            console.log(userData.userDetails);
+                            console.log(body);
                             this.token = userData.token;
                             this.tokenSubscription.next(userData.token);
                             this.settings = userData.userDetails;
                             this.settings.juicyId = userData.userDetails._id;
     });
+  }
+  //get token and save to localStorage
+  private saveAuthData(token: string, expirationDate: number) {
+    localStorage.setItem('token',token)
+    localStorage.setItem('expiration', expirationDate.toString());
+  }
 
+  private clearAuthData() {
+    localStorage.removeItem('token')
+    localStorage.removeItem('expiration');
   }
 
   getCommission(){
