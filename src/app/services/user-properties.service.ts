@@ -365,7 +365,7 @@ export class UserPropertiesService {
   }
 
   getTablePrefs(): TablePreferences {
-    return this.viewTablePrefs;
+    return this.settings.filters;
   }
 
   getSelectedDate(): string {

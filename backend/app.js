@@ -181,7 +181,7 @@ app.post('/api/sab', checkAuth, async(req,res) => {
 
 app.put('/api/user/settings', checkAuth, async(req,res,next) => {
   try {
-    console.log("PARAMS");
+    console.log("UserSettings.body");
     console.log(req.body);
     const _id = new ObjectID(req.body.juicyId);
     // const col = await client.db("JuicyClients").collection("juicy_users").findOne({"_id":_id}, function(error,response){
