@@ -13,6 +13,7 @@ export class MatchNotificationSettingsComponent implements OnInit {
   onEditClick = false;
   defaultSmCommiss: number = 2.00;
   settingsForm: FormGroup;
+  userSettings: any;
 
 
   @ViewChild('triggerData') triggerDataForm: NgForm;
@@ -24,43 +25,43 @@ export class MatchNotificationSettingsComponent implements OnInit {
     console.log("OnInitCalled in MatchNotif-Settings");
 
     this.smCommission = this.userPropertiesService.getCommission();
-
+    this.userSettings = this.userPropertiesService.getUserSettings();
         //Creat a settings form, then pass down to all the child components in HTML
       this.settingsForm = new FormGroup({
         account: new FormGroup({
-                                UserName: new FormControl(this.userPropertiesService.getUserSettings().account.username),
-                                FirstName: new FormControl(this.userPropertiesService.getUserSettings().account.firstName),
-                                LastName: new FormControl(this.userPropertiesService.getUserSettings().account.lastName),
-                                Email: new FormControl(this.userPropertiesService.getUserSettings().account.email),
-                                Quote: new FormControl(this.userPropertiesService.getUserSettings().account.quote),
+                                UserName: new FormControl(this.userSettings.account.username),
+                                FirstName: new FormControl(this.userSettings.account.firstName),
+                                LastName: new FormControl(this.userSettings.account.lastName),
+                                Email: new FormControl(this.userSettings.account.email),
+                                Quote: new FormControl(this.userSettings.account.quote),
 
         }),
         preferences:new FormGroup({
-                                  PrefStake1: new FormControl(this.userPropertiesService.getUserSettings().preferences.userPrefferedStakes[0].stake),
-                                  PrefStake2: new FormControl(this.userPropertiesService.getUserSettings().preferences.userPrefferedStakes[1].stake),
-                                  PrefStake3: new FormControl(this.userPropertiesService.getUserSettings().preferences.userPrefferedStakes[2].stake),
-                                  PrefStake4: new FormControl(this.userPropertiesService.getUserSettings().preferences.userPrefferedStakes[3].stake),
-                                  PrefStake5: new FormControl(this.userPropertiesService.getUserSettings().preferences.userPrefferedStakes[4].stake),
-                                  PrefStake6: new FormControl(this.userPropertiesService.getUserSettings().preferences.userPrefferedStakes[5].stake),
-                                  PrefStake7: new FormControl(this.userPropertiesService.getUserSettings().preferences.userPrefferedStakes[6].stake),
-                                  PrefStake8: new FormControl(this.userPropertiesService.getUserSettings().preferences.userPrefferedStakes[7].stake),
-                                  PrefStake9: new FormControl(this.userPropertiesService.getUserSettings().preferences.userPrefferedStakes[8].stake),
-                                  PrefStake10: new FormControl(this.userPropertiesService.getUserSettings().preferences.userPrefferedStakes[9].stake),
-                                  SelectedFTA: new FormControl(this.userPropertiesService.getUserSettings().preferences.ftaOption),
-                                  SelectedExchange: new FormControl(this.userPropertiesService.getUserSettings().preferences.exchangeOption.name),
-                                  SelectedCommission: new FormControl(this.userPropertiesService.getUserSettings().preferences.exchangeOption.commission)
+                                  PrefStake1: new FormControl(this.userSettings.preferences.userPrefferedStakes[0].stake),
+                                  PrefStake2: new FormControl(this.userSettings.preferences.userPrefferedStakes[1].stake),
+                                  PrefStake3: new FormControl(this.userSettings.preferences.userPrefferedStakes[2].stake),
+                                  PrefStake4: new FormControl(this.userSettings.preferences.userPrefferedStakes[3].stake),
+                                  PrefStake5: new FormControl(this.userSettings.preferences.userPrefferedStakes[4].stake),
+                                  PrefStake6: new FormControl(this.userSettings.preferences.userPrefferedStakes[5].stake),
+                                  PrefStake7: new FormControl(this.userSettings.preferences.userPrefferedStakes[6].stake),
+                                  PrefStake8: new FormControl(this.userSettings.preferences.userPrefferedStakes[7].stake),
+                                  PrefStake9: new FormControl(this.userSettings.preferences.userPrefferedStakes[8].stake),
+                                  PrefStake10: new FormControl(this.userSettings.preferences.userPrefferedStakes[9].stake),
+                                  SelectedFTA: new FormControl(this.userSettings.preferences.ftaOption),
+                                  SelectedExchange: new FormControl(this.userSettings.preferences.exchangeOption.name),
+                                  SelectedCommission: new FormControl(this.userSettings.preferences.exchangeOption.commission)
         }),
         filters: new FormGroup({
-                                minOdds: new FormControl( this.userPropertiesService.getUserSettings().filters.minOdds),
-                                maxOdds: new FormControl( this.userPropertiesService.getUserSettings().filters.maxOdds),
-                                evFVI: new FormControl(this.userPropertiesService.getUserSettings().filters.evFVI),
-                                evFVII: new FormControl(this.userPropertiesService.getUserSettings().filters.evFVII),
-                                matchRatingFilterI: new FormControl(this.userPropertiesService.getUserSettings().filters.matchRatingFilterI),
-                                matchRatingFilterII: new FormControl(this.userPropertiesService.getUserSettings().filters.matchRatingFilterII),
-                                secretSauceI: new FormControl(this.userPropertiesService.getUserSettings().filters.secretSauceI),
-                                secretSauceII: new FormControl(this.userPropertiesService.getUserSettings().filters.secretSauceII),
-                                fvSelected: new FormControl(this.userPropertiesService.getUserSettings().filters.fvSelected),
-                                audioEnabled: new FormControl(this.userPropertiesService.getUserSettings().filters.audioEnabled),
+                                minOdds: new FormControl( this.userSettings.filters.minOdds),
+                                maxOdds: new FormControl( this.userSettings.filters.maxOdds),
+                                evFVI: new FormControl(this.userSettings.filters.evFVI),
+                                evFVII: new FormControl(this.userSettings.filters.evFVII),
+                                matchRatingFilterI: new FormControl(this.userSettings.filters.matchRatingFilterI),
+                                matchRatingFilterII: new FormControl(this.userSettings.filters.matchRatingFilterII),
+                                secretSauceI: new FormControl(this.userSettings.filters.secretSauceI),
+                                secretSauceII: new FormControl(this.userSettings.filters.secretSauceII),
+                                fvSelected: new FormControl(this.userSettings.filters.fvSelected),
+                                audioEnabled: new FormControl(this.userSettings.filters.audioEnabled),
                                 })
       });
   }
