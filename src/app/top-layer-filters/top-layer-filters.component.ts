@@ -34,7 +34,7 @@ export class TopLayerFiltersComponent implements OnInit, OnChanges {
 
   private userClickSubscription: Subscription;
 
-  constructor( private http: HttpClient, private userPref: UserPropertiesService, private juicyMatchHandlingService: JuicyMatchHandlingService, private dateHandlingService: DateHandlingService, private notificationService: NotificationBoxService) { }
+  constructor( private http: HttpClient, private userPropertiesService: UserPropertiesService, private juicyMatchHandlingService: JuicyMatchHandlingService, private dateHandlingService: DateHandlingService, private notificationService: NotificationBoxService) { }
 
       //first layer filter
       viewThisDate:string;
@@ -61,7 +61,7 @@ export class TopLayerFiltersComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
-    this.viewThisDate = this.userPref.getSelectedDate();
+    this.viewThisDate = this.userPropertiesService.getSelectedDate();
 
     this.userClickSubscription = this.notificationService.getNotificationPing().subscribe( matchObject => {
       console.log("Click registerd in TopFilterComp");
@@ -125,6 +125,10 @@ export class TopLayerFiltersComponent implements OnInit, OnChanges {
                 console.log(responseData.body[0]);
     });
 
+  }
+
+  initFilterSettings():void{
+    this.userPropertiesService.setFormValues(this.userPropertiesService.getUserSettings().filters);
   }
 }
 

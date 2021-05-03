@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormArray, FormControl, FormGroup, NgForm } from '@angular/forms';
+import { UserPropertiesService } from '../services/user-properties.service';
 import { CalcSettings } from './calc-settings.model';
 import { CalcSettingsService } from './calc-settings.service';
 
@@ -33,23 +34,23 @@ export class CalcSettingsComponent implements OnInit {
   defaultStakes: CalcSettings[];
   userStakes: CalcSettings[];
 
-  constructor(private calcSettingsService: CalcSettingsService) { }
+  constructor(private calcSettingsService: CalcSettingsService, private userPropertiesService: UserPropertiesService) { }
 
   ngOnInit(): void {
     this.stakeRanges = this.calcSettingsService.getRanges();
-
+    this.userStakes = this.userPropertiesService.getUserSettings().preferences.userPrefferedStakes;
     this.preferenceForm = new FormGroup({
       stakes: new FormArray([
-         new FormControl(this.preferenceFormValues.PrefStake1),
-         new FormControl(this.preferenceFormValues.PrefStake2),
-         new FormControl(this.preferenceFormValues.PrefStake3),
-         new FormControl(this.preferenceFormValues.PrefStake4),
-         new FormControl(this.preferenceFormValues.PrefStake5),
-         new FormControl(this.preferenceFormValues.PrefStake6),
-         new FormControl(this.preferenceFormValues.PrefStake7),
-         new FormControl(this.preferenceFormValues.PrefStake8),
-         new FormControl(this.preferenceFormValues.PrefStake9),
-         new FormControl(this.preferenceFormValues.PrefStake10)
+         new FormControl(this.userStakes[0].stake),
+         new FormControl(this.userStakes[1].stake),
+         new FormControl(this.userStakes[2].stake),
+         new FormControl(this.userStakes[3].stake),
+         new FormControl(this.userStakes[4].stake),
+         new FormControl(this.userStakes[5].stake),
+         new FormControl(this.userStakes[6].stake),
+         new FormControl(this.userStakes[7].stake),
+         new FormControl(this.userStakes[8].stake),
+         new FormControl(this.userStakes[9].stake)
       ]),
       options: new FormGroup({
         FTASelected: new FormControl(this.preferenceFormValues.SelectedFTA),
@@ -61,6 +62,9 @@ export class CalcSettingsComponent implements OnInit {
     // this.populateStakes();
 
     this.preferenceForm.valueChanges.subscribe( value => {
+      console.log("PreferenceForm!!!");
+      console.log(value);
+
       this.preferenceFormValuesChange.emit(value);
 
     });

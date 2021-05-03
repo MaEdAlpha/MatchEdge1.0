@@ -12,7 +12,7 @@
               Should look like a button
                 Should have a mat-slide-toggle that sets showTable(1) / showTable(2) -->
 
-        <button mat-raised-button class="generic-btn" (click)="showTable(3); initIgnoreList()">Juicy</button>
+        <button mat-raised-button class="generic-btn" (click)="showTable(3); initIgnoreList(); initFilterSettings()">Juicy</button>
         <button mat-raised-button class="generic-btn" (click)="showTable(4)">Active</button>
         <button mat-raised-button (click)="showCustomToast()">Test Me</button>
         <ng-container  *ngIf="displayFixtures == 3">

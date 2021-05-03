@@ -12,7 +12,7 @@ const MongoClient = require("mongodb").MongoClient;
 const ObjectID = require('mongodb').ObjectID;
 
 //const connectionString = "mongodb+srv://Dan:x6RTQn5bD79QLjkJ@cluster0.uljb3.gcp.mongodb.net/MBEdge?retryWrites=true&w=majority";
-const connectionString = "mongodb+srv://Randy:thaiMyShoe456@clusterme.lfzcj.mongodb.net/MBEdge?retryWrites=true&w=majority";
+const connectionString = "mongodb+srv://Randy:l116vwyx9JMo5w9v@clusterme.lfzcj.mongodb.net/MBEdge?retryWrites=true&w=majority";
 const options = {useUnifiedTopology: true, useNewUrlParser: true};
 const client = new MongoClient(connectionString, options );
 
@@ -232,13 +232,15 @@ app.put('/api/user/settings', checkAuth, async(req,res,next) => {
 
 
     }
-    return new Promise(function(resolve,reject) {
+
       client.db("JuicyClients").collection("juicy_users")
                               .updateOne( filter, update, options, function(error,response){
-                                 resolve(response);
+                                 console.log("Updated User Settings!");
+                                 console.log("Modified: " + response.modifiedCount);
                               });
-                            });
+
   }catch (e){
+    console.log("User PUT request Error");
     console.log(e);
   }
 })

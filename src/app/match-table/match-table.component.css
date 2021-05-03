@@ -21,7 +21,7 @@ mat-row {
 
 .OccA, .OccH {
   background: radial-gradient(at 76% 0, #263238, #263238ad 70%), linear-gradient(0deg, #e0e1e2, transparent 50%) bottom;
-  border-radius: 5px;  
+  border-radius: 5px;
   min-height: 100%;
   font-family: Roboto, "Helvetica Neue", sans-serif;
     font-size: 15px;
@@ -366,7 +366,7 @@ button.viewCell {
 .cdk-column-Home,
 .cdk-column-Away
 {
-  flex: 0 0 15% !important;  
+  flex: 0 0 15% !important;
   height: 49px;
   padding-left: 0;
 }
@@ -460,6 +460,144 @@ button.viewCell {
   min-height: 39px;
   margin-left: 0px;
   margin-right: 2px;
+}
+
+/* Added from WatchlistCSS Cut n' paste */
+#hStatusMoney{
+  background-image: url(/assets/img/jbLogo.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+  padding: 0px;
+  color: #263238;
+}
+
+.team-home-container{
+  width: 100%;
+  margin-left: auto;
+  display: inline-flex;
+}
+
+.team-away-container{
+  width: 100%;
+  margin-right: auto;
+  display: inline-flex;
+}
+
+.selection-button {
+  margin-right: 0px;
+  width: 100%;
+  height: 49px;
+  padding: 0;
+  border-radius: 0px 0px 0px 0px;
+}
+
+.match-inactive{
+  opacity: 0.8;
+  background:grey;
+}
+
+.homeOccCell{
+  float: left;
+  margin-left: 5px;
+  margin-right: auto;
+  margin-top: 4.5px;
+  width: 35px;
+  padding: 0px;
+  font-size: 15px;
+  color: #ffffff;
+}
+
+.fta-value-cont {
+  background: radial-gradient(at 76% 0, #263238, #263238ad 70%), linear-gradient(0deg, #e0e1e2, transparent 50%) bottom;
+  border-radius: 5px;
+  padding: 10px;
+  font-size: large;
+}
+
+/* mat-column generic styling  */
+.mat-column-SMAway,
+.mat-column-SMHome,
+.mat-column-BHome,
+.mat-column-BAway,
+.mat-column-OccH,
+.mat-column-OccA,
+.mat-column-Home,
+.mat-column-Away
+{
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  width: fit-content !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-word;
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+  min-height: 48px;
+}
+
+/* Home/Away Odds */
+.mat-column-SMAway,
+.mat-column-SMHome,
+.mat-column-BHome,
+.mat-column-BAway {
+  flex: 0 0 7% !important;
+}
+
+.mat-column-OccH,
+.mat-column-OccA {
+  flex: 0 0 0% !important;
+  background: #fbfbfb;
+}
+
+.cdk-column-OccH{
+  border-radius: 8px 0px 0px 8px;
+  margin-left: 0%;
+}
+
+.cdk-column-OccA{
+  border-radius: 0px 8px 8px 0px;
+  margin-right: 0%;
+}
+/* Team Cells */
+.mat-column-Home{
+  flex: 0 0 20.5% !important;
+  border-radius: 8px 0px 0px 8px;
+}
+.mat-column-Away{
+  flex: 0 0 20.5% !important;
+  border-radius: 0px 8px 8px 0px;
+}
+
+/* Match Button */
+.mat-column-FixturesDate{
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 7% !important;
+  width: fit-content !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-word;
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
+
+.mat-column-HStatus,
+.mat-column-AStatus {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 2% !important;
+  width: fit-content !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-word;
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
 }
 
 

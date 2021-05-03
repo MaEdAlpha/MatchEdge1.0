@@ -14,14 +14,26 @@ export class HideTableRowDirective implements OnChanges{
   @Input() userPref: TablePreferences;
   @Input() inRange;
 
+
   constructor(private renderer: Renderer2, private elRef: ElementRef) {  }
 
   ngOnChanges(changes: SimpleChanges){
+    //Testing Purposes
+    // console.log("UserPreferences");
+    // console.log(this.userPref);
+    // console.log("EVvalu: " + this.evValue);
+
 
   //filter out Groups
   if(this.inRange != undefined || this.isWatched != undefined || this.userPref != undefined){
     if(+this.userPref.fvSelected == 1)  {
-        // console.log(this.selection.Selection+ " Hidden: " + this.selection.ignore);
+        // console.log("CHECKING Match: -----:");
+
+        // console.log(this.inRange );
+        // console.log( +this.evValue >= +this.userPref.evFVI);
+        // console.log( +this.backOdds >= +this.userPref.minOdds);
+        // console.log( +this.backOdds <= +this.userPref.maxOdds);
+
         if(changes.evValue) { //if ev has a value constantly loop over this.
           if(this.inRange == true && +this.evValue >= +this.userPref.evFVI && +this.backOdds >= +this.userPref.minOdds && +this.backOdds <= +this.userPref.maxOdds){ //evValue less than filter setting. hide. larger than. show.
             this.show();
@@ -70,11 +82,11 @@ export class HideTableRowDirective implements OnChanges{
 
       //To handle production Error "changesAfterViewInit detected:
       // Incomplete Data calcs/ bad values
-      if(this.evValue >= 100){
+      if(this.mrValue >= 100){
         this.hide();
       }
       // Incomplete Data calcs/ bad values
-      if(this.mrValue >=1000){
+      if(this.evValue >=1000){
         this.hide();
       }
       if(this.inRange == false){
@@ -82,10 +94,6 @@ export class HideTableRowDirective implements OnChanges{
       }
      //Ignore status read.
       if(!this.isWatched) {
-        this.hide();
-      }
-
-      if(!this.inRange){
         this.hide();
       }
     }

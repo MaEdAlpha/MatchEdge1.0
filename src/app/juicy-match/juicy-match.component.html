@@ -22,7 +22,9 @@
 
                 <ng-container *ngIf="selection.isWatched">
                   <ng-container *ngIf="selection.inRange">
-                    <ng-container *ngIf= "( (fvSelected == 1 && +selection['EVthisBet'] >= +prefObj.evFilterValueI && +selection['EVthisBet'] <= 1000) || (fvSelected == 2 && (+selection['MatchRating'] == +prefObj.matchRatingFilterI || selection['MatchRating'] > (+prefObj.matchRatingFilterI - 0.02)) ) || (fvSelected == 3 && (+selection['QLPercentage'] == +prefObj.secretSauceI || selection['QLPercentage'] > (+prefObj.secretSauceI) ) ) )">
+                    <ng-container *ngIf= "( (fvSelected == 1 && +selection['EVthisBet'] >= +prefObj.evFilterValueI) ||
+                                            (fvSelected == 2 && (+selection['MatchRating'] == +prefObj.matchRatingFilterI ||  selection['MatchRating'] > (+prefObj.matchRatingFilterI - 0.02))) ||
+                                            (fvSelected == 3 && ( +selection['QLPercentage'] == +prefObj.secretSauceI || selection['QLPercentage'] >= (+prefObj.secretSauceI) )) )">
                     <ng-container *ngIf= "( +maxOddsFilter >= +selection['BackOdds'] && +selection['BackOdds'] >= +minOddsFilter )">
 
                           <div class="juicyCell b3-odd-cont" *ngIf="column.field.endsWith('BackOdds')">

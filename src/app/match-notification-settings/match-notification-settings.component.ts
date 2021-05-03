@@ -17,21 +17,15 @@ export class MatchNotificationSettingsComponent implements OnInit {
 
   @ViewChild('triggerData') triggerDataForm: NgForm;
 
-  triggerOdds:TriggerOdds[];
-
   constructor(private userPropertiesService: UserPropertiesService) { }
 
   ngOnInit(): void {
     //if user does not have commission saved then use default
-    this.smCommission = this.userPropertiesService.getCommission();
-    this.triggerOdds = this.userPropertiesService.getTriggerOdds();
-    this.userPropertiesService.triggerOddsSelected
-      .subscribe( (
-        triggerOdds: TriggerOdds[]) => {
-        this.triggerOdds = triggerOdds;
-        }
-      );
+    console.log("OnInitCalled in MatchNotif-Settings");
 
+    this.smCommission = this.userPropertiesService.getCommission();
+
+        //Creat a settings form, then pass down to all the child components in HTML
       this.settingsForm = new FormGroup({
         account: new FormGroup({
                                 UserName: new FormControl(this.userPropertiesService.getUserSettings().account.username),
@@ -57,37 +51,22 @@ export class MatchNotificationSettingsComponent implements OnInit {
                                   SelectedCommission: new FormControl(this.userPropertiesService.getUserSettings().preferences.exchangeOption.commission)
         }),
         filters: new FormGroup({
-                                MinOdds: new FormControl( this.userPropertiesService.getUserSettings().filters.minOdds),
-                                MaxOdds: new FormControl( this.userPropertiesService.getUserSettings().filters.maxOdds),
-                                EVI: new FormControl(this.userPropertiesService.getUserSettings().filters.evFVI),
-                                EVII: new FormControl(this.userPropertiesService.getUserSettings().filters.evFVII),
-                                MRI: new FormControl(this.userPropertiesService.getUserSettings().filters.matchRatingFilterI),
-                                MRII: new FormControl(this.userPropertiesService.getUserSettings().filters.matchRatingFilterII),
-                                SSI: new FormControl(this.userPropertiesService.getUserSettings().filters.secretSauceI),
-                                SSII: new FormControl(this.userPropertiesService.getUserSettings().filters.secretSauceII),
-                                Filter: new FormControl(this.userPropertiesService.getUserSettings().filters.fvSelected),
-                                Audio: new FormControl(this.userPropertiesService.getUserSettings().filters.audioEnabled),
-        })
+                                minOdds: new FormControl( this.userPropertiesService.getUserSettings().filters.minOdds),
+                                maxOdds: new FormControl( this.userPropertiesService.getUserSettings().filters.maxOdds),
+                                evFVI: new FormControl(this.userPropertiesService.getUserSettings().filters.evFVI),
+                                evFVII: new FormControl(this.userPropertiesService.getUserSettings().filters.evFVII),
+                                matchRatingFilterI: new FormControl(this.userPropertiesService.getUserSettings().filters.matchRatingFilterI),
+                                matchRatingFilterII: new FormControl(this.userPropertiesService.getUserSettings().filters.matchRatingFilterII),
+                                secretSauceI: new FormControl(this.userPropertiesService.getUserSettings().filters.secretSauceI),
+                                secretSauceII: new FormControl(this.userPropertiesService.getUserSettings().filters.secretSauceII),
+                                fvSelected: new FormControl(this.userPropertiesService.getUserSettings().filters.fvSelected),
+                                audioEnabled: new FormControl(this.userPropertiesService.getUserSettings().filters.audioEnabled),
+                                })
       });
   }
 
-  onSubmitTrigger(fTriggerData: NgForm)
-  {
-    // Save all forms that have come back validated.
-  }
-
-  onClickClose(){
-
-  }
-
   test(){
-    console.log(this.settingsForm);
-    console.log(this.userPropertiesService.getUserSettings());
-
-
-  }
-
-  savePreferences(){
+    console.log(this.settingsForm.value);
 
   }
 
@@ -98,7 +77,6 @@ export class MatchNotificationSettingsComponent implements OnInit {
       LastName: value.LastName,
       Email: value.Email,
       Quote: value.Quote,
-      Password: value.Password
     });
   }
 
@@ -122,21 +100,24 @@ export class MatchNotificationSettingsComponent implements OnInit {
 
   updateFilterChanges(value:any){
     this.settingsForm.controls['filters'].setValue({
-      MinOdds: value.minOdds,
-      MaxOdds:  value.maxOdds,
-      EVI: value.evFilterValueI,
-      EVII: value.evFilterValueII,
-      MRI: value.matchRatingFilterI,
-      MRII: value.matchRatingFilterII,
-      SSI: value.secretSauceI,
-      SSII: value.secretSauceII,
-      Filter: value.fvSelected,
-      Audio: value.isAudioEnabled
+      minOdds: value.minOdds,
+      maxOdds:  value.maxOdds,
+      evFVI: value.evFilterValueI,
+      evFVII: value.evFilterValueII,
+      matchRatingFilterI: value.matchRatingFilterI,
+      matchRatingFilterII: value.matchRatingFilterII,
+      secretSauceI: value.secretSauceI,
+      secretSauceII: value.secretSauceII,
+      fvSelected: value.fvSelected,
+      audioEnabled: value.audioEnabled
     });
   }
 
   saveUserSettings(){
-    this.userPropertiesService.saveUserSettings(this.settingsForm.value);
+    console.log("SAVING TO DB");
+    //Update Change detection in Juicy Table.
+    this.userPropertiesService.setFormValues(this.settingsForm.value.filters);
+    this.userPropertiesService.saveUserSettings(this.settingsForm.value, this.userPropertiesService.getUserSettings().juicyId );
   }
 }
 

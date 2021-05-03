@@ -60,7 +60,7 @@ export class FilterSettingsComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.evPlaceholder = +this.filtersFormValues.Filter == 1 ? "EV" : +this.filtersFormValues.Filter == 2 ? "Match Rating" : +this.filtersFormValues.Filter == 3 ? "Secret Sauce" : "null" ;
+    this.evPlaceholder = +this.filtersFormValues.fvSelected == 1 ? "Expected Value (£)" : +this.filtersFormValues.fvSelected == 2 ? "Match Rating (%)" : +this.filtersFormValues.fvSelected == 3 ? "Qualifying Loss (%)" : "null" ;
     console.log(this.filtersFormValues);
 
     var filterValidator: ValidatorFn[] = [Validators.required, Validators.pattern("^[0-9\.\-]*$"), Validators.maxLength(7)];
@@ -68,16 +68,16 @@ export class FilterSettingsComponent implements OnInit {
 
 
     this.viewTableForm = new FormGroup({
-      'minOdds': new FormControl(this.filtersFormValues.MinOdds, filterValidator),
-      'maxOdds': new FormControl(this.filtersFormValues.MaxOdds, filterValidator),
-      'evFilterValueI': new FormControl(this.filtersFormValues.EVI, filterValidator),
-      'evFilterValueII': new FormControl(this.filtersFormValues.EVII, filterValidator),
-      'matchRatingFilterI': new FormControl(this.filtersFormValues.MRI, mrFilterValidator),
-      'matchRatingFilterII': new FormControl(this.filtersFormValues.MRII, mrFilterValidator),
-      'secretSauceI': new FormControl(this.filtersFormValues.SSI, filterValidator),
-      'secretSauceII': new FormControl(this.filtersFormValues.SSII, filterValidator),
-      'fvSelected': new FormControl(this.filtersFormValues.Filter),
-      'isAudioEnabled': new FormControl(this.filtersFormValues.Audio),
+      'minOdds': new FormControl(this.filtersFormValues.minOdds, filterValidator),
+      'maxOdds': new FormControl(this.filtersFormValues.maxOdds, filterValidator),
+      'evFilterValueI': new FormControl(this.filtersFormValues.evFVI, filterValidator),
+      'evFilterValueII': new FormControl(this.filtersFormValues.evFVII, filterValidator),
+      'matchRatingFilterI': new FormControl(this.filtersFormValues.matchRatingFilterI, mrFilterValidator),
+      'matchRatingFilterII': new FormControl(this.filtersFormValues.matchRatingFilterII, mrFilterValidator),
+      'secretSauceI': new FormControl(this.filtersFormValues.secretSauceI, filterValidator),
+      'secretSauceII': new FormControl(this.filtersFormValues.secretSauceII, filterValidator),
+      'fvSelected': new FormControl(this.filtersFormValues.fvSelected),
+      'audioEnabled': new FormControl(this.filtersFormValues.audioEnabled),
     }, { validators: [oddsValidator, evValidator, mrValidator, ssValidator]});
 
     //Subscribe to update. Retrieves UserPreferences from Service. Subscribes to it.
@@ -93,7 +93,7 @@ export class FilterSettingsComponent implements OnInit {
       this.secretSauceI= Number(tablePref.secretSauceI);
       this.secretSauceII=Number(tablePref.secretSauceII);
       this.fvSelected = tablePref.fvSelected;
-      this.evPlaceholder = +this.filtersFormValues.Filter == 1 ? "EV" : +this.filtersFormValues.Filter == 2 ? "Match Rating" : +this.filtersFormValues.Filter == 3 ? "Secret Sauce" : "null" ;
+      this.evPlaceholder = +this.filtersFormValues.fvSelected == 1 ? "EV" : +this.filtersFormValues.fvSelected == 2 ? "Match Rating" : +this.filtersFormValues.fvSelected == 3 ? "Secret Sauce" : "null" ;
       this.audioEnabled = tablePref.audioEnabled;
     });
 
@@ -111,6 +111,7 @@ export class FilterSettingsComponent implements OnInit {
     emit this so services can hear and set to matchStats/juicymatch component.
     set in program to validate for juicy matches. */
     console.log(this.viewTableForm.value);
+    console.log(this.filtersFormValues);
 
     this.userPrefService.setFormValues(this.viewTableForm.value);
   }

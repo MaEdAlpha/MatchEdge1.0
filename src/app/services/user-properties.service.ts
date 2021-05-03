@@ -109,17 +109,17 @@ export class UserPropertiesService {
   };
 
   private settings: UserSettings = {
-      juicyId: "ObjectId(xxxx)",
-      account: { username: "chaarlie",
-                 firstName: "ryan",
-                 lastName: "anderson",
-                 email: "juicyBets@fmail.com",
-                 quote: "giddyup",
+      juicyId: "blank",
+      account: { username: "blank",
+                 firstName: "blank",
+                 lastName: "blank",
+                 email: "blank@fmail.com",
+                 quote: "blank",
                },
 
       preferences: { userPrefferedStakes: this.userStakes,
-                     ftaOption: 'generic',
-                     exchangeOption: {name: 'Smarkets', commission: 2}
+                     ftaOption: 'blank',
+                     exchangeOption: {name: 'blank', commission: 2}
                    },
 
       filters:     this.viewTablePrefs
@@ -127,7 +127,6 @@ export class UserPropertiesService {
   constructor(private http: HttpClient) { }
 
   getUserSettings(): UserSettings {
-
     return  this.settings;
   }
 
@@ -159,6 +158,8 @@ export class UserPropertiesService {
                                                     }
                             this.settings.preferences = userData.userDetails.preferences;
                             this.settings.juicyId = userData.userDetails._id;
+                            console.log("BACKEND CALL SETTINGS");
+
                             console.log(this.settings);
 
     });
@@ -230,14 +231,25 @@ export class UserPropertiesService {
   setFormValues(formObj: any){
 
     console.log(formObj);
+    // evFilterValueI: "-20"
+    // evFilterValueII: "1"
+    // fvSelected: "1"
+    // isAudioEnabled: true
+    // matchRatingFilterI: "80"
+    // matchRatingFilterII: "97"
+    // maxOdds: "20"
+    // minOdds: "2.5"
+    // secretSauceI: "-5"
+    // secretSauceII: "-1.2"
+
 
     this.userPrefSub.next({
 
-      timeRange: formObj.timeRange,
+      timeRange: this.settings.filters.timeRange,
       minOdds: formObj.minOdds,
       maxOdds: formObj.maxOdds,
-      evFVI: formObj.evFilterValueI,
-      evFVII: formObj.evFilterValueII,
+      evFVI: formObj.evFVI,
+      evFVII: formObj.evFVII,
       matchRatingFilterI: formObj.matchRatingFilterI,
       matchRatingFilterII: formObj.matchRatingFilterII,
       secretSauceI: formObj.secretSauceI,
@@ -248,7 +260,7 @@ export class UserPropertiesService {
 
     this.settings.filters = {
 
-      timeRange: formObj.timeRange,
+      timeRange: this.settings.filters.timeRange,
       minOdds: formObj.minOdds,
       maxOdds: formObj.maxOdds,
       evFVI: formObj.evFilterValueI,
@@ -263,10 +275,11 @@ export class UserPropertiesService {
     this.viewTablePrefSelected.emit(this.viewTablePrefs);
   }
 
-  saveUserSettings(settingsForm){
+  saveUserSettings(settingsForm, juicyId){
+    console.log("---1. Reactive form---->----->-----Saving to BackEnd--->--->---2 .this.settings object");
+    console.log("---1. Reactive form----");
     console.log(settingsForm);
-    console.log(this.settings);
-    this.settings = {...this.settings, account: {
+    this.settings = {                   account: {
                                                   username: settingsForm.account.UserName,
                                                   email: settingsForm.account.Email,
                                                   firstName: settingsForm.account.FirstName,
@@ -274,7 +287,8 @@ export class UserPropertiesService {
                                                   quote: settingsForm.account.quote
                                                 },
                                         preferences: {
-                                                        userPrefferedStakes: [settingsForm.preferences.PrefStake1,
+                                                        userPrefferedStakes: [
+                                                        settingsForm.preferences.PrefStake1,
                                                         settingsForm.preferences.PrefStake2,
                                                         settingsForm.preferences.PrefStake3,
                                                         settingsForm.preferences.PrefStake4,
@@ -284,25 +298,29 @@ export class UserPropertiesService {
                                                         settingsForm.preferences.PrefStake8,
                                                         settingsForm.preferences.PrefStake9,
                                                         settingsForm.preferences.PrefStake10 ],
+
                                                         ftaOption: settingsForm.preferences.SelectedFTA,
-                                                        exchangeOption: { name: settingsForm.preferences.SelectedExchange, commission: settingsForm.preferences.SelectedCommission}
+                                                        exchangeOption: { name: settingsForm.preferences.SelectedExchange,
+                                                                          commission: settingsForm.preferences.SelectedCommission
+                                                                        }
                                                       },
                                         filters:   {
                                                     timeRange: this.viewTablePrefs.timeRange,
-                                                    minOdds: settingsForm.filters.MinOdds,
-                                                    maxOdds: settingsForm.filters.MaxOdds,
-                                                    evFVI: settingsForm.filters.EVI,
-                                                    evFVII: settingsForm.filters.EVII,
-                                                    matchRatingFilterI: settingsForm.filters.MRI,
-                                                    matchRatingFilterII: settingsForm.filters.MRII,
-                                                    secretSauceI: settingsForm.filters.SSI,
-                                                    secretSauceII: settingsForm.filters.SSII,
-                                                    fvSelected: settingsForm.filters.Filter,
-                                                    audioEnabled: settingsForm.filters.Audio,
-                                                   }
+                                                    minOdds: settingsForm.filters.minOdds,
+                                                    maxOdds: settingsForm.filters.maxOdds,
+                                                    evFVI: settingsForm.filters.evFVI,
+                                                    evFVII: settingsForm.filters.evFVII,
+                                                    matchRatingFilterI: settingsForm.filters.matchRatingFilterI,
+                                                    matchRatingFilterII: settingsForm.filters.matchRatingFilterII,
+                                                    secretSauceI: settingsForm.filters.secretSauceI,
+                                                    secretSauceII: settingsForm.filters.secretSauceII,
+                                                    fvSelected: settingsForm.filters.fvSelected,
+                                                    audioEnabled: settingsForm.filters.audioEnabled,
+                                                   },
+                                      juicyId: juicyId,
                       }
 
-                      console.log("SAVED!!!!!");
+                      console.log("----2. Settings object -----");
                       console.log(this.settings);
                       this.http.put<any>("http://localhost:3000/api/user/settings", this.settings).subscribe();
 
@@ -318,32 +336,32 @@ export class UserPropertiesService {
 
 
   getEV():number{
-    return Number(this.viewTablePrefs.evFVI);
+    return Number(this.settings.filters.evFVI);
   }
 
   getEVNotification():number{
-    return Number(this.viewTablePrefs.evFVII);
+    return Number(this.settings.filters.evFVII);
   }
 
   getMR(): number{
     //TODO add MatchRating in sidenav
-    return Number(this.viewTablePrefs.matchRatingFilterI);
+    return Number(this.settings.filters.matchRatingFilterI);
   }
 
   getSS(): number {
-    return Number(this.viewTablePrefs.secretSauceI);
+    return Number(this.settings.filters.secretSauceI);
   }
 
   getMinOdds(): number{
-    return Number(this.viewTablePrefs.minOdds);
+    return Number(this.settings.filters.minOdds);
   }
 
   getMaxOdds(): number {
-    return Number(this.viewTablePrefs.maxOdds);
+    return Number(this.settings.filters.maxOdds);
   }
 
   getOptionSelected(): number {
-    return Number(this.viewTablePrefs.fvSelected);
+    return Number(this.settings.filters.fvSelected);
   }
 
   getTablePrefs(): TablePreferences {

@@ -122,7 +122,13 @@ export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
   ngOnInit(){
     //Get initial user settings on initialization. For this to work, need to use HTTP Get request of userPreferences at page load.
     this.prefObj = this.userPrefService.getTablePrefs();
+    console.log("PREFOBJECT FOR FILTERING!!!!");
+    console.log(this.prefObj);
+
+
     this.fvSelected = +this.prefObj.fvSelected;
+    console.log(this.fvSelected);
+
     this.allIndvMatches = [];
     this.tableDateSelected = this.userPrefService.getSelectedDate();
     this.getStartEndDays(this.userPrefService.getSelectedDate());
@@ -158,6 +164,8 @@ export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
     this.matchRatingFilter = this.userPrefService.getMR();
     this.minOddsFilter= this.userPrefService.getMinOdds();
     this.maxOddsFilter= this.userPrefService.getMaxOdds();
+
+
 
     //subscribe to userPreference Values
     this.prefSub = this.userPrefService.getUserPrefs().subscribe( tablePref => {

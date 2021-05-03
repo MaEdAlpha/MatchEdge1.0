@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit, OnChanges, Output, EventEmitter, SimpleCh
 import { Subject, Subscription } from 'rxjs';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { MatchesService } from '../match/matches.service';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { animate, group, state, style, transition, trigger } from '@angular/animations';
 import { WebsocketService } from '../websocket.service';
 import { Match } from '../match/match.model';
@@ -19,6 +19,7 @@ import { Observable } from 'rxjs';
 import { MatCheckbox } from '@angular/material/checkbox';
 import { SavedActiveBetsService } from '../services/saved-active-bets.service';
 import { ActiveBet } from '../models/active-bet.model';
+import { PopupViewSavedBetsComponent } from '../popup-view-saved-bets/popup-view-saved-bets.component';
 
   export class Group {
     level = 0;
@@ -157,6 +158,8 @@ import { ActiveBet } from '../models/active-bet.model';
       .subscribe( ( matchData: any) => {
                                           //Takeout bad data
                                           this.matches = this.sanitizeList(matchData);
+                                          console.log(this.matches);
+
                                           // Set up and clean groups
                                           this.buildGroupHeaders(this.matches, 0);
                                           this.cleanGroups(this.masterGroup);
@@ -709,6 +712,26 @@ import { ActiveBet } from '../models/active-bet.model';
       }
     }
 
+    openViewBets(row:any, selection:string): void {
+
+      selection == 'home' ? row.Selection = row.Home: row.Selection = row.Away;
+      const list: ActiveBet[] = this.savedActiveBets;
+      console.log(this.savedActiveBets);
+
+      //filtered SAB List based off selection.
+
+      const matDialogConfig = new MatDialogConfig();
+      matDialogConfig.width = '70%';
+      matDialogConfig.height ='80%';
+      matDialogConfig.data = {row, list};
+      const dialogRef = this.dialog.open(PopupViewSavedBetsComponent, matDialogConfig);
+
+
+      dialogRef.afterClosed().subscribe(result => {
+        console.log('dialog is SAB popup closed, do something with data');
+      });
+    }
+
     saveMasterGroup( masterGroup: any){
       this.matchStatusService.watchGroupSubject( masterGroup );
     }
@@ -719,6 +742,17 @@ import { ActiveBet } from '../models/active-bet.model';
 
     checkDateHeaders():void{
       // this.viewTableList = this.hideFixtures
+    }
+
+
+    toggleNotification(matchObj:any, isHome:boolean):void{
+      isHome ? matchObj.HStatus.notify = !matchObj.HStatus.notify : matchObj.AStatus.notify = !matchObj.AStatus.notify;
+      //update match-status.services.
+      this.updateMatchStatusList(matchObj, isHome);
+    }
+
+    updateMatchStatusList(matchObj:any, isHome:boolean):void{
+      this.matchStatusService.updateWatchList(matchObj, isHome);
     }
 }
 

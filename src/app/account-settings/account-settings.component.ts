@@ -17,6 +17,9 @@ export class AccountSettingsComponent implements OnInit {
 
 
   ngOnInit(): void {
+    console.log("ACCOUNT");
+
+    console.log(this.accountFormValues);
 
     this.accountForm = new FormGroup({
       UserName: new FormControl(this.accountFormValues.UserName),
@@ -24,7 +27,6 @@ export class AccountSettingsComponent implements OnInit {
       LastName: new FormControl(this.accountFormValues.LastName),
       Email: new FormControl(this.accountFormValues.Email),
       Quote: new FormControl(this.accountFormValues.Quote),
-      Password: new FormControl(this.accountFormValues.Password)
     });
 
     this.accountForm.valueChanges.subscribe( (value) => {
