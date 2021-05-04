@@ -198,16 +198,16 @@ app.put('/api/user/settings', checkAuth, async(req,res,next) => {
                                   },
                                   "preferences": {
                                     "userPrefferedStakes":[
-                                                              {"stake":req.body.preferences.userPrefferedStakes[0], "oddsLow": 0.1, "oddsHigh":2.01},
-                                                              {"stake":req.body.preferences.userPrefferedStakes[1], "oddsLow": 2.01, "oddsHigh":3},
-                                                              {"stake":req.body.preferences.userPrefferedStakes[2], "oddsLow": 3.01, "oddsHigh":4},
-                                                              {"stake":req.body.preferences.userPrefferedStakes[3], "oddsLow": 4.01, "oddsHigh":5},
-                                                              {"stake":req.body.preferences.userPrefferedStakes[4], "oddsLow": 5.01, "oddsHigh":6},
-                                                              {"stake":req.body.preferences.userPrefferedStakes[5], "oddsLow": 6.01, "oddsHigh":8},
-                                                              {"stake":req.body.preferences.userPrefferedStakes[6], "oddsLow": 8.01, "oddsHigh":10},
-                                                              {"stake":req.body.preferences.userPrefferedStakes[7], "oddsLow": 10.01, "oddsHigh":12},
-                                                              {"stake":req.body.preferences.userPrefferedStakes[8], "oddsLow": 12.01, "oddsHigh":14},
-                                                              {"stake":req.body.preferences.userPrefferedStakes[9], "oddsLow": 14.01, "oddsHigh":2000}
+                                                            req.body.preferences.userPrefferedStakes[0],
+                                                            req.body.preferences.userPrefferedStakes[1],
+                                                            req.body.preferences.userPrefferedStakes[2],
+                                                            req.body.preferences.userPrefferedStakes[3],
+                                                            req.body.preferences.userPrefferedStakes[4],
+                                                            req.body.preferences.userPrefferedStakes[5],
+                                                            req.body.preferences.userPrefferedStakes[6],
+                                                            req.body.preferences.userPrefferedStakes[7],
+                                                            req.body.preferences.userPrefferedStakes[8],
+                                                            req.body.preferences.userPrefferedStakes[9],
                                                           ],
                                     "ftaOption":req.body.preferences.ftaOption,
                                     "exchangeOption":{
@@ -320,18 +320,7 @@ function createNewUserDocument(userEmail){
                                         "password":"test",
                                      },
                             "preferences": {
-                                      "userPrefferedStakes":[
-                                                              {"stake":100, "oddsLow": 0.1, "oddsHigh":2.01},
-                                                              {"stake":80, "oddsLow": 2.01, "oddsHigh":3},
-                                                              {"stake":60, "oddsLow": 3.01, "oddsHigh":4},
-                                                              {"stake":50, "oddsLow": 4.01, "oddsHigh":5},
-                                                              {"stake":40, "oddsLow": 5.01, "oddsHigh":6},
-                                                              {"stake":20, "oddsLow": 6.01, "oddsHigh":8},
-                                                              {"stake":10, "oddsLow": 8.01, "oddsHigh":10},
-                                                              {"stake":10, "oddsLow": 10.01, "oddsHigh":12},
-                                                              {"stake":5, "oddsLow": 12.01, "oddsHigh":14},
-                                                              {"stake":1, "oddsLow": 14.01, "oddsHigh":2000}
-                                                            ],
+                                      "userPrefferedStakes":[100,80,60,50,40,20,10,10,5,1],
                                       "ftaOption":"generic",
                                       "exchangeOption":{
                                                         "name":"Smarkets",

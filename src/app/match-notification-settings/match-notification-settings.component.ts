@@ -26,6 +26,8 @@ export class MatchNotificationSettingsComponent implements OnInit {
 
     this.smCommission = this.userPropertiesService.getCommission();
     this.userSettings = this.userPropertiesService.getUserSettings();
+    console.log(this.userSettings);
+
         //Creat a settings form, then pass down to all the child components in HTML
       this.settingsForm = new FormGroup({
         account: new FormGroup({
@@ -37,16 +39,16 @@ export class MatchNotificationSettingsComponent implements OnInit {
 
         }),
         preferences:new FormGroup({
-                                  PrefStake1: new FormControl(this.userSettings.preferences.userPrefferedStakes[0].stake),
-                                  PrefStake2: new FormControl(this.userSettings.preferences.userPrefferedStakes[1].stake),
-                                  PrefStake3: new FormControl(this.userSettings.preferences.userPrefferedStakes[2].stake),
-                                  PrefStake4: new FormControl(this.userSettings.preferences.userPrefferedStakes[3].stake),
-                                  PrefStake5: new FormControl(this.userSettings.preferences.userPrefferedStakes[4].stake),
-                                  PrefStake6: new FormControl(this.userSettings.preferences.userPrefferedStakes[5].stake),
-                                  PrefStake7: new FormControl(this.userSettings.preferences.userPrefferedStakes[6].stake),
-                                  PrefStake8: new FormControl(this.userSettings.preferences.userPrefferedStakes[7].stake),
-                                  PrefStake9: new FormControl(this.userSettings.preferences.userPrefferedStakes[8].stake),
-                                  PrefStake10: new FormControl(this.userSettings.preferences.userPrefferedStakes[9].stake),
+                                  PrefStake1: new FormControl(this.userSettings.preferences.userPrefferedStakes[0]),
+                                  PrefStake2: new FormControl(this.userSettings.preferences.userPrefferedStakes[1]),
+                                  PrefStake3: new FormControl(this.userSettings.preferences.userPrefferedStakes[2]),
+                                  PrefStake4: new FormControl(this.userSettings.preferences.userPrefferedStakes[3]),
+                                  PrefStake5: new FormControl(this.userSettings.preferences.userPrefferedStakes[4]),
+                                  PrefStake6: new FormControl(this.userSettings.preferences.userPrefferedStakes[5]),
+                                  PrefStake7: new FormControl(this.userSettings.preferences.userPrefferedStakes[6]),
+                                  PrefStake8: new FormControl(this.userSettings.preferences.userPrefferedStakes[7]),
+                                  PrefStake9: new FormControl(this.userSettings.preferences.userPrefferedStakes[8]),
+                                  PrefStake10: new FormControl(this.userSettings.preferences.userPrefferedStakes[9]),
                                   SelectedFTA: new FormControl(this.userSettings.preferences.ftaOption),
                                   SelectedExchange: new FormControl(this.userSettings.preferences.exchangeOption.name),
                                   SelectedCommission: new FormControl(this.userSettings.preferences.exchangeOption.commission)

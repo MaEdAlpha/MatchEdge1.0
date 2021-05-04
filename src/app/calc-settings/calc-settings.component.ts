@@ -39,18 +39,22 @@ export class CalcSettingsComponent implements OnInit {
   ngOnInit(): void {
     this.stakeRanges = this.calcSettingsService.getRanges();
     this.userStakes = this.userPropertiesService.getUserSettings().preferences.userPrefferedStakes;
+    console.log("USERSTAKES");
+    //for some reason, this comes back just as an array of stakes, without [{stakes:number, lowOdds:number, highOdds:number}]
+    console.log(this.userStakes);
+
     this.preferenceForm = new FormGroup({
       stakes: new FormArray([
-         new FormControl(this.userStakes[0].stake),
-         new FormControl(this.userStakes[1].stake),
-         new FormControl(this.userStakes[2].stake),
-         new FormControl(this.userStakes[3].stake),
-         new FormControl(this.userStakes[4].stake),
-         new FormControl(this.userStakes[5].stake),
-         new FormControl(this.userStakes[6].stake),
-         new FormControl(this.userStakes[7].stake),
-         new FormControl(this.userStakes[8].stake),
-         new FormControl(this.userStakes[9].stake)
+         new FormControl(this.userStakes[0]),
+         new FormControl(this.userStakes[1]),
+         new FormControl(this.userStakes[2]),
+         new FormControl(this.userStakes[3]),
+         new FormControl(this.userStakes[4]),
+         new FormControl(this.userStakes[5]),
+         new FormControl(this.userStakes[6]),
+         new FormControl(this.userStakes[7]),
+         new FormControl(this.userStakes[8]),
+         new FormControl(this.userStakes[9])
       ]),
       options: new FormGroup({
         FTASelected: new FormControl(this.preferenceFormValues.SelectedFTA),

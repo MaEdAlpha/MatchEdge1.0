@@ -109,21 +109,35 @@ export class UserPropertiesService {
   };
 
   private settings: UserSettings = {
-      juicyId: "blank",
-      account: { username: "blank",
-                 firstName: "blank",
-                 lastName: "blank",
-                 email: "blank@fmail.com",
-                 quote: "blank",
-               },
+    juicyId: "blank",
 
-      preferences: { userPrefferedStakes: this.userStakes,
-                     ftaOption: 'blank',
-                     exchangeOption: {name: 'blank', commission: 2}
-                   },
+    account: {
+               username: "blank",
+               firstName: "blank",
+               lastName: "blank",
+               email: "blank@fmail.com",
+               quote: "blank",
+             },
 
-      filters:     this.viewTablePrefs
+    preferences: { userPrefferedStakes: [
+                                          {stake: 100, oddsLow: null, oddsHigh:2.01},
+                                          {stake: 80, oddsLow: 2.01, oddsHigh: 3},
+                                          {stake: 60, oddsLow: 3.01, oddsHigh: 4},
+                                          {stake: 50, oddsLow: 4.01, oddsHigh: 5},
+                                          {stake: 40, oddsLow: 5.01, oddsHigh: 6},
+                                          {stake: 20, oddsLow: 6.01, oddsHigh: 8},
+                                          {stake: 10, oddsLow: 8.01, oddsHigh: 10},
+                                          {stake: 10, oddsLow: 10.01, oddsHigh: 12},
+                                          {stake: 5, oddsLow: 7, oddsHigh: 14},
+                                          {stake: 1, oddsLow: 14.01, oddsHigh: 100000000},
+                                        ],
+                   ftaOption: 'blank',
+                   exchangeOption: {name: 'blank', commission: 2}
+                 },
+
+    filters:     this.viewTablePrefs
   }
+
   constructor(private http: HttpClient) { }
 
   getUserSettings(): UserSettings {
@@ -141,7 +155,9 @@ export class UserPropertiesService {
 
                             console.log(body);
                             this.token = userData.token;
-                            this.tokenSubscription.next(userData.token);
+                            // this.tokenSubscription.next(userData.token);
+
+                            this.settings.juicyId = userData.userDetails._id;
                             this.settings.account = userData.userDetails.account;
                             this.settings.filters = {
                                                       timeRange: userData.userDetails.filters.timeRange,
@@ -157,9 +173,7 @@ export class UserPropertiesService {
                                                       audioEnabled: userData.userDetails.filters.audioEnabled,
                                                     }
                             this.settings.preferences = userData.userDetails.preferences;
-                            this.settings.juicyId = userData.userDetails._id;
-                            console.log("BACKEND CALL SETTINGS");
-
+                            console.log("BACKEND CALL SETTINGS OOBJECT BELOW");
                             console.log(this.settings);
 
     });
@@ -200,9 +214,10 @@ export class UserPropertiesService {
     return this.token;
   }
 
-  getUserToken():Observable<string>{
-    return this.tokenSubscription.asObservable();
-  }
+  // getUserToken():Observable<string>{
+  //   return this.tokenSubscription.asObservable();
+  // }
+
   accessDefaultStakes() {
     return this.defaultStakes;
   }
