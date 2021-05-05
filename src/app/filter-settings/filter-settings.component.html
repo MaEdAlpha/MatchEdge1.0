@@ -71,7 +71,7 @@
                           <input
                           formControlName="evFilterValueI"
                           matInput
-                          placeholder= "{{ evFilterI }}">
+                          placeholder= "{{ filtersFormValues.evFVI }}">
                           <mat-error *ngIf="viewTableForm.controls.evFilterValueI.errors">{{getErrorMessage()}}</mat-error>
                       </mat-form-field>
                     </div>
@@ -87,7 +87,7 @@
                         <input
                         formControlName="evFilterValueII"
                         matInput
-                        placeholder= "{{ evFilterII }}">
+                        placeholder= "{{ filtersFormValues.evFVII }}">
                         <mat-error *ngIf="viewTableForm.controls.evFilterValueII.errors">{{getErrorMessage()}}</mat-error>
                       </mat-form-field>
                     </div>

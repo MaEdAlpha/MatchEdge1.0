@@ -44,7 +44,7 @@ export class MatchStatusService {
 
   updateWatchList(matchObj: any, isHome:boolean): void{
     const matchToUpdate = this.watchList.filter(watchListObj => {
-      console.log("Updating Watchlist:");
+      // console.log("Updating Watchlist:");
 
       if(isHome && matchObj.Home == watchListObj.Home && matchObj.EpochTime == watchListObj.EpochTime){
         watchListObj.HStatus.notify = matchObj.HStatus.notify;
@@ -57,7 +57,7 @@ export class MatchStatusService {
         return false;
       }
     });
-    console.log(matchToUpdate);
+    // console.log(matchToUpdate);
   }
 
   updateWatchListFromStream(selection){

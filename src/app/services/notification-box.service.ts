@@ -108,6 +108,7 @@ export class NotificationBoxService {
   }
 
   //Brings to Juicy on Top
+  //create a #mainMatch id tag for each popup. Reference it to an HTMLElement in JuicyTable.
   toastr(updatedMainMatch){
     setTimeout( () => {
       updatedMainMatch.isJuicy = false;

@@ -99,9 +99,6 @@ export class TopLayerFiltersComponent implements OnInit, OnChanges {
     $event.checked ? this.displayFixtures = 2 : this.displayFixtures = 1;
     this.hideTable.emit(this.displayFixtures);
   }
-  initIgnoreList(){
-    // this.emitIgnoreList.emit(this.matchStatusService.getIgnoreList());
-  }
 
   goToThisJuicy(){
     this.hideTable.emit(3);
@@ -118,18 +115,9 @@ export class TopLayerFiltersComponent implements OnInit, OnChanges {
     var message: string =  "</br>" + "Ryan Jessup " + "</br> Back: " + "20" + "</br> Lay: " + "21";
     var title: string = "Ryan vs. Bryan";
     this.notificationService.showToast(message, title);
-
-    this.http
-    .get(`${env.dev.serverUrl}/api/user-settings`)
-    .subscribe( (responseData: {body:UserSettings}) => {
-                console.log(responseData.body[0]);
-    });
-
   }
 
-  initFilterSettings():void{
-    this.userPropertiesService.setFormValues(this.userPropertiesService.getUserSettings().filters);
-  }
+
 }
 
 //   modifiedGroupList(data: any[], groupList: any[]) : any[]{

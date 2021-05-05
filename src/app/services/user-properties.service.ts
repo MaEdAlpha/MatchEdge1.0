@@ -345,7 +345,7 @@ export class UserPropertiesService {
 
                       console.log("----2. Settings object -----");
                       console.log(this.settings);
-                      this.http.put<any>("http://localhost:3000/api/user/settings", this.settings).subscribe();
+                      this.http.put<any>("http://localhost:3000/api/user/settings", this.settings);
 
   }
   //userPreference TablePreferences

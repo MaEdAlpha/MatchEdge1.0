@@ -81,23 +81,26 @@ export class FilterSettingsComponent implements OnInit {
     }, { validators: [oddsValidator, evValidator, mrValidator, ssValidator]});
 
     //Subscribe to update. Retrieves UserPreferences from Service. Subscribes to it.
-    this.userPrefSubscription = this.userPrefService.getUserPrefs().subscribe( tablePref => {
-      this.prefObj = tablePref;
-      this.timeRange = tablePref.timeRange;
-      this.evFilterI = Number(tablePref.evFVI);
-      this.evFilterII= Number(tablePref.evFVII);
-      this.minOddsFilter= Number(tablePref.minOdds);
-      this.maxOddsFilter= Number(tablePref.maxOdds);
-      this.matchRatingFilterI= Number(tablePref.matchRatingFilterI);
-      this.matchRatingFilterII=Number(tablePref.matchRatingFilterII);
-      this.secretSauceI= Number(tablePref.secretSauceI);
-      this.secretSauceII=Number(tablePref.secretSauceII);
-      this.fvSelected = tablePref.fvSelected;
-      this.evPlaceholder = +this.filtersFormValues.fvSelected == 1 ? "EV" : +this.filtersFormValues.fvSelected == 2 ? "Match Rating" : +this.filtersFormValues.fvSelected == 3 ? "Secret Sauce" : "null" ;
-      this.audioEnabled = tablePref.audioEnabled;
-    });
+    //Test taking out.
+    // this.userPrefSubscription = this.userPrefService.getUserPrefs().subscribe( tablePref => {
+    //   this.prefObj = tablePref;
+    //   this.timeRange = tablePref.timeRange;
+    //   this.evFilterI = Number(tablePref.evFVI);
+    //   this.evFilterII= Number(tablePref.evFVII);
+    //   this.minOddsFilter= Number(tablePref.minOdds);
+    //   this.maxOddsFilter= Number(tablePref.maxOdds);
+    //   this.matchRatingFilterI= Number(tablePref.matchRatingFilterI);
+    //   this.matchRatingFilterII=Number(tablePref.matchRatingFilterII);
+    //   this.secretSauceI= Number(tablePref.secretSauceI);
+    //   this.secretSauceII=Number(tablePref.secretSauceII);
+    //   this.fvSelected = tablePref.fvSelected;
+    //   this.evPlaceholder = +this.filtersFormValues.fvSelected == 1 ? "EV" : +this.filtersFormValues.fvSelected == 2 ? "Match Rating" : +this.filtersFormValues.fvSelected == 3 ? "Secret Sauce" : "null" ;
+    //   this.audioEnabled = tablePref.audioEnabled;
+    // });
 
     this.viewTableForm.valueChanges.subscribe( value => {
+      console.log(value);
+
       this.filtersFormValuesChange.emit(value);
     });
   }

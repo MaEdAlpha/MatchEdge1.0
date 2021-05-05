@@ -12,7 +12,7 @@ const MongoClient = require("mongodb").MongoClient;
 const ObjectID = require('mongodb').ObjectID;
 
 //const connectionString = "mongodb+srv://Dan:x6RTQn5bD79QLjkJ@cluster0.uljb3.gcp.mongodb.net/MBEdge?retryWrites=true&w=majority";
-const connectionString = "mongodb+srv://Randy:l116vwyx9JMo5w9v@clusterme.lfzcj.mongodb.net/MBEdge?retryWrites=true&w=majority";
+const connectionString = "mongodb+srv://Randy:4QQJnbscvoZQXr0l@clusterme.lfzcj.mongodb.net/MBEdge?retryWrites=true&w=majority";
 const options = {useUnifiedTopology: true, useNewUrlParser: true};
 const client = new MongoClient(connectionString, options );
 
@@ -182,6 +182,7 @@ app.post('/api/sab', checkAuth, async(req,res) => {
 app.put('/api/user/settings', checkAuth, async(req,res,next) => {
   try {
     console.log("UserSettings.body");
+
     console.log(req.body);
     const _id = new ObjectID(req.body.juicyId);
     // const col = await client.db("JuicyClients").collection("juicy_users").findOne({"_id":_id}, function(error,response){
@@ -189,54 +190,53 @@ app.put('/api/user/settings', checkAuth, async(req,res,next) => {
     // });
     let filter = {"_id":_id};
     let options = {upsert: false}
-    let update =  { $set: { "account":{   "username": req.body.account.username,
+    let update =  { $set: { "account":{
+                                      "username": req.body.account.username,
                                       "firstName": req.body.account.firstName,
                                       "email": req.body.account.email,
                                       "lastName": req.body.account.lastName,
                                       "quote":req.body.account.quote,
                                       "password":"getRidOfThisField",
-                                  },
-                                  "preferences": {
-                                    "userPrefferedStakes":[
-                                                            req.body.preferences.userPrefferedStakes[0],
-                                                            req.body.preferences.userPrefferedStakes[1],
-                                                            req.body.preferences.userPrefferedStakes[2],
-                                                            req.body.preferences.userPrefferedStakes[3],
-                                                            req.body.preferences.userPrefferedStakes[4],
-                                                            req.body.preferences.userPrefferedStakes[5],
-                                                            req.body.preferences.userPrefferedStakes[6],
-                                                            req.body.preferences.userPrefferedStakes[7],
-                                                            req.body.preferences.userPrefferedStakes[8],
-                                                            req.body.preferences.userPrefferedStakes[9],
-                                                          ],
-                                    "ftaOption":req.body.preferences.ftaOption,
-                                    "exchangeOption":{
-                                                      "name":req.body.preferences.exchangeOption.name,
-                                                      "commission":req.body.preferences.exchangeOption.commission,
-                                                    }
-                                    },
+                                      },
+                            "preferences": {
+                                            "userPrefferedStakes":[
+                                                                    req.body.preferences.userPrefferedStakes[0],
+                                                                    req.body.preferences.userPrefferedStakes[1],
+                                                                    req.body.preferences.userPrefferedStakes[2],
+                                                                    req.body.preferences.userPrefferedStakes[3],
+                                                                    req.body.preferences.userPrefferedStakes[4],
+                                                                    req.body.preferences.userPrefferedStakes[5],
+                                                                    req.body.preferences.userPrefferedStakes[6],
+                                                                    req.body.preferences.userPrefferedStakes[7],
+                                                                    req.body.preferences.userPrefferedStakes[8],
+                                                                    req.body.preferences.userPrefferedStakes[9],
+                                                                  ],
+                                            "ftaOption":req.body.preferences.ftaOption,
+                                            "exchangeOption":{
+                                                              "name":req.body.preferences.exchangeOption.name,
+                                                              "commission":req.body.preferences.exchangeOption.commission,
+                                                            }
+                                            },
                                   "filters": {
-                                    "timeRange":req.body.filters.timeRange,
-                                    "minOdds":req.body.filters.minOdds ,
-                                    "maxOdds":req.body.filters.maxOdds ,
-                                    "evFVI":req.body.filters.evFVI,
-                                    "evFVII":req.body.filters.evFVII,
-                                    "mrFVI":req.body.filters.matchRatingFilterI,
-                                    "mrFVII":req.body.filters.matchRatingFilterII,
-                                    "ssFVI":req.body.filters.secretSauceI,
-                                    "ssFVII":req.body.filters.secretSauceII,
-                                    "fvSelected":req.body.filters.fvSelected,
-                                    "audioEnabled":req.body.filters.audioEnabled,
-                                    }
-                                  }
-
-
-    }
+                                                "timeRange":req.body.filters.timeRange,
+                                                "minOdds":req.body.filters.minOdds ,
+                                                "maxOdds":req.body.filters.maxOdds ,
+                                                "evFVI":req.body.filters.evFVI,
+                                                "evFVII":req.body.filters.evFVII,
+                                                "mrFVI":req.body.filters.matchRatingFilterI,
+                                                "mrFVII":req.body.filters.matchRatingFilterII,
+                                                "ssFVI":req.body.filters.secretSauceI,
+                                                "ssFVII":req.body.filters.secretSauceII,
+                                                "fvSelected":req.body.filters.fvSelected,
+                                                "audioEnabled":req.body.filters.audioEnabled,
+                                              }
+                           }
+                    }
 
       client.db("JuicyClients").collection("juicy_users")
                               .updateOne( filter, update, options, function(error,response){
-                                 console.log("Updated User Settings!");
-                                 console.log("Modified: " + response.modifiedCount);
+                                //  console.log("Updated User Settings!");
+                                //  console.log("Modified: " + response.modifiedCount);
                               });
 
   }catch (e){

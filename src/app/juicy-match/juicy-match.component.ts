@@ -183,7 +183,7 @@ export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
       //find selection and assign correct status to it.
       this.updateMatchWatchStatus(matchObject);
     });
-
+    //manually opens up Selection. Need to center view it by filtering it on it's Team Name + EpochTime.
     this.notificationSelectedSubscription = this.notificationServices.getNotificationPing().subscribe( notification => {
       this.openVIANotification(notification);
     });
@@ -390,19 +390,27 @@ export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
       //use a method to reset the formGroup values to selectionObject values.
     }
 
+    //what expands  JuicyMatches
     openVIANotification(notification){
+
+      //Get the matchObject you want to expand via notification object that was clicked.
+      //notification object is => { notificationIsActivated: true, matchObject: updatedMainMatch }
       var expandItem = this.allIndvMatches.filter( match =>{
         if(match.Selection == notification.matchObject.Selection && match.EventStart == notification.matchObject.EventStart) {
           match.isRedirected = 'Yes';
           var index = this.allIndvMatches.indexOf(match);
+          //simulate click
           this.loadGroup(index);
           this.showSelectionValues(match, index);
+          //scroll to id with matchLogo + best to take match.Logo from client side stored data incase we strip away streamUpdates later.
+          let identifier = match.Logo + notification.matchObject.EpochTime;
+          this.scrollTo(identifier);
           return true;
         }
       });
       this.expandedElement = expandItem;
       this.chRef.detectChanges();
-      console.log(expandItem);
+      console.log(notification.matchObject.Selection + " Is Expanded!!!!");
 
     }
 
@@ -494,7 +502,13 @@ export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
           console.log(selection);
         }, 1000)
       }
+    }
 
+    scrollTo(idTag:string){
+      console.log("ID: " + idTag);
+
+      // let el = document.getElementById(idTag);
+      // el.scrollIntoView();
 
     }
 }

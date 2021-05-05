@@ -212,6 +212,7 @@
           <!-- read ignore status in here -->
           <tr mat-row *matRowDef="let selection; columns: columnsToDisplay;"
               class="juicyMatch-row"
+              id="{{(selection.Logo+selection.EpochTime)}}"
               [ngClass]="selection.isRedirected == 'Yes' ? 'juicyMatch-expanded-row': null"
               [class.juicyMatch-expanded-row]="expandedElement === selection"
               (click)="expandedElement = expandedElement === selection ? null : selection; toggleIsTouched(selection);"

@@ -179,7 +179,7 @@ getMatchStats(match){
       Liability: matchStat.liability,
       QL: matchStat.ql,
       ROI: matchStat.roi,
-      Logo: isUpdatedValue ? null : match.Home.toLowerCase().split(' ').join('-'),
+      Logo: isUpdatedValue ? null :  isHome == 'home' ? match.Home.toLowerCase().split(' ').join('-') : match.Away.toLowerCase().split(' ').join('-'),
       UrlB365: isUpdatedValue ? null : match.UrlB365,
       UrlSmarkets: isUpdatedValue ? null : match.UrlSmarkets,
       backIsUpdated: isUpdatedValue ? null:false,
