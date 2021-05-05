@@ -1,6 +1,7 @@
 import { HttpParams } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { AuthService } from '@auth0/auth0-angular';
+import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Match } from './match/match.model';
 import { MatchesService } from './match/matches.service';
@@ -15,37 +16,34 @@ import { UserPropertiesService } from './services/user-properties.service';
 export class AppComponent {
   title = 'JuicyBets';
   storedMatches: any;
-  _displayNotification:boolean;
+  _displayNotification:boolean = false;
   profileJson: string= null;
-  isAuthenticated: boolean;
+  isAuthenticated: boolean=false;
+  isLoading: boolean = true;
 
-  constructor(public auth: AuthService, private userPropertiesService: UserPropertiesService) {
+  constructor(public auth: AuthService, private userPropertiesService: UserPropertiesService, private router: Router) {
 
   }
 
   ngOnInit(){
+    console.log("Init token + redirect");
+    console.log(this.isLoading);
 
-    this.auth.user$.subscribe(
-      (profile) => {
-        (this.profileJson = JSON.stringify(profile, null, 2));
-        console.log(this.profileJson);
-        this.isAuthenticated = profile != null ?  true : false;
-        /*access our database
-          - send a request to find user credentials and return user settings.
-          - if the email in the profile does not exist, create a new UserSettings Model with
-          -
-        */
-        this.isAuthenticated ? this.getUserSettings(profile.email, profile.sub) : '';
-      }
-    );
+    this.auth.user$.subscribe( (profile) => {
+      this.profileJson = JSON.stringify(profile, null, 2);
+      this.isAuthenticated = profile != null ?  true : false;
+      this.isAuthenticated ? this.getUserSettings(profile.email, profile.sub) : null;
+    });
   }
 
-  getUserSettings(userEmail: string, sub:string):void {
-    console.log("Going to service: " + userEmail);
+  getUserSettings(userEmail: string, sub:string){
+     let promise: Promise<boolean> = this.userPropertiesService.getSettings(userEmail, sub);
+     promise.then(cb => {this.isLoading = cb});
 
-    this.userPropertiesService.getSettings(userEmail, sub);
   }
   displayPanel(event: boolean){
     this._displayNotification = event;
+    console.log(event);
+
   }
 }

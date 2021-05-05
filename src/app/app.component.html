@@ -1,22 +1,33 @@
 
 <div id="app" class="d-flex flex-column h-100">
   <div class="container" *ngIf="auth.isLoading$ | async; else loaded">
-    <app-loading></app-loading>
+
   </div>
 
   <ng-template #loaded>
-    <app-header (notificationSettings)="displayPanel($event)" ></app-header>
-    <hr>
-    <div *ngIf="_displayNotification && isAuthenticated">
-      <app-match-notification-settings ></app-match-notification-settings>
-    </div>
-
-    <div class="container flex-grow-1">
-      <div class="mt-5">
-        <router-outlet></router-outlet>
+    <div *ngIf="isAuthenticated">
+      <app-header (notificationSettings)="displayPanel($event)" ></app-header>
+      <hr>
+      <div *ngIf="_displayNotification && !isLoading">
+        <app-match-notification-settings ></app-match-notification-settings>
+      </div>
+      <div class="container flex-grow-1">
+        <div class="mt-5">
+          <router-outlet></router-outlet>
+          <app-loading [isLoading]="isLoading"></app-loading>
+        </div>
       </div>
     </div>
-
     <app-footer></app-footer>
   </ng-template>
+
+
+    <div *ngIf="!isAuthenticated">
+      <app-landing-page></app-landing-page>
+      <app-auth-login-button></app-auth-login-button>
+      <app-auth-signup-button></app-auth-signup-button>
+    </div>
+
+
 </div>
+

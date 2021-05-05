@@ -29,6 +29,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTabsModule } from '@angular/material/tabs';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 //Services
 import { CalcSettingsService } from './calc-settings/calc-settings.service';
@@ -91,6 +92,7 @@ import { CustomToastComponent } from './custom-toast/custom-toast.component';
 import { FilterSettingsComponent } from './filter-settings/filter-settings.component';
 import { AccountSettingsComponent } from './account-settings/account-settings.component';
 import { LandingPageComponent } from './landing-page/landing-page.component';
+import { LoadingComponent } from './loading/loading.component';
 
 
 
@@ -138,7 +140,8 @@ import { LandingPageComponent } from './landing-page/landing-page.component';
     AuthLogoutButtonComponent,
     AuthenticationButtonComponent,
     AuthNavComponent,
-    LandingPageComponent
+    LandingPageComponent,
+    LoadingComponent
   ],
   imports: [
     AppRoutingModule,
@@ -154,6 +157,7 @@ import { LandingPageComponent } from './landing-page/landing-page.component';
     MatExpansionModule,
     MatIconModule,
     MatInputModule,
+    MatProgressSpinnerModule,
     MatRadioModule,
     MatSelectModule,
     MatSidenavModule,

@@ -9,6 +9,9 @@ import { TablePreferences, UserSettings } from '../user-properties.model';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment as env } from '../../environments/environment';
 import { map } from 'rxjs/operators';
+import { logging } from 'selenium-webdriver';
+import { Router } from '@angular/router';
+import { response } from 'express';
 
 
 @Injectable({
@@ -138,45 +141,50 @@ export class UserPropertiesService {
     filters:     this.viewTablePrefs
   }
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private router: Router) { }
 
   getUserSettings(): UserSettings {
     return  this.settings;
   }
 
-  getSettings(email:string, sub:string): void {
+  getSettings(email:string, sub:string):Promise<boolean>{
     //http GET request to retrieve user properties from DB;
     var data: {email: string, sub: string} = {email: email, sub:sub};
     var userData;
-    this.http.put<{token:string, userDetails: UserSettings}>("http://localhost:3000/api/user/connect", data)
-    .subscribe( (body) => {
-                            userData = body;
-                            console.log('DB CALL FOR SETTINGS!!!-------------');
+    const promise: Promise<boolean> = new Promise( (resolve,reject) => {
 
-                            console.log(body);
-                            this.token = userData.token;
-                            // this.tokenSubscription.next(userData.token);
+  this.http.put<{token:string, userDetails: UserSettings}>("http://localhost:3000/api/user/connect", data)
+  .subscribe( (body) => {
+                          userData = body;
+                          console.log('Requesting...');
+                          console.log(body);
 
-                            this.settings.juicyId = userData.userDetails._id;
-                            this.settings.account = userData.userDetails.account;
-                            this.settings.filters = {
-                                                      timeRange: userData.userDetails.filters.timeRange,
-                                                      minOdds: userData.userDetails.filters.minOdds,
-                                                      maxOdds: userData.userDetails.filters.maxOdds,
-                                                      evFVI: userData.userDetails.filters.evFVI,
-                                                      evFVII: userData.userDetails.filters.evFVII,
-                                                      matchRatingFilterI: userData.userDetails.filters.mrFVI,
-                                                      matchRatingFilterII: userData.userDetails.filters.mrFVII,
-                                                      secretSauceI: userData.userDetails.filters.ssFVI,
-                                                      secretSauceII: userData.userDetails.filters.ssFVII,
-                                                      fvSelected: userData.userDetails.filters.fvSelected,
-                                                      audioEnabled: userData.userDetails.filters.audioEnabled,
-                                                    }
-                            this.settings.preferences = userData.userDetails.preferences;
-                            console.log("BACKEND CALL SETTINGS OOBJECT BELOW");
-                            console.log(this.settings);
+                          this.token = userData.token;
+                          // this.tokenSubscription.next(userData.token);
 
-    });
+                          this.settings.juicyId = userData.userDetails._id;
+                          this.settings.account = userData.userDetails.account;
+                          this.settings.filters = {
+                                                    timeRange: userData.userDetails.filters.timeRange,
+                                                    minOdds: userData.userDetails.filters.minOdds,
+                                                    maxOdds: userData.userDetails.filters.maxOdds,
+                                                    evFVI: userData.userDetails.filters.evFVI,
+                                                    evFVII: userData.userDetails.filters.evFVII,
+                                                    matchRatingFilterI: userData.userDetails.filters.mrFVI,
+                                                    matchRatingFilterII: userData.userDetails.filters.mrFVII,
+                                                    secretSauceI: userData.userDetails.filters.ssFVI,
+                                                    secretSauceII: userData.userDetails.filters.ssFVII,
+                                                    fvSelected: userData.userDetails.filters.fvSelected,
+                                                    audioEnabled: userData.userDetails.filters.audioEnabled,
+                                                  }
+                          this.settings.preferences = userData.userDetails.preferences;
+                          setTimeout(()=>{
+                            resolve(false);
+                            this.router.navigate(['/matches']);
+                          }, 2000)
+          });
+      });
+    return promise;
   }
   //get token and save to localStorage
   private saveAuthData(token: string, expirationDate: number) {
