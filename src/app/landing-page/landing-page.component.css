@@ -1,0 +1,8 @@
+.welcome-img-container {
+  text-align: center;
+}
+
+img {
+  border: 3px  #f9a825 solid;
+  border-radius: 250px;
+}

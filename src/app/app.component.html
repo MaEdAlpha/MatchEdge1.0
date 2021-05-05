@@ -1,7 +1,10 @@
 
 <div id="app" class="d-flex flex-column h-100">
   <div class="container" *ngIf="auth.isLoading$ | async; else loaded">
-
+    <div class="load-screen">
+      <img src="../assets/img/isLoading.jpg" alt="">
+      <p>I don't think I could....</p>
+    </div>
   </div>
 
   <ng-template #loaded>
@@ -22,10 +25,15 @@
   </ng-template>
 
 
-    <div *ngIf="!isAuthenticated">
+    <div *ngIf="!isAuthenticated" class="welcome-container">
       <app-landing-page></app-landing-page>
-      <app-auth-login-button></app-auth-login-button>
-      <app-auth-signup-button></app-auth-signup-button>
+      <hr class="top-hz">
+      <div class="welcome-buttons">
+        <app-auth-login-button></app-auth-login-button>
+        <app-auth-signup-button class="button"></app-auth-signup-button>
+      </div>
+      <hr class="bottom-hz">
+      <app-about></app-about>
     </div>
 
 

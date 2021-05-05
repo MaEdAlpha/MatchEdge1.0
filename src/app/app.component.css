@@ -14,3 +14,46 @@ mat-spinner {
   /* located in theming.scss line 4744 */
   stroke: #ffc235;
 }
+
+.welcome-container{
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 10%;
+}
+
+.welcome-buttons{
+  margin-top: 10px;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.top-hz {
+  margin-top: 20px;
+  width: 30%;
+}
+
+.bottom-hz {
+  width: 25%;
+  margin-bottom: 10%;
+}
+
+.button{
+  margin-left: 2%;
+}
+
+
+img {
+margin-top: 10%;
+}
+
+.load-screen {
+  text-align: center;
+  width: 100%;
+  height: 1000px;
+  background: #263238;
+}
+
+p{
+  color: white;
+}

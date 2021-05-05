@@ -93,6 +93,7 @@ import { FilterSettingsComponent } from './filter-settings/filter-settings.compo
 import { AccountSettingsComponent } from './account-settings/account-settings.component';
 import { LandingPageComponent } from './landing-page/landing-page.component';
 import { LoadingComponent } from './loading/loading.component';
+import { AboutComponent } from './about/about.component';
 
 
 
@@ -141,7 +142,8 @@ import { LoadingComponent } from './loading/loading.component';
     AuthenticationButtonComponent,
     AuthNavComponent,
     LandingPageComponent,
-    LoadingComponent
+    LoadingComponent,
+    AboutComponent
   ],
   imports: [
     AppRoutingModule,

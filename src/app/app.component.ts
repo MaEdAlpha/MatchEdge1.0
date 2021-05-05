@@ -27,7 +27,6 @@ export class AppComponent {
 
   ngOnInit(){
     console.log("Init token + redirect");
-    console.log(this.isLoading);
 
     this.auth.user$.subscribe( (profile) => {
       this.profileJson = JSON.stringify(profile, null, 2);
