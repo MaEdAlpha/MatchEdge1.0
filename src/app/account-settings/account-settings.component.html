@@ -1,7 +1,6 @@
-<h1> Account Details</h1>
-<h2>Hello {{accountForm.get('UserName').value}}!</h2>
-<h2>{{accountForm.get('Quote').value}}</h2>
-
+<div class="main-container">
+  <div class="personal-details">
+  <h1 class="account-header"> Personal Details</h1>
 <form [formGroup]="accountForm" >
   <mat-form-field class="account-details" appearance="fill">
     <mat-label>Username:</mat-label>
@@ -22,12 +21,12 @@
     <mat-label>Email:</mat-label>
     <input formControlName="Email" required matInput placeholder="{{accountForm.get('Email').value}}">
   </mat-form-field>
-
+  
+  <h1 class="password-header"> Reset Password</h1>
   <mat-form-field class="account-details" appearance="fill">
-    <mat-label>Change quote:</mat-label>
-    <input formControlName="Quote" required matInput placeholder="{{accountForm.get('Quote').value}}">
+    <mat-label>Enter Current Password:</mat-label>
+    <input formControlName="Password" matInput placeholder="Enter new password">
   </mat-form-field>
-
 </form>
 
 
@@ -49,4 +48,6 @@
   <div class="row" *ngIf="profileJson">
     <pre class="col-12 text-light bg-dark p-4">{{ profileJson }}</pre>
   </div>
+</div>
+</div>
 </div>

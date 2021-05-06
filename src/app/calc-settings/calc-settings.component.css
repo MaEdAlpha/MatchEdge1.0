@@ -4,7 +4,11 @@ hr {
 }
 
 h1 {
-  margin-left: 2%;
+  margin-left: 4%;
+}
+
+h3 {
+  margin-left: 4%;
 }
 
 .header-container {
@@ -13,10 +17,15 @@ h1 {
 }
 
 .header {
-  width: 13%;
+  width: 15%;
+}
+.pref-stake-text{
+  margin-left: 4%;
+  padding-bottom: 25px;
+  margin-right: 4%;
 }
 .odds-header{
-  margin-left: 10%;
+  margin-left: 32%;
 }
 .stake-header {
   margin-left: 40px;
@@ -28,7 +37,7 @@ form {
 }
 
 .preference-container {
-  margin-top: 40px;
+  margin-top: 20px;
   width: 100%;
 }
 
@@ -67,21 +76,39 @@ input::placeholder {
 
 .stake-range{
   margin-left: 60px;
-  text-align: center;
-  width: 13%;
+  text-align: right;
+  width: 35%;
 }
 
 .stake-input-cont{
   width: fit-content;
   margin-left: 20px;
 }
-
-
-.fta-container,
-.exchange-container {
-  min-height: 150px;
-  padding: 20px;
+.exchange-container,
+.fta-container {
+  min-height: 150px;  
 }
+
+.estimated-value-text{
+  margin-left: 4%;
+  padding-bottom: 5px;
+  margin-right: 4%;
+}
+
+::ng-deep.value-selector{
+  color: white;
+}
+::ng-deep.mat-select-value-text{
+  color: white;
+}
+::ng-deep.mat-form-field{
+  margin-left: 4%;
+}
+::ng-deep.mat-form-field-wrapper{
+  position: relative;
+    margin-left: 8px;
+}
+
 
 #final-range {
   margin-left:13%;
@@ -116,3 +143,25 @@ input.ng-invalid.ng-touched {
   color: red;
 }
 
+.vertical {
+  border-left: 2px solid #4b5960;
+  height: 96%;
+  position:absolute;
+  left: 50%;
+}
+.horizontal {
+  border-left: 525px solid #4b5960;
+  left: 50%;
+  height: 2px;
+  margin-left: 20px;
+  margin-bottom: 15px;
+}
+
+::ng-deep.mat-hint, .mat-form-field-appearance-legacy .mat-hint{
+  color: white;
+}
+.estimated-value-text{
+  margin-left: 4%;
+  padding-bottom: 5px;
+  margin-right: 4%;
+}
