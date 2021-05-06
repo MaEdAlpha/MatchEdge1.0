@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, OnChanges, Output, EventEmitter, SimpleChanges, ChangeDetectorRef} from '@angular/core';
+import { Component, OnDestroy, OnInit, OnChanges, Output, EventEmitter, SimpleChanges, ChangeDetectorRef, Input} from '@angular/core';
 import { Subject, Subscription } from 'rxjs';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { MatchesService } from '../match/matches.service';
@@ -53,6 +53,7 @@ import { PopupViewSavedBetsComponent } from '../popup-view-saved-bets/popup-view
     matches: any;
     savedActiveBets: ActiveBet[];
     @Output() ignoreList: string[];
+    @Input() isLoading: boolean;
     matchStream: any;
     expandedElement: any[] | null;
     retrieveMatches = false;
@@ -159,7 +160,8 @@ import { PopupViewSavedBetsComponent } from '../popup-view-saved-bets/popup-view
                                           //Takeout bad data
                                           this.matches = this.sanitizeList(matchData);
                                           console.log("Sanitize...");
-
+                                          //loadingMatches is finished
+                                          this.matchesService.loadingMatches(false);
                                           // console.log(this.matches);
 
                                           // Set up and clean groups

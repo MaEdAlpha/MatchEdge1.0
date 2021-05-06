@@ -21,7 +21,7 @@ export class AppComponent {
   isAuthenticated: boolean=false;
   isLoading: boolean = true;
 
-  constructor(public auth: AuthService, private userPropertiesService: UserPropertiesService, private router: Router) {
+  constructor(public auth: AuthService, private userPropertiesService: UserPropertiesService, private router: Router, private matchesService: MatchesService) {
 
   }
 
@@ -33,11 +33,17 @@ export class AppComponent {
       this.isAuthenticated = profile != null ?  true : false;
       this.isAuthenticated ? this.getUserSettings(profile.email, profile.sub) : null;
     });
+
+    this.matchesService.loadPage.subscribe( (isDone) => {
+      this.isLoading = isDone;
+    })
   }
 
   getUserSettings(userEmail: string, sub:string){
+    //unecessary callback on response, was used for loading.
      let promise: Promise<boolean> = this.userPropertiesService.getSettings(userEmail, sub);
-     promise.then(cb => {this.isLoading = cb});
+     promise.then(cb => { console.log(cb);
+     });
 
   }
   //opening user Settings panel
