@@ -396,7 +396,7 @@ export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
         LayStake: selection.LayStake,
         BackOdds: selection.BackOdds,
         LayOdds: selection.LayOdds,
-        MatchInfo: 'Comments here',
+        MatchInfo: ' ',
       });
       //use a method to reset the formGroup values to selectionObject values.
     }

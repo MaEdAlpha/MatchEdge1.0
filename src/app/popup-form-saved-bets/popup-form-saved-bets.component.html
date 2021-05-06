@@ -142,7 +142,7 @@
           <div class="comments-cont">
             <mat-form-field class="user-comments" appearance="outline">
               <mat-label class="auto-calc-label">Match Comments</mat-label>
-              <textarea class="auto-calc-input" formControlName="MatchInfo" required matInput placeholder="Enter comments here..."></textarea>
+              <textarea class="auto-calc-input" formControlName="MatchInfo" required matInput placeholder=" "></textarea>
               <mat-hint> Allowed char. ({{sabFormValues.value.MatchInfo == null ? sabFormValues.value.MatchInfo == ' ' : sabFormValues.value.MatchInfo.length}}/140)</mat-hint>
               <mat-error *ngIf="sabFormValues.controls.MatchInfo.errors">{{getErrorMessage()}} </mat-error>
             </mat-form-field>
