@@ -407,7 +407,7 @@ export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
       //Get the matchObject you want to expand via notification object that was clicked.
       //notification object is => { notificationIsActivated: true, matchObject: updatedMainMatch }
       var expandItem = this.allIndvMatches.filter( match =>{
-        if(match.Selection == notification.matchObject.Selection && match.EventStart == notification.matchObject.EventStart) {
+        if(match.Selection == notification.matchObject.Selection && match.EpochTime == notification.matchObject.EpochTime) {
           match.isRedirected = 'Yes';
           var index = this.allIndvMatches.indexOf(match);
           //simulate click

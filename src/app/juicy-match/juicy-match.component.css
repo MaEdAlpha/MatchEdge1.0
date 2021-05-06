@@ -699,3 +699,8 @@ span.calculated-value{
 .touchRow {
   background:#ffc235;;
 }
+
+.mr-overlay {
+  opacity: 0.8;
+  background: salmon;
+}

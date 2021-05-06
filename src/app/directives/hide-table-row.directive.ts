@@ -52,27 +52,28 @@ export class HideTableRowDirective implements OnChanges{
 
       } else if(+this.userPref.fvSelected == 2 ) {
 
-          if( this.inRange == true && +this.mrValue >= +this.userPref.matchRatingFilterI && this.mrValue <= 100 && +this.backOdds >= +this.userPref.minOdds && +this.backOdds <= +this.userPref.maxOdds){
+          if( this.inRange == true && +this.mrValue >= +this.userPref.matchRatingFilterI  && +this.backOdds >= +this.userPref.minOdds && +this.backOdds <= +this.userPref.maxOdds){
             this.show();
           }
-          if(+this.mrValue >= +this.userPref.matchRatingFilterI && this.mrValue <= 100 && +this.backOdds < +this.userPref.minOdds){
+          if(+this.mrValue >= +this.userPref.matchRatingFilterI && +this.backOdds < +this.userPref.minOdds){
             this.hide();
           }
-          if(+this.mrValue >= +this.userPref.matchRatingFilterI && this.mrValue <= 100 && +this.backOdds > +this.userPref.maxOdds){
+          if(+this.mrValue >= +this.userPref.matchRatingFilterI && +this.backOdds > +this.userPref.maxOdds){
             this.hide();
           }
           if (+this.mrValue <= +this.userPref.matchRatingFilterI){
             this.hide();
           }
+          //POSSIBLE SAUCE BUG
       } else if(+this.userPref.fvSelected == 3 ) {
 
         if( this.inRange == true && +this.ssValue >= +this.userPref.secretSauceI && this.ssValue <= 100 && +this.backOdds >= +this.userPref.minOdds && +this.backOdds <= +this.userPref.maxOdds){
           this.show();
         }
-        if(+this.ssValue >= +this.userPref.secretSauceI && this.ssValue <= 100 && +this.backOdds < +this.userPref.minOdds){
+        if(+this.ssValue >= +this.userPref.secretSauceI  && +this.backOdds < +this.userPref.minOdds){
           this.hide();
         }
-        if(+this.ssValue >= +this.userPref.secretSauceI && this.ssValue <= 100 && +this.backOdds > +this.userPref.maxOdds){
+        if(+this.ssValue >= +this.userPref.secretSauceI  && +this.backOdds > +this.userPref.maxOdds){
           this.hide();
         }
         if (+this.ssValue <= +this.userPref.secretSauceI){
@@ -83,7 +84,7 @@ export class HideTableRowDirective implements OnChanges{
       //To handle production Error "changesAfterViewInit detected:
       // Incomplete Data calcs/ bad values
       if(this.mrValue >= 100){
-        this.hide();
+        this.overlay();
       }
       // Incomplete Data calcs/ bad values
       if(this.evValue >=1000){
@@ -98,6 +99,10 @@ export class HideTableRowDirective implements OnChanges{
       }
     }
 
+  }
+
+  overlay() {
+    this.renderer.addClass(this.elRef.nativeElement, 'mr-overlay')
   }
 
 
