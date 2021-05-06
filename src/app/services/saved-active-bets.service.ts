@@ -55,6 +55,7 @@ export class SavedActiveBetsService {
                                    );
     }))
     .subscribe( (savedActiveBets: any) => {
+                                              console.log("Retriveing all user SAB");
 
                                               console.log(savedActiveBets);
                                               this.sabArrayfromDB = savedActiveBets;

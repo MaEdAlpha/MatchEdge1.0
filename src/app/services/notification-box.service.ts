@@ -47,15 +47,22 @@ export class NotificationBoxService {
     console.log(mainMatch);
 
     if(this.matchStatusService.isWatched(mainMatch.Selection) && this.isInEpochLimits(epochNotifications, mainMatch) ) {
+      console.log("BlackPool Conditional 1  Passed!");
+      console.log(mainMatch);
 
+      //DISPLAY TOAST IF match is set to Notify && user is not Aware of the match being Juicy.
       if(mainMatch.notify && !mainMatch.userAware ){
+        console.log("BlackPool Condition 2 Passed!");
         switch(this.fvSelected){
             case 1:
               if(mainMatch.EVthisBet >= this.evNotificationFilter && mainMatch.EVthisBet < 100000 ){
+                console.log("BlackPool Toast!");
+
                   this.toastIt(mainMatch);
                   //play audio if settings enables it
                   (this.audioEnabled) ? this.playAudio() : null;
                   mainMatch.isJuicy = true;
+                  //User is no aware of match being juicy. Therefore, they will not be notified of repeat updates until they click it in juicy.
                   mainMatch.userAware = true;
                 }
                 break;
@@ -97,8 +104,11 @@ export class NotificationBoxService {
   }
 
   private toastIt(mainMatch: any) {
+    //Display update
       var message: string = "<div class='subheader'> " + mainMatch.Selection + "</div> <div class='backOdds'> Back: " + mainMatch.BackOdds + "</div> <div class='layOdds'></br> Lay: " + mainMatch.LayOdds +"</div>";
       var title: string = mainMatch.Fixture;
+    //Creates an 'OnTap' listener. If they tap is. Change state to userAware = false.
+    //This will reset popup Notifications to the user.
       this.showToast(message, title).onTap.subscribe( () => {
         //if toast is tapped, bring user to juicy table via this message.
         this.toastr(mainMatch);
@@ -107,11 +117,14 @@ export class NotificationBoxService {
     return mainMatch;
   }
 
-  //Brings to Juicy on Top
+  //Brings to Juicy on click of Notification box
   //create a #mainMatch id tag for each popup. Reference it to an HTMLElement in JuicyTable.
   toastr(updatedMainMatch){
     setTimeout( () => {
       updatedMainMatch.isJuicy = false;
+      //Sets notifications back on in the event they click the Toast Notification -> go to Juicy -> Do not take bet -> go back to Watchlist/Match-table -> Recieve new Odds within spec of that match.
+      updatedMainMatch.userAware = false;
+
     }, 2000);
     var goToJuicyTable = { notificationIsActivated: true, matchObject: updatedMainMatch }
     this.clickSubject.next(goToJuicyTable);

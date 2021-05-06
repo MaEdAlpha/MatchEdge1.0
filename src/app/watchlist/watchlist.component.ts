@@ -690,15 +690,16 @@ export class WatchlistComponent implements OnInit, OnDestroy {
 
   //when userPreferences is updated by user, this will change the notify status of the match
   checkForOddsChange():void{
-    console.log("preferences updated!");
+    console.log("Min Odds settings change detected! Updating watchlist!");
 
     this.displayList.forEach( rowData => {
       if(rowData.level == undefined){
-        console.log(rowData);
         rowData.HStatus.notify = rowData.BHome >= this.userPref.getMinOdds() ? true : false;
         rowData.AStatus.notify = rowData.BAway >= this.userPref.getMinOdds() ? true : false;
+        //pass row data specifying t/f home/away
         this.updateMatchStatusList(rowData, true);
         this.updateMatchStatusList(rowData,false);
+        console.log(rowData);
       }
     });
   }

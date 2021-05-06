@@ -35,11 +35,12 @@ export class MatchStatusService {
     this.watchList.splice(selectionPosition, 1);
   }
 
-  addToWatchList(selection: any) {
-    console.log(" Found " + selection.Home + " vs " + selection.Away + " in watchList: " + this.watchList.includes(selection) + ". adding now..." );
+  addToWatchList(match: any) {
+    console.log("Added: " + match.Home + " v. " + match.Away);
     //selection already in watchlist? do nothing, else push.
-    this.watchList.includes(selection) ? null : this.watchList.push(selection);
-    this.updateNotificationStatus(selection);
+    this.watchList.includes(match) ? null : this.watchList.push(match);
+    console.log("Updating match notification!");
+    this.updateNotificationStatus(match);
   }
 
   updateWatchList(matchObj: any, isHome:boolean): void{
@@ -83,7 +84,7 @@ export class MatchStatusService {
   }
 
   getWatchList(): any[]{
-    console.log(this.watchList);
+    // console.log(this.watchList);
     return this.watchList;
   }
 
@@ -116,7 +117,6 @@ export class MatchStatusService {
     //add to list for notification services
     //get user preferences for odds and set notification here.
     this.updateNotificationStatus(selection);
-    this.getWatchList();
   }
 
   //will updateNotification Status: Used to trigger toast notification.
@@ -130,17 +130,20 @@ export class MatchStatusService {
         tableFilterValue = this.userPreferenceService.getEV();
         //May need to get individually calculated match stats and compare.. This block of code should handle in a separate method.
         break;
-      case 2:
-        tableFilterValue = this.userPreferenceService.getMR();
+        case 2:
+          tableFilterValue = this.userPreferenceService.getMR();
         break;
-      case 3:
-        tableFilterValue = this.userPreferenceService.getSS();
+        case 3:
+          tableFilterValue = this.userPreferenceService.getSS();
         break;
       default:
         console.log("Something went wrong in retrieving table filter data");
-    }
-    ( selection.BHome > this.userPreferenceService.getMinOdds() && selection.EpochTime*1000 > Date.now() ) ? selection.HStatus.notify = true : selection.HStatus.notify = false;
-    ( selection.BAway > this.userPreferenceService.getMinOdds() && selection.EpochTime*1000 > Date.now() ) ? selection.AStatus.notify = true : selection.AStatus.notify = false;
+      }
+      // console.log("Retrieving filter value: " + tableFilterValue + " Checking match time and min odds in user settings.....");
+            ( selection.BHome > this.userPreferenceService.getMinOdds() && selection.EpochTime*1000 > Date.now() ) ? selection.HStatus.notify = true : selection.HStatus.notify = false;
+            ( selection.BAway > this.userPreferenceService.getMinOdds() && selection.EpochTime*1000 > Date.now() ) ? selection.AStatus.notify = true : selection.AStatus.notify = false;
+      // console.log("Setting notification status for home/away " + selection.HStatus.notify + "/"+ selection.AStatus.notify);
+
   }
 
   unwatchMatchSubject(rowData: any) {

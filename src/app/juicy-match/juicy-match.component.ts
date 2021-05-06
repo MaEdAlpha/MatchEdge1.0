@@ -24,11 +24,12 @@ import { ActiveBet } from '../models/active-bet.model';
   styleUrls: ['./juicy-match.component.css'],
   animations: [
     trigger('detailExpand', [
-      state('collapsed, void', style({height: '0px', minHeight: '0'})),
-      state('expanded', style({height: '*'})),
-      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
-      transition('expanded <=> void', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)'))
-    ]),
+                              state('collapsed, void', style({height: '0px', minHeight: '0'})),
+                              state('expanded', style({height: '*'})),
+                              transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+                              transition('expanded <=> void', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)'))
+                            ]
+    ),
   ],
 })
 
@@ -88,7 +89,16 @@ export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
   notificationSelectedSubscription: Subscription;
   watchedMatchesSubscription: Subscription;
 
-  constructor(private savedActiveBetsService: SavedActiveBetsService, private chRef: ChangeDetectorRef, private sidenav: SidenavService, private juicyMHService: JuicyMatchHandlingService, private matchStatService: MatchStatsService, private matchesService: MatchesService, private userPrefService: UserPropertiesService, private matchStatusService: MatchStatusService, private dateHandlingService: DateHandlingService, private notificationServices: NotificationBoxService ) { }
+  constructor(private savedActiveBetsService: SavedActiveBetsService,
+              private chRef: ChangeDetectorRef,
+              private sidenav: SidenavService,
+              private juicyMHService: JuicyMatchHandlingService,
+              private matchStatService: MatchStatsService,
+              private matchesService: MatchesService,
+              private userPrefService: UserPropertiesService,
+              private matchStatusService: MatchStatusService,
+              private dateHandlingService: DateHandlingService,
+              private notificationServices: NotificationBoxService ) { }
 
   ngOnChanges(changes: SimpleChanges)
   {
@@ -98,11 +108,11 @@ export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
       if(this.allIndvMatches.length == 0){
         //Creates juicyMatch object with calculated stats.
         this.allIndvMatches = this.matchStatService.getSelectionStatCalcs(this.allMatches);
-         console.log("Converting matches -> selections...");
+         console.log("-----Converting matches to individual selection object-----");
          console.log(this.allIndvMatches);
          this.sortedData = this.allIndvMatches;
         if(this.allIndvMatches != undefined){
-          console.log("Creating new formArray");
+          console.log("----Creating a form Array \n Checking selections in range");
           this.dataSource = new FormArray(this.allIndvMatches.map( x=> this.createForm(x) ) );
           //is what lets HTML see which matches to display. without this, you need to trigger date change in toplayer filter to initalize match load.
           this.popJuiceInRange();
@@ -122,12 +132,12 @@ export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
   ngOnInit(){
     //Get initial user settings on initialization. For this to work, need to use HTTP Get request of userPreferences at page load.
     this.prefObj = this.userPrefService.getTablePrefs();
-    console.log("PREFOBJECT FOR FILTERING!!!!");
+    console.log("User settings.filters from UserPref Services. ");
     console.log(this.prefObj);
 
 
     this.fvSelected = +this.prefObj.fvSelected;
-    console.log(this.fvSelected);
+    console.log("Juicy Table Filter selection: " + this.fvSelected);
 
     this.allIndvMatches = [];
     this.tableDateSelected = this.userPrefService.getSelectedDate();
@@ -195,7 +205,8 @@ export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
   }
 
 
-  //Populates matches in date range. Need this for refreshing new matches under date criteria.
+  //Populates matches in date range.
+  //Need this for refreshing new matches under date criteria.
   private popJuiceInRange() {
     this.allIndvMatches.forEach(selection => {
       this.dateInRange(selection);
@@ -215,7 +226,7 @@ export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
   //   //TODO Also, timestamp showing last update.
   ngAfterViewInit() {
     this.dataSource.sort = this.sort;
-    console.log(this.dataSource.sort);
+    // console.log(this.dataSource.sort);
   }
 
   sortData(sort: Sort) {
@@ -411,6 +422,16 @@ export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
       this.expandedElement = expandItem;
       this.chRef.detectChanges();
       console.log(notification.matchObject.Selection + " Is Expanded!!!!");
+    }
+
+
+    scrollTo(idTag:string){
+      console.log("ID: " + idTag);
+      let el = document.getElementById(idTag);
+      setTimeout(()=>{
+        el.scrollIntoView();
+
+      },400);
 
     }
 
@@ -504,11 +525,4 @@ export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
       }
     }
 
-    scrollTo(idTag:string){
-      console.log("ID: " + idTag);
-
-      // let el = document.getElementById(idTag);
-      // el.scrollIntoView();
-
-    }
 }

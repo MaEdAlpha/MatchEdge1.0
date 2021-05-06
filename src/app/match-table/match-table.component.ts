@@ -158,7 +158,9 @@ import { PopupViewSavedBetsComponent } from '../popup-view-saved-bets/popup-view
       .subscribe( ( matchData: any) => {
                                           //Takeout bad data
                                           this.matches = this.sanitizeList(matchData);
-                                          console.log(this.matches);
+                                          console.log("Sanitize...");
+
+                                          // console.log(this.matches);
 
                                           // Set up and clean groups
                                           this.buildGroupHeaders(this.matches, 0);
@@ -225,7 +227,8 @@ import { PopupViewSavedBetsComponent } from '../popup-view-saved-bets/popup-view
             }
             return groupObj;
       }), JSON.stringify);
-      console.log(groups);
+      console.log("Groups created:...");
+      // console.log(groups);
 
       //Assign values to class object
       // var assignTodaysDay: number = this.dateHandlingService.returnDateSelection('Today & Tomorrow')[0];
@@ -403,7 +406,9 @@ import { PopupViewSavedBetsComponent } from '../popup-view-saved-bets/popup-view
       });
         //setup match time format the client displays on the view table
         this.viewTableList = this.addFixturesDate(this.viewTableList);
-        console.log(this.viewTableList);
+        console.log("Edited list with added Fixture Dates");
+
+        // console.log(this.viewTableList);
 
         return this.viewTableList
     }
@@ -467,7 +472,8 @@ import { PopupViewSavedBetsComponent } from '../popup-view-saved-bets/popup-view
 
     //Date formatter
     addFixturesDate(matchList: any[] ): any[]{
-      console.log(matchList);
+      console.log("Fixture Date setup in progress...");
+      // console.log(matchList);
       matchList.forEach( matchObj => {
         if(matchObj.level != 1 && matchObj.Details != undefined ){
           var localDate: Date = new Date(matchObj.EpochTime * 1000);
@@ -589,8 +595,8 @@ import { PopupViewSavedBetsComponent } from '../popup-view-saved-bets/popup-view
     }
 
     watchAll(groupRow:any):void{
-      console.log(this.matches);
-      console.log("WatchAll= " + groupRow.watchAll);
+      console.log("----------------------------------- Watch All Of " + groupRow.League + "-----------------------------------\n Adding all matches to watchMatchSubject & watchList in matchStatus Services");
+      // console.log(this.matches);
       var epochCutOff = this.getStartEndDaysAtMidnight();
       //filter by league
       const leagueMatches = this.matches.filter( (match) => {
@@ -603,19 +609,24 @@ import { PopupViewSavedBetsComponent } from '../popup-view-saved-bets/popup-view
           return true;
         }
       });
-      console.log(leagueMatches);
 
+      // console.log(leagueMatches);
       leagueMatches.forEach( (match)=> {
         if(groupRow.watchAll){
-          console.log("Added to Subject");
           this.matchStatusService.addToWatchList(match);
           this.matchStatusService.watchMatchSubject(match);
         } else {
-          console.log("Removed from List")
+          console.log("Removed from List: " + match.Home + " v " + match.Away);
           this.matchStatusService.removeFromWatchList(match);
           this.matchStatusService.watchMatchSubject(match);
         }
       });
+      console.log("Watchlist:");
+
+      console.log(this.matchStatusService.getWatchList());
+
+      console.log("----------------------------------------------------------------------");
+
     }
 
      openPopUp($event: MatSlideToggleChange, groupItem: any) {

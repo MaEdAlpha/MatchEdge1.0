@@ -71,7 +71,7 @@ app.put(`/api/user/connect`, async (req,res) => {
                           // console.log(response);
                           //if null, create a new user.
                           if(response == null){
-                            console.log("NEW USER DETECTED!!!");
+                            console.log("Creating new user profile with default settings");
                             //Create new document
                             createNewUserDocument( req.body.email).then( response => {
                               console.log(req.body.sub);
@@ -84,11 +84,13 @@ app.put(`/api/user/connect`, async (req,res) => {
                             });
 
                           } else {
-                            console.log(req.body.sub);
+                            console.log('Retrieve user Settings triggered... ');
+                            // console.log(req.body.sub);
                             // console.log(response);
                             //where you get response of pre-existing user authenticate here.
                             authenticateUser(req.body.email, req.body.sub)
                             .then( generatedToken => {
+                              console.log("authenicating User....");
                               console.log(generatedToken);
                               res.status(201).json({token: generatedToken.token, expiry: generatedToken.expires , userDetails: response});
                             });
@@ -152,8 +154,10 @@ app.get('/api/sab/sabs', async(req,res) => {
     const cursor = await client.db("JuicyClients").collection("juicy_users_sab").find(filter);
     const sabList = await cursor.toArray();
     let body = sabList;
-    console.log(body);
+    console.log('Retrieving SAB...');
+    // console.log(body);
     res.status(200).json({body})
+    console.log("Retrieved!");
   } catch (e) {
     console.log(e);
   }
@@ -181,8 +185,7 @@ app.post('/api/sab', checkAuth, async(req,res) => {
 
 app.put('/api/user/settings', checkAuth, async(req,res,next) => {
   try {
-    console.log("UserSettings.body");
-
+    console.log("Updating user settings...");
     console.log(req.body);
     const _id = new ObjectID(req.body.juicyId);
     // const col = await client.db("JuicyClients").collection("juicy_users").findOne({"_id":_id}, function(error,response){
@@ -235,12 +238,12 @@ app.put('/api/user/settings', checkAuth, async(req,res,next) => {
 
       client.db("JuicyClients").collection("juicy_users")
                               .updateOne( filter, update, options, function(error,response){
-                                //  console.log("Updated User Settings!");
+                                 console.log("Updated!");
                                 //  console.log("Modified: " + response.modifiedCount);
                               });
 
   }catch (e){
-    console.log("User PUT request Error");
+    console.log("User Update request Error");
     console.log(e);
   }
 })
@@ -282,13 +285,16 @@ app.put('/api/sab/:id', checkAuth, async(req,res,next) => {
 
 //Delete SAB
 app.delete("/api/sab/:id", checkAuth, async(req,res,next) => {
+  console.log('Deleting SAB...');
   try{
     const _id = new ObjectID(req.params.id);
     const col = await client.db("JuicyClients").collection("juicy_users_sab");
     col.deleteOne({ _id: _id}, function(error,response){
       if(response.deletedCount != 0){
+        console.log("Completed! Deleted: " + response.deletedCount);
         res.status(201).json({deletedCount: response.deletedCount});
       } else {
+        console.log("Failed to delete...");
         res.status(400).json({deletedCount: response.deletedCount})
       }
     });
@@ -300,7 +306,7 @@ app.delete("/api/sab/:id", checkAuth, async(req,res,next) => {
 //Uses upsert to create default userSettings, assigning userEmail.
 //Recieves upsertID, finds newly inserted document, returns it to client.
 async function authenticateUser(userEmail, userId){
-  let pv_key = "super_secret_key";
+  let pv_key = "ALK!838(KjlIj__+9129JAqjL110}23";
   let encodedData =  {email: userEmail, userId: userId };
   let options =  {expiresIn: "1h"};
   let expirationSeconds = 3600 //convert "1h" string into seconds

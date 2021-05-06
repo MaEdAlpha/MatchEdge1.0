@@ -40,9 +40,9 @@ export class AppComponent {
      promise.then(cb => {this.isLoading = cb});
 
   }
+  //opening user Settings panel
   displayPanel(event: boolean){
     this._displayNotification = event;
-    console.log(event);
 
   }
 }

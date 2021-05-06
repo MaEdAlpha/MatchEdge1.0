@@ -61,7 +61,8 @@ export class FilterSettingsComponent implements OnInit {
   ngOnInit(): void {
 
     this.evPlaceholder = +this.filtersFormValues.fvSelected == 1 ? "Expected Value (£)" : +this.filtersFormValues.fvSelected == 2 ? "Match Rating (%)" : +this.filtersFormValues.fvSelected == 3 ? "Qualifying Loss (%)" : "null" ;
-    console.log(this.filtersFormValues);
+    console.log("Pre-load filter settings here");
+    // console.log(this.filtersFormValues);
 
     var filterValidator: ValidatorFn[] = [Validators.required, Validators.pattern("^[0-9\.\-]*$"), Validators.maxLength(7)];
     var mrFilterValidator: ValidatorFn[] = [Validators.required, Validators.pattern("^[0-9\.\-]*$"), Validators.maxLength(7), Validators.max(100), Validators.min(0)]
@@ -99,8 +100,6 @@ export class FilterSettingsComponent implements OnInit {
     // });
 
     this.viewTableForm.valueChanges.subscribe( value => {
-      console.log(value);
-
       this.filtersFormValuesChange.emit(value);
     });
   }
@@ -113,10 +112,12 @@ export class FilterSettingsComponent implements OnInit {
    /* send this data to user preferences and other webservices for handling.
     emit this so services can hear and set to matchStats/juicymatch component.
     set in program to validate for juicy matches. */
-    console.log(this.viewTableForm.value);
-    console.log(this.filtersFormValues);
+    console.log("Saved filter values here: ");
 
-    this.userPrefService.setFormValues(this.viewTableForm.value);
+    // console.log(this.viewTableForm.value);
+    // console.log(this.filtersFormValues);
+
+    // this.userPrefService.setFormValues(this.viewTableForm.value);
   }
   filterValueValidator(firstNumber:number): ValidatorFn
   {

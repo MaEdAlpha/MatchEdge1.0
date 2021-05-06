@@ -22,7 +22,7 @@ export class MatchNotificationSettingsComponent implements OnInit {
 
   ngOnInit(): void {
     //if user does not have commission saved then use default
-    console.log("OnInitCalled in MatchNotif-Settings");
+    console.log("--Initializing User settings--");
 
     this.smCommission = this.userPropertiesService.getCommission();
     this.userSettings = this.userPropertiesService.getUserSettings();
@@ -117,9 +117,12 @@ export class MatchNotificationSettingsComponent implements OnInit {
   }
 
   saveUserSettings(){
-    console.log("SAVING TO DB");
+    console.log("--Saving User Settings to DB--- TODO-Auto close this modal");
     //Update Change detection in Juicy Table.
-    this.userPropertiesService.setFormValues(this.settingsForm.value.filters);
+    console.log("Two calls. set Form Value (change on client side)+ saveUserSettings (server side)*Issues? Debug starting here.");
+    //Two methods below were being called elsewhere. specifically setFormValues. Debug here if db is dropping values. To date, issue is resolved.
+    //This is a helpful note from past ryan reaching out to future ryan -_-.
+    this.userPropertiesService.setFormValues(this.settingsForm.value);
     this.userPropertiesService.saveUserSettings(this.settingsForm.value, this.userPropertiesService.getUserSettings().juicyId );
   }
 }

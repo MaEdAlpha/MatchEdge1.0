@@ -269,39 +269,40 @@ export class UserPropertiesService {
     this.userPrefSub.next({
 
       timeRange: this.settings.filters.timeRange,
-      minOdds: formObj.minOdds,
-      maxOdds: formObj.maxOdds,
-      evFVI: formObj.evFVI,
-      evFVII: formObj.evFVII,
-      matchRatingFilterI: formObj.matchRatingFilterI,
-      matchRatingFilterII: formObj.matchRatingFilterII,
-      secretSauceI: formObj.secretSauceI,
-      secretSauceII: formObj.secretSauceII,
-      fvSelected: formObj.fvSelected,
-      audioEnabled: formObj.audioEnabled,
+      minOdds: formObj.filters.minOdds,
+      maxOdds: formObj.filters.maxOdds,
+      evFVI: formObj.filters.evFVI,
+      evFVII: formObj.filters.evFVII,
+      matchRatingFilterI: formObj.filters.matchRatingFilterI,
+      matchRatingFilterII: formObj.filters.matchRatingFilterII,
+      secretSauceI: formObj.filters.secretSauceI,
+      secretSauceII: formObj.filters.secretSauceII,
+      fvSelected: formObj.filters.fvSelected,
+      audioEnabled: formObj.filters.audioEnabled,
     });
 
     this.settings.filters = {
 
       timeRange: this.settings.filters.timeRange,
-      minOdds: formObj.minOdds,
-      maxOdds: formObj.maxOdds,
-      evFVI: formObj.evFilterValueI,
-      evFVII: formObj.evFilterValueII,
-      matchRatingFilterI: formObj.matchRatingFilterI,
-      matchRatingFilterII: formObj.matchRatingFilterII,
-      secretSauceI: formObj.secretSauceI,
-      secretSauceII: formObj.secretSauceII,
-      fvSelected: formObj.fvSelected,
-      audioEnabled: formObj.audioEnabled,
+      minOdds: formObj.filters.minOdds,
+      maxOdds: formObj.filters.maxOdds,
+      evFVI: formObj.filters.evFVI,
+      evFVII: formObj.filters.evFVII,
+      matchRatingFilterI: formObj.filters.matchRatingFilterI,
+      matchRatingFilterII: formObj.filters.matchRatingFilterII,
+      secretSauceI: formObj.filters.secretSauceI,
+      secretSauceII: formObj.filters.secretSauceII,
+      fvSelected: formObj.filters.fvSelected,
+      audioEnabled: formObj.filters.audioEnabled,
     }
-    this.viewTablePrefSelected.emit(this.viewTablePrefs);
+    this.viewTablePrefSelected.emit(this.settings.filters);
+    console.log(this.settings.filters);
+
   }
 
   saveUserSettings(settingsForm, juicyId){
-    console.log("---1. Reactive form---->----->-----Saving to BackEnd--->--->---2 .this.settings object");
-    console.log("---1. Reactive form----");
-    console.log(settingsForm);
+    console.log('DB Call to update settings (User Settings form + juId');
+
     this.settings = {                   account: {
                                                   username: settingsForm.account.UserName,
                                                   email: settingsForm.account.Email,
@@ -341,11 +342,11 @@ export class UserPropertiesService {
                                                     audioEnabled: settingsForm.filters.audioEnabled,
                                                    },
                                       juicyId: juicyId,
-                      }
+                    }
 
-                      console.log("----2. Settings object -----");
-                      console.log(this.settings);
-                      this.http.put<any>("http://localhost:3000/api/user/settings", this.settings);
+                    console.log("----2. PUT to DB -----");
+                    console.log(this.settings);
+    this.http.put<any>("http://localhost:3000/api/user/settings", this.settings).subscribe();
 
   }
   //userPreference TablePreferences
