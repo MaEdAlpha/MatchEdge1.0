@@ -77,20 +77,28 @@
                 <form class="form-container"  [formGroup]="selectionValues">
 
                 <div class="jm-exp-details"> <!--Expansion container for juicy match-->
-
-                  <div class="selection-logo-cont">  <!--Team name and Logo-->
-                    <div id="logo">
-                      <div class="logo-img-cont"><img src="/assets/img/fcLogo/{{selection.Logo}}.png"></div>
-                    </div>
-
-                    <div class="selection">
-                      <p>{{selection.Selection}}</p>
-                      <p>{{selection.League}}</p>
-                    </div>
-                            <!-- <div class="jed-cell" id="prev-odds"><p> <b> {{i}} PREV. BACK ODDS</b></p><h3> {{selection.b365HPrev[selection.b365HPrev.length - 1].odds | number:'0.2-2'}} | H - A | {{selection.b365APrev[selection.b365APrev.length - 1].odds | number:'0.2-2'}}</h3></div> -->
-                  </div>
+                             
 
                   <div class="jm-expanded-container"> <!-- Relevant match values -->
+
+                    <div class="teamname shadow">
+                      <div class="teamnamecontainer">
+                        <div class="teamname-container"> 
+                          <div class="selection">
+                            <p>{{selection.Selection}}</p>
+                        </div>  
+                          <div class="logo-img-cont">
+                          <img src="/assets/img/fcLogo/{{selection.Logo}}.png">
+                        </div>
+                        <div class="leaguename">
+                          <p>{{selection.League}}</p>
+                      </div>  
+                        </div>
+
+                      </div>
+                    </div>
+
+
                     <div class="bookie shadow">
                       <div class="bookiecontainer">
 
@@ -102,7 +110,7 @@
                         <div class="bookie-container">
                           <div class="bookie-row">
                             <p class="bookie-text-rhs">Stake</p>
-                            <input formControlName="Stake" class = "value-box-back"  placeholder="{{getGroup(i).get('Stake').value}}">
+                            <input formControlName="Stake" type="number"step="10" class = "value-box-back"  placeholder="{{getGroup(i).get('Stake').value}}">
                           </div>
 
                           <div class="bookie-row">
@@ -150,8 +158,8 @@
                         <div class="comments-cont">
                           <mat-form-field tabindex="1" class="user-comments" appearance="outline">
                             <mat-label class="auto-calc-label">Match Comments</mat-label>
-                            <textarea class="auto-calc-input" formControlName="MatchInfo" required matInput placeholder="Enter comments here..."></textarea>
-                            <mat-hint> Allowed char. ({{selectionValues.value.MatchInfo == null ? selectionValues.value.MatchInfo == ' ' : selectionValues.value.MatchInfo.length}}/140)</mat-hint>
+                            <textarea class="auto-calc-input" formControlName="MatchInfo" required matInput placeholder=""></textarea>
+                            <mat-hint> ({{selectionValues.value.MatchInfo == null ? selectionValues.value.MatchInfo == ' ' : selectionValues.value.MatchInfo.length}}/140)</mat-hint>
                             <mat-error *ngIf="selectionValues.controls.MatchInfo.errors">{{getErrorMessage()}} </mat-error>
                           </mat-form-field>
                         </div>
@@ -159,36 +167,36 @@
                       <!-- Calculated Values -->
                       <div class="calculated-container">
                         <div class="calculated-row">
-                          <h3 class="calculated-text calculated-text-lhs">ROI:</h3>
-                          <span class="calculated-value calculated-value-lhs">{{ ROI(getGroup(i).get('Stake').value, getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value, selection.FTAround) | number:'0.2-2'}} %</span>
+                          <div class="roi-text">ROI:</div>
+                          <span class="calculated-value calculated-value-lhs">{{ ROI(getGroup(i).get('Stake').value, getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value, selection.FTAround) | number:'0.2-2'}}%</span>
                         </div>
                         <hr class="value-divider">
                         <div class="calculated-row">
-                          <h3 class="calculated-text calculated-text-lhs">EV: </h3>
+                          <div class="ev-text">EV: </div>
                           <span class="calculated-value calculated-value-lhs">{{ TotalEV( selection.FTAround,  getGroup(i).get('Stake').value, getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value)/selection.FTAround  | currency:'GBP' }}</span>
                         </div>
                         <hr class="value-divider">
                         <div class="calculated-row">
-                          <h3 class="calculated-text calculated-text-lhs">MR: </h3>
-                          <span class="calculated-value calculated-value-lhs calculated-value-lhs">{{ NewMatchRating( getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value)  | number:'0.2-2' }} %</span>
+                          <div class="mr-text">MR: </div>
+                          <span class="calculated-value calculated-value-lhs calculated-value-lhs">{{ NewMatchRating( getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value)  | number:'0.2-2' }}%</span>
                         </div>
                         <hr class="value-divider">
                         <div class="calculated-row">
-                          <h3 class="calculated-text calculated-text-lhs">QL%: </h3>
-                          <span class="calculated-value calculated-value-lhs">{{ NewSS(  getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value, getGroup(i).get('Stake').value ) | number:'0.2-2' }} %</span>
+                          <div class="qlpercent-text">QL%: </div>
+                          <span class="calculated-value calculated-value-lhs">{{ NewSS(  getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value, getGroup(i).get('Stake').value ) | number:'0.2-2' }}%</span>
                         </div>
                       </div>
 
                       <!-- QL and record Bet -->
                       <div class="calculated-container">
                         <div class="calculated-row">
-                          <h3 class="calculated-text calculated-value-fta-ql">FTA: </h3>
-                            <span class="calculated-value calculated-value-fta-ql"> {{ FTA(getGroup(i).get('Stake').value, getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value  ) | currency:'GBP'}}</span>
+                          <div class="fta-text">FTA: </div>
+                            <span class="fta-value"> {{ FTA(getGroup(i).get('Stake').value, getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value  ) | currency:'GBP'}}</span>
                         </div>
                         <hr class="value-divider">
                         <div class="calculated-row">
-                          <h3 class="calculated-text calculated-value-fta-ql">QL: </h3>
-                          <span class="calculated-value  calculated-value-fta-ql"> {{ QL( getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value, getGroup(i).get('Stake').value) | currency:'GBP'}}  </span>
+                          <div class="ql-text">QL: </div>
+                          <span class="ql-value"> {{ QL( getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value, getGroup(i).get('Stake').value) | currency:'GBP'}}  </span>
                         </div>
                         <div class="calculated-row">
                           <button tabindex="0" mat-raised-button class="exp-button"  (click)="saveAsActiveBet(selection, i)">Record Bet</button>
