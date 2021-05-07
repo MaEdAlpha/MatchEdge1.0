@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import {RouterModule} from '@angular/router';
 import { UserPropertiesService } from '../services/user-properties.service';
 
@@ -8,9 +8,10 @@ import { UserPropertiesService } from '../services/user-properties.service';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent {
-  constructor(private userService: UserPropertiesService){}
+  constructor(private userService: UserPropertiesService){};
+  @Input() displayNotification:boolean;
   @Output() notificationSettings = new EventEmitter<boolean>();
-  displayNotification: boolean;
+
 
   ngOnInit() {
     this.displayNotification = false;
@@ -18,6 +19,12 @@ export class HeaderComponent {
 
   notificSettingsClicked(_displayNotification:boolean){
       this.notificationSettings.emit(_displayNotification);
+  }
+
+  toggleNotificationSettings(event){
+    console.log("HEADER CMPONENT TOGGLED!");
+
+    this.displayNotification = event;
   }
 
   test(){

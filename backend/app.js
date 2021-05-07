@@ -11,8 +11,8 @@ const jwt = require('jsonwebtoken');
 const MongoClient = require("mongodb").MongoClient;
 const ObjectID = require('mongodb').ObjectID;
 
-const connectionString = "mongodb+srv://Dan:x6RTQn5bD79QLjkJ@cluster0.uljb3.gcp.mongodb.net/MBEdge?retryWrites=true&w=majority";
-//const connectionString = "mongodb+srv://Randy:4QQJnbscvoZQXr0l@clusterme.lfzcj.mongodb.net/MBEdge?retryWrites=true&w=majority";
+//const connectionString = "mongodb+srv://Dan:x6RTQn5bD79QLjkJ@cluster0.uljb3.gcp.mongodb.net/MBEdge?retryWrites=true&w=majority";
+const connectionString = "mongodb+srv://Randy:4QQJnbscvoZQXr0l@clusterme.lfzcj.mongodb.net/MBEdge?retryWrites=true&w=majority";
 const options = {useUnifiedTopology: true, useNewUrlParser: true};
 const client = new MongoClient(connectionString, options );
 
@@ -88,15 +88,21 @@ app.put(`/api/user/connect`, async (req,res) => {
                             // console.log(req.body.sub);
                             // console.log(response);
                             //where you get response of pre-existing user authenticate here.
-                            authenticateUser(req.body.email, req.body.sub)
-                            .then( generatedToken => {
-                              console.log("authenicating User....");
-                              console.log(generatedToken);
-                              res.status(201).json({token: generatedToken.token, expiry: generatedToken.expires , userDetails: response});
-                            });
+
+                            //Dev Uss
+                            res.status(201).json({token: 'iamAtoken', expiry: 3600 , userDetails: response});
+                            //Production Use
+                            // authenticateUser(req.body.email, req.body.sub)
+                            // .then( generatedToken => {
+                            //   console.log("authenicating User....");
+                            //   console.log(generatedToken);
+                            //   res.status(201).json({token: generatedToken.token, expiry: generatedToken.expires , userDetails: response});
+                            // });
 
                           }
-                        } catch (e){ console.log("error at connection!: " + e);}
+                        } catch (e){ console.log("error at connection!: " + e);
+                      } finally { console.log("Enter.....");}
+
                       })
     });
 
@@ -118,7 +124,7 @@ app.get(`/api/updates`, function(req, res) {
     'Connection': 'keep-alive',
   });
 
-    try{
+
       const collection =  client.db("MBEdge").collection("matches");
       const changeStream = collection.watch();
 
@@ -128,28 +134,26 @@ app.get(`/api/updates`, function(req, res) {
           res.write(msg);
           //console.log(JSON.stringify(next.fullDocument) + "\n\n" );
         });
-      } catch (error){
-      console.log(error);
-    }
+
   });
+
   //View Table Matches => /api/matches
-app.get('/api/matches', checkAuth, async(req, res) => {
-  try{
+
+  //DEV MODE add in checkAuth
+app.get('/api/matches', async(req, res) => {
+
     const cursor = await client.db("MBEdge").collection("matches").find({});
     const matchesList = await cursor.toArray();
     let body = matchesList;
     res.status(200).json({body})
-  } catch (e) {
-    console.log(e);
-    res.status(403).json({message:"Message to User"})
-  }
+
 });
 /////////////////////////////////////////////////////////////////////////////////////////
 //                SAB ROUTES  Place in another folder                                 //
 ////////////////////////////////////////////////////////////////////////////////////////
 //Get all SAB **TODO** Need to get all SABS with ObjectID of user Only.
 app.get('/api/sab/sabs', async(req,res) => {
-  try{
+
     const filter = { "juId": req.query.juId }
     const cursor = await client.db("JuicyClients").collection("juicy_users_sab").find(filter);
     const sabList = await cursor.toArray();
@@ -158,16 +162,15 @@ app.get('/api/sab/sabs', async(req,res) => {
     // console.log(body);
     res.status(200).json({body})
     console.log("Retrieved!");
-  } catch (e) {
-    console.log(e);
-  }
+
 });
 
 //Create a SAB
 //*TODO Append juicyID onto document for lookup at initialization
-app.post('/api/sab', checkAuth, async(req,res) => {
+//DEV MODE add in checkAuth
+app.post('/api/sab', async(req,res) => {
 
-  try {
+
       const col = await client.db("JuicyClients").collection("juicy_users_sab");
       const result = await col.insertOne(req.body, function(error, response){
         if(!error){
@@ -178,15 +181,13 @@ app.post('/api/sab', checkAuth, async(req,res) => {
           res.status(404).json({error});
         }
       });
-    }catch (e) {
-    console.log(e);
-  }
+
 });
 
-app.put('/api/user/settings', checkAuth, async(req,res,next) => {
-  try {
+app.put('/api/user/settings', async(req,res,next) => {
+
     console.log("Updating user settings...");
-    console.log(req.body);
+    console.log(req);
     const _id = new ObjectID(req.body.juicyId);
     // const col = await client.db("JuicyClients").collection("juicy_users").findOne({"_id":_id}, function(error,response){
     //   console.log(response);
@@ -241,16 +242,11 @@ app.put('/api/user/settings', checkAuth, async(req,res,next) => {
                                  console.log("Updated!");
                                 //  console.log("Modified: " + response.modifiedCount);
                               });
-
-  }catch (e){
-    console.log("User Update request Error");
-    console.log(e);
-  }
-})
+});
 
 //update SAB
-app.put('/api/sab/:id', checkAuth, async(req,res,next) => {
-  try{
+app.put('/api/sab/:id', async(req,res,next) => {
+
     //write _id to "id": <value> when updating locally.
     const _id = new ObjectID(req.params.id);
     const col = await client.db("JuicyClients").collection("juicy_users_sab");
@@ -278,15 +274,16 @@ app.put('/api/sab/:id', checkAuth, async(req,res,next) => {
                                                               console.log(response);
                                                               res.status(201).json({response});
                                                             })
-  }catch (e) {
+
 
   }
-});
+);
 
 //Delete SAB
-app.delete("/api/sab/:id", checkAuth, async(req,res,next) => {
+//DEV MODE add in checkAuth
+app.delete("/api/sab/:id", async(req,res,next) => {
   console.log('Deleting SAB...');
-  try{
+
     const _id = new ObjectID(req.params.id);
     const col = await client.db("JuicyClients").collection("juicy_users_sab");
     col.deleteOne({ _id: _id}, function(error,response){
@@ -299,9 +296,6 @@ app.delete("/api/sab/:id", checkAuth, async(req,res,next) => {
       }
     });
 
-  }catch (e){
-    console.log("something went wrong when deleting");
-  }
 });
 //Uses upsert to create default userSettings, assigning userEmail.
 //Recieves upsertID, finds newly inserted document, returns it to client.

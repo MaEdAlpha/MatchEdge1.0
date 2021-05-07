@@ -16,10 +16,11 @@ import { UserPropertiesService } from './services/user-properties.service';
 export class AppComponent {
   title = 'JuicyBets';
   storedMatches: any;
-  _displayNotification:boolean = false;
+  toggleSettingsTemplate:boolean;
   profileJson: string= null;
   isAuthenticated: boolean=false;
   isLoading: boolean = true;
+  tabSelection: number;
 
   constructor(public auth: AuthService, private userPropertiesService: UserPropertiesService, private router: Router, private matchesService: MatchesService) {
 
@@ -27,7 +28,8 @@ export class AppComponent {
 
   ngOnInit(){
     console.log("Init token + redirect");
-
+    this.tabSelection=0;
+    this.toggleSettingsTemplate = false;
     this.auth.user$.subscribe( (profile) => {
       this.profileJson = JSON.stringify(profile, null, 2);
       this.isAuthenticated = profile != null ?  true : false;
@@ -36,19 +38,29 @@ export class AppComponent {
 
     this.matchesService.loadPage.subscribe( (isDone) => {
       this.isLoading = isDone;
-    })
+    });
   }
 
   getUserSettings(userEmail: string, sub:string){
     //unecessary callback on response, was used for loading.
-     let promise: Promise<boolean> = this.userPropertiesService.getSettings(userEmail, sub);
-     promise.then(cb => { console.log(cb);
-     });
+   this.userPropertiesService.getSettings(userEmail, sub);
+
 
   }
   //opening user Settings panel
   displayPanel(event: boolean){
-    this._displayNotification = event;
 
+    this.toggleSettingsTemplate = event;
+
+  }
+
+  resetSettings(event:{state:boolean, tab:number}){
+    console.log("RESET DETECTED!");
+    console.log(event);
+    this.tabSelection = event.tab;
+    this.toggleSettingsTemplate = !event.state;
+    setTimeout(()=>{
+      this.toggleSettingsTemplate = !this.toggleSettingsTemplate;
+    },20)
   }
 }

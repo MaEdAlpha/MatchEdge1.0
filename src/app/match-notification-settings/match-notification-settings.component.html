@@ -2,7 +2,7 @@
 <div class="settings-positioning-container">
   <div class="settings-view-container">
     <div class="settings-options">
-      <mat-tab-group mat-align-tabs="center">
+      <mat-tab-group #tab animationDuration= "0ms" mat-align-tabs="center">
         <mat-tab class="setting-content" label="Account">
             <app-account-settings [accountFormValues]="settingsForm.value.account" (accountFormValuesChange)="updateAccountChanges($event)"></app-account-settings>
         </mat-tab>
@@ -16,10 +16,10 @@
     </div>
   </div>
     <div class="button-container">
-      <button mat-raised-button class="buttonstyles" (click)="test()">Parent Test</button>
-      <button mat-raised-button class="buttonstyles" (click)="test()">Cancel</button>
+      <button mat-raised-button class="buttonstyles" (click)="resetSettings()">Reset</button>
+      <button mat-raised-button class="buttonstyles" (click)="closeSettings()">Close</button>
       <button mat-raised-button class="buttonstyles" (click)="saveUserSettings()">Save</button>
-    
+
   </div>
 </div>
 

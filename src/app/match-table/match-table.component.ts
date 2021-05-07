@@ -605,9 +605,9 @@ import { PopupViewSavedBetsComponent } from '../popup-view-saved-bets/popup-view
         var matchEpoch:number = match.EpochTime*1000;
         if(match.League == groupRow.League && ( matchEpoch >= epochCutOff.forStartOfDayOne && matchEpoch <= epochCutOff.forDayTwo ))
         {
-          match.isWatched = groupRow.watchAll;
-          match.AStatus.notify = groupRow.watchAll;
-          match.HStatus.notify = groupRow.watchAll;
+          match.isWatched = groupRow.watchAll ? true : false;
+          match.AStatus.notify = groupRow.watchAll ?  true : false;
+          match.HStatus.notify = groupRow.watchAll ? true : false;
           return true;
         }
       });

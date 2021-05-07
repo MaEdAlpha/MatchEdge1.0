@@ -10,7 +10,8 @@ import { MatchTableComponent } from './match-table/match-table.component';
 const routes: Routes = [
   // { path: ' ', component: LandingPageComponent, pathMatch:'full',},
   // { path: 'settings', component: MatchNotificationSettingsComponent},
-  { path: 'matches', component: MatchTableComponent, canActivate: [AuthGuard] },
+  // { path: 'matches', component: MatchTableComponent, canActivate: [AuthGuard] },
+  { path: 'matches', component: MatchTableComponent },
 
 ];
 

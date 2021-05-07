@@ -1,4 +1,4 @@
-<mat-drawer-container class="view-table-settings" [hasBackdrop]="true">
+<!-- <mat-drawer-container class="view-table-settings" [hasBackdrop]="true">
   <mat-sidenav #sidenav
               [mode]="mode"
               [fixedInViewport]="true"
@@ -10,7 +10,7 @@
               <br>
 
               <div class="vt-settings-container">
-                <!-- point to viewTableForm : FormGroup  -->
+                point to viewTableForm : FormGroup
                   <form (ngSubmit)="onSubmit()" [formGroup]="viewTableForm">
                     <div *ngIf="viewTableForm.errors && (viewTableForm.touched || viewTableForm.dirty)" class="cross-validation-error-message alert alert-danger">
                       Something went wrong! Most likely your notification's filter is less than your table view filter setting for the following fields: {{ getFormErrorMessage() }}
@@ -153,4 +153,4 @@
 
   </mat-sidenav>
 </mat-drawer-container>
-
+ -->

@@ -1,33 +1,48 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { TriggerOdds } from './trigger-odds.model';
-import { FormControl, FormGroup, NgForm } from '@angular/forms';
+import { Component, EventEmitter, OnInit, Output, ViewChild, AfterViewInit, Input } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { UserPropertiesService } from '../services/user-properties.service';
+import { MatTabGroup } from '@angular/material/tabs';
 
 @Component({
   selector: 'app-match-notification-settings',
   templateUrl: './match-notification-settings.component.html',
   styleUrls: ['./match-notification-settings.component.css']
 })
-export class MatchNotificationSettingsComponent implements OnInit {
+export class MatchNotificationSettingsComponent implements OnInit, AfterViewInit {
+  @Output() disableViewEvent = new EventEmitter<boolean>();
+  @Output() flickerEvent = new EventEmitter<{state:boolean, tab:number}>();
   smCommission: number;
+  selectedTab: number;
+  @Input() resetToTab: number;
   onEditClick = false;
   defaultSmCommiss: number = 2.00;
   settingsForm: FormGroup;
   userSettings: any;
 
-
-  @ViewChild('triggerData') triggerDataForm: NgForm;
+  @ViewChild('tab', {static:false}) tab: MatTabGroup;
 
   constructor(private userPropertiesService: UserPropertiesService) { }
 
   ngOnInit(): void {
     //if user does not have commission saved then use default
+
+
+    this.selectedTab == null ? 0 : this.resetToTab;
     console.log("--Initializing User settings--");
-
     this.smCommission = this.userPropertiesService.getCommission();
-    this.userSettings = this.userPropertiesService.getUserSettings();
-    console.log(this.userSettings);
+    this.initializeAllForms();
 
+  }
+
+  ngAfterViewInit(){
+    this.tab.selectedIndex=this.resetToTab;
+
+  }
+
+  initializeAllForms(){
+    this.userSettings = this.userPropertiesService.getUserSettings();
+
+    console.log(this.userSettings);
         //Creat a settings form, then pass down to all the child components in HTML
       this.settingsForm = new FormGroup({
         account: new FormGroup({
@@ -70,7 +85,6 @@ export class MatchNotificationSettingsComponent implements OnInit {
 
   test(){
     console.log(this.settingsForm.value);
-
   }
 
   updateAccountChanges(value:any){
@@ -124,6 +138,26 @@ export class MatchNotificationSettingsComponent implements OnInit {
     //This is a helpful note from past ryan reaching out to future ryan -_-.
     this.userPropertiesService.setFormValues(this.settingsForm.value);
     this.userPropertiesService.saveUserSettings(this.settingsForm.value, this.userPropertiesService.getUserSettings().juicyId );
+    this.toggleSettingsView();
+  }
+
+  closeSettings(){
+    this.toggleSettingsView();
+  }
+
+  resetSettings(){
+        console.log(this.tab);
+        console.log(this.tab.selectedIndex);
+        this.flickerEvent.emit({state:true, tab: this.tab.selectedIndex});
+
+    // this.initializeAllForms();
+    // this.settingsForm.reset(this.settingsForm, {emitEvent:true});
+    // console.log(this.settingsForm);
+    // this.chRef.detectChanges();
+  }
+
+  toggleSettingsView(){
+    this.disableViewEvent.emit(false);
   }
 }
 

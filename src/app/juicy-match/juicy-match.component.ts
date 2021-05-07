@@ -435,6 +435,15 @@ export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
 
     }
 
+    getErrorMessage() {
+      var formInput = this.selectionValues.controls;
+      console.log(formInput);
+
+      // if(formInput.minOdds.errors || formInput.maxOdds.errors || formInput.evFilterValueI.errors || formInput.evFilterValueII.errors || formInput.matchRatingFilterI.errors || formInput.matchRatingFilterII.errors || formInput.secretSauceI.errors || formInput.secretSauceII.errors){
+      //   return 'Invalid entry, please enter a valid number'
+      // }
+    }
+
     closeIfRedirected(selection, event: Event){
       if(selection.isRedirected == 'Yes'){
         selection.isRedirected = 'No';

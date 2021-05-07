@@ -3,16 +3,16 @@
   <div class="container" *ngIf="auth.isLoading$ | async; else loaded">
     <div class="load-screen">
       <img src="../assets/img/isLoading.jpg" alt="">
-      <p>I don't think I could....</p>
+
     </div>
   </div>
 
   <ng-template #loaded>
     <div *ngIf="isAuthenticated">
-      <app-header (notificationSettings)="displayPanel($event)" ></app-header>
+      <app-header (notificationSettings)="displayPanel($event)" [displayNotification] ="toggleSettingsTemplate" ></app-header>
       <hr>
-      <div *ngIf="_displayNotification && !isLoading">
-        <app-match-notification-settings ></app-match-notification-settings>
+      <div *ngIf="toggleSettingsTemplate && !isLoading">
+        <app-match-notification-settings (disableViewEvent)="displayPanel($event)" (flickerEvent)="resetSettings($event)" [resetToTab]="tabSelection"></app-match-notification-settings>
       </div>
       <div class="container flex-grow-1">
         <div class="mt-5">

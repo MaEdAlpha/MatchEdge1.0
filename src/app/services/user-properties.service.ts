@@ -18,10 +18,8 @@ import { response } from 'express';
   providedIn: 'root'
 })
 export class UserPropertiesService {
-  //Don't need this
-  triggerOddsSelected = new EventEmitter<TriggerOdds[]>();
   //for sending to JuicyTable Filter method
-  viewTablePrefSelected = new EventEmitter<any>();
+
   userToken = new EventEmitter<string>();
   userPrefSub = new Subject<TablePreferences>();
   tokenSubscription = new Subject<string>();
@@ -147,7 +145,7 @@ export class UserPropertiesService {
     return  this.settings;
   }
 
-  getSettings(email:string, sub:string):Promise<boolean>{
+  getSettings(email:string, sub:string){
     //http GET request to retrieve user properties from DB;
     var data: {email: string, sub: string} = {email: email, sub:sub};
     var userData;
@@ -157,7 +155,7 @@ export class UserPropertiesService {
   .subscribe( (body) => {
                           userData = body;
                           console.log('Requesting...');
-                          console.log(body);
+                          // console.log(body);
 
                           this.token = userData.token;
                           // this.tokenSubscription.next(userData.token);
@@ -179,12 +177,10 @@ export class UserPropertiesService {
                                                   }
                           this.settings.preferences = userData.userDetails.preferences;
                           setTimeout(()=>{
-                            resolve(false);
                             this.router.navigate(['/matches']);
-                          }, 2000)
+                          }, 1000)
           });
       });
-    return promise;
   }
   //get token and save to localStorage
   private saveAuthData(token: string, expirationDate: number) {
@@ -295,7 +291,6 @@ export class UserPropertiesService {
       fvSelected: formObj.filters.fvSelected,
       audioEnabled: formObj.filters.audioEnabled,
     }
-    this.viewTablePrefSelected.emit(this.settings.filters);
     console.log(this.settings.filters);
 
   }

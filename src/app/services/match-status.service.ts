@@ -122,8 +122,11 @@ export class MatchStatusService {
   //will updateNotification Status: Used to trigger toast notification.
   private updateNotificationStatus(selection: any) {
     var filterSelection: number = this.userPreferenceService.getOptionSelected();
-    var tableFilterValue: number;
-    var selectionValue:number;
+    var minOdds: number = +this.userPreferenceService.getMinOdds();
+    var maxOdds: number = +this.userPreferenceService.getMaxOdds();
+    console.log(selection);
+
+    var tableFilterValue;
 
     switch(filterSelection){
       case 1:
@@ -140,8 +143,8 @@ export class MatchStatusService {
         console.log("Something went wrong in retrieving table filter data");
       }
       // console.log("Retrieving filter value: " + tableFilterValue + " Checking match time and min odds in user settings.....");
-            ( selection.BHome > this.userPreferenceService.getMinOdds() && selection.EpochTime*1000 > Date.now() ) ? selection.HStatus.notify = true : selection.HStatus.notify = false;
-            ( selection.BAway > this.userPreferenceService.getMinOdds() && selection.EpochTime*1000 > Date.now() ) ? selection.AStatus.notify = true : selection.AStatus.notify = false;
+        selection.HStatus.notify = +selection.BHome <= maxOdds && +selection.BHome >= minOdds && selection.EpochTime*1000 > Date.now() ?  true :  false;
+        selection.AStatus.notify = +selection.BAway <= maxOdds && +selection.BAway >= minOdds && selection.EpochTime*1000 > Date.now() ? true : false;
       // console.log("Setting notification status for home/away " + selection.HStatus.notify + "/"+ selection.AStatus.notify);
 
   }
