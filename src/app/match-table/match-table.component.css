@@ -832,7 +832,7 @@ span.SMAway{
   width: 34px;
   height: 34px;
   border: 2px #9e9c9c solid;
-  margin-left: 85%;
+  margin-left: 74%;
   margin-right: 8px;
   margin-top: 2.3px;
 }
@@ -1025,8 +1025,8 @@ button.viewCell {
   margin-top: 4.5px;
   width: 35px;
   padding: 0px;
-  font-size: 15px;
-  color: #ffffff;
+  font-size: 15px  !important;
+  color: #ffffff  !important;
 }
 
 .homeOccCell{
@@ -1036,8 +1036,8 @@ button.viewCell {
   margin-top: 4.5px;
   width: 35px;
   padding: 0px;
-  font-size: 15px;
-  color: #ffffff;
+  font-size: 15px  !important;
+  color: #ffffff !important;
 }
 
 .mat-column-BHome, .mat-column-SMHome{
