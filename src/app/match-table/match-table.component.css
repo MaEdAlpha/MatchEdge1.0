@@ -97,7 +97,6 @@ mat-row {
 }
 
 .dirStatusContainer{
-  background: #637878;
   border-radius: 5px;
   width: 200px;
   display: flex;
@@ -331,7 +330,7 @@ button.viewCell {
 }
 
 .match-inactive{
-  opacity: 0.6;
+  opacity: 0.8;
   background: grey;
 }
 
@@ -833,7 +832,7 @@ span.SMAway{
   width: 34px;
   height: 34px;
   border: 2px #9e9c9c solid;
-  margin-left: 74%;
+  margin-left: 85%;
   margin-right: 8px;
   margin-top: 2.3px;
 }
@@ -1069,6 +1068,7 @@ button.viewCell {
     height: 100%;
     max-height: 20px;
     max-width: 100px;
+    padding-top: 5px;
     margin-left: 5px;
 }
 .selection-notify{
@@ -1097,11 +1097,14 @@ button.viewCell {
   border-radius: 8px 0px 0px 8px;
   margin-left: 10.5px;
   margin-right: 10px;
-  padding-top: 9px;
   /* DEBUG */
   /* padding-bottom: 10px; */
   padding-left: 0px;
   padding-right: 11.5px;
+  padding-top: 9px;
+  margin-top: -9px;
+  margin-bottom: -9px;
+  padding-bottom: 10px;
 }
 
 .empty-container{

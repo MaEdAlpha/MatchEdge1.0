@@ -52,11 +52,24 @@ div.table-tabs > button {
   color: #e1ad18;
 }
 
-::ng-deep.mat-select-value,
 ::ng-deep.mat-select-arrow {
   color: #f9a825;
 }
 
+::ng-deep.value-selector{
+  color: white;
+}
+
 ::ng-deep.mat-form-field-flex{
   /* background: #37474f !important; */
+}
+
+::ng-deep.mat-select-value-text{
+  color: white;
+}
+
+::ng-deep.mat-slide-toggle-thumb{
+background-image: url("../../assets/img/ball-20x20.png");
+background-size: contain;
+background-repeat: no-repeat;
 }
