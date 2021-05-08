@@ -62,6 +62,7 @@ export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
   testBool:boolean;
   prefSub: Subscription;
   prefObj: TablePreferences;
+  userCommission: number;
   evFilterI: number;
   minOddsFilter: number;
   maxOddsFilter: number;
@@ -72,6 +73,7 @@ export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
   formattedAmount:any;
   sortedData: Object[];
   @Input() selectionToIgnore: any[];
+  @Input() ftaOption:string;
   @ViewChild(MatSort) sort: MatSort;
 
   columnHeaders: any[] = [
@@ -107,7 +109,7 @@ export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
 
       if(this.allIndvMatches.length == 0){
         //Creates juicyMatch object with calculated stats.
-        this.allIndvMatches = this.matchStatService.getSelectionStatCalcs(this.allMatches);
+        this.allIndvMatches = this.matchStatService.getSelectionStatCalcs(this.allMatches, this.ftaOption);
          console.log("-----Converting matches to individual selection object-----");
          console.log(this.allIndvMatches);
          this.sortedData = this.allIndvMatches;
@@ -134,6 +136,8 @@ export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
     this.prefObj = this.userPrefService.getTablePrefs();
     console.log("User settings.filters from UserPref Services. ");
     console.log(this.prefObj);
+
+    this.userCommission= this.userPrefService.getCommission();
 
 
     this.fvSelected = +this.prefObj.fvSelected;
@@ -186,6 +190,7 @@ export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
       this.matchRatingFilter= Number(tablePref.matchRatingFilterI);
       this.secretSauceFilter= Number(tablePref.secretSauceI);
       this.fvSelected = +(tablePref.fvSelected);
+      this.userCommission = this.userPrefService.getCommission();
     });
 
     //Watchlist Subscription
@@ -461,12 +466,13 @@ export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
 
       var activeBetObject = this.returnActiveBetObject(row, index);
       this.savedActiveBetsService.saveToActiveBets(activeBetObject);
+      //Set this row to ActiveBet = true; *TODO = hide this row now.
       row.activeBet = true;
       console.log("Stored data:");
       console.log(activeBetObject);
 
     }
-
+    //Creates an activeBet Object
     returnActiveBetObject(row,index): ActiveBet{
 
       var activeBetDetails = this.getGroup(index);

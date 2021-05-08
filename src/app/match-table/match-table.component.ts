@@ -47,7 +47,7 @@ import { PopupViewSavedBetsComponent } from '../popup-view-saved-bets/popup-view
 
   export class MatchTableComponent implements OnInit, OnDestroy {
 
-    displayedColumns: string[] = ['HStatus','BHome','SMHome', 'OccH', 'Home',  'FixturesDate', 'Away', 'OccA' , 'BAway','SMAway', 'AStatus'];
+    displayedColumns: string[] = ['HStatus','BHome','SMHome', 'Home',  'FixturesDate', 'Away', 'BAway','SMAway', 'AStatus'];
     SecondcolumnsToDisplay: string[] = ['SMHome','BHome', 'BDraw', 'BAway', 'BTTSOdds', 'B25GOdds','SMAway',  'League', 'OccH', 'OccA'];
     columnsToDisplay: string[] = this.displayedColumns.slice();
     matches: any;
@@ -67,6 +67,7 @@ import { PopupViewSavedBetsComponent } from '../popup-view-saved-bets/popup-view
     isNotInList: boolean = false;
     panelOpenState = false;
     viewSelectedDate:string;
+    ftaOption: string;
 
     //HeaderGroup Test
     dataSource = new MatTableDataSource<any | Group>([]);
@@ -152,7 +153,14 @@ import { PopupViewSavedBetsComponent } from '../popup-view-saved-bets/popup-view
                                                                       }
                                                             );
 
+      this.userPref.getUserPrefs().subscribe( () => {
+        //This gets called everytime the form is saved, but we aren't collecting form data.
+        setTimeout(()=>{
+          this.ftaOption = this.userPref.getFTAOption();
+        },500);
 
+        this.chRef.detectChanges();
+      });
       //Initializes matches -> Selections.
 
       this.matchesSub = this.matchesService.getMatchUpdateListener()
@@ -169,10 +177,14 @@ import { PopupViewSavedBetsComponent } from '../popup-view-saved-bets/popup-view
                                           this.cleanGroups(this.masterGroup);
                                           //assign only league groups that match user selected date
                                           this.setGroupsToDate(this.masterGroup);
+                                          console.log("--------MATCHES------------");
+
+                                          console.log(this.matches);
+
                                           // Click League headers feature.
                                           this.tableGroups.forEach( group => {
                                                                               this.dataSource.data = this.addToListOnClick(this.matches, this.tableGroups, group);
-                                                                              }
+                                                                            }
                                                                   );
                                         }
                  );
@@ -205,6 +217,10 @@ import { PopupViewSavedBetsComponent } from '../popup-view-saved-bets/popup-view
       });
     }
 
+    ngAfterViewInit(){
+      this.ftaOption = this.userPref.getFTAOption();
+    }
+
     ngOnDestroy(){
       this.matchesSub.unsubscribe();
       //LIVE UPDATES UNCOMMENT
@@ -212,6 +228,8 @@ import { PopupViewSavedBetsComponent } from '../popup-view-saved-bets/popup-view
       this.webSocketService.closeWebSocket();
       this.dateSubscription.unsubscribe();
     }
+
+
 
     //Creates Group headers. Should only be called once in your code, or it resets the state of these LeagueGroupHeaders
     buildGroupHeaders(matches: any[], level: number){

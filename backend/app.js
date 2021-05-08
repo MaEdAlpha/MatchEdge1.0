@@ -91,6 +91,7 @@ app.put(`/api/user/connect`, async (req,res) => {
 
                             //Dev Uss
                             res.status(201).json({token: 'iamAtoken', expiry: 3600 , userDetails: response});
+
                             //Production Use
                             // authenticateUser(req.body.email, req.body.sub)
                             // .then( generatedToken => {
@@ -153,15 +154,20 @@ app.get('/api/matches', async(req, res) => {
 ////////////////////////////////////////////////////////////////////////////////////////
 //Get all SAB **TODO** Need to get all SABS with ObjectID of user Only.
 app.get('/api/sab/sabs', async(req,res) => {
-
-    const filter = { "juId": req.query.juId }
-    const cursor = await client.db("JuicyClients").collection("juicy_users_sab").find(filter);
-    const sabList = await cursor.toArray();
-    let body = sabList;
-    console.log('Retrieving SAB...');
-    // console.log(body);
-    res.status(200).json({body})
-    console.log("Retrieved!");
+try{
+  const filter = { "juId": req.query.juId }
+  console.log("------Retrieved SAB------");
+  console.log("ID: " + req.query.juId);
+  const cursor = await client.db("JuicyClients").collection("juicy_users_sab").find(filter);
+  console.log(cursor);
+  const sabList = await cursor.toArray();
+  let body = sabList;
+  console.log(body);
+  res.status(200).json({body})
+  console.log("--------Retrieved!--------");
+}catch(e){
+  console.log(e);
+}
 
 });
 
@@ -170,10 +176,10 @@ app.get('/api/sab/sabs', async(req,res) => {
 //DEV MODE add in checkAuth
 app.post('/api/sab', async(req,res) => {
 
-
       const col = await client.db("JuicyClients").collection("juicy_users_sab");
       const result = await col.insertOne(req.body, function(error, response){
         if(!error){
+          // console.log(req.body);
           console.log("Succesfully written to DB!");
           res.status(201).json({_id: response.insertedId});
         }else{
@@ -186,8 +192,8 @@ app.post('/api/sab', async(req,res) => {
 
 app.put('/api/user/settings', async(req,res,next) => {
 
-    console.log("Updating user settings...");
-    console.log(req);
+    console.log("Updating user settings...Some weird echo going on here");
+    // console.log(req);
     const _id = new ObjectID(req.body.juicyId);
     // const col = await client.db("JuicyClients").collection("juicy_users").findOne({"_id":_id}, function(error,response){
     //   console.log(response);
@@ -237,7 +243,7 @@ app.put('/api/user/settings', async(req,res,next) => {
                            }
                     }
 
-      client.db("JuicyClients").collection("juicy_users")
+      const cursor = client.db("JuicyClients").collection("juicy_users")
                               .updateOne( filter, update, options, function(error,response){
                                  console.log("Updated!");
                                 //  console.log("Modified: " + response.modifiedCount);
@@ -321,7 +327,7 @@ function createNewUserDocument(userEmail){
                                      },
                             "preferences": {
                                       "userPrefferedStakes":[100,80,60,50,40,20,10,10,5,1],
-                                      "ftaOption":"generic",
+                                      "ftaOption":"brooks",
                                       "exchangeOption":{
                                                         "name":"Smarkets",
                                                         "commission":2,

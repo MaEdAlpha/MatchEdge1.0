@@ -22,7 +22,8 @@ export class SavedActiveBetsService {
   getActiveBets(): ActiveBet[]{
     //should be able to pass in userID to lookup all activeBets relative to the user
     var customParams: HttpParams = new HttpParams().append('juId', this.userPropService.getUserId());
-    console.log(customParams);
+    console.log("Getting SAB of user");
+
 
     this.http.get<{body:any[]}>("http://localhost:3000/api/sab/sabs",  {params:customParams})
     .pipe(map( (mappedSAB) => {

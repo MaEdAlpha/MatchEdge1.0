@@ -19,10 +19,10 @@ export class JuicyMatchHandlingService {
 
   //Parses Fixtures into Selections
   getSingleMatches(_allMatches){
-
+    var ftaOption: string = this.userPropertiesService.getFTAOption();
     if(_allMatches != undefined){
       _allMatches.forEach((match) => {
-        this.matchStatService.getMatchStats(match); //Parses match Fixture into Selections.
+        this.matchStatService.getMatchStats(match, ftaOption); //Parses match Fixture into Selections.
       });
       return this.matchStatService.getAllSingleMatches();
     } else  {
@@ -49,6 +49,7 @@ export class JuicyMatchHandlingService {
   updateSingleMatch(mainMatch, juicyMatchStreamUpdate, index){
     //If this streamChange meets criteria. send notification popup with sound.
     var valueChanged: boolean = false;
+    var ftaOption: string = this.userPropertiesService.getFTAOption();
     console.log("-----Stream Log----");
     console.log("Stream");
     console.log(juicyMatchStreamUpdate);
@@ -71,7 +72,7 @@ export class JuicyMatchHandlingService {
       }, 3000);
     }
 
-    mainMatch = this.matchStatService.updateSelection(mainMatch);
+    mainMatch = this.matchStatService.updateSelection(mainMatch, ftaOption);
     mainMatch =  valueChanged ? this.notificationService.showJuicyNotification(mainMatch) : mainMatch;
 
     // //Detect change in EVTotal, trigger flicker animation.

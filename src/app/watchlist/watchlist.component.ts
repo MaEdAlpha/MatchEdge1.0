@@ -46,6 +46,7 @@ export class WatchlistComponent implements OnInit, OnDestroy {
     columnsToDisplay: string[] = this.displayedColumns.slice();
     @Input() matches: any;
     @Input() sabList: any;
+    @Input() ftaOption:string;
     @Output() ignoreList: string[];
     matchStream: any;
     expandedElement: any[] | null;

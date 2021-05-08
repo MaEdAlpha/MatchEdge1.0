@@ -93,7 +93,6 @@ export class UserPropertiesService {
                                   "10.01 - 12.00",
                                   "12.01 - 14.00",
                                   "   > 14.0 "];
-
   //ViewTable User Preferences
   private viewTablePrefs: TablePreferences = {
     timeRange: 'Today & Tomorrow',
@@ -144,7 +143,7 @@ export class UserPropertiesService {
   getUserSettings(): UserSettings {
     return  this.settings;
   }
-
+  //return data from DB and set to userDetails.
   getSettings(email:string, sub:string){
     //http GET request to retrieve user properties from DB;
     var data: {email: string, sub: string} = {email: email, sub:sub};
@@ -195,7 +194,7 @@ export class UserPropertiesService {
 
   getCommission(){
     //link this to DB
-    return this.smCommission;
+    return this.settings.preferences.exchangeOption.commission;
   }
   setCommission(userInput: number){
     this.smCommission = userInput;
@@ -218,9 +217,9 @@ export class UserPropertiesService {
     return this.token;
   }
 
-  // getUserToken():Observable<string>{
-  //   return this.tokenSubscription.asObservable();
-  // }
+  getFTAOption(){
+    return this.settings.preferences.ftaOption;
+  }
 
   accessDefaultStakes() {
     return this.defaultStakes;
@@ -249,18 +248,20 @@ export class UserPropertiesService {
 
   setFormValues(formObj: any){
 
-    console.log(formObj);
-    // evFilterValueI: "-20"
-    // evFilterValueII: "1"
-    // fvSelected: "1"
-    // isAudioEnabled: true
-    // matchRatingFilterI: "80"
-    // matchRatingFilterII: "97"
-    // maxOdds: "20"
-    // minOdds: "2.5"
-    // secretSauceI: "-5"
-    // secretSauceII: "-1.2"
+    this.settings.filters = {
 
+      timeRange: this.settings.filters.timeRange,
+      minOdds: formObj.filters.minOdds,
+      maxOdds: formObj.filters.maxOdds,
+      evFVI: formObj.filters.evFVI,
+      evFVII: formObj.filters.evFVII,
+      matchRatingFilterI: formObj.filters.matchRatingFilterI,
+      matchRatingFilterII: formObj.filters.matchRatingFilterII,
+      secretSauceI: formObj.filters.secretSauceI,
+      secretSauceII: formObj.filters.secretSauceII,
+      fvSelected: formObj.filters.fvSelected,
+      audioEnabled: formObj.filters.audioEnabled,
+    }
 
     this.userPrefSub.next({
 
@@ -276,21 +277,6 @@ export class UserPropertiesService {
       fvSelected: formObj.filters.fvSelected,
       audioEnabled: formObj.filters.audioEnabled,
     });
-
-    this.settings.filters = {
-
-      timeRange: this.settings.filters.timeRange,
-      minOdds: formObj.filters.minOdds,
-      maxOdds: formObj.filters.maxOdds,
-      evFVI: formObj.filters.evFVI,
-      evFVII: formObj.filters.evFVII,
-      matchRatingFilterI: formObj.filters.matchRatingFilterI,
-      matchRatingFilterII: formObj.filters.matchRatingFilterII,
-      secretSauceI: formObj.filters.secretSauceI,
-      secretSauceII: formObj.filters.secretSauceII,
-      fvSelected: formObj.filters.fvSelected,
-      audioEnabled: formObj.filters.audioEnabled,
-    }
     console.log(this.settings.filters);
 
   }
@@ -353,15 +339,15 @@ export class UserPropertiesService {
     return this.userPrefSub.asObservable();
   }
 
-
+  getFTASelected(){
+    //retrieve either brooks or generic FTA selection.
+  }
   getEV():number{
     return Number(this.settings.filters.evFVI);
   }
-
   getEVNotification():number{
     return Number(this.settings.filters.evFVII);
   }
-
   getMR(): number{
     //TODO add MatchRating in sidenav
     return Number(this.settings.filters.matchRatingFilterI);

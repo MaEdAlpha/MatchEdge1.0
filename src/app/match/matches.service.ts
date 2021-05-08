@@ -42,6 +42,7 @@ export class MatchesService {
             League: match.League,
             OccH: match.OccurrenceHome,
             OccA: match.OccurrenceAway,
+            GenericOcc: 65,
             UrlB365: match.URLB365,
             UrlSmarkets: 'https://'+ match.URLSmarkets,
             PreviousB365HomeOdds: match.PreviousB365HomeOdds,

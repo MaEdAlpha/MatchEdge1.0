@@ -491,6 +491,12 @@ button.viewCell {
   border-radius: 0px 0px 0px 0px;
 }
 
+.selection-notify {
+  color: #253036;
+  font-size: 15px;
+  position: relative;
+}
+
 .match-inactive{
   opacity: 0.8;
   background:grey;
@@ -598,6 +604,15 @@ button.viewCell {
   -moz-hyphens: auto;
   -webkit-hyphens: auto;
   hyphens: auto;
+}
+
+.home-bell {
+  float: left;
+  margin-right: -24px;
+}
+.away-bell {
+  float:right;
+
 }
 
 

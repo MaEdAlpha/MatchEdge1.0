@@ -63,7 +63,8 @@
                           <ng-container *ngIf="column.field=='Home'">
                             <div class="team-home-container">
                              <button mat-raised-button class="selection-button" (click)="toggleNotification(row, true)" [ngClass]="{'match-inactive' : !row.HStatus.notify || !row.isWatched}" >
-                              <span class="{{column.field}} homeOccCell fta-value-cont"> {{ row['OccH'] | number:'1.0-0'}}</span>
+                              <span class="{{column.field}} homeOccCell fta-value-cont" *ngIf="ftaOption == 'brooks'"> {{ row['OccH'] | number:'1.0-0'}}</span>
+                              <span class="{{column.field}} homeOccCell fta-value-cont" *ngIf="ftaOption == 'generic'"> {{ row['GenericOcc'] | number:'1.0-0'}}</span>
                               <mat-icon class="selection-notify home-bell" *ngIf="!row.HStatus.notify || !row.isWatched">notifications_off</mat-icon>
                               <span class="{{column.field.toLowerCase()}}-selection"> {{ row[column.field] }}</span>
                               <img class="bookie-logo-home home-fc-logo" src="/assets/img/fcLogo/{{row[column.field].toLowerCase().split(' ').join('-')}}.png" alt="">
@@ -76,7 +77,8 @@
                               <button mat-raised-button class="selection-button" (click)="toggleNotification(row, false)" [ngClass]="{'match-inactive' : !row.AStatus.notify || !row.isWatched}">
                                 <img class="bookie-logo-away away-fc-logo" src="/assets/img/fcLogo/{{row[column.field].toLowerCase().split(' ').join('-')}}.png" alt="">
                                 <span class="{{column.field.toLowerCase()}}-selection"> {{ row[column.field] }}</span>
-                                <span class="{{column.field}} awayOccCell fta-value-cont">{{ row['OccA'] | number:'1.0-0'}}</span>
+                                <span class="{{column.field}} awayOccCell fta-value-cont" *ngIf="ftaOption == 'brooks'">{{ row['OccA'] | number:'1.0-0'}}</span>
+                                <span class="{{column.field}} awayOccCell fta-value-cont" *ngIf="ftaOption == 'generic'"> {{ row['GenericOcc'] | number:'1.0-0'}}</span>
                                 <mat-icon class="selection-notify away-bell" *ngIf="!row.AStatus.notify || !row.isWatched">notifications_off</mat-icon>
                               </button>
                             </div>
@@ -155,12 +157,12 @@
 
         <!-- Display WatchList -->
         <div [style.visibility]="tableSelected == 2 ? 'visible' : 'collapse' "[style.height]="tableSelected == 2 ? ' ' : '0' " [style.margin-bottom]="tableSelected == 2 ? '5px' : '0'" [style.display]="tableSelected == 2 ? 'inline' : '' ">
-          <app-watchlist [sabList]="savedActiveBets"></app-watchlist>
+          <app-watchlist [sabList]="savedActiveBets" [ftaOption]="ftaOption"></app-watchlist>
         </div>
 
         <!-- Display Juicy Table -->
         <div [style.visibility]="tableSelected == 3 ? 'visible' : 'collapse' "[style.height]="tableSelected == 3 ? ' ' : '0' " [style.margin-bottom]="tableSelected == 3 ? '5px' : '0'" [style.display]="tableSelected == 3 ? 'inline' : '' ">
-          <app-juicy-match [allMatches]="matches"></app-juicy-match>
+          <app-juicy-match [allMatches]="matches" [ftaOption]="ftaOption"></app-juicy-match>
         </div>
         <!-- Display Active Bets -->
         <div [style.visibility]="tableSelected == 4 ? 'visible' : 'collapse' "[style.height]="tableSelected == 4 ? ' ' : '0' " [style.margin-bottom]="tableSelected == 4 ? '5px' : '0'" [style.display]="tableSelected == 4 ? 'inline' : '' ">

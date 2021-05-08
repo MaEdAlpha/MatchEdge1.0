@@ -36,12 +36,17 @@ export class MatchStatsService {
   private pairOfSingleMatches: JuicyMatch[]=[];
   private streamUpdateHomeSelection: JuicyMatch;
   private streamUpdateAwaySelection: JuicyMatch;
+  private ftaOption: string;
 
-  constructor(private calcSettingsService: CalcSettingsService,  private notificationService: NotificationBoxService) {
+
+  constructor(private calcSettingsService: CalcSettingsService,  private notificationService: NotificationBoxService, private userPropertiesService: UserPropertiesService) {
+  }
+
+  ngOnInit(){
   }
 
 // Service that handles all calculations for match records. Creates a juicy object for both DB document and any incoming Stream data.
-getMatchStats(match){
+getMatchStats(match, ftaOption:string){
 
   //Separate Match data
     // Home
@@ -54,12 +59,12 @@ getMatchStats(match){
     this.awayMatchStats.backOdds = match.BAway;
     this.awayMatchStats.layOdds = match.SMAway;
     this.awayMatchStats.occurence = match.OccA;
-    //Calcaulate Stats
-    this.homeMatchStats = this.calculateMatchStats(this.homeMatchStats);
-    this.awayMatchStats = this.calculateMatchStats(this.awayMatchStats);
+    //Calcaulate Stats for each Selection
+    this.homeMatchStats = this.calculateMatchStats(this.homeMatchStats, ftaOption);
+    this.awayMatchStats = this.calculateMatchStats(this.awayMatchStats, ftaOption);
 
     //console.log(match.Home + ": stake: " + this.stake + " bOdds" + this.backOdds + " lay: " + this.layOdds + " layStake " + this.layStake + " liability" + this.liability + " ql " + this.ql + " oneInXgames " + this.oneInXgames + " ft " + this.ft + " evThisBet " + this.evThisBet + " " + this.stake + " ");
-    //Create Juicy Object
+    //Create Juicy Object (used in Juicy Table)
     this.homeSelection = MatchStatsService.createJuicyObject(match, this.homeMatchStats, 'home', false);
     this.awaySelection = MatchStatsService.createJuicyObject(match, this.awayMatchStats, 'away', false);
 
@@ -68,13 +73,13 @@ getMatchStats(match){
     this.allSingleMatches.push(this.awaySelection);
   }
 
-  updateSelection(selection:JuicyMatch){
+  updateSelection(selection:JuicyMatch, ftaOption){
     this.updateMatchStats.stake = this.calcSettingsService.getPrefferedStake(selection.BackOdds);
     this.updateMatchStats.backOdds = selection.BackOdds;
     this.updateMatchStats.layOdds = selection.LayOdds;
     this.updateMatchStats.occurence = selection.FTAround;
 
-    this.updateMatchStats = this.calculateMatchStats(this.updateMatchStats);
+    this.updateMatchStats = this.calculateMatchStats(this.updateMatchStats, ftaOption);
 
     selection.EVTotal = this.updateMatchStats.evTotal;
     selection.EVthisBet = this.updateMatchStats.evThisBet;
@@ -96,6 +101,7 @@ getMatchStats(match){
   retrieveStreamData(streamObj, teamName:string): JuicyMatch{
 
     var juicyStreamBuild : JuicyMatch;
+    var ftaOption = this.userPropertiesService.getFTAOption();
 
     if(streamObj.HomeTeamName == teamName){
         // Home
@@ -103,7 +109,7 @@ getMatchStats(match){
         this.homeMatchStats.backOdds = streamObj.B365HomeOdds;
         this.homeMatchStats.layOdds = streamObj.SmarketsHomeOdds;
         this.homeMatchStats.occurence = streamObj.OccurrenceHome;
-        this.homeMatchStats = this.calculateMatchStats(this.homeMatchStats);
+        this.homeMatchStats = this.calculateMatchStats(this.homeMatchStats, ftaOption);
         juicyStreamBuild = MatchStatsService.createJuicyObject(streamObj, this.homeMatchStats, 'home', true);
 
     } else if (streamObj.AwayTeamName == teamName){
@@ -112,7 +118,7 @@ getMatchStats(match){
         this.awayMatchStats.backOdds = streamObj.B365AwayOdds;
         this.awayMatchStats.layOdds = streamObj.SmarketsAwayOdds;
         this.awayMatchStats.occurence = streamObj.OccurrenceAway;
-        this.awayMatchStats = this.calculateMatchStats(this.awayMatchStats);
+        this.awayMatchStats = this.calculateMatchStats(this.awayMatchStats, ftaOption);
         //Create Juicy Object
         juicyStreamBuild = MatchStatsService.createJuicyObject(streamObj, this.awayMatchStats, 'away', true);
     }
@@ -124,11 +130,11 @@ getMatchStats(match){
     return this.allSingleMatches;
   }
 
-  getSelectionStatCalcs(_allMatches){
+  getSelectionStatCalcs(_allMatches, ftaOption:string){
 
     if(_allMatches != undefined){
       _allMatches.forEach((match) => {
-        this.getMatchStats(match); //Parses match Fixture into Selections.
+        this.getMatchStats(match, ftaOption); //Parses match Fixture into Selections.
       });
       return this.getAllSingleMatches();
     } else  {
@@ -136,12 +142,12 @@ getMatchStats(match){
     }
   }
 
-  calculateMatchStats(match: MatchStats):MatchStats{
+  calculateMatchStats(match: MatchStats, ftaOption:string):MatchStats{
 
     var stake = match.stake;
     var backOdds = match.backOdds;
     var layOdds = match.layOdds;
-    var occurence = match.occurence;
+    var occurence = ftaOption == 'brooks' ? match.occurence : 65;
 
     match.layStake = +(backOdds / layOdds * stake).toFixed(2);
     match.liability = +((layOdds - 1 )* match.layStake).toFixed(2);

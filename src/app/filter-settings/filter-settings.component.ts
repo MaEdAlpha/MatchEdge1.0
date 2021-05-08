@@ -56,10 +56,10 @@ export class FilterSettingsComponent implements OnInit {
       ]
 
       ftaSelection: { value:string, viewValue:string} [] = [
-        { value:'custom', viewValue:'FTA Rating'},
+        { value:'brooks', viewValue:'FTA Rating'},
         { value:'generic', viewValue:'1/65 Average'}
       ]
-    
+
   constructor( private userPrefService: UserPropertiesService, private chRef: ChangeDetectorRef) {}
 
 
