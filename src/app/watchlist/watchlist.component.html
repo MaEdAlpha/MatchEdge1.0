@@ -30,9 +30,9 @@
                     </div>
                   </ng-container>
 
-                  <ng-container *ngIf="column.field.endsWith('OccH')">
-                    <!-- <span class="{{column.field}} homeOccCell fta-value-cont" [ngClass]="{'match-inactive' : !row.HStatus.notify}"> {{ row[column.field] | number:'1.0-0'}}</span> -->
-                  </ng-container>
+                  <!-- <ng-container *ngIf="column.field.endsWith('OccH')">
+                    <span class="{{column.field}} homeOccCell fta-value-cont" [ngClass]="{'match-inactive' : !row.HStatus.notify}"> {{ row[column.field] | number:'1.0-0'}}</span>
+                  </ng-container> -->
 
                   <ng-container *ngIf=" column.field.endsWith('BAway') || column.field.endsWith('SMAway')">
                     <div class="awayodds-container" [ngClass]="{'match-inactive odds-container' : !row.AStatus.notify}">
@@ -45,10 +45,10 @@
 
                     </div>
                   </ng-container>
-
+<!--
                   <ng-container *ngIf="column.field.endsWith('OccA')">
-                    <!-- <span class="{{column.field}} awayOccCell fta-value-cont" [ngClass]="{'match-inactive' : !row.AStatus.notify}"> {{ row[column.field] | number:'1.0-0'}}</span> -->
-                  </ng-container>
+                    <span class="{{column.field}} awayOccCell fta-value-cont" [ngClass]="{'match-inactive' : !row.AStatus.notify}"> {{ row[column.field] | number:'1.0-0'}}</span>
+                  </ng-container> -->
 
 
                     <ng-container *ngIf="column.field=='Home'">
@@ -74,6 +74,7 @@
                         </button>
                       </div>
                     </ng-container>
+
                     <ng-container *ngIf="column.field.startsWith('FixturesDate')">
                       <button mat-raised-button class="fixturesDateBtn" [style.background]="row.isWatched ? 'rgb(249, 168, 37)' : 'rgb(195, 195, 195)'" (click)="triggerRemoveIcon(row);">
                         <div class="fixturesText">
@@ -116,9 +117,10 @@
                       </ng-container>
                     </div>
                   </ng-container>
-
               </mat-cell>
             </ng-container>
+<!-- CUT HERE -->
+
               <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
               <mat-row *matRowDef="let row; columns: displayedColumns" appInactiveMatch [match]="row"></mat-row>
 

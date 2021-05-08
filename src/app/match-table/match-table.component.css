@@ -449,7 +449,7 @@ button.viewCell {
   margin-bottom: 0.5px;
 }
 
-.mat-column-BHome, .mat-column-BAway {
+/* .mat-column-BHome, .mat-column-BAway {
   background-image: url(/assets/img/b365Odds.png);
   min-height: 39px;
   margin-left: 2px;
@@ -460,7 +460,7 @@ button.viewCell {
   min-height: 39px;
   margin-left: 0px;
   margin-right: 2px;
-}
+} */
 
 /* Added from WatchlistCSS Cut n' paste */
 #hStatusMoney{
@@ -615,4 +615,516 @@ button.viewCell {
 
 }
 
+
+
+mat-header-row {
+  display: none;
+}
+
+mat-row {
+  min-height: 50px;
+  background: #c3c3c3;
+}
+
+.mat-column-groupHeader, .leagueGroupContainer  {
+  background: #e0e1e2;
+}
+
+.footer-container {
+  margin-bottom: 100px;
+  color:white;
+  text-align: center;
+}
+
+.leagueToggleSelect {
+  display: none;
+}
+
+.mat-column-Details {
+  border-bottom: transparent;
+}
+
+.lge-title-cont> h1, .home-away-cont> h2 {
+  color: black;
+  text-align: center;
+}
+
+.main-header {
+  display: inline-block;
+  width: 100%;
+}
+
+
+.hac {
+  float:left;
+  width: 49.6%;
+}
+.hmStatus{
+    background: blue;
+    color: white;
+    border-bottom-color: white;
+}
+
+.mat-icon-button {
+  margin-right: 2px;
+}
+
+.dirHStatus{
+  border-bottom-left-radius: 10px;
+  border-top-left-radius: 10px;
+}
+
+.dirHSelection{
+  border-top-right-radius: 30px;
+  border-bottom-right-radius: 30px;
+}
+
+.dirStatusContainer{
+  display: flex;
+}
+
+.awStatus{
+  background: #13530b;
+  color: white;
+  border-bottom-color: white;
+}
+
+
+.dirAwStatus{
+border-bottom-right-radius: 10px;
+border-top-right-radius: 10px;
+}
+
+.dirAwSelection{
+border-top-left-radius: 30px;
+border-bottom-left-radius: 30px;
+}
+
+.dirHBetStatus, .dirABetStatus{
+    color: #126e51;
+    background: white;
+    border-radius: 5px;
+}
+
+.ignoreThis{
+  color: rgb(255, 41, 13);
+  background: white;
+  border-radius: 5px;
+}
+
+
+
+app-view-table-sidenav {
+  float: left;
+}
+
+.setting-btn {
+  color: white;
+}
+
+.mat-form-field + .mat-form-field {
+  margin-left: 8px;
+}
+
+#footer {
+  width: 100%;
+}
+div.footer-container{
+  color: white;
+}
+
+.leagueToggleSelect{
+  float: right;
+  display: inline-flex;
+}
+.leagueGroupContainer>h2 {
+  display: inline;
+  color: #37474f;
+}
+
+.leagueGroupContainer{
+  text-align: center;
+  width: 100%;
+}
+
+img {
+  width: 20%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.mat-column-Home,
+.mat-column-Away,
+.mat-column-FixturesDate {
+  margin-bottom: 0;
+  color: black;
+}
+
+.mat-column-FixturesDate>span {
+  margin-left: auto;
+  margin-right: auto;
+  width: 60%;
+}
+
+span.home-selection{
+  color: black;
+  font-size: 14px;
+  padding: 4px 63px;
+}
+span.away-selection {
+  color: black;
+  font-size: 14px;
+  padding: 4px 4px;
+}
+
+.home-selection {
+  float: right;
+}
+
+.away-selection {
+  float: left;
+}
+.selection-button {
+  margin-right: 0px;
+  width: 100%;
+  height: 49px;
+  padding: 0;
+  border-radius: 0px 0px 0px 0px;
+}
+
+
+span.BHome,
+span.BAway,
+span.SMHome,
+span.SMAway,
+span.BHome,
+span.BAway {
+  color: white;
+  font-size: 20px;
+  font-weight: 500;
+}
+
+
+span.BHome,
+span.SMHome,
+span.BAway,
+span.SMAway{
+  font-size: 20px;
+  height: 50%;
+  line-height: 100%;
+  margin-left: 45%;
+  margin-right: 0%;
+}
+
+
+.mat-icon-buttonHome {
+  margin-left: -5px;
+}
+
+.mat-icon-buttonAway {
+  margin-left: 1px;
+}
+
+
+.bookie-logo-home  {
+  background-image: linear-gradient(to top, #fff8f8, #7a8585);
+  border-radius: 25px;
+  padding: 2px;
+  width: 34px;
+  height: 34px;
+  border: 2px #9e9c9c solid;
+  margin-left: 74%;
+  margin-right: 8px;
+  margin-top: 2.3px;
+}
+.bookie-logo-away  {
+  background-image: linear-gradient(to top, #fff8f8, #7a8585);
+  border-radius: 25px;
+  padding: 2px;
+  width: 34px;
+  height: 34px;
+  border: 2px #9e9c9c solid;
+  margin-left: 3%;
+  margin-right: 8px;
+  margin-top: 2.3px;
+  float: left;
+}
+
+.viewCell {
+    padding: 2px;
+
+}
+
+button.viewCell {
+  background: #afafaf;
+}
+
+/* mat-column generic styling  */
+.mat-column-SMAway,
+.mat-column-SMHome,
+.mat-column-BHome,
+.mat-column-BAway,
+.mat-column-OccH,
+.mat-column-OccA,
+.mat-column-Home,
+.mat-column-Away
+{
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  width: fit-content !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-word;
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+  min-height: 48px;
+}
+
+/* Home/Away Odds */
+.mat-column-SMAway,
+.mat-column-SMHome,
+.mat-column-BHome,
+.mat-column-BAway {
+  flex: 0 0 7% !important;
+}
+
+.mat-column-OccH,
+.mat-column-OccA {
+  flex: 0 0 0% !important;
+  background: #fbfbfb;
+}
+
+.cdk-column-OccH{
+  border-radius: 8px 0px 0px 8px;
+  margin-left: 0%;
+}
+
+.cdk-column-OccA{
+  border-radius: 0px 8px 8px 0px;
+  margin-right: 0%;
+}
+/* Team Cells */
+.mat-column-Home{
+  flex: 0 0 20.5% !important;
+  border-radius: 8px 0px 0px 8px;
+}
+.mat-column-Away{
+  flex: 0 0 20.5% !important;
+  border-radius: 0px 8px 8px 0px;
+}
+
+/* Match Button */
+.mat-column-FixturesDate{
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 7% !important;
+  width: fit-content !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-word;
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
+
+.mat-column-HStatus,
+.mat-column-AStatus {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 2% !important;
+  width: fit-content !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-word;
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
+
+.cdk-column-HStatus {
+  margin-left: auto;
+  margin-right: 10px;
+}
+
+.cdk-column-AStatus {
+  margin-right: auto;
+  margin-left: 10px;
+}
+
+.team-home-container{
+  width: 100%;
+  margin-left: auto;
+  display: inline-flex;
+}
+
+.team-away-container{
+  width: 100%;
+  margin-right: auto;
+  display: inline-flex;
+}
+
+.fixturesDateBtn {
+  width: 100%;
+  height: 49px;
+  white-space: normal;
+  background: #f2f2f2  !important;
+  border-radius: 0px;
+}
+
+ .fixturesDate, .fixturesTime {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.fixturesDate {
+  height: 11px;
+}
+
+.fixturesTime {
+  padding-top: 6px;
+}
+
+#fixturesText {
+  width: 80%;
+  font-size: 20px;
+}
+
+#hStatusMoney{
+  background-image: url(/assets/img/jbLogo.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+  padding: 0px;
+  color: #263238;
+}
+
+.mat-column-SMHome,
+.mat-column-SMAway,
+.mat-column-BHome,
+.mat-column-BAway{
+  color: #263238;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  position: relative;
+  border-radius: 10px;
+}
+.fta-value-cont {
+  background: radial-gradient(at 76% 0, #263238, #263238ad 70%), linear-gradient(0deg, #e0e1e2, transparent 50%) bottom;
+  border-radius: 5px;
+  padding: 10px;
+  font-size: large;
+}
+
+.awayOccCell{
+  float: right;
+  margin-left: auto;
+  margin-right: 5px;
+  margin-top: 4.5px;
+  width: 35px;
+  padding: 0px;
+  font-size: 15px;
+  color: #ffffff;
+}
+
+.homeOccCell{
+  float: left;
+  margin-left: 5px;
+  margin-right: auto;
+  margin-top: 4.5px;
+  width: 35px;
+  padding: 0px;
+  font-size: 15px;
+  color: #ffffff;
+}
+
+.mat-column-BHome, .mat-column-SMHome{
+  margin-left: -10px;
+  margin-right: 2px;
+  margin-bottom: 2px;
+}
+
+.mat-column-BAway, .mat-column-SMAway{
+  margin-right: -10px;
+  margin-left: 2px;
+  margin-bottom: 2px;
+}
+
+.mat-column-BHome, .mat-column-BAway {
+  background-image: url(/assets/img/b365Odds.png);
+  min-height: 39px;
+}
+.mat-column-SMHome, .mat-column-SMAway {
+  background-image: url(/assets/img/smOdds.png);
+  min-height: 39px;
+}
+
+.homeodds-container,
+.awayodds-container {
+  display: inline-flex;
+    width: 100%;
+    height: 100%;
+    max-height: 20px;
+    max-width: 100px;
+    margin-left: 5px;
+}
+.selection-notify{
+  position: relative;
+}
+
+.selection-notify {
+  color: #253036;
+  font-size: 15px;
+}
+
+.home-bell {
+  float: left;
+  margin-right: -24px;
+}
+.away-bell {
+  float:right;
+
+}
+.match-inactive{
+  opacity: 0.8;
+  background:grey;
+}
+
+.odds-container{
+  border-radius: 8px 0px 0px 8px;
+  margin-left: 10.5px;
+  margin-right: 10px;
+  padding-top: 9px;
+  /* DEBUG */
+  /* padding-bottom: 10px; */
+  padding-left: 0px;
+  padding-right: 11.5px;
+}
+
+.empty-container{
+  position: relative;
+  background: #e0e1e2;
+  width: 100%;
+  height: 20em;
+}
+
+.empty-container>p{
+  position: absolute;
+  margin: 0;
+  width: 100%;
+  top: 40%;
+  font-size: 18px;
+  text-align: center;
+  line-height: 1.3;
+}
+
+.bookie-logo-cont{
+  background-image: linear-gradient(to top, #fff8f8, #7a8585);
+  padding: 11%;
+  border-radius: 20px;
+  border: 2px #9e9c9c solid;
+}
 
