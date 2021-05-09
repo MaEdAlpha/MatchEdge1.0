@@ -93,7 +93,7 @@
                           </ng-container>
 
                           <ng-container *ngIf="column.field.startsWith('FixturesDate')">
-                            <button mat-raised-button class="fixturesDateBtn" [style.background]="row.isWatched ? 'rgb(249, 168, 37)' : 'rgb(195, 195, 195)'" (click)="triggerRemoveIcon(row);">
+                            <button mat-raised-button class="fixturesDateBtn" [style.background]="row.isWatched ? 'linear-gradient(to top, #f5b95a, #ee9a12)' : 'rgb(195, 195, 195)'" (click)="addToWatchList(row);">
                               <div class="fixturesText">
                                 <div class="fixturesDate"> {{row[column.field]}} </div>
                                 <div class="fixturesTime"> {{row['FixturesTime']}} </div>

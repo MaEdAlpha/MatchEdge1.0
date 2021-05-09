@@ -95,6 +95,9 @@ input::placeholder {
   margin-right: 4%;
 }
 
+::ng-deep.mat-select-arrow {
+  color: #f9a825;
+}
 ::ng-deep.value-selector{
   color: white;
 }
