@@ -147,7 +147,7 @@ export class MatchStatusService {
         selection.HStatus.notify = +selection.BHome <= maxOdds && +selection.BHome >= minOdds && selection.EpochTime*1000 > Date.now() ?  true :  false;
         selection.AStatus.notify = +selection.BAway <= maxOdds && +selection.BAway >= minOdds && selection.EpochTime*1000 > Date.now() ? true : false;
       // console.log("Setting notification status for home/away " + selection.HStatus.notify + "/"+ selection.AStatus.notify);
-
+      //TOODO IMPORTANT CREATE a subject you send as an observable to Juicy match. this will update any changes made to Juicy
   }
 
   unwatchMatchSubject(rowData: any) {

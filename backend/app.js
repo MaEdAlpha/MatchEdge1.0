@@ -4,6 +4,8 @@ const app = express(); //important: app is just a chain of middleware. Funnel of
 const cors = require('cors');
 const checkAuth = require("./middleware/check-auth");
 
+
+const disableAuth = false;
 //JWT
 const jwt = require('jsonwebtoken');
 
@@ -11,8 +13,8 @@ const jwt = require('jsonwebtoken');
 const MongoClient = require("mongodb").MongoClient;
 const ObjectID = require('mongodb').ObjectID;
 
-const connectionString = "mongodb+srv://Dan:x6RTQn5bD79QLjkJ@cluster0.uljb3.gcp.mongodb.net/MBEdge?retryWrites=true&w=majority";
-//const connectionString = "mongodb+srv://Randy:4QQJnbscvoZQXr0l@clusterme.lfzcj.mongodb.net/MBEdge?retryWrites=true&w=majority";
+//const connectionString = "mongodb+srv://Dan:x6RTQn5bD79QLjkJ@cluster0.uljb3.gcp.mongodb.net/MBEdge?retryWrites=true&w=majority";
+const connectionString = "mongodb+srv://Randy:4QQJnbscvoZQXr0l@clusterme.lfzcj.mongodb.net/MBEdge?retryWrites=true&w=majority";
 const options = {useUnifiedTopology: true, useNewUrlParser: true};
 const client = new MongoClient(connectionString, options );
 
@@ -89,16 +91,20 @@ app.put(`/api/user/connect`, async (req,res) => {
                             // console.log(response);
                             //where you get response of pre-existing user authenticate here.
 
-                            //Dev Uss
-                            res.status(201).json({token: 'iamAtoken', expiry: 3600 , userDetails: response});
+                            //Dev Use
+                            if(disableAuth){
+                              res.status(201).json({token: 'iamAtoken', expiry: 3600 , userDetails: response});
 
-                            //Production Use
-                            // authenticateUser(req.body.email, req.body.sub)
-                            // .then( generatedToken => {
-                            //   console.log("authenicating User....");
-                            //   console.log(generatedToken);
-                            //   res.status(201).json({token: generatedToken.token, expiry: generatedToken.expires , userDetails: response});
-                            // });
+                            } else {
+                              //Production Use
+                              authenticateUser(req.body.email, req.body.sub)
+                              .then( generatedToken => {
+                                console.log("authenicating User....");
+                                console.log(generatedToken);
+                                res.status(201).json({token: generatedToken.token, expiry: generatedToken.expires , userDetails: response});
+                              });
+                            }
+
 
                           }
                         } catch (e){ console.log("error at connection!: " + e);
@@ -141,7 +147,7 @@ app.get(`/api/updates`, function(req, res) {
   //View Table Matches => /api/matches
 
   //DEV MODE add in checkAuth
-app.get('/api/matches', async(req, res) => {
+app.get('/api/matches', checkAuth, async(req, res) => {
 
     const cursor = await client.db("MBEdge").collection("matches").find({});
     const matchesList = await cursor.toArray();
@@ -174,7 +180,7 @@ try{
 //Create a SAB
 //*TODO Append juicyID onto document for lookup at initialization
 //DEV MODE add in checkAuth
-app.post('/api/sab', async(req,res) => {
+app.post('/api/sab', checkAuth, async(req,res) => {
 
       const col = await client.db("JuicyClients").collection("juicy_users_sab");
       const result = await col.insertOne(req.body, function(error, response){
@@ -285,7 +291,7 @@ app.put('/api/sab/:id', async(req,res,next) => {
 
 //Delete SAB
 //DEV MODE add in checkAuth
-app.delete("/api/sab/:id", async(req,res,next) => {
+app.delete("/api/sab/:id", checkAuth, async(req,res,next) => {
   console.log('Deleting SAB...');
 
     const _id = new ObjectID(req.params.id);

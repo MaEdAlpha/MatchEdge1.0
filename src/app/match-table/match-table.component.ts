@@ -68,6 +68,7 @@ import { PopupViewSavedBetsComponent } from '../popup-view-saved-bets/popup-view
     panelOpenState = false;
     viewSelectedDate:string;
     ftaOption: string;
+    toggleAll: boolean;
 
     //HeaderGroup Test
     dataSource = new MatTableDataSource<any | Group>([]);
@@ -121,6 +122,7 @@ import { PopupViewSavedBetsComponent } from '../popup-view-saved-bets/popup-view
       this.tableGroups = [];
       this.savedActiveBets = this.savedActiveBetsService.getActiveBets();
       this.ftaOption = this.userPref.getFTAOption();
+      this.toggleAll=false;
       //Subscribe to changes you want upudates on /Matches/Dates/StreamWatch/UserPreferences
 
       //Populate Master SAB List upon loading website.
@@ -616,14 +618,16 @@ import { PopupViewSavedBetsComponent } from '../popup-view-saved-bets/popup-view
       console.log("----------------------------------- Watch All Of " + groupRow.League + "-----------------------------------\n Adding all matches to watchMatchSubject & watchList in matchStatus Services");
       // console.log(this.matches);
       var epochCutOff = this.getStartEndDaysAtMidnight();
+      this.toggleAll = !this.watchAll;
       //filter by league
       const leagueMatches = this.matches.filter( (match) => {
         var matchEpoch:number = match.EpochTime*1000;
         if(match.League == groupRow.League && ( matchEpoch >= epochCutOff.forStartOfDayOne && matchEpoch <= epochCutOff.forDayTwo ))
         {
           match.isWatched = groupRow.watchAll ? true : false;
-          match.AStatus.notify = groupRow.watchAll ?  true : false;
-          match.HStatus.notify = groupRow.watchAll ? true : false;
+          this.toggleNotification(match, true);
+          this.toggleNotification(match,false);
+
           return true;
         }
       });
@@ -644,7 +648,7 @@ import { PopupViewSavedBetsComponent } from '../popup-view-saved-bets/popup-view
       console.log(this.matchStatusService.getWatchList());
 
       console.log("----------------------------------------------------------------------");
-
+      return leagueMatches;
     }
 
      openPopUp($event: MatSlideToggleChange, groupItem: any) {

@@ -148,15 +148,17 @@ export class UserPropertiesService {
     //http GET request to retrieve user properties from DB;
     var data: {email: string, sub: string} = {email: email, sub:sub};
     var userData;
+    //initially would return a promise to allow the rest of the site to load.
     const promise: Promise<boolean> = new Promise( (resolve,reject) => {
 
   this.http.put<{token:string, userDetails: UserSettings}>("http://localhost:3000/api/user/connect", data)
   .subscribe( (body) => {
                           userData = body;
-                          console.log('Requesting...');
+                          // console.log('Requesting...');
                           // console.log(body);
 
                           this.token = userData.token;
+                          this.saveAuthData(this.token, userData.expiry)
                           // this.tokenSubscription.next(userData.token);
 
                           this.settings.juicyId = userData.userDetails._id;
@@ -177,7 +179,8 @@ export class UserPropertiesService {
                           this.settings.preferences = userData.userDetails.preferences;
                           setTimeout(()=>{
                             this.router.navigate(['/matches']);
-                          }, 1000)
+                            resolve(true);
+                          }, 1000);
           });
       });
   }
@@ -190,6 +193,11 @@ export class UserPropertiesService {
   private clearAuthData() {
     localStorage.removeItem('token')
     localStorage.removeItem('expiration');
+  }
+  resetPage(){
+    setTimeout(() => {
+      this.router.navigate(['/']);
+    })
   }
 
   getCommission(){
@@ -343,6 +351,14 @@ export class UserPropertiesService {
   }
   getUserPrefs(): Observable<TablePreferences>{
     return this.userPrefSub.asObservable();
+  }
+  pageRefresh(){
+    console.log("Do the things");
+    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+    this.router.onSameUrlNavigation = 'reload';
+    setTimeout(() => {
+      this.router.navigate(['/matches']);
+    },1000);
   }
 
   getFTASelected(){

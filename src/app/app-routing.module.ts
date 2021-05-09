@@ -10,14 +10,14 @@ import { MatchTableComponent } from './match-table/match-table.component';
 const routes: Routes = [
   // { path: ' ', component: LandingPageComponent, pathMatch:'full',},
   // { path: 'settings', component: MatchNotificationSettingsComponent},
-  // { path: 'matches', component: MatchTableComponent, canActivate: [AuthGuard] },
-  { path: 'matches', component: MatchTableComponent },
+  { path: 'matches', component: MatchTableComponent, canActivate: [AuthGuard] },
+  // { path: 'matches', component: MatchTableComponent },
 
 ];
 
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' })],
+  imports: [RouterModule.forRoot(routes, { onSameUrlNavigation: 'reload', relativeLinkResolution: 'legacy' })],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

@@ -2,6 +2,7 @@ import { Component, EventEmitter, OnInit, Output, ViewChild, AfterViewInit, Inpu
 import { FormControl, FormGroup } from '@angular/forms';
 import { UserPropertiesService } from '../services/user-properties.service';
 import { MatTabGroup } from '@angular/material/tabs';
+import { createUrlResolverWithoutPackagePrefix } from '@angular/compiler';
 
 @Component({
   selector: 'app-match-notification-settings',
@@ -18,6 +19,7 @@ export class MatchNotificationSettingsComponent implements OnInit, AfterViewInit
   defaultSmCommiss: number = 2.00;
   settingsForm: FormGroup;
   userSettings: any;
+  initialFtaOption:string;
 
   @ViewChild('tab', {static:false}) tab: MatTabGroup;
 
@@ -31,6 +33,7 @@ export class MatchNotificationSettingsComponent implements OnInit, AfterViewInit
     console.log("--Initializing User settings--");
     this.smCommission = this.userPropertiesService.getCommission();
     this.initializeAllForms();
+    this.initialFtaOption = this.userPropertiesService.getFTAOption();
 
   }
 
@@ -134,15 +137,19 @@ export class MatchNotificationSettingsComponent implements OnInit, AfterViewInit
     console.log("--Saving User Settings to DB--- TODO-Auto close this modal");
     //Update Change detection in Juicy Table.
     console.log("Two calls. set Form Value (change on client side)+ saveUserSettings (server side)*Issues? Debug starting here.");
-    //Two methods below were being called elsewhere. specifically setFormValues. Debug here if db is dropping values. To date, issue is resolved.
-    //This is a helpful note from past ryan reaching out to future ryan -_-.
-    this.userPropertiesService.setFormValues(this.settingsForm.value);
-    this.userPropertiesService.saveUserSettings(this.settingsForm.value, this.userPropertiesService.getUserSettings().juicyId );
+
+    //check to see that initialFtaOption == this.settingsForm.value.preferences.ftaOption
+    this.initialFtaOption == this.settingsForm.value.preferences.SelectedFTA ? this.storeUserSettings(): this.resetPage();
     this.toggleSettingsView();
   }
 
   closeSettings(){
     this.toggleSettingsView();
+  }
+
+  storeUserSettings(){
+    this.userPropertiesService.setFormValues(this.settingsForm.value);
+    this.userPropertiesService.saveUserSettings(this.settingsForm.value, this.userPropertiesService.getUserSettings().juicyId );
   }
 
   resetSettings(){
@@ -154,6 +161,12 @@ export class MatchNotificationSettingsComponent implements OnInit, AfterViewInit
     // this.settingsForm.reset(this.settingsForm, {emitEvent:true});
     // console.log(this.settingsForm);
     // this.chRef.detectChanges();
+  }
+
+  resetPage(){
+    this.userPropertiesService.setFormValues(this.settingsForm.value);
+    this.userPropertiesService.saveUserSettings(this.settingsForm.value, this.userPropertiesService.getUserSettings().juicyId );
+    this.userPropertiesService.pageRefresh();
   }
 
   toggleSettingsView(){
