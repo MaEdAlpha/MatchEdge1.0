@@ -327,7 +327,13 @@ export class UserPropertiesService {
 
                     console.log("----2. PUT to DB -----");
                     console.log(this.settings);
-    this.http.put<any>("http://localhost:3000/api/user/settings", this.settings).subscribe();
+    this.http.put<any>("http://localhost:3000/api/user/settings", this.settings).subscribe( (response) => {
+      console.log("Client Side Update saved response");
+
+      console.log(response);
+
+    }
+    );
 
   }
   //userPreference TablePreferences

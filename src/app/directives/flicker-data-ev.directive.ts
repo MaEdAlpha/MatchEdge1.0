@@ -6,11 +6,12 @@ import { Directive, Input, Renderer2, ElementRef, SimpleChanges, OnChanges, Chan
 export class FlickerDataEvDirective implements OnChanges{
   @Input() isUpdated:boolean;
   @Input() columnIndex:number;
+  @Input() ftaOption:string;
 
   constructor( private elRef: ElementRef, private renderer: Renderer2) { }
 
   ngOnChanges(changes: SimpleChanges){
-    if(changes.isUpdated && changes.isUpdated.currentValue){
+    if(changes.isUpdated && changes.isUpdated.currentValue && changes.ftaOption.currentValue){
       this.flickerUpdate();
     }
   }

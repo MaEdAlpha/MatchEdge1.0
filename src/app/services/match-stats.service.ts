@@ -143,8 +143,8 @@ getMatchStats(allMatches, ftaOption:string): JuicyMatch[] {
 
   recalculateStatCalcs(juicyMatches, ftaOption): JuicyMatch[]{
     var recalculatedMatches: JuicyMatch[]=[];
-    var isHome: boolean = true;
     // console.log(allMatches);
+
     juicyMatches.forEach( match => {
       // console.log(match);
 
@@ -166,12 +166,15 @@ getMatchStats(allMatches, ftaOption:string): JuicyMatch[] {
 
        }
       matchStatObj = this.calculateMatchStats(matchStatObj, ftaOption);
+      //return updated values to match object
        match = this.updateJuicyObject(match, matchStatObj);
-       //jump back and forth between home/away to properly assign values in
-       isHome = !isHome;
+       if(match.Selection == "Bournemouth") {
+         //verify changes of EVthisBet
+         console.log(match);
+       }
     });
-    recalculatedMatches = juicyMatches;
-    recalculatedMatches.map(match=>match)
+    //return array of  updated matches.
+    recalculatedMatches = [...juicyMatches];
     return recalculatedMatches;
   }
 
@@ -195,7 +198,7 @@ getMatchStats(allMatches, ftaOption:string): JuicyMatch[] {
     match.mRating = +(backOdds * 100 / layOdds).toFixed(2);
     match.qlPercentage = +(match.ql/match.ft*100).toFixed(2);
 
-    // console.log(match);
+    //  console.log(match);
 
 
     return match;
@@ -235,7 +238,7 @@ getMatchStats(allMatches, ftaOption:string): JuicyMatch[] {
       b365oddsHCurr: match.b365oddsHCurr,
       backIsUpdated: match.backIsUpdated,
       betState: match.betState,
-      evIsUpdated: match.evIsUpdated,
+      evIsUpdated: true,
       freezeUpdates: match.freezeUpdates,
       ignore: match.ignore,
       inRange: match.inRange,

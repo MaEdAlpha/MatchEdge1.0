@@ -5,7 +5,7 @@ import { FormControl,FormGroup,FormArray } from '@angular/forms';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 
 import { JuicyMatch } from './juicy-match.model';
-import { Subscription } from 'rxjs';
+import { BehaviorSubject, Subscription } from 'rxjs';
 import { MatchStatsService } from '../services/match-stats.service';
 import { MatchesService } from '../match/matches.service';
 import { SidenavService } from '../view-table-sidenav/sidenav.service';
@@ -72,9 +72,10 @@ export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
   fvSelected: number;
   dataSource:any;
   formattedAmount:any;
-  sortedData: Object[];
+  sortedData: JuicyMatch[];
   @Input() selectionToIgnore: any[];
   @ViewChild(MatSort) sort: MatSort;
+  tableSubject: BehaviorSubject<JuicyMatch[]>;
 
   columnHeaders: any[] = [
     { field: "EpochTime" , alias: "Event Start" },
@@ -127,9 +128,12 @@ export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
     }
 
     if(changes.ftaOption && changes.ftaOption != undefined && this.allIndvMatches != undefined){
-      console.log(this.sortedData);
+      console.log("--------------------TRIGGERED on ftaOption Change----------------");
+      let updatedArray: JuicyMatch[] = this.matchStatService.recalculateStatCalcs(this.sortedData, this.ftaOption);
+      this.sortedData = updatedArray;
+      console.log(this.sortedData[21]);
 
-      this.sortedData = this.matchStatService.recalculateStatCalcs(this.sortedData, this.ftaOption);
+      this.popJuiceInRange();
     }
   }
 
@@ -181,6 +185,7 @@ export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
       this.tableDateSelected = date;
       this.getStartEndDays(this.tableDateSelected);
       this.popJuiceInRange();
+      this.chRef.detectChanges();
     });
 
     //set userPreference Values
@@ -188,8 +193,6 @@ export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
     this.matchRatingFilter = this.userPrefService.getMR();
     this.minOddsFilter= this.userPrefService.getMinOdds();
     this.maxOddsFilter= this.userPrefService.getMaxOdds();
-
-
 
     //subscribe to userPreference Values
     this.prefSub = this.userPrefService.getUserPrefs().subscribe( tablePref => {
@@ -202,7 +205,6 @@ export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
       this.fvSelected = +(tablePref.fvSelected);
 
       this.userCommission = this.userPrefService.getCommission();
-
 
     });
 

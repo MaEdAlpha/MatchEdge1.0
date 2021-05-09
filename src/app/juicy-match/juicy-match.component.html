@@ -44,23 +44,26 @@
                                 <p class="odd-text"> {{ selection[column.field] | number:'0.2-2' }} </p>
                               </div>
                             </div>
-                              <div class="juicyCell" *ngIf="column.field.endsWith('Bet')">
-                                <span class="ev{{flickerColmnIndex}}box juicyCell" appFlickerDataEv [isUpdated]="selection.evIsUpdated">  {{selection[column.field] | number: '0.2-2'}} </span>
+                              <div class="juicyCell" *ngIf="column.field.endsWith('EVthisBet')">
+                                <span class="ev{{flickerColmnIndex}}box juicyCell" *ngIf="ftaOption == 'brooks'" appFlickerDataEv [isUpdated]="selection.evIsUpdated" [ftaOption]="ftaOption" [columnIndex]="flickerColmnIndex">  {{selection[column.field] | number: '0.2-2'}} </span>
+                                <span class="ev{{flickerColmnIndex}}box juicyCell" *ngIf="ftaOption != 'brooks'" appFlickerDataEv [isUpdated]="selection.evIsUpdated" [ftaOption]="ftaOption" [columnIndex]="flickerColmnIndex">  {{selection[column.field].toFixed(2)}} </span>
+
                               </div>
                                 <!-- use directive for displaying matchRating values -->
                                 <div class="juicyCell" *ngIf="column.field.endsWith('Rating')">
                                   <span class="mr{{flickerColmnIndex}}box" appFlickerDataMatchRating [isUpdated]="selection.matchRatingUpdated"> {{selection[column.field] | number: '0.2-2'}} </span>
                                 </div>
+
                                   <div class="juicyCell FTAround fta-value-cont" *ngIf="column.field.endsWith('Around')">
                                       <div class="fta-ticker-box">
                                         <p class="fta-value-text" *ngIf="ftaOption == 'brooks'"> {{selection[column.field].toFixed(0)}}  </p>
-                                        <p class="fta-value-text" *ngIf="ftaOption != 'brooks'"> {{selection['GFTAround'].toFixed(0)}}  </p>
+                                        <p class="fta-value-text" *ngIf="ftaOption == 'generic'"> {{selection['GFTAround'].toFixed(0)}}  </p>
                                       </div>
                                   </div>
                                     <div class="juicyCell QLPercentage FTAround" *ngIf="column.field.endsWith('Percentage')">
                                       <span> {{selection[column.field] | number: '0.2-2'}} </span>
                                     </div>
-                                      <span *ngIf="!column.field.endsWith('Odds') && !column.field.endsWith('EpochTime') && !column.field.endsWith('Bet') && !column.field.endsWith('Rating') && !column.field.endsWith('Around') && !column.field.endsWith('Percentage')"> {{ selection[column.field] }}</span>
+                                      <span *ngIf="!column.field.endsWith('Odds') && !column.field.endsWith('EpochTime') && !column.field.endsWith('Bet') && !column.field.endsWith('Rating') && !column.field.endsWith('Around') && !column.field.endsWith('Percentage') && !column.field.endsWith('EVthisBet')"> {{ selection[column.field] }}</span>
                       </ng-container>
                     </ng-container>
                   </ng-container>
@@ -170,6 +173,7 @@
                         <div class="calculated-row">
                           <div class="roi-text">ROI:</div>
                           <span class="calculated-value calculated-value-lhs">{{ ROI(getGroup(i).get('Stake').value, getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value, selection.FTAround) | number:'0.2-2'}}%</span>
+
                         </div>
                         <hr class="value-divider">
                         <div class="calculated-row">

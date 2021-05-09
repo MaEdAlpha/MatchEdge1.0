@@ -195,9 +195,7 @@ app.put('/api/user/settings', async(req,res,next) => {
     console.log("Updating user settings...Some weird echo going on here");
     // console.log(req);
     const _id = new ObjectID(req.body.juicyId);
-    // const col = await client.db("JuicyClients").collection("juicy_users").findOne({"_id":_id}, function(error,response){
-    //   console.log(response);
-    // });
+    // console.log(req.body);
     let filter = {"_id":_id};
     let options = {upsert: false}
     let update =  { $set: { "account":{
@@ -246,7 +244,7 @@ app.put('/api/user/settings', async(req,res,next) => {
       const cursor = client.db("JuicyClients").collection("juicy_users")
                               .updateOne( filter, update, options, function(error,response){
                                  console.log("Updated!");
-                                //  console.log("Modified: " + response.modifiedCount);
+                                 res.status(201).json({ response: response});
                               });
 });
 
