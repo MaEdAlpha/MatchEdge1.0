@@ -120,6 +120,7 @@ import { PopupViewSavedBetsComponent } from '../popup-view-saved-bets/popup-view
       this.ignoreList = [];
       this.tableGroups = [];
       this.savedActiveBets = this.savedActiveBetsService.getActiveBets();
+      this.ftaOption = this.userPref.getFTAOption();
       //Subscribe to changes you want upudates on /Matches/Dates/StreamWatch/UserPreferences
 
       //Populate Master SAB List upon loading website.
@@ -158,8 +159,6 @@ import { PopupViewSavedBetsComponent } from '../popup-view-saved-bets/popup-view
         setTimeout(()=>{
           this.ftaOption = this.userPref.getFTAOption();
         },500);
-
-        this.chRef.detectChanges();
       });
       //Initializes matches -> Selections.
 
@@ -218,7 +217,6 @@ import { PopupViewSavedBetsComponent } from '../popup-view-saved-bets/popup-view
     }
 
     ngAfterViewInit(){
-      this.ftaOption = this.userPref.getFTAOption();
     }
 
     ngOnDestroy(){

@@ -6,6 +6,7 @@ import { Match } from '../match/match.model';
 import { Observable, Subject, from } from "rxjs";
 import { NotificationBoxService } from './notification-box.service';
 import { MatchStatusService } from './match-status.service';
+import { JuicyMatchComponent } from '../juicy-match/juicy-match.component';
 
 @Injectable({
   providedIn: 'root'
@@ -26,9 +27,9 @@ export class MatchStatsService {
   mRating:number;
   qlPercentage:number;
 
-  private homeMatchStats:MatchStats = {stake: 0, backOdds: 0, layOdds: 0, layStake: 0, liability: 0, ql: 0, occurence: 0, ft: 0, evTotal: 0, evThisBet: 0, roi:  0, mRating: 0, qlPercentage: 0};
-  private awayMatchStats:MatchStats = {stake: 0, backOdds: 0, layOdds: 0, layStake: 0, liability: 0, ql: 0, occurence: 0, ft: 0, evTotal: 0, evThisBet: 0, roi:  0, mRating: 0, qlPercentage: 0};
-  private updateMatchStats:MatchStats = {stake: 0, backOdds: 0, layOdds: 0, layStake: 0, liability: 0, ql: 0, occurence: 0, ft: 0, evTotal: 0, evThisBet: 0, roi:  0, mRating: 0, qlPercentage: 0};
+  private homeMatchStats:MatchStats = {stake: 0, backOdds: 0, layOdds: 0, layStake: 0, liability: 0, ql: 0, occurence: 0, basicOccurence: 65, ft: 0, evTotal: 0, evThisBet: 0, roi:  0, mRating: 0, qlPercentage: 0};
+  private awayMatchStats:MatchStats = {stake: 0, backOdds: 0, layOdds: 0, layStake: 0, liability: 0, ql: 0, occurence: 0, basicOccurence: 65, ft: 0, evTotal: 0, evThisBet: 0, roi:  0, mRating: 0, qlPercentage: 0};
+  private updateMatchStats:MatchStats = {stake: 0, backOdds: 0, layOdds: 0, layStake: 0, liability: 0, ql: 0, occurence: 0, basicOccurence: 65, ft: 0, evTotal: 0, evThisBet: 0, roi:  0, mRating: 0, qlPercentage: 0};
 
   private allSingleMatches: JuicyMatch[]=[];
   private homeSelection: JuicyMatch;
@@ -46,10 +47,9 @@ export class MatchStatsService {
   }
 
 // Service that handles all calculations for match records. Creates a juicy object for both DB document and any incoming Stream data.
-getMatchStats(match, ftaOption:string){
-
-  //Separate Match data
-    // Home
+getMatchStats(allMatches, ftaOption:string): JuicyMatch[] {
+  this.allSingleMatches=[];
+  allMatches.forEach( (match) =>{
     this.homeMatchStats.stake = this.calcSettingsService.getPrefferedStake(match.BHome);
     this.homeMatchStats.backOdds = match.BHome;
     this.homeMatchStats.layOdds = match.SMHome;
@@ -71,9 +71,13 @@ getMatchStats(match, ftaOption:string){
     //Add to singles matches array to return
     this.allSingleMatches.push(this.homeSelection);
     this.allSingleMatches.push(this.awaySelection);
+  });
+    return this.allSingleMatches;
   }
 
+
   updateSelection(selection:JuicyMatch, ftaOption){
+
     this.updateMatchStats.stake = this.calcSettingsService.getPrefferedStake(selection.BackOdds);
     this.updateMatchStats.backOdds = selection.BackOdds;
     this.updateMatchStats.layOdds = selection.LayOdds;
@@ -125,21 +129,50 @@ getMatchStats(match, ftaOption:string){
         return juicyStreamBuild
   }
 
-  getAllSingleMatches(){
+  getAllSingleMatches(): JuicyMatch[]{
     //console.log( this.allSingleMatches);
     return this.allSingleMatches;
   }
 
-  getSelectionStatCalcs(_allMatches, ftaOption:string){
+  getSelectionStatCalcs(_allMatches, ftaOption:string): JuicyMatch[]{
 
-    if(_allMatches != undefined){
-      _allMatches.forEach((match) => {
-        this.getMatchStats(match, ftaOption); //Parses match Fixture into Selections.
-      });
-      return this.getAllSingleMatches();
-    } else  {
-      console.log("Matches List is empty!");
-    }
+      var calculatedJuicyMatches = this.getMatchStats(_allMatches, ftaOption); //Parses match Fixture into Selections.
+      return calculatedJuicyMatches;
+
+  }
+
+  recalculateStatCalcs(juicyMatches, ftaOption): JuicyMatch[]{
+    var recalculatedMatches: JuicyMatch[]=[];
+    var isHome: boolean = true;
+    // console.log(allMatches);
+    juicyMatches.forEach( match => {
+      // console.log(match);
+
+      let matchStatObj: MatchStats = {
+                                        stake: match.Stake,
+                                        backOdds: match.BackOdds,
+                                        layOdds: match.LayOdds,
+                                        layStake: match.LayStake,
+                                        liability: 0,
+                                        ql: 0,
+                                        occurence: match.FTAround,
+                                        basicOccurence: match.GFTAround,
+                                        ft: 0,
+                                        evTotal: 0,
+                                        evThisBet: 0,
+                                        roi:  0,
+                                        mRating: 0,
+                                        qlPercentage: 0
+
+       }
+      matchStatObj = this.calculateMatchStats(matchStatObj, ftaOption);
+       match = this.updateJuicyObject(match, matchStatObj);
+       //jump back and forth between home/away to properly assign values in
+       isHome = !isHome;
+    });
+    recalculatedMatches = juicyMatches;
+    recalculatedMatches.map(match=>match)
+    return recalculatedMatches;
   }
 
   calculateMatchStats(match: MatchStats, ftaOption:string):MatchStats{
@@ -147,7 +180,10 @@ getMatchStats(match, ftaOption:string){
     var stake = match.stake;
     var backOdds = match.backOdds;
     var layOdds = match.layOdds;
-    var occurence = ftaOption == 'brooks' ? match.occurence : 65;
+    var occurence = ftaOption == 'brooks' ? match.occurence : match.basicOccurence;
+    // console.log(ftaOption);
+    // console.log("Occurence Used: " + occurence);
+
 
     match.layStake = +(backOdds / layOdds * stake).toFixed(2);
     match.liability = +((layOdds - 1 )* match.layStake).toFixed(2);
@@ -159,7 +195,61 @@ getMatchStats(match, ftaOption:string){
     match.mRating = +(backOdds * 100 / layOdds).toFixed(2);
     match.qlPercentage = +(match.ql/match.ft*100).toFixed(2);
 
+    // console.log(match);
+
+
     return match;
+  }
+
+   updateJuicyObject(match: JuicyMatch, matchStat: MatchStats): JuicyMatch{
+    var updatedJuicyMatch: JuicyMatch = {
+      BackOdds: match.BackOdds,
+      EVTotal: matchStat.evTotal,
+      EVthisBet: matchStat.evThisBet,
+      EpochTime: match.EpochTime,
+      EventStart: match.EventStart,
+      FTAProfit: matchStat.ft,
+      FTAround: match.FTAround,
+      Fixture: match.Fixture,
+      GFTAround: match.GFTAround,
+      LayOdds: match.LayOdds,
+      LayStake: matchStat.layStake,
+      League: match.League,
+      Liability: matchStat.liability,
+      Logo: match.Logo,
+      MatchRating: matchStat.mRating,
+      QL: matchStat.ql,
+      QLPercentage: matchStat.qlPercentage,
+      ROI: matchStat.roi,
+      ReturnRating: match.ReturnRating,
+      Selection: match.Selection,
+      Stake: matchStat.stake,
+      UrlB365: match.UrlB365,
+      UrlSmarkets: match.UrlSmarkets,
+      activeBet: match.activeBet,
+      b365APrev: match.b365APrev,
+      b365DrawPrev: match.b365DrawPrev,
+      b365HPrev: match.b365HPrev,
+      b365oddsACurr: match.b365oddsACurr,
+      b365oddsDrawCurr: match.b365oddsDrawCurr,
+      b365oddsHCurr: match.b365oddsHCurr,
+      backIsUpdated: match.backIsUpdated,
+      betState: match.betState,
+      evIsUpdated: match.evIsUpdated,
+      freezeUpdates: match.freezeUpdates,
+      ignore: match.ignore,
+      inRange: match.inRange,
+      isJuicy: match.isJuicy,
+      isRedirected: match.isRedirected,
+      isWatched: match.isWatched,
+      layIsUpdated: match.layIsUpdated,
+      notify: match.notify,
+      userAware: match.userAware,
+    }
+
+    // console.log(updatedJuicyMatch);
+
+    return updatedJuicyMatch;
   }
 
 
@@ -177,10 +267,11 @@ getMatchStats(match, ftaOption:string){
       BackOdds: isUpdatedValue ? ( isHome == 'home' ? match.B365HomeOdds : match.B365AwayOdds ) : matchStat.backOdds,
       LayOdds: isUpdatedValue ? ( isHome == 'home' ? match.SmarketsHomeOdds : match.SmarketsAwayOdds ) : matchStat.layOdds,
       FTAround: matchStat.occurence,
+      GFTAround: 65,
       FTAProfit: matchStat.ft,
       EVTotal: matchStat.evTotal,
       EVthisBet: matchStat.evThisBet,
-      ReturnRating: 100, //TODO find this
+      ReturnRating: 999, //TODO find this
       MatchRating: matchStat.mRating,
       Liability: matchStat.liability,
       QL: matchStat.ql,

@@ -53,7 +53,8 @@
                                 </div>
                                   <div class="juicyCell FTAround fta-value-cont" *ngIf="column.field.endsWith('Around')">
                                       <div class="fta-ticker-box">
-                                        <p class="fta-value-text"> {{selection[column.field].toFixed(0)}} </p>
+                                        <p class="fta-value-text" *ngIf="ftaOption == 'brooks'"> {{selection[column.field].toFixed(0)}}  </p>
+                                        <p class="fta-value-text" *ngIf="ftaOption != 'brooks'"> {{selection['GFTAround'].toFixed(0)}}  </p>
                                       </div>
                                   </div>
                                     <div class="juicyCell QLPercentage FTAround" *ngIf="column.field.endsWith('Percentage')">

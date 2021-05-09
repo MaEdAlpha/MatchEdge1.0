@@ -36,10 +36,10 @@ export class MatchStatusService {
   }
 
   addToWatchList(match: any) {
-    console.log("Added: " + match.Home + " v. " + match.Away);
+    console.log("Added to WatchList: " + match.Home + " v. " + match.Away);
     //selection already in watchlist? do nothing, else push.
     this.watchList.includes(match) ? null : this.watchList.push(match);
-    console.log("Updating match notification!");
+
     this.updateNotificationStatus(match);
   }
 
@@ -124,7 +124,8 @@ export class MatchStatusService {
     var filterSelection: number = this.userPreferenceService.getOptionSelected();
     var minOdds: number = +this.userPreferenceService.getMinOdds();
     var maxOdds: number = +this.userPreferenceService.getMaxOdds();
-    console.log(selection);
+    //View status of seletion
+    // console.log(selection);
 
     var tableFilterValue;
 

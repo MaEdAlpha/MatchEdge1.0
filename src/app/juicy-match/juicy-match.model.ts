@@ -9,6 +9,7 @@ export interface JuicyMatch{
   BackOdds: number;
   LayOdds: number;
   FTAround:number;
+  GFTAround:number;
   FTAProfit: number;
   EVTotal: number;
   EVthisBet: number;
@@ -50,6 +51,7 @@ export interface MatchStats{
   liability:number;
   ql:number;
   occurence:number;
+  basicOccurence:number;
   ft:number;
   evTotal:number;
   evThisBet:number;

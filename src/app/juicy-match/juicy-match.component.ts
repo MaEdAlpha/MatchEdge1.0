@@ -36,6 +36,7 @@ import { ActiveBet } from '../models/active-bet.model';
 export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
   //Table properties
   @Input() allMatches: any;
+  @Input()  ftaOption: string;
   juicyMatches: JuicyMatch[];
   noMatchesToDisplay:boolean=true;
   //Used in DOM to select object view container for expansion
@@ -73,7 +74,6 @@ export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
   formattedAmount:any;
   sortedData: Object[];
   @Input() selectionToIgnore: any[];
-  @Input() ftaOption:string;
   @ViewChild(MatSort) sort: MatSort;
 
   columnHeaders: any[] = [
@@ -109,10 +109,13 @@ export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
 
       if(this.allIndvMatches.length == 0){
         //Creates juicyMatch object with calculated stats.
+        console.log("DOING THE THING");
+
+        this.ftaOption = this.userPrefService.getFTAOption();
         this.allIndvMatches = this.matchStatService.getSelectionStatCalcs(this.allMatches, this.ftaOption);
-         console.log("-----Converting matches to individual selection object-----");
-         console.log(this.allIndvMatches);
-         this.sortedData = this.allIndvMatches;
+        this.sortedData = this.allIndvMatches;
+        // console.log("-----Converting matches to individual selection object-----");
+        // console.log(this.allIndvMatches);
         if(this.allIndvMatches != undefined){
           console.log("----Creating a form Array \n Checking selections in range");
           this.dataSource = new FormArray(this.allIndvMatches.map( x=> this.createForm(x) ) );
@@ -123,17 +126,24 @@ export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
       this.allIndvMatches.length === 0 ? this.noMatchesToDisplay = true : this.noMatchesToDisplay = false;
     }
 
-    if(changes.selectionToIgnore && changes.selectionToIgnore.currentValue && this.selectionToIgnore != undefined) {
-      this.updateIgnoreStatus(this.selectionToIgnore);
-      console.log("Ignore These Selections Below: ");
-      console.log(this.selectionToIgnore);
+    if(changes.ftaOption && changes.ftaOption != undefined && this.allIndvMatches != undefined){
+      console.log(this.sortedData);
+
+      this.sortedData = this.matchStatService.recalculateStatCalcs(this.sortedData, this.ftaOption);
     }
   }
 
 
+  private updateFTACalc() {
+
+  }
+
   ngOnInit(){
     //Get initial user settings on initialization. For this to work, need to use HTTP Get request of userPreferences at page load.
     this.prefObj = this.userPrefService.getTablePrefs();
+    this.ftaOption = this.userPrefService.getFTAOption();
+    console.log(this.ftaOption);
+
     console.log("User settings.filters from UserPref Services. ");
     console.log(this.prefObj);
 
@@ -190,7 +200,10 @@ export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
       this.matchRatingFilter= Number(tablePref.matchRatingFilterI);
       this.secretSauceFilter= Number(tablePref.secretSauceI);
       this.fvSelected = +(tablePref.fvSelected);
+
       this.userCommission = this.userPrefService.getCommission();
+
+
     });
 
     //Watchlist Subscription

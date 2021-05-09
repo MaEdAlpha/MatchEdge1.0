@@ -46,7 +46,7 @@ export class WatchlistComponent implements OnInit, OnDestroy {
     columnsToDisplay: string[] = this.displayedColumns.slice();
     @Input() matches: any;
     @Input() sabList: any;
-    @Input() ftaOption:string;
+    ftaOption:string;
     @Output() ignoreList: string[];
     matchStream: any;
     expandedElement: any[] | null;
@@ -112,7 +112,7 @@ export class WatchlistComponent implements OnInit, OnDestroy {
 
 
     ngOnInit() {
-
+      this.ftaOption = this.userPref.getFTAOption();
       //Assigns listener for any matches in view-table that are clicked to be watched.
       this.watchMatchesubscription = this.matchStatusService.getMatchWatchStatus().
         subscribe( matchObject => {
@@ -138,6 +138,7 @@ export class WatchlistComponent implements OnInit, OnDestroy {
         subscribe( (settings)=>{
           console.log("Min Odds settings change detected! Updating watchlist!");
           this.checkForOddsChange( +settings.minOdds, +settings.maxOdds);
+          this.ftaOption = this.userPref.getFTAOption();
         });
 
               //StreamChange data. Updates individual matches, where toast should be triggered.

@@ -5,6 +5,7 @@ import { MatchesService } from '../match/matches.service';
 import { NotificationBoxService } from '../services/notification-box.service';
 import { UserPropertiesService } from '../services/user-properties.service';
 import { MatchStatusService } from '../services/match-status.service';
+import { JuicyMatch } from './juicy-match.model';
 
 
 @Injectable({
@@ -20,13 +21,17 @@ export class JuicyMatchHandlingService {
   //Parses Fixtures into Selections
   getSingleMatches(_allMatches){
     var ftaOption: string = this.userPropertiesService.getFTAOption();
+    var calcJuicyMatches: JuicyMatch[];
+    console.log(ftaOption + " : FTAOPTION");
+
     if(_allMatches != undefined){
-      _allMatches.forEach((match) => {
-        this.matchStatService.getMatchStats(match, ftaOption); //Parses match Fixture into Selections.
-      });
-      return this.matchStatService.getAllSingleMatches();
+
+        calcJuicyMatches = this.matchStatService.getMatchStats(_allMatches, ftaOption); //Parses match Fixture into Selections.
+
+      return calcJuicyMatches;
+
     } else  {
-      console.log("Matches List is empty!");
+      console.log("Matches undefined!");
     }
   }
 
