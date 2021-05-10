@@ -14,7 +14,7 @@ import { UserPropertiesService } from '../services/user-properties.service';
 export class PopupViewSavedBetsComponent implements AfterViewInit {
   filteredSabList: ActiveBet [] = [];
   activeBetSubscription: Subscription;
-  importedSabList: ActiveBet[] = []
+  importedSabList: ActiveBet[] = [];
   //masterList
 
   //selectionsList
@@ -22,13 +22,13 @@ export class PopupViewSavedBetsComponent implements AfterViewInit {
   constructor( public userPropService: UserPropertiesService, public dialog: MatDialog, public dialogRef: MatDialogRef<PopupViewSavedBetsComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any, private savedActiveBetService: SavedActiveBetsService, private chRef: ChangeDetectorRef) {
       //gets master list of all SAB
-
       this.importedSabList = this.data.list;
-
+      //filter based off of selection.
       this.filteredSabList = this.filterList(data);
 
       //Refresh list for any newly added SAB
       this.savedActiveBetService.sabListChange.subscribe( () => {
+        //find only SAB to show for that selection.
        this.filteredSabList = this.importedSabList.filter(sab => {
         if (sab.selection == data.row.Selection) {
           return true;
@@ -37,7 +37,7 @@ export class PopupViewSavedBetsComponent implements AfterViewInit {
         }
       });
        this.checkIfEmpty();
-       this.chRef.detectChanges();
+      //  this.chRef.detectChanges();
       });
 
       //Update list for any deleted SAB
@@ -58,7 +58,7 @@ export class PopupViewSavedBetsComponent implements AfterViewInit {
     }
 
   private filterList(data: any): ActiveBet[] {
-    return this.filteredSabList = this.importedSabList.filter(sab => {
+    return  this.importedSabList.filter(sab => {
       if (sab.selection == data.row.Selection) {
         return true;
       }
@@ -70,7 +70,7 @@ export class PopupViewSavedBetsComponent implements AfterViewInit {
       this.chRef.detectChanges();
     }
 
-
+    // check if filterd list is empty, to toggle Template ' No SAB bets for this selection '
   private checkIfEmpty() {
     this.filteredSabList.length == 0 && this.filteredSabList != undefined ? this.isEmptySelectionList = true : this.isEmptySelectionList = false;
   }
@@ -86,7 +86,7 @@ export class PopupViewSavedBetsComponent implements AfterViewInit {
     //need match State.
     onAddClick(isEdit:boolean):void {
       console.log(this.data);
-
+      let ftaOption = this.userPropService.getFTAOption();
       var activeBet: ActiveBet = {
         id:null,
         juId: this.userPropService.getUserId(),
@@ -111,6 +111,7 @@ export class PopupViewSavedBetsComponent implements AfterViewInit {
         pl: null,
         comment: ' ',
         isSettled: false,
+        isBrkzFTA: ftaOption == 'generic' ? 0 : 1,
       }
 
       const dialogRef = this.dialog.open(PopupFormSavedBetsComponent, {

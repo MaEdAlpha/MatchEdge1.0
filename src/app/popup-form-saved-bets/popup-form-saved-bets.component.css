@@ -45,12 +45,14 @@ div.mat-dialog-content > p{
   margin-left: auto;
 }
 
-.sab-matched-container {
+.sab-matched-container,
+.sab-ftaOption-container {
   width: 100%;
   display: inline-block;
 }
 
-.sab-matched-container > mat-form-field {
+.sab-matched-container > mat-form-field,
+.sab-ftaOption > mat-form-field {
   float:right;
   width: 100px;
 }

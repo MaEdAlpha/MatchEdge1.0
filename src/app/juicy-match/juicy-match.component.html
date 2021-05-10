@@ -172,13 +172,14 @@
                       <div class="calculated-container">
                         <div class="calculated-row">
                           <div class="roi-text">ROI:</div>
-                          <span class="calculated-value calculated-value-lhs">{{ ROI(getGroup(i).get('Stake').value, getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value, selection.FTAround) | number:'0.2-2'}}%</span>
-
+                          <span class="calculated-value calculated-value-lhs" *ngIf="ftaOption == 'brooks'">{{ ROI(getGroup(i).get('Stake').value, getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value, selection.FTAround) | number:'0.2-2'}}%</span>
+                          <span class="calculated-value calculated-value-lhs" *ngIf="ftaOption == 'generic'">{{ ROI(getGroup(i).get('Stake').value, getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value, selection.GFTAround) | number:'0.2-2'}}%</span>
                         </div>
                         <hr class="value-divider">
                         <div class="calculated-row">
                           <div class="ev-text">EV: </div>
-                          <span class="calculated-value calculated-value-lhs">{{ TotalEV( selection.FTAround,  getGroup(i).get('Stake').value, getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value)/selection.FTAround  | currency:'GBP' }}</span>
+                          <span class="calculated-value calculated-value-lhs" *ngIf="ftaOption == 'brooks'">{{ TotalEV( selection.FTAround,  getGroup(i).get('Stake').value, getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value)/selection.FTAround  | currency:'GBP' }}</span>
+                          <span class="calculated-value calculated-value-lhs" *ngIf="ftaOption == 'generic'">{{ TotalEV( selection.GFTAround,  getGroup(i).get('Stake').value, getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value)/selection.GFTAround  | currency:'GBP' }}</span>
                         </div>
                         <hr class="value-divider">
                         <div class="calculated-row">

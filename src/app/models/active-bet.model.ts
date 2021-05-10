@@ -22,4 +22,5 @@ export interface ActiveBet {
   pl:number;
   comment:string;
   isSettled:boolean;
+  isBrkzFTA: number;
 }

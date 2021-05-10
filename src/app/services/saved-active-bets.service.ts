@@ -47,6 +47,7 @@ export class SavedActiveBetsService {
                                                       ql: sab.ql,
                                                       roi: sab.roi,
                                                       betState:sab.betState,
+                                                      isBrkzFTA: sab.isBrkzFTA,
                                                       occ: sab.occ,
                                                       pl: sab.pl,
                                                       comment: sab.comment,

@@ -483,6 +483,8 @@ export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
       this.savedActiveBetsService.saveToActiveBets(activeBetObject);
       //Set this row to ActiveBet = true; *TODO = hide this row now.
       row.activeBet = true;
+
+      //TODO TOAST
       console.log("Stored data:");
       console.log(activeBetObject);
 
@@ -497,8 +499,6 @@ export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
       var matchInfo = activeBetDetails.value.MatchInfo;
 
       console.log("Row Data");
-      console.log(row.betState);
-      console.log(row);
 
       var activeBet: ActiveBet = {
         id: null,
@@ -524,7 +524,10 @@ export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
         pl: +this.QL(backOdd, layOdd, stake).toFixed(2),
         comment: matchInfo,
         isSettled: false,
+        isBrkzFTA: this.ftaOption == 'brooks' ? 1 : 0,
       }
+      console.log("ActiveBet Saved!");
+      console.log(activeBet);
       return activeBet;
     }
 

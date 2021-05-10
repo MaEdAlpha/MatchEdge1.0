@@ -15,16 +15,22 @@ export class PopupFormSavedBetsComponent implements OnInit {
   sabControl = new FormControl();
   isEdit:boolean;
   isEarlyCashout:boolean;
+  formFtaOption: number;
   sabFormValues: FormGroup;
   isDisabled:boolean;
 
   constructor(private chRef: ChangeDetectorRef, public dialogRef: MatDialogRef<PopupFormSavedBetsComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any, private savedActiveBetService: SavedActiveBetsService, private fb: FormBuilder ) {
+
       console.log("In Form Saved List.");
+      console.log(data);
+
       this.sabList = this.savedActiveBetService.getSelectionSAB(this.data.activeBet);
       this.isEdit = data.isEdit;
       this.isEarlyCashout=false;
       this.isDisabled=true;
+      //formFtaOption 1 = custom FTA | 0 = 65 avg FTA. By default when adding a new match is is loaded based off user preferences. If an edit, it's based off of the state when it was saved to ActiveBets.
+      this.formFtaOption = this.data.isBrkzFTA;
       this.createForm(data);
      }
 
@@ -46,6 +52,7 @@ export class PopupFormSavedBetsComponent implements OnInit {
       FTA: new FormControl({value:data.activeBet.fta}),
       ROI: new FormControl({value:data.activeBet.roi}),
       BetState: new FormControl(data.activeBet.betState),
+      FtaOption: new FormControl(data.activeBet.isBrkzFTA),
       MatchInfo: new FormControl(data.activeBet.comment, commentValidator),
       PL: new FormControl(data.activeBet.pl, stakeValidator),
     });
@@ -62,6 +69,11 @@ export class PopupFormSavedBetsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.formFtaOption = this.sabFormValues.get("FtaOption").value;
+    console.log("FORM OPTION FTA!!!");
+
+    console.log(this.formFtaOption);
+
   }
 
   ngAfterViewInit(){
@@ -78,6 +90,8 @@ export class PopupFormSavedBetsComponent implements OnInit {
       !this.data.isEdit ? this.data.activeBet.created = Date.now() : '';
       this.data.activeBet.backOdd = this.sabFormValues.value.BackOdds;
       this.data.activeBet.betState = this.sabFormValues.value.BetState;
+      //Mat Slide Toggle returns true or false, set numbers incase we add new FTA calcs in the future and want more options
+      this.data.isBrkzFTA = this.sabControl.value.FtaOption ? 1:0;
       this.data.activeBet.ev = this.sabFormValues.value.EstValue;
       this.data.activeBet.mr = this.sabFormValues.value.MRValue;
       this.data.activeBet.sauce = this.sabFormValues.value.Sauce;
@@ -150,8 +164,8 @@ export class PopupFormSavedBetsComponent implements OnInit {
     var fta:number = this.calcFTA(backOdds,layOdds, stake);
     var ql: number = this.calcQL(backOdds, layOdds, stake);
     var evTotal:number = this.calcEVTotal(fta, ql);
-
-    var evThisBet:number = +(evTotal/+this.data.activeBet.occ);
+    //
+    var evThisBet:number = this.formFtaOption == 1 ? +(evTotal/+this.data.activeBet.occ) : +(evTotal/65) ;
     evThisBet = this.filterValue(evThisBet);
     this.sabFormValues.get('EstValue').setValue(evThisBet.toFixed(2));
     return evThisBet.toFixed(2);
@@ -174,7 +188,15 @@ export class PopupFormSavedBetsComponent implements OnInit {
     return roi.toFixed(2);
   }
 
-  setPL(){
+  test(){
+    var selected = this.sabFormValues.get('FtaOption').value;
+    console.log(selected);
+  }
+
+  updateFTA(){
+    //if user selects toggle, set FormFTAOPtion
+    this.formFtaOption = this.sabFormValues.get('FtaOption').value ? 1:0;
+    console.log(this.formFtaOption);
 
   }
 
@@ -196,7 +218,8 @@ export class PopupFormSavedBetsComponent implements OnInit {
   }
 
   calcEVTotal(fta:number, ql:number):number {
-    return +fta + (+ql * (+this.data.activeBet.occ - 1));
+    var result = this.formFtaOption == 1 ?   +fta + (+ql * (+this.data.activeBet.occ - 1)) :  +fta + (+ql * (65 - 1))
+    return result;
   }
 
   filterValue(input:number){
