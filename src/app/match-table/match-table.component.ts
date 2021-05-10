@@ -212,6 +212,7 @@ import { PopupViewSavedBetsComponent } from '../popup-view-saved-bets/popup-view
       //LIVE UPDATES UNCOMMENT
       this.webSocketService.openWebSocket();
     }
+    //Sends match to matchStatusService which Juicy subscribes to.
     sendToWatchListService(matches: any) {
       matches.forEach(match => {
         this.matchStatusService.watchMatchSubject(match);
@@ -710,26 +711,27 @@ import { PopupViewSavedBetsComponent } from '../popup-view-saved-bets/popup-view
     //     this.ignoreList = array;
     //   //this.matchStatusService.displayIgnoreList();
     // }
+    //DON'T NEED
 
-    ignoreHomeSelection(matchObject: any){
-      matchObject.HStatus.ignore = !matchObject.HStatus.ignore;
-      console.log("Ignore set to " + matchObject.HStatus.ignore + " for: " + matchObject.Home);
-      this.ignoreList = [matchObject.Home, matchObject.HStatus.ignore];
-      this.updateNotificationStatus(matchObject.Home, matchObject.HStatus.ignore);
-    }
+    // ignoreHomeSelection(matchObject: any){
+    //   matchObject.HStatus.ignore = !matchObject.HStatus.ignore;
+    //   console.log("Ignore set to " + matchObject.HStatus.ignore + " for: " + matchObject.Home);
+    //   this.ignoreList = [matchObject.Home, matchObject.HStatus.ignore];
+    //   this.updateNotificationStatus(matchObject.Home, matchObject.HStatus.ignore);
+    // }
 
-    ignoreAwaySelection(matchObject: any){
-      //toggle ignore status.
-      matchObject.AStatus.ignore = !matchObject.AStatus.ignore;
-      console.log("Ignore set to " + matchObject.AStatus.ignore + " for: " + matchObject.Away);
-      this.ignoreList = [matchObject.Away, matchObject.AStatus.ignore];
+    // ignoreAwaySelection(matchObject: any){
+    //   //toggle ignore status.
+    //   matchObject.AStatus.ignore = !matchObject.AStatus.ignore;
+    //   console.log("Ignore set to " + matchObject.AStatus.ignore + " for: " + matchObject.Away);
+    //   this.ignoreList = [matchObject.Away, matchObject.AStatus.ignore];
 
-      this.updateNotificationStatus(matchObject.Away, matchObject.AStatus.ignore);
-    }
+    //   this.updateNotificationStatus(matchObject.Away, matchObject.AStatus.ignore);
+    // }
 
-    updateNotificationStatus(selection: string, ignoreStatus: boolean){
-      // ignoreStatus ? this.matchStatusService.addToIgnoreList(selection) : this.matchStatusService.removeFromIgnoreList(selection);
-    }
+    // updateNotificationStatus(selection: string, ignoreStatus: boolean){
+    //   // ignoreStatus ? this.matchStatusService.addToIgnoreList(selection) : this.matchStatusService.removeFromIgnoreList(selection);
+    // }
 
     addToWatchList(rowData:any){
       console.log(rowData);
@@ -779,9 +781,23 @@ import { PopupViewSavedBetsComponent } from '../popup-view-saved-bets/popup-view
 
 
     toggleNotification(matchObj:any, isHome:boolean):void{
+
       isHome ? matchObj.HStatus.notify = !matchObj.HStatus.notify : matchObj.AStatus.notify = !matchObj.AStatus.notify;
       //update match-status.services.
+
+
       this.updateMatchStatusList(matchObj, isHome);
+      this.updateJuicyNotifyStatus(matchObj, isHome);
+    }
+
+    //Assign a button that updates JuicyTable Notify status.
+    updateJuicyNotifyStatus(match: any, isHome:boolean){
+      console.log("NOTIFY: In Match-Table");
+      console.log(match);
+      //juicy: {selection:string, notifyState:boolean}
+      let juicy = isHome? {selection: match.Home, notifyState: match.HStatus.notify, epoch: match.EpochTime} : {selection: match.Away, notifyState: match.AStatus.notify, epoch: match.EpochTime};
+
+      this.matchStatusService.notifyUser(juicy);
     }
 
     updateMatchStatusList(matchObj:any, isHome:boolean):void{

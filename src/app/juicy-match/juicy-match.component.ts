@@ -53,6 +53,7 @@ export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
   isDisplayHidden: boolean = true;
   private dateSubscription: Subscription;
   private streamSub: Subscription;
+  private notifySubscription: Subscription;
   private clearJuicySubscription: Subscription;
   tableDateSelected: string;
   startDay: number;
@@ -163,20 +164,29 @@ export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
 
     this.dataSource = new FormArray(this.allIndvMatches.map( x => this.createForm(x)));
     //accesses an eventEmitter of streamData that is coming in via MongoDB ChangeStream.  Setsup a subscription to observable.
-    this.streamSub = this.matchesService.streamDataUpdate
-    .subscribe( (streamObj) => {
+    this.streamSub = this.matchesService.streamDataUpdate.subscribe( (streamObj) => {
+
       console.log("Stream INCOMING!");
       var lookupIndex: number[] = []
 
-      lookupIndex.push( this.allIndvMatches.findIndex( (indvMatch) => indvMatch.Selection == streamObj.HomeTeamName ) );
-      lookupIndex.push( this.allIndvMatches.findIndex( (indvMatch) => indvMatch.Selection == streamObj.AwayTeamName ) );
+      lookupIndex.push( this.sortedData.findIndex( (indvMatch) => indvMatch.Selection == streamObj.HomeTeamName ) );
+      lookupIndex.push( this.sortedData.findIndex( (indvMatch) => indvMatch.Selection == streamObj.AwayTeamName ) );
       console.log(lookupIndex);
 
       lookupIndex.forEach( indexOfmatch => {
-        var juicyMatchBase = this.allIndvMatches[indexOfmatch];
+        var juicyMatchBase = this.sortedData[indexOfmatch];
+        console.log('-------------PASSING IN TO COMPARE STREAM DATA--------');
+        //sets wolverhapmton to false.....
+        var resultII = juicyMatchBase.notify;
+        console.log(resultII);
+        var result = this.sortedData[indexOfmatch].notify;
+        console.log(result);
+        console.log('----------------------------------------------------------');
+
         //singleMatchPair is a freshly pushed Match object from our database. It is processed in retrieveStreamData.
-        this.juicyMatchStreamUpdate =  (indexOfmatch != undefined && this.allIndvMatches[indexOfmatch]) ? this.matchStatService.retrieveStreamData(streamObj, juicyMatchBase.Selection ) : null;
-        (indexOfmatch != undefined && this.allIndvMatches[indexOfmatch]) ? this.juicyMHService.updateSingleMatch( juicyMatchBase, this.juicyMatchStreamUpdate, indexOfmatch) : console.log("did not find singleMatch in indvMatch Array");
+        this.juicyMatchStreamUpdate =  (indexOfmatch != undefined && this.sortedData[indexOfmatch]) ? this.matchStatService.retrieveStreamData(streamObj, juicyMatchBase.Selection ) : null;
+        (indexOfmatch != undefined && this.sortedData[indexOfmatch]) ? this.juicyMHService.updateSingleMatch( juicyMatchBase, this.juicyMatchStreamUpdate, indexOfmatch) : console.log("did not find singleMatch in indvMatch Array");
+        this.chRef.detectChanges();
       });
 
     });
@@ -186,6 +196,19 @@ export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
       this.getStartEndDays(this.tableDateSelected);
       this.popJuiceInRange();
       this.chRef.detectChanges();
+    });
+
+    //supposedly this is the fastest way to iterate in JS.
+    this.notifySubscription = this.matchStatusService.getNotifyUserListener().subscribe( juicy => {
+      console.log("IN JUICY...Updating JuicyMatch Selection");
+      for (let i = 0; i < this.sortedData.length; i++){
+        if(this.sortedData[i].Selection == juicy.selection && this.sortedData[i].EpochTime == juicy.epoch){
+          this.sortedData[i].notify = juicy.notifyState;
+          break;
+        }
+      }
+      console.log(this.sortedData);
+
     });
 
     //set userPreference Values
@@ -212,6 +235,8 @@ export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
     this.watchedMatchesSubscription = this.matchStatusService.getMatchWatchStatus().subscribe( matchObject => {
       //find selection and assign correct status to it.
       this.updateMatchWatchStatus(matchObject);
+      console.log("Change made to watchlist");
+
     });
     //manually opens up Selection. Need to center view it by filtering it on it's Team Name + EpochTime.
     this.notificationSelectedSubscription = this.notificationServices.getNotificationPing().subscribe( notification => {
@@ -240,6 +265,7 @@ export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
     this.clearJuicySubscription.unsubscribe();
     this.dateSubscription.unsubscribe();
     this.notificationSelectedSubscription.unsubscribe();
+    this.notifySubscription.unsubscribe();
   }
 
   //   //TODO possibly hold onto old bet365 updates here? create a new field that writes old data.
@@ -545,6 +571,8 @@ export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
     toggleIsTouched(selection){
       console.log("Touched!");
       console.log(selection);
+      console.log(this.sortedData);
+
 
 
       if(selection.isJuicy && selection.userAware){

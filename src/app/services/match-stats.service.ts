@@ -294,7 +294,7 @@ getMatchStats(allMatches, ftaOption:string): JuicyMatch[] {
       b365APrev: match.PreviousB365AwayOdds,
       b365DrawPrev: 999,
       ignore: isUpdatedValue ? null : isHome == 'home' ? match.HStatus.ignore : match.AStatus.ignore,
-      notify: isUpdatedValue ? null : true,
+      notify: isUpdatedValue ? null : false,
       activeBet: isUpdatedValue ? null : isHome == 'home' ? match.HStatus.activeBet : match.AStatus.activeBet,
       betState: isUpdatedValue ? null : true,
       inRange: isUpdatedValue ? null : false,

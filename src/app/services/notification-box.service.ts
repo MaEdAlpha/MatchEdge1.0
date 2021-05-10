@@ -27,7 +27,7 @@ export class NotificationBoxService {
 
       this.juicyFilterChange = this.userPropService.getUserPrefs().subscribe(filterSettings => {
       this.matchRatingFilterNotification = +filterSettings.matchRatingFilterII,
-      this.evNotificationFilter = +filterSettings.evFVI,
+      this.evNotificationFilter = +filterSettings.evFVII,
       this.secretSauceNotification = +filterSettings.secretSauceII,
       this.fvSelected = +filterSettings.fvSelected,
       this.tableDate = filterSettings.timeRange
@@ -44,8 +44,11 @@ export class NotificationBoxService {
   //TODO import Datehandling ranges
   showJuicyNotification(mainMatch: any){
     var epochNotifications = this.dateHandlingService.returnGenericNotificationBoundaries();
+    console.log("JUICY NOTIFICATION");
+
     console.log(mainMatch);
 
+    //THIS IS THE BREAD AND BUTTER FOR TOAST. FIX isWatched~~~ SHOULD GET AN ACTUAL STATE OF JUICY. Match STATUS SHOULD BE GETTING THE ACTUAL STATE. SHOULD BE UPDATING MATCH STATUS SERVICES.
     if(this.matchStatusService.isWatched(mainMatch.Selection) && this.isInEpochLimits(epochNotifications, mainMatch) ) {
       console.log("BlackPool Conditional 1  Passed!");
       console.log(mainMatch);

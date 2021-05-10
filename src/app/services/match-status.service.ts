@@ -14,6 +14,7 @@ export class MatchStatusService {
   private watchSubject = new Subject<any>();
   private groupSubject = new Subject<any>();
   allSelections: any[];
+  private notificationSubscription = new Subject<any>();
 
   constructor(private userPreferenceService: UserPropertiesService) { }
 
@@ -58,9 +59,13 @@ export class MatchStatusService {
         return false;
       }
     });
-    // console.log(matchToUpdate);
+    console.log("UPDATEWATCHLIST METHOD");
+
+    console.log(this.watchList);
+
   }
 
+  //I THINK THIS IS TO NOTIFY WATCHLIST/FIXTURES WHEN TO CHANGE NOTIFY STATE.
   updateWatchListFromStream(selection){
     var isHome:boolean;
     const matchToUpdate = this.watchList.filter( fixture => {
@@ -71,7 +76,7 @@ export class MatchStatusService {
         return false;
       }
     });
-    console.log("Length " + matchToUpdate.length);
+    console.log("Length -----UNCLEAR WHAT THIS DOES...." + matchToUpdate.length);
     (matchToUpdate.length > 0) ? (isHome ? matchToUpdate[0].HStatus.notify = selection.notify : matchToUpdate[0].AStatus.notify = selection.notify) : null;
     console.log(matchToUpdate[0])
   }
@@ -88,27 +93,51 @@ export class MatchStatusService {
     return this.watchList;
   }
 
-  isWatched( selection:string):boolean {
+    //compares WatchList with juicySelection states.
+    //MAKE SURE WATCHLIST IS ACTUALLY BEING UPDATED>
+  isWatched( selectionName:string):boolean {
+      console.log("ISWATCHED METHOD 1.watchlist --> 2.selectionName");
+      console.log(this.watchList);
+      console.log(selectionName);
 
-    var state:any = this.watchList.filter( fixture => {
-      if(fixture.Home == selection && fixture.HStatus.notify) {
+
+    const state:any = this.watchList.filter( fixture => {
+      if(fixture.Home == selectionName && fixture.HStatus.notify) {
+        console.log("RETURNED TRUE isWATCHED");
+
         return true
       }
-      else if(fixture.Away == selection && fixture.AStatus.notify) {
+      else if(fixture.Away == selectionName && fixture.AStatus.notify) {
+        console.log("RETURNED TRUE from isWATCHED");
+
         return true;
       } else {
+        console.log("----Watchlist FIXTURE");
         console.log(fixture);
+        console.log("----JUICY SELECTION");
+        console.log(selectionName);
+
         console.log("not in watchlist OR notification set to false.");
         return false;
       }
     });
 
-    console.log(Object.keys(state).length > 0);
+    let result =  state.length > 0 ? true : false
 
-    return Object.keys(state).length > 0;
+    return result
   }
 
-  //WATCHLIST STATUS
+  notifyUser(juicy: {selection:string, notifyState:boolean, epoch:number} ){
+    console.log('NotifyIn MatchStatus. Subject');
+
+    console.log(juicy);
+
+    this.notificationSubscription.next(juicy);
+  }
+
+  getNotifyUserListener():Observable<any>{
+    return this.notificationSubscription.asObservable();
+  }
 
   //called at matchTable on Initialization. Used to listen for any changes
   watchMatchSubject( selection: any){

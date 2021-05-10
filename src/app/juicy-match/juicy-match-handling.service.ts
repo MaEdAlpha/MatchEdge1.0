@@ -50,19 +50,25 @@ export class JuicyMatchHandlingService {
     return this.clearJuicyStyling.asObservable();
   }
 
-
+ //Determines which odds have changed. Sets a trigger for animation
   updateSingleMatch(mainMatch, juicyMatchStreamUpdate, index){
     //If this streamChange meets criteria. send notification popup with sound.
     var valueChanged: boolean = false;
     var ftaOption: string = this.userPropertiesService.getFTAOption();
+    // DEBUG
     console.log("-----Stream Log----");
     console.log("Stream");
     console.log(juicyMatchStreamUpdate);
     console.log("mainMatch");
     console.log(mainMatch);
     console.log("-----Stream Log----");
-    juicyMatchStreamUpdate.BackOdds >= this.userPropertiesService.getMinOdds() && juicyMatchStreamUpdate.BackOdds <=  this.userPropertiesService.getMaxOdds() ? mainMatch.notify = true : mainMatch.notify = false;
+
+    //THIS CODE should trigger your matches to disable notify if not in min Max odds range. //DO WE WANT THIS????
+    (juicyMatchStreamUpdate.BackOdds >= this.userPropertiesService.getMinOdds() && juicyMatchStreamUpdate.BackOdds <=  this.userPropertiesService.getMaxOdds()) && mainMatch.isWatched ? null : mainMatch.notify = false;
+    // If stream odds are within user min/max odds BUT currrent match is less than min odds. set match.notify = true.
+    (juicyMatchStreamUpdate.BackOdds >= this.userPropertiesService.getMinOdds() && juicyMatchStreamUpdate.BackOdds <=  this.userPropertiesService.getMaxOdds()) && mainMatch.isWatched  && mainMatch.BackOdds <= this.userPropertiesService.getMinOdds() ? mainMatch.notify = true : null;
     //Update notify boolean for watchList, incase any updates come in where odds drop, it should disable realtime in Watchlist.
+
     this.matchStatusService.updateWatchListFromStream(mainMatch);
     // //Detect change in BackOdds, trigger flicker animation.
     if(mainMatch.BackOdds != juicyMatchStreamUpdate.BackOdds || mainMatch.LayOdds != juicyMatchStreamUpdate.LayOdds )
