@@ -1,5 +1,5 @@
-import { ChangeDetectorRef, Injectable } from '@angular/core';
-import { GlobalConfig, ActiveToast, ToastrService } from 'ngx-toastr';
+import { Injectable } from '@angular/core';
+import { ActiveToast, ToastrService } from 'ngx-toastr';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { DateHandlingService } from './date-handling.service';
 import { MatchStatusService } from './match-status.service';
@@ -7,6 +7,7 @@ import { UserPropertiesService } from './user-properties.service';
 import { SABToastSaveComponent } from '../sabtoast-save/sabtoast-save.component';
 import { CustomToastComponent } from '../custom-toast/custom-toast.component';
 import { SABToastDeleteComponent } from '../sabtoast-delete/sabtoast-delete.component';
+import { SABToastUpdatedComponent } from '../sabtoast-updated/sabtoast-updated.component';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +22,7 @@ export class NotificationBoxService {
   private clickSubject = new Subject<{notificationIsActivated: boolean, matchObject: any }>();
   private alertPlaying: boolean = false;
   private audioEnabled: boolean = this.userPropService.getAudioPreferences();
-  private options: GlobalConfig;
+
 
 
   juicyFilterChange: Subscription;
@@ -60,6 +61,18 @@ export class NotificationBoxService {
     let toast: ActiveToast<any>;
     toast= this.toast.show( ' Successfully Deleted!', '', {
       toastComponent: SABToastDeleteComponent,
+      timeOut:1500,
+      toastClass: "toast border-gold",
+      positionClass:'toast-bottom-right',
+      messageClass: 'backOdds',
+    });
+    return toast;
+  }
+
+  UpdateToastSAB(): ActiveToast<any>{
+    let toast: ActiveToast<any>;
+    toast= this.toast.show( ' Update Complete!', '', {
+      toastComponent: SABToastUpdatedComponent,
       timeOut:1500,
       toastClass: "toast border-gold",
       positionClass:'toast-bottom-right',

@@ -98,6 +98,7 @@ import { AboutComponent } from './about/about.component';
 import { ToastRecordBetComponent } from './toast-record-bet/toast-record-bet.component';
 import { SABToastDeleteComponent } from './sabtoast-delete/sabtoast-delete.component';
 import { SABToastSaveComponent } from './sabtoast-save/sabtoast-save.component';
+import { SABToastUpdatedComponent } from './sabtoast-updated/sabtoast-updated.component';
 
 
 
@@ -152,6 +153,7 @@ import { SABToastSaveComponent } from './sabtoast-save/sabtoast-save.component';
     ToastRecordBetComponent,
     SABToastDeleteComponent,
     SABToastSaveComponent,
+    SABToastUpdatedComponent,
   ],
   imports: [
     AppRoutingModule,
@@ -188,24 +190,10 @@ import { SABToastSaveComponent } from './sabtoast-save/sabtoast-save.component';
                      ],
       }
     }),
-    ToastrModule.forRoot(
-      //{
-    //   toastComponent: CustomToastComponent,
-    //   timeOut: 10000,
-    //   onActivateTick: true,
-    //   tapToDismiss: false,
-    //   enableHtml: true,
-    //   progressBar: true,
-    //   extendedTimeOut: 2000,
-    //   closeButton: true,
-    //   positionClass: 'toast-bottom-right',
-    //   preventDuplicates: false,
-    //   disableTimeOut:true
-    // }
-    ),
+    ToastrModule.forRoot(),
     ToastContainerModule,
   ],
-  entryComponents: [CustomToastComponent,SABToastDeleteComponent, SABToastSaveComponent, ],
+  entryComponents: [ CustomToastComponent,SABToastDeleteComponent, SABToastSaveComponent, SABToastUpdatedComponent ],
   providers: [  MatchesService,
                  WebsocketService,
                   UserPropertiesService,
