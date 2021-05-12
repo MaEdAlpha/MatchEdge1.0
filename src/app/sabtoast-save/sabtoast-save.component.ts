@@ -1,16 +1,12 @@
-import {animate, keyframes, state, style, transition, trigger} from '@angular/animations';
-import { Component } from '@angular/core';
+import {animate,keyframes,state,style,transition,trigger} from '@angular/animations';
+import { Component, OnInit } from '@angular/core';
 import { Toast, ToastrService, ToastPackage} from 'ngx-toastr';
 
-export interface IToastButton {
-  id: string;
-  title: string;
-};
 
 @Component({
-  selector: '[custom-toast-component]',
-  styleUrls: [`./custom-toast.component.css`],
-  templateUrl: `./custom-toast.component.html`,
+  selector: 'app-sabtoast-save',
+  templateUrl: './sabtoast-save.component.html',
+  styleUrls: ['./sabtoast-save.component.css'],
   animations: [
     trigger('flyInOut', [
       state('inactive', style({
@@ -47,9 +43,11 @@ export interface IToastButton {
   ],
   preserveWhitespaces: false,
 })
-export class CustomToastComponent extends Toast {
+
+
+export class SABToastSaveComponent extends Toast {
   // used for demo purposes
-  undoString = 'customthing here';
+  undoString = 'undo';
 
   // constructor is only necessary when not using AoT
   constructor(
@@ -59,11 +57,9 @@ export class CustomToastComponent extends Toast {
     super(toastrService, toastPackage);
   }
 
-  action(event: Event) {
-    console.log(event);
-
-    event.stopPropagation();
-    this.toastPackage.triggerAction();
-    return false;
-  }
+  // action(event: Event) {
+  //   event.stopPropagation();
+  //   this.toastPackage.triggerAction();
+  //   return false;
+  // }
 }

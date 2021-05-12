@@ -86,6 +86,12 @@ export class HideTableRowDirective implements OnChanges{
       if(this.mrValue >= 100){
         this.overlay();
       }
+
+      if(this.mrValue <= 100)
+      {
+        this.overlayRemove();
+      }
+
       // Incomplete Data calcs/ bad values
       if(this.evValue >=1000){
         this.hide();
@@ -102,7 +108,11 @@ export class HideTableRowDirective implements OnChanges{
   }
 
   overlay() {
-    this.renderer.addClass(this.elRef.nativeElement, 'mr-overlay')
+    this.renderer.addClass(this.elRef.nativeElement, 'mr-overlay');
+  }
+
+  overlayRemove(){
+    this.renderer.removeClass(this.elRef.nativeElement, 'mr-overlay');
   }
 
 

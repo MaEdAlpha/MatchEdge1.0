@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Input, OnInit, OnDestroy, DoCheck, OnChanges, SimpleChanges, ChangeDetectorRef, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, Input, OnInit, OnDestroy, DoCheck, OnChanges, SimpleChanges, ChangeDetectorRef, ViewChild, Inject } from '@angular/core';
 import { JuicyMatchHandlingService } from './juicy-match-handling.service';
 import { TooltipPosition } from '@angular/material/tooltip';
 import { FormControl,FormGroup,FormArray } from '@angular/forms';
@@ -33,7 +33,7 @@ import { ActiveBet } from '../models/active-bet.model';
   ],
 })
 
-export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
+export class JuicyMatchComponent implements OnChanges, OnInit, OnDestroy, AfterViewInit {
   //Table properties
   @Input() allMatches: any;
   @Input()  ftaOption: string;
@@ -102,7 +102,8 @@ export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
               private userPrefService: UserPropertiesService,
               private matchStatusService: MatchStatusService,
               private dateHandlingService: DateHandlingService,
-              private notificationServices: NotificationBoxService ) { }
+              private notificationServices: NotificationBoxService,
+              ) {}
 
   ngOnChanges(changes: SimpleChanges)
   {
@@ -503,16 +504,17 @@ export class JuicyMatchComponent implements OnChanges, OnInit, AfterViewInit {
       }
     }
 
+
     saveAsActiveBet(row, index):void{
 
-      var activeBetObject = this.returnActiveBetObject(row, index);
-      this.savedActiveBetsService.saveToActiveBets(activeBetObject);
+      // var activeBetObject = this.returnActiveBetObject(row, index);
+      // this.savedActiveBetsService.saveToActiveBets(activeBetObject);
       //Set this row to ActiveBet = true; *TODO = hide this row now.
       row.activeBet = true;
-
+      this.notificationServices.showSABNotification(row);
       //TODO TOAST
       console.log("Stored data:");
-      console.log(activeBetObject);
+      // console.log(activeBetObject);
 
     }
     //Creates an activeBet Object

@@ -7,7 +7,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { ToastrModule } from 'ngx-toastr';
+import { ToastContainerModule, ToastrModule } from 'ngx-toastr';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './auth/auth-interceptor';
 
@@ -95,6 +95,10 @@ import { AccountSettingsComponent } from './account-settings/account-settings.co
 import { LandingPageComponent } from './landing-page/landing-page.component';
 import { LoadingComponent } from './loading/loading.component';
 import { AboutComponent } from './about/about.component';
+import { ToastRecordBetComponent } from './toast-record-bet/toast-record-bet.component';
+import { SABToastDeleteComponent } from './sabtoast-delete/sabtoast-delete.component';
+import { SABToastSaveComponent } from './sabtoast-save/sabtoast-save.component';
+
 
 
 
@@ -144,7 +148,10 @@ import { AboutComponent } from './about/about.component';
     AuthNavComponent,
     LandingPageComponent,
     LoadingComponent,
-    AboutComponent
+    AboutComponent,
+    ToastRecordBetComponent,
+    SABToastDeleteComponent,
+    SABToastSaveComponent,
   ],
   imports: [
     AppRoutingModule,
@@ -181,20 +188,24 @@ import { AboutComponent } from './about/about.component';
                      ],
       }
     }),
-    ToastrModule.forRoot( {
-      toastComponent: CustomToastComponent,
-      timeOut: 10000,
-      onActivateTick: true,
-      tapToDismiss: false,
-      enableHtml: true,
-      progressBar: true,
-      extendedTimeOut: 2000,
-      closeButton: true,
-      positionClass: 'toast-bottom-right',
-      preventDuplicates: false,
-    }),
+    ToastrModule.forRoot(
+      //{
+    //   toastComponent: CustomToastComponent,
+    //   timeOut: 10000,
+    //   onActivateTick: true,
+    //   tapToDismiss: false,
+    //   enableHtml: true,
+    //   progressBar: true,
+    //   extendedTimeOut: 2000,
+    //   closeButton: true,
+    //   positionClass: 'toast-bottom-right',
+    //   preventDuplicates: false,
+    //   disableTimeOut:true
+    // }
+    ),
+    ToastContainerModule,
   ],
-  entryComponents: [CustomToastComponent],
+  entryComponents: [CustomToastComponent,SABToastDeleteComponent, SABToastSaveComponent, ],
   providers: [  MatchesService,
                  WebsocketService,
                   UserPropertiesService,

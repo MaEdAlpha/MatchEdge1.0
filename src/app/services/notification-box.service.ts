@@ -1,9 +1,11 @@
 import { ChangeDetectorRef, Injectable } from '@angular/core';
-import { ActiveToast, ToastrService } from 'ngx-toastr';
+import { GlobalConfig, ActiveToast, ToastrService } from 'ngx-toastr';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { DateHandlingService } from './date-handling.service';
 import { MatchStatusService } from './match-status.service';
 import { UserPropertiesService } from './user-properties.service';
+import { SABToastSaveComponent } from '../sabtoast-save/sabtoast-save.component';
+import { CustomToastComponent } from '../custom-toast/custom-toast.component';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +20,8 @@ export class NotificationBoxService {
   private clickSubject = new Subject<{notificationIsActivated: boolean, matchObject: any }>();
   private alertPlaying: boolean = false;
   private audioEnabled: boolean = this.userPropService.getAudioPreferences();
-  private notificationActive: boolean = this.userPropService.getNotificationLock();
+  private options: GlobalConfig;
+
 
   juicyFilterChange: Subscription;
   matchStatus:Subscription;
@@ -30,11 +33,26 @@ export class NotificationBoxService {
       this.evNotificationFilter = +filterSettings.evFVII,
       this.secretSauceNotification = +filterSettings.secretSauceII,
       this.fvSelected = +filterSettings.fvSelected,
-      this.tableDate = filterSettings.timeRange
+      this.tableDate = filterSettings.timeRange,
+      this.audioEnabled= filterSettings.audioEnabled
     });
    }
   showNotification(){
     this.toast.success('Toastr Working', 'title');
+  }
+
+  showSABNotification(row:any):ActiveToast<any>{
+    var toast: ActiveToast<any>;
+    toast= this.toast.show(row.Selection, 'Summary',{
+      toastComponent: SABToastSaveComponent,
+      disableTimeOut: true,
+      tapToDismiss: true,
+      toastClass: "toast border-gold",
+      closeButton: false,
+      positionClass:'toast-bottom-right',
+      messageClass: 'backOdds',
+    });
+   return toast
   }
 
   enableToggleToast(){
@@ -151,25 +169,26 @@ export class NotificationBoxService {
   }
 
   playAudio(){
-    if(this.userPropService.getNotificationLock()){
+    if(this.userPropService.getAudioNotificationLock()){
       var audio = new Audio();
       audio.src = './assets/audio/notify2.mp3';
       audio.play();
 
       setTimeout( () => {
-        this.userPropService.setNotificationLock(true);
-        console.log("timeout lock set to : " + this.userPropService.getNotificationLock());
+        this.userPropService.setAudioNotificationLock(true);
+        console.log("timeout lock set to : " + this.userPropService.getAudioNotificationLock());
 
       } ,3000);
-      this.userPropService.setNotificationLock(false);
-      console.log("lock set to " + this.userPropService.getNotificationLock());
+      this.userPropService.setAudioNotificationLock(false);
+      console.log("lock set to " + this.userPropService.getAudioNotificationLock());
     }
   }
 
   showToast(message, title): ActiveToast<any>{
     var toast: ActiveToast<any>;
     toast = this.toast.show(message, title,{
-      disableTimeOut: false,
+      toastComponent:CustomToastComponent,
+      disableTimeOut: true,
       tapToDismiss: true,
       toastClass: "toast border-gold",
       closeButton: false,

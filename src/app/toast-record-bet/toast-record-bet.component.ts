@@ -1,5 +1,5 @@
+import { Component} from '@angular/core';
 import {animate, keyframes, state, style, transition, trigger} from '@angular/animations';
-import { Component } from '@angular/core';
 import { Toast, ToastrService, ToastPackage} from 'ngx-toastr';
 
 export interface IToastButton {
@@ -8,9 +8,9 @@ export interface IToastButton {
 };
 
 @Component({
-  selector: '[custom-toast-component]',
-  styleUrls: [`./custom-toast.component.css`],
-  templateUrl: `./custom-toast.component.html`,
+  selector: '[app-toast-record-bet]',
+  styleUrls: ['./toast-record-bet.component.css'],
+  templateUrl: './toast-record-bet.component.html',
   animations: [
     trigger('flyInOut', [
       state('inactive', style({
@@ -47,23 +47,24 @@ export interface IToastButton {
   ],
   preserveWhitespaces: false,
 })
-export class CustomToastComponent extends Toast {
-  // used for demo purposes
-  undoString = 'customthing here';
+export class ToastRecordBetComponent extends Toast{
 
-  // constructor is only necessary when not using AoT
-  constructor(
-    protected toastrService: ToastrService,
-    public toastPackage: ToastPackage,
-  ) {
-    super(toastrService, toastPackage);
-  }
+// used for demo purposes
+undoString = 'customthing here';
 
-  action(event: Event) {
-    console.log(event);
+// constructor is only necessary when not using AoT
+constructor(
+  protected toastrService: ToastrService,
+  public toastPackage: ToastPackage,
+) {
+  super(toastrService, toastPackage);
+}
 
-    event.stopPropagation();
-    this.toastPackage.triggerAction();
-    return false;
-  }
+action(event: Event) {
+  console.log(event);
+
+  event.stopPropagation();
+  this.toastPackage.triggerAction();
+  return false;
+}
 }

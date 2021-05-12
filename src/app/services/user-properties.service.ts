@@ -407,11 +407,11 @@ export class UserPropertiesService {
     return this.viewTablePrefs.audioEnabled;
   }
 
-  setNotificationLock(state:boolean){
+  setAudioNotificationLock(state:boolean){
     this.lockAudio = state;
   }
 
-  getNotificationLock(): boolean {
+  getAudioNotificationLock(): boolean {
     return this.lockAudio;
   }
 }
