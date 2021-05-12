@@ -119,10 +119,20 @@ export class ActiveBetsComponent implements OnInit {
 
   ngOnInit(): void {
 
+    //init sab array to db query
+    this.ACTIVE_BETS = this.sabServices.getActiveBets();
+    //catch async db query to array. assign to table
+    this.activeBetsSubscription = this.sabServices.getsabUpdatedListener().subscribe( (db_sabs) => {
+      this.ACTIVE_BETS = db_sabs
+      this.dataSource = this.ACTIVE_BETS;
+    })
+
+    //catch any sabs created during session, push to an array.
     this.sabServices.sabListChange.subscribe( (sabArray: ActiveBet) =>{
       this.ACTIVE_BETS.push(sabArray);
       this.dataSource = this.ACTIVE_BETS;
     });
+
   }
 
 

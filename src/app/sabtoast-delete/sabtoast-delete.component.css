@@ -1,0 +1,33 @@
+:host {
+  background-color: #ff0000;
+  color: white;
+  position: relative;
+  overflow: hidden;
+  margin: 0 0 6px;
+  padding: 10px 10px 10px 10px;
+  width: 350px;
+  height: 233px;
+  border-radius: 3px 3px 3px 3px;
+  pointer-events: all;
+  cursor: pointer;
+  bottom: 0px;
+}
+/* .btn-pink {
+  -webkit-backface-visibility: hidden;
+  -webkit-transform: translateZ(0);
+} */
+:host.border-gold{
+  border-top: 1px solid #ffc235;
+  }
+
+  .toast-title{
+    margin-top: 15%;
+    text-align: center;
+    color: #ef9e1b;
+    font-size: 125%;
+  }
+
+  .toast-message{
+    margin-top: 2%;
+    color: white;
+  }

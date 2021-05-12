@@ -3,6 +3,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 import { Subscription } from 'rxjs';
 import { ActiveBet } from '../models/active-bet.model';
 import { PopupFormSavedBetsComponent } from '../popup-form-saved-bets/popup-form-saved-bets.component';
+import { NotificationBoxService } from '../services/notification-box.service';
 import { SavedActiveBetsService } from '../services/saved-active-bets.service';
 import { UserPropertiesService } from '../services/user-properties.service';
 
@@ -19,7 +20,10 @@ export class PopupViewSavedBetsComponent implements AfterViewInit {
 
   //selectionsList
   isEmptySelectionList: boolean = true;
-  constructor( public userPropService: UserPropertiesService, public dialog: MatDialog, public dialogRef: MatDialogRef<PopupViewSavedBetsComponent>,
+  constructor( private userPropService: UserPropertiesService,
+               private notificationBoxService: NotificationBoxService,
+               public dialog: MatDialog,
+               public dialogRef: MatDialogRef<PopupViewSavedBetsComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any, private savedActiveBetService: SavedActiveBetsService, private chRef: ChangeDetectorRef) {
       //gets master list of all SAB
       this.importedSabList = this.data.list;
@@ -145,6 +149,7 @@ export class PopupViewSavedBetsComponent implements AfterViewInit {
 
     deleteSab(activeBet: ActiveBet){
       this.savedActiveBetService.deleteSAB(activeBet.id);
+      this.notificationBoxService.DeleteToastSAB();
     }
 
   }

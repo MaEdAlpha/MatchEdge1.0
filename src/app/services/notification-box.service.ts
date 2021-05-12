@@ -6,6 +6,7 @@ import { MatchStatusService } from './match-status.service';
 import { UserPropertiesService } from './user-properties.service';
 import { SABToastSaveComponent } from '../sabtoast-save/sabtoast-save.component';
 import { CustomToastComponent } from '../custom-toast/custom-toast.component';
+import { SABToastDeleteComponent } from '../sabtoast-delete/sabtoast-delete.component';
 
 @Injectable({
   providedIn: 'root'
@@ -53,6 +54,18 @@ export class NotificationBoxService {
       messageClass: 'backOdds',
     });
    return toast
+  }
+
+  DeleteToastSAB(): ActiveToast<any>{
+    let toast: ActiveToast<any>;
+    toast= this.toast.show( ' Successfully Deleted!', '', {
+      toastComponent: SABToastDeleteComponent,
+      timeOut:1500,
+      toastClass: "toast border-gold",
+      positionClass:'toast-bottom-right',
+      messageClass: 'backOdds',
+    });
+    return toast;
   }
 
   enableToggleToast(){
@@ -190,6 +203,8 @@ export class NotificationBoxService {
       toastComponent:CustomToastComponent,
       disableTimeOut: true,
       tapToDismiss: true,
+      progressBar: true,
+      extendedTimeOut: 2000,
       enableHtml:true,
       toastClass: "toast border-gold",
       closeButton: false,
