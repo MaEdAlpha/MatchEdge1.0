@@ -190,6 +190,7 @@ export class NotificationBoxService {
       toastComponent:CustomToastComponent,
       disableTimeOut: true,
       tapToDismiss: true,
+      enableHtml:true,
       toastClass: "toast border-gold",
       closeButton: false,
       positionClass:'toast-bottom-right',
