@@ -658,30 +658,34 @@ import { PopupViewSavedBetsComponent } from '../popup-view-saved-bets/popup-view
     watchAllLeagues():void{
       this.masterToggle = !this.masterToggle;
       var epochCutOff = this.getStartEndDaysAtMidnight();
-        //set all to watch
-        this.masterGroup.forEach( group => {
-          group.watchAll = this.masterToggle;
-        })
 
-          this.matches.forEach( (match) => {
-            var matchEpoch:number = match.EpochTime*1000;
-            //set match states based off day1 day2 time range
-            if( matchEpoch >= epochCutOff.forStartOfDayOne && matchEpoch <= epochCutOff.forDayTwo )
-            {
-              match.isWatched = this.masterToggle ? true : false;
-              this.toggleNotification(match, true);
-              this.toggleNotification(match,false);
-            }
+      this.masterGroup.forEach( group => {
+        group.watchAll = this.masterToggle;
+      });
 
-            if(this.masterToggle){
-              this.matchStatusService.addToWatchList(match);
-              this.matchStatusService.watchMatchSubject(match);
-            }else {
-              this.matchStatusService.removeFromWatchList(match);
-              this.matchStatusService.watchMatchSubject(match);
-            }
-        });
+      this.matches.forEach( match => {
+        var matchTime = match.EpochTime*1000
+        if(matchTime >= Date.now() && matchTime <= epochCutOff.forDayTwo ){
+          match.isWatched = this.masterToggle;
+          match.HStatus.notify = this.masterToggle;
+          match.AStatus.notify = this.masterToggle;
+          this.updateMatchStatusList(match, true);
+          this.updateMatchStatusList(match, false);
+          this.updateJuicyNotifyStatus(match, true);
+          this.updateJuicyNotifyStatus(match, false);
+
+          if(this.masterToggle){
+            this.matchStatusService.addToWatchList(match);
+            this.matchStatusService.watchMatchSubject(match);
+          } else {
+            this.matchStatusService.removeFromWatchList(match);
+            this.matchStatusService.watchMatchSubject(match);
+          }
+        }
+      });
     }
+
+
      openPopUp($event: MatSlideToggleChange, groupItem: any) {
 
     //   if($event.checked == false && !this.dialogDisabled){
@@ -814,8 +818,6 @@ import { PopupViewSavedBetsComponent } from '../popup-view-saved-bets/popup-view
 
       isHome ? matchObj.HStatus.notify = !matchObj.HStatus.notify : matchObj.AStatus.notify = !matchObj.AStatus.notify;
       //update match-status.services.
-
-
       this.updateMatchStatusList(matchObj, isHome);
       this.updateJuicyNotifyStatus(matchObj, isHome);
     }
