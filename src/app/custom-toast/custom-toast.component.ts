@@ -60,10 +60,10 @@ export class CustomToastComponent extends Toast {
   }
 
   action(event: Event) {
-    console.log(event);
+    // console.log(event);
 
-    event.stopPropagation();
-    this.toastPackage.triggerAction();
-    return false;
+    // event.stopPropagation();
+    // this.toastPackage.triggerAction();
+    // return false;
   }
 }

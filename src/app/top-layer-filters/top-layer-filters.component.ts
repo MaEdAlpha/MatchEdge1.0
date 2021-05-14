@@ -65,7 +65,6 @@ export class TopLayerFiltersComponent implements OnInit, OnChanges {
 
     this.userClickSubscription = this.notificationService.getNotificationPing().subscribe( matchObject => {
       console.log("Click registerd in TopFilterComp");
-
       matchObject.notificationIsActivated ? this.goToThisJuicy() : console.log(matchObject + "returned false");
     })
 
@@ -112,8 +111,8 @@ export class TopLayerFiltersComponent implements OnInit, OnChanges {
   }
 
   showCustomToast(){
-    var message: string =  "</br>" + "Ryan Jessup " + "</br> Back: " + "20" + "</br> Lay: " + "21";
-    var title: string = "Ryan vs. Bryan";
+    var message: string = "2.01" + "<br> 3.41";
+    var title: string = "Huddersfield Town";
     this.notificationService.showToast(message, title);
   }
 

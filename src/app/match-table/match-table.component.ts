@@ -68,7 +68,8 @@ import { PopupViewSavedBetsComponent } from '../popup-view-saved-bets/popup-view
     panelOpenState = false;
     viewSelectedDate:string;
     ftaOption: string;
-    toggleAll: boolean;
+    masterToggle: boolean;
+
 
     //HeaderGroup Test
     dataSource = new MatTableDataSource<any | Group>([]);
@@ -122,7 +123,8 @@ import { PopupViewSavedBetsComponent } from '../popup-view-saved-bets/popup-view
       this.tableGroups = [];
       this.savedActiveBets = this.savedActiveBetsService.getActiveBets();
       this.ftaOption = this.userPref.getFTAOption();
-      this.toggleAll=false;
+      this.masterToggle = false;
+
       //Subscribe to changes you want upudates on /Matches/Dates/StreamWatch/UserPreferences
 
       //Populate Master SAB List upon loading website.
@@ -133,7 +135,7 @@ import { PopupViewSavedBetsComponent } from '../popup-view-saved-bets/popup-view
       });
 
       //Listense for updates to SAB. This dynamically populates SAB list.
-      this.savedActiveBetsService.sabListChange.subscribe( sabUpdate => {
+      this.savedActiveBetsService.getSabListObservable().subscribe( sabUpdate => {
                                                                           this.savedActiveBets.push(sabUpdate);
                                                                         }
                                                           );
@@ -520,6 +522,8 @@ import { PopupViewSavedBetsComponent } from '../popup-view-saved-bets/popup-view
 
     //toggle each table type
     displaySelectedTable(fixtureBtnClicked: number){
+      console.log('tableSelected!!!: ' + fixtureBtnClicked);
+
       this.tableSelected = fixtureBtnClicked;
     }
 
@@ -615,23 +619,24 @@ import { PopupViewSavedBetsComponent } from '../popup-view-saved-bets/popup-view
       }
     }
 
-    watchAll(groupRow:any):void{
+    watchAllMatches(groupRow:any):void{
       console.log("----------------------------------- Watch All Of " + groupRow.League + "-----------------------------------\n Adding all matches to watchMatchSubject & watchList in matchStatus Services");
       // console.log(this.matches);
       var epochCutOff = this.getStartEndDaysAtMidnight();
-      this.toggleAll = !this.watchAll;
       //filter by league
       const leagueMatches = this.matches.filter( (match) => {
         var matchEpoch:number = match.EpochTime*1000;
-        if(match.League == groupRow.League && ( matchEpoch >= epochCutOff.forStartOfDayOne && matchEpoch <= epochCutOff.forDayTwo ))
-        {
-          match.isWatched = groupRow.watchAll ? true : false;
-          this.toggleNotification(match, true);
-          this.toggleNotification(match,false);
+          if(match.League == groupRow.League && ( matchEpoch >= epochCutOff.forStartOfDayOne && matchEpoch <= epochCutOff.forDayTwo ))
+          {
+            match.isWatched = groupRow.watchAll ? true : false;
+            this.toggleNotification(match, true);
+            this.toggleNotification(match,false);
 
-          return true;
-        }
+            return true;
+          }
       });
+
+
 
       // console.log(leagueMatches);
       leagueMatches.forEach( (match)=> {
@@ -644,14 +649,39 @@ import { PopupViewSavedBetsComponent } from '../popup-view-saved-bets/popup-view
           this.matchStatusService.watchMatchSubject(match);
         }
       });
-      console.log("Watchlist:");
-
-      console.log(this.matchStatusService.getWatchList());
-
-      console.log("----------------------------------------------------------------------");
+      // console.log("Watchlist:");
+      // console.log(this.matchStatusService.getWatchList());
+      // console.log("----------------------------------------------------------------------");
       return leagueMatches;
     }
 
+    watchAllLeagues():void{
+      this.masterToggle = !this.masterToggle;
+      var epochCutOff = this.getStartEndDaysAtMidnight();
+        //set all to watch
+        this.masterGroup.forEach( group => {
+          group.watchAll = this.masterToggle;
+        })
+
+          this.matches.forEach( (match) => {
+            var matchEpoch:number = match.EpochTime*1000;
+            //set match states based off day1 day2 time range
+            if( matchEpoch >= epochCutOff.forStartOfDayOne && matchEpoch <= epochCutOff.forDayTwo )
+            {
+              match.isWatched = this.masterToggle ? true : false;
+              this.toggleNotification(match, true);
+              this.toggleNotification(match,false);
+            }
+
+            if(this.masterToggle){
+              this.matchStatusService.addToWatchList(match);
+              this.matchStatusService.watchMatchSubject(match);
+            }else {
+              this.matchStatusService.removeFromWatchList(match);
+              this.matchStatusService.watchMatchSubject(match);
+            }
+        });
+    }
      openPopUp($event: MatSlideToggleChange, groupItem: any) {
 
     //   if($event.checked == false && !this.dialogDisabled){

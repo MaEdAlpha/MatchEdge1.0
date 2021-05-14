@@ -7,9 +7,9 @@
   position: relative;
   overflow: hidden;
   margin: 0 0 6px;
-  padding: 10px 10px 10px 10px;
-  width: 350px;
-  height: 233px;
+  padding: 0px;
+  width: 150px;
+  height: 100px;
   border-radius: 3px 3px 3px 3px;
   pointer-events: all;
   cursor: pointer;
@@ -20,16 +20,18 @@
 border-top: 1px solid #ffc235;
 }
 .toast-title{
-  margin-top: 15%;
+  margin-top: 17%;
   text-align: center;
   color: #ef9e1b;
-  font-size: 125%;
+  font-size: 100%
 }
 
 
 .backOdds{
-  margin-top: 10%;
   margin-left: 50%;
+  margin-top: 6%;
+  display: grid;
+  line-height: 128%;
 }
 
 .backOdds > div.subheader {

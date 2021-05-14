@@ -13,14 +13,15 @@ th.mat-header-cell:last-of-type, td.mat-cell:last-of-type, td.mat-footer-cell:la
   padding: 0px;
 }
 .no-content {
+  height: 400px;
+  background: #e0e1e2;
   color: black;
   text-align: center;
   padding-top: 30px;
   height: 200px;
 }
-table, .no-content {
-  height: 400px;
-  background: #e0e1e2;
+ table {
+   height: fit-content;
 }
 .hdr-items {
   display: inline-block;
@@ -117,14 +118,19 @@ tr.juicyMatch-row:not(.juicyMatch-expanded-row):active { /* when main container 
   padding-bottom: 2px;
 }
 
-#column0hdr, #column1hdr,#column2hdr,#column3hdr,#column4hdr, #column5hdr {
+#column0hdr,
+#column1hdr,
+#column2hdr {
   font-size: medium;
   font-weight: 400px;
   border-right: 1px solid #00000012;
 }
-#column0hdr, #column1hdr,#column2hdr {
+#column0hdr,
+#column1hdr,
+#column2hdr {
   text-align: left;
   padding-left: 10px;
+  background: #263238;
 }
 .cdk-column-LayOdds>span {
   background: green;
@@ -379,7 +385,7 @@ div.jm-exp-details {
     background: radial-gradient(at 0% 0, #126E51, transparent 74%), linear-gradient(5deg, #095940, transparent 80%) bottom;
     padding-right: 10px;
     margin-left: 5px;
-    
+
 }
 
 .exchangecontainer{
@@ -630,54 +636,54 @@ padding-top: 8%;
   width: 31px;
   padding-left: 46px;
   color: white;
-  padding-top: 4px;  
+  padding-top: 4px;
 }
 .ev-text{
   padding-right: 76px;
   width: 31px;
   padding-left: 50px;
   color: white;
-  padding-top: 4px;  
+  padding-top: 4px;
 }
 .mr-text{
   padding-right: 77px;
   width: 31px;
   padding-left: 46px;
   color: white;
-  padding-top: 4px;  
+  padding-top: 4px;
 }
 .qlpercent-text{
   padding-right: 76px;
   width: 31px;
   padding-left: 40px;
   color: white;
-  padding-top: 4px;  
+  padding-top: 4px;
 }
 .ql-text{
   padding-right: 22px;
   width: 31px;
   padding-left: 43px;
   color: white;
-  padding-top: 4px;  
+  padding-top: 4px;
 }
 .ql-value{
   width: 100px;
   padding-left: 0px;
   color: white;
-  padding-top: 4px;  
+  padding-top: 4px;
 }
 .fta-text{
   padding-right: 35px;
   width: 31px;
   padding-left: 40px;
   color: white;
-  padding-top: 4px;  
+  padding-top: 4px;
 }
 .fta-value{
   width: 100px;
   padding-left: 0px;
   color: white;
-  padding-top: 4px;  
+  padding-top: 4px;
 }
 
 .calculated-value-fta-ql{
@@ -777,7 +783,10 @@ th.mat-sort-header-sorted {
   font-weight: 500;
 }
 
-.secret-sauce-accent {
+.secret-sauce-accent,
+#column3hdr,
+#column4hdr,
+#column5hdr {
   background: #263238;
   color: #ffbf0e;
   font-size: small;

@@ -24,13 +24,13 @@
                   <ng-container *ngIf="selection.inRange">
                     <ng-container *ngIf= "( (fvSelected == 1 && +selection['EVthisBet'] >= +prefObj.evFVI) ||
                                             (fvSelected == 2 && (+selection['MatchRating'] == +prefObj.matchRatingFilterI ||  selection['MatchRating'] > (+prefObj.matchRatingFilterI - 0.02))) ||
-                                            (fvSelected == 3 && ( +selection['QLPercentage'] == +prefObj.secretSauceI || selection['QLPercentage'] >= (+prefObj.secretSauceI) )) )">
+                                            (fvSelected == 3 && (+selection['QLPercentage'] == +prefObj.secretSauceI || selection['QLPercentage'] >= (+prefObj.secretSauceI))))">
                     <ng-container *ngIf= "( +maxOddsFilter >= +selection['BackOdds'] && +selection['BackOdds'] >= +minOddsFilter )">
 
                           <div class="juicyCell b3-odd-cont" *ngIf="column.field.endsWith('BackOdds')">
                             <!-- <img  class="odds-img" src="/assets/img/betIcon.png" alt=""> -->
                             <div class="ticker{{(flickerColmnIndex)}}box" appFlickerData [flickerColmnIndex]="flickerColmnIndex" [isUpdated]="selection.backIsUpdated">
-                              <p class="odd-text"> {{ selection[column.field] | number:'0.2-2'}}  </p>
+                              <p class="odd-text" [style.color]="selection['BackOdds'] > selection['LayOdds'] ? 'red': 'white'"> {{ selection[column.field] | number:'0.2-2'}}  </p>
                             </div>
                           </div>
 

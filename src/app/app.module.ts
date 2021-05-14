@@ -99,6 +99,7 @@ import { ToastRecordBetComponent } from './toast-record-bet/toast-record-bet.com
 import { SABToastDeleteComponent } from './sabtoast-delete/sabtoast-delete.component';
 import { SABToastSaveComponent } from './sabtoast-save/sabtoast-save.component';
 import { SABToastUpdatedComponent } from './sabtoast-updated/sabtoast-updated.component';
+import { StreamNotificationsComponent } from './stream-notifications/stream-notifications.component';
 
 
 
@@ -154,6 +155,7 @@ import { SABToastUpdatedComponent } from './sabtoast-updated/sabtoast-updated.co
     SABToastDeleteComponent,
     SABToastSaveComponent,
     SABToastUpdatedComponent,
+    StreamNotificationsComponent,
   ],
   imports: [
     AppRoutingModule,
@@ -190,10 +192,10 @@ import { SABToastUpdatedComponent } from './sabtoast-updated/sabtoast-updated.co
                      ],
       }
     }),
-    ToastrModule.forRoot(),
+    ToastrModule.forRoot( {preventDuplicates: false}),
     ToastContainerModule,
   ],
-  entryComponents: [ CustomToastComponent,SABToastDeleteComponent, SABToastSaveComponent, SABToastUpdatedComponent ],
+  entryComponents: [ CustomToastComponent, SABToastDeleteComponent, SABToastSaveComponent, SABToastUpdatedComponent ],
   providers: [  MatchesService,
                  WebsocketService,
                   UserPropertiesService,

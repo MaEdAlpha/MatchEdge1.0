@@ -91,7 +91,7 @@ export class PopupFormSavedBetsComponent implements OnInit {
       this.data.activeBet.backOdd = this.sabFormValues.value.BackOdds;
       this.data.activeBet.betState = this.sabFormValues.value.BetState;
       //Mat Slide Toggle returns true or false, set numbers incase we add new FTA calcs in the future and want more options
-      this.data.isBrkzFTA = this.sabControl.value.FtaOption ? 1:0;
+      this.data.activeBet.isBrkzFTA = this.sabFormValues.value.FtaOption ? 1:0;
       this.data.activeBet.ev = this.sabFormValues.value.EstValue;
       this.data.activeBet.mr = this.sabFormValues.value.MRValue;
       this.data.activeBet.sauce = this.sabFormValues.value.Sauce;

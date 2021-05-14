@@ -293,7 +293,7 @@ app.put('/api/sab/:id', async(req,res,next) => {
 //DEV MODE add in checkAuth
 app.delete("/api/sab/:id", checkAuth, async(req,res,next) => {
   console.log('Deleting SAB...');
-
+    console.log(req.params);
     const _id = new ObjectID(req.params.id);
     const col = await client.db("JuicyClients").collection("juicy_users_sab");
     col.deleteOne({ _id: _id}, function(error,response){

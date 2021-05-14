@@ -404,7 +404,7 @@ export class UserPropertiesService {
   }
 
   getAudioPreferences(): boolean {
-    return this.viewTablePrefs.audioEnabled;
+    return this.settings.filters.audioEnabled;
   }
 
   setAudioNotificationLock(state:boolean){

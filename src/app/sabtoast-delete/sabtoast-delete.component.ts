@@ -52,6 +52,4 @@ export class SABToastDeleteComponent extends Toast {
   ) {
     super(toastrService, toastPackage);
   }
-
-
 }

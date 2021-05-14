@@ -27,37 +27,38 @@ export class PopupViewSavedBetsComponent implements AfterViewInit {
     @Inject(MAT_DIALOG_DATA) public data: any, private savedActiveBetService: SavedActiveBetsService, private chRef: ChangeDetectorRef) {
       //gets master list of all SAB
       this.importedSabList = this.data.list;
+      console.log(this.importedSabList);
+
       //filter based off of selection.
       this.filteredSabList = this.filterList(data);
 
       //Refresh list for any newly added SAB
-      this.savedActiveBetService.sabListChange.subscribe( () => {
-        //find only SAB to show for that selection.
-       this.filteredSabList = this.importedSabList.filter(sab => {
-        if (sab.selection == data.row.Selection) {
-          return true;
-        } else {
-          return false;
-        }
-      });
-       this.checkIfEmpty();
-      //  this.chRef.detectChanges();
-      });
+      // this.savedActiveBetService.sabListChange.subscribe( () => {
+      //   //find only SAB to show for that selection.
+      //  this.filteredSabList = this.importedSabList.filter(sab => {
+      //   if (sab.selection == data.row.Selection) {
+      //     return true;
+      //   } else {
+      //     return false;
+      //   }
+
+      // });
+      //  this.checkIfEmpty();
+      // //  this.chRef.detectChanges();
+      // });
 
       //Update list for any deleted SAB
-      this.savedActiveBetService.removeFromList.subscribe( (sabID)=> {
-
-        this.importedSabList.filter( sab => {
-          if(sab.id == sabID){
-            console.log("FOUND!!!");
-            var index = this.importedSabList.indexOf(sab);
-            this.importedSabList.splice(index, 1);
-            return true;
-          };
-        });
+      this.savedActiveBetService.removeFromList.subscribe( ()=> {
 
         this.filteredSabList = this.filterList(data);
-        this.filteredSabList.length == 0 ? this.isEmptySelectionList = true : this.isEmptySelectionList = false;
+        this.checkIfEmpty();
+      });
+    }
+
+    ngOnInit(){
+      this.activeBetSubscription = this.savedActiveBetService.getSabListObservable().subscribe( addNewSAB => {
+        this.filteredSabList.push(addNewSAB);
+        this.checkIfEmpty();
       });
     }
 
@@ -76,7 +77,8 @@ export class PopupViewSavedBetsComponent implements AfterViewInit {
 
     // check if filterd list is empty, to toggle Template ' No SAB bets for this selection '
   private checkIfEmpty() {
-    this.filteredSabList.length == 0 && this.filteredSabList != undefined ? this.isEmptySelectionList = true : this.isEmptySelectionList = false;
+    this.filteredSabList.length == 0 || this.filteredSabList == undefined ? this.isEmptySelectionList = true : this.isEmptySelectionList = false;
+    this.chRef.detectChanges();
   }
 
     onNoClick(): void {
@@ -148,8 +150,21 @@ export class PopupViewSavedBetsComponent implements AfterViewInit {
     }
 
     deleteSab(activeBet: ActiveBet){
+      console.log(activeBet);
+      console.log(this.importedSabList);
+
+      this.importedSabList.filter( sab => {
+        if(sab.id == activeBet.id){
+          console.log("FOUND!!!");
+          var index = this.importedSabList.indexOf(sab);
+          this.importedSabList.splice(index, 1);
+          return true;
+        };
+      });
       this.savedActiveBetService.deleteSAB(activeBet.id);
       this.notificationBoxService.DeleteToastSAB();
+      this.checkIfEmpty()
+
     }
 
   }

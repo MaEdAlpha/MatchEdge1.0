@@ -1,0 +1,39 @@
+
+/* sexygold  #eba32f; */
+
+#toast-container {
+  display: inline-flex;
+}
+
+.top-divider,
+.bottom-divider {
+  margin-bottom: 0px;
+  padding: 0px;
+  height: 3px;
+  background: #263238;
+  /* border: 2px solid #eba32f; */
+  border-color: #eba32f;
+}
+
+.top-divider,
+.bottom-divider,
+.notification-wrapper {
+  z-index: 888;
+}
+
+.top-divider {
+  margin-top: 30px;
+}
+
+.bottom-divider {
+  position: sticky;
+  top: 98px;
+}
+
+.notification-wrapper {
+  margin-top: 2px;
+  height: 97px;
+  background: #263238;
+  position: sticky;
+  top: 0;
+}

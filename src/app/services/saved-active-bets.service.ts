@@ -71,16 +71,22 @@ export class SavedActiveBetsService {
     return this.sabUpdated.asObservable();
   }
 
+  getSabListObservable(): Observable<ActiveBet> {
+    return this.activeBetSubject.asObservable();
+  }
+
+
   //Used strictly for Juicy. Creates a new SAB
   saveToActiveBets(sab: ActiveBet){
-      this.http.post("http://localhost:3000/api/sab", sab)
-      .subscribe( (sabEntry: { _id:string}) => {
+    this.http.post("http://localhost:3000/api/sab", sab)
+    .subscribe( (sabEntry: { _id:string}) => {
         sab.id = sabEntry._id;
+        this.activeBetSubject.next(sab);
       });
-      this.sabListChange.emit(sab);
 
     //each post made, do you retrieve the id and update it in observable? i.e get response data and add into subject this.sabUpdated.next(sab.dataPostedToDB)?
   }
+
 
   patchToActiveBets(sab:ActiveBet){
     this.http.put("http://localhost:3000/api/sab/" + sab.id, sab)
@@ -92,9 +98,10 @@ export class SavedActiveBetsService {
 
   deleteSAB(sabID:string){
     //pass UID to database and remove this SAB from db
+    this.removeFromList.emit(sabID)
     this.http.delete("http://localhost:3000/api/sab/" + sabID)
     .subscribe( (data: {deletedCount: number}) => {
-      data.deletedCount == 1 ?  this.removeFromList.emit(sabID) : this.removeFromList.emit("Error");
+      data.deletedCount == 1 ?  "" : this.removeFromList.emit("Error");
     });
   }
 
@@ -109,17 +116,13 @@ export class SavedActiveBetsService {
       const updatedSab = this.sabArray.filter( savedBet => {
         if(savedBet.created == sab.created && savedBet.selection == sab.selection){
           savedBet = sab;
-
           return true
         }
       });
+      //setStyling to show an update in SAB-view
     }else {
       this.saveToActiveBets(sab);
     }
-  }
-
-  getSabListObservable(): Observable<ActiveBet> {
-    return this.activeBetSubject.asObservable();
   }
 
   getSabList():ActiveBet[] {

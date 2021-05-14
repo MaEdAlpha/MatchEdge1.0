@@ -19,13 +19,9 @@
     <form [formGroup]="sabFormValues" (ngSubmit)="onSubmit()">
       <div class="edit-main-fields">
         <div class="sab-matched-container">
-          <mat-form-field>
-            <mat-slide-toggle class="example-margin" formControlName="BetState" [color]="color" [checked]="checked" [disabled]="disabled">
-              <div class="sab-matched" *ngIf="sabFormValues.value.BetState; else unMatched"> Matched </div>
-              <ng-template class="sab-unmatched" #unMatched>Unmatched!</ng-template>
-            </mat-slide-toggle>
-            <input formControlName="BetState" matInput #value hidden />
-          </mat-form-field>
+            <div  mat-raised-button class="bet-state-button" [style.background]="sabFormValues.value.BetState ? ' #076044' : '#8a0606'"  (click)="sabFormValues.get('BetState').setValue(!sabFormValues.value.BetState)">
+              <span> {{ sabFormValues.value.BetState ? 'Matched' : 'Unmatched'}}</span>
+            </div>
         </div>
 
         <div class="sab-ftaOption-container">
@@ -313,13 +309,11 @@
           <!-- <button mat-button class="popup-btn" (click)="isEarlyCashout=!isEarlyCashout" >Override</button> -->
         </div>
         <div class="sab-matched-container">
-          <mat-form-field>
-            <mat-slide-toggle class="example-margin" formControlName="BetState" [color]="color" [checked]="checked" [disabled]="disabled">
-              <div class="sab-matched" *ngIf="sabFormValues.value.BetState; else unMatched"> Matched </div>
-              <ng-template class="sab-unmatched" #unMatched>Unmatched!</ng-template>
-            </mat-slide-toggle>
-            <input formControlName = "BetState" matInput #value hidden />
-          </mat-form-field>
+            <div class="sab-matched-container">
+              <div  mat-raised-button class="bet-state-button" [style.background]="sabFormValues.value.BetState ? ' #076044' : '#8a0606'"  (click)="sabFormValues.get('BetState').setValue(!sabFormValues.value.BetState)">
+                <span> {{ sabFormValues.value.BetState ? 'Matched' : 'Unmatched'}}</span>
+              </div>
+          </div>
         </div>
         </form>
       </div>

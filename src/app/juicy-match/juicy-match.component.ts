@@ -26,7 +26,7 @@ import { ActiveBet } from '../models/active-bet.model';
     trigger('detailExpand', [
                               state('collapsed, void', style({height: '0px', minHeight: '0'})),
                               state('expanded', style({height: '*'})),
-                              transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+                              transition('expanded <=> collapsed', animate('320ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
                               transition('expanded <=> void', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)'))
                             ]
     ),
@@ -79,7 +79,7 @@ export class JuicyMatchComponent implements OnChanges, OnInit, OnDestroy, AfterV
   tableSubject: BehaviorSubject<JuicyMatch[]>;
 
   columnHeaders: any[] = [
-    { field: "EpochTime" , alias: "Event Start" },
+    { field: "EpochTime" , alias: "" },
     { field: "Fixture", alias: "Match" },
     { field: "Selection", alias: "Selection" },
     { field: "BackOdds", alias: "Back Odds" },
@@ -507,14 +507,12 @@ export class JuicyMatchComponent implements OnChanges, OnInit, OnDestroy, AfterV
 
     saveAsActiveBet(row, index):void{
 
-      // var activeBetObject = this.returnActiveBetObject(row, index);
-      // this.savedActiveBetsService.saveToActiveBets(activeBetObject);
+      var activeBetObject = this.returnActiveBetObject(row, index);
+      this.savedActiveBetsService.saveToActiveBets(activeBetObject);
       //Set this row to ActiveBet = true; *TODO = hide this row now.
       row.activeBet = true;
       this.notificationServices.showSABNotification(row);
-      //TODO TOAST
-      console.log("Stored data:");
-      // console.log(activeBetObject);
+      this.expandedElement = null;
 
     }
     //Creates an activeBet Object

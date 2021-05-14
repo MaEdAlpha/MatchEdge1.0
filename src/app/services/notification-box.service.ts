@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
-import { ActiveToast, ToastrService } from 'ngx-toastr';
+import { GlobalConfig, ActiveToast, ToastContainerDirective, ToastrService } from 'ngx-toastr';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { DateHandlingService } from './date-handling.service';
 import { MatchStatusService } from './match-status.service';
 import { UserPropertiesService } from './user-properties.service';
 import { SABToastSaveComponent } from '../sabtoast-save/sabtoast-save.component';
+import { StreamNotificationsComponent } from '../stream-notifications/stream-notifications.component';
 import { CustomToastComponent } from '../custom-toast/custom-toast.component';
 import { SABToastDeleteComponent } from '../sabtoast-delete/sabtoast-delete.component';
 import { SABToastUpdatedComponent } from '../sabtoast-updated/sabtoast-updated.component';
@@ -20,7 +21,6 @@ export class NotificationBoxService {
   public fvSelected: number = this.userPropService.getFilterSelection();
   public tableDate: string = this.userPropService.getSelectedDate();
   private clickSubject = new Subject<{notificationIsActivated: boolean, matchObject: any }>();
-  private alertPlaying: boolean = false;
   private audioEnabled: boolean = this.userPropService.getAudioPreferences();
 
 
@@ -28,55 +28,74 @@ export class NotificationBoxService {
   juicyFilterChange: Subscription;
   matchStatus:Subscription;
 
+  toastOptions: GlobalConfig;
+  //get container location from StrmNotComp
+
   constructor(private toast: ToastrService, private userPropService: UserPropertiesService, private dateHandlingService: DateHandlingService, private matchStatusService: MatchStatusService) {
 
+      this.toastOptions = this.toast.toastrConfig;
+
       this.juicyFilterChange = this.userPropService.getUserPrefs().subscribe(filterSettings => {
+        console.log("NOTIFICATION SETTINGS");
+
+        console.log(filterSettings);
+
       this.matchRatingFilterNotification = +filterSettings.matchRatingFilterII,
       this.evNotificationFilter = +filterSettings.evFVII,
       this.secretSauceNotification = +filterSettings.secretSauceII,
       this.fvSelected = +filterSettings.fvSelected,
       this.tableDate = filterSettings.timeRange,
-      this.audioEnabled= filterSettings.audioEnabled
+      this.audioEnabled = filterSettings.audioEnabled
     });
    }
   showNotification(){
     this.toast.success('Toastr Working', 'title');
   }
 
+  //might have to disable the toastContainer somehow.
+
   showSABNotification(row:any):ActiveToast<any>{
     var toast: ActiveToast<any>;
-    toast= this.toast.show(row.Selection, 'Summary',{
+
+
+    toast= this.toast.show( row.Selection + ' saved in Active Bets', 'Saved!',{
       toastComponent: SABToastSaveComponent,
-      disableTimeOut: true,
+      onActivateTick: true,
+      timeOut: 1500,
+      disableTimeOut: false,
       tapToDismiss: true,
       toastClass: "toast border-gold",
-      closeButton: false,
-      positionClass:'toast-bottom-right',
-      messageClass: 'backOdds',
+      closeButton: true,
+      messageClass: 'toast-message',
+      positionClass:'toast-top-right',
     });
+
+    //may cause issues.
+
    return toast
   }
 
   DeleteToastSAB(): ActiveToast<any>{
-    let toast: ActiveToast<any>;
-    toast= this.toast.show( ' Successfully Deleted!', '', {
+    var toast: ActiveToast<any>;
+    toast= this.toast.show( ' ', 'Successfully Deleted!', {
       toastComponent: SABToastDeleteComponent,
       timeOut:1500,
+      disableTimeOut: false,
       toastClass: "toast border-gold",
+      messageClass: 'toast-message',
       positionClass:'toast-bottom-right',
-      messageClass: 'backOdds',
     });
     return toast;
   }
 
   UpdateToastSAB(): ActiveToast<any>{
-    let toast: ActiveToast<any>;
+    var toast: ActiveToast<any>;
     toast= this.toast.show( ' Update Complete!', '', {
       toastComponent: SABToastUpdatedComponent,
       timeOut:1500,
       toastClass: "toast border-gold",
-      positionClass:'toast-bottom-right',
       messageClass: 'backOdds',
+      positionClass:'toast-bottom-right',
     });
     return toast;
   }
@@ -88,6 +107,7 @@ export class NotificationBoxService {
   //TODO import Datehandling ranges
   showJuicyNotification(mainMatch: any){
     var epochNotifications = this.dateHandlingService.returnGenericNotificationBoundaries();
+     this.audioEnabled = this.userPropService.getAudioPreferences();
     console.log("JUICY NOTIFICATION");
 
     console.log(mainMatch);
@@ -152,8 +172,8 @@ export class NotificationBoxService {
 
   private toastIt(mainMatch: any) {
     //Display update
-      var message: string = "<div class='subheader'> " + mainMatch.Selection + "</div> <div class='backOdds'> Back: " + mainMatch.BackOdds + "</div> <div class='layOdds'></br> Lay: " + mainMatch.LayOdds +"</div>";
-      var title: string = mainMatch.Fixture;
+      var message: string = mainMatch.BackOdds.toFixed(2) + "<br>" + mainMatch.LayOdds.toFixed(2);
+      var title: string = mainMatch.Selection;
     //Creates an 'OnTap' listener. If they tap is. Change state to userAware = false.
     //This will reset popup Notifications to the user.
       this.showToast(message, title).onTap.subscribe( () => {
@@ -214,14 +234,14 @@ export class NotificationBoxService {
     var toast: ActiveToast<any>;
     toast = this.toast.show(message, title,{
       toastComponent:CustomToastComponent,
-      disableTimeOut: true,
+      onActivateTick: true,
+      timeOut: 7000,
       tapToDismiss: true,
       progressBar: true,
       extendedTimeOut: 2000,
       enableHtml:true,
       toastClass: "toast border-gold",
-      closeButton: false,
-      positionClass:'toast-bottom-right',
+      positionClass:'inline',
       messageClass: 'backOdds',
     });
 
