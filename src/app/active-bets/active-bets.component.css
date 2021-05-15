@@ -1,52 +1,819 @@
-table {
+/*Page Header*/
+table, .table-title, .no-content {
   width: 100%;
+  margin-left: auto;
+  margin-right: auto;
 }
-
-tr.example-detail-row {
-  height: 0;
-}
-
-tr.example-element-row:not(.example-expanded-row):hover {
-  background: whitesmoke;
-}
-
-tr.example-element-row:not(.example-expanded-row):active {
-  background: #efefef;
-}
-
-.example-element-row td {
-  border-bottom-width: 0;
-}
-
-.example-element-detail {
-  overflow: hidden;
-  display: flex;
-  height:max-content;
-}
-
-.example-element-diagram {
-  min-width: 80px;
-  border: 2px solid black;
-  padding: 8px;
-  font-weight: lighter;
-  margin: 8px 0;
+.form-container {
   height: 100%;
 }
 
-.example-element-symbol {
-  font-weight: bold;
-  font-size: 40px;
-  line-height: normal;
+th.mat-header-cell:first-of-type, td.mat-cell:first-of-type, td.mat-footer-cell:first-of-type,
+th.mat-header-cell:last-of-type, td.mat-cell:last-of-type, td.mat-footer-cell:last-of-type{
+  padding: 0px;
+}
+.no-content {
+  height: 400px;
+  background: #e0e1e2;
+  color: black;
+  text-align: center;
+  padding-top: 30px;
+  height: 200px;
+}
+ table {
+   height: fit-content;
+}
+.hdr-items {
+  display: inline-block;
+}
+.hdr-tabs {
+  width: 75%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-.example-element-description {
-  padding: 16px;
+/*Main Container for all */
+.table-container {
+  margin-bottom: 130px;
+  scroll-behavior: smooth;
+  position: relative;
+  width: 100%;
+  height: 60%;
 }
 
-.example-element-description-attribution {
-  opacity: 0.5;
+/* Main Juicy column headers hooks and rows juicy rows */
+.mat-column-BackOdds, .mat-column-LayOdds, .mat-column-EVthisBet, .mat-column-MatchRating, .mat-column-FTAround{
+  text-align: center;
+  font-size: large;
+  font-weight: 500;
+  width: 120px;
+}
+.mat-cell {
+  border-bottom-width: 0;
 }
 
-.status-button {
+.mat-cell-withdata { /*Added this class to add borders to only the cells/rows that have content *?
+  /*border-right:  1px solid #bebcbc;*/
+  border-bottom:  1px solid #bebcbc;
+}
+.mat-column-Selection {
+  font-size: large;
+  font-weight: 500;
+}
+tr.sab-detail-row {
+  height:0;
+}
+
+/* hover change background */
+tr.sab-row:not(.sab-expanded-row):hover {
+  background: whitesmoke;
+}
+tr.sab-row:not(.sab-expanded-row):active { /* when main container clicked, change color */
+  background: rgb(255, 191, 14);
+}
+.juicyMatch td {
+  border-bottom-width: 0;
+}
+.juicyCell {
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+  width: fit-content;
+}
+.juicyMatch-detail { /* hides juicy detaisl */
+  overflow: hidden;
+  background:whitesmoke;
+  height: 100%;
+}
+.selection {
+  text-align: center;
+}
+
+.selection>p{
+  margin-top: -5px;
+  margin-bottom: 0px;
+  margin-left: 3%;
+  width: 178px;
+  padding-right: 3px;
+  align-content: center;
+}
+.leaguename>p{
+  text-align: center;
+    margin-top: -10px;
+    margin-bottom: 0px;
+    margin-left: 20%;
+    width: 170%;
+    font-size: smaller;
+}
+
+
+
+#logo {
+  width: 100%;
+}
+
+.logo-img-cont>img{
+  width: 75%;
+  padding-left: 60px;
+  padding-bottom: 2px;
+}
+
+#column0hdr,
+#column1hdr,
+#column2hdr {
+  font-size: medium;
+  font-weight: 400px;
+  border-right: 1px solid #00000012;
+}
+#column0hdr,
+#column1hdr,
+#column2hdr {
+  text-align: left;
+  padding-left: 10px;
+  background: #263238;
+}
+.cdk-column-LayOdds>span {
+  background: green;
+  color: white;
+  padding: 6px;
+  padding-left: 10px;
+  padding-right: 10px;
+  border-radius: 5px;
+}
+.FTAround>span, .ev6box, .mr7box {
+  background: #263238;
+  color: #ffbf0e;
+  border-radius: 6px;
+  font-size: large;
+  padding: 6px;
+}
+.ticker3box, .ticker4box, .ticker5box {
+  color: white;
+  display: inline;
+  position: absolute;
+  z-index: 2;
+  width: 60%;
+  height: 94%;
+  left: 37px;
+  top: 1px;
+}
+.ticker3box{
+  background: #126e51;
+}
+.ticker4box {
+  background: #003366;
+}
+
+.fta-ticker-box {
+  background: #4f565c;
+}
+.ticker5box {
+  background: blue;
+  color: white;
+  padding: 6px;
+  padding-left: 10px;
+  padding-right: 10px;
+  border-radius: 5px;
+}
+/* .ev6box {
+  background: rgb(184, 184, 184);
+  color: black;
+  padding: 6px;
+  padding-left: 10px;
+  padding-right: 10px;
+  border-radius: 5px;
+}
+.mr7box {
+  background: rgb(184, 184, 184);
+  color: black;
+  padding: 6px;
+  padding-left: 10px;
+  padding-right: 10px;
+  border-radius: 5px;
+} */
+  .hideTR {
+    visibility: collapse;
+  }
+
+  /* Flicker */
+.backDirective {
+  color: white;
+  padding: 6px;
+  padding-left: 10px;
+  padding-right: 10px;
+  border-radius: 5px;
+  animation: backBlinkBackground 4s infinite;
+}
+@keyframes backBlinkBackground{
+  0%		{ background-color: #64c58d; color: #052044;}
+  25%		{ background-color: #1b8648; color: #426897;}
+  50%		{ background-color: #034b21; color: white; }
+  75%		{ background-color: #1b8648; color: #426897; }
+  100%	{ background-color: #64c58d; color: #052044; }
+
+}
+.flickDirectiveLay {
+  color: white;
+  padding: 6px;
+  padding-left: 10px;
+  padding-right: 10px;
+  border-radius: 5px;
+  animation: layBackground 4s infinite;
+}
+@keyframes layBackground{
+  0%		{ background-color: #649ce4; color: #052044;}
+  25%		{ background-color: #4283d8; color: #426897;}
+  50%		{ background-color: #022e68; color: white; }
+  75%		{ background-color: #4283d8; color: #426897; }
+  100%	{ background-color: #649ce4; color: #052044; }
+}
+.flickDirectiveEV {
+  color: white;
+  padding: 6px;
+  padding-left: 10px;
+  padding-right: 10px;
+  border-radius: 5px;
+  animation: evBlinkBackground 4s infinite;
+}
+@keyframes evBlinkBackground {
+  0%		{ background-color: #ffdf1b; color: #052044;}
+  25%		{ background-color: #e2d689; color: #426897;}
+  50%		{ background-color: #080808; color: white; }
+  75%		{ background-color: #e2d689; color: #426897; }
+  100%	{ background-color: #ffdf1b; color: #052044; }
+}
+.flickDirectiveMR {
+  color: white;
+  padding: 6px;
+  padding-left: 10px;
+  padding-right: 10px;
+  border-radius: 5px;
+  animation: evBlinkBackground 4s infinite;
+}
+@keyframes evBlinkBackground {
+  0%		{ background-color: #e49ac8; color: #052044;}
+  25%		{ background-color: #ff01d5; color: #426897;}
+  50%		{ background-color: #080808; color: white; }
+  75%		{ background-color: #ff01d5; color: #426897; }
+  100%	{ background-color: #e49ac8; color: #052044; }
+}
+
+/* Main table format */
+tr.mat-header-row{
+  height: 20px;
+}
+
+/*Layout for team name and logo*/
+div.selection-logo-cont {
+  width: 10%;
+}
+.row1-second, .row1-third, .row1-fourth {
+  width: 20%;
+  vertical-align: top;
+  margin-top: 5%;
+  text-align: center;
+}
+
+/* Parent container for all back and lay bet details including logo*/
+div.jm-exp-details {
+  display: inline-flex;
+  width: 100%;
+  height: 100%;
+  background: #d2d2d2;
+}
+/* Parent container for all back and lay bet details excluding logo*/
+.jm-expanded-container {
+  width: 100%;
+  display: inline-block;
+}
+
+
+ /* Bookie and exchange logo in main row of juicy table */
+ .odds-img{
+  width: 20px;
+  margin: 5px;
+  vertical-align: middle;
+ }
+
+ #prev-odds {
+  margin-top: 25px;
+}
+
+ /* Bookie and exchange logo + juicy bet details */
+ .exchange-img{
+  width: 30%;
+  vertical-align: middle;
+  margin-top: 4%;
+  margin-bottom: 5%;
+}
+.bookie-img {
+  width: 40%;
+  vertical-align: middle;
+  margin-top: 4%;
+  margin-bottom: 5%;
+}
+
+/* Editable text boxes that allow user input for back and lay odds and back stake*/
+.value-box-back, .selection-box {
+  background:  #ffffff;
+}
+.value-box-lay::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  background:  #2d363e;
+}
+.value-box-laystake::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  background:  #2d363e;
+  color: white;
+}
+.value-box-laystake {
+  background: #2d363e;
+  width: 80px;
+  font-size: medium;
+  padding-right: 5px;
+  padding-left: 5px;
+  text-align: right;
+  vertical-align: middle;
+  margin-top: 1%;
+  }
+.value-box-lay {
+  background: #ffffff;
+}
+.value-box-back, .value-box-lay, .selection-box {
+  width: 80px;
+  font-size: medium;
+  padding-right: 5px;
+  padding-left: 5px;
+  text-align: right;
+  vertical-align: middle;
+  margin-top: 1%;
+  }
+
+
+/* Back Bet style and layout*/
+.teamname,
+.bookie,
+.exchange,
+.calculated
+{
+  display: inline-flex;
+  float: left;
+  text-align: center;
+  height: 100%;
+  padding-top: 0px;
+  padding-bottom:0px;
+}
+
+.teamnamecontainer{
+  border-style: solid;
+    width: 85%;
+    height: 83%;
+    color: #263238;;
+    padding-left: 0px;
+    border-radius: 35px;
+    background: radial-gradient(at 60% 0, #ffffff, transparent 80%), linear-gradient(5deg, #939393, transparent 80%) bottom;
+    padding-right: 10px;
+    margin-left: 10px;
+    margin-right: 0;
+}
+
+.bookiecontainer{
+  border-style: solid;
+    width: 85%;
+    height: 83%;
+    color: #538878;
+    padding-left: 0px;
+    border-radius: 35px;
+    background: radial-gradient(at 0% 0, #126E51, transparent 74%), linear-gradient(5deg, #095940, transparent 80%) bottom;
+    padding-right: 10px;
+    margin-left: 5px;
+
+}
+
+.exchangecontainer{
+  border-style: solid;
+    width: 90%;
+    height: 83%;
+    color: #ffffff;
+    padding-left: 0px;
+    border-radius: 35px;
+    background: radial-gradient(at 153% 0, #e0e1e2, #19222b 66%), linear-gradient(101deg, #e0e1e2, #171d1dd9 146%) bottom;
+    margin-left: -20px;
+}
+
+.calculatedcontainer{
+  border-style: solid;
+    width: -webkit-fill-available;
+    height: 83%;
+    color: #487e92;
+    padding-left: 0px;
+    border-radius: 35px;
+    background: radial-gradient(at 111% 0, #4f8ca2, #172329 66%), linear-gradient( 231deg, #383838, transparent 80%) bottom;
+    margin-left: -50px;
+    margin-right: -91px;
+}
+
+.teamname{
+  width: 12%;
+  padding-top: 7px;
+}
+.bookie{
+  width: 20%;
+  padding-top: 7px;
+}
+.exchange{
+  width: 27%;
+  padding-top: 7px;
+}
+
+.calculated {
+  width:35%;
+  padding-top: 7px;
+}
+
+
+.comments-cont {
+  padding: 10px;
+  width: 100%;
+}
+
+.mat-hint{
+  color: white;
+}
+
+
+
+.exchange>b{
+  color: black;
+}
+
+.bookie-button-container {
+  background-image: url(/assets/img/bet365II.png);
+  background-size: cover;
   width: 100px;
+  height: 30px;
+  border-color: rgb(41 109 87);
+}
+
+.exchange-button-container{
+  background-image: url(/assets/img/smarketsII.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 100px;
+  height: 30px;
+}
+.teamname-container {
+  width: 50%;
+  float: left;
+  padding-top: 10px;
+}
+.bookie-container {
+  width: 50%;
+  float: left;
+  padding-top: 15px;
+}
+
+.exchange-container{
+  width: 33%;
+  float: left;
+  padding-top: 15px;
+}
+
+.calculated-container{
+  width: 30%;
+  float: left;
+  padding-top: 2px;
+  padding-bottom: 0px;
+  margin-left: 64px;
+  margin-right: -80px;
+}
+.calculated-container-comments{
+  width: 33%;
+  float: left;
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
+.auto-calc-input{
+  color: white;
+}
+
+.user-comments{
+  width: 280px;
+  padding-left: 7px;
+}
+
+.bookie-row,
+.exchange-row,
+.calculated-row {
+  display: inline-flex;
+  width: 100%;
+}
+
+.bookie-row,
+.exchange-row{
+  margin-top: 5px;
+}
+.calculated-row> h3, span, button{
+  margin: 0px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 3px;
+  margin-top: -1px;
+}
+
+.exchange-text-comm{
+  font: 400 10px/20px Roboto, "Helvetica Neue", sans-serif;
+  letter-spacing: normal;
+}
+
+.bookie-text-lhs,
+.exchange-text-lhs{
+color: #ececec;
+float: left;
+font-size: x-large;
+}
+
+.bookie-text-rhs,
+.exchange-text-mid,
+.exchange-text-rhs{
+  color: #ececec;
+  float: left;
+}
+
+.bookie-text-rhs,
+.exchange-text-mid,
+.exchange-text-rhs {
+  width: 18%;
+  margin-right: 20px;
+  margin-top: 10px;
+  padding-top: 4px;
+  margin-bottom: 0px;
+}
+.bookie-text-lhs,
+.exchange-text-lhs {
+  width: 100%;
+}
+
+.bookie-teamname-style {
+  width: 100%;
+  font-size: large;
+  padding-right: 5px;
+  padding-left: 5px;
+  text-align: center;
+  vertical-align: middle;
+  margin-top: 5%;
+  }
+.bookie-button-style {
+  vertical-align: middle;
+  justify-items: center;
+  width: 20%;
+  position: relaative;
+
+}
+
+.liability-text,
+.liability-amount {
+  width: fit-content;
+  padding-top: 5%;
+  margin-left: auto;
+  font-size: small;
+}
+
+.liability-amount{
+  margin-right: auto;
+  margin-left: 5px;
+  font-size: small;
+}
+
+.exchange-atodds-style {
+  width: 100%;
+  padding-top: 8%;
+  }
+.exchange-liability-style {
+width: 100%;
+padding-top: 8%;
+}
+.exchange-layamount-style {
+  width: 100%;
+  font-size: large;
+  padding-right: 5px;
+  padding-left: 5px;
+  text-align: center;
+  vertical-align: middle;
+  margin-top: 5%;
+  }
+  .exchange-button-style {
+    vertical-align: middle;
+    justify-items: center;
+    width: 20%;
+    height: 100%;
+    }
+
+
+/* Record bet button*/
+.exp-button {
+  padding: 0%;
+    width: 110px;
+    margin-top: 5px;
+    margin-left: 70px;
+}
+
+
+
+.r1, .r2 {
+  width: 35%;
+  display: inline-block;
+}
+.calculated-text,
+.calculated-value{
+  width: 100px;
+  display: inline-flex;
+  font-size: 90%;
+  padding-left: 20px;
+  color: white;
+}
+
+.roi-text{
+  padding-right: 74px;
+  width: 31px;
+  padding-left: 46px;
+  color: white;
+  padding-top: 4px;
+}
+.ev-text{
+  padding-right: 76px;
+  width: 31px;
+  padding-left: 50px;
+  color: white;
+  padding-top: 4px;
+}
+.mr-text{
+  padding-right: 77px;
+  width: 31px;
+  padding-left: 46px;
+  color: white;
+  padding-top: 4px;
+}
+.qlpercent-text{
+  padding-right: 76px;
+  width: 31px;
+  padding-left: 40px;
+  color: white;
+  padding-top: 4px;
+}
+.ql-text{
+  padding-right: 22px;
+  width: 31px;
+  padding-left: 43px;
+  color: white;
+  padding-top: 4px;
+}
+.ql-value{
+  width: 100px;
+  padding-left: 0px;
+  color: white;
+  padding-top: 4px;
+}
+.fta-text{
+  padding-right: 35px;
+  width: 31px;
+  padding-left: 40px;
+  color: white;
+  padding-top: 4px;
+}
+.fta-value{
+  width: 100px;
+  padding-left: 0px;
+  color: white;
+  padding-top: 4px;
+}
+
+.calculated-value-fta-ql{
+  font-size: 120%;
+}
+.calculated-value-lhs,
+.calculated-text-lhs {
+  font-size: 90%;
+}
+.value-divider{
+  margin: 0;
+  margin-left: 18%;
+  margin-right: auto;
+  width: 70%;
+  margin-top: -5px;
+}
+.selection-figures {
+  display: inline-flex;
+  width: 50%;
+  justify-content: space-around;
+}
+
+
+ input::placeholder {
+  background: #fff;
+  color: black;
+  opacity: 1;
+}
+
+.bet-state-button {
+  color: white;
+  width: 75%;
+  margin-top: -2px;
+  margin-bottom: 4px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.bet-state-button:focus,
+.exp-button:focus {
+  color: #ffc235
+}
+p.betState {
+  display: inline-flex;
+  margin-right: 7px;
+  margin-left: 10px;
+  font-size: large;
+  font-weight: 400;
+  color: black;
+  width: fit-content;
+}
+
+th.mat-sort-header-sorted {
+  color: black;
+}
+
+.b3-odd-cont, .sm-odd-cont, .fta-value-cont {
+  height: 29px;
+  color: #fff;
+  background-size: contain;
+  background-repeat: no-repeat;
+  position: relative;
+  width: 81%;
+  border-radius: 3px;
+}
+
+.b3-odd-cont {
+  background-image: url(/assets/img/b365Odds.png);
+  min-height: 39px;
+}
+.sm-odd-cont {
+  background-image: url(/assets/img/smOdds.png);
+  min-height: 39px;
+}
+
+.fta-value-cont {
+  background: radial-gradient(at 76% 0, #263238, #263238ad 70%), linear-gradient(0deg, #e0e1e2, transparent 50%) bottom;
+  border-radius: 5px;
+  width: 8px;
+  padding-left: 13px;
+  padding-right: 13px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+}
+
+.odd-text {
+  position: absolute;
+  top: 9px;
+  left: 4px;
+}
+.fta-value-text {
+  position: absolute;
+  top: 7px;
+  left: 8px;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.secret-sauce-accent,
+#column3hdr,
+#column4hdr,
+#column5hdr {
+  background: #263238;
+  color: #ffbf0e;
+  font-size: small;
+  font-weight: 500;
+}
+
+th.mat-column-Fixture, th.mat-column-EventStart, th.mat-column-Selection {
+  background: #263238;
+    color: #263238;
+}
+::ng-deep.mat-sort-header-content{
+  margin-left: auto;
+  margin-right: auto;
+}
+::ng-deep.mat-sort-header-arrow {
+  color: #ffbf0e;
+}
+
+span.calculated-value{
+  padding: 4px;
+}
+
+.touchRow {
+  background:#ffc235;;
+}
+
+.mr-overlay {
+  opacity: 0.8;
+  background: salmon;
 }

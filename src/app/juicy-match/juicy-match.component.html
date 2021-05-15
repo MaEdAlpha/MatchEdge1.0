@@ -18,7 +18,7 @@
             <td mat-cell
                 class="mat-column{{flickerColmnIndex}}-data mat-cell-withdata"
                 *matCellDef="let selection; let i = dataIndex"
-                (click)="loadGroup(i); freezeAllMotorFunctions(); showSelectionValues(selection, i); closeIfRedirected(selection, $event)">
+                (click)="loadGroup(i); showSelectionValues(selection, i); closeIfRedirected(selection, $event)">
 
                 <ng-container *ngIf="selection.isWatched">
                   <ng-container *ngIf="selection.inRange">

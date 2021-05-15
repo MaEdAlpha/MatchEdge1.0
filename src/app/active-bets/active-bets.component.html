@@ -2,60 +2,201 @@
        [dataSource]="dataSource" multiTemplateDataRows
        class="mat-elevation-z8">
   <ng-container matColumnDef="{{column}}" *ngFor="let column of columnsToDisplay">
-
-    <ng-container *ngIf="column.endsWith('created') || column.endsWith('matchDetail')">
-      <th mat-header-cell *matHeaderCellDef>{{column}}</th>
-      <td mat-cell *matCellDef="let element"> {{element[column] | date: 'EEE dd LLL HH:mm'}}</td>
-    </ng-container>
+    <form [formGroup]="PandLform">
 
 
-    <ng-container *ngIf="column.endsWith('isSettled')">
-      <th mat-header-cell *matHeaderCellDef> </th>
-      <td mat-cell *matCellDef="let element"> <button mat-raised-button (click)="element[column] = !element[column]; $event.stopPropagation()"> <span *ngIf="element[column]"> Settled</span> <span *ngIf="!element[column]">Open</span>  </button> </td>
-    </ng-container>
+    <th mat-header-cell *matHeaderCellDef> {{column}} </th>
+    <td mat-cell
+    class="mat-column{{flickerColmnIndex}}-data mat-cell-withdata"
+    *matCellDef="let sab; let i = dataIndex"
+    (click)="loadGroup(i); showSelectionValues(sab, i);">
 
-  <ng-container *ngIf="column.endsWith('betState')">
-    <th mat-header-cell *matHeaderCellDef> Lay Status</th>
-    <td mat-cell *matCellDef="let element"> <button class="status-button" mat-raised-button (click)="element[column] = !element[column]; $event.stopPropagation()"> <span *ngIf="element[column]"> Matched </span> <span *ngIf="!element[column]"> Unmatched</span> </button></td>
+    <div *ngIf="column.endsWith('created') || column.endsWith('matchDetail')">
+      {{sab[column] | date: 'EEE dd LLL HH:mm'}}
+    </div>
 
+    <div *ngIf="column.endsWith('isSettled')">
+      <mat-form-field>
+      <input
+        matInput
+        formControlName="ProfitLoss"
+        placeholder="{{sab.ql}}"
+        (click)="$event.stopPropagation()">
+      </mat-form-field>
+    <button mat-raised-button (click)="sab[column] = !sab[column]; savePL(sab); $event.stopPropagation()"> <span> {{sab[column] ? 'Settled' : 'Unsettled'}}</span>  </button>
+    </div>
+
+    <!-- <div *ngIf="column.endsWith('betState')">
+     <button class="status-button" mat-raised-button (click)="sab[column] = !sab[column]; $event.stopPropagation()">
+        <span> {{ sab[column] ? 'Matched' : 'Unmatched'}} </span> </button>
+    </div> -->
+
+    <div *ngIf="column.endsWith('delete')">
+      <button class="status-button" mat-raised-button (click)="deleteSAB(sab); $event.stopPropagation()">
+         <mat-icon>clear</mat-icon></button>
+     </div>
+
+    <div *ngIf="column.endsWith('fixture') || column.endsWith('selection')  || column.endsWith('backOdd') || column.endsWith('stake') || column.endsWith('layOdd') || column.endsWith('layStake') || column.endsWith('ql') ">
+      {{sab[column]}}
+    </div>
+    </td>
+  </form>
   </ng-container>
 
-    <ng-container *ngIf="!column.endsWith('created') || !column.endsWith('isSettled') || !column.endsWith('matchDetail') || !column.endsWith('betState')">
-      <th mat-header-cell *matHeaderCellDef> {{column}} </th>
-      <td mat-cell *matCellDef="let element"> {{element[column]}} </td>
-    </ng-container>
-  </ng-container>
+
 
   <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
   <ng-container matColumnDef="expandedDetail">
-    <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplay.length">
-      <div class="example-element-detail"
-           [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
-        <div class="example-element-diagram">
-          <div class="example-element-symbol"> {{element.selection}} </div>
-          <div class="example-element-name"> {{element.fixture}} </div>
-          <div class="example-element-position">Bet Created: {{element.created | date: 'EEE dd LLL HH:mm'}} </div>
-          <div class="example-element-weight">Match Start: {{element.matchDetail | date: 'EEE dd LLL HH:mm'}} </div>
-          <div class="example-element-weight"> Stake {{element.stake}} </div>
-          <div class="example-element-weight"> Back {{element.backOdd}} </div>
-          <div class="example-element-weight"> Lay {{element.layOdd}} </div>
-          <div class="example-element-weight"> Lay Steak {{element.layStake}} </div>
-          <div class="example-element-weight"> Liability {{element.liability}} </div>
-          <div class="example-element-weight"> EV {{element.ev}} </div>
-          <div class="example-element-weight"> FTA {{element.fta}} </div>
-          <div class="example-element-weight"> QL {{element.ql}} </div>
-          <div class="example-element-weight"> ROI {{element.roi}} </div>
-          <div class="example-element-weight"> P/L {{element.pl}} </div>
+    <td mat-cell *matCellDef="let sab; let i =dataIndex" [attr.colspan]="columnsToDisplay.length">
+      <div class="juicyMatch-detail"
+           [@detailExpand]="sab == expandedElement ? 'expanded' : 'collapsed'">
+      <ng-container *ngIf="expandedElement === sab">
+        <form class="form-container"  [formGroup]="selectionValues">
+
+        <div class="jm-exp-details"> <!--Expansion container for juicy match-->
+
+
+          <div class="jm-expanded-container"> <!-- Relevant match values -->
+
+            <div class="teamname shadow">
+              <div class="teamnamecontainer">
+                <div class="teamname-container">
+                  <div class="selection">
+                    <p>{{sab.selection}}</p>
+                </div>
+                  <div class="logo-img-cont">
+                  <img src="/assets/img/fcLogo/{{sab.logo}}.png">
+                </div>
+                <div class="leaguename">
+                  <p>League Here</p>
+              </div>
+                </div>
+
+              </div>
+            </div>
+
+
+            <div class="bookie shadow">
+              <div class="bookiecontainer">
+
+                <div class="bookie-container">
+                    <p class="bookie-text-lhs">Back Bet</p>
+                      <button tabindex="-1" class="bookie-button-container shadow" mat-raised-button href='' ></button>
+                </div>
+
+                <div class="bookie-container">
+                  <div class="bookie-row">
+                    <p class="bookie-text-rhs">Stake</p>
+                    <input formControlName="Stake" type="number"step="10" class = "value-box-back"  placeholder="{{sab.stake}}">
+                  </div>
+
+                  <div class="bookie-row">
+                    <p class= "bookie-text-rhs">Odds </p>
+                    <input tabindex="0" formControlName="BackOdds" type="number"step="0.1" class="value-box-back"  placeholder="{{sab.backOdd | number:'0.2-2'}}">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="exchange shadow">
+              <div class="exchangecontainer">
+                <div class="exchange-container" >
+                  <p class="exchange-text-lhs">Lay Bet </p>
+                  <button tabindex="-1" class="exchange-button-container mat-raised-button-bookie-exchange shadow" mat-raised-button href=""></button>
+                  <p class="exchange-text-comm">Commission: {{userCommission | number:'0.2-2' }}%</p>
+                </div>
+
+                <div class="exchange-container" >
+                  <div class="exchange-row">
+                    <p class="exchange-text-mid">Stake </p>
+                    <input tabindex="6" class="value-box-laystake" [readOnly]="true" placeholder="{{sab.layStake | number:'0.2-2' }}">
+                  </div>
+                  <div class="exchange-row">
+                    <p class="exchange-text-mid">Odds </p>
+                    <input tabindex="0" formControlName="LayOdds" type="number"step="0.1" class = "value-box-lay"  placeholder="{{sab.layOdd| number:'0.2-2'}}">
+                  </div>
+                </div>
+
+                <div class="exchange-container">
+                  <div class="exchange-row" tabindex="1">
+                    <button  mat-raised-button class="bet-state-button"  [style.background]="sab.betState ? ' #076044' : '#8a0606'" (click)="sab.betState = !sab.betState">{{ sab.betState ? 'Matched' : 'Unmatched'}}</button>
+                  </div>
+                  <div class="exchange-row">
+                    <p class="liability-text">Liability:</p>
+                    <p class="liability-amount">{{ Liability(getGroup(i).get('LayOdds').value, LayStake(getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value, getGroup(i).get('Stake').value)) | currency:'GBP'}} </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="calculated shadow">
+              <div class="calculatedcontainer">
+              <!-- Comment Box -->
+              <div class="calculated-container-comments">
+                <div class="comments-cont">
+                  <mat-form-field tabindex="1" class="user-comments" appearance="outline">
+                    <mat-label class="auto-calc-label">Match Comments</mat-label>
+                    <textarea class="auto-calc-input" formControlName="MatchInfo" matInput placeholder="{{sab.comment}}"></textarea>
+                    <mat-hint> ({{selectionValues.value.MatchInfo == null ? selectionValues.value.MatchInfo == ' ' : selectionValues.value.MatchInfo.length}}/140)</mat-hint>
+                    <mat-error *ngIf="selectionValues.controls.MatchInfo.errors">{{getErrorMessage()}} </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+              <!-- Calculated Values -->
+              <div class="calculated-container">
+                <div class="calculated-row">
+                  <div class="roi-text">ROI:</div>
+                  <span class="calculated-value calculated-value-lhs" *ngIf="sab.isBrkzFTA == 1">{{ ROI(getGroup(i).get('Stake').value, getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value, sab.occ) | number:'0.2-2'}}%</span>
+                  <span class="calculated-value calculated-value-lhs" *ngIf="sab.isBrkzFTA == 0 || undefined">{{ ROI(getGroup(i).get('Stake').value, getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value, 65) | number:'0.2-2'}}%</span>
+                </div>
+                <hr class="value-divider">
+                <div class="calculated-row">
+                  <div class="ev-text">EV: </div>
+                  <span class="calculated-value calculated-value-lhs" *ngIf="sab.isBrkzFTA == 1">{{ TotalEV( sab.occ,  getGroup(i).get('Stake').value, getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value)/sab.occ  | currency:'GBP' }}</span>
+                  <span class="calculated-value calculated-value-lhs" *ngIf="sab.isBrkzFTA == 0 || undefined">{{ TotalEV( 65,  getGroup(i).get('Stake').value, getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value)/65  | currency:'GBP' }}</span>
+                </div>
+                <hr class="value-divider">
+                <div class="calculated-row">
+                  <div class="mr-text">MR: </div>
+                  <span class="calculated-value calculated-value-lhs calculated-value-lhs">{{ NewMatchRating( getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value)  | number:'0.2-2' }}%</span>
+                </div>
+                <hr class="value-divider">
+                <div class="calculated-row">
+                  <div class="qlpercent-text">QL%: </div>
+                  <span class="calculated-value calculated-value-lhs">{{ NewSS(  getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value, getGroup(i).get('Stake').value ) | number:'0.2-2' }}%</span>
+                </div>
+              </div>
+
+              <!-- QL and record Bet -->
+              <div class="calculated-container">
+                <div class="calculated-row">
+                  <div class="fta-text">FTA: </div>
+                    <span class="fta-value"> {{ FTA(getGroup(i).get('Stake').value, getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value  ) | currency:'GBP'}}</span>
+                </div>
+                <hr class="value-divider">
+                <div class="calculated-row">
+                  <div class="ql-text">QL: </div>
+                  <span class="ql-value"> {{ QL( getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value, getGroup(i).get('Stake').value) | currency:'GBP'}}  </span>
+                </div>
+                <div class="calculated-row">
+                  <button tabindex="0" mat-raised-button class="exp-button"  (click)="updateSAB(sab, i)">Record Bet</button>
+                </div>
+              </div>
+            </div>
+            </div>
+          </div>
         </div>
-      </div>
+        </form>
+      </ng-container>
+     </div>
     </td>
   </ng-container>
 
   <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
   <tr mat-row *matRowDef="let element; columns: columnsToDisplay;"
-      class="example-element-row"
-      [class.example-expanded-row]="expandedElement === element"
+      class="sab-row"
+      [class.sab-expanded-row]="expandedElement === element"
       (click)="expandedElement = expandedElement === element ? null : element">
   </tr>
-  <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
+  <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="sab-detail-row"></tr>
 </table>
+<div class="no-content" *ngIf="noMatchesToDisplay">All bets settled!</div>
