@@ -149,7 +149,7 @@ app.get(`/api/updates`, function(req, res) {
   //DEV MODE add in checkAuth
 app.get('/api/matches', checkAuth, async(req, res) => {
 
-    const cursor = await client.db("MBEdge").collection("matches").find({});
+    const cursor = await client.db("MBEdge").collection("matches").find().sort({"League": 1, "unixDateTimestamp":1});
     const matchesList = await cursor.toArray();
     let body = matchesList;
     res.status(200).json({body})
