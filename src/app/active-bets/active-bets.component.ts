@@ -8,6 +8,7 @@ import { NotificationBoxService } from '../services/notification-box.service';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { Observable } from 'rxjs';
 import { ArrayType } from '@angular/compiler';
+import { MatSort, Sort } from '@angular/material/sort';
 
 export interface PeriodicElement {
   name: string;
@@ -36,7 +37,8 @@ export class ActiveBetsComponent implements OnChanges, OnInit, AfterViewInit {
   @Input() tableSelected: number;
   activeBetsSubscription: Subscription;
   newActiveBetsSubscription: Subscription;
-  dataSource: ActiveBet[];
+  dataSource: ActiveBet[] | any;
+  sortedData: ActiveBet[];
   expandedElement: ActiveBet[] | null;
   sabSource: FormArray;
   isEmptySABList: boolean = false;
@@ -46,6 +48,7 @@ export class ActiveBetsComponent implements OnChanges, OnInit, AfterViewInit {
   PandLform: FormGroup;
 
   @ViewChild(MatTable, {static: false}) table : MatTable<ActiveBet> // initialize
+  @ViewChild(MatSort) activeBetSort: MatSort;
   ngOnChanges(changes: SimpleChanges){
       if( changes.tableSelected.currentValue){
 
@@ -100,7 +103,12 @@ export class ActiveBetsComponent implements OnChanges, OnInit, AfterViewInit {
 
   ngAfterViewInit(){
     this.sabSource = new FormArray(this.ACTIVE_BETS.map( x=> this.createForm(x) ) );
-    this.isEmptySABList = this.dataSource == undefined || this.dataSource.length  != 0 ? false:true
+    this.isEmptySABList = this.dataSource == undefined || this.dataSource.length  != 0 ? false:true;
+    if(this.dataSource == undefined){
+      console.log("Loading....");
+    } else {
+      this.dataSource.sort = this.activeBetSort;
+    }
   }
 
   createForm(sab:any)
@@ -200,11 +208,34 @@ export class ActiveBetsComponent implements OnChanges, OnInit, AfterViewInit {
     this.checkIfEmpty()
   }
 
-
-  LayStake(backOdds: number, layOdds:number, steakYum: number):number{
-    var laySteak = (+backOdds / +layOdds)* +steakYum;
-  return laySteak;
+//Sort
+sortData(sort: Sort) {
+  const data = this.ACTIVE_BETS.slice();
+  if (!sort.active || sort.direction === '') {
+    this.dataSource = data;
+    return;
   }
+
+  function compare(a: number | string, b: number | string, isAsc: boolean) {
+    return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
+  }
+
+  this.dataSource = data.sort((a, b) => {
+    const isAsc = sort.direction === 'asc';
+    switch (sort.active) {
+      case 'created': return compare(a['created'], b['created'], isAsc);
+      case 'matchDetail': return compare(a['matchDetail'], b['matchDetail'], isAsc);
+      case 'selection': return compare(a['selection'], b['selection'], isAsc);
+      case 'fixture': return compare(a['fixture'], b['fixture'], isAsc);
+      default: return 0;
+    }
+  });
+}
+//Calculations
+LayStake(backOdds: number, layOdds:number, steakYum: number):number{
+  var laySteak = (+backOdds / +layOdds)* +steakYum;
+return laySteak;
+}
 
 FTA(stake:number, backOdds: number, layOdds:number):number{
   var layStake = (+backOdds / +layOdds) * +stake;

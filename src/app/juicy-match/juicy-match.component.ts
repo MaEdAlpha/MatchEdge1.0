@@ -133,8 +133,6 @@ export class JuicyMatchComponent implements OnChanges, OnInit, OnDestroy, AfterV
       console.log("--------------------TRIGGERED on ftaOption Change----------------");
       let updatedArray: JuicyMatch[] = this.matchStatService.recalculateStatCalcs(this.sortedData, this.ftaOption);
       this.sortedData = updatedArray;
-      console.log(this.sortedData[21]);
-
       this.popJuiceInRange();
     }
   }

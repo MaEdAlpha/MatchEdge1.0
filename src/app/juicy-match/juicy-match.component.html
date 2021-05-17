@@ -2,8 +2,10 @@
 <div class="table-container">
 
 
-  <table class="juicyTable" mat-table matSort (matSortChange)="sortData($event)"
-         [dataSource]="sortedData" multiTemplateDataRows class="mat-elevation-z8">
+  <table class="juicyTable mat-elevation-z8" mat-table
+         matSort (matSortChange)="sortData($event)"
+         [dataSource]="sortedData"
+         multiTemplateDataRows>
 
          <!-- Container for First tableData layer, nested -->
          <ng-container matColumnDef="{{column.field}}" *ngFor="let column of columnHeaders; let flickerColmnIndex = index">
