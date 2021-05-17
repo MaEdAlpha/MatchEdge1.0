@@ -151,7 +151,7 @@ tr.juicyMatch-row:not(.juicyMatch-expanded-row):active { /* when main container 
   color: white;
   display: inline;
   position: absolute;
-  z-index: 2;
+  z-index: 1;
   width: 60%;
   height: 94%;
   left: 37px;

@@ -9,6 +9,7 @@ import { StreamNotificationsComponent } from '../stream-notifications/stream-not
 import { CustomToastComponent } from '../custom-toast/custom-toast.component';
 import { SABToastDeleteComponent } from '../sabtoast-delete/sabtoast-delete.component';
 import { SABToastUpdatedComponent } from '../sabtoast-updated/sabtoast-updated.component';
+import { SABToastIncompleteComponent } from '../sabtoast-incomplete/sabtoast-incomplete.component';
 
 @Injectable({
   providedIn: 'root'
@@ -97,6 +98,18 @@ export class NotificationBoxService {
       messageClass: 'backOdds',
       positionClass:'toast-bottom-right',
     });
+    return toast;
+  }
+
+  IncompleteSABToast(message:string): ActiveToast<any>{
+    var toast: ActiveToast<any>;
+
+    toast= this.toast.show(message, 'Bet Settled!', {
+      toastComponent: SABToastIncompleteComponent,
+      timeOut:3000,
+      toastClass: "toast border-gold",
+      messageClass: 'toast-message'
+    } );
     return toast;
   }
 

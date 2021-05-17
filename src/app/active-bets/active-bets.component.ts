@@ -1,9 +1,13 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, Input, OnInit, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import { ActiveBet } from '../models/active-bet.model'
 import { SavedActiveBetsService } from '../services/saved-active-bets.service';
 import { Subscription } from 'rxjs';
 import { FormControl,FormGroup,FormArray } from '@angular/forms';
+import { NotificationBoxService } from '../services/notification-box.service';
+import { MatTable, MatTableDataSource } from '@angular/material/table';
+import { Observable } from 'rxjs';
+import { ArrayType } from '@angular/compiler';
 
 export interface PeriodicElement {
   name: string;
@@ -26,53 +30,77 @@ export interface PeriodicElement {
   ],
 })
 
-export class ActiveBetsComponent implements OnInit, AfterViewInit {
-  constructor(private sabServices: SavedActiveBetsService ) { }
+export class ActiveBetsComponent implements OnChanges, OnInit, AfterViewInit {
+  constructor(private sabServices: SavedActiveBetsService, private notificationBoxService: NotificationBoxService, private chRef: ChangeDetectorRef ) { }
   ACTIVE_BETS: ActiveBet[]=[];
+  @Input() tableSelected: number;
   activeBetsSubscription: Subscription;
+  newActiveBetsSubscription: Subscription;
   dataSource: ActiveBet[];
-  noMatchesToDisplay:boolean=true;
   expandedElement: ActiveBet[] | null;
   sabSource: FormArray;
-
-  columnsToDisplay = ['created', 'fixture', 'selection', 'matchDetail', 'backOdd', 'stake', 'layOdd', 'layStake', 'ql', 'isSettled', 'delete'];
+  isEmptySABList: boolean = false;
+  columnsToDisplay = ['created', 'fixture', 'selection', 'matchDetail', 'backOdd', 'stake', 'layOdd', 'layStake', 'ql', 'isSettled', 'pl', 'delete'];
 
   selectionValues: FormGroup;
   PandLform: FormGroup;
 
+  @ViewChild(MatTable, {static: false}) table : MatTable<ActiveBet> // initialize
+  ngOnChanges(changes: SimpleChanges){
+      if( changes.tableSelected.currentValue){
+
+      }
+  }
+
   ngOnInit(): void {
+    console.log("SAB INITIALIZED");
 
     //init sab array to db query
     this.ACTIVE_BETS = this.sabServices.getActiveBets();
     //init sabSource for expansion container
     //catch async db query to array. assign to table
     this.activeBetsSubscription = this.sabServices.getsabUpdatedListener().subscribe( (db_sabs) => {
-      this.ACTIVE_BETS = db_sabs
-      this.dataSource = this.ACTIVE_BETS;
-      this.sabSource = new FormArray(this.ACTIVE_BETS.map( sab => this.createForm(sab)));
+
+        this.ACTIVE_BETS = db_sabs
+        this.sabSource = new FormArray(this.ACTIVE_BETS.map( sab => this.createForm(sab)));
+        this.dataSource=[];
+        this.dataSource= this.ACTIVE_BETS
+        this.checkIfEmpty();
+
+    });
+
+    this.newActiveBetsSubscription = this.sabServices.getSabListObservable().subscribe( (newSabs) => {
+        this.ACTIVE_BETS.push(newSabs);
+        //get dupilcates from the observable due to async and juID property.
+        this.dataSource = [];
+        //filter out duplicates
+        const nonDuplicates = this.ACTIVE_BETS.filter( (sab, index, array) => array.findIndex( obj => obj.created === sab.created ) === index);
+        this.dataSource = nonDuplicates
+        this.sabSource = new FormArray(nonDuplicates.map( sab => this.createForm(sab)));
+        console.log("THIS DATASOURCE");
+
+        console.log(this.dataSource);
+
+        this.table.renderRows();
+        this.checkIfEmpty();
+
     });
 
     this.PandLform = new FormGroup(
       {
-        ProfitLoss: new FormControl('')
+        ProfitLoss: new FormControl("")
       }
     );
+  }
 
-    //catch any sabs created during session, push to an array.
-    this.sabServices.sabListChange.subscribe( (sabArray: ActiveBet) =>{
-      this.ACTIVE_BETS.push(sabArray);
-      this.dataSource = this.ACTIVE_BETS;
-      this.sabSource = new FormArray(this.ACTIVE_BETS.map( sab => this.createForm(sab)));
-    });
-
+  ngOnDestroy(){
+    this.newActiveBetsSubscription.unsubscribe();
+    this.activeBetsSubscription.unsubscribe();
   }
 
   ngAfterViewInit(){
     this.sabSource = new FormArray(this.ACTIVE_BETS.map( x=> this.createForm(x) ) );
-    console.log("SAB SOURCE");
-    console.log(this.sabSource);
-
-
+    this.isEmptySABList = this.dataSource == undefined || this.dataSource.length  != 0 ? false:true
   }
 
   createForm(sab:any)
@@ -105,9 +133,6 @@ export class ActiveBetsComponent implements OnInit, AfterViewInit {
 
   getGroup(index:number)
   {
-    // console.log("GETTING GROUP");
-
-    //console.log(this.dataSource.at(index) as FormGroup);
     return this.sabSource.at(index) as FormGroup
   }
 
@@ -125,23 +150,54 @@ export class ActiveBetsComponent implements OnInit, AfterViewInit {
   }
 
   savePL(sab:ActiveBet){
-    console.log("PL Captured!!");
-    if(this.PandLform.value.ProfitLoss == "")
+    console.log(this.PandLform);
+
+    var message:string;
+    if(this.PandLform.value.ProfitLoss == "" && sab.isSettled)
     {
-      console.log("Registered as Empty, use QL stored value as P&L property!");
+      message = sab.pl == sab.ql ? 'Q/L stored as P/L' : 'P/L stored: ' + sab.pl;
       sab.pl = sab.ql;
 
-    } else {
-      sab.pl = +this.PandLform.value.ProfitLoss;
-    }
-    this.PandLform.value.Profitloss = "";
-    console.log("Updated! PL stored as: " + sab.pl);
+      this.notificationBoxService.IncompleteSABToast(message);
 
+
+    } else if(this.PandLform.value.ProfitLoss != "" && sab.isSettled) {
+      sab.pl = +this.PandLform.value.ProfitLoss;
+      //update DB
+      this.notificationBoxService.IncompleteSABToast('Incompletedmethod')
+      //disable this matInput
+      //set style to change this row green.
+    }
+    console.log("saved!");
+
+    console.log(sab);
+    this.expandedElement = null;
+    this.sabServices.patchToActiveBets(sab);
+    this.PandLform.controls.ProfitLoss.setValue("");
   }
 
-  deleteSAB(sab: ActiveBet){
-    console.log(sab);
+  deleteSAB(_sab: ActiveBet){
+    console.log(_sab);
+    var index:number;
+    //filter out delted SAB, set new list.
+    this.dataSource  =  this.ACTIVE_BETS.filter( sab => {
+      if(sab.id == _sab.id){
+        //store index
+        index = this.ACTIVE_BETS.indexOf(sab);
+        return false;
+      } else {
+        console.log(sab);
 
+        return true;
+      };
+    });
+
+    //remove from reference list.
+    this.ACTIVE_BETS.splice(index, 1);
+    //Delete in database.
+    this.sabServices.deleteSAB(_sab.id);
+    this.notificationBoxService.DeleteToastSAB();
+    this.checkIfEmpty()
   }
 
 
@@ -192,7 +248,10 @@ Liability(layOdds:number, layStake:number):number {
 }
 
 
-
+private checkIfEmpty() {
+  this.dataSource.length == 0 || this.dataSource == undefined ? this.isEmptySABList = true : this.isEmptySABList = false;
+  this.chRef.detectChanges();
+}
 }
 
 

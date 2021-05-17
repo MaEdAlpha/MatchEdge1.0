@@ -68,7 +68,7 @@ tr.sab-detail-row {
 tr.sab-row:not(.sab-expanded-row):hover {
   background: whitesmoke;
 }
-tr.sab-row:not(.sab-expanded-row):active { /* when main container clicked, change color */
+tr.sab-row:not(.sab-expanded-row):active{ /* when main container clicked, change color */
   background: rgb(255, 191, 14);
 }
 .juicyMatch td {
@@ -817,3 +817,33 @@ span.calculated-value{
   opacity: 0.8;
   background: salmon;
 }
+
+.sidenav-content {
+  display: flex;
+  height: 100%;
+}
+
+::ng-deep.mat-drawer-container.mat-drawer-container{
+  float: right;
+  width: fit-content;
+}
+
+.delete-container {
+  padding: 0px;
+}
+
+.delete-sidenav {
+  padding: 0px;
+}
+
+.confirm-delete {
+  background: #8a0606;
+  color: white
+}
+
+.settled-row {
+  background: salmon;
+  opacity: 0.5;
+}
+
+

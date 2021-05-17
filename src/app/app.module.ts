@@ -100,6 +100,9 @@ import { SABToastDeleteComponent } from './sabtoast-delete/sabtoast-delete.compo
 import { SABToastSaveComponent } from './sabtoast-save/sabtoast-save.component';
 import { SABToastUpdatedComponent } from './sabtoast-updated/sabtoast-updated.component';
 import { StreamNotificationsComponent } from './stream-notifications/stream-notifications.component';
+import { SettledBetDirective } from './directives/settled-bet.directive';
+import { SabtoastSettledComponent } from './sabtoast-settled/sabtoast-settled.component';
+import { SABToastIncompleteComponent } from './sabtoast-incomplete/sabtoast-incomplete.component';
 
 
 
@@ -156,6 +159,9 @@ import { StreamNotificationsComponent } from './stream-notifications/stream-noti
     SABToastSaveComponent,
     SABToastUpdatedComponent,
     StreamNotificationsComponent,
+    SettledBetDirective,
+    SabtoastSettledComponent,
+    SABToastIncompleteComponent,
   ],
   imports: [
     AppRoutingModule,
@@ -195,7 +201,7 @@ import { StreamNotificationsComponent } from './stream-notifications/stream-noti
     ToastrModule.forRoot( {preventDuplicates: false}),
     ToastContainerModule,
   ],
-  entryComponents: [ CustomToastComponent, SABToastDeleteComponent, SABToastSaveComponent, SABToastUpdatedComponent ],
+  entryComponents: [ CustomToastComponent, SABToastDeleteComponent, SABToastSaveComponent, SABToastUpdatedComponent, SABToastIncompleteComponent ],
   providers: [  MatchesService,
                  WebsocketService,
                   UserPropertiesService,

@@ -20,10 +20,9 @@
       <input
         matInput
         formControlName="ProfitLoss"
-        placeholder="{{sab.ql}}"
-        (click)="$event.stopPropagation()">
+        placeholder="Profit/Loss">
       </mat-form-field>
-    <button mat-raised-button (click)="sab[column] = !sab[column]; savePL(sab); $event.stopPropagation()"> <span> {{sab[column] ? 'Settled' : 'Unsettled'}}</span>  </button>
+    <button mat-raised-button (click)="sab[column]=!sab[column]; savePL(sab,i); $event.stopPropagation()"> <span> {{sab[column] ? 'Settled' : 'Unsettled'}}</span>  </button>
     </div>
 
     <!-- <div *ngIf="column.endsWith('betState')">
@@ -32,11 +31,26 @@
     </div> -->
 
     <div *ngIf="column.endsWith('delete')">
-      <button class="status-button" mat-raised-button (click)="deleteSAB(sab); $event.stopPropagation()">
-         <mat-icon>clear</mat-icon></button>
-     </div>
+      <ng-container *ngIf="!sab.isSettled">
+      <mat-drawer-container class="delete-container" autosize disableClose="false">
+        <mat-drawer #drawer class="delete-sidenav" mode="side" position="end" >
+          <div class="confirm-delete">
+            <button class="confirm-delete"  mat-raised-button (click)="deleteSAB(sab); drawer.toggle();"><mat-icon class="confirm-delete">delete_outline</mat-icon> </button>
+          </div>
+        </mat-drawer>
 
-    <div *ngIf="column.endsWith('fixture') || column.endsWith('selection')  || column.endsWith('backOdd') || column.endsWith('stake') || column.endsWith('layOdd') || column.endsWith('layStake') || column.endsWith('ql') ">
+
+        <button class="status-button" mat-raised-button (click)="drawer.toggle(); $event.stopPropagation()">
+          <mat-icon>clear</mat-icon></button>
+
+        </mat-drawer-container>
+      </ng-container>
+
+
+
+      </div>
+
+    <div *ngIf="column.endsWith('fixture') || column.endsWith('selection')  || column.endsWith('backOdd') || column.endsWith('stake') || column.endsWith('layOdd') || column.endsWith('layStake') || column.endsWith('ql') || column.endsWith('pl') ">
       {{sab[column]}}
     </div>
     </td>
@@ -192,11 +206,12 @@
   </ng-container>
 
   <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
-  <tr mat-row *matRowDef="let element; columns: columnsToDisplay;"
+  <tr mat-row *matRowDef="let sab; columns: columnsToDisplay;"
       class="sab-row"
-      [class.sab-expanded-row]="expandedElement === element"
-      (click)="expandedElement = expandedElement === element ? null : element">
+      [appSettledBet] [isSettled]="sab.isSettled"
+      [class.sab-expanded-row]="expandedElement === sab"
+      (click)="expandedElement = expandedElement === sab ? null : sab;">
   </tr>
   <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="sab-detail-row"></tr>
 </table>
-<div class="no-content" *ngIf="noMatchesToDisplay">All bets settled!</div>
+<div class="no-content" *ngIf="isEmptySABList">All bets settled!</div>

@@ -1,0 +1,43 @@
+:host {
+  background-image: linear-gradient(to bottom right, #1b180c, #02a260);
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: fixed;
+  top: 50%;
+  right: 45%;
+  overflow: hidden;
+  margin: 0 0 6px;
+  padding-top: 4px;
+  width: 350px;
+  height: 67px;
+  border-radius: 3px 3px 3px 3px;
+  pointer-events: all;
+  cursor: pointer;
+  box-shadow: 0 0 12px #999999;
+}
+
+:host:hover {
+  box-shadow: 0 0 12px #000000;
+  opacity: 1;
+  cursor: pointer;
+}
+/* .btn-pink {
+  -webkit-backface-visibility: hidden;
+  -webkit-transform: translateZ(0);
+} */
+:host.border-gold{
+  border-top: 1px solid #ffc235;
+  }
+
+  .toast-title{
+    text-align: center;
+    color: #ef9e1b;
+    font-size: 125%;
+    padding-top: 2%;
+  }
+
+  .toast-message{
+    text-align: center;
+    margin-top: 1%;
+    color: white;
+  }

@@ -279,6 +279,7 @@ app.put('/api/sab/:id', async(req,res,next) => {
                               "roi": req.body.roi,
                               "betState": req.body.betState,
                               "pl": req.body.pl,
+                              "isSettled": req.body.isSettled,
                               "id":_id,
                               "comment": req.body.comment }}, function(error,response){
                                                               console.log(response);

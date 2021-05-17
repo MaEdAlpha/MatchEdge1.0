@@ -18,7 +18,7 @@
 .top-divider,
 .bottom-divider,
 .notification-wrapper {
-  z-index: 888;
+  z-index: 2;
 }
 
 .top-divider {
@@ -28,6 +28,7 @@
 .bottom-divider {
   position: sticky;
   top: 98px;
+  z-index: 2;
 }
 
 .notification-wrapper {

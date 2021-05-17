@@ -184,7 +184,7 @@
         </div>
         <!-- Display Active Bets -->
         <div [style.visibility]="tableSelected == 4 ? 'visible' : 'collapse' "[style.height]="tableSelected == 4 ? ' ' : '0' " [style.margin-bottom]="tableSelected == 4 ? '5px' : '0'" [style.display]="tableSelected == 4 ? 'inline' : '' ">
-          <app-active-bets></app-active-bets>
+          <app-active-bets [tableSelected]="tableSelected"></app-active-bets>
         </div>
 </div>
 

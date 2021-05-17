@@ -205,7 +205,7 @@
                           <span class="ql-value"> {{ QL( getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value, getGroup(i).get('Stake').value) | currency:'GBP'}}  </span>
                         </div>
                         <div class="calculated-row">
-                          <button tabindex="0" mat-raised-button class="exp-button"  (click)="saveAsActiveBet(selection, i)">Record Bet</button>
+                          <button tabindex="0" mat-raised-button class="exp-button" type="button" (click)="saveAsActiveBet(selection, i)">Record Bet</button>
                         </div>
                       </div>
                     </div>

@@ -81,7 +81,7 @@ export class SavedActiveBetsService {
     this.http.post("http://localhost:3000/api/sab", sab)
     .subscribe( (sabEntry: { _id:string}) => {
         sab.id = sabEntry._id;
-        this.activeBetSubject.next(sab);
+       return this.activeBetSubject.next(sab);
       });
 
     //each post made, do you retrieve the id and update it in observable? i.e get response data and add into subject this.sabUpdated.next(sab.dataPostedToDB)?
