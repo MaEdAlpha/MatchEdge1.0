@@ -30,10 +30,10 @@
                     <ng-container *ngIf= "( +maxOddsFilter >= +selection['BackOdds'] && +selection['BackOdds'] >= +minOddsFilter )">
 
                           <div class="juicyCell b3-odd-cont" *ngIf="column.field.endsWith('BackOdds')">
-                            <!-- <img  class="odds-img" src="/assets/img/betIcon.png" alt=""> -->
-                            <div class="ticker{{(flickerColmnIndex)}}box" appFlickerData [flickerColmnIndex]="flickerColmnIndex" [isUpdated]="selection.backIsUpdated">
-                              <p class="odd-text" [style.color]="selection['BackOdds'] > selection['LayOdds'] ? 'red': 'white'"> {{ selection[column.field] | number:'0.2-2'}}  </p>
-                            </div>
+                            <img  class="odds-img-bookie" src="/assets/img/365-odds-placeholder.png" alt="">
+                            <div class="ticker{{(flickerColmnIndex)}}box backDirective" appFlickerData [flickerColmnIndex]="flickerColmnIndex" [isUpdated]="selection.backIsUpdated">
+                              <p class="odd-text"> {{ selection[column.field] | number:'0.2-2'}}  </p>
+                              </div>
                           </div>
 
                           <div *ngIf="column.field.endsWith('EpochTime')">
@@ -41,30 +41,32 @@
 
                           </div>
                             <div class="juicyCell sm-odd-cont" *ngIf="column.field.endsWith('LayOdds')">
-                              <!-- <img  class="odds-img" src="/assets/img/smarketsIcon.png" alt=""> -->
-                              <div class="ticker{{(flickerColmnIndex)}}box" appFlickerDataLay [flickerColmnIndex]="flickerColmnIndex" [isUpdated]="selection.layIsUpdated">
+                              <img  class="odds-img-exchange" src="/assets/img/smarkets-logo-odds.png" alt="">
+                              <div class="ticker{{(flickerColmnIndex)}}box flickDirectiveLay" appFlickerDataLay [flickerColmnIndex]="flickerColmnIndex" [isUpdated]="selection.layIsUpdated">
                                 <p class="odd-text"> {{ selection[column.field] | number:'0.2-2' }} </p>
                               </div>
+                              
                             </div>
                               <div class="juicyCell" *ngIf="column.field.endsWith('EVthisBet')">
-                                <span class="ev{{flickerColmnIndex}}box juicyCell" *ngIf="ftaOption == 'brooks'" appFlickerDataEv [isUpdated]="selection.evIsUpdated" [ftaOption]="ftaOption" [columnIndex]="flickerColmnIndex">  {{selection[column.field] | number: '0.2-2'}} </span>
-                                <span class="ev{{flickerColmnIndex}}box juicyCell" *ngIf="ftaOption != 'brooks'" appFlickerDataEv [isUpdated]="selection.evIsUpdated" [ftaOption]="ftaOption" [columnIndex]="flickerColmnIndex">  {{selection[column.field].toFixed(2)}} </span>
+                                <span class="ev{{flickerColmnIndex}}box juicyCell flickDirectiveEV" *ngIf="ftaOption == 'brooks'" appFlickerDataEv [isUpdated]="selection.evIsUpdated" [ftaOption]="ftaOption" [columnIndex]="flickerColmnIndex">  {{selection[column.field] | number: '0.2-2'}} </span>
+                                <span class="ev{{flickerColmnIndex}}box juicyCell flickDirectiveEV" *ngIf="ftaOption != 'brooks'" appFlickerDataEv [isUpdated]="selection.evIsUpdated" [ftaOption]="ftaOption" [columnIndex]="flickerColmnIndex">  {{selection[column.field].toFixed(2)}} </span>
 
                               </div>
                                 <!-- use directive for displaying matchRating values -->
                                 <div class="juicyCell" *ngIf="column.field.endsWith('Rating')">
-                                  <span class="mr{{flickerColmnIndex}}box" appFlickerDataMatchRating [isUpdated]="selection.matchRatingUpdated"> {{selection[column.field] | number: '0.2-2'}} </span>
+                                  <span class="mr{{flickerColmnIndex}}box flickDirectiveMR" appFlickerDataMatchRating [isUpdated]="selection.matchRatingUpdated"> {{selection[column.field] | number: '0.2-2'}} </span>
                                 </div>
+
+                                <div class="juicyCell" *ngIf="column.field.endsWith('Percentage')">
+                                  <span class="ss{{flickerColmnIndex}}box juicyCell flickDirectiveSS" appFlickerDataSS [columnIndex]="flickerColmnIndex">  {{selection[column.field] | number: '0.2-2'}} </span>                                 
+                                  </div>
 
                                   <div class="juicyCell FTAround fta-value-cont" *ngIf="column.field.endsWith('Around')">
                                       <div class="fta-ticker-box">
                                         <p class="fta-value-text" *ngIf="ftaOption == 'brooks'"> {{selection[column.field].toFixed(0)}}  </p>
                                         <p class="fta-value-text" *ngIf="ftaOption == 'generic'"> {{selection['GFTAround'].toFixed(0)}}  </p>
                                       </div>
-                                  </div>
-                                    <div class="juicyCell QLPercentage FTAround" *ngIf="column.field.endsWith('Percentage')">
-                                      <span> {{selection[column.field] | number: '0.2-2'}} </span>
-                                    </div>
+                                  </div>                                    
                                       <span *ngIf="!column.field.endsWith('Odds') && !column.field.endsWith('EpochTime') && !column.field.endsWith('Bet') && !column.field.endsWith('Rating') && !column.field.endsWith('Around') && !column.field.endsWith('Percentage') && !column.field.endsWith('EVthisBet')"> {{ selection[column.field] }}</span>
                       </ng-container>
                     </ng-container>
