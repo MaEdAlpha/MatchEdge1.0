@@ -3,7 +3,7 @@
 }
 
 ::ng-deep.mat-dialog-content {
-  min-height: 70vh !important;
+  min-height: 0vh !important;
 }
 
 div.mat-dialog-content > p{
@@ -45,10 +45,13 @@ div.mat-dialog-content > p{
   margin-left: auto;
 }
 
-.sab-matched-container,
+
 .sab-ftaOption-container {
   width: 100%;
   display: inline-block;
+}
+.sab-matched-container{
+  width: fit-content;
 }
 
 .sab-matched-container > mat-form-field,
@@ -66,8 +69,8 @@ div.mat-dialog-content > p{
   float: right;
   text-align: right;
   width: 100px;
-  margin-top: 2%;
-  margin-right: 5%;
+  margin-left: auto;
+  padding: 0px;
 }
 
 .sab-values-auto-calc {
@@ -114,44 +117,62 @@ div.mat-dialog-content > p{
   color: white;
 }
 
-.exchange-row, .auto-calculated-fields, .bookie-row {
-  border: 1px black solid;
-  height: 100px;
+.edit-main-fields{
+  display: inline-flex;
   width: 100%;
+}
+
+.exchange-row,
+.auto-calculated-fields,
+.bookie-row {
+  border: 1px black solid;
+  height: 140px;
   margin-bottom: 5px;
   border-radius: 5px;
 }
 
-.auto-calculated-fields {
+.bookie-row {
+  width: 40%;
+}
+
+.exchange-row {
+  width: 60%;
+}
+
+.auto-calculated-fields{
+  width: 100%;
   background: radial-gradient(at 60% 0, #4a8195, #11171a 80%),
               linear-gradient(181deg, #383838, transparent 80%) bottom;
   color: white;
 }
 
-mat-hint {
-  color: white;
-}
-
-mat-form-field {
-  top: 0px;
-}
-
 
 .bookie-container{
-  height: 54px;
   color: #fff;
   background-size: cover;
-  width: 180px;
+  width: fit-content;
   margin-top: 5px;
   border-radius: 3px;
 }
 
+/* Logos & Buttons */
 .bookie-link {
   background-image: url(/assets/img/bet365II.png);
 }
 
 .exchange-link {
   background-image: url(/assets/img/smarketsII.png);
+}
+
+.bet-state-button {
+  width: 150px;
+  height: 40px;
+  color: white;
+  margin-bottom: 0.5em;
+}
+
+.bet-state-button:focus {
+  color: #ffc235;
 }
 span  {
   display: contents !important;
@@ -168,25 +189,78 @@ hr {
   justify-content: space-between;
   float: left;
   width: 30%;
-  margin-top: 10px;
-  margin-left: 36px;
 }
 
-.bookie-column1, .exchange-column1 {
-  width: fit-content;
-  margin-top: 6%;
+.bookie-column1 {
+    margin-top: 6%;
+    margin-left: 10px;
+    font-size: large;
+    display: inline;
+  }
+
+.exchange-column1 {
+  margin-top: 3%;
   margin-left: 10px;
-  font-size: xx-large;
+  font-size: large;
+  display: inline;
 }
 
-.bookie-column2{
-  margin-left: 45px;
+.bookie-column1 {
+  width: 45%;
 }
-.exchange-column2{
-  margin-left: 65px;
+.bookie-column2 {
+  width: 45%;
 }
-.bookie-column3 > mat-form-field, .exchange-column3  > mat-form-field {
-  margin-right: 30px;
+
+.exchange-column1,
+.exchange-column2,
+.exchange-column3{
+  width: 30%;
+}
+
+.bookie-column1 > p,
+.exchange-column1 > p {
+  font-size: 20px;
+  text-align: center;
+}
+
+.bookie-column2,
+.exchange-column2,
+.exchange-column3 {
+  display: inline-grid;
+  margin-top: 0.8rem;
+}
+
+.exchange-column3 {
+  float: right;
+  margin-top: 1.3rem;
+}
+
+.bookie-wrapper,
+.exchange-wrapper,
+.liability-wrapper {
+  display: inline-flex;
+  max-height: 4em;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.bookie-text,
+.exchange-text{
+  padding: .75em .75em 0 .75em;
+  margin-top: 1em;
+}
+
+div.exchange-column1 > p.exchange-text-comm  {
+  margin-top: 10px;
+  font-size: 15px;
+  text-align: center;
+}
+
+
+.liability-text {
+  margin-block-start: auto;
+  margin-right: 10px;
 }
 
 .mat-input-element:disabled{
@@ -229,4 +303,8 @@ hr {
 ::ng-deep.mat-form-field-subscript-wrapper {
   font-size: 85% !important;
 }
+
+/* Edits */
+
+
 

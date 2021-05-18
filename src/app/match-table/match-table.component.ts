@@ -783,7 +783,8 @@ import { PopupViewSavedBetsComponent } from '../popup-view-saved-bets/popup-view
 
     openViewBets(row:any, selection:string): void {
 
-      selection == 'home' ? row.Selection = row.Home: row.Selection = row.Away;
+      row.Selection = selection == 'home' ? row.Home:row.Away;
+      row.fta = selection == 'home' ? row.OccH : row.OccA;
       const list: ActiveBet[] = this.savedActiveBets;
       console.log(this.savedActiveBets);
 

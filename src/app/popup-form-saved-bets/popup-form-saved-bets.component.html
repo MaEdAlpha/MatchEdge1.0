@@ -3,59 +3,42 @@
 
 <ng-template #editSavedBet>
   <div mat-dialog-content>
-    <hr>
-    <div class="title-container">
-      <div class="text-details">
-        <h1 class="title-details">{{data.activeBet.selection}}</h1>
-        <h2 class="title-details"> {{data.activeBet.fixture}}</h2>
-        <h3 class="title-details">{{data.activeBet.matchDetail | date: 'EEE dd LLL HH:mm'}}</h3>
+    <form [formGroup]="sabFormValues">
+
+
+      <div class="sab-ftaOption-container">
+        <h2>Bet was made with {{formFtaOption == 1 ? 'Juicy FTA Rating' : ' 1/65 Average FTA '}}</h2>
       </div>
 
-      <div class="logo-container">
-        <img class="logo" src="/assets/img/fcLogo/{{data.activeBet.logo}}.png" alt="">
-      </div>
-    </div>
-    <hr>
-    <form [formGroup]="sabFormValues" (ngSubmit)="onSubmit()">
       <div class="edit-main-fields">
-        <div class="sab-matched-container">
-            <div  mat-raised-button class="bet-state-button" [style.background]="sabFormValues.value.BetState ? ' #076044' : '#8a0606'"  (click)="sabFormValues.get('BetState').setValue(!sabFormValues.value.BetState)">
-              <span> {{ sabFormValues.value.BetState ? 'Matched' : 'Unmatched'}}</span>
-            </div>
-        </div>
-
-        <div class="sab-ftaOption-container">
-          <h2>Bet was made with {{formFtaOption == 1 ? 'Juicy FTA Rating' : ' 1/65 Average FTA '}}</h2>
-        </div>
-
           <div class="bookie-row">
             <div class="bookie-column1 column-base ">
               <p> Back Bet</p>
+              <button tabindex="-1" class="bookie-button-container shadow" mat-raised-button href="" ></button>
             </div>
-            <div class="bookie-column2 column-base ">
-              <button mat-button class="bookie-link bookie-container" href= ''></button>
-            </div>
-            <div class="bookie-column3 column-base ">
 
-              <mat-form-field class="sab-values" appearance="fill">
-                <mat-hint align="end">Back Stake</mat-hint>
-                <mat-label>Prev. {{data.activeBet.stake | currency:'GBP'}}</mat-label>
-                <input formControlName="Stake" type="number" required  matInput placeholder="{{getRealtimeUpdate().value.stake | slice : '2' | currency : 'GBP':'1.0-0' }}">
-                <span matPrefix>£&nbsp;</span>
-                <mat-error *ngIf="sabFormValues.controls.BackOdds.errors">{{getErrorMessage()}}</mat-error>
-              </mat-form-field>
+              <div class="bookie-column2 column-base ">
+                <div class="bookie-wrapper">
+                <p class="bookie-text">Stake</p>
+                <mat-form-field class="sab-values" appearance="outline">
+                  <input formControlName="Stake" type="number" required  matInput placeholder="{{getRealtimeUpdate().value.stake | slice : '2' | currency : 'GBP':'1.0-0' }}">
+                  <span matPrefix>£&nbsp;</span>
+                  <mat-error *ngIf="sabFormValues.controls.BackOdds.errors">{{getErrorMessage()}}</mat-error>
+                </mat-form-field>
+              </div>
 
-              <mat-form-field class="sab-values" appearance="fill">
-                <mat-label>Prev. {{data.activeBet.backOdd}}</mat-label>
-                <input formControlName="BackOdds"
-                required
-                type="number"
-                step="0.1"
-                matInput
-                placeholder="{{getRealtimeUpdate().get('BackOdds').value}}">
-                <mat-hint align="end">Back Odds</mat-hint>
-                <mat-error *ngIf="sabFormValues.controls.BackOdds.errors">{{getErrorMessage()}}</mat-error>
-              </mat-form-field>
+              <div class="bookie-wrapper">
+                <p class= "bookie-text">Odds </p>
+                <mat-form-field class="sab-values" appearance="outline">
+                  <input formControlName="BackOdds"
+                  required
+                  type="number"
+                  step="0.1"
+                  matInput
+                  placeholder="{{getRealtimeUpdate().get('BackOdds').value}}">
+                  <mat-error *ngIf="sabFormValues.controls.BackOdds.errors">{{getErrorMessage()}}</mat-error>
+                </mat-form-field>
+              </div>
             </div>
           </div>
 
@@ -63,66 +46,86 @@
 
             <div class="exchange-column1 column-base">
               <p> Lay Bet</p>
+              <button tabindex="-1" class="exchange-button-container mat-raised-button-bookie-exchange shadow" mat-raised-button href=""></button>
+              <p class="exchange-text-comm">Commission: {{userCommission | number:'0.2-2' }}%</p>
             </div>
-            <div class="exchange-column2 column-base ">
+            <!-- <div class="exchange-column2 column-base ">
               <button mat-button class="exchange-link bookie-container" href= ''></button>
-            </div>
-            <div class="exchange-column3 column-base ">
-            <mat-form-field class="sab-values" appearance="outline">
-              <mat-hint align="end">Lay Odds</mat-hint>
-              <mat-label>Prev. {{data.activeBet.layOdd}}</mat-label>
-              <input formControlName="LayOdds" required type="number" step="0.1" matInput placeholder="{{getRealtimeUpdate().get('LayOdds').value}}">
-              <mat-error *ngIf="sabFormValues.controls.BackOdds.errors">{{getErrorMessage()}}</mat-error>
-            </mat-form-field>
+            </div> -->
 
-            <mat-form-field class="sab-values" appearance="outline">
-              <mat-hint align="end">Lay Stake</mat-hint>
-              <mat-label class="auto-calc-label"> Prev. {{data.activeBet.layStake | currency:'GBP'}}</mat-label>
-              <input class="auto-calc-input" formControlName="LayStake" required readonly matInput placeholder="{{getLayStake( getRealtimeUpdate().get('BackOdds').value, getRealtimeUpdate().get('LayOdds').value, getRealtimeUpdate().get('Stake').value) }}" >
-              <span matPrefix>£&nbsp;</span>
-            </mat-form-field>
+            <div class="exchange-column2">
+              <div class="exchange-wrapper">
+                <p class="exchange-text">Stake </p>
+                <mat-form-field class="sab-values" appearance="outline">
+                  <input class="auto-calc-input" formControlName="LayStake" required readonly matInput placeholder="{{getLayStake( getRealtimeUpdate().get('BackOdds').value, getRealtimeUpdate().get('LayOdds').value, getRealtimeUpdate().get('Stake').value) }}" >
+                  <span matPrefix>£&nbsp;</span>
+                </mat-form-field>
+              </div>
+
+              <div class="exchange-wrapper">
+                <p class="exchange-text">Odds </p>
+                <mat-form-field class="sab-values" appearance="outline">
+                  <input class="" formControlName="LayOdds" required type="number" step="0.1" matInput placeholder="{{getRealtimeUpdate().get('LayOdds').value}}">
+                  <mat-error *ngIf="sabFormValues.controls.BackOdds.errors">{{getErrorMessage()}}</mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div class="exchange-column3 column-base ">
+
+              <div class="sab-matched-container">
+                <button  mat-raised-button class="bet-state-button" [style.background]="sabFormValues.value.BetState ? ' #076044' : '#8a0606'"  (click)="sabFormValues.get('BetState').setValue(!sabFormValues.value.BetState); $event.stopPropagation();">{{ sabFormValues.value.BetState ? 'Matched' : 'Unmatched'}}</button>
+              </div>
+              <div class="liability-wrapper">
+                <p class="liability-text">Liability:</p>
+                <mat-form-field class="sab-values sab-values-auto-calc" appearance="outline">
+                  <input class="auto-calc-input" formControlName="Liability" matInput readonly placeholder="{{getLiability( getRealtimeUpdate().get('BackOdds').value, getRealtimeUpdate().get('LayOdds').value, getRealtimeUpdate().get('Stake').value )}}">
+                </mat-form-field>
+              </div>
           </div>
         </div>
       </div>
 
       <div class="auto-calculated-fields">
-
-        <mat-form-field class="sab-values sab-values-auto-calc" appearance="outline">
+        <div class="comments-cont">
+          <mat-form-field class="user-comments" appearance="outline">
+            <mat-label class="auto-calc-label">Match Comments</mat-label>
+            <textarea class="auto-calc-input" formControlName="MatchInfo" required matInput placeholder=" "></textarea>
+            <mat-hint> Allowed char. ({{sabFormValues.value.MatchInfo == null ? sabFormValues.value.MatchInfo == ' ' : sabFormValues.value.MatchInfo.length}}/140)</mat-hint>
+            <mat-error *ngIf="sabFormValues.controls.MatchInfo.errors">{{getErrorMessage()}} </mat-error>
+          </mat-form-field>
+        </div>
+        <mat-form-field class=" sab-values-auto-calc" appearance="outline">
           <input class="auto-calc-input" formControlName="QL" matInput readonly placeholder="{{getQL( getRealtimeUpdate().get('BackOdds').value, getRealtimeUpdate().get('LayOdds').value, getRealtimeUpdate().get('Stake').value) }}">
           <span matPrefix>£&nbsp;</span>
           <mat-hint align="end">QL</mat-hint>
         </mat-form-field>
 
-        <mat-form-field class="sab-values sab-values-auto-calc" appearance="outline">
-          <input class="auto-calc-input" formControlName="Liability" matInput readonly placeholder="{{getLiability( getRealtimeUpdate().get('BackOdds').value, getRealtimeUpdate().get('LayOdds').value, getRealtimeUpdate().get('Stake').value )}}">
-          <mat-hint align="end">Liability</mat-hint>
-        </mat-form-field>
-
-        <mat-form-field class="sab-values sab-values-auto-calc" appearance="outline">
+        <mat-form-field class=" sab-values-auto-calc" appearance="outline">
           <input class="auto-calc-input" formControlName="FTA" matInput readonly placeholder="{{getFTA( getRealtimeUpdate().get('BackOdds').value, getRealtimeUpdate().get('LayOdds').value, getRealtimeUpdate().get('Stake').value )}}">
           <span matPrefix>£&nbsp;</span>
           <mat-hint align="end">FTA</mat-hint>
         </mat-form-field>
 
-        <mat-form-field class="sab-values sab-values-auto-calc" appearance="outline">
+        <mat-form-field class=" sab-values-auto-calc" appearance="outline">
           <input class="auto-calc-input" formControlName="ROI" matInput readonly placeholder="{{ getROI( getRealtimeUpdate().get('BackOdds').value, getRealtimeUpdate().get('LayOdds').value, getRealtimeUpdate().get('Stake').value )}}">
           <span matSuffix>%&nbsp;</span>
           <mat-hint align="end">ROI</mat-hint>
         </mat-form-field>
 
-        <mat-form-field class="sab-values sab-values-auto-calc" appearance="outline">
+        <mat-form-field class=" sab-values-auto-calc" appearance="outline">
           <input class="auto-calc-input" formControlName="Sauce" matInput readonly placeholder="{{getSauce( getRealtimeUpdate().get('BackOdds').value, getRealtimeUpdate().get('LayOdds').value, getRealtimeUpdate().get('Stake').value )}}">
           <span matPrefix>£&nbsp;</span>
           <mat-hint align="end">SS</mat-hint>
         </mat-form-field>
 
-        <mat-form-field class="sab-values sab-values-auto-calc" appearance="outline">
+        <mat-form-field class=" sab-values-auto-calc" appearance="outline">
           <input class="auto-calc-input" formControlName="MRValue" matInput readonly placeholder="{{getMatchRating( getRealtimeUpdate().get('BackOdds').value, getRealtimeUpdate().get('LayOdds').value )}}">
           <span matPrefix>£&nbsp;</span>
           <mat-hint align="end">MR</mat-hint>
         </mat-form-field>
 
-        <mat-form-field class="sab-values sab-values-auto-calc" appearance="outline">
+        <mat-form-field class=" sab-values-auto-calc" appearance="outline">
           <input class="auto-calc-input" formControlName="EstValue" matInput readonly placeholder="{{getEstValue( getRealtimeUpdate().get('BackOdds').value, getRealtimeUpdate().get('LayOdds').value, getRealtimeUpdate().get('Stake').value )}}">
           <span matPrefix>£&nbsp;</span>
           <mat-hint align="end">EV</mat-hint>
@@ -131,22 +134,16 @@
       </div>
 
         <div class="over-ride-pl">
-          <div class="pl-input">
+          <!-- <div class="pl-input">
             <mat-form-field class="sab-values" appearance="outline">
               <mat-hint>Final P/L</mat-hint>
               <mat-label class="auto-calc-label">Current. {{data.activeBet.pl | currency:'GBP'}}</mat-label>
               <input class="auto-calc-input" formControlName="PL" required matInput placeholder="{{getRealtimeUpdate().get('PL').value}}">
               <mat-error *ngIf="sabFormValues.controls.PL.errors">{{getErrorMessage()}}</mat-error>
             </mat-form-field>
-          </div>
-          <div class="comments-cont">
-            <mat-form-field class="user-comments" appearance="outline">
-              <mat-label class="auto-calc-label">Match Comments</mat-label>
-              <textarea class="auto-calc-input" formControlName="MatchInfo" required matInput placeholder=" "></textarea>
-              <mat-hint> Allowed char. ({{sabFormValues.value.MatchInfo == null ? sabFormValues.value.MatchInfo == ' ' : sabFormValues.value.MatchInfo.length}}/140)</mat-hint>
-              <mat-error *ngIf="sabFormValues.controls.MatchInfo.errors">{{getErrorMessage()}} </mat-error>
-            </mat-form-field>
-          </div>
+          </div> -->
+
+
           <!-- <button mat-button class="popup-btn" (click)="isEarlyCashout=!isEarlyCashout" >Override</button> -->
         </div>
 
@@ -162,7 +159,7 @@
     </div>
   </div>
 </ng-template>
-
+<!-- NEW FORM TEMPLATE! -->
  <ng-template #displayNewForm>
 
    <div mat-dialog-content>
@@ -228,24 +225,33 @@
               <button mat-button class="exchange-link bookie-container" href= ''></button>
             </div>
             <div class="exchange-column3 column-base ">
-            <mat-form-field class="sab-values" appearance="outline">
-              <mat-hint align="end">Lay Odds</mat-hint>
-              <mat-label>Lay Odds {{data.activeBet.layOdd}}</mat-label>
-              <input formControlName="LayOdds" required [readOnly]="true" matInput placeholder="{{getRealtimeUpdate().get('LayOdds').value}}">
-              <mat-error *ngIf="sabFormValues.controls.BackOdds.errors">{{getErrorMessage()}}</mat-error>
-            </mat-form-field>
+              <mat-form-field class="sab-values" appearance="outline">
+                <mat-hint align="end">Lay Stake</mat-hint>
+                <mat-label class="auto-calc-label">Lay Stake</mat-label>
+                <input class="auto-calc-input" formControlName="LayStake" required readonly matInput placeholder="{{getLayStake( getRealtimeUpdate().get('BackOdds').value, getRealtimeUpdate().get('LayOdds').value, getRealtimeUpdate().get('Stake').value) }}" >
+                <span matPrefix>£&nbsp;</span>
+              </mat-form-field>
+              <mat-form-field class="sab-values" appearance="outline">
+                <mat-hint align="end">Lay Odds</mat-hint>
+                <mat-label>Lay Odds {{data.activeBet.layOdd}}</mat-label>
+                <input formControlName="LayOdds" required [readOnly]="true" matInput placeholder="{{getRealtimeUpdate().get('LayOdds').value}}">
+                <mat-error *ngIf="sabFormValues.controls.BackOdds.errors">{{getErrorMessage()}}</mat-error>
+              </mat-form-field>
 
-            <mat-form-field class="sab-values" appearance="outline">
-              <mat-hint align="end">Lay Stake</mat-hint>
-              <mat-label class="auto-calc-label">Lay Stake</mat-label>
-              <input class="auto-calc-input" formControlName="LayStake" required readonly matInput placeholder="{{getLayStake( getRealtimeUpdate().get('BackOdds').value, getRealtimeUpdate().get('LayOdds').value, getRealtimeUpdate().get('Stake').value) }}" >
-              <span matPrefix>£&nbsp;</span>
-            </mat-form-field>
+
           </div>
         </div>
       </div>
 
       <div class="auto-calculated-fields">
+        <div class="comments-cont">
+          <mat-form-field class="user-comments" appearance="outline">
+            <mat-label class="auto-calc-label">Match Comments</mat-label>
+            <textarea class="auto-calc-input" formControlName="MatchInfo" required matInput placeholder="Enter comments here..."></textarea>
+            <mat-hint> Allowed char. ({{sabFormValues.value.MatchInfo == null ? sabFormValues.value.MatchInfo == ' ' : sabFormValues.value.MatchInfo.length}}/140)</mat-hint>
+            <mat-error *ngIf="sabFormValues.controls.MatchInfo.errors">{{getErrorMessage()}} </mat-error>
+          </mat-form-field>
+        </div>
 
         <mat-form-field class="sab-values" appearance="outline">
           <input class="auto-calc-input" formControlName="QL" matInput readonly placeholder="{{getQL( getRealtimeUpdate().get('BackOdds').value, getRealtimeUpdate().get('LayOdds').value, getRealtimeUpdate().get('Stake').value) }}">
@@ -298,14 +304,7 @@
               <mat-error *ngIf="sabFormValues.controls.PL.errors">{{getErrorMessage()}}</mat-error>
             </mat-form-field>
           </div>
-          <div class="comments-cont">
-            <mat-form-field class="user-comments" appearance="outline">
-              <mat-label class="auto-calc-label">Match Comments</mat-label>
-              <textarea class="auto-calc-input" formControlName="MatchInfo" required matInput placeholder="Enter comments here..."></textarea>
-              <mat-hint> Allowed char. ({{sabFormValues.value.MatchInfo == null ? sabFormValues.value.MatchInfo == ' ' : sabFormValues.value.MatchInfo.length}}/140)</mat-hint>
-              <mat-error *ngIf="sabFormValues.controls.MatchInfo.errors">{{getErrorMessage()}} </mat-error>
-            </mat-form-field>
-          </div>
+
           <!-- <button mat-button class="popup-btn" (click)="isEarlyCashout=!isEarlyCashout" >Override</button> -->
         </div>
         <div class="sab-matched-container">

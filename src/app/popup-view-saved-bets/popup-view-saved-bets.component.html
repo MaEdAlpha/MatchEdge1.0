@@ -1,12 +1,23 @@
+<hr class="outer-hr">
+<hr class="inner-hr">
 <div class="sab-title-container">
-  <img class="fc-logo" src="/assets/img/fcLogo/{{data.row.Selection.toLowerCase().split(' ').join('-')}}.png">
-  <div class="title-details">
-    <h1 mat-dialog-title> {{data.row.Selection}}</h1>
-    <h2 mat-dialog-title> {{data.row.Home}} v. {{data.row.Away}}</h2>
-    <h2 mat-dialog-title> {{data.row.EpochTime*1000 | date: 'EEEE dd LLL  HH:mm'}}</h2>
+  <div class="text-details">
+    <h1 mat-dialog-title class="title-details"> {{data.row.Selection}}</h1>
+    <h2 mat-dialog-title class="title-details"> {{data.row.Home}} v. {{data.row.Away}}</h2>
+    <h2 mat-dialog-title class="title-details"> {{data.row.EpochTime*1000 | date: 'EEEE dd LLL  HH:mm'}}</h2>
   </div>
-</div>
 
+  <div class="FTA-container">
+    <h2 class="FTA-text">{{data.row.fta}} </h2>
+  </div>
+
+  <div class="logo-container">
+    <img class="logo" src="/assets/img/fcLogo/{{data.row.Selection.toLowerCase().split(' ').join('-')}}.png">
+  </div>
+
+</div>
+<hr class="inner-hr">
+<hr class="outer-hr">
 <ng-container
   *ngIf="!isEmptySelectionList; then displaySAB else noSavedBets">
 </ng-container>

@@ -4,6 +4,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Subject, Subscription } from 'rxjs';
 import { ActiveBet } from '../models/active-bet.model';
 import { SavedActiveBetsService } from '../services/saved-active-bets.service';
+import { UserPropertiesService } from '../services/user-properties.service';
 
 @Component({
   selector: 'app-popup-form-saved-bets',
@@ -18,9 +19,14 @@ export class PopupFormSavedBetsComponent implements OnInit {
   formFtaOption: number;
   sabFormValues: FormGroup;
   isDisabled:boolean;
+  userCommission: number;
 
-  constructor(private chRef: ChangeDetectorRef, public dialogRef: MatDialogRef<PopupFormSavedBetsComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any, private savedActiveBetService: SavedActiveBetsService, private fb: FormBuilder ) {
+  constructor(private chRef: ChangeDetectorRef,
+              public dialogRef: MatDialogRef<PopupFormSavedBetsComponent>,
+              @Inject(MAT_DIALOG_DATA) public data: any,
+              private savedActiveBetService: SavedActiveBetsService,
+              private fb: FormBuilder,
+              private userPropService: UserPropertiesService ) {
 
       console.log("In Form Saved List.");
       console.log(data);
@@ -70,10 +76,7 @@ export class PopupFormSavedBetsComponent implements OnInit {
 
   ngOnInit(): void {
     this.formFtaOption = this.sabFormValues.get("FtaOption").value;
-    console.log("FORM OPTION FTA!!!");
-
-    console.log(this.formFtaOption);
-
+    this.userCommission = this.userPropService.getCommission();
   }
 
   ngAfterViewInit(){

@@ -1,6 +1,6 @@
 ::ng-deep.mat-dialog-container {
   color:#ffffffec;
-  background: #37474f;
+  background: #263238;
 }
 .sab-table {
   display: block;
@@ -8,7 +8,7 @@
   margin-right: auto;
   margin-left: auto;
   width: 85%;
-  border: 2px solid #253036;
+  border: 2px solid #67767d;
   padding: 10px;
   border-radius: 5px;
 }
@@ -19,16 +19,22 @@
 }
 
 .sab-title-container {
-    display: inline-flex;
-    border: 1px #ffbf0e solid;
-    border-radius: 8px;
-    padding: 10px;
+  display: inline-flex;
+  position: relative;
+  width: 100%;
+}
+
+.text-details {
+    width: 70%;
+    display: grid;
 }
 
 .title-details {
+  margin: 0px;
+  width: 88%;
   display: inline-block;
-  margin-left: 10px;
 }
+
 .sab-row-header {
   display: flex;
   justify-content: space-between;
@@ -63,12 +69,18 @@
     width: fit-content;
 }
 
-.fc-logo {
-  border: 1px black solid;
-  width: 100px;
-  border-radius: 100px;
-  background: radial-gradient(at 50% 0, #9fa1a0, transparent 70%), linear-gradient(0deg, #586065, transparent 50%) bottom;
-  padding: 5px;
+.logo-container {
+  position: absolute;
+  top: 3%;
+  left: 88%;
+}
+
+.logo {
+  width: 60px;
+  border: 1px solid white;
+  padding: 10px;
+  border-radius: 39px;
+  margin-left: auto;
 }
 
 ::ng-deep.mat-form-field-label{
@@ -79,3 +91,30 @@
   border: 1px #222c2f solid !important;
 }
 
+hr {
+  margin-top: 5px;
+}
+
+.outer-hr {
+  width: 95%;
+}
+
+.FTA-container {
+  position: absolute;
+    top: 14%;
+    right: 15%;
+}
+
+.FTA-text{
+  float: left;
+  margin-left: 5px;
+  margin-right: auto;
+  margin-top: 4.5px;
+  width: 35px;
+  padding: 15px;
+  font-size: 33px !important;
+  color: #ffffff !important;
+  background: radial-gradient(at 76% 0, #47606d, #354750ad 70%), linear-gradient(0deg, #e0e1e2, transparent 0%) bottom;
+  border-radius: 5px;
+  text-align: center;
+}

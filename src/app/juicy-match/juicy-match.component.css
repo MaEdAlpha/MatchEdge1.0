@@ -817,3 +817,14 @@ span.calculated-value{
   opacity: 0.8;
   background: salmon;
 }
+
+/* Input increment arrow hide */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
+}

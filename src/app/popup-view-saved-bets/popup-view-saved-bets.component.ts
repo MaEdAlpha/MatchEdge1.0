@@ -16,6 +16,7 @@ export class PopupViewSavedBetsComponent implements AfterViewInit {
   filteredSabList: ActiveBet [] = [];
   activeBetSubscription: Subscription;
   importedSabList: ActiveBet[] = [];
+  userCommission: number;
   //masterList
 
   //selectionsList
@@ -121,8 +122,8 @@ export class PopupViewSavedBetsComponent implements AfterViewInit {
       }
 
       const dialogRef = this.dialog.open(PopupFormSavedBetsComponent, {
-        width: '40%',
-        height: '80%',
+        width: '70%',
+        height: '48%',
         data: {activeBet, isEdit}
       });
 
@@ -138,8 +139,8 @@ export class PopupViewSavedBetsComponent implements AfterViewInit {
       //pass in boolean on whether its an edit, or a manually added active bet
 
       const dialogRef = this.dialog.open(PopupFormSavedBetsComponent, {
-        width: '40%',
-        height: '80%',
+        width: '70%',
+        height: '48%',
         data: {activeBet, isEdit}
       });
 
