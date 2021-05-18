@@ -53,16 +53,33 @@ export class NotificationBoxService {
     this.toast.success('Toastr Working', 'title');
   }
 
+  showToast(message, title): ActiveToast<any>{
+    var toast: ActiveToast<any>;
+    toast = this.toast.show(message, title,{
+      toastComponent:CustomToastComponent,
+      onActivateTick: true,
+      timeOut: 7000,
+      tapToDismiss: true,
+      progressBar: true,
+      extendedTimeOut: 2000,
+      enableHtml:true,
+      toastClass: "toast border-gold",
+      positionClass:'inline',
+      messageClass: 'backOdds',
+    });
+
+    return toast;
+  }
+
   //might have to disable the toastContainer somehow.
 
   showSABNotification(row:any):ActiveToast<any>{
     var toast: ActiveToast<any>;
 
-
-    toast= this.toast.show( row.Selection + ' saved in Active Bets', 'Saved!',{
+    toast= this.toast.show( row.Selection + ' saved to Active Bets.', 'Saved!',{
       toastComponent: SABToastSaveComponent,
       onActivateTick: true,
-      timeOut: 1500,
+      timeOut: 2000,
       disableTimeOut: false,
       tapToDismiss: true,
       toastClass: "toast border-gold",
@@ -82,6 +99,7 @@ export class NotificationBoxService {
       toastComponent: SABToastDeleteComponent,
       timeOut:1500,
       disableTimeOut: false,
+      tapToDismiss: true,
       toastClass: "toast border-gold",
       messageClass: 'toast-message',
       positionClass:'toast-bottom-right',
@@ -91,11 +109,13 @@ export class NotificationBoxService {
 
   UpdateToastSAB(): ActiveToast<any>{
     var toast: ActiveToast<any>;
-    toast= this.toast.show( ' Update Complete!', '', {
+    toast= this.toast.show( '', 'Update Complete!', {
       toastComponent: SABToastUpdatedComponent,
       timeOut:1500,
+      disableTimeOut:false,
+      tapToDismiss:true,
       toastClass: "toast border-gold",
-      messageClass: 'backOdds',
+      messageClass: 'toast-message',
       positionClass:'toast-bottom-right',
     });
     return toast;
@@ -106,7 +126,7 @@ export class NotificationBoxService {
 
     toast= this.toast.show(message, 'Bet Settled!', {
       toastComponent: SABToastIncompleteComponent,
-      timeOut:3000,
+      timeOut:2000,
       toastClass: "toast border-gold",
       messageClass: 'toast-message'
     } );
@@ -243,21 +263,5 @@ export class NotificationBoxService {
     }
   }
 
-  showToast(message, title): ActiveToast<any>{
-    var toast: ActiveToast<any>;
-    toast = this.toast.show(message, title,{
-      toastComponent:CustomToastComponent,
-      onActivateTick: true,
-      timeOut: 7000,
-      tapToDismiss: true,
-      progressBar: true,
-      extendedTimeOut: 2000,
-      enableHtml:true,
-      toastClass: "toast border-gold",
-      positionClass:'inline',
-      messageClass: 'backOdds',
-    });
 
-    return toast;
-  }
 }

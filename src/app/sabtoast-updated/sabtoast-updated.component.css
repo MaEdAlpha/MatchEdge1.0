@@ -1,33 +1,43 @@
 :host {
-  background-color: #2f66fd;
-  color: white;
-  position: relative;
+  background-image: linear-gradient(to bottom right,#076044, #649787);
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: fixed;
+  top: 40%;
+  right: 40%;
   overflow: hidden;
   margin: 0 0 6px;
-  padding: 10px 10px 10px 10px;
+  padding-top: 4px;
   width: 350px;
-  height: 233px;
+  height: 67px;
   border-radius: 3px 3px 3px 3px;
   pointer-events: all;
   cursor: pointer;
-  bottom: 0px;
+  box-shadow: 0 0 12px #999999;
 }
 /* .btn-pink {
   -webkit-backface-visibility: hidden;
   -webkit-transform: translateZ(0);
 } */
+:host:hover {
+  box-shadow: 0 0 12px #000000;
+  opacity: 1;
+  cursor: pointer;
+}
+
 :host.border-gold{
   border-top: 1px solid #ffc235;
   }
 
   .toast-title{
-    margin-top: 15%;
     text-align: center;
     color: #ef9e1b;
     font-size: 125%;
+    padding-top: 5%;
   }
 
   .toast-message{
-    margin-top: 2%;
-    color: white;
+    text-align: center;
+    margin-top: 1%;
+    color: #ef9e1b;
   }

@@ -258,9 +258,10 @@ app.put('/api/user/settings', async(req,res,next) => {
 app.put('/api/sab/:id', async(req,res,next) => {
 
     //write _id to "id": <value> when updating locally.
+    console.log("UPDATING SAB");
     const _id = new ObjectID(req.params.id);
     const col = await client.db("JuicyClients").collection("juicy_users_sab");
-    console.log(req.body);
+    // console.log(req.body);
     col.updateOne({ "_id": _id},
                   { "$set": {
                               "created": req.body.created,
@@ -282,7 +283,7 @@ app.put('/api/sab/:id', async(req,res,next) => {
                               "isSettled": req.body.isSettled,
                               "id":_id,
                               "comment": req.body.comment }}, function(error,response){
-                                                              console.log(response);
+                                                              console.log("Match Updated!");
                                                               res.status(201).json({response});
                                                             })
 

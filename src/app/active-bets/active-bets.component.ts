@@ -9,14 +9,9 @@ import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { Observable } from 'rxjs';
 import { ArrayType } from '@angular/compiler';
 import { MatSort, Sort } from '@angular/material/sort';
+import { UserPropertiesService } from '../services/user-properties.service';
 
-export interface PeriodicElement {
-  name: string;
-  position: number;
-  weight: number;
-  symbol: string;
-  description: string;
-}
+
 
 @Component({
   selector: 'app-active-bets',
@@ -32,7 +27,7 @@ export interface PeriodicElement {
 })
 
 export class ActiveBetsComponent implements OnChanges, OnInit, AfterViewInit {
-  constructor(private sabServices: SavedActiveBetsService, private notificationBoxService: NotificationBoxService, private chRef: ChangeDetectorRef ) { }
+  constructor(private userPrefService: UserPropertiesService, private toastNotificationService: NotificationBoxService, private sabServices: SavedActiveBetsService, private notificationBoxService: NotificationBoxService, private chRef: ChangeDetectorRef ) { }
   ACTIVE_BETS: ActiveBet[]=[];
   @Input() tableSelected: number;
   activeBetsSubscription: Subscription;
@@ -42,8 +37,23 @@ export class ActiveBetsComponent implements OnChanges, OnInit, AfterViewInit {
   expandedElement: ActiveBet[] | null;
   sabSource: FormArray;
   isEmptySABList: boolean = false;
-  columnsToDisplay = ['created', 'fixture', 'selection', 'matchDetail', 'backOdd', 'stake', 'layOdd', 'layStake', 'ql', 'isSettled', 'pl', 'delete'];
+  columnsToDisplay = ['created', 'fixture' , 'matchDetail', 'selection', 'stake', 'backOdd', 'layOdd', 'occ', 'ql', 'isSettled', 'pl', 'delete'];
 
+
+  activeHeaderAliases: {field:string, alias:string}[] = [
+    { field: 'created', alias: 'Created'},
+    { field: 'fixture', alias: 'Fixture'},
+    { field: 'matchDetail', alias: 'Kick-off'},
+    { field: 'selection', alias: 'Selection'},
+    { field: 'stake', alias: 'Back Stake'},
+    { field: 'backOdd', alias: 'Back Odds'},
+    { field: 'layOdd', alias: 'Lay Odds'},
+    { field: 'occ', alias: 'fta'},
+    { field: 'ql', alias: 'Qualifying Loss'},
+    { field: 'isSettled', alias: 'Bet Status'},
+    { field: 'pl', alias: 'Profit/Loss'},
+    { field: 'delete', alias: ''}
+  ]
   selectionValues: FormGroup;
   PandLform: FormGroup;
 
@@ -220,6 +230,12 @@ sortData(sort: Sort) {
     return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
   }
 
+  function compareBoolean(a:boolean, b:boolean, isAsc: boolean){
+   var ab =  a == true ? 1:-1;
+   var bb =b == true ? 1:-1;
+    return (ab<bb ? -1: 1 ) * (isAsc ? 1: -1);
+  }
+
   this.dataSource = data.sort((a, b) => {
     const isAsc = sort.direction === 'asc';
     switch (sort.active) {
@@ -227,9 +243,59 @@ sortData(sort: Sort) {
       case 'matchDetail': return compare(a['matchDetail'], b['matchDetail'], isAsc);
       case 'selection': return compare(a['selection'], b['selection'], isAsc);
       case 'fixture': return compare(a['fixture'], b['fixture'], isAsc);
+      case 'ql': return compare(a['ql'], b['ql'],isAsc);
+      case  'pl': return compare(a['pl'], b['pl'], isAsc);
+      case 'isSettled': return compareBoolean(a['isSettled'], b['isSettled'], isAsc);
       default: return 0;
     }
   });
+}
+
+updateSAB(sab:ActiveBet, index:number){
+
+  var updatedSAB = this.setChanges(sab, index);
+  this.toastNotificationService.UpdateToastSAB();
+  this.sabServices.patchToActiveBets(updatedSAB);
+}
+
+
+
+setChanges(sab:ActiveBet, index:number):ActiveBet{
+ var form = this.getGroup(index);
+ console.log(form);
+  var stake = form.value.Stake;
+  var backOdd = form.value.BackOdds;
+  var layOdd = form.value.LayOdds;
+  var matchInfo = form.value.MatchInfo;
+
+  var updatedSAB = {
+    id: sab.id,
+    juId: this.userPrefService.getUserId(),
+    created: Date.now(),
+    fixture: sab.fixture,
+    selection: sab.selection,
+    logo: sab.selection.toLowerCase().split(' ').join('-'),
+    matchDetail: sab.matchDetail,
+    stake:  stake,
+    backOdd: backOdd,
+    layOdd: layOdd,
+    layStake: +(backOdd/layOdd*stake).toFixed(2),
+    liability: +((layOdd - 1) * +(backOdd/layOdd*stake)).toFixed(2),
+    ev: +this.TotalEV(sab.occ, stake, backOdd, layOdd).toFixed(2),
+    mr: +this.NewMatchRating(backOdd, layOdd),
+    sauce: +this.NewSS(backOdd, layOdd, stake),
+    fta: +this.FTA(stake, backOdd, layOdd).toFixed(2),
+    ql: +this.QL(backOdd, layOdd, stake).toFixed(2),
+    roi: +this.ROI(stake, backOdd, layOdd, sab.occ).toFixed(2),
+    betState: sab.betState,
+    occ: sab.occ,
+    pl: +this.QL(backOdd, layOdd, stake).toFixed(2),
+    comment: matchInfo,
+    isSettled: false,
+    isBrkzFTA: sab.isBrkzFTA,
+  }
+
+  return updatedSAB
 }
 //Calculations
 LayStake(backOdds: number, layOdds:number, steakYum: number):number{

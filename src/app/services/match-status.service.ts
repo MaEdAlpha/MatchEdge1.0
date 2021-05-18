@@ -190,6 +190,13 @@ export class MatchStatusService {
     this.groupSubject.next(masterGroup);
   }
 
+  checkIfWatchlistEmpty():boolean{
+    var isEmpty = this.watchList.length == 0 ? true : false;
+
+    return isEmpty;
+  };
+
+
   getMasterGroup(): Observable<any>{
     return this.groupSubject.asObservable();
   }

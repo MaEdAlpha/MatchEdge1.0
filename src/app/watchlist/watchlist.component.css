@@ -1,4 +1,6 @@
-
+mat-table{
+  margin-top: 50px;
+}
 mat-header-row {
   display: none;
 }
@@ -468,7 +470,7 @@ button.viewCell {
 }
 .away-bell {
   float:right;
-  
+
 }
 .match-inactive{
   opacity: 0.8;
@@ -486,6 +488,7 @@ button.viewCell {
 }
 
 .empty-container{
+  margin-top: 50px;
   position: relative;
   background: #e0e1e2;
   width: 100%;

@@ -19,7 +19,8 @@ a {
 
 img {
   position: absolute;
-  left: 47.4%;
+  left: 50%;
+  margin-left: -4em;
   top: 1.8%;
   z-index: 5
 }

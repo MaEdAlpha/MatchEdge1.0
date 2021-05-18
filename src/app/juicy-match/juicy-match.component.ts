@@ -85,7 +85,7 @@ export class JuicyMatchComponent implements OnChanges, OnInit, OnDestroy, AfterV
     { field: "BackOdds", alias: "Back Odds" },
     { field: "LayOdds", alias: " Lay Odds" },
     { field: "FTAround", alias: "FTA" },
-    { field: "EVthisBet", alias: "EV ($)" },
+    { field: "EVthisBet", alias: "EV (£)" },
     { field: "MatchRating", alias: "Match Rating (%)" },
     { field: "QLPercentage", alias: "Secret Sauce (%)"},
   ];
@@ -126,7 +126,6 @@ export class JuicyMatchComponent implements OnChanges, OnInit, OnDestroy, AfterV
           this.popJuiceInRange();
         }
       }
-      this.allIndvMatches.length === 0 ? this.noMatchesToDisplay = true : this.noMatchesToDisplay = false;
     }
 
     if(changes.ftaOption && changes.ftaOption != undefined && this.allIndvMatches != undefined){
@@ -137,15 +136,11 @@ export class JuicyMatchComponent implements OnChanges, OnInit, OnDestroy, AfterV
     }
   }
 
-
-  private updateFTACalc() {
-
-  }
-
   ngOnInit(){
     //Get initial user settings on initialization. For this to work, need to use HTTP Get request of userPreferences at page load.
     this.prefObj = this.userPrefService.getTablePrefs();
     this.ftaOption = this.userPrefService.getFTAOption();
+    this.noMatchesToDisplay = true;
     console.log(this.ftaOption);
 
     console.log("User settings.filters from UserPref Services. ");
@@ -234,8 +229,7 @@ export class JuicyMatchComponent implements OnChanges, OnInit, OnDestroy, AfterV
     this.watchedMatchesSubscription = this.matchStatusService.getMatchWatchStatus().subscribe( matchObject => {
       //find selection and assign correct status to it.
       this.updateMatchWatchStatus(matchObject);
-      console.log("Change made to watchlist");
-
+      this.noMatchesToDisplay = this.matchStatusService.checkIfWatchlistEmpty();
     });
     //manually opens up Selection. Need to center view it by filtering it on it's Team Name + EpochTime.
     this.notificationSelectedSubscription = this.notificationServices.getNotificationPing().subscribe( notification => {

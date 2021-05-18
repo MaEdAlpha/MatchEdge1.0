@@ -4,7 +4,7 @@
   <div class="text-details">
     <h1 mat-dialog-title class="title-details"> {{data.row.Selection}}</h1>
     <h2 mat-dialog-title class="title-details"> {{data.row.Home}} v. {{data.row.Away}}</h2>
-    <h2 mat-dialog-title class="title-details"> {{data.row.EpochTime*1000 | date: 'EEEE dd LLL  HH:mm'}}</h2>
+    <h2 mat-dialog-title class="title-details"> {{data.row.EpochTime*1000 | date: 'EEE dd LLL  HH:mm'}}</h2>
   </div>
 
   <div class="FTA-container">
@@ -40,7 +40,7 @@
       </mat-list-option>
       <mat-list-option *ngFor="let activeBet of filteredSabList; let i = index">
         <div class="sab-row">
-          <p class="sab-row-item"> {{activeBet.created | date:'dd LLL  HH:mm'}}</p>
+          <p class="sab-row-item"> {{activeBet.created | date: 'EEE dd LLL HH:mm'}}</p>
             <!-- <span class="sab-row-item"> {{activeBet.matchDetail | date: 'EEE dd LLL  HH:mm' }}</span> -->
             <span class="sab-row-item"> {{activeBet.stake | currency:'GBP'}}</span>
             <span class="sab-row-item"> {{activeBet.backOdd}}</span>
