@@ -3,10 +3,6 @@
   height: 140px;
 }
 
-::ng-deep.mat-form-field-type-mat-select:not(.mat-form-field-disabled) .mat-form-field-flex {
-  /* background: rgb(255, 255, 255); */
-}
-
 .hdr-cont {
   width: 100%;
   height: 48%;
@@ -24,6 +20,7 @@
 
 .date-selector {
   float: right;
+  margin-top: 0.6rem;
 }
 
 .table-tabs {
@@ -60,9 +57,6 @@ div.table-tabs > button {
   color: white;
 }
 
-::ng-deep.mat-form-field-flex{
-  /* background: #37474f !important; */
-}
 
 ::ng-deep.mat-select-value-text{
   color: white;

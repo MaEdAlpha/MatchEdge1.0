@@ -6,15 +6,28 @@
   min-height: 0vh !important;
 }
 
+span  {
+  display: contents !important;
+  position: unset;
+}
+
+hr {
+  margin-top: 5px;
+}
+
+mat-hint{
+  color: white;
+}
+
 div.mat-dialog-content > p{
   text-align: center;
 }
-.mat-form-field-label{
-  color: #d61c9e !important;
-}
+
+
 .popup-btn {
   border: 1px #222c2f solid !important;
 }
+
 .title-container {
   display: inline-flex;
   position: relative;
@@ -52,6 +65,8 @@ div.mat-dialog-content > p{
 }
 .sab-matched-container{
   width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .sab-matched-container > mat-form-field,
@@ -73,10 +88,10 @@ div.mat-dialog-content > p{
   padding: 0px;
 }
 
-.sab-values-auto-calc {
-  width: 85px;
-  margin-right: 10px;
+.sab-cont {
+  margin-top: 0.7rem;
 }
+
 
 .update-message {
   color: #126E51;
@@ -99,7 +114,18 @@ div.mat-dialog-content > p{
 }
 
 .user-comments {
-  float: left;
+  width: 100%;
+  margin-top: 0.75rem;
+  margin-left: 1rem;
+}
+
+.comment-box {
+  height: 80px;
+}
+
+.sab-input {
+  height: 17px;
+  padding: 0px;
 }
 
 .bookie-row {
@@ -144,6 +170,7 @@ div.mat-dialog-content > p{
   background: radial-gradient(at 60% 0, #4a8195, #11171a 80%),
               linear-gradient(181deg, #383838, transparent 80%) bottom;
   color: white;
+  display: inline-flex;
 }
 
 
@@ -174,14 +201,31 @@ div.mat-dialog-content > p{
 .bet-state-button:focus {
   color: #ffc235;
 }
-span  {
-  display: contents !important;
-  position: unset;
+
+
+.glow {
+  color: snow;
+  opacity: .75;
+  text-align: center;
+  animation: glow 1s ease-in-out infinite alternate;
 }
 
-hr {
-  margin-top: 5px;
+@keyframes glow {
+  0% {
+    background:#027b5b;
+  }
+  50% {
+    background: #37726a;
+  }
+  100% {
+    background: #0d5d44;
+  }
 }
+
+::ng-deep.mat-form-field-subscript-wrapper {
+  font-size: 85% !important;
+}
+
 
 
 .column-base {
@@ -233,7 +277,7 @@ hr {
 
 .exchange-column3 {
   float: right;
-  margin-top: 1.3rem;
+  margin-top: 1.6rem;
 }
 
 .bookie-wrapper,
@@ -243,6 +287,10 @@ hr {
   max-height: 4em;
   margin-left: auto;
   margin-right: auto;
+}
+
+.liability-wrapper{
+  margin-top: 1.3rem;
 }
 
 .bookie-text,
@@ -267,12 +315,14 @@ div.exchange-column1 > p.exchange-text-comm  {
   color: #d0cdc4 !important;
 }
 
+/* Comments  & Auto Calc */
 .comments-cont {
-  width: 500px;
+  width: 40%;
 }
 
+
 .user-comments {
-  width: 100%;
+  width: 96%;
 }
 
 .user-update-notification{
@@ -280,28 +330,32 @@ div.exchange-column1 > p.exchange-text-comm  {
   width: 50%;
 }
 
+.sab-values-auto-calc {
+  width: 50%;
+  margin-right: auto;
+  margin-left: auto;
+  display: inline-flex;
+}
 
-.glow {
-  color: snow;
-  opacity: .75;
+
+.auto-calc-column {
+  width: 30%;
   text-align: center;
-  animation: glow 1s ease-in-out infinite alternate;
+  padding-top: 0.5rem;
 }
 
-@keyframes glow {
-  0% {
-    background:#027b5b;
-  }
-  50% {
-    background: #37726a;
-  }
-  100% {
-    background: #0d5d44;
-  }
+.ac-row {
+  margin-bottom: 0.6rem;
 }
 
-::ng-deep.mat-form-field-subscript-wrapper {
-  font-size: 85% !important;
+.ac-hr {
+  margin-top: -1px !important;
+  width: 90% !important;
+  border: 1px solid #aa8920 !important;
+}
+
+.auto-calc-text {
+  margin-bottom: 0.2rem;
 }
 
 /* Edits */
