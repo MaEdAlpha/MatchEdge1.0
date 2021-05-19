@@ -37,8 +37,36 @@
 
 .sab-row-header {
   display: flex;
-  justify-content: space-between;
 }
+
+.rh0 {
+  margin-left: 25px;
+}
+
+.rh1 {
+  margin-left: 80px;
+}
+
+.rh2 {
+  margin-left: 36px;
+}
+
+.rh3 {
+  margin-left: 33px;
+}
+
+.rh4 {
+  margin-left: 35px;
+}
+
+.rh5 {
+  margin-left: 66px;
+}
+
+.rh6{
+  margin-left: 70px;
+}
+
 
 .sab-row-item{
   height: fit-content;

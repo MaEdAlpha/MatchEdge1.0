@@ -27,15 +27,14 @@
   <div class="sab-table">
     <mat-action-list  #activeBets [multiple]="false">
       <mat-list-option class="sab-row-header">
-        <h3 class="sab-row-item-header"> Created </h3>
+        <h3 class="rh0"> Created </h3>
         <!-- <h3 class="sab-row-item-header"> Event Time </h3> -->
-        <h3 class="sab-row-item-header"> Back Stake </h3>
-        <h3 class="sab-row-item-header"> Back Odds</h3>
-        <h3 class="sab-row-item-header"> Lay Odds</h3>
-        <h3 class="sab-row-item-header"> FTA Returns </h3>
-        <h3 class="sab-row-item-header"> QL </h3>
-        <h3 class="sab-row-item-header"> Match State</h3>
-        <h3 class="sab-row-item-header"> Spacer </h3>
+        <h3 class="row-header rh1"> Back Stake </h3>
+        <h3 class="row-header rh2"> Back Odds</h3>
+        <h3 class="row-header rh3"> Lay Odds</h3>
+        <h3 class="row-header rh4"> FTA Returns </h3>
+        <h3 class="row-header rh5"> QL </h3>
+        <h3 class="row-header rh6"> Match State</h3>
 
       </mat-list-option>
       <mat-list-option *ngFor="let activeBet of filteredSabList; let i = index">

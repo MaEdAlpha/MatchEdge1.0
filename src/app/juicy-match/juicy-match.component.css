@@ -412,18 +412,19 @@ div.jm-exp-details {
     background: radial-gradient(at 0% 0, #126E51, transparent 74%), linear-gradient(5deg, #095940, transparent 80%) bottom;
     padding-right: 10px;
     margin-left: 5px;
-
+    display: inline-flex;
 }
 
 .exchangecontainer{
   border-style: solid;
-    width: 90%;
+    width: 92%;
     height: 83%;
     color: #ffffff;
     padding-left: 0px;
     border-radius: 35px;
     background: radial-gradient(at 153% 0, #e0e1e2, #19222b 66%), linear-gradient(101deg, #e0e1e2, #171d1dd9 146%) bottom;
     margin-left: -20px;
+    display: inline-flex;
 }
 
 .calculatedcontainer{
@@ -436,6 +437,7 @@ div.jm-exp-details {
     background: radial-gradient(at 111% 0, #4f8ca2, #172329 66%), linear-gradient( 231deg, #383838, transparent 80%) bottom;
     margin-left: -50px;
     margin-right: -91px;
+    display: inline-flex;
 }
 
 .teamname{
@@ -452,14 +454,15 @@ div.jm-exp-details {
 }
 
 .calculated {
-  width:35%;
+  width:34%;
   padding-top: 7px;
+  margin-left: 13px;
 }
 
 
 .comments-cont {
   padding: 10px;
-  width: 100%;
+  width: 80%;
 }
 
 .mat-hint{
@@ -477,7 +480,7 @@ div.jm-exp-details {
   background-size: cover;
   width: 100px;
   height: 30px;
-  border-color: rgb(41 109 87);
+  border: 0.5px solid #31715d;
 }
 
 .exchange-button-container{
@@ -494,22 +497,35 @@ div.jm-exp-details {
 }
 .bookie-container {
   width: 50%;
-  float: left;
-  padding-top: 15px;
+  padding-top: 9px;
+}
+.bookie-container-disp {
+  width: 50%;
+  padding-top: 17px;
 }
 
-.exchange-container{
+.exchange-container-disp,
+.exchange-container-input,
+.exchange-container-output{
   width: 33%;
-  float: left;
-  padding-top: 15px;
 }
 
-.calculated-container{
+.exchange-container-disp {
+ margin-top: 14px;
+}
+.exchange-container-input{
+  margin-top: 9px;
+}
+.exchange-container-output{
+  margin-top: 14px;
+  margin-left: 8px;
+}
+
+.calculated-container-mid,
+.calculated-container-end{
   width: 30%;
-  float: left;
   padding-top: 2px;
   padding-bottom: 0px;
-  margin-left: 64px;
   margin-right: -80px;
 }
 .calculated-container-comments{
@@ -519,11 +535,12 @@ div.jm-exp-details {
   padding-bottom: 0px;
 }
 .auto-calc-input{
+  height: 50px;
   color: white;
 }
 
 .user-comments{
-  width: 280px;
+  width: 240px;
   padding-left: 7px;
 }
 
@@ -539,11 +556,11 @@ div.jm-exp-details {
   margin-top: 5px;
 }
 .calculated-row> h3, span, button{
-  margin: 0px;
+  /* margin: 0px; */
   margin-left: auto;
-  margin-right: auto;
+  /* margin-right: auto;
   margin-bottom: 3px;
-  margin-top: -1px;
+  margin-top: -1px; */
 }
 
 .exchange-text-comm{
@@ -640,9 +657,13 @@ padding-top: 8%;
   padding: 0%;
     width: 110px;
     margin-top: 5px;
-    margin-left: 70px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
+.button-container {
+  width: 165px;
+}
 
 
 .r1, .r2 {
@@ -680,37 +701,36 @@ padding-top: 8%;
   padding-top: 4px;
 }
 .qlpercent-text{
-  padding-right: 76px;
-  width: 31px;
-  padding-left: 40px;
+  padding-left: 50px;
   color: white;
   padding-top: 4px;
 }
 .ql-text{
-  padding-right: 22px;
   width: 31px;
-  padding-left: 43px;
   color: white;
-  padding-top: 4px;
+  margin-left: auto;
+  margin-right: auto;
 }
 .ql-value{
   width: 100px;
-  padding-left: 0px;
   color: white;
-  padding-top: 4px;
 }
+.fta-cont,
+.ql-cont {
+  display: inline-flex;
+  margin-top: 4px;
+}
+
 .fta-text{
-  padding-right: 35px;
   width: 31px;
-  padding-left: 40px;
   color: white;
-  padding-top: 4px;
+  margin-left: auto;
+  margin-right: auto;
 }
 .fta-value{
   width: 100px;
-  padding-left: 0px;
   color: white;
-  padding-top: 4px;
+
 }
 
 .calculated-value-fta-ql{
@@ -724,8 +744,14 @@ padding-top: 8%;
   margin: 0;
   margin-left: 18%;
   margin-right: auto;
-  width: 70%;
+  width: 58%;
   margin-top: -5px;
+}
+
+.last-dividers{
+  width: 85%;
+  margin-top: -1px;
+  margin-left: 0px;
 }
 .selection-figures {
   display: inline-flex;

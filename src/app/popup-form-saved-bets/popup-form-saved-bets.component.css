@@ -3,7 +3,7 @@
 }
 
 ::ng-deep.mat-dialog-content {
-  min-height: 0vh !important;
+  height: inherit;
 }
 
 span  {
@@ -21,6 +21,14 @@ mat-hint{
 
 div.mat-dialog-content > p{
   text-align: center;
+
+}
+
+.fta-selection{
+  color: #aa8920;
+}
+.button-grouping{
+  float: right;
 }
 
 

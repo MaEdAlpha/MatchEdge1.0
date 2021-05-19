@@ -45,20 +45,20 @@
                               <div class="ticker{{(flickerColmnIndex)}}box flickDirectiveLay" appFlickerDataLay [flickerColmnIndex]="flickerColmnIndex" [isUpdated]="selection.layIsUpdated">
                                 <p class="odd-text"> {{ selection[column.field] | number:'0.2-2' }} </p>
                               </div>
-                              
+
                             </div>
-                              <div class="juicyCell" *ngIf="column.field.endsWith('EVthisBet')">
+                              <div class="juicyCell Y" *ngIf="column.field.endsWith('EVthisBet')">
                                 <span class="ev{{flickerColmnIndex}}box juicyCell flickDirectiveEV" *ngIf="ftaOption == 'brooks'" appFlickerDataEv [isUpdated]="selection.evIsUpdated" [ftaOption]="ftaOption" [columnIndex]="flickerColmnIndex">  {{selection[column.field] | number: '0.2-2'}} </span>
                                 <span class="ev{{flickerColmnIndex}}box juicyCell flickDirectiveEV" *ngIf="ftaOption != 'brooks'" appFlickerDataEv [isUpdated]="selection.evIsUpdated" [ftaOption]="ftaOption" [columnIndex]="flickerColmnIndex">  {{selection[column.field].toFixed(2)}} </span>
 
                               </div>
                                 <!-- use directive for displaying matchRating values -->
-                                <div class="juicyCell" *ngIf="column.field.endsWith('Rating')">
+                                <div class="juicyCell " *ngIf="column.field.endsWith('Rating')">
                                   <span class="mr{{flickerColmnIndex}}box flickDirectiveMR" appFlickerDataMatchRating [isUpdated]="selection.matchRatingUpdated"> {{selection[column.field] | number: '0.2-2'}} </span>
                                 </div>
 
-                                <div class="juicyCell" *ngIf="column.field.endsWith('Percentage')">
-                                  <span class="ss{{flickerColmnIndex}}box juicyCell flickDirectiveSS" appFlickerDataSS [columnIndex]="flickerColmnIndex">  {{selection[column.field] | number: '0.2-2'}} </span>                                 
+                                <div class="juicyCell " *ngIf="column.field.endsWith('Percentage')">
+                                  <span class="ss{{flickerColmnIndex}}box juicyCell flickDirectiveSS" appFlickerDataSS [columnIndex]="flickerColmnIndex">  {{selection[column.field] | number: '0.2-2'}} </span>
                                   </div>
 
                                   <div class="juicyCell FTAround fta-value-cont" *ngIf="column.field.endsWith('Around')">
@@ -66,7 +66,7 @@
                                         <p class="fta-value-text" *ngIf="ftaOption == 'brooks'"> {{selection[column.field].toFixed(0)}}  </p>
                                         <p class="fta-value-text" *ngIf="ftaOption == 'generic'"> {{selection['GFTAround'].toFixed(0)}}  </p>
                                       </div>
-                                  </div>                                    
+                                  </div>
                                       <span *ngIf="!column.field.endsWith('Odds') && !column.field.endsWith('EpochTime') && !column.field.endsWith('Bet') && !column.field.endsWith('Rating') && !column.field.endsWith('Around') && !column.field.endsWith('Percentage') && !column.field.endsWith('EVthisBet')"> {{ selection[column.field] }}</span>
                       </ng-container>
                     </ng-container>
@@ -110,7 +110,7 @@
                     <div class="bookie shadow">
                       <div class="bookiecontainer">
 
-                        <div class="bookie-container">
+                        <div class="bookie-container-disp">
                             <p class="bookie-text-lhs">Back Bet</p>
                               <button tabindex="-1" class="bookie-button-container shadow" mat-raised-button href= {{selection.UrlB365}} ></button>
                         </div>
@@ -131,13 +131,13 @@
 
                     <div class="exchange shadow">
                       <div class="exchangecontainer">
-                        <div class="exchange-container" >
+                        <div class="exchange-container-disp" >
                           <p class="exchange-text-lhs">Lay Bet </p>
                           <button tabindex="-1" class="exchange-button-container mat-raised-button-bookie-exchange shadow" mat-raised-button href={{selection.UrlSmarkets}}></button>
                           <p class="exchange-text-comm">Commission: {{userCommission | number:'0.2-2' }}%</p>
                         </div>
 
-                        <div class="exchange-container" >
+                        <div class="exchange-container-input" >
                           <div class="exchange-row">
                             <p class="exchange-text-mid">Stake </p>
                             <input tabindex="6" class="value-box-laystake" [readOnly]="true" placeholder="{{LayStake(getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value, getGroup(i).get('Stake').value) | currency:'GBP' }}">
@@ -148,7 +148,7 @@
                           </div>
                         </div>
 
-                        <div class="exchange-container">
+                        <div class="exchange-container-output">
                           <div class="exchange-row" tabindex="1">
                             <button  mat-raised-button class="bet-state-button"  [style.background]="selection.betState ? ' #076044' : '#8a0606'" (click)="selection.betState = !selection.betState">{{ selection.betState ? 'Matched' : 'Unmatched'}}</button>
                           </div>
@@ -175,15 +175,19 @@
                       <!-- Calculated Values -->
                       <div class="calculated-container">
                         <div class="calculated-row">
-                          <div class="roi-text">ROI:</div>
-                          <span class="calculated-value calculated-value-lhs" *ngIf="ftaOption == 'brooks'">{{ ROI(getGroup(i).get('Stake').value, getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value, selection.FTAround) | number:'0.2-2'}}%</span>
-                          <span class="calculated-value calculated-value-lhs" *ngIf="ftaOption == 'generic'">{{ ROI(getGroup(i).get('Stake').value, getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value, selection.GFTAround) | number:'0.2-2'}}%</span>
+                          <div class="auto-calc-wrapper">
+                            <span class="roi-text">ROI: </span>
+                            <span class="calculated-value calculated-value-lhs" *ngIf="ftaOption == 'brooks'">{{ ROI(getGroup(i).get('Stake').value, getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value, selection.FTAround) | number:'0.2-2'}}%</span>
+                            <span class="calculated-value calculated-value-lhs" *ngIf="ftaOption == 'generic'">{{ ROI(getGroup(i).get('Stake').value, getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value, selection.GFTAround) | number:'0.2-2'}}%</span>
+                          </div>
                         </div>
                         <hr class="value-divider">
                         <div class="calculated-row">
-                          <div class="ev-text">EV: </div>
-                          <span class="calculated-value calculated-value-lhs" *ngIf="ftaOption == 'brooks'">{{ TotalEV( selection.FTAround,  getGroup(i).get('Stake').value, getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value)/selection.FTAround  | currency:'GBP' }}</span>
-                          <span class="calculated-value calculated-value-lhs" *ngIf="ftaOption == 'generic'">{{ TotalEV( selection.GFTAround,  getGroup(i).get('Stake').value, getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value)/selection.GFTAround  | currency:'GBP' }}</span>
+                          <div class="auto-calc-wrapper">
+                            <span class="ev-text">EV: </span>
+                            <span class="calculated-value calculated-value-lhs" *ngIf="ftaOption == 'brooks'">{{ TotalEV( selection.FTAround,  getGroup(i).get('Stake').value, getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value)/selection.FTAround  | currency:'GBP' }}</span>
+                            <span class="calculated-value calculated-value-lhs" *ngIf="ftaOption == 'generic'">{{ TotalEV( selection.GFTAround,  getGroup(i).get('Stake').value, getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value)/selection.GFTAround  | currency:'GBP' }}</span>
+                          </div>
                         </div>
                         <hr class="value-divider">
                         <div class="calculated-row">
@@ -198,17 +202,16 @@
                       </div>
 
                       <!-- QL and record Bet -->
-                      <div class="calculated-container">
-                        <div class="calculated-row">
+                      <div class="calculated-container button-container">
+                        <div class="calculated-row fta-cont">
                           <div class="fta-text">FTA: </div>
                             <span class="fta-value"> {{ FTA(getGroup(i).get('Stake').value, getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value  ) | currency:'GBP'}}</span>
-                        </div>
-                        <hr class="value-divider">
-                        <div class="calculated-row">
+                          </div>
+                        <div class="calculated-row ql-cont">
                           <div class="ql-text">QL: </div>
                           <span class="ql-value"> {{ QL( getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value, getGroup(i).get('Stake').value) | currency:'GBP'}}  </span>
                         </div>
-                        <div class="calculated-row">
+                        <div class="calculated-row ">
                           <button tabindex="0" mat-raised-button class="exp-button" type="button" (click)="saveAsActiveBet(selection, i)">Record Bet</button>
                         </div>
                       </div>
