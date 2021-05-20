@@ -153,15 +153,26 @@ tr.juicyMatch-row:not(.juicyMatch-expanded-row):active { /* when main container 
     position: absolute;
     z-index: 2;
     width: 60%;
-    height: 84%;
+    height: 100%;
     left: 40px;
     top: 0px;
 }
 .ticker3box{
   background: #126e51;
+  color: white;
+  margin-left: -39px;
+  width: 101px;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  height:100%;
 }
 .ticker4box {
   background: #003366;
+  margin-left: -39px;
+  width: 101px;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  height:100%;
 }
 
 .fta-ticker-box {
@@ -202,6 +213,7 @@ tr.juicyMatch-row:not(.juicyMatch-expanded-row):active { /* when main container 
   width: 95px;
   border-top-left-radius: 10px;
   border-bottom-left-radius: 10px;
+  height: 85%;
   animation: backBlinkBackground 1.5s infinite;
 }
 @keyframes backBlinkBackground{
@@ -222,6 +234,7 @@ tr.juicyMatch-row:not(.juicyMatch-expanded-row):active { /* when main container 
   width: 95px;
   border-top-left-radius: 10px;
   border-bottom-left-radius: 10px;
+  height: 85%;
   animation: layBackground 1.5s infinite;
 }
 @keyframes layBackground{
