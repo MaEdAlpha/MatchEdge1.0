@@ -28,6 +28,8 @@ export class WebsocketService {
 
       this.eventSource.onmessage = (event) => {
         console.log("MongoStream incoming....");
+        console.log(event.data);
+
         this.matchesService.addToUpdatedMatches(JSON.parse(event.data));
       };
     }

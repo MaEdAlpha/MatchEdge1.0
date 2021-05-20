@@ -209,7 +209,6 @@ tr.juicyMatch-row:not(.juicyMatch-expanded-row):active { /* when main container 
   /* Flicker */
 .backDirective {
   color: white;
-  margin-left: -39px;
   width: 95px;
   border-top-left-radius: 10px;
   border-bottom-left-radius: 10px;
@@ -230,7 +229,7 @@ tr.juicyMatch-row:not(.juicyMatch-expanded-row):active { /* when main container 
 }
 .flickDirectiveLay {
   color: white;
-  margin-left: -39px;
+
   width: 95px;
   border-top-left-radius: 10px;
   border-bottom-left-radius: 10px;

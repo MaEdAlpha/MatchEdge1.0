@@ -152,11 +152,11 @@ export class NotificationBoxService {
 
       //DISPLAY TOAST IF match is set to Notify && user is not Aware of the match being Juicy.
       if(mainMatch.notify && !mainMatch.userAware ){
-        console.log("BlackPool Condition 2 Passed!");
+        console.log("CHECK TOAST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
         switch(this.fvSelected){
             case 1:
               if(mainMatch.EVthisBet >= this.evNotificationFilter && mainMatch.EVthisBet < 100000 ){
-                console.log("BlackPool Toast!");
+                console.log(mainMatch);
 
                   this.toastIt(mainMatch);
                   //play audio if settings enables it
@@ -205,7 +205,8 @@ export class NotificationBoxService {
 
   private toastIt(mainMatch: any) {
     //Display update
-      var message: string = mainMatch.BackOdds.toFixed(2) + "<br>" + mainMatch.LayOdds.toFixed(2);
+    //BUG REMOVED toFixed(2)
+      var message: string = mainMatch.BackOdds.toFixed(2) + "<br>" + mainMatch.LayOdds;
       var title: string = mainMatch.Selection;
     //Creates an 'OnTap' listener. If they tap is. Change state to userAware = false.
     //This will reset popup Notifications to the user.
