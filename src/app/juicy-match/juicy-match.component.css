@@ -147,45 +147,13 @@ tr.juicyMatch-row:not(.juicyMatch-expanded-row):active { /* when main container 
   font-size: large;
   padding: 6px;
 }
-.ticker3box, .ticker4box, .ticker5box {
-  color: white;
-    display: inline;
-    position: absolute;
-    z-index: 2;
-    width: 60%;
-    height: 100%;
-    left: 40px;
-    top: 0px;
-}
-.ticker3box{
-  background: #126e51;
-  color: white;
-  margin-left: -39px;
-  width: 101px;
-  border-top-left-radius: 10px;
-  border-bottom-left-radius: 10px;
-  height:100%;
-}
-.ticker4box {
-  background: #003366;
-  margin-left: -39px;
-  width: 101px;
-  border-top-left-radius: 10px;
-  border-bottom-left-radius: 10px;
-  height:100%;
-}
+
 
 .fta-ticker-box {
   background: #4f565c;
 }
-.ticker5box {
-  background: blue;
-  color: white;
-  padding: 6px;
-  padding-left: 10px;
-  padding-right: 10px;
-  border-radius: 5px;
-}
+
+
 /* .ev6box {
   background: rgb(184, 184, 184);
   color: black;
@@ -206,14 +174,52 @@ tr.juicyMatch-row:not(.juicyMatch-expanded-row):active { /* when main container 
     visibility: collapse;
   }
 
+  .ticker4box {
+    z-index: 2; 
+  background: #003366;
+  color: white;
+  width: 101px;
+  height: 100%;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;  
+  position: absolute;
+  top: 0px;
+  left: 40px;
+  box-sizing: border-box;
+  border: 3px solid #003366;
+  margin-left: -38px;
+  }
+
+  .ticker3box{
+    z-index: 2;
+    background: #126e51;
+    color: white;
+    width: 101px;
+    height: 100%;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    position: absolute;
+    top: 0px;
+    left: 2px;
+    box-sizing: border-box;
+    border: 3px solid #126E51;
+}
   /* Flicker */
 .backDirective {
+
+  z-index: 2;
+  background: #126e51;
   color: white;
-  width: 95px;
+  width: 101px;
+  height: 100%;
   border-top-left-radius: 10px;
   border-bottom-left-radius: 10px;
-  height: 85%;
+  position: absolute;
+  top: 0px;
+  left: 2px;
   animation: backBlinkBackground 1.5s infinite;
+  box-sizing: border-box;
+  border: 3px solid #126E51;
 }
 @keyframes backBlinkBackground{
   /*OPTION 1
@@ -228,13 +234,22 @@ tr.juicyMatch-row:not(.juicyMatch-expanded-row):active { /* when main container 
 
 }
 .flickDirectiveLay {
+  
+  z-index: 2; 
+  background: #003366;
   color: white;
-
-  width: 95px;
+  width: 101px;
+  height: 100%;
   border-top-left-radius: 10px;
-  border-bottom-left-radius: 10px;
-  height: 85%;
+  border-bottom-left-radius: 10px;  
+  position: absolute;
+  top: 0px;
+  left: 40px;
   animation: layBackground 1.5s infinite;
+  box-sizing: border-box;
+  border: 3px solid #003366;
+  margin-left: -38px;
+  
 }
 @keyframes layBackground{
   /*OPTION 1
@@ -251,7 +266,6 @@ tr.juicyMatch-row:not(.juicyMatch-expanded-row):active { /* when main container 
 .flickDirectiveEV {
   color: white;
   padding: 6px;
-  padding-left: 10px;
   padding-right: 10px;
   border-radius: 5px;
   animation: evBlinkBackground 4s infinite;
@@ -833,9 +847,9 @@ th.mat-sort-header-sorted {
 }
 
 .odd-text {
-    position: absolute;
-    top: 9px;
-    left: 40px;
+  position: relative;
+  top: 22%;
+  left: 6%;
 }
 .fta-value-text {
   position: absolute;
