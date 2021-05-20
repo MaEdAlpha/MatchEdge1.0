@@ -77,12 +77,33 @@ div.mat-dialog-content > p{
   margin-right: auto;
 }
 
-.sab-matched-container > mat-form-field,
-.sab-ftaOption > mat-form-field {
+.sab-matched-container > mat-form-field
+ {
   float:right;
   width: 100px;
 }
+.toggle-ftaOption-container{
+  display: inline-flex;
+}
 
+.sab-ftaToggle{
+  margin-left: auto;
+  margin-top: -60px;
+}
+.sab-ftaOption{
+  width: 100%;
+  text-align: center;
+  display: inline-grid;
+}
+.header-details{
+  display: inline-grid;
+  width: 100%;
+}
+.new-bet-title{
+  text-align: center;
+  width: 100%;
+}
+.sab
 ::ng-deep.mat-form-field-underline{
   display: none !important;
 }

@@ -48,7 +48,7 @@ export class ActiveBetsComponent implements OnChanges, OnInit, AfterViewInit {
     { field: 'stake', alias: 'Back Stake'},
     { field: 'backOdd', alias: 'Back Odds'},
     { field: 'layOdd', alias: 'Lay Odds'},
-    { field: 'occ', alias: 'fta'},
+    { field: 'occ', alias: 'FTA'},
     { field: 'ql', alias: 'Qualifying Loss'},
     { field: 'isSettled', alias: 'Bet Status'},
     { field: 'pl', alias: 'Profit/Loss'},

@@ -1,13 +1,31 @@
-<ng-container
-*ngIf="isEdit; then editSavedBet else displayNewForm"></ng-container>
 
-<ng-template #editSavedBet>
+
   <div mat-dialog-content>
     <form [formGroup]="sabFormValues">
 
 
       <div class="sab-ftaOption-container">
-        <h2>Bet was made with <span class="fta-selection">{{formFtaOption == 1 ? 'Juicy FTA Rating' : ' 1/65 Average FTA '}} </span> </h2>
+        <ng-container *ngIf="isEdit; else newBet" >
+          <h2>Bet was made with <span class="fta-selection">{{formFtaOption == 1 ? 'Juicy FTA Rating' : ' 1/65 Average FTA '}} </span> </h2>
+        </ng-container>
+        <ng-template #newBet>
+          <div class="header-details">
+            <p class="new-bet-title">Create a bet slip for {{data.activeBet.selection}}</p>
+            <div class="toggle-ftaOption-container">
+              <div class="sab-ftaOption">
+                <div  *ngIf="sabFormValues.value.FtaOption == 1; else generic"><span class="fta-selection">Juicy FTA Rating</span> selected for calculating this bet </div>
+                <ng-template #generic><span class="fta-selection">1/65 Avg FTA Rating</span> selected for calculating this bet</ng-template>
+                <div class="sab-ftaToggle">
+                  <mat-form-field>
+                    <mat-slide-toggle class="example-margin" formControlName="FtaOption" [color]="color" [checked]="checked" [disabled]="disabled" (click)="updateFTA()">FTA Rating</mat-slide-toggle>
+                    <input formControlName = "FtaOption" matInput #value hidden>
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+
+           </div>
+        </ng-template>
       </div>
 
       <div class="edit-main-fields">
@@ -27,7 +45,7 @@
                   step="1"
                   required
                   matInput
-                  placeholder="{{getRealtimeUpdate().value.stake | slice : '2' | currency : 'GBP':'1.0-0' }}">
+                  placeholder="{{ getRealtimeUpdate().value.stake  | slice : '2' | currency : 'GBP':'1.0-0' }}">
                   <span matPrefix>£&nbsp;</span>
                   <mat-error *ngIf="sabFormValues.controls.BackOdds.errors">{{getErrorMessage()}}</mat-error>
                 </mat-form-field>
@@ -183,9 +201,11 @@
       <h4 class="update-message cdk-global-overlay-wrapper"> {{sabFormValues.dirty && sabFormValues.status == "VALID" ? 'Update Changes?' : ''}}</h4>
     </div>
   </div>
-</ng-template>
+
+
+<!-- ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
 <!-- NEW FORM TEMPLATE! -->
- <ng-template #displayNewForm>
+<!--
 
    <div mat-dialog-content>
     <hr>
@@ -196,7 +216,7 @@
         <h3 class="title-details">{{data.activeBet.matchDetail | date: 'EEE dd LLL HH:mm'}}</h3>
       </div>
 
-      <button (click)="test()">Test</button>
+
       <div class="logo-container">
         <img class="logo" src="/assets/img/fcLogo/{{data.activeBet.logo}}.png" alt="">
       </div>
@@ -207,7 +227,7 @@
 
       <div class="sab-ftaOption-container">
         <mat-form-field>
-          <mat-slide-toggle class="example-margin" formControlName="FtaOption" [color]="color" [checked]="checked" [disabled]="disabled" (click)="updateFTA()">
+          <<mat-slide-toggle class="example-margin" formControlName="FtaOption" [color]="color" [checked]="checked" [disabled]="disabled" (click)="updateFTA()">
             <div class="sab-ftaOption" *ngIf="sabFormValues.value.FtaOption == 1; else generic"> Juicy </div>
             <ng-template class="sab-ftaOption" #generic>65 Avg.</ng-template>
           </mat-slide-toggle>
@@ -327,8 +347,6 @@
               <mat-error *ngIf="sabFormValues.controls.PL.errors">{{getErrorMessage()}}</mat-error>
             </mat-form-field>
           </div>
-
-          <!-- <button mat-button class="popup-btn" (click)="isEarlyCashout=!isEarlyCashout" >Override</button> -->
         </div>
         <div class="sab-matched-container">
             <div class="sab-matched-container">
@@ -347,5 +365,5 @@
           <h4 class="update-message cdk-global-overlay-wrapper"> {{sabFormValues.dirty && sabFormValues.status == "VALID" ? 'Save Changes?' : ''}}</h4>
         </div>
       </div>
-    </ng-template>
+-->
 

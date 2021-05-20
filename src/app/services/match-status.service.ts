@@ -142,10 +142,11 @@ export class MatchStatusService {
   //called at matchTable on Initialization. Used to listen for any changes
   watchMatchSubject( selection: any){
     //create observable
-    this.watchSubject.next(selection);
+
+      this.watchSubject.next(selection);
+      this.updateNotificationStatus(selection);
     //add to list for notification services
     //get user preferences for odds and set notification here.
-    this.updateNotificationStatus(selection);
   }
 
   //will updateNotification Status: Used to trigger toast notification.

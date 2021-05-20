@@ -123,7 +123,7 @@ export class PopupViewSavedBetsComponent implements AfterViewInit {
 
       const dialogRef = this.dialog.open(PopupFormSavedBetsComponent, {
         width: '70%',
-        height: '48%',
+        height: '50%',
         data: {activeBet, isEdit}
       });
 

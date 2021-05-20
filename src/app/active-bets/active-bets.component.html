@@ -19,12 +19,13 @@
 
       <div *ngIf="column.field.endsWith('isSettled')">
         <mat-form-field>
+          <mat-label > <span class="pl-label"> Profit/Loss </span></mat-label>
         <input
           matInput
           formControlName="ProfitLoss"
           placeholder="Profit/Loss">
         </mat-form-field>
-      <button mat-raised-button (click)="sab[column.field]=!sab[column.field]; savePL(sab,i); $event.stopPropagation()"> <span> {{sab[column.field] ? 'Settled' : 'Unsettled'}}</span>  </button>
+      <button class="status-btn" mat-raised-button  (click)="sab[column.field]=!sab[column.field]; savePL(sab,i); $event.stopPropagation()" [ngClass]="sab['isSettled'] ? 'settled-overlay' : 'btn-default'"> <span> {{sab[column.field] ? 'Settled' : 'Unsettled'}}</span>  </button>
       </div>
 
       <!-- <div *ngIf="column.endsWith('betState')">
@@ -46,7 +47,7 @@
           </mat-drawer-container>
         </ng-container>
         </div>
-      <div *ngIf="column.field.endsWith('fixture') || column.field.endsWith('selection')  || column.field.endsWith('backOdd') || column.field.endsWith('stake') || column.field.endsWith('layOdd') || column.field.endsWith('layStake') || column.field.endsWith('ql') || column.field.endsWith('pl') ">
+      <div *ngIf="column.field.endsWith('fixture') || column.field.endsWith('selection')  || column.field.endsWith('backOdd') || column.field.endsWith('stake') || column.field.endsWith('layOdd') || column.field.endsWith('layStake') || column.field.endsWith('ql') || column.field.endsWith('pl') || column.field.endsWith('occ') ">
         {{sab[column.field]}}
       </div>
     </td>
@@ -63,7 +64,7 @@
       <ng-container *ngIf="expandedElement === sab">
         <form class="form-container"  [formGroup]="selectionValues">
 
-        <div class="jm-exp-details"> <!--Expansion container for juicy match-->
+        <div class="expanded-content"  [ngClass]="sab['isSettled'] ? 'settled-overlay' : 'jm-exp-details'"> <!--Expansion container for juicy match-->
 
 
           <div class="jm-expanded-container"> <!-- Relevant match values -->
@@ -188,7 +189,7 @@
                   <span class="ql-value"> {{ QL( getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value, getGroup(i).get('Stake').value) | currency:'GBP'}}  </span>
                 </div>
                 <div class="calculated-row">
-                  <button tabindex="0" mat-raised-button class="exp-button"  (click)="updateSAB(sab, i)">Update Bet</button>
+                  <button tabindex="0" mat-raised-button class="exp-button" [disabled]="sab['isSettled']"  (click)="updateSAB(sab, i); expandedElement=null">Update Bet</button>
                 </div>
               </div>
             </div>

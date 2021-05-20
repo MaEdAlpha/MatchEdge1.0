@@ -38,13 +38,13 @@
         </div>
       </div>
       <div class ="vertical"></div>
-        
+
       <div class="estimated-value-cont">
         <div formArrayName="options">
 
         <div class="fta-container">
           <h1>Estimated Value Preferences</h1>
-          <p class="estimated-value-text"> Apply either the Juicy-Bets 2up occurrence value or the average 1/65 to calculate the Estimated Value of a bet. </p>   
+          <p class="estimated-value-text"> Apply either the <span class="fta-highlight">Juicy FTA Rating</span> value or the <span class="fta-highlight">1/65 Avg Rating</span> to calculate the Estimated Value of a bet. </p>
                         <div class="ev-content-row1">
                   <mat-form-field appearance="fill">
                                         <mat-select formControlName="FTASelected">
@@ -54,7 +54,7 @@
                     </mat-select>
                   </mat-form-field>
               </div>
-                <p class="estimated-value-text"> The <b>FTA rating</b> will be applied with your saved <b>Preferred Stake</b> to calculate the estimated value of matches shown in the Juicy-Bets table. {{options.get('FTASelected').value == 'generic' ? ftaSelection[1].viewValue : ftaSelection[0].viewValue }}</p>
+                <p class="estimated-value-text"> The  <span class="fta-highlight">  {{options.get('FTASelected').value == 'generic' ? ftaSelection[1].viewValue : ftaSelection[0].viewValue }} Rating</span> will be applied with your saved <b>Preferred Stake</b> to calculate the estimated value (EV) of matches shown in the Juicy-Bets table.</p>
             </div>
             <div class="horizontal"></div>
 
@@ -78,7 +78,7 @@
                     <mat-label class="value-selector"> Smarkets</mat-label>
                     <input formControlName="Commission" matInput placeholder="{{preferenceForm.get('options').value[2]}}" [value]="preferenceForm.get('options').value[2]">
                     </mat-form-field>
-                
+
                 </div>
               </div>
             </div>

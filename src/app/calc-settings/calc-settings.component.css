@@ -86,7 +86,7 @@ input::placeholder {
 }
 .exchange-container,
 .fta-container {
-  min-height: 150px;  
+  min-height: 150px;
 }
 
 .estimated-value-text{
@@ -167,4 +167,8 @@ input.ng-invalid.ng-touched {
   margin-left: 4%;
   padding-bottom: 5px;
   margin-right: 4%;
+}
+
+.fta-highlight{
+  color: #aa8920;
 }

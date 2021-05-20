@@ -626,7 +626,7 @@ import { PopupViewSavedBetsComponent } from '../popup-view-saved-bets/popup-view
       //filter by league
       const leagueMatches = this.matches.filter( (match) => {
         var matchEpoch:number = match.EpochTime*1000;
-          if(match.League == groupRow.League && ( matchEpoch >= epochCutOff.forStartOfDayOne && matchEpoch <= epochCutOff.forDayTwo ))
+          if(match.League == groupRow.League && match.isPastPrime == false && ( matchEpoch >= epochCutOff.forStartOfDayOne && matchEpoch <= epochCutOff.forDayTwo ))
           {
             match.isWatched = groupRow.watchAll ? true : false;
             this.toggleNotification(match, true);
@@ -640,7 +640,7 @@ import { PopupViewSavedBetsComponent } from '../popup-view-saved-bets/popup-view
 
       // console.log(leagueMatches);
       leagueMatches.forEach( (match)=> {
-        if(groupRow.watchAll){
+        if(groupRow.watchAll && match.isPastPrime == false){
           this.matchStatusService.addToWatchList(match);
           this.matchStatusService.watchMatchSubject(match);
         } else {
@@ -769,10 +769,10 @@ import { PopupViewSavedBetsComponent } from '../popup-view-saved-bets/popup-view
 
     addToWatchList(rowData:any){
       console.log(rowData);
-      rowData.isWatched = !rowData.isWatched;
+      rowData.isWatched = rowData.isPastPrime ? false: !rowData.isWatched;
       console.log("RowData.isWatched set to " + rowData.isWatched);
 
-      if(rowData.isWatched){
+      if(rowData.isWatched && rowData.isPastPrime == false){
         this.matchStatusService.addToWatchList(rowData);
         this.matchStatusService.watchMatchSubject(rowData);
       } else {

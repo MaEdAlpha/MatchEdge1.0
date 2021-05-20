@@ -141,7 +141,6 @@ app.get(`/api/updates`, function(req, res) {
           res.write(msg);
           //console.log(JSON.stringify(next.fullDocument) + "\n\n" );
         });
-
   });
 
   //View Table Matches => /api/matches
