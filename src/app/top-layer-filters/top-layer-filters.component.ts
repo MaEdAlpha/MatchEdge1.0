@@ -8,7 +8,7 @@ import { Subscription } from 'rxjs';
 import { NotificationBoxService } from '../services/notification-box.service';
 import { JuicyMatchHandlingService } from '../juicy-match/juicy-match-handling.service';
 import { HttpClient } from '@angular/common/http';
-import { environment as env } from '../../environments/environment';
+import { environment as env } from '../../environments/environment.prod';
 import { UserSettings } from '../user-properties.model';
 
 interface DateOptions {

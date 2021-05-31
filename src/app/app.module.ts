@@ -13,7 +13,7 @@ import { AuthInterceptor } from './auth/auth-interceptor';
 
 //Auth0
 import { AuthModule } from '@auth0/auth0-angular';
-import { environment as env } from '../environments/environment';
+import { environment as env } from '../environments/environment.prod';
 //Materials
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';

@@ -1,23 +1,24 @@
+@use '~@angular/material' as mat;
 @import '~@angular/material/theming';
 // Plus imports for other components in your app.
 
 // Include the common styles for Angular Material. We include this here so that you only
 // have to load a single css file for Angular Material in your app.
 // Be sure that you only ever include this mixin once!
-@include mat-core();
+@include mat.core();
 
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
-$edge-app-primary: mat-palette($mat-blue-grey);
-$edge-app-accent:  mat-palette($mat-yellow, 800 );
+$edge-app-primary: mat.define-palette(mat.$blue-grey-palette);
+$edge-app-accent:  mat.define-palette(mat.$yellow-palette, 800 );
 
 // The warn palette is optional (defaults to red).
-$edge-app-warn:    mat-palette($mat-red);
+$edge-app-warn:    mat.define-palette(mat.$red-palette);
 
 // Create the theme object. A theme consists of configurations for individual
 // theming systems such as `color` or `typography`.
-$edge-app-theme: mat-light-theme((
+$edge-app-theme: mat.define-light-theme((
   color: (
     primary: $edge-app-primary,
     accent: $edge-app-accent,
@@ -28,8 +29,8 @@ $edge-app-theme: mat-light-theme((
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
-@include angular-material-theme($edge-app-theme);
+@include mat.all-component-themes($edge-app-theme);
 
-$app-primary: mat-color($edge-app-primary);
-$app-accent: mat-color($edge-app-accent);
-$app-warn: mat-color($edge-app-warn);
+$app-primary: mat.get-color-from-palette($edge-app-primary);
+$app-accent: mat.get-color-from-palette($edge-app-accent);
+$app-warn: mat.get-color-from-palette($edge-app-warn);
