@@ -3,6 +3,7 @@ import { Observable, Subject } from "rxjs";
 import { map } from 'rxjs/operators'
 import { Injectable, EventEmitter } from '@angular/core';
 import { UserPropertiesService } from '../services/user-properties.service';
+import { environment as env } from '../../environments/environment.prod';
 
 
 
@@ -21,7 +22,7 @@ export class MatchesService {
   getMatches() {
     this.http
       .get<{body: any[]}> (
-        "http://localhost:3000/api/matches"
+        env.serverUrl + "/api/matches"
       )
       .pipe(map( (matchData) => {
 

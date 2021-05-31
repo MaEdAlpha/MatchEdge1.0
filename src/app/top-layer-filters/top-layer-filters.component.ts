@@ -108,6 +108,7 @@ export class TopLayerFiltersComponent implements OnInit, OnChanges {
     this.juicyMatchHandlingService.clearJuicyClicked(this.clearAllJuicy);
     this.clearAllJuicy = !this.clearAllJuicy;
     //send little notification that
+    this.userPropertiesService.testHttp();
   }
 
   showCustomToast(){

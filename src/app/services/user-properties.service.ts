@@ -7,7 +7,7 @@ import { TriggerOdds } from '../match-notification-settings/trigger-odds.model';
 import { NotificationBoxService } from './notification-box.service';
 import { TablePreferences, UserSettings } from '../user-properties.model';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { environment as env } from '../../environments/environment';
+import { environment as env } from '../../environments/environment.prod';
 import { map } from 'rxjs/operators';
 import { logging } from 'selenium-webdriver';
 import { Router } from '@angular/router';
@@ -143,6 +143,15 @@ export class UserPropertiesService {
   getUserSettings(): UserSettings {
     return  this.settings;
   }
+
+  testHttp(){
+    this.http
+    .get<{body: any[]}> (
+      env.serverUrl + "/api/mongo"
+    ).subscribe(body => {
+      console.log(body);
+    })
+  }
   //return data from DB and set to userDetails.
   getSettings(email:string, sub:string){
     //http GET request to retrieve user properties from DB;
@@ -151,7 +160,9 @@ export class UserPropertiesService {
     //initially would return a promise to allow the rest of the site to load.
     const promise: Promise<boolean> = new Promise( (resolve,reject) => {
 
-  this.http.put<{token:string, userDetails: UserSettings}>("http://localhost:3000/api/user/connect", data)
+  this.http.put<{token:string, userDetails: UserSettings}>(
+    env.serverUrl + "/api/user/connect",
+     data)
   .subscribe( (body) => {
                           userData = body;
                           // console.log('Requesting...');
@@ -335,7 +346,9 @@ export class UserPropertiesService {
 
                     console.log("----2. PUT to DB -----");
                     console.log(this.settings);
-    this.http.put<any>("http://localhost:3000/api/user/settings", this.settings).subscribe( (response) => {
+    this.http.put<any>(
+      env.serverUrl +  "/api/user/settings",
+     this.settings).subscribe( (response) => {
       console.log("Client Side Update saved response");
 
       console.log(response);

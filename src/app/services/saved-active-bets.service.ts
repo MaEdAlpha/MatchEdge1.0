@@ -4,6 +4,7 @@ import { Subject, Observable, Subscription} from 'rxjs';
 import { ActiveBet } from '../models/active-bet.model';
 import { map } from 'rxjs/operators'
 import { UserPropertiesService } from './user-properties.service';
+import { environment as env } from '../../environments/environment.prod';
 
 @Injectable({
   providedIn: 'root'
@@ -25,7 +26,10 @@ export class SavedActiveBetsService {
     console.log("Getting SAB of user");
 
 
-    this.http.get<{body:any[]}>("http://localhost:3000/api/sab/sabs",  {params:customParams})
+    this.http.get<{body:any[]}>(
+      env.serverUrl + "/api/sab/sabs",
+      // "Jb-env.eba-e8kmprp8.us-east-2.elasticbeanstalk.com/api/sab/sabs",
+      {params:customParams})
     .pipe(map( (mappedSAB) => {
       return mappedSAB.body.map((sab) => {
                                                 return {
@@ -78,7 +82,9 @@ export class SavedActiveBetsService {
 
   //Used strictly for Juicy. Creates a new SAB
   saveToActiveBets(sab: ActiveBet){
-    this.http.post("http://localhost:3000/api/sab", sab)
+    this.http.post(
+      env.serverUrl + "/api/sab",
+      sab)
     .subscribe( (sabEntry: { _id:string}) => {
         sab.id = sabEntry._id;
        return this.activeBetSubject.next(sab);
@@ -89,7 +95,10 @@ export class SavedActiveBetsService {
 
 
   patchToActiveBets(sab:ActiveBet){
-    this.http.put("http://localhost:3000/api/sab/" + sab.id, sab)
+    this.http.put(
+      env.serverUrl + "/api/sab/"
+      // "Jb-env.eba-e8kmprp8.us-east-2.elasticbeanstalk.com/api/sab"
+    + sab.id, sab)
     .subscribe( (sabEntry) => {
       console.log( sabEntry);
 
@@ -99,7 +108,10 @@ export class SavedActiveBetsService {
   deleteSAB(sabID:string){
     //pass UID to database and remove this SAB from db
     this.removeFromList.emit(sabID)
-    this.http.delete("http://localhost:3000/api/sab/" + sabID)
+    this.http.delete(
+      env.serverUrl + "/api/sab/"
+      // "Jb-env.eba-e8kmprp8.us-east-2.elasticbeanstalk.com/api/sab"
+      + sabID)
     .subscribe( (data: {deletedCount: number}) => {
       data.deletedCount == 1 ?  "" : this.removeFromList.emit("Error");
     });

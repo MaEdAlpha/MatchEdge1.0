@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { environment as env } from '../environments/environment.prod';
 import { Match } from "./match/match.model";
 import { MatchesService } from './match/matches.service';
 
@@ -18,7 +19,7 @@ export class WebsocketService {
   public openWebSocket() {
     console.log("STREAM CONNECT");
 
-    this.eventSource = new EventSource('http://localhost:3000/api/updates');
+    this.eventSource = new EventSource(env.serverUrl + '/api/updates');
     // this.eventSource = new EventSource('/');
     if(!!window.EventSource){
       this.eventSource.onopen = (event) => {

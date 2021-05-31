@@ -8,7 +8,6 @@ export const environment = {
     redirectUri: window.location.origin,
     audience,
   },
-  dev: {
-    serverUrl,
-  },
+    serverUrl:"http://localhost:3000"
+
 };

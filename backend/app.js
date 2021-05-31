@@ -1,20 +1,37 @@
 
-const express = require('express'); //import express
-const app = express(); //important: app is just a chain of middleware. Funnel of functions that do things to the request. read values. manipulate...send responses etc
+const express = require('express');
+const app = express();
 const cors = require('cors');
 const checkAuth = require("./middleware/check-auth");
-
-
 const disableAuth = false;
-//JWT
 const jwt = require('jsonwebtoken');
 
+app.use((req, res, next) => {
+  // res.setHeader("Access-Control-Allow-Origin", '*');
+  // res.setHeader("Access-Control-Allow-Header", 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+  //   res.setHeader("Access-Control-Allow-Methods",'GET, PUT, POST, PATCH, DELETE, OPTIONS');
+  //     next();
+    // Website you wish to allow to connect
+    res.setHeader('Access-Control-Allow-Origin', '*');
+
+    // Request methods you wish to allow
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+
+    // Request headers you wish to allow
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type');
+
+    // Set to true if you need the website to include cookies in the requests sent
+    // to the API (e.g. in case you use sessions)
+    res.setHeader('Access-Control-Allow-Credentials', true);
+    next();
+});
 //MongoDB
 const MongoClient = require("mongodb").MongoClient;
 const ObjectID = require('mongodb').ObjectID;
 
 //const connectionString = "mongodb+srv://Dan:x6RTQn5bD79QLjkJ@cluster0.uljb3.gcp.mongodb.net/MBEdge?retryWrites=true&w=majority";
 const connectionString = "mongodb+srv://Randy:4QQJnbscvoZQXr0l@clusterme.lfzcj.mongodb.net/MBEdge?retryWrites=true&w=majority";
+//const connectionString = "mongodb+srv://ryan:fuckyouhacker@juicybets.tcynp.mongodb.net/MBEdge?retryWrites=true&w=majority";
 const options = {useUnifiedTopology: true, useNewUrlParser: true};
 const client = new MongoClient(connectionString, options );
 
@@ -34,31 +51,42 @@ async function connectDB(client){
 connectDB(client).catch(console.error);
 
 ///////////////////////////////  RESPONSE HEADER //////////////////////////////////////////////
-app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader(
-    "Access-Control-Allow-Header",
-    "Origin, X-Requested-With, Content-Type, Accept, Authorization"
-    );
-    res.setHeader(
-      "Access-Control-Allow-Methods",
-      "GET, POST, PATCH, DELETE, OPTIONS"
-      );
-      next();
-});
 
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
-
 
 /////////////////////////////////////////////////////////////////////////////////////////
 //                              API TO BACKEND                                        //
 ////////////////////////////////////////////////////////////////////////////////////////
 //Retrieves User Settings or generates a default one.
 
-app.put(`/api/user/connect`, async (req,res) => {
+app.get('/api/test', async (req,res)=>{
+  res.status(200).json({message:"Works"})
+});
+
+app.get('/api/mongo', async (req,res) => {
+  const cursor = await client.db("MBEdge").collection("matches").find().sort({"League": 1, "unixDateTimestamp":1});
+  const matchesList = await cursor.toArray();
+  let body = matchesList;
+  res.status(200).json({body})
+});
+
+app.put('/api/user/putcreate' , async (req,res)=>{
+  createNewUserDocument("testing@mongodb.com").then(()=> {
+    res.status(200).json({message:"CheckDatabase"});
+  })
+});
+
+app.post('/api/user/postcreate' , async (req,res)=>{
+  createNewUserDocument("testing@mongodb.com").then(()=> {
+    res.status(200).json({message:"CheckDatabase"});
+  })
+});
+
+app.put('/api/user/connect', async (req,res) => {
+
+
   //upsert document. If new user, return _id. If not new user, find in database.
   const filter = {"account.email": req.body.email};
 
@@ -80,7 +108,7 @@ app.put(`/api/user/connect`, async (req,res) => {
                               //where you get results of new user authenticate here.
                               authenticateUser(req.body.email, req.body.sub)
                               .then( generatedToken =>{
-                                  res.status(201).json({token: generatedToken.token, expiry: generatedToken.expires, userDetails: response})
+                                  res.status(200).json({token: generatedToken.token, expiry: generatedToken.expires, userDetails: response})
                                 });
 
                             });
@@ -93,7 +121,7 @@ app.put(`/api/user/connect`, async (req,res) => {
 
                             //Dev Use
                             if(disableAuth){
-                              res.status(201).json({token: 'iamAtoken', expiry: 3600 , userDetails: response});
+                              res.status(200).json({token: 'iamAtoken', expiry: 3600 , userDetails: response});
 
                             } else {
                               //Production Use
@@ -101,13 +129,13 @@ app.put(`/api/user/connect`, async (req,res) => {
                               .then( generatedToken => {
                                 console.log("authenicating User....");
                                 console.log(generatedToken);
-                                res.status(201).json({token: generatedToken.token, expiry: generatedToken.expires , userDetails: response});
+                                res.status(200).json({token: generatedToken.token, expiry: generatedToken.expires , userDetails: response});
                               });
                             }
 
 
                           }
-                        } catch (e){ console.log("error at connection!: " + e);
+                        } catch (e){ res.status(300).json({token: "Error retrieving user details"});
                       } finally { console.log("Enter.....");}
 
                       })
@@ -186,7 +214,7 @@ app.post('/api/sab', checkAuth, async(req,res) => {
         if(!error){
           // console.log(req.body);
           console.log("Succesfully written to DB!");
-          res.status(201).json({_id: response.insertedId});
+          res.status(200).json({_id: response.insertedId});
         }else{
           console.log("Oooops, shit fucked up when writing to DB!  ");
           res.status(404).json({error});
@@ -249,7 +277,7 @@ app.put('/api/user/settings', async(req,res,next) => {
       const cursor = client.db("JuicyClients").collection("juicy_users")
                               .updateOne( filter, update, options, function(error,response){
                                  console.log("Updated!");
-                                 res.status(201).json({ response: response});
+                                 res.status(200).json({ response: response});
                               });
 });
 
@@ -300,7 +328,7 @@ app.delete("/api/sab/:id", checkAuth, async(req,res,next) => {
     col.deleteOne({ _id: _id}, function(error,response){
       if(response.deletedCount != 0){
         console.log("Completed! Deleted: " + response.deletedCount);
-        res.status(201).json({deletedCount: response.deletedCount});
+        res.status(200).json({deletedCount: response.deletedCount});
       } else {
         console.log("Failed to delete...");
         res.status(400).json({deletedCount: response.deletedCount})
@@ -311,7 +339,8 @@ app.delete("/api/sab/:id", checkAuth, async(req,res,next) => {
 //Uses upsert to create default userSettings, assigning userEmail.
 //Recieves upsertID, finds newly inserted document, returns it to client.
 async function authenticateUser(userEmail, userId){
-  let pv_key = "ALK!838(KjlIj__+9129JAqjL110}23";
+  // JWT_KEY
+  let pv_key = "0A6aKFksbmPgDlIKiUGcMm82eycRgTivqkZx4zjDJn2CWm9LF5Kq5wnKltq4Uk3Zlpt9UJxbf";
   let encodedData =  {email: userEmail, userId: userId };
   let options =  {expiresIn: "1h"};
   let expirationSeconds = 3600 //convert "1h" string into seconds

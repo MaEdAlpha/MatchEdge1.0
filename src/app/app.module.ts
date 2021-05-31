@@ -194,7 +194,7 @@ import { SABToastIncompleteComponent } from './sabtoast-incomplete/sabtoast-inco
        // Request this scope at user authentication time
       httpInterceptor: {
         allowedList: [
-                      '${env.dev.serverUrl}'
+                      '${env.serverUrl}'
                      ],
       }
     }),

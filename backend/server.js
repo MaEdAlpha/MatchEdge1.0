@@ -1,7 +1,9 @@
 
 const http = require('http'); //default node.js package already installed on node.js
+const { request } = require('./app');
 const debug = require('debug')('node-angular');
-const app = require('./backend/app');
+const app = require('./app');
+
 
 
 
@@ -56,3 +58,4 @@ server.on("error", onError);
 server.on("listening", onListening);
 //set port you want to host server at. for now, we do localhost 3000
 server.listen(port);
+
