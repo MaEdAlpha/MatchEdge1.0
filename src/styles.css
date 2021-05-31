@@ -55,6 +55,13 @@ input.value-box-lay {
   vertical-align: middle;
   margin-top: 1%;
   }
+  
+  .toast-container {
+    pointer-events: none;
+    position: fixed;
+    z-index: 999999;
+    display: inline-flex;
+  }
 
 /* Bookie buttons */
   button.exchange-button-container{

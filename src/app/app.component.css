@@ -30,21 +30,6 @@ mat-spinner {
   padding: 5px 70px;
 }
 
-::ng-deep .mat-raised-button
-{
-  background-color: #37474F;
-  color: #e1ad18;
-  font-size: 20px;
-  line-height: 1.125;
-  font-family: Bahnschrift SemiBold;
-  letter-spacing: normal;
-  font-stretch: condensed;
-  padding: 5px 65px !important;
-  border:solid 0.5px #7f7f7f !important;
-  box-shadow: 0 0 11px #0b0b0ba6 !important;
-}
-
-
 .top-hz {
   margin-top: 20px;
   width: 30%;
