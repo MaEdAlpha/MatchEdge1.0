@@ -3,6 +3,26 @@
 }
 
 img {
-  border: 3px  #f9a825 solid;
-  border-radius: 250px;
+  margin-bottom: -3%;
+  margin-top: 2%;
+}
+
+.welcometext{
+  color: #e1ad18;
+  font-size: 72px;
+  line-height: 1.125;
+  font-family: Bahnschrift SemiBold;
+  letter-spacing: normal;
+  text-shadow: 3px 4px 2px #0000009e;
+  font-stretch: condensed;
+}
+
+.slogan{
+  color: #e1ad18;
+  font-size: 26px;
+  line-height: 4;
+  font-family: Bahnschrift SemiBold;
+  letter-spacing: normal;
+  text-shadow: 2px 2px 1px #0000009e;
+  font-stretch: condensed;
 }
