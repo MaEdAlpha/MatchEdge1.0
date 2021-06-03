@@ -3,7 +3,6 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 const checkAuth = require("./middleware/check-auth");
-const disableAuth = false;
 const jwt = require('jsonwebtoken');
 
 app.use((req, res, next) => {
@@ -13,15 +12,11 @@ app.use((req, res, next) => {
   //     next();
     // Website you wish to allow to connect
     res.setHeader('Access-Control-Allow-Origin', '*');
-
     // Request methods you wish to allow
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-
     // Request headers you wish to allow
     res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type');
-
     // Set to true if you need the website to include cookies in the requests sent
-    // to the API (e.g. in case you use sessions)
     res.setHeader('Access-Control-Allow-Credentials', true);
     next();
 });
@@ -31,7 +26,6 @@ const ObjectID = require('mongodb').ObjectID;
 
 //const connectionString = "mongodb+srv://Dan:x6RTQn5bD79QLjkJ@cluster0.uljb3.gcp.mongodb.net/MBEdge?retryWrites=true&w=majority";
 const connectionString = "mongodb+srv://Randy:4QQJnbscvoZQXr0l@clusterme.lfzcj.mongodb.net/MBEdge?retryWrites=true&w=majority";
-//const connectionString = "mongodb+srv://ryan:fuckyouhacker@juicybets.tcynp.mongodb.net/MBEdge?retryWrites=true&w=majority";
 const options = {useUnifiedTopology: true, useNewUrlParser: true};
 const client = new MongoClient(connectionString, options );
 
@@ -61,16 +55,16 @@ app.use(express.urlencoded({ extended: true }));
 ////////////////////////////////////////////////////////////////////////////////////////
 //Retrieves User Settings or generates a default one.
 
-app.get('/api/test', async (req,res)=>{
-  res.status(200).json({message:"Works"})
-});
+// app.get('/api/test', async (req,res)=>{
+//   res.status(200).json({message:"Works"})
+// });
 
-app.get('/api/mongo', async (req,res) => {
-  const cursor = await client.db("MBEdge").collection("matches").find().sort({"League": 1, "unixDateTimestamp":1});
-  const matchesList = await cursor.toArray();
-  let body = matchesList;
-  res.status(200).json({body})
-});
+// app.get('/api/mongo', async (req,res) => {
+//   const cursor = await client.db("MBEdge").collection("matches").find().sort({"League": 1, "unixDateTimestamp":1});
+//   const matchesList = await cursor.toArray();
+//   let body = matchesList;
+//   res.status(200).json({body})
+// });
 
 app.put('/api/user/putcreate' , async (req,res)=>{
   createNewUserDocument("testing@mongodb.com").then(()=> {
@@ -85,14 +79,9 @@ app.post('/api/user/postcreate' , async (req,res)=>{
 });
 
 app.put('/api/user/connect', async (req,res) => {
-
-
   //upsert document. If new user, return _id. If not new user, find in database.
   const filter = {"account.email": req.body.email};
-
-
-  //Return user Settings or Generate Default User settings for login if a new user.
-  //Also generate and send back a token.
+  //Upon auth0 authentication, return user settings or generate default user settings + generate and send back token
   client.db("JuicyClients")
     .collection("juicy_users")
         .findOne( filter, function(error,response){
@@ -100,74 +89,57 @@ app.put('/api/user/connect', async (req,res) => {
                           error ? console.log(error) : '';
                           // console.log(response);
                           //if null, create a new user.
-                          if(response == null){
-                            console.log("Creating new user profile with default settings");
-                            //Create new document
-                            createNewUserDocument( req.body.email).then( response => {
-                              console.log(req.body.sub);
-                              //where you get results of new user authenticate here.
-                              authenticateUser(req.body.email, req.body.sub)
-                              .then( generatedToken =>{
-                                  res.status(200).json({token: generatedToken.token, expiry: generatedToken.expires, userDetails: response})
+                              if(response == null){
+                                console.log("Creating new user profile with default settings");
+                                //Create new document
+                                createNewUserDocument( req.body.email).then( response => {
+                                  console.log(req.body.sub);
+                                  //where you get results of new user authenticate here.
+                                  authenticateUser(req.body.email, req.body.sub)
+                                  .then( generatedToken =>{
+                                      res.status(200).json({token: generatedToken.token, expiry: generatedToken.expires, userDetails: response})
+                                    });
+
                                 });
 
-                            });
-
-                          } else {
-                            console.log('Retrieve user Settings triggered... ');
-                            // console.log(req.body.sub);
-                            // console.log(response);
-                            //where you get response of pre-existing user authenticate here.
-
-                            //Dev Use
-                            if(disableAuth){
-                              res.status(200).json({token: 'iamAtoken', expiry: 3600 , userDetails: response});
-
-                            } else {
-                              //Production Use
-                              authenticateUser(req.body.email, req.body.sub)
-                              .then( generatedToken => {
-                                console.log("authenicating User....");
-                                console.log(generatedToken);
-                                res.status(200).json({token: generatedToken.token, expiry: generatedToken.expires , userDetails: response});
-                              });
-                            }
-
-
-                          }
+                              } else {
+                                console.log('Retrieve user Settings triggered... ');
+                                  //Production Use
+                                  authenticateUser(req.body.email, req.body.sub)
+                                  .then( generatedToken => {
+                                    console.log("authenicating User....");
+                                    console.log(generatedToken);
+                                    res.status(200).json({token: generatedToken.token, expiry: generatedToken.expires , userDetails: response});
+                                  });
+                              }
                         } catch (e){ res.status(300).json({token: "Error retrieving user details"});
                       } finally { console.log("Enter.....");}
 
                       })
     });
 
-    //Authentication
-    //handle access to website. Find User. Have a boolean sent back, hasPaidSubscription?
-    // if so, grant access tocken.
-    //sub": "auth0|608513bd84219c0068259906" is the uid from auth0, and has a verified email.
-
-
 /////////////////////////////////////////////////////////////////////////////////////////
 //               INITIAL MATCHES AND STREAM DATA API                                  //
 ////////////////////////////////////////////////////////////////////////////////////////
 //TODO: Authenticat UPDATES API Call. Need to pass token in here and assign to writeHead(200)
 app.get(`/api/updates`, function(req, res) {
-
+  //'X-Accel-Buffering': turns off server buffering for SSE to work
   res.writeHead(200, {
+    'Access-Control-Allow-Origin': 'https://juicy-bets.com',
     'Content-Type': 'text/event-stream',
     'Cache-Control': 'no-cache',
     'Connection': 'keep-alive',
+    'X-Accel-Buffering': 'no'
   });
 
-
+      //point to matches collection and watch it.
       const collection =  client.db("MBEdge").collection("matches");
       const changeStream = collection.watch();
-
+      //send SSE events back to user
       changeStream.on('change', (next) => {
         var data = JSON.stringify(next.fullDocument);
         var msg = ("event: message\n" + "data: " + data + "\n\n");
           res.write(msg);
-          //console.log(JSON.stringify(next.fullDocument) + "\n\n" );
         });
   });
 
@@ -180,47 +152,42 @@ app.get('/api/matches', checkAuth, async(req, res) => {
     const matchesList = await cursor.toArray();
     let body = matchesList;
     res.status(200).json({body})
-
 });
-/////////////////////////////////////////////////////////////////////////////////////////
-//                SAB ROUTES  Place in another folder                                 //
+//////////////////////////////////////////////////////////////////////////////////////////
+//                                  SAB ROUTES                                         //
 ////////////////////////////////////////////////////////////////////////////////////////
-//Get all SAB **TODO** Need to get all SABS with ObjectID of user Only.
+
 app.get('/api/sab/sabs', async(req,res) => {
 try{
-  const filter = { "juId": req.query.juId }
-  console.log("------Retrieved SAB------");
-  console.log("ID: " + req.query.juId);
-  const cursor = await client.db("JuicyClients").collection("juicy_users_sab").find(filter);
-  console.log(cursor);
-  const sabList = await cursor.toArray();
-  let body = sabList;
-  console.log(body);
-  res.status(200).json({body})
-  console.log("--------Retrieved!--------");
-}catch(e){
-  console.log(e);
-}
-
+      const filter = { "juId": req.query.juId }
+      console.log("------Retrieved SAB------");
+      console.log("ID: " + req.query.juId);
+      const cursor = await client.db("JuicyClients").collection("juicy_users_sab").find(filter);
+      console.log(cursor);
+      const sabList = await cursor.toArray();
+      let body = sabList;
+      console.log(body);
+      res.status(200).json({body})
+      console.log("--------Retrieved!--------");
+    }
+    catch(e){
+    console.log(e);
+    }
 });
 
 //Create a SAB
-//*TODO Append juicyID onto document for lookup at initialization
-//DEV MODE add in checkAuth
 app.post('/api/sab', checkAuth, async(req,res) => {
 
       const col = await client.db("JuicyClients").collection("juicy_users_sab");
       const result = await col.insertOne(req.body, function(error, response){
         if(!error){
-          // console.log(req.body);
           console.log("Succesfully written to DB!");
           res.status(200).json({_id: response.insertedId});
         }else{
-          console.log("Oooops, shit fucked up when writing to DB!  ");
+          console.log("Oooops, shit fucked up when writing to DB contact support, please and thank you!  ");
           res.status(404).json({error});
         }
       });
-
 });
 
 app.put('/api/user/settings', async(req,res,next) => {
@@ -273,7 +240,6 @@ app.put('/api/user/settings', async(req,res,next) => {
                                               }
                            }
                     }
-
       const cursor = client.db("JuicyClients").collection("juicy_users")
                               .updateOne( filter, update, options, function(error,response){
                                  console.log("Updated!");
@@ -313,13 +279,10 @@ app.put('/api/sab/:id', async(req,res,next) => {
                                                               console.log("Match Updated!");
                                                               res.status(201).json({response});
                                                             })
-
-
   }
 );
 
 //Delete SAB
-//DEV MODE add in checkAuth
 app.delete("/api/sab/:id", checkAuth, async(req,res,next) => {
   console.log('Deleting SAB...');
     console.log(req.params);
@@ -339,7 +302,7 @@ app.delete("/api/sab/:id", checkAuth, async(req,res,next) => {
 //Uses upsert to create default userSettings, assigning userEmail.
 //Recieves upsertID, finds newly inserted document, returns it to client.
 async function authenticateUser(userEmail, userId){
-  // JWT_KEY
+  // JWT_ky
   let pv_key = "0A6aKFksbmPgDlIKiUGcMm82eycRgTivqkZx4zjDJn2CWm9LF5Kq5wnKltq4Uk3Zlpt9UJxbf";
   let encodedData =  {email: userEmail, userId: userId };
   let options =  {expiresIn: "1h"};
@@ -394,37 +357,4 @@ function createNewUserDocument(userEmail){
                             });
 }
 
-  ////////////////////////////////////////////////////////// NOT IN USE ATM ////////////////////////////////////////////////////////
-  async function listDatabases(client) {
-    databasesList = await client.db().admin().listDatabases();
-    console.log("Databases:");
-    databasesList.databases.forEach(db => console.log(` ${db.name}`));
-  }
-  async function showMatches(client){
-    console.log("ShowMatchesMethod");
-    const cursor = await client.db("MBEdge").collection("matches").find();
-    const query = await cursor.toArray();
-    console.log(query);
-    return query;
-  }
-  async function showUsers(client){
-    console.log("JuicyUsers");
-    const cursor = await client.db("JuicyClients").collection("juicy_users").find({});
-    const query = await cursor.toArray();
-    console.log(query);
-  }
-  function getUserSettings(juicyId, res) {
-    const _juicyId = new ObjectID(juicyId);
-    client.db("JuicyClients").collection("juicy_users").findOne({ "juicyId": _juicyId }, function (error, response) {
-      res.status(201).json({ response });
-      return response;
-    });
-  }
-  async function updateMatches(client){
-    const collection = client.db("MBEdge").collection("matches");
-    const changeStream = collection.watch();
-    changeStream.on('change', (next) => {
-      console.log(next.fullDocument);
-    });
-  }
 module.exports = app;

@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { environment as env } from '../environments/environment.prod';
-import { Match } from "./match/match.model";
 import { MatchesService } from './match/matches.service';
 
 @Injectable({
@@ -13,18 +12,16 @@ export class WebsocketService {
   eventSource: EventSource;
 
   constructor(private matchesService: MatchesService) {
-
   }
 
-  public openWebSocket() {
+  public openSSE() {
     console.log("STREAM CONNECT");
 
     this.eventSource = new EventSource(env.serverUrl + '/api/updates');
     // this.eventSource = new EventSource('/');
-    if(!!window.EventSource){
+    if(window.EventSource){
       this.eventSource.onopen = (event) => {
-        console.log('WSService.ts .onopen(): ', event);
-        //connect changestream to return matchDataStreamStorage[].
+        console.log('SSE connection initialized!~', event);
       };
 
       this.eventSource.onmessage = (event) => {
@@ -34,10 +31,9 @@ export class WebsocketService {
         this.matchesService.addToUpdatedMatches(JSON.parse(event.data));
       };
     }
-
   }
 
-  public closeWebSocket() {
+  public closeSSE() {
     this.eventSource.close();
   }
 }

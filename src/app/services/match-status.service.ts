@@ -76,7 +76,7 @@ export class MatchStatusService {
         return false;
       }
     });
-    console.log("Length -----UNCLEAR WHAT THIS DOES...." + matchToUpdate.length);
+    console.log("No. of events to update: " + matchToUpdate.length);
     (matchToUpdate.length > 0) ? (isHome ? matchToUpdate[0].HStatus.notify = selection.notify : matchToUpdate[0].AStatus.notify = selection.notify) : null;
     console.log(matchToUpdate[0])
   }
