@@ -212,7 +212,7 @@ import { PopupViewSavedBetsComponent } from '../popup-view-saved-bets/popup-view
       });
 
       //LIVE UPDATES UNCOMMENT
-      this.webSocketService.openWebSocket();
+      this.webSocketService.openSSE();
     }
     //Sends match to matchStatusService which Juicy subscribes to.
     sendToWatchListService(matches: any) {
@@ -228,7 +228,7 @@ import { PopupViewSavedBetsComponent } from '../popup-view-saved-bets/popup-view
       this.matchesSub.unsubscribe();
       //LIVE UPDATES UNCOMMENT
       this.tableSubscription.unsubscribe();
-      this.webSocketService.closeWebSocket();
+      this.webSocketService.closeSSE();
       this.dateSubscription.unsubscribe();
     }
 
