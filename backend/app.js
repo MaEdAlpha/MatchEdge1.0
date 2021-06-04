@@ -56,9 +56,9 @@ app.use(express.urlencoded({ extended: true }));
 ////////////////////////////////////////////////////////////////////////////////////////
 //Retrieves User Settings or generates a default one.
 
-// app.get('/api/test', async (req,res)=>{
-//   res.status(200).json({message:"Works"})
-// });
+app.get('/api/test', async (req,res)=>{
+  res.status(200).json({message:"Works"})
+});
 
 // app.get('/api/mongo', async (req,res) => {
 //   const cursor = await client.db("MBEdge").collection("matches").find().sort({"League": 1, "unixDateTimestamp":1});

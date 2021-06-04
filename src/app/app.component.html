@@ -9,16 +9,25 @@
     <div *ngIf="isAuthenticated">
       <app-header (notificationSettings)="displayPanel($event)" [displayNotification] ="toggleSettingsTemplate" ></app-header>
       <hr>
+
+      <div *ngIf="isEntryPoint">
+        <app-subscriptions></app-subscriptions>
+        <!-- set app-loading here as well, and toggle isLoading boolean to false after loaded. Also, disble ability to open JuicyBets Setting while here  -->
+      </div>
+
       <div *ngIf="toggleSettingsTemplate && !isLoading">
         <app-match-notification-settings (disableViewEvent)="displayPanel($event)" (flickerEvent)="resetSettings($event)" [resetToTab]="tabSelection"></app-match-notification-settings>
       </div>
-      <div class="container flex-grow-1">
-        <div class="mt-5">
-          <router-outlet></router-outlet>
-          <app-loading [isLoading]="isLoading"></app-loading>
-        </div>
+      <div *ngIf="!isEntryPoint">
+        <div class="container flex-grow-1">
+          <div class="mt-5">
+            <router-outlet></router-outlet>
+            <app-loading [isLoading]="isLoading"></app-loading>
+                </div>
+              </div>
+            </div>
+
       </div>
-    </div>
 
   </ng-template>
 

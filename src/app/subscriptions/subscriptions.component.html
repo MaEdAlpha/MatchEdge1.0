@@ -1,0 +1,40 @@
+
+<div class="mn-cont">
+  <div class="title-cont">
+    <h1 class="title-text">Subscriptions</h1>
+  </div>
+  <div class="opt-cont">
+    <div class="opt-desc">
+          <!-- make dynamic subCount -->
+      <h3>You currently have *1* active subscription(s)</h3>
+    </div>
+    <div class="opt-obj-cont">
+
+        <div class="obj-2up-cont">
+          <div class="active-sub" *ngIf="isActiveSub; else showInactiveSub">
+            <div class="acitve-img">
+              <img  class="sub-img" src="../../assets/img/money.png" alt="">
+            </div>
+            <button (click)="isActiveSub=!isActiveSub">Toggle</button>
+            <!-- make dynamic subRenewal-->
+            <p> Expires: *06-04-2021*</p>
+          </div>
+          <ng-template #showInactiveSub>
+            <div class="inactive-sub">
+              <div class="inactive-img">
+                <img class="sub-img" src="../../assets/img/isLoading.jpg" alt="">
+              </div>
+              <div class="inactive-btn-cont">
+                <button class="sub-btn" mat-raised-button (click)="isActiveSub=!isActiveSub">Subscribe</button>
+                <button  class="info-btn" mat-raised-button>Info</button>
+              </div>
+            </div>
+          </ng-template>
+        </div>
+
+    </div>
+  </div>
+
+
+
+</div>

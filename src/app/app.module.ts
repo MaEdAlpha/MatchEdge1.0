@@ -103,6 +103,7 @@ import { StreamNotificationsComponent } from './stream-notifications/stream-noti
 import { SettledBetDirective } from './directives/settled-bet.directive';
 import { SabtoastSettledComponent } from './sabtoast-settled/sabtoast-settled.component';
 import { SABToastIncompleteComponent } from './sabtoast-incomplete/sabtoast-incomplete.component';
+import { SubscriptionsComponent } from './subscriptions/subscriptions.component';
 
 
 
@@ -162,6 +163,7 @@ import { SABToastIncompleteComponent } from './sabtoast-incomplete/sabtoast-inco
     SettledBetDirective,
     SabtoastSettledComponent,
     SABToastIncompleteComponent,
+    SubscriptionsComponent,
   ],
   imports: [
     AppRoutingModule,
