@@ -1,6 +1,6 @@
 :host {
   background-color: #263238;
-  background-image: url(/assets/img/notification-background.png);
+  background-image: url(/assets/img/notificationbackground2.png);
   background-size: contain;
   background-repeat: no-repeat;
   color: black;
@@ -17,28 +17,35 @@
 }
 
 :host.border-gold{
-border-top: 1px solid #ffc235;
+/*border-top: 1px solid #ffc235;*/
 }
 .toast-title{
-  margin-top: 17%;
+  margin-top: 5%;
   text-align: center;
-  color: #ef9e1b;
-  font-size: 100%
+  color: white;
+  font: 400 14px/20px Roboto, "Helvetica Neue", sans-serif;
+  letter-spacing: normal;
 }
 
 
 .backOdds{
-  margin-left: 50%;
-  margin-top: 6%;
+  margin-left: 60%;
+  margin-top: 5%;
   display: grid;
-  line-height: 128%;
+  line-height: 175%;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-weight: bold;
+  font-size: large;
+  color: #37474f;
+
 }
 
 .backOdds > div.subheader {
-  font-size: 150%;
+  /*font-size: large;*/
   text-align: center;
   color: white;
 }
+
 .toast-message{
   margin-top: 2%;
 }

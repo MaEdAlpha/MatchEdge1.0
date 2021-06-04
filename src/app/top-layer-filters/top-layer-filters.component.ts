@@ -112,7 +112,7 @@ export class TopLayerFiltersComponent implements OnInit, OnChanges {
   }
 
   showCustomToast(){
-    var message: string = "2.01" + "<br> 3.41";
+    var message: string = "7.0" + "<br> 7.5";
     var title: string = "Huddersfield Town";
     this.notificationService.showToast(message, title);
   }

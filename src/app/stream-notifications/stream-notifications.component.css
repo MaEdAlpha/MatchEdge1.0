@@ -7,34 +7,100 @@
 
 .top-divider,
 .bottom-divider {
-  margin-bottom: 0px;
   padding: 0px;
-  height: 3px;
-  background: #263238;
+  height: 1px;
+  background: #f9a825;
   /* border: 2px solid #eba32f; */
-  border-color: #eba32f;
+  border-color: #f9a825;
+  
 }
 
 .top-divider,
 .bottom-divider,
 .notification-wrapper {
   z-index: 4;
+  margin-right: 31px;
 }
 
 .top-divider {
   margin-top: 30px;
+  margin-bottom: 2px;  
 }
 
 .bottom-divider {
-  position: sticky;
-  top: 98px;
-  z-index: 4;
+  top: 97px;
+  position: relative;
+  z-index: 4;  
 }
 
 .notification-wrapper {
-  margin-top: 2px;
-  height: 97px;
-  background: #263238;
-  position: sticky;
-  top: 0;
+  height: 115px;
+  position: relative;
+  top: 15px;
+  left: 1.5%;
+}
+
+.notificationbackgroundtext{
+  color: #ffffff;
+  position: absolute;
+  top: -9%;
+  left: 49.5%;
+  transform: translate(-50%, -50%);
+  margin-left: -0.1em;
+  letter-spacing: 3px;
+  font-size: 19px;
+}
+
+.notificationplaceholder{
+  width: 150px;
+  height: 100px;
+  background-color: #ffffff38;
+  border: 1px dashed #bebcbc54;
+  text-align: center;
+  line-height: 7;
+  color: #bebcbc;
+  position: absolute;
+  box-sizing: border-box;
+  box-shadow: 0 0 9px #0b0b0ba6 ;
+}
+
+.notificationplaceholder2{
+  left: 150px;  
+}
+.notificationplaceholder3{
+  left: 300px;  
+}
+.notificationplaceholder4{
+  left: 450px;  
+}
+.notificationplaceholder5{
+  left: 600px;  
+}
+.notificationplaceholder6{
+  left: 750px;  
+}
+.notificationplaceholder7{
+  left: 900px;  
+}
+.notificationplaceholder8{
+  left: 1050px;  
+}
+.notificationplaceholder9{
+  left: 1200px;  
+}
+.notificationplaceholder10{
+  left: 1350px;  
+}
+.notificationplaceholder11{
+  left: 1500px;  
+}
+
+
+.notificationlabel{
+  background-color: #0efc8de0;
+  color: #bebcbc;
+  width: 40px;
+  height: 100px;
+  text-align: center;
+  display: inline-block;
 }

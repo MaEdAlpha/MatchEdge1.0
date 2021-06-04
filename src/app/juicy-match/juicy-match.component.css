@@ -464,6 +464,7 @@ div.jm-exp-details {
     margin-left: -50px;
     margin-right: -91px;
     display: inline-flex;
+    padding-top: 2px;
 }
 
 .teamname{
@@ -487,7 +488,6 @@ div.jm-exp-details {
 
 
 .comments-cont {
-  padding: 10px;
   width: 80%;
 }
 
@@ -557,22 +557,22 @@ div.jm-exp-details {
 .calculated-container-comments{
   width: 33%;
   float: left;
-  padding-top: 0px;
+  padding-top: 5px;
   padding-bottom: 0px;
+  padding-left: 5px;
 }
 .auto-calc-input{
-  height: 50px;
+  height: 35px;
   color: white;
 }
 
 .user-comments{
-  width: 240px;
-  padding-left: 7px;
+  width: 110%;
+  padding-left: 5%
 }
 
 .bookie-row,
-.exchange-row,
-.calculated-row {
+.exchange-row {
   display: inline-flex;
   width: 100%;
 }
@@ -580,13 +580,6 @@ div.jm-exp-details {
 .bookie-row,
 .exchange-row{
   margin-top: 5px;
-}
-.calculated-row> h3, span, button{
-  /* margin: 0px; */
-  margin-left: auto;
-  /* margin-right: auto;
-  margin-bottom: 3px;
-  margin-top: -1px; */
 }
 
 .exchange-text-comm{
@@ -680,11 +673,11 @@ padding-top: 8%;
 
 /* Record bet button*/
 .exp-button {
-  padding: 0%;
-    width: 110px;
-    margin-top: 5px;
-    margin-left: auto;
-    margin-right: auto;
+  width: 18%;
+  height: 35%;
+  margin-left: auto;
+  margin-right: auto;
+  top: 28%;
 }
 
 .button-container {
@@ -696,36 +689,95 @@ padding-top: 8%;
   width: 35%;
   display: inline-block;
 }
-.calculated-text,
-.calculated-value{
-  width: 100px;
-  display: inline-flex;
-  font-size: 90%;
-  padding-left: 20px;
+
+.valueheadercontainer{
+  margin-bottom: -10px;
+  margin-top: 0px
+}
+.valueheadercontainer2{
+  margin-top: 23px;
+  margin-bottom: -9px;
+}
+
+.calculated-row
+{
+  position: relative;
+}
+
+.ROIvalue{
   color: white;
+  font-size: 95%;
+  position: absolute;
+  left :9%;  
+}
+.EVvalue{
+  color: white;
+  font-size: 95%;
+  color: white;
+  font-size: 95%;
+  position: absolute;
+  left: 44%;
+}
+.MRvalue{
+  color: white;
+  font-size: 95%;
+  position: absolute;
+  left: 76%;
+}
+
+.FTAvalue{
+  color: white;
+  font-size: 95%;
+  position: absolute;
+  left :8%;  
+}
+.QLPercentagevalue{
+  color: white;
+  font-size: 95%;
+  color: white;
+    font-size: 95%;
+    position: absolute;
+    left: 44%;
+    
+}
+.QLvalue{
+  color: white;
+  font-size: 95%;
+  position: absolute;
+  left: 76%;
 }
 
 .roi-text{
-  padding-right: 74px;
-  width: 31px;
-  padding-left: 46px;
   color: white;
-  padding-top: 4px;
+  padding-left: 35px;
 }
 .ev-text{
-  padding-right: 76px;
-  width: 31px;
-  padding-left: 50px;
+  padding-left: 80px;
+  padding-right: 80px;
   color: white;
-  padding-top: 4px;
 }
 .mr-text{
-  padding-right: 77px;
-  width: 31px;
-  padding-left: 46px;
   color: white;
-  padding-top: 4px;
+  padding-right: 40px
 }
+
+
+.FTAText{
+  color: white;
+  padding-left: 25px;
+  padding-right: 20px;
+}
+.QLPercenttext{
+  padding-left: 55px;
+    padding-right: 72px;
+    color: white;
+}
+.QLText{
+  color: white;
+  padding-right: 35px
+}
+
+
 .qlpercent-text{
   padding-left: 50px;
   color: white;
@@ -737,10 +789,7 @@ padding-top: 8%;
   margin-left: auto;
   margin-right: auto;
 }
-.ql-value{
-  width: 100px;
-  color: white;
-}
+
 .fta-cont,
 .ql-cont {
   display: inline-flex;
@@ -753,11 +802,7 @@ padding-top: 8%;
   margin-left: auto;
   margin-right: auto;
 }
-.fta-value{
-  width: 100px;
-  color: white;
 
-}
 
 .calculated-value-fta-ql{
   font-size: 120%;
@@ -766,13 +811,16 @@ padding-top: 8%;
 .calculated-text-lhs {
   font-size: 90%;
 }
-.value-divider{
-  margin: 0;
-  margin-left: 18%;
-  margin-right: auto;
-  width: 58%;
-  margin-top: -5px;
+.ROIdivider, .EVdivider, .MRdivider, .FTAdivider, .QLPdivider, .QLdivider{
+  margin-top: -1px !important;
+    width: 18% !important;
+    border: 1px solid #aa8920 !important;
+    display: inline-flex;
+    margin-right: 5px;
+    padding-right: 38px;
+    margin-bottom: 0px;
 }
+
 
 .last-dividers{
   width: 85%;
@@ -801,10 +849,6 @@ padding-top: 8%;
   margin-right: auto;
 }
 
-.bet-state-button:focus,
-.exp-button:focus {
-  color: #ffc235
-}
 p.betState {
   display: inline-flex;
   margin-right: 7px;

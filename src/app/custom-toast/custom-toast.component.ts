@@ -22,11 +22,11 @@ export interface IToastButton {
           opacity: 0,
         }),
         style({
-          transform: 'skewX(20deg)',
+          transform: 'skewX(-5deg)',
           opacity: 1,
         }),
         style({
-          transform: 'skewX(-5deg)',
+          transform: 'skewX(20deg)',
           opacity: 1,
         }),
         style({
