@@ -1,6 +1,11 @@
 <mat-toolbar>
 
-  <img class="settings-img" (click)="displayNotification=!displayNotification; notificSettingsClicked(displayNotification)" src="/assets/img/jbLogo.png">
+    <img class="settings-img"
+      matTooltip="View settings"
+      matTooltipPosition="right"
+      (click)="displayNotification=!displayNotification; notificSettingsClicked(displayNotification)"
+      src="/assets/img/jbLogo.png">
+
 
   <div class="button-container">
     <app-auth-nav></app-auth-nav>
