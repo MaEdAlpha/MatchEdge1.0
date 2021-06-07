@@ -134,12 +134,6 @@ import { PopupViewSavedBetsComponent } from '../popup-view-saved-bets/popup-view
         console.log(this.savedActiveBets);
       });
 
-      //Listense for updates to SAB. This dynamically populates SAB list.
-      this.savedActiveBetsService.getSabListObservable().subscribe( sabUpdate => {
-                                                                          this.savedActiveBets.push(sabUpdate);
-                                                                        }
-                                                          );
-
       //Listens for any DELETE requests made to DB. Returns ObjectId, and removes locally stored object.
       this.savedActiveBetsService.removeFromList.subscribe( sabId => {
                                                                       //Refreshes list to reflect removed SAB.
