@@ -24,8 +24,8 @@ app.use((req, res, next) => {
 const MongoClient = require("mongodb").MongoClient;
 const ObjectID = require('mongodb').ObjectID;
 
-const connectionString = "mongodb+srv://Dan:x6RTQn5bD79QLjkJ@cluster0.uljb3.gcp.mongodb.net/MBEdge?retryWrites=true&w=majority";
-//const connectionString = "mongodb+srv://Randy:4QQJnbscvoZQXr0l@clusterme.lfzcj.mongodb.net/MBEdge?retryWrites=true&w=majority";
+//const connectionString = "mongodb+srv://Dan:x6RTQn5bD79QLjkJ@cluster0.uljb3.gcp.mongodb.net/MBEdge?retryWrites=true&w=majority";
+const connectionString = "mongodb+srv://Randy:4QQJnbscvoZQXr0l@clusterme.lfzcj.mongodb.net/MBEdge?retryWrites=true&w=majority";
 const options = {useUnifiedTopology: true, useNewUrlParser: true};
 const client = new MongoClient(connectionString, options );
 
@@ -58,13 +58,6 @@ app.use(express.urlencoded({ extended: true }));
 app.get('/api/test', async (req,res)=>{
   res.status(200).json({message:"Works"})
 });
-
-// app.get('/api/mongo', async (req,res) => {
-//   const cursor = await client.db("MBEdge").collection("matches").find().sort({"League": 1, "unixDateTimestamp":1});
-//   const matchesList = await cursor.toArray();
-//   let body = matchesList;
-//   res.status(200).json({body})
-// });
 
 app.put('/api/user/putcreate' , async (req,res)=>{
   createNewUserDocument("testing@mongodb.com").then(()=> {
@@ -124,8 +117,9 @@ app.put('/api/user/connect', async (req,res) => {
 //TODO: Authenticat UPDATES API Call. Need to pass token in here and assign to writeHead(200)
 app.get(`/api/updates`, function(req, res) {
   //'X-Accel-Buffering': turns off server buffering for SSE to work
+  //PRODUCTION CORS : 'https://juicy-bets.com'
   res.writeHead(200, {
-    'Access-Control-Allow-Origin': 'https://juicy-bets.com',
+    'Access-Control-Allow-Origin': '*',
     'Content-Type': 'text/event-stream',
     'Cache-Control': 'no-cache',
     'Connection': 'keep-alive',
@@ -135,12 +129,22 @@ app.get(`/api/updates`, function(req, res) {
       //point to matches collection and watch it.
       const collection =  client.db("MBEdge").collection("matches");
       const changeStream = collection.watch();
-      //send SSE events back to user
-      changeStream.on('change', (next) => {
-        var data = JSON.stringify(next.fullDocument);
-        var msg = ("event: message\n" + "data: " + data + "\n\n");
+
+      let keepAliveMS = 45 * 1000;
+
+      function keepAlive(){
+         console.log("HeartBeater");
+         res.write("event:message\n"+ "data: hearbeat\n\n");
+         setTimeout(keepAlive, keepAliveMS);
+        }
+        //send SSE events back to user
+        changeStream.on('change', (next) => {
+          var data = JSON.stringify(next.fullDocument);
+          var msg = ("event: message\n" + "data: " + data + "\n\n");
           res.write(msg);
         });
+        setTimeout(keepAlive, keepAliveMS);
+
   });
 
   //View Table Matches => /api/matches
@@ -184,7 +188,7 @@ app.post('/api/sab', checkAuth, async(req,res) => {
           console.log("Succesfully written to DB!");
           res.status(200).json({_id: response.insertedId});
         }else{
-          console.log("Oooops, shit fucked up when writing to DB contact support, please and thank you!  ");
+          console.log("Oooops, shit fucked up when writing to DB contact support, Cheers.  ");
           res.status(404).json({error});
         }
       });

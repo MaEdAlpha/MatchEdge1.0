@@ -19,7 +19,7 @@ export class AppComponent {
   toggleSettingsTemplate:boolean;
   profileJson: string= null;
   isAuthenticated: boolean=false;
-  isEntryPoint: boolean=true;
+  isEntryPoint: boolean=false;
   isLoading: boolean = true;
   tabSelection: number;
 
