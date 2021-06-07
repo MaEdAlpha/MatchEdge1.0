@@ -13,7 +13,7 @@
       *matCellDef="let sab; let i = dataIndex"
       (click)="loadGroup(i); showSelectionValues(sab, i);">
 
-      <div *ngIf="column.field.endsWith('created') || column.field.endsWith('matchDetail')">
+      <div *ngIf="column.field.endsWith('created') || column.field.endsWith('matchDetail')" class="match-date">
         {{sab[column.field] | date: 'EEE dd LLL HH:mm'}}
       </div>
 

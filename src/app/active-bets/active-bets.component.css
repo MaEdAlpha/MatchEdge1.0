@@ -801,3 +801,12 @@ span.calculated-value{
 .status-btn {
   width: 91px;
 }
+
+.match-date {
+  margin-left: 10px;
+  width: fit-content;
+}
+
+td > * {
+  text-align: center;
+}
