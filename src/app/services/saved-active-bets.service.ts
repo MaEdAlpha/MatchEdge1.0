@@ -25,11 +25,7 @@ export class SavedActiveBetsService {
     var customParams: HttpParams = new HttpParams().append('juId', this.userPropService.getUserId());
     console.log("Getting SAB of user");
 
-
-    this.http.get<{body:any[]}>(
-      env.serverUrl + "/api/sab/sabs",
-      // "Jb-env.eba-e8kmprp8.us-east-2.elasticbeanstalk.com/api/sab/sabs",
-      {params:customParams})
+    this.http.get<{body:any[]}>(env.serverUrl + "/api/sab/sabs", {params:customParams})
     .pipe(map( (mappedSAB) => {
       return mappedSAB.body.map((sab) => {
                                                 return {

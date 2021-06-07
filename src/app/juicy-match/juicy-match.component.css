@@ -175,13 +175,13 @@ tr.juicyMatch-row:not(.juicyMatch-expanded-row):active { /* when main container 
   }
 
   .ticker4box {
-    z-index: 2; 
+    z-index: 2;
   background: #003366;
   color: white;
   width: 101px;
   height: 100%;
   border-top-left-radius: 10px;
-  border-bottom-left-radius: 10px;  
+  border-bottom-left-radius: 10px;
   position: absolute;
   top: 0px;
   left: 40px;
@@ -234,14 +234,14 @@ tr.juicyMatch-row:not(.juicyMatch-expanded-row):active { /* when main container 
 
 }
 .flickDirectiveLay {
-  
-  z-index: 2; 
+
+  z-index: 2;
   background: #003366;
   color: white;
   width: 101px;
   height: 100%;
   border-top-left-radius: 10px;
-  border-bottom-left-radius: 10px;  
+  border-bottom-left-radius: 10px;
   position: absolute;
   top: 0px;
   left: 40px;
@@ -249,7 +249,7 @@ tr.juicyMatch-row:not(.juicyMatch-expanded-row):active { /* when main container 
   box-sizing: border-box;
   border: 3px solid #003366;
   margin-left: -38px;
-  
+
 }
 @keyframes layBackground{
   /*OPTION 1
@@ -491,6 +491,11 @@ div.jm-exp-details {
   width: 80%;
 }
 
+.match-date {
+  margin-left: 10px;
+  width: fit-content;
+}
+
 .mat-hint{
   color: white;
 }
@@ -708,7 +713,7 @@ padding-top: 8%;
   color: white;
   font-size: 95%;
   position: absolute;
-  left :9%;  
+  left :9%;
 }
 .EVvalue{
   color: white;
@@ -729,7 +734,7 @@ padding-top: 8%;
   color: white;
   font-size: 95%;
   position: absolute;
-  left :8%;  
+  left :8%;
 }
 .QLPercentagevalue{
   color: white;
@@ -738,7 +743,7 @@ padding-top: 8%;
     font-size: 95%;
     position: absolute;
     left: 44%;
-    
+
 }
 .QLvalue{
   color: white;
@@ -936,7 +941,12 @@ span.calculated-value{
 
 .mr-overlay {
   opacity: 0.8;
-  background: salmon;
+  background: #565f64;
+}
+
+.mr-overlay > * {
+  color: #989696;
+  text-decoration: line-through;
 }
 
 /* Input increment arrow hide */

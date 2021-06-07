@@ -79,7 +79,7 @@ app.put('/api/user/connect', async (req,res) => {
     .collection("juicy_users")
         .findOne( filter, function(error,response){
                         try{
-                          error ? console.log(error) : '';
+                          error ? console.log("error: " + error) : '';
                           // console.log(response);
                           //if null, create a new user.
                               if(response == null){
@@ -167,10 +167,10 @@ try{
       console.log("------Retrieved SAB------");
       console.log("ID: " + req.query.juId);
       const cursor = await client.db("JuicyClients").collection("juicy_users_sab").find(filter);
-      console.log(cursor);
+      // console.log(cursor);
       const sabList = await cursor.toArray();
       let body = sabList;
-      console.log(body);
+      // console.log(body);
       res.status(200).json({body})
       console.log("--------Retrieved!--------");
     }
@@ -355,7 +355,7 @@ function createNewUserDocument(userEmail){
   client.db("JuicyClients").collection("juicy_users")
                               .updateOne( filter, update, options, function(error,response){
                                   console.log("UPDATED:!");
-                                  console.log(response.upsertedId._id);
+                                  // console.log(response.upsertedId._id);
                                  resolve(client.db("JuicyClients").collection("juicy_users").findOne(filter));
                               });
                             });

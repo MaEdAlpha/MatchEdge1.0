@@ -121,7 +121,7 @@ import { PopupViewSavedBetsComponent } from '../popup-view-saved-bets/popup-view
       this.setStartEndDays(this.viewSelectedDate);
       this.ignoreList = [];
       this.tableGroups = [];
-      this.savedActiveBets = this.savedActiveBetsService.getActiveBets();
+      // this.savedActiveBets = this.savedActiveBetsService.getActiveBets();
       this.ftaOption = this.userPref.getFTAOption();
       this.masterToggle = false;
 
