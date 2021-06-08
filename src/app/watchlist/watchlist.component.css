@@ -1,5 +1,6 @@
 mat-table{
   margin-top: 50px;
+  min-width: 107rem;
 }
 mat-header-row {
   display: none;
