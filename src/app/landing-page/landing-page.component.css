@@ -1,28 +1,128 @@
+
 .welcome-img-container {
   text-align: center;
-}
 
-img {
-  margin-bottom: -3%;
-  margin-top: 2%;
-}
-
-.welcometext{
-  color: #e1ad18;
-  font-size: 72px;
-  line-height: 1.125;
-  font-family: Bahnschrift SemiBold;
-  letter-spacing: normal;
-  text-shadow: 3px 4px 2px #0000009e;
-  font-stretch: condensed;
 }
 
 .slogan{
   color: #e1ad18;
   font-size: 26px;
-  line-height: 4;
+  line-height: 2;
   font-family: Bahnschrift SemiBold;
   letter-spacing: normal;
   text-shadow: 2px 2px 1px #0000009e;
   font-stretch: condensed;
+  visibility: visible;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+.welcometext{
+  color: #e1ad18;
+  font-size: 68px;
+  line-height: 1.125;
+  font-family: Bahnschrift SemiBold;
+  letter-spacing: normal;
+  text-shadow: 3px 4px 2px #0000009e;
+  font-stretch: condensed;
+  margin-left: 10%;
+  margin-right: 10%;
+  visibility: visible;
+}
+
+.unsupported{
+  color: #e1ad18;
+  font-size: 26px;
+  line-height: 2;
+  font-family: Bahnschrift SemiBold;
+  letter-spacing: normal;
+  text-shadow: 2px 2px 1px #0000009e;
+  font-stretch: condensed;
+  position: absolute;
+  visibility: hidden;
+}
+
+
+@media(max-width: 1280px)
+{
+  img{
+    max-width: 80%;
+    height: auto;
+  }
+
+  .welcometext{
+    font-size: 60px;
+    color: #e1ad18;
+    line-height: 1.125;
+    font-family: Bahnschrift SemiBold;
+    letter-spacing: normal;
+    text-shadow: 3px 4px 2px #0000009e;
+    font-stretch: condensed;
+    margin-left: 10%;
+    margin-right: 10%;
+    visibility: visible;
+  }
+}
+
+
+@media(max-width: 750px)
+{
+  img{
+    max-width: 100%;
+    height: auto;
+  }
+
+  .welcometext{
+    font-size: 40px;
+    color: #e1ad18;
+    line-height: 1.125;
+    font-family: Bahnschrift SemiBold;
+    letter-spacing: normal;
+    text-shadow: 3px 4px 2px #0000009e;
+    font-stretch: condensed;
+    margin-left: 10%;
+    margin-right: 10%;
+    visibility: visible;
+}
+}
+
+@media(max-width: 700px)
+{
+  .welcometext{
+    font-size: 40px;
+    color: #e1ad18;
+    line-height: 1.125;
+    font-family: Bahnschrift SemiBold;
+    letter-spacing: normal;
+    text-shadow: 3px 4px 2px #0000009e;
+    font-stretch: condensed;
+    margin-left: 10%;
+    margin-right: 10%;
+    visibility:hidden;
+}
+  .slogan{
+    color: #e1ad18;
+    font-size: 26px;
+    line-height: 2;
+    font-family: Bahnschrift SemiBold;
+    letter-spacing: normal;
+    text-shadow: 2px 2px 1px #0000009e;
+    font-stretch: condensed;
+    visibility: hidden;
+  }
+    .unsupported{
+      color: #e1ad18;
+      font-size: 40px;
+      line-height: 2;
+      font-family: Bahnschrift SemiBold;
+      letter-spacing: normal;
+      text-shadow: 2px 2px 1px #0000009e;
+      font-stretch: condensed;
+      position: relative;
+      visibility: visible;
+    }
+
 }

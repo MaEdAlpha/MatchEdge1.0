@@ -16,29 +16,11 @@ mat-spinner {
 }
 
 .welcome-container{
-  width: fit-content;
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 10%;
+  width: 95%;
+  margin: 0 auto;
   display: inline;
 }
 
-.welcome-buttons{
-  margin-top: 10px;
-  margin-bottom: 10px;
-  text-align: center;  
-  padding: 5px 70px;
-}
-
-.top-hz {
-  margin-top: 20px;
-  width: 30%;
-}
-
-.bottom-hz {
-  width: 25%;
-  margin-bottom: 10%;
-}
 
 .button{
   margin-left: 2%;
@@ -58,4 +40,37 @@ margin-top: 10%;
 
 p{
   color: white;
+}
+.companydetails{
+  margin-top: 10px;
+  margin-bottom: 10px;
+  text-align: center;  
+  padding: 5px 70px;
+  line-height: 1rem;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-size: small;
+  color: #a5a18c;
+  padding-top: 1rem;
+
+}
+
+.welcome-buttons{
+  margin-top: 10px;
+  margin-bottom: 10px;
+  text-align: center;  
+  padding: 5px 70px;  
+  visibility: visible;
+}
+
+.button{
+  margin-left: 1rem;
+}
+
+@media(max-width: 700px)
+{
+  
+.welcome-buttons{
+  visibility: hidden;
+}
+
 }
