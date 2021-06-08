@@ -258,10 +258,10 @@ span.SMAway {
   border-radius: 0.3125rem;
 }
 
-.odds-container{
+/* .odds-container{
   margin-left: auto;
   margin-right: auto;
-}
+} */
 
 .awayodds-container,
 .homeodds-container{
@@ -467,14 +467,21 @@ button.viewCell {
 } */
 
 /* Added from WatchlistCSS Cut n' paste */
-#hStatusMoney{
-  background-image: url(/assets/img/jbLogo.png);
+#active-bets{
+  background-image: url(/assets/img/color-jb.png);
   background-repeat: no-repeat;
   background-size: cover;
   padding: 0px;
   color: #263238;
 }
 
+#inactive-bets{
+  background-image: url(/assets/img/gray-jb.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+  padding: 0px;
+  color: #263238;
+}
 .team-home-container{
   width: 100%;
   margin-left: auto;
@@ -997,13 +1004,6 @@ button.viewCell {
   font-size: 1.25rem;
 }
 
-#hStatusMoney{
-  background-image: url(/assets/img/jbLogo.png);
-  background-repeat: no-repeat;
-  background-size: cover;
-  padding: 0px;
-  color: #263238;
-}
 
 .mat-column-SMHome,
 .mat-column-SMAway,
@@ -1147,5 +1147,8 @@ button.viewCell {
   color: white;
   margin-top: 1.25rem;
   margin-right: 1%;
+}
+.hide-toggle{
+  display: none;
 }
 

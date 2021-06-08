@@ -1,11 +1,23 @@
 /* You can add global styles to this file, and also import other style files */
 
 html, body { height: 100%; }
+
+html{
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
 body {
   margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif;
   background-color: #263238;
-  overflow: scroll;
   overflow-x: hidden;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: -17px; /* Increase/Decrease this value for cross-browser compatibility */
+  overflow-y: scroll;
 }
 /* Increment Arrow buttons hide*/
 input::-webkit-outer-spin-button,
@@ -55,7 +67,7 @@ input.value-box-lay {
   vertical-align: middle;
   margin-top: 1%;
   }
-  
+
   .toast-container {
     pointer-events: none;
     position: fixed;
