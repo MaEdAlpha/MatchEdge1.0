@@ -19,25 +19,40 @@
 .bottom-divider,
 .notification-wrapper {
   z-index: 4;
-  margin-right: 31px;
+  
 }
 
+.notificationscontainer{
+   position: relative;
+    text-align: center;
+}
+
+
+
 .top-divider {
-  margin-top: 30px;
+  margin-top: 80px;
   margin-bottom: 2px;  
+  max-width: 103rem;
+  min-width: 103rem;
 }
 
 .bottom-divider {
-  top: 97px;
+  top: -5px;
   position: relative;
   z-index: 4;  
+  max-width: 103rem;
+  min-width: 103rem;
 }
 
 .notification-wrapper {
-  height: 115px;
   position: relative;
-  top: 15px;
-  left: 1.5%;
+  text-align: center;  
+  min-width: 107rem;
+}
+
+.centernotifications{
+  position: relative;
+  text-align: center;  
 }
 
 .notificationbackgroundtext{
@@ -58,14 +73,16 @@
   border: 1px dashed #bebcbc54;
   text-align: center;
   line-height: 7;
-  color: #bebcbc;
-  position: absolute;
+  color: #bebcbc;  
   box-sizing: border-box;
   box-shadow: 0 0 9px #0b0b0ba6 ;
+  display: inline-block;
+  vertical-align: middle;  
 }
 
 .notificationplaceholder2{
   left: 150px;  
+  
 }
 .notificationplaceholder3{
   left: 300px;  
