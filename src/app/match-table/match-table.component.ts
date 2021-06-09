@@ -20,6 +20,7 @@ import { MatCheckbox } from '@angular/material/checkbox';
 import { SavedActiveBetsService } from '../services/saved-active-bets.service';
 import { ActiveBet } from '../models/active-bet.model';
 import { PopupViewSavedBetsComponent } from '../popup-view-saved-bets/popup-view-saved-bets.component';
+import { truncate } from 'fs';
 
   export class Group {
     level = 0;
@@ -107,6 +108,7 @@ import { PopupViewSavedBetsComponent } from '../popup-view-saved-bets/popup-view
     private dateSubscription: Subscription;
     private tableSubscription: Subscription;
     private sabSubscription: Subscription;
+    private newSabSubscriptioin: Subscription;
     todayDate: number;
     tomorrowDate: number;
 
@@ -131,23 +133,40 @@ import { PopupViewSavedBetsComponent } from '../popup-view-saved-bets/popup-view
         this.savedActiveBets = sabData;
         console.log("SABLIST Populated");
         console.log(this.savedActiveBets);
+        //Set activeBets = true.
+        if(this.matches != undefined) this.savedActiveBets.forEach( sab => {
+          this.toggleActiveBetState(sab, true);
+        });
       });
+
+      this.newSabSubscriptioin = this.savedActiveBetsService.getSabListObservable().subscribe( (newSAB: ActiveBet) => {
+        this.toggleActiveBetState(newSAB, true);
+      });
+
 
       //Listens for any DELETE requests made to DB. Returns ObjectId, and removes locally stored object.
       this.savedActiveBetsService.removeFromList.subscribe( sabId => {
                                                                       //Refreshes list to reflect removed SAB.
-                                                                        this.savedActiveBets = this.savedActiveBets
-                                                                        .filter( sab => {
-                                                                                          if(sab.id == sabId){
-                                                                                            console.log("S.A.B: " + sab.id + " Removed form DB!");
-                                                                                            var index =  this.savedActiveBets.indexOf(sab);
-                                                                                            this.savedActiveBets.splice(index,1);
-                                                                                            return false;
-                                                                                          } else {
-                                                                                            return true;
-                                                                                          }
-                                                                                        }
-                                                                              )
+                                                                      console.log("FILTERED DELTED SAB!!!!!!!!!!!!!!!!");
+                                                                      // var result = this.savedActiveBets.filter( item => item.id == sabId);
+                                                                      console.log(sabId);
+                                                                      console.log(this.savedActiveBets);
+                                                                      //Oh god...so sloppy. Reset all activeBet statuses to False..since you only pass an ID and delete SAB item super early...and are too lazy to create another listener...
+                                                                      this.matches.forEach(element => {
+                                                                          element.HStatus.activeBet = false;
+                                                                          element.AStatus.activeBet = false;
+                                                                      });
+
+                                                                      this.savedActiveBets.forEach( savedBet => {
+                                                                        var index = this.matches.findIndex( match => match.EpochTime*1000 == savedBet.matchDetail && (savedBet.selection == match.Home || savedBet.selection == match.Away));
+                                                                        console.log(index);
+
+                                                                        if(index != -1) {
+                                                                          this.matches[index].Home == savedBet.selection ? this.matches[index].HStatus.activeBet = true : this.matches[index].AStatus.activeBet = true;
+                                                                        }
+                                                                      });
+
+
                                                                       }
                                                             );
 
@@ -816,6 +835,35 @@ import { PopupViewSavedBetsComponent } from '../popup-view-saved-bets/popup-view
       //update match-status.services.
       this.updateMatchStatusList(matchObj, isHome);
       this.updateJuicyNotifyStatus(matchObj, isHome);
+    }
+
+    toggleActiveBetState(sabData:ActiveBet | { selection:string, matchDetail:number}, isActive:boolean){
+      console.log("IN ABS");
+      console.log(sabData);
+      var matchIndex = this.matches.findIndex( match => match.EpochTime*1000 == sabData.matchDetail && (match.Home == sabData.selection || match.Away == sabData.selection) );
+      console.log(matchIndex);
+
+      if(isActive && matchIndex != -1){
+        console.log("TOGGLE ABS TO TRUE");
+
+        this.matches[matchIndex].Home == sabData.selection ? this.matches[matchIndex].HStatus.activeBet = true : this.matches[matchIndex].AStatus.activeBet = true;
+      }else if (!isActive && matchIndex != -1){
+        // console.log("TOGGLE ABS TO FALSE");
+
+        // const sabSelection = this.savedActiveBets.filter( sab => {
+        //   if(sab.matchDetail == sabData.matchDetail && sab.selection == sabData.selection){
+        //     return true;
+        //   }else {
+        //     return false;
+        //   }
+        // });
+
+        // console.log("Count: " + sabSelection.length);
+        // if(sabSelection.length <=1) this.matches[matchIndex].Home == sabData.selection ? this.matches[matchIndex].HStatus.activeBet = false : this.matches[matchIndex].AStatus.activeBet = false;
+      }else{
+        console.log("Cannot change state of SAB icon, an error occured.");
+
+      }
     }
 
     //Assign a button that updates JuicyTable Notify status.
