@@ -67,37 +67,30 @@ export class SavedActiveBetsService {
     return this.sabArrayfromDB;
   }
 
+  //Used when first loading page
   getsabUpdatedListener(): Observable<any>{
     return this.sabUpdated.asObservable();
   }
-
+  //used when a user saves an active bet. Should be called only if needed to populate client side afte Record Bet hits in Juicy.
   getSabListObservable(): Observable<ActiveBet> {
     return this.activeBetSubject.asObservable();
   }
 
 
-  //Used strictly for Juicy. Creates a new SAB
+  //Used strictly for Juicy. Creates a new SAB. Was causing double population errors in Popup-view. Need to validate the record somehow....
   saveToActiveBets(sab: ActiveBet){
-    this.http.post(
-      env.serverUrl + "/api/sab",
-      sab)
+    this.http.post(env.serverUrl + "/api/sab",sab)
     .subscribe( (sabEntry: { _id:string}) => {
         sab.id = sabEntry._id;
-       return this.activeBetSubject.next(sab);
+        return this.activeBetSubject.next(sab);
       });
-
-    //each post made, do you retrieve the id and update it in observable? i.e get response data and add into subject this.sabUpdated.next(sab.dataPostedToDB)?
   }
 
 
   patchToActiveBets(sab:ActiveBet){
-    this.http.put(
-      env.serverUrl + "/api/sab/"
-      // "Jb-env.eba-e8kmprp8.us-east-2.elasticbeanstalk.com/api/sab"
-    + sab.id, sab)
+    this.http.put(env.serverUrl + "/api/sab/"+ sab.id, sab)
     .subscribe( (sabEntry) => {
-      console.log( sabEntry);
-
+      console.log("Updated: " + sabEntry);
     });
   }
 

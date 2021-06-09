@@ -104,6 +104,14 @@ export class ActiveBetsComponent implements OnChanges, OnInit, AfterViewInit {
         ProfitLoss: new FormControl("")
       }
     );
+
+    this.sabServices.removeFromList.subscribe( sabId => {
+       //Refreshes list to reflect removed SAB.
+       console.log(sabId + " found.");
+       console.log(this.ACTIVE_BETS);
+       this.table.renderRows();
+       this.dataSource= this.ACTIVE_BETS;
+    });
   }
 
   ngOnDestroy(){

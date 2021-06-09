@@ -121,7 +121,7 @@ import { PopupViewSavedBetsComponent } from '../popup-view-saved-bets/popup-view
       this.setStartEndDays(this.viewSelectedDate);
       this.ignoreList = [];
       this.tableGroups = [];
-      // this.savedActiveBets = this.savedActiveBetsService.getActiveBets();
+      this.savedActiveBets = this.savedActiveBetsService.getActiveBets();
       this.ftaOption = this.userPref.getFTAOption();
       this.masterToggle = false;
 
@@ -224,6 +224,7 @@ import { PopupViewSavedBetsComponent } from '../popup-view-saved-bets/popup-view
       this.tableSubscription.unsubscribe();
       this.webSocketService.closeSSE();
       this.dateSubscription.unsubscribe();
+      this.sabSubscription.unsubscribe();
     }
 
 
@@ -519,6 +520,7 @@ import { PopupViewSavedBetsComponent } from '../popup-view-saved-bets/popup-view
       console.log('tableSelected!!!: ' + fixtureBtnClicked);
 
       this.tableSelected = fixtureBtnClicked;
+      this.savedActiveBets = this.savedActiveBetsService.getSabList();
     }
 
     isGroup(index, item): boolean {
