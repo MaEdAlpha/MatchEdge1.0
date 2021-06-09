@@ -661,11 +661,13 @@ export class WatchlistComponent implements OnInit, OnDestroy {
     console.log("Need functionality here");
   }
 
-  openViewBets(row:any, selection:string): void {
+  openViewBets(row:any, selection:string) {
 
-    selection == 'home' ? row.Selection = row.Home: row.Selection = row.Away;
+    selection == 'home' ? row.Selection = row.Home : row.Selection = row.Away;
+    row.fta = selection == 'home' ? row.OccH : row.OccA;
     const list: ActiveBet[] = this.sabList;
     console.log(this.sabList);
+    console.log("opening: " + row.Selection);
 
     //filtered SAB List based off selection.
 

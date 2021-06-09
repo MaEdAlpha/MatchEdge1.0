@@ -107,7 +107,6 @@ import { PopupViewSavedBetsComponent } from '../popup-view-saved-bets/popup-view
     private dateSubscription: Subscription;
     private tableSubscription: Subscription;
     private sabSubscription: Subscription;
-    private firstPass = true;
     todayDate: number;
     tomorrowDate: number;
 

@@ -16,9 +16,9 @@ export interface IToastButton {
       state('inactive', style({
         opacity: 0,
       })),
-      transition('inactive => active', animate('400ms ease-out', keyframes([
+      transition('inactive => active', animate('400ms ease-in', keyframes([
         style({
-          transform: 'translate3d(100%, 0, 0) skewX(-30deg)',
+          transform: 'translate3d(-100%, 0, 0) skewX(-30deg)',
           opacity: 0,
         }),
         style({
