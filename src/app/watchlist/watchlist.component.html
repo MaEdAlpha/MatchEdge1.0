@@ -85,38 +85,67 @@
                     </ng-container>
 
 
-                  <ng-container *ngIf="column.field.endsWith('Status')">
-                    <div class="dirStatusContainer">
-                      <!-- HOME STATUS CONFIG -->
-                      <ng-container *ngIf="column.field.endsWith('HStatus')">
-                          <button mat-icon-button
+                    <ng-container *ngIf="column.field.endsWith('Status')">
+                      <div class="dirStatusContainer">
+                        <!-- HOME STATUS CONFIG -->
+                        <ng-container *ngIf="column.field.endsWith('HStatus')">
+
+                          <div *ngIf="!row.HStatus.activeBet; else activeHomeBet">
+                            <button mat-icon-button
+                              class="{{column.field}} viewCell mat-icon-buttonHome"
+                              (click)="openViewBets(row, 'home')"
+                              appBetHome [hBetStatus]="row.HStatus.activeBet"
+                              id="inactive-bets">
+                              <mat-icon>
+
+                              </mat-icon>
+                          </button>
+                          </div>
+                          <ng-template #activeHomeBet>
+                            <button mat-icon-button
                             class="{{column.field}} viewCell mat-icon-buttonHome"
                             (click)="openViewBets(row, 'home')"
                             appBetHome [hBetStatus]="row.HStatus.activeBet"
-                            id="hStatusMoney" [ngClass]="{'match-inactive' : !row.HStatus.notify}">
+                            id="active-bets">
                             <mat-icon>
 
                             </mat-icon>
                         </button>
-                      </ng-container>
-
-                      <!-- AWAY STATUS CONFIG -->
-                      <ng-container *ngIf="column.field.endsWith('AStatus')">
-                        <ng-container>
-                          <button mat-icon-button
-                            class="{{column.field}} viewCell mat-icon-buttonAway"
-                            appBetAway
-                            (click)="openViewBets(row, 'away')"
-                            appBetAway [aBetStatus]="row.AStatus.activeBet"
-                            id="hStatusMoney" [ngClass]="{'match-inactive' : !row.AStatus.notify}">
-                            <mat-icon>
-
-                            </mat-icon>
-                        </button>
+                          </ng-template>
                         </ng-container>
-                      </ng-container>
-                    </div>
-                  </ng-container>
+
+                        <!-- AWAY STATUS CONFIG -->
+                        <ng-container *ngIf="column.field.endsWith('AStatus')">
+                          <ng-container>
+
+                            <div *ngIf="!row.AStatus.activeBet else activeAwayBet">
+                              <button mat-icon-button
+                                class="{{column.field}} viewCell mat-icon-buttonAway"
+                                appBetAway
+                                (click)="openViewBets(row, 'away')"
+                                appBetAway [aBetStatus]="row.AStatus.activeBet"
+                                id="inactive-bets">
+                                <mat-icon>
+                                </mat-icon>
+                              </button>
+                            </div>
+
+                            <ng-template #activeAwayBet>
+                                <button mat-icon-button
+                                  class="{{column.field}} viewCell mat-icon-buttonAway"
+                                  appBetAway
+                                  (click)="openViewBets(row, 'away')"
+                                  appBetAway [aBetStatus]="row.AStatus.activeBet"
+                                  id="active-bets">
+                                  <mat-icon>
+                                  </mat-icon>
+                                </button>
+                            </ng-template>
+
+                          </ng-container>
+                        </ng-container>
+                      </div>
+                    </ng-container>
               </mat-cell>
             </ng-container>
 <!-- CUT HERE -->

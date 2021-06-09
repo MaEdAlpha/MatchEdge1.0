@@ -7,7 +7,7 @@
 
         <div class="fixturesTable" [style.visibility]="tableSelected == 1 ? 'visible' : 'collapse' " [style.height]="tableSelected == 1 ? '' : '0px' " [style.margin-bottom]="tableSelected == 1 ? '5px' : '0'" [style.display]="tableSelected == 1 ? 'inline' : '' ">
           <div class="watch-everything ">
-            <p class="all-leagues-toggle">Watch All</p>
+            <p class="all-leagues-toggle" [ngClass]="{'hide-toggle' : tableSelected == 2}">Watch All</p>
             <mat-slide-toggle
             class="all-leagues-toggle"
             (click)="watchAllLeagues();">
@@ -33,7 +33,7 @@
 
 
                         <ng-container *ngIf="column.field.endsWith('BHome') ||  column.field.endsWith('SMHome')">
-                          <div class="homeodds-container" [ngClass]="{'match-inactive odds-container' : !row.HStatus.notify}">
+                          <div class="homeodds-container" >
                             <ng-container *ngIf="column.field.endsWith('BHome')" >
                               <span class="{{column.field}} "> {{ row[column.field] | number:'0.2-2'}}</span>
                             </ng-container>
@@ -48,7 +48,7 @@
                           </ng-container> -->
 
                           <ng-container *ngIf=" column.field.endsWith('BAway') || column.field.endsWith('SMAway')">
-                            <div class="awayodds-container" [ngClass]="{'match-inactive odds-container' : !row.AStatus.notify}">
+                            <div class="awayodds-container">
                               <ng-container *ngIf="column.field.endsWith('BAway')" >
                                 <span class="{{column.field}} b3-odd-cont"> {{ row[column.field] | number:'0.2-2'}}</span>
                               </ng-container>
@@ -115,30 +115,59 @@
                           <div class="dirStatusContainer">
                             <!-- HOME STATUS CONFIG -->
                             <ng-container *ngIf="column.field.endsWith('HStatus')">
+
+                              <div *ngIf="!row.HStatus.activeBet; else activeHomeBet">
                                 <button mat-icon-button
                                   class="{{column.field}} viewCell mat-icon-buttonHome"
                                   (click)="openViewBets(row, 'home')"
                                   appBetHome [hBetStatus]="row.HStatus.activeBet"
-                                  id="hStatusMoney" [ngClass]="{'match-inactive' : !row.HStatus.notify}">
+                                  id="inactive-bets">
                                   <mat-icon>
 
                                   </mat-icon>
                               </button>
+                              </div>
+                              <ng-template #activeHomeBet>
+                                <button mat-icon-button
+                                class="{{column.field}} viewCell mat-icon-buttonHome"
+                                (click)="openViewBets(row, 'home')"
+                                appBetHome [hBetStatus]="row.HStatus.activeBet"
+                                id="active-bets">
+                                <mat-icon>
+
+                                </mat-icon>
+                            </button>
+                              </ng-template>
                             </ng-container>
 
                             <!-- AWAY STATUS CONFIG -->
                             <ng-container *ngIf="column.field.endsWith('AStatus')">
                               <ng-container>
-                                <button mat-icon-button
-                                  class="{{column.field}} viewCell mat-icon-buttonAway"
-                                  appBetAway
-                                  (click)="openViewBets(row, 'away')"
-                                  appBetAway [aBetStatus]="row.AStatus.activeBet"
-                                  id="hStatusMoney" [ngClass]="{'match-inactive' : !row.AStatus.notify}">
-                                  <mat-icon>
 
-                                  </mat-icon>
-                              </button>
+                                <div *ngIf="!row.AStatus.activeBet else activeAwayBet">
+                                  <button mat-icon-button
+                                    class="{{column.field}} viewCell mat-icon-buttonAway"
+                                    appBetAway
+                                    (click)="openViewBets(row, 'away')"
+                                    appBetAway [aBetStatus]="row.AStatus.activeBet"
+                                    id="inactive-bets">
+                                    <mat-icon>
+                                    </mat-icon>
+                                  </button>
+                                </div>
+
+                                <ng-template #activeAwayBet>
+                                    <button mat-icon-button
+                                      class="{{column.field}} viewCell mat-icon-buttonAway"
+                                      appBetAway
+                                      (click)="openViewBets(row, 'away')"
+                                      appBetAway [aBetStatus]="row.AStatus.activeBet"
+                                      id="active-bets">
+                                      <mat-icon>
+                                      </mat-icon>
+                                    </button>
+                                </ng-template>
+
                               </ng-container>
                             </ng-container>
                           </div>

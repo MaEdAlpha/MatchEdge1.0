@@ -1,5 +1,6 @@
 mat-table{
   margin-top: 50px;
+  min-width: 107rem;
 }
 mat-header-row {
   display: none;
@@ -512,3 +513,18 @@ button.viewCell {
   border: 2px #9e9c9c solid;
 }
 
+#active-bets{
+  background-image: url(/assets/img/color-jb.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+  padding: 0px;
+  color: #263238;
+}
+
+#inactive-bets{
+  background-image: url(/assets/img/gray-jb.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+  padding: 0px;
+  color: #263238;
+}
