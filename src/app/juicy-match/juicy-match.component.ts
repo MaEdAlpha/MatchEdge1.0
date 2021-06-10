@@ -163,8 +163,8 @@ export class JuicyMatchComponent implements OnChanges, OnInit, OnDestroy, AfterV
       console.log("Stream INCOMING!");
       var lookupIndex: number[] = []
 
-      lookupIndex.push( this.sortedData.findIndex( (indvMatch) => indvMatch.Selection == streamObj.HomeTeamName ) );
-      lookupIndex.push( this.sortedData.findIndex( (indvMatch) => indvMatch.Selection == streamObj.AwayTeamName ) );
+      lookupIndex.push( this.sortedData.findIndex( (indvMatch) => indvMatch.Selection == streamObj.HomeTeamName && indvMatch.EpochTime == streamObj.unixDateTimestamp) );
+      lookupIndex.push( this.sortedData.findIndex( (indvMatch) => indvMatch.Selection == streamObj.AwayTeamName && indvMatch.EpochTime == streamObj.unixDateTimestamp) );
       console.log(lookupIndex);
 
       lookupIndex.forEach( indexOfmatch => {
