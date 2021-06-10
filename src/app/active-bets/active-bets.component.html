@@ -47,7 +47,10 @@
           </mat-drawer-container>
         </ng-container>
         </div>
-      <div *ngIf="column.field.endsWith('fixture') || column.field.endsWith('selection')  || column.field.endsWith('backOdd') || column.field.endsWith('stake') || column.field.endsWith('layOdd') || column.field.endsWith('layStake') || column.field.endsWith('ql') || column.field.endsWith('pl') || column.field.endsWith('occ') ">
+      <div *ngIf="column.field.endsWith('stake') || column.field.endsWith('ql') || column.field.endsWith('pl') ">
+        {{sab[column.field] | currency:'GBP' }}
+      </div>
+      <div *ngIf="column.field.endsWith('fixture') || column.field.endsWith('selection')  || column.field.endsWith('backOdd') ||  column.field.endsWith('layOdd') || column.field.endsWith('layStake')|| column.field.endsWith('occ') ">
         {{sab[column.field]}}
       </div>
     </td>

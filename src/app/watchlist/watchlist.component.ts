@@ -46,6 +46,7 @@ export class WatchlistComponent implements OnInit, OnDestroy {
     columnsToDisplay: string[] = this.displayedColumns.slice();
     @Input() matches: any;
     @Input() sabList: any;
+
     ftaOption:string;
     @Output() ignoreList: string[];
     matchStream: any;
@@ -229,6 +230,7 @@ export class WatchlistComponent implements OnInit, OnDestroy {
   }
 
   setDisplayHeader(matchObj, matchPosition, groupIndex, prevDate){
+
     (matchPosition == (groupIndex +1) || (matchObj.Details.substring(0,2) != prevDate.substring(0,2))) ? matchObj.displayHeaderDate = true : matchObj.displayHeaderDate = false;
   }
 

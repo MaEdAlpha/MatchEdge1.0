@@ -98,7 +98,7 @@ export class NotificationBoxService {
     toast= this.toast.show( ' ', 'Successfully Deleted!', {
       toastComponent: SABToastDeleteComponent,
       timeOut:1500,
-      disableTimeOut: false,
+      disableTimeOut: true,
       tapToDismiss: true,
       toastClass: "toast border-gold",
       messageClass: 'toast-message',

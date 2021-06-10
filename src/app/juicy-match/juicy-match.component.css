@@ -941,13 +941,13 @@ span.calculated-value{
 }
 
 .mr-overlay {
-  opacity: 0.8;
-  background: #565f64;
+  opacity: 0.9;
+  background: #fceded;
+  ;
 }
 
-.mr-overlay > * {
-  color: #989696;
-  text-decoration: line-through;
+.mr-overlay>td>div>span.mr7box {
+  color: red;
 }
 
 /* Input increment arrow hide */

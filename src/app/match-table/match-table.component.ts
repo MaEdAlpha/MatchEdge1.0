@@ -21,6 +21,7 @@ import { SavedActiveBetsService } from '../services/saved-active-bets.service';
 import { ActiveBet } from '../models/active-bet.model';
 import { PopupViewSavedBetsComponent } from '../popup-view-saved-bets/popup-view-saved-bets.component';
 import { truncate } from 'fs';
+import { on } from 'events';
 
   export class Group {
     level = 0;
@@ -52,7 +53,7 @@ import { truncate } from 'fs';
     SecondcolumnsToDisplay: string[] = ['SMHome','BHome', 'BDraw', 'BAway', 'BTTSOdds', 'B25GOdds','SMAway',  'League', 'OccH', 'OccA'];
     columnsToDisplay: string[] = this.displayedColumns.slice();
     matches: any;
-    savedActiveBets: ActiveBet[];
+    savedActiveBets: ActiveBet[] = null;
     @Output() ignoreList: string[];
     @Input() isLoading: boolean;
     matchStream: any;
@@ -102,7 +103,7 @@ import { truncate } from 'fs';
 
     //TODO add to UserPreference
     dialogDisabled: boolean;
-    displayHeaderDate: boolean = true;
+    displayHeaderDate: boolean = false;
 
     private matchesSub: Subscription;
     private dateSubscription: Subscription;
@@ -133,14 +134,21 @@ import { truncate } from 'fs';
         this.savedActiveBets = sabData;
         console.log("SABLIST Populated");
         console.log(this.savedActiveBets);
-        //Set activeBets = true.
-        if(this.matches != undefined) this.savedActiveBets.forEach( sab => {
-          this.toggleActiveBetState(sab, true);
-        });
+
+        if(this.matches != undefined){
+          this.savedActiveBets.forEach( sab => {
+            this.toggleActiveBetState(sab, true);
+          });
+        }
+
       });
 
       this.newSabSubscriptioin = this.savedActiveBetsService.getSabListObservable().subscribe( (newSAB: ActiveBet) => {
-        this.toggleActiveBetState(newSAB, true);
+        if(this.matches != undefined){
+          this.savedActiveBets.forEach( sab => {
+            this.toggleActiveBetState(sab, true);
+          });
+        }
       });
 
 
@@ -195,7 +203,9 @@ import { truncate } from 'fs';
                                           console.log("--------MATCHES------------");
 
                                           console.log(this.matches);
-
+                                          this.savedActiveBets.forEach( sab => {
+                                            this.toggleActiveBetState(sab, true);
+                                          })
                                           // Click League headers feature.
                                           this.tableGroups.forEach( group => {
                                                                               this.dataSource.data = this.addToListOnClick(this.matches, this.tableGroups, group);
@@ -231,9 +241,10 @@ import { truncate } from 'fs';
       matches.forEach(match => {
         this.matchStatusService.watchMatchSubject(match);
       });
-    }
+   }
 
     ngAfterViewInit(){
+
     }
 
     ngOnDestroy(){
@@ -243,6 +254,7 @@ import { truncate } from 'fs';
       this.webSocketService.closeSSE();
       this.dateSubscription.unsubscribe();
       this.sabSubscription.unsubscribe();
+      this.newSabSubscriptioin.unsubscribe();
     }
 
 
