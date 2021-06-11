@@ -14,10 +14,6 @@ export class CalcSettingsService {
    return this.userPropertiesService.accessUserStakes();
   }
 
-  getDefaultStakes(){
-    return this.userPropertiesService.accessDefaultStakes();
-  }
-
   getRanges() {
     return this.userPropertiesService.accessOddsRange();
   }

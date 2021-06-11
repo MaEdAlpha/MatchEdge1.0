@@ -117,7 +117,8 @@ app.put('/api/user/connect', async (req,res) => {
 //TODO: Authenticat UPDATES API Call. Need to pass token in here and assign to writeHead(200)
 app.get(`/api/updates`, function(req, res) {
   //'X-Accel-Buffering': turns off server buffering for SSE to work
-  //PRODUCTION CORS : 'https://juicy-bets.com'
+  //PRODUCTION CORS : 'https://www.juicy-bets.com'
+  //TODO can you wildcard Access-control-allow-origin?
   res.writeHead(200, {
     'Access-Control-Allow-Origin': '*',
     'Content-Type': 'text/event-stream',

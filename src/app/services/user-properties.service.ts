@@ -60,29 +60,17 @@ export class UserPropertiesService {
   //NOTE, stake:100 with oddsLow:0 should be changed later. Development purposes
   //TODO re-write to calcPref in UserPropertiesModel
   private userStakes: CalcSettings[] = [
-                                        {stake: 100, oddsLow: null, oddsHigh:2.01},
-                                        {stake: 80, oddsLow: 2.01, oddsHigh: 3},
-                                        {stake: 60, oddsLow: 3.01, oddsHigh: 4},
-                                        {stake: 50, oddsLow: 4.01, oddsHigh: 5},
-                                        {stake: 40, oddsLow: 5.01, oddsHigh: 6},
-                                        {stake: 20, oddsLow: 6.01, oddsHigh: 8},
-                                        {stake: 10, oddsLow: 8.01, oddsHigh: 10},
-                                        {stake: 10, oddsLow: 10.01, oddsHigh: 12},
-                                        {stake: 5, oddsLow: 7, oddsHigh: 14},
-                                        {stake: 1, oddsLow: 14.01, oddsHigh: 100000000},
+                                        {stake: 0, oddsLow: null, oddsHigh:2.00},
+                                        {stake: 1, oddsLow: 2.01, oddsHigh: 3},
+                                        {stake: 2, oddsLow: 3.01, oddsHigh: 4},
+                                        {stake: 3, oddsLow: 4.01, oddsHigh: 5},
+                                        {stake: 4, oddsLow: 5.01, oddsHigh: 6},
+                                        {stake: 5, oddsLow: 6.01, oddsHigh: 8},
+                                        {stake: 6, oddsLow: 8.01, oddsHigh: 10},
+                                        {stake: 7, oddsLow: 10.01, oddsHigh: 12},
+                                        {stake: 8, oddsLow: 7, oddsHigh: 14},
+                                        {stake: 9, oddsLow: 14.01, oddsHigh: 100000000},
                                                                                 ];
-  private defaultStakes: CalcSettings[] = [
-                                            {stake: 100, oddsLow: 0, oddsHigh:2.01},
-                                            {stake: 80, oddsLow: 2.01, oddsHigh: 3},
-                                            {stake: 60, oddsLow: 3.01, oddsHigh: 4},
-                                            {stake: 50, oddsLow: 4.01, oddsHigh: 5},
-                                            {stake: 40, oddsLow: 5.01, oddsHigh: 6},
-                                            {stake: 20, oddsLow: 6.01, oddsHigh: 8},
-                                            {stake: 10, oddsLow: 8.01, oddsHigh: 10},
-                                            {stake: 10, oddsLow: 10.01, oddsHigh: 12},
-                                            {stake: 12.01, oddsLow: 7, oddsHigh: 14},
-                                            {stake: 10, oddsLow: 14.01, oddsHigh: 100000000},
-                                                                                        ];
   private oddsRange: string[] =  ["< 2.00 ",
                                   "2.01 - 3.00",
                                   "3.01 - 4.00",
@@ -240,9 +228,6 @@ export class UserPropertiesService {
     return this.settings.preferences.ftaOption;
   }
 
-  accessDefaultStakes() {
-    return this.defaultStakes;
-  }
 
   accessOddsRange() {
     return this.oddsRange;
@@ -384,7 +369,6 @@ export class UserPropertiesService {
     return Number(this.settings.filters.evFVII);
   }
   getMR(): number{
-    //TODO add MatchRating in sidenav
     return Number(this.settings.filters.matchRatingFilterI);
   }
 
@@ -406,6 +390,16 @@ export class UserPropertiesService {
 
   getTablePrefs(): TablePreferences {
     return this.settings.filters;
+  }
+
+  getUserPrefferedStakes(backOdds:number):number {
+    var prefStake: number;
+    this.userStakes.forEach( preference => {
+      if(backOdds <= preference.oddsHigh && backOdds >= preference.oddsLow){
+        prefStake = +this.settings.preferences.userPrefferedStakes[preference.stake];
+      }
+    });
+    return prefStake;
   }
 
   getSelectedDate(): string {

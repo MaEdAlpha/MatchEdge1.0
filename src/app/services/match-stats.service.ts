@@ -50,12 +50,12 @@ export class MatchStatsService {
 getMatchStats(allMatches, ftaOption:string): JuicyMatch[] {
   this.allSingleMatches=[];
   allMatches.forEach( (match) =>{
-    this.homeMatchStats.stake = this.calcSettingsService.getPrefferedStake(match.BHome);
+    this.homeMatchStats.stake = this.userPropertiesService.getUserPrefferedStakes(match.BHome);
     this.homeMatchStats.backOdds = match.BHome;
     this.homeMatchStats.layOdds = match.SMHome;
     this.homeMatchStats.occurence = match.OccH;
     // Away
-    this.awayMatchStats.stake = this.calcSettingsService.getPrefferedStake(match.BAway);
+    this.awayMatchStats.stake = this.userPropertiesService.getUserPrefferedStakes(match.BAway);
     this.awayMatchStats.backOdds = match.BAway;
     this.awayMatchStats.layOdds = match.SMAway;
     this.awayMatchStats.occurence = match.OccA;
@@ -78,7 +78,7 @@ getMatchStats(allMatches, ftaOption:string): JuicyMatch[] {
 
   updateSelection(selection:JuicyMatch, ftaOption){
 
-    this.updateMatchStats.stake = this.calcSettingsService.getPrefferedStake(selection.BackOdds);
+    this.updateMatchStats.stake = this.userPropertiesService.getUserPrefferedStakes(selection.BackOdds);
     this.updateMatchStats.backOdds = selection.BackOdds;
     this.updateMatchStats.layOdds = selection.LayOdds;
     this.updateMatchStats.occurence = selection.FTAround;
@@ -109,7 +109,7 @@ getMatchStats(allMatches, ftaOption:string): JuicyMatch[] {
 
     if(streamObj.HomeTeamName == teamName){
         // Home
-        this.homeMatchStats.stake = this.calcSettingsService.getPrefferedStake(streamObj.B365HomeOdds);
+        this.homeMatchStats.stake = this.userPropertiesService.getUserPrefferedStakes(streamObj.B365HomeOdds);
         this.homeMatchStats.backOdds = streamObj.B365HomeOdds;
         this.homeMatchStats.layOdds = streamObj.SmarketsHomeOdds;
         this.homeMatchStats.occurence = streamObj.OccurrenceHome;
@@ -118,7 +118,7 @@ getMatchStats(allMatches, ftaOption:string): JuicyMatch[] {
 
     } else if (streamObj.AwayTeamName == teamName){
         // Calculate Away Juicy values
-        this.awayMatchStats.stake = this.calcSettingsService.getPrefferedStake(streamObj.B365AwayOdds);
+        this.awayMatchStats.stake = this.userPropertiesService.getUserPrefferedStakes(streamObj.B365AwayOdds);
         this.awayMatchStats.backOdds = streamObj.B365AwayOdds;
         this.awayMatchStats.layOdds = streamObj.SmarketsAwayOdds;
         this.awayMatchStats.occurence = streamObj.OccurrenceAway;

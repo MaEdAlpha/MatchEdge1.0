@@ -4,7 +4,6 @@ import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { MatchesService } from '../match/matches.service';
 import { MatDialog, MatDialogConfig, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { animate, group, state, style, transition, trigger } from '@angular/animations';
-import { WebsocketService } from '../websocket.service';
 import { Match } from '../match/match.model';
 import { NotificationBoxService } from '../services/notification-box.service';
 import { DatePipe } from '@angular/common';
@@ -12,7 +11,6 @@ import { SidenavService } from '../view-table-sidenav/sidenav.service';
 import { UserPropertiesService } from '../services/user-properties.service';
 import { DateHandlingService } from '../services/date-handling.service';
 import { MatchStatusService } from '../services/match-status.service';
-import { analyzeAndValidateNgModules } from '@angular/compiler';
 import { PopupViewSavedBetsComponent } from '../popup-view-saved-bets/popup-view-saved-bets.component';
 import { ActiveBet } from '../models/active-bet.model';
 
@@ -46,6 +44,7 @@ export class WatchlistComponent implements OnInit, OnDestroy {
     columnsToDisplay: string[] = this.displayedColumns.slice();
     @Input() matches: any;
     @Input() sabList: any;
+    @Input() watchlistEnabled:number = 0;
 
     ftaOption:string;
     @Output() ignoreList: string[];
@@ -111,6 +110,14 @@ export class WatchlistComponent implements OnInit, OnDestroy {
     constructor(private matchesService: MatchesService, private dateHandlingService: DateHandlingService, private matchStatusService: MatchStatusService, private userPref: UserPropertiesService, public datepipe: DatePipe, private sidenav: SidenavService , public dialog: MatDialog, private notificationBox: NotificationBoxService, private chRef: ChangeDetectorRef) {
      } //creates an instance of matchesService. Need to add this in app.module.ts providers:[]
 
+    ngOnChanges(simpleChange: SimpleChanges) {
+      if(simpleChange.watchlistEnabled && simpleChange.watchlistEnabled.currentValue == 2){
+        console.log("WATCHLIST CHANGE");
+        console.log(this.displayList);
+
+        this.resetDateHeaders(this.displayList);
+      }
+    }
 
     ngOnInit() {
       this.ftaOption = this.userPref.getFTAOption();
@@ -202,7 +209,7 @@ export class WatchlistComponent implements OnInit, OnDestroy {
       watchList.forEach( match => {
         var matchTime: number = match.EpochTime*1000;
         //prevDate acts as a switch for setting displayHeaderDate boolean.
-        var prevDate: string = "placeHolder";
+        var prevDate: string = 'placeholder';
         if(dateSelected == 'Today & Tomorrow' && groupHeader.League == match.League && (matchTime >= epochCutOff.forStartOfDayOne && matchTime  < epochCutOff.forDayTwo) ){
           this.setDisplayHeader(match, matchPosition, groupIndex, prevDate);
           this.displayList.splice(matchPosition, 0, match);
@@ -230,7 +237,7 @@ export class WatchlistComponent implements OnInit, OnDestroy {
   }
 
   setDisplayHeader(matchObj, matchPosition, groupIndex, prevDate){
-
+    matchObj.displayHeaderDate = false;
     (matchPosition == (groupIndex +1) || (matchObj.Details.substring(0,2) != prevDate.substring(0,2))) ? matchObj.displayHeaderDate = true : matchObj.displayHeaderDate = false;
   }
 
@@ -333,16 +340,58 @@ export class WatchlistComponent implements OnInit, OnDestroy {
     return this.masterList;
   }
 
+  resetDateHeaders(matchList:any[]){
+    var prevObject:string ="";
+    var count: number = 0;
+    matchList.forEach( object => {
+      //reset displayHeaderDate.
+      object.displayHeaderDate = false;
+      var currentDate: number = new Date(object.EpochTime * 1000).getDate();
+      var previousDate: number = count == 0 ? 0 : new Date( (matchList[count-1].EpochTime * 1000)).getDate();
+      if(object.level == 1 || count == 0){
+        //groupHeader detected
+        prevObject = "groupHeader";
+        count ++;
+      }else if(count == 1 || prevObject == "groupHeader"){
+        console.log("TRUE HDRDATE1");
+        console.log(object);
+        //find first match in leagueGroup
+        object.displayHeaderDate = true;
+        prevObject ="";
+        count ++;
+      } else if (currentDate != previousDate && object.League == matchList[count-1].League ){
+        //find date change within same league
+        console.log("TRUE HDRDATE2");
+        console.log(object);
+        console.log("Date compare " + currentDate + ' == ' + previousDate);
+        console.log("League compare " + object.League + " vs " + matchList[count-1].League );
+
+
+        object.displayHeaderDate = true;
+        prevObject= "";
+        count ++;
+      } else {
+        console.log("FALSE HDRDATE3");
+        console.log(object);
+
+        count ++;
+      }
+    });
+    this.addFixturesDate(matchList);
+  }
+
   addFixturesDate(matchList: any[] ): any[]{
 
     matchList.forEach( matchObj => {
-      //TODO BUG-FIX WHEN LOCALE_ID WORKS.
-      if(matchObj.displayHeaderDate){
-        //All of Angular is using Datepipes to conver by en-US locale, not en-GB. For the time being, everything must be converted to english Locale
-        var gbDateFormat = this.dateHandlingService.switchDaysWithMonths(matchObj.Details);
-        matchObj.FixturesDate = this.datepipe.transform(gbDateFormat, 'EEE dd MMM \n  HH:mm');
-      }else {
-        matchObj.FixturesDate = this.datepipe.transform(matchObj.Details, 'HH:mm');
+      if(matchObj.level != 1 && matchObj.Details != undefined ){
+        var localDate: Date = new Date(matchObj.EpochTime * 1000);
+        if(matchObj.displayHeaderDate){
+          matchObj.FixturesDate = this.datepipe.transform(localDate, 'EEE dd MMM');
+          matchObj.FixturesTime = this.datepipe.transform(localDate, 'HH:mm');
+        } else {
+          matchObj.FixturesDate = "";
+          matchObj.FixturesTime = this.datepipe.transform(localDate, 'HH:mm');
+        }
       }
     });
     return matchList;

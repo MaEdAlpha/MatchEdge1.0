@@ -431,7 +431,7 @@ export class JuicyMatchComponent implements OnChanges, OnInit, OnDestroy, AfterV
       console.log(index);
       var data: FormGroup = this.getGroup(index);
       data.setValue({
-        Stake: selection.Stake,
+        Stake: this.userPrefService.getUserPrefferedStakes(selection.BackOdds),
         LayStake: selection.LayStake,
         BackOdds: selection.BackOdds,
         LayOdds: selection.LayOdds,

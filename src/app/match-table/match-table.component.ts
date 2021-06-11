@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, OnChanges, Output, EventEmitter, SimpleChanges, ChangeDetectorRef, Input} from '@angular/core';
+import { Component, OnDestroy, OnInit, OnChanges, Output, EventEmitter, SimpleChanges, ChangeDetectorRef, Input, ViewChild, SimpleChange} from '@angular/core';
 import { Subject, Subscription } from 'rxjs';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { MatchesService } from '../match/matches.service';
@@ -144,11 +144,7 @@ import { on } from 'events';
       });
 
       this.newSabSubscriptioin = this.savedActiveBetsService.getSabListObservable().subscribe( (newSAB: ActiveBet) => {
-        if(this.matches != undefined){
-          this.savedActiveBets.forEach( sab => {
-            this.toggleActiveBetState(sab, true);
-          });
-        }
+            this.toggleActiveBetState(newSAB, true);
       });
 
 
@@ -201,8 +197,8 @@ import { on } from 'events';
                                           //assign only league groups that match user selected date
                                           this.setGroupsToDate(this.masterGroup);
                                           console.log("--------MATCHES------------");
-
                                           console.log(this.matches);
+                                          //set ActiveBet Icon on/off
                                           this.savedActiveBets.forEach( sab => {
                                             this.toggleActiveBetState(sab, true);
                                           })
@@ -463,6 +459,7 @@ import { on } from 'events';
 
       //Compare previous date with current. If they're the same, mark current displayHeaderDate -> false.
       setDisplayHeader(match, matchPosition, allMatchIndex, groupIndex, allMatches){
+        match.displayHeaderDate = false;
         var currentDate: number = new Date(match.EpochTime * 1000).getDate();
         var previousDate: number;
         allMatchIndex == 0 ? previousDate = 0 : previousDate = new Date((allMatches[allMatchIndex-1].EpochTime * 1000)).getDate();
@@ -473,7 +470,7 @@ import { on } from 'events';
         (matchPosition == (groupIndex + 1) || (previousDate != 0 && currentDate != previousDate && match.League == previousMatchObj.League)) ? match.displayHeaderDate = true : match.displayHeaderDate = false;
          //If current match and previous match are of the same league, and the previous match is pastPrime. display the date header.
         ( allMatchIndex > 0 && currentMatchObj.League == previousMatchObj.League && previousMatchObj.isPastPrime == true && currentMatchObj.isPastPrime != previousMatchObj.isPastPrime && currentMatchObj.EpochTime*1000 < Date.now() ) ? match.displayHeaderDate = true : '';
-        }
+      }
 
       removeFromListOnClick(viewTableList, tableGroups, rowInfo): any[] {
 
@@ -550,7 +547,52 @@ import { on } from 'events';
       console.log('tableSelected!!!: ' + fixtureBtnClicked);
 
       this.tableSelected = fixtureBtnClicked;
+
+      if(this.tableSelected == 1) {
+          this.resetDateHeaders(this.dataSource.data);
+      }
+
       this.savedActiveBets = this.savedActiveBetsService.getSabList();
+    }
+
+    resetDateHeaders(matchList:any[]){
+      var prevObject:string ="";
+      var count: number = 0;
+      matchList.forEach( object => {
+        //reset displayHeaderDate.
+        object.displayHeaderDate = false;
+        var currentDate: number = new Date(object.EpochTime * 1000).getDate();
+        var previousDate: number = count == 0 ? 0 : new Date( (matchList[count-1].EpochTime * 1000)).getDate();
+        if(object.level == 1 || count == 0){
+          //groupHeader detected
+          prevObject = "groupHeader";
+          count ++;
+        }else if(count == 1 || prevObject == "groupHeader"){
+          console.log("TRUE HDRDATE1");
+          console.log(object);
+          //find first match in leagueGroup
+          object.displayHeaderDate = true;
+          prevObject ="";
+          count ++;
+        } else if (currentDate != previousDate && object.League == matchList[count-1].League ){
+          //find date change within same league
+          console.log("TRUE HDRDATE2");
+          console.log(object);
+          console.log("Date compare " + currentDate + ' == ' + previousDate);
+          console.log("League compare " + object.League + " vs " + matchList[count-1].League );
+
+
+          object.displayHeaderDate = true;
+          prevObject= "";
+          count ++;
+        } else {
+          console.log("FALSE HDRDATE3");
+          console.log(object);
+
+          count ++;
+        }
+      });
+      this.addFixturesDate(matchList);
     }
 
     isGroup(index, item): boolean {
