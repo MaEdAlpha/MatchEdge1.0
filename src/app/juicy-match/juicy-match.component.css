@@ -454,20 +454,6 @@ div.jm-exp-details {
     display: inline-flex;
 }
 
-.calculatedcontainer{
-  border-style: solid;
-    width: -webkit-fill-available;
-    height: 83%;
-    color: #487e92;
-    padding-left: 0px;
-    border-radius: 35px;
-    background: radial-gradient(at 111% 0, #4f8ca2, #172329 66%), linear-gradient( 231deg, #383838, transparent 80%) bottom;
-    margin-left: -50px;
-    margin-right: -91px;
-    display: inline-flex;
-    padding-top: 2px;
-}
-
 .teamname{
   width: 12%;
   padding-top: 7px;
@@ -485,11 +471,6 @@ div.jm-exp-details {
   width:34%;
   padding-top: 7px;
   margin-left: 13px;
-}
-
-
-.comments-cont {
-  width: 80%;
 }
 
 .match-date {
@@ -551,30 +532,6 @@ div.jm-exp-details {
 .exchange-container-output{
   margin-top: 14px;
   margin-left: 8px;
-}
-
-.calculated-container-mid,
-.calculated-container-end{
-  width: 30%;
-  padding-top: 2px;
-  padding-bottom: 0px;
-  margin-right: -80px;
-}
-.calculated-container-comments{
-  width: 33%;
-  float: left;
-  padding-top: 5px;
-  padding-bottom: 0px;
-  padding-left: 5px;
-}
-.auto-calc-input{
-  height: 35px;
-  color: white;
-}
-
-.user-comments{
-  width: 110%;
-  padding-left: 5%
 }
 
 .bookie-row,
@@ -696,94 +653,6 @@ padding-top: 8%;
   display: inline-block;
 }
 
-.valueheadercontainer{
-  margin-bottom: -10px;
-  margin-top: 0px
-}
-.valueheadercontainer2{
-  margin-top: 23px;
-  margin-bottom: -9px;
-}
-
-.calculated-row
-{
-  position: relative;
-}
-
-.ROIvalue{
-  color: white;
-  font-size: 95%;
-  position: absolute;
-  left :9%;
-}
-.EVvalue{
-  color: white;
-  font-size: 95%;
-  color: white;
-  font-size: 95%;
-  position: absolute;
-  left: 44%;
-}
-.MRvalue{
-  color: white;
-  font-size: 95%;
-  position: absolute;
-  left: 76%;
-}
-
-.FTAvalue{
-  color: white;
-  font-size: 95%;
-  position: absolute;
-  left :8%;
-}
-.QLPercentagevalue{
-  color: white;
-  font-size: 95%;
-  color: white;
-    font-size: 95%;
-    position: absolute;
-    left: 44%;
-
-}
-.QLvalue{
-  color: white;
-  font-size: 95%;
-  position: absolute;
-  left: 76%;
-}
-
-.roi-text{
-  color: white;
-  padding-left: 35px;
-}
-.ev-text{
-  padding-left: 80px;
-  padding-right: 80px;
-  color: white;
-}
-.mr-text{
-  color: white;
-  padding-right: 40px
-}
-
-
-.FTAText{
-  color: white;
-  padding-left: 25px;
-  padding-right: 20px;
-}
-.QLPercenttext{
-  padding-left: 55px;
-    padding-right: 72px;
-    color: white;
-}
-.QLText{
-  color: white;
-  padding-right: 35px
-}
-
-
 .qlpercent-text{
   padding-left: 50px;
   color: white;
@@ -817,15 +686,7 @@ padding-top: 8%;
 .calculated-text-lhs {
   font-size: 90%;
 }
-.ROIdivider, .EVdivider, .MRdivider, .FTAdivider, .QLPdivider, .QLdivider{
-  margin-top: -1px !important;
-    width: 18% !important;
-    border: 1px solid #aa8920 !important;
-    display: inline-flex;
-    margin-right: 5px;
-    padding-right: 38px;
-    margin-bottom: 0px;
-}
+
 
 
 .last-dividers{
@@ -957,4 +818,128 @@ input::-webkit-inner-spin-button {
 
 input[type=number] {
   -moz-appearance: textfield;
+}
+
+.calculatedcontainer{
+  border-style: solid;
+    width: -webkit-fill-available;
+    height: 83%;
+    color: #487e92;
+    padding-left: 0px;
+    border-radius: 35px;
+    background: radial-gradient(at 111% 0, #4f8ca2, #172329 66%), linear-gradient( 231deg, #383838, transparent 80%) bottom;
+    margin-left: -50px;
+    margin-right: -91px;
+    display: inline-flex;
+    padding-top: 2px;
+}
+.calculated-container-comments{
+  width: 33%;
+  float: left;
+  padding-top: 5px;
+  padding-bottom: 0px;
+  padding-left: 5px;
+}
+
+.comments-cont {
+  width: 80%;
+}
+
+.user-comments{
+  width: 110%;
+  padding-left: 5%
+}
+
+.auto-calc-input{
+  height: 35px;
+  color: white;
+}
+.valueheadercontainer{
+  margin-bottom: -10px;
+  margin-top: 0px
+}
+.roi-text{
+  color: white;
+  padding-left: 35px;
+}
+.ev-text{
+  padding-left: 80px;
+  padding-right: 80px;
+  color: white;
+}
+.mr-text{
+  color: white;
+  padding-right: 40px
+}
+.ROIdivider, .EVdivider, .MRdivider, .FTAdivider, .QLPdivider, .QLdivider{
+  margin-top: -1px !important;
+    width: 18% !important;
+    border: 1px solid #aa8920 !important;
+    display: inline-flex;
+    margin-right: 5px;
+    padding-right: 38px;
+    margin-bottom: 0px;
+}
+.calculated-row
+{
+  position: relative;
+}
+.ROIvalue{
+  color: white;
+  font-size: 95%;
+  position: absolute;
+  left :9%;
+}
+.EVvalue{
+  color: white;
+  font-size: 95%;
+  color: white;
+  font-size: 95%;
+  position: absolute;
+  left: 44%;
+}
+.MRvalue{
+  color: white;
+  font-size: 95%;
+  position: absolute;
+  left: 76%;
+}
+.valueheadercontainer2{
+  margin-top: 23px;
+  margin-bottom: -9px;
+}
+.FTAText{
+  color: white;
+  padding-left: 25px;
+  padding-right: 20px;
+}
+.QLPercenttext{
+  padding-left: 55px;
+    padding-right: 72px;
+    color: white;
+}
+.QLText{
+  color: white;
+  padding-right: 35px
+}
+.FTAvalue{
+  color: white;
+  font-size: 95%;
+  position: absolute;
+  left :8%;
+}
+.QLPercentagevalue{
+  color: white;
+  font-size: 95%;
+  color: white;
+    font-size: 95%;
+    position: absolute;
+    left: 44%;
+
+}
+.QLvalue{
+  color: white;
+  font-size: 95%;
+  position: absolute;
+  left: 76%;
 }

@@ -32,17 +32,22 @@
   </ng-template>
 
 
-    <div *ngIf="!isAuthenticated" class="welcome-container">
-      <app-landing-page></app-landing-page>
-      <hr class="top-hz">
-      <div class="welcome-buttons">
-        <app-auth-login-button></app-auth-login-button>
-        <app-auth-signup-button class="button"></app-auth-signup-button>
+   <div *ngIf="!isAuthenticated">
+
+      <div class="welcome-container">
+          
+          <app-landing-page></app-landing-page>
+
+          <div class="welcome-buttons">
+            <app-auth-login-button class = 'button'></app-auth-login-button>
+            <app-auth-signup-button class="button"></app-auth-signup-button>
+          </div>      
+
+          <div class='companydetails'>Juicy-Bets Entertainment ltd.<br>
+              Info@Juicy-Bets.com<br> IC:BC1305438</div>      
+          </div>
+
       </div>
-      <hr class="bottom-hz">
-      <app-about></app-about>
-    </div>
 
-
-</div>
+  </div>
 
