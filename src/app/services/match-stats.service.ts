@@ -26,6 +26,7 @@ export class MatchStatsService {
   roi: number;
   mRating:number;
   qlPercentage:number;
+  commission:number;
 
   private homeMatchStats:MatchStats = {stake: 0, backOdds: 0, layOdds: 0, layStake: 0, liability: 0, ql: 0, occurence: 0, basicOccurence: 65, ft: 0, evTotal: 0, evThisBet: 0, roi:  0, mRating: 0, qlPercentage: 0};
   private awayMatchStats:MatchStats = {stake: 0, backOdds: 0, layOdds: 0, layStake: 0, liability: 0, ql: 0, occurence: 0, basicOccurence: 65, ft: 0, evTotal: 0, evThisBet: 0, roi:  0, mRating: 0, qlPercentage: 0};
@@ -44,6 +45,7 @@ export class MatchStatsService {
   }
 
   ngOnInit(){
+    this.commission = this.userPropertiesService.getCommission();
   }
 
 // Service that handles all calculations for match records. Creates a juicy object for both DB document and any incoming Stream data.
@@ -184,11 +186,13 @@ getMatchStats(allMatches, ftaOption:string): JuicyMatch[] {
     var backOdds = match.backOdds;
     var layOdds = match.layOdds;
     var occurence = ftaOption == 'brooks' ? match.occurence : match.basicOccurence;
+    //CommissionsUpdated
+    var commission = this.commission/100;
     // console.log(ftaOption);
     // console.log("Occurence Used: " + occurence);
 
-
-    match.layStake = +(backOdds / layOdds * stake).toFixed(2);
+    //CommissionsUpdated
+    match.layStake = +(backOdds* stake /(layOdds - commission)).toFixed(2);
     match.liability = +((layOdds - 1 )* match.layStake).toFixed(2);
     match.ql = +(match.layStake - stake).toFixed(2);
     match.ft = +(stake * (backOdds - 1) + match.layStake).toFixed(2);

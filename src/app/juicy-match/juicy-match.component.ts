@@ -202,7 +202,6 @@ export class JuicyMatchComponent implements OnChanges, OnInit, OnDestroy, AfterV
         }
       }
       console.log(this.sortedData);
-
     });
 
     //set userPreference Values
@@ -326,25 +325,27 @@ export class JuicyMatchComponent implements OnChanges, OnInit, OnDestroy, AfterV
     this.startDay = dateValidator[0];
     this.endDay = dateValidator[1];
   }
-
+  //CommissionsUpdated
   LayStake(backOdds: number, layOdds:number, steakYum: number):number{
-      var laySteak = (+backOdds / +layOdds)* +steakYum;
+      var laySteak = +backOdds * +steakYum / (+layOdds - (this.userCommission/100));
     return laySteak;
   }
-
+  //CommissionsUpdated
   FTA(stake:number, backOdds: number, layOdds:number):number{
-    var layStake = (+backOdds / +layOdds) * +stake;
+    var layStake = +backOdds * + stake / (+layOdds - this.userCommission/100 );
     return (+stake * (+backOdds - 1) + +layStake);
   }
 
+  //CommissionsUpdated
   TotalEV(occurence:number, stake:number, backOdds:number, layOdds:number):number{
-    var layStake = (+backOdds / +layOdds) * +stake;
+    var layStake = +backOdds * +stake /( +layOdds - this.userCommission/100 ) ;
     var result:number = +(+stake * (+backOdds - 1) + +layStake)+ (+layStake- +stake)*(+occurence-1);
     return result;
   }
 
+  //Match rating should also account user commission.
   NewMatchRating(backOdds:number, layOdds:number){
-    return +(backOdds/layOdds)*100;
+    return +(backOdds/(layOdds-this.userCommission/100))*100;
   }
 
   NewSS(backOdds:number,layOdds:number,stake:number){
@@ -353,9 +354,9 @@ export class JuicyMatchComponent implements OnChanges, OnInit, OnDestroy, AfterV
     var qlPercentage = +(ql/fta*100).toFixed(2);
     return qlPercentage;
   }
-
+  //CommissionsUpdated
   ROI(stake:number, backOdds: number, layOdds:number, occurence:number):number{
-    var layStake = (+backOdds / +layOdds) * +stake;
+    var layStake = (+backOdds* +stake / (+layOdds-this.userCommission/100));
     var fullTurnAround = +stake * (+backOdds -1) + +layStake;
     var ql = +(+layStake- +stake);
     var evTotal = +(fullTurnAround + ( +ql * (+occurence -1)));
@@ -364,11 +365,12 @@ export class JuicyMatchComponent implements OnChanges, OnInit, OnDestroy, AfterV
     return +((evThisBet/stake)*100);
   }
 
+  //CommissionsUpdated
   QL(backOdds: number, layOdds:number, stake:number){
-    var layStake = (+backOdds / +layOdds) * stake;
+    var layStake = +backOdds * stake /( +layOdds - this.userCommission/100) ;
     return +(+layStake - +stake);
   }
-
+  //layStake has commission already pre-calculated into it
   Liability(layOdds:number, layStake:number):number {
     return +(+layOdds - 1 )* +layStake;
   }
