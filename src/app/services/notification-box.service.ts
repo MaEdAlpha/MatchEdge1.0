@@ -121,6 +121,20 @@ export class NotificationBoxService {
     return toast;
   }
 
+  ClearJuicyToast(): ActiveToast<any>{
+    var toast: ActiveToast<string>;
+    toast = this.toast.show('', 'Juicy Reset!' , {
+      toastComponent: SABToastUpdatedComponent,
+      timeOut:500,
+      disableTimeOut:false,
+      tapToDismiss:true,
+      toastClass: "toast border-gold",
+      messageClass: 'toast-message',
+      positionClass:'toast-bottom-right',
+    })
+    return
+  }
+
   IncompleteSABToast(message:string): ActiveToast<any>{
     var toast: ActiveToast<any>;
 
@@ -141,23 +155,17 @@ export class NotificationBoxService {
   showJuicyNotification(mainMatch: any){
     var epochNotifications = this.dateHandlingService.returnGenericNotificationBoundaries();
      this.audioEnabled = this.userPropService.getAudioPreferences();
-    console.log("JUICY NOTIFICATION");
-
+    console.log("JUICY TOASTIFICATION");
     console.log(mainMatch);
 
     //THIS IS THE BREAD AND BUTTER FOR TOAST. FIX isWatched~~~ SHOULD GET AN ACTUAL STATE OF JUICY. Match STATUS SHOULD BE GETTING THE ACTUAL STATE. SHOULD BE UPDATING MATCH STATUS SERVICES.
     if(this.matchStatusService.isWatched(mainMatch.Selection) && this.isInEpochLimits(epochNotifications, mainMatch) ) {
-      console.log("BlackPool Conditional 1  Passed!");
-      console.log(mainMatch);
-
       //DISPLAY TOAST IF match is set to Notify && user is not Aware of the match being Juicy.
       if(mainMatch.notify && !mainMatch.userAware ){
-        console.log("CHECK TOAST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
         switch(this.fvSelected){
             case 1:
               if(mainMatch.EVthisBet >= this.evNotificationFilter && mainMatch.EVthisBet < 100000 ){
                 console.log(mainMatch);
-
                   this.toastIt(mainMatch);
                   //play audio if settings enables it
                   (this.audioEnabled) ? this.playAudio() : null;
@@ -185,22 +193,13 @@ export class NotificationBoxService {
               }
               break;
             default:
-              console.log("something didn't register");
+              console.log("no entiendo");
             }
           }
       } else {
-        console.log("In Empty SwitchCaseBlock ");
+        console.log("Incoming stream was no bueno~ jajajaja ");
       }
-
-
     return mainMatch;
-    // if( this.matchStatusService.isWatched(away.Selection) && (this.isInEpochLimits(epochNotifications, away) && (this.fvSelected && away.EVthisBet >= this.evNotificationFilter && away.EVthisBet < 100000 ) || ( this.fvSelected == 2 && away.MatchRating >= this.matchRatingFilterNotification) || (this.fvSelected == 3 && away.QLPercentage >= this.secretSauceNotification) ) ) {
-    //   this.toast.success(away.Selection + ": </br> EV: " + away.EVthisBet + "</br> MR: " + away.MatchRating, "Click to view " + away.Selection + " in Juicy Match.").onTap.subscribe( (x) => {
-    //     console.log("SHOW NOTIFICATION!!!!");
-    //     //When a user taps the notification.
-    //     this.toastr(away);
-    //   });
-    // }
   }
 
   private toastIt(mainMatch: any) {
@@ -214,7 +213,6 @@ export class NotificationBoxService {
         //if toast is tapped, bring user to juicy table via this message.
         this.toastr(mainMatch);
       });
-
     return mainMatch;
   }
 
@@ -225,7 +223,6 @@ export class NotificationBoxService {
       updatedMainMatch.isJuicy = false;
       //Sets notifications back on in the event they click the Toast Notification -> go to Juicy -> Do not take bet -> go back to Watchlist/Match-table -> Recieve new Odds within spec of that match.
       updatedMainMatch.userAware = false;
-
     }, 2000);
     var goToJuicyTable = { notificationIsActivated: true, matchObject: updatedMainMatch }
     this.clickSubject.next(goToJuicyTable);
@@ -256,11 +253,8 @@ export class NotificationBoxService {
 
       setTimeout( () => {
         this.userPropService.setAudioNotificationLock(true);
-        console.log("timeout lock set to : " + this.userPropService.getAudioNotificationLock());
-
       } ,3000);
       this.userPropService.setAudioNotificationLock(false);
-      console.log("lock set to " + this.userPropService.getAudioNotificationLock());
     }
   }
 

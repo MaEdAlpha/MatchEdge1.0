@@ -217,8 +217,5 @@ export class FilterSettingsComponent implements OnInit {
 
   test(){
     console.log(this.filtersFormValues);
-
-
-
   }
 }

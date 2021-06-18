@@ -110,7 +110,7 @@ export class ActiveBetsComponent implements OnChanges, OnInit, AfterViewInit {
        console.log(sabId + " found.");
        console.log(this.ACTIVE_BETS);
        this.table.renderRows();
-       this.dataSource= this.ACTIVE_BETS;
+       this.dataSource = this.ACTIVE_BETS;
     });
   }
 
@@ -261,8 +261,15 @@ sortData(sort: Sort) {
 
 updateSAB(sab:ActiveBet, index:number){
 
+  var indexSAB = this.ACTIVE_BETS.findIndex(listItem => listItem.created == sab.created);
+  console.log("indexOfSAB is: " + indexSAB);
+
   var updatedSAB = this.setChanges(sab, index);
+  this.ACTIVE_BETS[indexSAB] = updatedSAB;
+  this.dataSource = this.ACTIVE_BETS;
+  this.table.renderRows();
   this.toastNotificationService.UpdateToastSAB();
+  //Wrties to DB
   this.sabServices.patchToActiveBets(updatedSAB);
 }
 

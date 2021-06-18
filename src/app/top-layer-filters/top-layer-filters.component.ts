@@ -108,51 +108,7 @@ export class TopLayerFiltersComponent implements OnInit, OnChanges {
     this.juicyMatchHandlingService.clearJuicyClicked(this.clearAllJuicy);
     this.clearAllJuicy = !this.clearAllJuicy;
     //send little notification that
-    this.userPropertiesService.testHttp();
+    this.notificationService.ClearJuicyToast();
   }
-
-  showCustomToast(){
-    var message: string = "7.0" + "<br> 7.5";
-    var title: string = "Huddersfield Town";
-    this.notificationService.showToast(message, title);
-  }
-
-
 }
 
-//   modifiedGroupList(data: any[], groupList: any[]) : any[]{
-//     groupList.forEach( groupObj => {
-
-//       if(!this.masterList.includes(groupObj)){
-//         this.masterList.push(groupObj);
-//       }
-
-//       if(groupObj.expanded == true && !groupObj.isActive)
-//       {
-//         var groupIndex = this.masterList.indexOf(groupObj);
-//         var matchPosition = groupIndex + 1;
-
-//         data.forEach(matchObj => {
-//           if(matchObj.League == groupObj.League)
-//           {
-//             var index = matchPosition;
-//             this.masterList.splice(index, 0, matchObj);
-//             matchPosition ++;
-//           }
-//         });
-//         //set to active to avoid excessive iterations. This will be set back to false, when expanded = false.
-//         groupObj.isActive = true;
-//       }
-
-//       if (groupObj.expanded == false && groupObj.isActive){
-//         data.forEach( match => {
-//           if(match.League == groupObj.League){
-//             var position = this.masterList.indexOf(match);
-//             this.masterList.splice(position, 1);
-//           }
-//         });
-//         groupObj.isActive = false;
-//       }
-//     })
-//     return this.masterList;
-//   }

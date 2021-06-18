@@ -892,28 +892,16 @@ import { on } from 'events';
     }
 
     toggleActiveBetState(sabData:ActiveBet | { selection:string, matchDetail:number}, isActive:boolean){
-      console.log("IN ABS");
-      console.log(sabData);
+      // console.log("IN ABS");
+      // console.log(sabData);
       var matchIndex = this.matches.findIndex( match => match.EpochTime*1000 == sabData.matchDetail && (match.Home == sabData.selection || match.Away == sabData.selection) );
       console.log(matchIndex);
 
       if(isActive && matchIndex != -1){
-        console.log("TOGGLE ABS TO TRUE");
-
+        // console.log("TOGGLE ABS TO TRUE");
         this.matches[matchIndex].Home == sabData.selection ? this.matches[matchIndex].HStatus.activeBet = true : this.matches[matchIndex].AStatus.activeBet = true;
       }else if (!isActive && matchIndex != -1){
-        // console.log("TOGGLE ABS TO FALSE");
-
-        // const sabSelection = this.savedActiveBets.filter( sab => {
-        //   if(sab.matchDetail == sabData.matchDetail && sab.selection == sabData.selection){
-        //     return true;
-        //   }else {
-        //     return false;
-        //   }
-        // });
-
-        // console.log("Count: " + sabSelection.length);
-        // if(sabSelection.length <=1) this.matches[matchIndex].Home == sabData.selection ? this.matches[matchIndex].HStatus.activeBet = false : this.matches[matchIndex].AStatus.activeBet = false;
+        // Do not do the thing.
       }else{
         console.log("Cannot change state of SAB icon, an error occured.");
 
@@ -922,8 +910,8 @@ import { on } from 'events';
 
     //Assign a button that updates JuicyTable Notify status.
     updateJuicyNotifyStatus(match: any, isHome:boolean){
-      console.log("NOTIFY: In Match-Table");
-      console.log(match);
+      // console.log("NOTIFY: In Match-Table");
+      // console.log(match);
       //juicy: {selection:string, notifyState:boolean}
       let juicy = isHome? {selection: match.Home, notifyState: match.HStatus.notify, epoch: match.EpochTime} : {selection: match.Away, notifyState: match.AStatus.notify, epoch: match.EpochTime};
 
