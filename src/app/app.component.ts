@@ -19,7 +19,7 @@ export class AppComponent {
   toggleSettingsTemplate:boolean;
   profileJson: string= null;
   isAuthenticated: boolean=false;
-  isEntryPoint: boolean=false;
+  isEntryPoint: boolean=true;
   isLoading: boolean = true;
   tabSelection: number;
 
@@ -39,6 +39,10 @@ export class AppComponent {
 
     this.matchesService.loadPage.subscribe( (isDone) => {
       this.isLoading = isDone;
+    });
+
+    this.matchesService.view2Ups.subscribe( (unlock) => {
+      this.isEntryPoint= unlock;
     });
   }
 
