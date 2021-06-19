@@ -104,6 +104,7 @@ import { SettledBetDirective } from './directives/settled-bet.directive';
 import { SabtoastSettledComponent } from './sabtoast-settled/sabtoast-settled.component';
 import { SABToastIncompleteComponent } from './sabtoast-incomplete/sabtoast-incomplete.component';
 import { SubscriptionsComponent } from './subscriptions/subscriptions.component';
+import { FooterComponent } from './footer/footer.component';
 
 
 
@@ -164,6 +165,7 @@ import { SubscriptionsComponent } from './subscriptions/subscriptions.component'
     SabtoastSettledComponent,
     SABToastIncompleteComponent,
     SubscriptionsComponent,
+    FooterComponent,
   ],
   imports: [
     AppRoutingModule,

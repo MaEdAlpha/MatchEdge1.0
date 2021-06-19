@@ -35,18 +35,27 @@
    <div *ngIf="!isAuthenticated">
 
       <div class="welcome-container">
-          
+
           <app-landing-page></app-landing-page>
 
           <div class="welcome-buttons">
-            <app-auth-login-button class = 'button'></app-auth-login-button>
+            <app-auth-login-button class="button"></app-auth-login-button>
             <app-auth-signup-button class="button"></app-auth-signup-button>
-          </div>      
-
-          <div class='companydetails'>Juicy-Bets Entertainment ltd.<br>
-              Info@Juicy-Bets.com<br> IC:BC1305438</div>      
           </div>
 
+          <div class="marketing-hook">
+            <h1>Level Up! Marketing Blahblahblah</h1>
+          </div>
+          <div class="about-us">
+            <h1 class="about-text"> ABOUT US </h1>
+            <div class="about-text-cont" >
+              <h2 class="about-text">Welcome to Juicy-Bets. We are designers and creators of quality betting tools designed to identify valuable betting opportunities with ease.</h2>
+              <p class="about-text">
+                You may have heard of Matched Betting or Value Betting. As the names suggest, both involve placing bets with betting sites but with one fundamental difference. What these terms have in common is that they both involve taking value from bookmakers. A quick Google search of either of these terms and you will have enough content to keep you reading for days. It is a well-known fact that when followed correctly these strategies are a great way to make an extra income. In fact, for some people, it is their full-time job and sole source of income.
+              </p>
+            </div>
+          </div>
+          <app-footer></app-footer>
       </div>
 
   </div>

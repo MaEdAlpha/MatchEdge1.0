@@ -1,0 +1,40 @@
+.ftr-cont{
+  margin-top: 150px;
+  background: salmon;
+  height: 150px;
+}
+
+
+.ftr-body {
+  background: purple;
+  display: inline-flex;
+  width: 100%;
+  text-align: center;
+}
+
+.inln-a,
+.inln-b,
+.inln-c{
+  width: 33%;
+}
+
+.inln-a-txt {
+  width: 75%;
+  margin-left: 20px;
+  text-align: left;
+}
+
+.ftr-footer{
+  background: black;
+  color: white;
+  display: inline-flex;
+  width: 100%;
+}
+
+.copy-right,
+.aware-disc {
+  width: 50%;
+}
+
+
+

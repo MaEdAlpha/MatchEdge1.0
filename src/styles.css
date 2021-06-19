@@ -106,4 +106,9 @@ input.value-box-lay {
     letter-spacing: normal;
   }
 
+  h1.about-text,
+  h2.about-text{
+    color: white;
+  }
+
 
