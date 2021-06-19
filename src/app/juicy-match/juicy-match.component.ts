@@ -368,7 +368,7 @@ export class JuicyMatchComponent implements OnChanges, OnInit, OnDestroy, AfterV
   //CommissionsUpdated
   QL(backOdds: number, layOdds:number, stake:number){
     var layStake = +backOdds * stake /( +layOdds - +this.userCommission/100) ;
-    return +(+layStake - +stake);
+    return (+layStake*(1-this.userCommission/100) - +stake);
   }
   //layStake has commission already pre-calculated into it
   Liability(layOdds:number, layStake:number):number {
