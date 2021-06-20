@@ -44,7 +44,7 @@ p{
 .companydetails{
   margin-top: 10px;
   margin-bottom: 10px;
-  text-align: center;  
+  text-align: center;
   padding: 5px 70px;
   line-height: 1rem;
   font-family: Roboto, "Helvetica Neue", sans-serif;
@@ -57,8 +57,8 @@ p{
 .welcome-buttons{
   margin-top: 10px;
   margin-bottom: 10px;
-  text-align: center;  
-  padding: 5px 70px;  
+  text-align: center;
+  padding: 5px 70px;
   visibility: visible;
 }
 
@@ -68,9 +68,13 @@ p{
 
 @media(max-width: 700px)
 {
-  
+
 .welcome-buttons{
   visibility: hidden;
 }
 
+}
+
+.about-text-bigger {
+  font-size: 1.5em;
 }

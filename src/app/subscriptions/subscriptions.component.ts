@@ -16,4 +16,36 @@ export class SubscriptionsComponent implements OnInit {
 
   }
 
+
+  enterSite(){
+    console.log("toggle it");
+    if(this.isActiveSub){
+      this.matchesService.open2Ups();
+    }
+  }
+
+  displayInfo(selected:number){
+    this.infoSelected = selected;
+  }
+
+  createCheckout(priceId:string){
+    console.log('hello');
+
+    var createCheckoutSession = function(priceId) {
+      return fetch("/create-checkout-session", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          priceId: priceId
+        })
+      }).then(function(result) {
+        return result.json();
+      });
+    };
+    console.log("CHECKOUT SESSION INFO-------------------->");
+
+    console.log(createCheckoutSession);
+  }
 }

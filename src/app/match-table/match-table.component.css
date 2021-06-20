@@ -4,6 +4,10 @@
   margin-right: auto;
 }
 
+.footer-spacer {
+  margin-top: 35rem;
+}
+
 .fixturesTable, .defaultTable {
   width: 100%;
 }
