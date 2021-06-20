@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit } from '@angular/core';
+import { MatchesService } from '../match/matches.service';
 
 @Component({
   selector: 'app-subscriptions',
@@ -8,14 +9,15 @@ import { Component, OnInit } from '@angular/core';
 export class SubscriptionsComponent implements OnInit {
   isActiveSub: boolean  = false;
   subExpiration: number;
-  constructor() { }
+  infoSelected:number=0;
+  viewTables = new EventEmitter<boolean>();
+  constructor(private matchesService: MatchesService) { }
 
   ngOnInit(): void {
     //retrieve userSubscription info. How to handle it to prevent easy tampering?
 
 
   }
-
 
   enterSite(){
     console.log("toggle it");
@@ -27,6 +29,7 @@ export class SubscriptionsComponent implements OnInit {
   displayInfo(selected:number){
     this.infoSelected = selected;
   }
+
 
   createCheckout(priceId:string){
     console.log('hello');

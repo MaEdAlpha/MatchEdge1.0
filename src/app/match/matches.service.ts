@@ -14,6 +14,7 @@ export class MatchesService {
   //Broadcasts WS Data
   streamDataUpdate = new EventEmitter<any>();
   loadPage = new EventEmitter<boolean>();
+  view2Ups = new EventEmitter<boolean>();
   //Creates an Observable of all Fixtures
   public matchesUpdated = new Subject<any>();
 
@@ -69,6 +70,10 @@ export class MatchesService {
 
   loadingMatches(isDone:boolean){
     this.loadPage.emit(isDone);
+  }
+
+  open2Ups(){
+    this.view2Ups.emit(!true);
   }
 
   updateMatch(match, streamMatch){

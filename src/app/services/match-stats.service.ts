@@ -7,6 +7,7 @@ import { Observable, Subject, from } from "rxjs";
 import { NotificationBoxService } from './notification-box.service';
 import { MatchStatusService } from './match-status.service';
 import { JuicyMatchComponent } from '../juicy-match/juicy-match.component';
+import { Subscription } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -39,15 +40,11 @@ export class MatchStatsService {
   private streamUpdateHomeSelection: JuicyMatch;
   private streamUpdateAwaySelection: JuicyMatch;
   private ftaOption: string;
+  private commissionSubscription: Subscription;
 
 
   constructor(private calcSettingsService: CalcSettingsService,  private notificationService: NotificationBoxService, private userPropertiesService: UserPropertiesService) {
   }
-
-  ngOnInit(){
-    this.commission = this.userPropertiesService.getCommission();
-  }
-
 // Service that handles all calculations for match records. Creates a juicy object for both DB document and any incoming Stream data.
 getMatchStats(allMatches, ftaOption:string): JuicyMatch[] {
   this.allSingleMatches=[];
@@ -187,12 +184,12 @@ getMatchStats(allMatches, ftaOption:string): JuicyMatch[] {
     var layOdds = match.layOdds;
     var occurence = ftaOption == 'brooks' ? match.occurence : match.basicOccurence;
     //CommissionsUpdated
-    var commission = this.commission/100;
+    var commission = +this.userPropertiesService.getCommission()/100;
     // console.log(ftaOption);
     // console.log("Occurence Used: " + occurence);
 
     //CommissionsUpdated
-    match.layStake = +(backOdds* stake /(layOdds - commission)).toFixed(2);
+    match.layStake = +(backOdds*stake /(layOdds - commission)).toFixed(2);
     match.liability = +((layOdds - 1 )* match.layStake).toFixed(2);
     match.ql = +(match.layStake - stake).toFixed(2);
     match.ft = +(stake * (backOdds - 1) + match.layStake).toFixed(2);

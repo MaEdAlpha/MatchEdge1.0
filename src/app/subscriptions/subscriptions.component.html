@@ -12,17 +12,16 @@
 
         <div class="obj-2up-cont">
           <div class="active-sub" *ngIf="isActiveSub; else showInactiveSub">
-            <div class="acitve-img">
-              <img  class="sub-img" src="../../assets/img/money.png" alt="">
+            <div class="active-img" (click)="enterSite()">
+              <img  class="sub-img" src="../../assets/img/color-2up.png" alt="">
+              <!-- make dynamic subRenewal-->
+              <p class="expiration"> Renew by: *06-04-2021*</p>
             </div>
-            <button (click)="isActiveSub=!isActiveSub">Toggle</button>
-            <!-- make dynamic subRenewal-->
-            <p> Expires: *06-04-2021*</p>
           </div>
           <ng-template #showInactiveSub>
             <div class="inactive-sub">
               <div class="inactive-img">
-                <img class="sub-img" src="../../assets/img/isLoading.jpg" alt="">
+                <img class="sub-img" src="../../assets/img/gray-2up.png" alt="">
               </div>
               <div class="inactive-btn-cont">
                 <!-- isActiveSub=!isActiveSub; -->
@@ -33,6 +32,14 @@
           </ng-template>
         </div>
 
+        <div class="info-container">
+          <div class="info-content" *ngIf="infoSelected == 1">
+            <div class="info-wrapper">
+              <h2>Footie 2Up</h2>
+              <p class="2up-info info-text"> Content content content Cows should be inseminated within four to 16 hours of observed estrus when the precise onset of estrus is known (Figures 1 and 2). If estrous detection is conducted twice daily, most cows should be within this time period. </p>
+            </div>
+          </div>
+        </div>
     </div>
   </div>
   <app-footer></app-footer>

@@ -22,6 +22,7 @@ export class UserPropertiesService {
 
   userToken = new EventEmitter<string>();
   userPrefSub = new Subject<TablePreferences>();
+  userCommissionSub = new Subject<number>();
   tokenSubscription = new Subject<string>();
   private lockAudio:boolean = true;
   private smCommission:number = 2.05;
@@ -182,6 +183,8 @@ export class UserPropertiesService {
                           }, 1000);
           });
       });
+
+      this.userCommissionSub.next(+this.settings.preferences.exchangeOption.commission)
   }
   //get token and save to localStorage
   private saveAuthData(token: string, expirationDate: number) {
@@ -349,6 +352,10 @@ export class UserPropertiesService {
   }
   getUserPrefs(): Observable<TablePreferences>{
     return this.userPrefSub.asObservable();
+  }
+
+  getCommissionObservable(): Observable<number>{
+    return this.userCommissionSub.asObservable();
   }
   pageRefresh(){
     console.log("Do the things");
