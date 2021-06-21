@@ -32,7 +32,10 @@ const MongoClient = require("mongodb").MongoClient;
 const ObjectID = require('mongodb').ObjectID;
 
 //const connectionString = "mongodb+srv://Dan:x6RTQn5bD79QLjkJ@cluster0.uljb3.gcp.mongodb.net/MBEdge?retryWrites=true&w=majority";
-const connectionString = "mongodb+srv://Randy:4QQJnbscvoZQXr0l@clusterme.lfzcj.mongodb.net/MBEdge?retryWrites=true&w=majority";
+// const connectionString = "mongodb+srv://Randy:4QQJnbscvoZQXr0l@clusterme.lfzcj.mongodb.net/MBEdge?retryWrites=true&w=majority";
+// const connectionString = "mongodb+srv://ryan:MGoGo2021GU12$@juicybets.tcynp.mongodb.net/MBEdge?retryWrites=true&w=majority";
+const connectionString = process.env.MONGO_CONNECT_STR;
+
 const options = {useUnifiedTopology: true, useNewUrlParser: true};
 const client = new MongoClient(connectionString, options );
 
@@ -128,7 +131,9 @@ if (env.error) {
   throw new Error(`Unable to load the .env file from ${envFilePath}. Please copy .env.example to ${envFilePath}`);
 }
 
-
+// console.log("Process-----")
+// // console.log(process.env);
+// console.log(process.env.MONGO_CONNECT_STR);
 
 app.use(express.static(process.env.STATIC_DIR));
 app.use(
@@ -153,7 +158,7 @@ app.get("/checkout-session", async (req, res) => {
 app.post("/create-checkout-session", async (req, res) => {
   const domainURL = process.env.DOMAIN;
   const { priceId } = req.body;
-
+  console.log(req.body);
   // Create new Checkout Session for the order
   // Other optional params include:
   // [billing_address_collection] - to display billing address details on the page
@@ -339,7 +344,7 @@ app.post('/api/sab', checkAuth, async(req,res) => {
 
 app.put('/api/user/settings', async(req,res,next) => {
 
-    console.log("Updating user settings...Some weird echo going on here");
+    console.log("Echo, user/settings");
     // console.log(req);
     const _id = new ObjectID(req.body.juicyId);
     // console.log(req.body);
@@ -450,7 +455,7 @@ app.delete("/api/sab/:id", checkAuth, async(req,res,next) => {
 //Recieves upsertID, finds newly inserted document, returns it to client.
 async function authenticateUser(userEmail, userId){
   // JWT_ky
-  let pv_key = "0A6aKFksbmPgDlIKiUGcMm82eycRgTivqkZx4zjDJn2CWm9LF5Kq5wnKltq4Uk3Zlpt9UJxbf";
+  let pv_key = process.env.JWT_PVT_K;
   let encodedData =  {email: userEmail, userId: userId };
   let options =  {expiresIn: "1h"};
   let expirationSeconds = 3600 //convert "1h" string into seconds
