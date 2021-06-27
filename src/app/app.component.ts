@@ -22,19 +22,22 @@ export class AppComponent {
   isEntryPoint: boolean=true;
   isLoading: boolean = true;
   tabSelection: number;
+  userEmail:string;
 
   constructor(public auth: AuthService, private userPropertiesService: UserPropertiesService, private router: Router, private matchesService: MatchesService) {
 
   }
 
   ngOnInit(){
-    console.log("Init token + redirect");
+    console.log("Get JWT Token");
     this.tabSelection=0;
+    this.userEmail='';
     this.toggleSettingsTemplate = false;
     this.auth.user$.subscribe( (profile) => {
       this.profileJson = JSON.stringify(profile, null, 2);
       this.isAuthenticated = profile != null ?  true : false;
       this.isAuthenticated ? this.getUserSettings(profile.email, profile.sub) : null;
+      this.userEmail = profile != null ? profile.email : null;
     });
 
     this.matchesService.loadPage.subscribe( (isDone) => {
@@ -47,10 +50,8 @@ export class AppComponent {
   }
 
   getUserSettings(userEmail: string, sub:string){
-    //unecessary callback on response, was used for loading.
+    //passes userEmail & AuthO sub
    this.userPropertiesService.getSettings(userEmail, sub);
-
-
   }
   //opening user Settings panel
   displayPanel(event: boolean){

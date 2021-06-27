@@ -10,7 +10,7 @@ const env = require("dotenv").config({ path: envFilePath });
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY, {
   apiVersion: '2020-08-27'
 });
-
+// Stripe webhook endpoint Secret from CLI
 
 app.use((req, res, next) => {
   // res.setHeader("Access-Control-Allow-Origin", '*');
@@ -58,6 +58,8 @@ connectDB(client).catch(console.error);
 
 app.use(cors());
 app.use(express.json());
+
+
 app.use(express.urlencoded({ extended: true }));
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -66,19 +68,7 @@ app.use(express.urlencoded({ extended: true }));
 //Retrieves User Settings or generates a default one.
 
 app.get('/api/test', async (req,res)=>{
-  res.status(200).json({message:"Works"})
-});
-
-app.put('/api/user/putcreate' , async (req,res)=>{
-  createNewUserDocument("testing@mongodb.com").then(()=> {
-    res.status(200).json({message:"CheckDatabase"});
-  })
-});
-
-app.post('/api/user/postcreate' , async (req,res)=>{
-  createNewUserDocument("testing@mongodb.com").then(()=> {
-    res.status(200).json({message:"CheckDatabase"});
-  })
+  res.status(200).json({message:"Test O.K"})
 });
 
 app.put('/api/user/connect', async (req,res) => {
@@ -97,9 +87,8 @@ app.put('/api/user/connect', async (req,res) => {
                                 //Create new document
                                 createNewUserDocument( req.body.email).then( response => {
                                   console.log(req.body.sub);
-                                  //where you get results of new user authenticate here.
                                   authenticateUser(req.body.email, req.body.sub)
-                                  .then( generatedToken =>{
+                                  .then( generatedToken => {
                                       res.status(200).json({token: generatedToken.token, expiry: generatedToken.expires, userDetails: response})
                                     });
 
@@ -115,10 +104,10 @@ app.put('/api/user/connect', async (req,res) => {
                                     res.status(200).json({token: generatedToken.token, expiry: generatedToken.expires , userDetails: response});
                                   });
                               }
-                        } catch (e){ res.status(300).json({token: "Error retrieving user details"});
+                        } catch (e) { res.status(300).json({token: "Error retrieving user details"});
                       } finally { console.log("Enter.....");}
 
-                      })
+                      });
     });
 
 
@@ -136,17 +125,6 @@ if (env.error) {
 // console.log(process.env.MONGO_CONNECT_STR);
 
 app.use(express.static(process.env.STATIC_DIR));
-app.use(
-  express.json({
-    // We need the raw body to verify webhook signatures.
-    // Let's compute it only when hitting the Stripe webhook endpoint.
-    verify: function (req, res, buf) {
-      if (req.originalUrl.startsWith("/webhook")) {
-        req.rawBody = buf.toString();
-      }
-    },
-  })
-);
 
 // Fetch the Checkout Session to display the JSON result on the success page
 app.get("/checkout-session", async (req, res) => {
@@ -157,7 +135,8 @@ app.get("/checkout-session", async (req, res) => {
 
 app.post("/create-checkout-session", async (req, res) => {
   const domainURL = process.env.DOMAIN;
-  const { priceId } = req.body;
+  const  priceId  = req.body.priceId;
+  const customerEmail = req.body.email;
   console.log(req.body);
   // Create new Checkout Session for the order
   // Other optional params include:
@@ -173,12 +152,15 @@ app.post("/create-checkout-session", async (req, res) => {
         {
           price: priceId,
           quantity: 1,
-        },
+        }
       ],
-      // ?session_id={CHECKOUT_SESSION_ID} means the redirect will have the session ID set as a query param
-      success_url: `${domainURL}/success.html?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${domainURL}/canceled.html`,
+      customer_email: customerEmail,
+      success_url: `${domainURL}?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${domainURL}`,
     });
+
+    console.log("~~~~~~~~~~Session:~~~~~~~~~~~");
+    console.log(session);
 
     res.send({
       sessionId: session.id,
@@ -201,62 +183,141 @@ app.get("/setup", (req, res) => {
   });
 });
 
-app.post('/customer-portal', async (req, res) => {
-  // For demonstration purposes, we're using the Checkout session to retrieve the customer ID.
-  // Typically this is stored alongside the authenticated user in your database.
-  const { sessionId } = req.body;
-  const checkoutsession = await stripe.checkout.sessions.retrieve(sessionId);
-
-  // This is the url to which the customer will be redirected when they are done
-  // managing their billing with the portal.
-  const returnUrl = process.env.DOMAIN;
-
-  const portalsession = await stripe.billingPortal.sessions.create({
-    customer: checkoutsession.customer,
-    return_url: returnUrl,
-  });
-
-  res.send({
-    url: portalsession.url,
-  });
-});
-
-// Webhook handler for asynchronous events.
-app.post("/webhook", async (req, res) => {
-  let data;
-  let eventType;
-  // Check if webhook signing is configured.
-  if (process.env.STRIPE_WEBHOOK_SECRET) {
-    // Retrieve the event by verifying the signature using the raw body and secret.
-    let event;
-    let signature = req.headers["stripe-signature"];
-
-    try {
-      event = stripe.webhooks.constructEvent(
-        req.rawBody,
-        signature,
-        process.env.STRIPE_WEBHOOK_SECRET
-      );
-    } catch (err) {
-      console.log(`⚠️  Webhook signature verification failed.`);
-      return res.sendStatus(400);
-    }
-    // Extract the object from the event.
-    data = event.data;
-    eventType = event.type;
+// Use JSON parser for all non-webhook routes
+app.use((req, res, next) => {
+  if (req.originalUrl === '/webhook') {
+    next();
   } else {
-    // Webhook signing is recommended, but if the secret is not configured in `config.js`,
-    // retrieve the event data directly from the request body.
-    data = req.body.data;
-    eventType = req.body.type;
+    express.json()(req, res, next);
   }
-
-  if (eventType === "checkout.session.completed") {
-    console.log(`🔔  Payment received!`);
-  }
-
-  res.sendStatus(200);
 });
+
+
+app.post("/subscription", async (req,res) => {
+  //Need to make sure multiple emails do not exist.
+  const email = req.body.email;
+  await client.db("JuicyClients").collection("juicy_users_subcription")
+  .findOne({'cust_email' : email})
+    .then( obj => {
+      if(obj == null){
+        res.status(200).json({isActiveSub:false});
+      } else {
+        console.log(email + " subscription is valid!");
+        res.status(200).json({isActiveSub:true});
+      }
+    })
+      .catch(err => console.error(`Failed to find documents: ${err}`));
+});
+// Webhook handler for asynchronous events.
+app.post('/webhook', express.raw({type: 'application/json'}),  (request, response) => {
+  const payload = request.body;
+  const sig = request.headers['stripe-signature'];
+  const webhookSecret = 'whsec_qwedhfV13bJ5peI9pLCMrqaLa4ZBTpM0';
+  // console.log("///////////////////////////////////////////////");
+  // console.log(payload);
+  // console.log("///////////////////////////////////////////////");
+  let event;
+  //Testing: event= payload confirm that constructEvent works for LIVE mode.
+  event = payload;
+  // try {
+  //   event = stripe.webhooks.constructEvent(payload, sig, webhookSecret);
+  //   console.log("~~~~~~SUCCESS: " + event.type);
+  // } catch (err) {
+  //   console.log(err.message);
+  //   return response.status(400).send(`Webhook Error: ${err.message}`);
+  // }
+  //Successfully constructed event
+  console.log('✅ Success:', event.id);
+  const subscription_collection = client.db("JuicyClients").collection("juicy_users_subcription");
+  // Handle the event
+  switch (event.type) {
+    case 'checkout.session.completed':
+      const checkoutCompleteEvent = event.data.object;
+      console.log('////////////Completed Checkout////////////');
+      console.log(checkoutCompleteEvent);
+      console.log('////////////////////////////////////');
+      //Provision subscription + Get Customer ID &  Write to MongoDB
+      const customerID = checkoutCompleteEvent.customer;
+      //Make Sure email is same as account.
+      const customerEmail= checkoutCompleteEvent.customer_details.email;
+      //create document with customerID and customerEmail. !!!IMPORTANT, that customer ID entered in purchase matches Account
+      const customerSubscription = checkoutCompleteEvent.subscription;
+      const customerStatus = checkoutCompleteEvent.payment_status;
+      //Create a way to assign subscription based off priceID selected.
+      let document = {
+        cust_id: customerID,
+        cust_email: customerEmail,
+        subscription_id: customerSubscription,
+        subscription_status: customerStatus,
+        subscription_paid_on: 0,
+      }
+      subscription_collection.insertOne(document, function (error, response){
+        console.log("Inserted Document");
+        console.log(response.insertedCount);
+      });
+
+      break;
+      case 'invoice.paid':
+        const paidInvoiceEvent = event.data.object;
+        console.log('////////////Invoice Paid////////////');
+        console.log(paidInvoiceEvent.status_transitions.paid_at);
+        console.log('////////////////////////////////////');
+        const query = { "cust_id" : paidInvoiceEvent.customer };
+
+        const update = {
+           "$set": {
+             "subscription_paid_on" : paidInvoiceEvent.status_transitions.paid_at
+           }
+         }
+
+        const options  = { returnNewCodument: true };
+        //Continue to provision Subscription as payments continue to be made.
+        subscription_collection.findOneAndUpdate(query, update, options).then( updatedDocument => {
+          if(updatedDocument){
+            console.log("Successfully updated document");
+          } else {
+            console.log("Failed to update document");
+          }
+          return updatedDocument
+        }).catch( err => console.error('Failed to find and update document: ' + err))
+        //Update Status & expiration...can check user access frequency.
+        break;
+
+        case 'invoice.payment_failed':
+          const invoiceFailed = event.data.object;
+          console.log('////////////Invoice *FAILED*////////////');
+          console.log(invoiceFailed);
+          console.log('////////////////////////////////////');
+          // The payment failed or the customer does not have a valid payment method.
+          // The subscription becomes past_due. Notify your customer and send them to the
+          // customer portal to update their payment information.
+          break;
+
+          case 'payment_intent.succeeded':
+            const piSucceededEvent = event.data.object;
+            console.log('////////////PI Success!////////////');
+            console.log(piSucceededEvent);
+            console.log('////////////////////////////////////');
+            // The payment failed or the customer does not have a valid payment method.
+            // The subscription becomes past_due. Notify your customer and send them to the
+            // customer portal to update their payment information.
+            break;
+          default:
+            console.log(`Unhandled event type ${event.type}`);
+          }
+
+          //Event:Succesful charge: In userPropertiesSettings update user Account for Subscription Activity.
+          /*  Update documents
+          juicy-user collection
+          email
+          footballSubsc: true;
+          fbExpiry: unixTimeStamp;
+          */
+
+
+         // Return a response to acknowledge receipt of the event
+         response.status(200).json({message:"Test O.K"});
+        });
 
 /////////////////////////////////////////////////////////////////////////////////////////
 //               INITIAL MATCHES AND STREAM DATA API                                  //

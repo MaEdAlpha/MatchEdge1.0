@@ -11,7 +11,7 @@
       <hr>
 
       <div *ngIf="isEntryPoint">
-        <app-subscriptions></app-subscriptions>
+        <app-subscriptions [userEmail]="userEmail"></app-subscriptions>
         <!-- set app-loading here as well, and toggle isLoading boolean to false after loaded. Also, disble ability to open JuicyBets Setting while here  -->
       </div>
 

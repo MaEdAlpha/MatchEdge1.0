@@ -4,6 +4,7 @@ import { map } from 'rxjs/operators'
 import { Injectable, EventEmitter } from '@angular/core';
 import { UserPropertiesService } from '../services/user-properties.service';
 import { environment as env } from '../../environments/environment.prod';
+import { Router } from '@angular/router';
 
 
 
@@ -18,7 +19,7 @@ export class MatchesService {
   //Creates an Observable of all Fixtures
   public matchesUpdated = new Subject<any>();
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router) {}
   //TODO update all Emitters to Observables
   getMatches() {
     this.http
@@ -74,6 +75,14 @@ export class MatchesService {
 
   open2Ups(){
     this.view2Ups.emit(!true);
+    //Re-direct to football
+    const promise: Promise<boolean> = new Promise( (resolve,reject) => {
+      //Re-direct to football
+      setTimeout(()=>{
+          this.router.navigate(['/matches']);
+          resolve(true);
+        }, 1000);
+      });
   }
 
   updateMatch(match, streamMatch){

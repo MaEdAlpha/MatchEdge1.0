@@ -12,6 +12,8 @@ import { map } from 'rxjs/operators';
 import { logging } from 'selenium-webdriver';
 import { Router } from '@angular/router';
 import { response } from 'express';
+import { promise } from 'protractor';
+import { Subscriber } from 'rxjs';
 
 
 @Injectable({
@@ -24,6 +26,7 @@ export class UserPropertiesService {
   userPrefSub = new Subject<TablePreferences>();
   userCommissionSub = new Subject<number>();
   tokenSubscription = new Subject<string>();
+  userSubscriptionSubject = new Subject<boolean>();
   private lockAudio:boolean = true;
   private smCommission:number = 2.05;
   private token: string;
@@ -133,62 +136,53 @@ export class UserPropertiesService {
     return  this.settings;
   }
 
-  testHttp(){
-    this.http
-    .get<{body: any[]}> (
-      env.serverUrl + "/api/mongo"
-    ).subscribe(body => {
-      console.log(body);
-    })
-  }
-  //return data from DB and set to userDetails.
+
+  //return data from DB and set to userDetails. Once AuthO sign in finished. Get user settings. Verify subscriptions.
   getSettings(email:string, sub:string){
     //http GET request to retrieve user properties from DB;
     var data: {email: string, sub: string} = {email: email, sub:sub};
     var userData;
     //initially would return a promise to allow the rest of the site to load.
-    const promise: Promise<boolean> = new Promise( (resolve,reject) => {
 
-  this.http.put<{token:string, userDetails: UserSettings}>(
-    env.serverUrl + "/api/user/connect",
-     data)
-  .subscribe( (body) => {
-                          userData = body;
-                          // console.log('Requesting...');
-                          // console.log(body);
+    this.http.put<{token:string, userDetails: UserSettings}>(
+      env.serverUrl + "/api/user/connect", data)
+      .subscribe( (body) => {
+        userData = body;
+        // console.log('Requesting...');
+        // console.log(body);
 
-                          this.token = userData.token;
-                          this.saveAuthData(this.token, userData.expiry)
-                          // this.tokenSubscription.next(userData.token);
+        this.token = userData.token;
+        this.saveAuthData(this.token, userData.expiry)
+        // this.tokenSubscription.next(userData.token);
 
-                          this.settings.juicyId = userData.userDetails._id;
-                          this.settings.account = userData.userDetails.account;
-                          this.settings.filters = {
-                                                    timeRange: userData.userDetails.filters.timeRange,
-                                                    minOdds: userData.userDetails.filters.minOdds,
-                                                    maxOdds: userData.userDetails.filters.maxOdds,
-                                                    evFVI: userData.userDetails.filters.evFVI,
-                                                    evFVII: userData.userDetails.filters.evFVII,
-                                                    matchRatingFilterI: userData.userDetails.filters.mrFVI,
-                                                    matchRatingFilterII: userData.userDetails.filters.mrFVII,
-                                                    secretSauceI: userData.userDetails.filters.ssFVI,
-                                                    secretSauceII: userData.userDetails.filters.ssFVII,
-                                                    fvSelected: userData.userDetails.filters.fvSelected,
-                                                    audioEnabled: userData.userDetails.filters.audioEnabled,
-                                                  }
-                          this.settings.preferences = userData.userDetails.preferences;
-                          setTimeout(()=>{
-                            this.router.navigate(['/matches']);
-                            resolve(true);
-                          }, 1000);
-          });
+        this.settings.juicyId = userData.userDetails._id;
+        this.settings.account = userData.userDetails.account;
+        this.settings.filters = {
+          timeRange: userData.userDetails.filters.timeRange,
+          minOdds: userData.userDetails.filters.minOdds,
+          maxOdds: userData.userDetails.filters.maxOdds,
+          evFVI: userData.userDetails.filters.evFVI,
+          evFVII: userData.userDetails.filters.evFVII,
+          matchRatingFilterI: userData.userDetails.filters.mrFVI,
+          matchRatingFilterII: userData.userDetails.filters.mrFVII,
+          secretSauceI: userData.userDetails.filters.ssFVI,
+          secretSauceII: userData.userDetails.filters.ssFVII,
+          fvSelected: userData.userDetails.filters.fvSelected,
+          audioEnabled: userData.userDetails.filters.audioEnabled,
+        }
+        this.settings.preferences = userData.userDetails.preferences;
       });
 
-      this.userCommissionSub.next(+this.settings.preferences.exchangeOption.commission)
-  }
-  //get token and save to localStorage
-  private saveAuthData(token: string, expirationDate: number) {
-    localStorage.setItem('token',token)
+      this.userCommissionSub.next(+this.settings.preferences.exchangeOption.commission);
+      console.log("User Settings Loaded!");
+      console.log(this.settings);
+
+    }
+
+
+    //get token and save to localStorage
+    private saveAuthData(token: string, expirationDate: number) {
+      localStorage.setItem('token',token)
     localStorage.setItem('expiration', expirationDate.toString());
   }
 
@@ -334,13 +328,9 @@ export class UserPropertiesService {
 
                     console.log("----2. PUT to DB -----");
                     console.log(this.settings);
-    this.http.put<any>(
-      env.serverUrl +  "/api/user/settings",
-     this.settings).subscribe( (response) => {
+    this.http.put<any>(env.serverUrl +  "/api/user/settings",this.settings).subscribe( (response) => {
       console.log("Client Side Update saved response");
-
       console.log(response);
-
     }
     );
 
@@ -357,6 +347,11 @@ export class UserPropertiesService {
   getCommissionObservable(): Observable<number>{
     return this.userCommissionSub.asObservable();
   }
+
+  getSubscriptionState(): Observable<boolean>{
+    return this.userSubscriptionSubject.asObservable();
+  }
+
   pageRefresh(){
     console.log("Do the things");
     this.router.routeReuseStrategy.shouldReuseRoute = () => false;
@@ -427,5 +422,20 @@ export class UserPropertiesService {
 
   getAudioNotificationLock(): boolean {
     return this.lockAudio;
+  }
+
+  getUserEmail(): string {
+    return this.settings.account.email;
+  }
+
+  getSubState(email:string){
+    let data = { 'email': email }
+    this.http.post<any>(env.serverUrl + "/subscription", data)
+    .subscribe(( response: {isActiveSub: boolean}) => {
+      console.log('Subs State: ' + response.isActiveSub);
+      this.userSubscriptionSubject.next(response.isActiveSub);
+    });
+
+
   }
 }
