@@ -27,6 +27,7 @@ export class UserPropertiesService {
   userCommissionSub = new Subject<number>();
   tokenSubscription = new Subject<string>();
   userSubscriptionSubject = new Subject<boolean>();
+  isNewUser: boolean = true;
   private lockAudio:boolean = true;
   private smCommission:number = 2.05;
   private token: string;
@@ -361,6 +362,10 @@ export class UserPropertiesService {
     },1000);
   }
 
+  getUserName(): string{
+    return this.settings.account.username;
+  }
+
   getFTASelected(){
     //retrieve either brooks or generic FTA selection.
   }
@@ -431,11 +436,14 @@ export class UserPropertiesService {
   getSubState(email:string){
     let data = { 'email': email }
     this.http.post<any>(env.serverUrl + "/subscription", data)
-    .subscribe(( response: {isActiveSub: boolean}) => {
+    .subscribe(( response: {isActiveSub: boolean, isNewUser: boolean}) => {
       console.log('Subs State: ' + response.isActiveSub);
       this.userSubscriptionSubject.next(response.isActiveSub);
+      this.isNewUser = response.isNewUser;
     });
+  }
 
-
+  getUserMessage():boolean {
+    return this.isNewUser;
   }
 }

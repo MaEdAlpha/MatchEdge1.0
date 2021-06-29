@@ -5,9 +5,15 @@
   </div>
   <div class="opt-cont">
     <div class="opt-desc">
-          <!-- make dynamic subCount -->
-      <h3>You currently have *1* active subscription(s)</h3>
-      <button mat-raised-button (click)="customerPortal('hi')"> Manage Billing </button>
+      <div class="welcome-msg" *ngIf="!isNewUser; else showNewUserMessage">
+        <h2>Welcome back {{userName}}!</h2>
+        <h3>You currently have an  active subscription for 2Up</h3>
+      </div>
+      <ng-template #showNewUserMessage>
+        <h2>Welcome to Juicy-Bets, please select a subscription to begin.</h2>
+        <h3>You currently have no active subscriptions. Please review our </h3>
+      </ng-template>
+      <button mat-raised-button (click)="customerPortal(userEmail)"> Manage Billing </button>
     </div>
     <div class="opt-obj-cont">
 
@@ -15,8 +21,6 @@
           <div class="active-sub" *ngIf="isActiveSub; else showInactiveSub">
             <div class="active-img" (click)="enterSite()">
               <img  class="sub-img" src="../../assets/img/color-2up.png" alt="">
-              <!-- make dynamic subRenewal-->
-              <p class="expiration"> Renew by: *06-04-2021*</p>
             </div>
           </div>
           <ng-template #showInactiveSub>

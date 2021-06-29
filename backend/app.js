@@ -120,9 +120,6 @@ if (env.error) {
   throw new Error(`Unable to load the .env file from ${envFilePath}. Please copy .env.example to ${envFilePath}`);
 }
 
-// console.log("Process-----")
-// // console.log(process.env);
-// console.log(process.env.MONGO_CONNECT_STR);
 
 app.use(express.static(process.env.STATIC_DIR));
 
@@ -198,15 +195,17 @@ app.post("/subscription", async (req,res) => {
   const email = req.body.email;
   await client.db("JuicyClients").collection("juicy_users_subcription")
   .findOne({'cust_email' : email})
-    .then( obj => {
-      if(obj == null){
-        res.status(200).json({isActiveSub:false});
-      } else {
+    .then( userDoc => {
+      if(userDoc == null){
+        res.status(200).json({isActiveSub:false, isNewUser: true});
+      } else if( userDoc != null && userDoc.subscription_status == 'paid') {
         console.log(email + " subscription is valid!");
-        res.status(200).json({isActiveSub:true});
+        res.status(200).json({isActiveSub:true, isNewUser: false});
+      } else if (userDoc != null && userDoc.subscription_status == 'unpaid') {
+        res.status(400).json({isActiveSub:false, isNewUser: false});
       }
     })
-      .catch(err => console.error(`Failed to find documents: ${err}`));
+    .catch(err => console.error(`Failed to find documents: ${err}`));
 });
 // Webhook handler for asynchronous events.
 app.post('/webhook', express.raw({type: 'application/json'}),  (request, response) => {
@@ -238,22 +237,16 @@ app.post('/webhook', express.raw({type: 'application/json'}),  (request, respons
       console.log('////////////////////////////////////');
       //Provision subscription + Get Customer ID &  Write to MongoDB
       const customerID = checkoutCompleteEvent.customer;
-      //Make Sure email is same as account.
-      const customerEmail= checkoutCompleteEvent.customer_details.email;
-      //create document with customerID and customerEmail. !!!IMPORTANT, that customer ID entered in purchase matches Account
-      const customerSubscription = checkoutCompleteEvent.subscription;
-      const customerStatus = checkoutCompleteEvent.payment_status;
-      //Create a way to assign subscription based off priceID selected.
+      // assign email, status (paid/unpaid) and create a paid_on field.
       let document = {
         cust_id: customerID,
-        cust_email: customerEmail,
-        subscription_id: customerSubscription,
-        subscription_status: customerStatus,
+        cust_email: checkoutCompleteEvent.customer_details.email,
+        subscription_id: checkoutCompleteEvent.subscription,
+        subscription_status:  checkoutCompleteEvent.payment_status,
         subscription_paid_on: 0,
       }
       subscription_collection.insertOne(document, function (error, response){
-        console.log("Inserted Document");
-        console.log(response.insertedCount);
+        console.log("New Subscriber: " + document.cust_email + " created!");
       });
 
       break;
@@ -266,11 +259,12 @@ app.post('/webhook', express.raw({type: 'application/json'}),  (request, respons
 
         const update = {
            "$set": {
+             "subscription_status" : checkoutCompleteEvent.payment_status,
              "subscription_paid_on" : paidInvoiceEvent.status_transitions.paid_at
            }
          }
 
-        const options  = { returnNewCodument: true };
+        const options  = { returnNewDocument: true };
         //Continue to provision Subscription as payments continue to be made.
         subscription_collection.findOneAndUpdate(query, update, options).then( updatedDocument => {
           if(updatedDocument){
@@ -283,7 +277,7 @@ app.post('/webhook', express.raw({type: 'application/json'}),  (request, respons
         //Update Status & expiration...can check user access frequency.
         break;
 
-        case 'invoice.payment_failed':
+      case 'invoice.payment_failed':
           const invoiceFailed = event.data.object;
           console.log('////////////Invoice *FAILED*////////////');
           console.log(invoiceFailed);
@@ -291,33 +285,52 @@ app.post('/webhook', express.raw({type: 'application/json'}),  (request, respons
           // The payment failed or the customer does not have a valid payment method.
           // The subscription becomes past_due. Notify your customer and send them to the
           // customer portal to update their payment information.
-          break;
+        break;
 
-          case 'payment_intent.succeeded':
-            const piSucceededEvent = event.data.object;
-            console.log('////////////PI Success!////////////');
-            console.log(piSucceededEvent);
-            console.log('////////////////////////////////////');
-            // The payment failed or the customer does not have a valid payment method.
-            // The subscription becomes past_due. Notify your customer and send them to the
-            // customer portal to update their payment information.
-            break;
+      case 'payment_intent.succeeded':
+          const piSucceededEvent = event.data.object;
+          console.log('////////////PI Success!////////////');
+          console.log(piSucceededEvent);
+          console.log('////////////////////////////////////');
+          // The payment failed or the customer does not have a valid payment method.
+          // The subscription becomes past_due. Notify your customer and send them to the
+          // customer portal to update their payment information.
+        break;
           default:
             console.log(`Unhandled event type ${event.type}`);
           }
-
-          //Event:Succesful charge: In userPropertiesSettings update user Account for Subscription Activity.
-          /*  Update documents
-          juicy-user collection
-          email
-          footballSubsc: true;
-          fbExpiry: unixTimeStamp;
-          */
-
-
          // Return a response to acknowledge receipt of the event
          response.status(200).json({message:"Test O.K"});
-        });
+  });
+
+  app.post('/customer-portal', async (req, res) => {
+    // This is the url to which the customer will be redirected when they are done
+    // managing their billing with the portal.
+    const returnUrl = process.env.DOMAIN;
+    const client_email = req.body.email;
+
+    const subscription_collection = client.db("JuicyClients").collection("juicy_users_subcription");
+    let cust_id;
+
+    await subscription_collection.findOne({"cust_email" : client_email})
+    .then( document => {
+      console.log(document);
+      cust_id = document.cust_id;
+      console.log("CUSTOMER ID 1: " + cust_id);
+    })
+
+    console.log("CUSTOMER ID 2: " + cust_id);
+    const portalsession = await stripe.billingPortal.sessions.create({
+      customer: cust_id,
+      return_url: returnUrl,
+    });
+
+    res.send({
+      url: portalsession.url,
+    });
+
+
+  });
 
 /////////////////////////////////////////////////////////////////////////////////////////
 //               INITIAL MATCHES AND STREAM DATA API                                  //

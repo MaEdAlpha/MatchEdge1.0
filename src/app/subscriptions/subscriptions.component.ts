@@ -18,9 +18,11 @@ const stripe = loadStripe(env.STRIPE_PUBLISHABLE_KEY);
 
 export class SubscriptionsComponent implements OnInit, OnChanges {
   isActiveSub: boolean;
+  isNewUser: boolean;
   subExpiration: number;
   infoSelected:number = 0;
   subscriptionState: Subscription;
+  userName:string;
 
   @Input()userEmail: string;
 
@@ -38,6 +40,8 @@ export class SubscriptionsComponent implements OnInit, OnChanges {
 
     this.subscriptionState = this.userPropertiesService.getSubscriptionState().subscribe( subState => {
       this.isActiveSub = subState;
+      this.isNewUser = this.userPropertiesService.getUserMessage();
+      this.userName = this.userPropertiesService.getUserName();
       setTimeout( ()=>{
         this.subscriptionState.unsubscribe();
       },2000)
@@ -62,11 +66,17 @@ export class SubscriptionsComponent implements OnInit, OnChanges {
     this.infoSelected = selected;
   }
 
-  customerPortal(sessionId: string){
+  customerPortal(userEmail: string){
 
-    fetch(env.serverUrl +'/create-customer-portal-session', {
-    method: 'POST'
-  })
+    fetch(env.serverUrl +'/customer-portal', {
+      method: 'POST',
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        email: userEmail
+      }),
+    })
     .then(function(response) {
       console.log(response);
 
