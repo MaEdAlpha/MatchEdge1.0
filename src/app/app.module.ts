@@ -105,6 +105,10 @@ import { SabtoastSettledComponent } from './sabtoast-settled/sabtoast-settled.co
 import { SABToastIncompleteComponent } from './sabtoast-incomplete/sabtoast-incomplete.component';
 import { SubscriptionsComponent } from './subscriptions/subscriptions.component';
 import { FooterComponent } from './footer/footer.component';
+import { PopupAboutUsComponent } from './popup-about-us/popup-about-us.component';
+import { PopupContactUsComponent } from './popup-contact-us/popup-contact-us.component';
+import { TermsOfUseComponent } from './terms-of-use/terms-of-use.component';
+import { PrivacyContentComponent } from './privacy-content/privacy-content.component';
 
 
 
@@ -166,6 +170,10 @@ import { FooterComponent } from './footer/footer.component';
     SABToastIncompleteComponent,
     SubscriptionsComponent,
     FooterComponent,
+    PopupAboutUsComponent,
+    PopupContactUsComponent,
+    TermsOfUseComponent,
+    PrivacyContentComponent,
   ],
   imports: [
     AppRoutingModule,

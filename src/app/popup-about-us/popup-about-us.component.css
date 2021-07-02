@@ -1,0 +1,18 @@
+
+.about-us-cont{
+  background: #3d4f58;
+  padding: 20px;
+}
+
+.about-title{
+  background-color: #37474f;
+}
+
+h2 {
+  color: whitesmoke;
+}
+
+.about-us-cont > p,
+.about-us-cont > h3 {
+color: whitesmoke;
+}

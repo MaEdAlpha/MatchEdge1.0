@@ -33,7 +33,7 @@ export class SubscriptionsComponent implements OnInit, OnChanges {
   ngOnInit(): void {
     //retrieve useSubscription info. How to handle it to prevent easy tampering?
     this.isActiveSub=false;
-
+    this.getUserSubscription();
     this.http.get(env.serverUrl + "/setup").subscribe( result => {
       console.log(result);
     });
@@ -152,5 +152,6 @@ export class SubscriptionsComponent implements OnInit, OnChanges {
 
   getUserSubscription(){
     this.userPropertiesService.getSubState(this.userEmail);
+    this.userName = this.userPropertiesService.getUserName();
   }
 }

@@ -1,30 +1,22 @@
 <div class="ftr-cont">
-
     <div class="ftr-body">
-      <div class="inln-a">
-        <h1> About Our Company</h1>
-
-          <p class="inln-a-txt"> We are creators of quality betting tools, designed to identify valuable betting opportunities with ease.</p>
-
+      <div class="inln" (click)="openDialog(0)">
+        <h1 class="popup-dialog"> About Us</h1>
       </div>
-      <div class="inln-b">
-        <h1> Contact Us</h1>
-        <p>
-          support@juicy-bets.com
-        </p>
+      <div class="inln" (click)="openDialog(1)">
+        <h1 class="popup-dialog"> Contact Us</h1>
       </div>
-      <div class="inln-c">
-        <h1>Follow Us</h1>
-        <p>Icons to dead links</p>
+      <div class="inln">
+        <h1 class="sm-link">Follow Us on FaceBox</h1>
       </div>
     </div>
     <div class="ftr-footer">
       <div class="copy-right">
-        <p class="c-right-txt">© Copyright 2021 by Juicy-Bets Entertainment Ltd.   |   *POPUP TEXT*Terms of Use   |    *POPUP TEXT* Privacy Statement </p>
+        <p class="c-right-txt">© Copyright 2021 by Juicy-Bets Entertainment Ltd.   |  <span class="popup-dialog" (click)="openTOU()">Terms of Use</span>    |   <span class="popup-dialog" (click)="openPrivacy()">Privacy Statement</span> </p>
       </div>
       <div class="aware-disc">
         <p>This website is strictly for over 18’s.
-          If you do have any concerns about gambling please contact <a href="https://www.begambleaware.org/">GambleAware</a>
+          If you have any concerns about gambling please contact <a href="https://www.begambleaware.org/">GambleAware</a>
         </p>
       </div>
     </div>

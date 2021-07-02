@@ -363,7 +363,7 @@ export class UserPropertiesService {
   }
 
   getUserName(): string{
-    return this.settings.account.username;
+    return this.settings.account.firstName;
   }
 
   getFTASelected(){

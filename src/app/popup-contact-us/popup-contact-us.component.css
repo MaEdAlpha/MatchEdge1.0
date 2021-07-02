@@ -1,0 +1,13 @@
+.about-us-cont{
+  background: #3d4f58;
+  padding: 20px;
+}
+
+.about-us-cont > p,
+.about-us-cont > h3 {
+color:whitesmoke;
+}
+
+a {
+  color: blue;
+}

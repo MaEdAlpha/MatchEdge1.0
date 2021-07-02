@@ -19,6 +19,14 @@ body {
   right: -17px; /* Increase/Decrease this value for cross-browser compatibility */
   overflow-y: scroll;
 }
+
+/* Mat Dialog Style change*/
+.about-dialog .mat-dialog-container {
+  padding: 10px;
+  background-color: #37474f;
+  overflow: hidden;
+  border: 1px solid #f9a825;
+}
 /* Increment Arrow buttons hide*/
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
@@ -109,6 +117,15 @@ input.value-box-lay {
   h1.about-text,
   h2.about-text{
     color: white;
+  }
+
+  html {
+    position: relative;
+    top: 0 !important;
+    left: 0 !important;
+    overflow: hidden !important;
+    overflow-y: hidden !important;
+
   }
 
 
