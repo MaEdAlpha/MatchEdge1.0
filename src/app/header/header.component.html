@@ -1,10 +1,14 @@
 <mat-toolbar>
-
-    <img class="settings-img"
-      matTooltip="View settings"
-      matTooltipPosition="right"
-      (click)="displayNotification=!displayNotification; notificSettingsClicked(displayNotification)"
-      src="/assets/img/jbLogo.png">
+    <div *ngIf="displayActivated else displayIconOnly">
+      <img class="settings-img"
+        matTooltip="View settings"
+        matTooltipPosition="right"
+        (click)="displayNotification=!displayNotification; notificSettingsClicked(displayNotification)"
+        src="/assets/img/jbLogo.png">
+    </div>
+    <ng-template #displayIconOnly>
+      <img class="settings-img" src="/assets/img/jbLogo.png">
+    </ng-template>
 
 
   <div class="button-container">

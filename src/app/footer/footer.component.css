@@ -21,24 +21,26 @@
 }
 
 .inln:hover {
-  box-shadow: 0px 0px 16px 0px rgb(0 0 0 / 80%);
+  box-shadow: 0px 0px 8px 0px rgb(0 0 0 / 80%);
   cursor: pointer;
+  border-radius: 15px 15px 0px 0px;
 }
 
-h1 {
+h2 {
   color: whitesmoke;
   margin: 0px;
   padding: 10px;
+  font-weight: lighter;
 }
 
-h1.popup-dialog:hover,
+h2.popup-dialog:hover,
 span.popup-dialog:hover {
   color: #ffc235;
   text-decoration: underline;
   cursor: pointer;
 }
 
-h1.sm-link:hover{
+h2.sm-link:hover{
   color: blue;
   text-decoration: underline;
   cursor: pointer;

@@ -75,6 +75,54 @@ p{
 
 }
 
-.about-text-bigger {
+.about-text-title {
+  font-size: 1.7em;
+  text-align: center;
+  color: whitesmoke;
+  text-decoration: underline;
+}
+
+.about-text-lead {
   font-size: 1.5em;
+  text-align: center;
+  color: #f9a825;
+}
+
+.about-text {
+  font-size: 1.2em;
+}
+
+.buy-me{
+  margin-top: 60px;
+  margin-left: auto;
+  margin-right: auto;
+  width: fit-content;
+  color: whitesmoke;
+  padding: 30px;
+  text-decoration: underline;
+}
+
+h1 {
+  font-size: 2.5em;
+  color: whitesmoke;
+}
+
+.about-text-cont > h1 {
+  text-align: center;
+}
+
+.about-text-cont {
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+  border: 1px solid lightgray;
+  padding: 15px;
+  border-radius: 15px;
+  box-shadow: 0px 0px 2px 2px #e1ad18;
+}
+
+.about-text-wrapper {
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
 }

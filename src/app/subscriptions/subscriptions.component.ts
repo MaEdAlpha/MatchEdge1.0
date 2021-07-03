@@ -1,5 +1,5 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Component, EventEmitter, Input, OnChanges, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { MatchesService } from '../match/matches.service';
 import { environment as env } from '../../environments/environment.prod';
 import { loadStripe } from "@stripe/stripe-js";
@@ -25,6 +25,7 @@ export class SubscriptionsComponent implements OnInit, OnChanges {
   userName:string;
 
   @Input()userEmail: string;
+  @Output() displaySettings = new EventEmitter <boolean>();
 
   viewTables = new EventEmitter<boolean>();
 
@@ -33,23 +34,22 @@ export class SubscriptionsComponent implements OnInit, OnChanges {
   ngOnInit(): void {
     //retrieve useSubscription info. How to handle it to prevent easy tampering?
     this.isActiveSub=false;
-    this.getUserSubscription();
     this.http.get(env.serverUrl + "/setup").subscribe( result => {
       console.log(result);
     });
 
     this.subscriptionState = this.userPropertiesService.getSubscriptionState().subscribe( subState => {
       this.isActiveSub = subState;
-      this.isNewUser = this.userPropertiesService.getUserMessage();
       this.userName = this.userPropertiesService.getUserName();
-      setTimeout( ()=>{
+      setTimeout( () =>{
         this.subscriptionState.unsubscribe();
-      },2000)
+        this.isNewUser = this.userPropertiesService.getUserMessage();
+      },1000)
     });
   }
 
   ngOnChanges(simpleChanges: SimpleChanges) {
-    if(simpleChanges.userEmail && simpleChanges.userEmail.firstChange) {
+    if(simpleChanges.userEmail && simpleChanges.userEmail.isFirstChange) {
       console.log("Updated with user Email~" + this.userEmail);
       this.getUserSubscription();
     }
@@ -57,6 +57,7 @@ export class SubscriptionsComponent implements OnInit, OnChanges {
 
   enterSite(){
     console.log("toggle it");
+    this.displaySettings.emit(true);
     if(this.isActiveSub){
       this.matchesService.open2Ups();
     }

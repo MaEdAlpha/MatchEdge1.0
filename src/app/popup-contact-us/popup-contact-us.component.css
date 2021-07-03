@@ -8,6 +8,18 @@
 color:whitesmoke;
 }
 
-a {
+h2,h3 {
+  color: whitesmoke;
+}
+
+a{
+  color:#c0c0c0;
+  text-decoration: underline;
+}
+a:hover {
   color: blue;
+}
+
+mat-dialog-content{
+  border: 1px solid #4b5960;
 }
