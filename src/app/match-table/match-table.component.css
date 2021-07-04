@@ -14,7 +14,7 @@
 
 mat-table {
   margin-top: 2.25rem;
-  border: solid 0px #ffffff;  
+  border: solid 0px #ffffff;
 }
 
 mat-row {
@@ -284,13 +284,6 @@ mat-header-cell.cdk-column-FixturesDate {
 
 .mat-icon-button {
   float: right;
-}
-
-.fixturesDateBtn {
-  width: 100%;
-  height: 3rem;
-  margin-bottom: 0px;
-  white-space: normal;
 }
 
  .fixturesDate,
@@ -952,6 +945,8 @@ button.viewCell {
   white-space: normal;
   background: #f2f2f2;
   border-radius: 0px;
+  padding: 0px;
+  font-size: 11px;
 }
 
  .fixturesDate, .fixturesTime {
