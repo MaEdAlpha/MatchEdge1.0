@@ -1,5 +1,5 @@
 .mn-display {
-  width: 90%;
+  width: 100%;
   margin-left: auto;
   margin-right: auto;
 }
@@ -14,8 +14,7 @@
 
 mat-table {
   margin-top: 2.25rem;
-  border: solid 0px #ffffff;
-  min-width: 107rem;
+  border: solid 0px #ffffff;  
 }
 
 mat-row {
@@ -196,29 +195,31 @@ img {
   margin-right: 0.625rem;
 }
 
-.bookie-logo-home {
+.bookie-logo-home  {
   background-image: linear-gradient(to top, #fff8f8, #7a8585);
-    border-radius: 1.5625rem;
-    padding: 0.125rem;
-    width: 2.125rem;
-    height: 2.125rem;
-    border: 0.125rem #9e9c9c solid;
-    /*margin-left: 10%;*/
-    margin-top: 0.0625rem;
-    margin-bottom: 0px;
-    margin-right: 0.6875rem;
+  border-radius: 1.5625rem;
+  padding: 0.125rem;
+  width: 2.125rem;
+  height: 2.125rem;
+  border: 0.125rem #9e9c9c solid;
+  margin-left: 68%;
+  margin-right: 0.5rem;
+  margin-top: 0.14375rem;
+  margin-bottom: 0px;
 }
-.bookie-logo-away {
+
+.bookie-logo-away  {
   background-image: linear-gradient(to top, #fff8f8, #7a8585);
-    border-radius: 1.5625rem;
-    padding: 0.125rem;
-    width: 2.125rem;
-    height: 2.125rem;
-    border: 0.125rem #9e9c9c solid;
-    margin-left: 12%;
-    margin-top: 0.0625rem;
-    margin-bottom: 0px;
-    margin-right: 0.6875rem;
+  border-radius: 1.5625rem;
+  padding: 0.125rem;
+  width: 2.125rem;
+  height: 2.125rem;
+  border: 0.125rem #9e9c9c solid;
+  margin-left: 3%;
+  margin-right: 0.5rem;
+  margin-top: 0.14375rem;
+  margin-bottom: 0px;
+  float: left;
 }
 
 
@@ -387,10 +388,6 @@ button.viewCell {
 .cdk-column-AStatus,
 .cdk-column-HStatus {
   flex: 0 0 2% !important;
-}
-
-.cdk-column-HStatus {
-  margin-left: auto;
 }
 
 .cdk-column-AStatus {
@@ -580,15 +577,6 @@ button.viewCell {
 .cdk-column-OccA{
   border-radius: 0px 0.5rem 0.5rem 0px;
   margin-right: 0%;
-}
-/* Team Cells */
-.mat-column-Home{
-  flex: 0 0 20.5% !important;
-  border-radius: 0.5rem 0px 0px 0.5rem;
-}
-.mat-column-Away{
-  flex: 0 0 20.5% !important;
-  border-radius: 0px 0.5rem 0.5rem 0px;
 }
 
 /* Match Button */
@@ -841,30 +829,6 @@ span.SMAway{
 }
 
 
-.bookie-logo-home  {
-  background-image: linear-gradient(to top, #fff8f8, #7a8585);
-  border-radius: 1.5625rem;
-  padding: 0.125rem;
-  width: 2.125rem;
-  height: 2.125rem;
-  border: 0.125rem #9e9c9c solid;
-  margin-left: 74%;
-  margin-right: 0.5rem;
-  margin-top: 0.14375rem;
-}
-.bookie-logo-away  {
-  background-image: linear-gradient(to top, #fff8f8, #7a8585);
-  border-radius: 1.5625rem;
-  padding: 0.125rem;
-  width: 2.125rem;
-  height: 2.125rem;
-  border: 0.125rem #9e9c9c solid;
-  margin-left: 3%;
-  margin-right: 0.5rem;
-  margin-top: 0.14375rem;
-  float: left;
-}
-
 .viewCell {
     padding: 0.125rem;
 
@@ -922,11 +886,11 @@ button.viewCell {
 }
 /* Team Cells */
 .mat-column-Home{
-  flex: 0 0 20.5% !important;
+  flex: 0 0 21.9% !important;
   border-radius: 0.5rem 0px 0px 0.5rem;
 }
 .mat-column-Away{
-  flex: 0 0 20.5% !important;
+  flex: 0 0 21.9% !important;
   border-radius: 0px 0.5rem 0.5rem 0px;
 }
 
@@ -949,7 +913,7 @@ button.viewCell {
 .mat-column-AStatus {
   word-wrap: break-word !important;
   white-space: unset !important;
-  flex: 0 0 2% !important;
+  flex: 0 0 3% !important;
   width: fit-content !important;
   overflow-wrap: break-word;
   word-wrap: break-word;
@@ -961,8 +925,8 @@ button.viewCell {
 }
 
 .cdk-column-HStatus {
-  margin-left: auto;
-  margin-right:0.625rem;
+  margin-left:1.3rem;
+  margin-right:1.3rem;
 }
 
 .cdk-column-AStatus {
@@ -1050,8 +1014,7 @@ button.viewCell {
 }
 
 .mat-column-BHome, .mat-column-SMHome{
-  margin-left: -0.625rem;
-  margin-right: 0.125rem;
+  margin-right: 1rem;
   margin-bottom: 0.125rem;
 }
 
