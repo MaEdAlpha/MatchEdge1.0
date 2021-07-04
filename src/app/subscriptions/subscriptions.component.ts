@@ -1,5 +1,5 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output } from '@angular/core';
 import { MatchesService } from '../match/matches.service';
 import { environment as env } from '../../environments/environment.prod';
 import { loadStripe } from "@stripe/stripe-js";
@@ -16,43 +16,42 @@ const stripe = loadStripe(env.STRIPE_PUBLISHABLE_KEY);
 })
 
 
-export class SubscriptionsComponent implements OnInit, OnChanges {
+export class SubscriptionsComponent implements OnInit, OnChanges, OnDestroy {
   isActiveSub: boolean;
   isNewUser: boolean;
   subExpiration: number;
   infoSelected:number = 0;
-  subscriptionState: Subscription;
+  welcomeMessageSubscription: Subscription;
   userName:string;
 
-  @Input()userEmail: string;
+  @Input() userEmail: string;
   @Output() displaySettings = new EventEmitter <boolean>();
 
   viewTables = new EventEmitter<boolean>();
 
   constructor(private matchesService: MatchesService, private userPropertiesService: UserPropertiesService, private http: HttpClient) { }
-
-  ngOnInit(): void {
-    //retrieve useSubscription info. How to handle it to prevent easy tampering?
-    this.isActiveSub=false;
-    this.http.get(env.serverUrl + "/setup").subscribe( result => {
-      console.log(result);
-    });
-
-    this.subscriptionState = this.userPropertiesService.getSubscriptionState().subscribe( subState => {
-      this.isActiveSub = subState;
-      this.userName = this.userPropertiesService.getUserName();
-      setTimeout( () =>{
-        this.subscriptionState.unsubscribe();
-        this.isNewUser = this.userPropertiesService.getUserMessage();
-      },1000)
-    });
-  }
-
   ngOnChanges(simpleChanges: SimpleChanges) {
     if(simpleChanges.userEmail && simpleChanges.userEmail.isFirstChange) {
       console.log("Updated with user Email~" + this.userEmail);
       this.getUserSubscription();
     }
+  }
+
+  ngOnInit(): void {
+    //retrieve useSubscription info. How to handle it to prevent easy tampering?
+    this.isActiveSub=false;
+    this.welcomeMessageSubscription = this.userPropertiesService.getSubscriptionState().subscribe( subState => {
+      //assign landing page to returning user, or new user with custom message
+      this.isActiveSub = subState;
+      this.userName = this.userPropertiesService.getUserName();
+      setTimeout( () =>{
+        this.isNewUser = this.userPropertiesService.getUserMessage();
+      },200)
+    });
+  }
+
+  ngOnDestroy(){
+    this.welcomeMessageSubscription.unsubscribe();
   }
 
   enterSite(){

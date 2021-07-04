@@ -4,7 +4,7 @@
 <form [formGroup]="accountForm" >
   <mat-form-field class="account-details" appearance="fill">
     <mat-label>Username:</mat-label>
-    <input formControlName="UserName" required readonly matInput placeholder="{{accountForm.get('UserName').value}}">
+    <input formControlName="UserName" required matInput placeholder="{{accountForm.get('UserName').value}}">
   </mat-form-field>
 
   <mat-form-field class="account-details" appearance="fill">
@@ -19,7 +19,7 @@
 
   <mat-form-field class="account-details" appearance="fill">
     <mat-label>Email:</mat-label>
-    <input formControlName="Email" required matInput placeholder="{{accountForm.get('Email').value}}">
+    <input formControlName="Email" required matInput readonly placeholder="{{accountForm.get('Email').value}}">
   </mat-form-field>
 </form>
 </div>

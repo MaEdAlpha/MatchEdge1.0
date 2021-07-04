@@ -113,18 +113,18 @@ import { on } from 'events';
     todayDate: number;
     tomorrowDate: number;
 
-    constructor(private savedActiveBetsService: SavedActiveBetsService, private chRef: ChangeDetectorRef, private userPref: UserPropertiesService, public datepipe: DatePipe, private sidenav: SidenavService , private matchesService: MatchesService, private webSocketService: WebsocketService, public dialog: MatDialog, private notificationBox: NotificationBoxService, private matchStatusService: MatchStatusService, private dateHandlingService: DateHandlingService) {
+    constructor(private savedActiveBetsService: SavedActiveBetsService, private chRef: ChangeDetectorRef, private userPropertiesService: UserPropertiesService, public datepipe: DatePipe, private sidenav: SidenavService , private matchesService: MatchesService, private webSocketService: WebsocketService, public dialog: MatDialog, private notificationBox: NotificationBoxService, private matchStatusService: MatchStatusService, private dateHandlingService: DateHandlingService) {
     }
 
     ngOnInit() {
       //INIT
       this.matches = this.matchesService.getMatches(); //fetches matches from matchesService
-      this.viewSelectedDate = this.userPref.getSelectedDate();
+      this.viewSelectedDate = this.userPropertiesService.getSelectedDate();
       this.setStartEndDays(this.viewSelectedDate);
       this.ignoreList = [];
       this.tableGroups = [];
       this.savedActiveBets = this.savedActiveBetsService.getActiveBets();
-      this.ftaOption = this.userPref.getFTAOption();
+      this.ftaOption = this.userPropertiesService.getFTAOption();
       this.masterToggle = false;
 
       //Subscribe to changes you want upudates on /Matches/Dates/StreamWatch/UserPreferences
@@ -174,10 +174,10 @@ import { on } from 'events';
                                                                       }
                                                             );
 
-      this.userPref.getUserPrefs().subscribe( () => {
+      this.userPropertiesService.getUserPrefs().subscribe( () => {
         //This gets called everytime the form is saved, but we aren't collecting form data.
         setTimeout(()=>{
-          this.ftaOption = this.userPref.getFTAOption();
+          this.ftaOption = this.userPropertiesService.getFTAOption();
         },500);
       });
       //Initializes matches -> Selections.
@@ -239,8 +239,8 @@ import { on } from 'events';
       });
    }
 
-    ngAfterViewInit(){
-
+    getTokenFromStorage(){
+      this.userPropertiesService.getAuthData();
     }
 
     ngOnDestroy(){

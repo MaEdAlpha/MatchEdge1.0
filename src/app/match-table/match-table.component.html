@@ -10,7 +10,7 @@
             <p class="all-leagues-toggle" [ngClass]="{'hide-toggle' : tableSelected == 2}">Watch All</p>
             <mat-slide-toggle
             class="all-leagues-toggle"
-            (click)="watchAllLeagues();">
+            (click)="watchAllLeagues(); getTokenFromStorage()">
           </mat-slide-toggle>
           </div>
           <mat-table mat-table [dataSource] ="dataSource">

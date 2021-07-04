@@ -1,7 +1,7 @@
 import { HttpParams } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { AuthService } from '@auth0/auth0-angular';
-import { NavigationStart, Router, RouterEvent } from '@angular/router';
+import { NavigationEnd, NavigationStart, Router, RouterEvent, RoutesRecognized } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Match } from './match/match.model';
 import { MatchesService } from './match/matches.service';
@@ -30,41 +30,66 @@ export class AppComponent {
     this.router.events.pipe(
       filter (
         (event: RouterEvent) => {
-          return  (event instanceof NavigationStart);
+          return  (event instanceof NavigationStart );
         }
       )
     )
     .subscribe(
-      ( event: NavigationStart) => {
+      ( event:NavigationStart ) => {
         console.group( "NavigationStart Event");
         console.log("nagivation id:", event.id);
         console.log("route:", event.url);
-        /*
-          navigationTrigger will be one of:
-            imperative (user clicked link)
-            popstate (browswer controlled change such as BackButton)
-            -hashchange ??? don't know what this is.
-        */
-       console.log("trigger:", event.navigationTrigger);
-        //upon detecting back/forward click. Set entryPoint boolean
-        //Need to account for multiple mongoDB connections on backend if user keeps hitting back forward back forward button.
-       if(event.restoredState){
+          /*
+            navigationTrigger will be one of:
+              imperative (user clicked link)
+              popstate (browswer controlled change such as BackButton)
+              -hashchange ??? don't know what this is.
+          */
 
-        if(event.url == '/'){
+         console.log("trigger:", event.navigationTrigger);
+         //upon detecting back/forward click. Set entryPoint boolean
+         //Need to account for multiple mongoDB connections on backend if user keeps hitting back forward back forward button.
+         if(event.restoredState){
 
-          this.isEntryPoint = !this.isEntryPoint;
+           if(event.url == '/'){
 
-        } else if (event.url !='/'){
+             this.isEntryPoint = !this.isEntryPoint;
 
-          this.isEntryPoint = false;
+            } else if (event.url !='/'){
 
-        }
-       }
+              this.isEntryPoint = false;
+
+            }
+          }
+       });
+
+       //KEEP THIS FUNCTIONALITY TO AVOID ACCESSING LOCALSTORAGE?
+      //  this.router.events.pipe(
+      //   filter (
+      //     (event: RouterEvent) => {
+      //       return  (event instanceof NavigationEnd );
+      //     }
+      //   )
+      // )
+      // .subscribe(
+      //   ( event:NavigationEnd ) => {
+      //     console.group( "NavigationEnd Event");
+      //     console.log("nagivation id:", event.id);
+      //     console.log("Url:", event.url);
+      //     console.log("AfterRedirect", event.urlAfterRedirects);
 
 
+      //      //upon detecting back/forward click. Set entryPoint boolean
+      //      //Need to account for multiple mongoDB connections on backend if user keeps hitting back forward back forward button.
+      //      if(event.urlAfterRedirects == event.url){
+      //        console.log(this.userEmail);
+      //        console.log("Retrieving AuthData");
+      //        this.userPropertiesService.getAuthData();
 
-      }
-    )
+
+      //       //retrieve authData and user Settings from LocalStorage.
+      //      }
+      //    })
 
   }
 
@@ -73,8 +98,9 @@ export class AppComponent {
     this.tabSelection=0;
     this.userEmail='';
     this.toggleSettingsTemplate = false;
+
     this.auth.user$.subscribe( (profile) => {
-      this.profileJson = JSON.stringify(profile, null, 2);
+       this.profileJson = JSON.stringify(profile, null, 2);
       this.isAuthenticated = profile != null ?  true : false;
       this.isAuthenticated ? this.getUserSettings(profile.email, profile.sub) : null;
       this.userEmail = profile != null ? profile.email : null;

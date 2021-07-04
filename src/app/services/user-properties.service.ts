@@ -182,15 +182,30 @@ export class UserPropertiesService {
 
 
     //get token and save to localStorage
-    private saveAuthData(token: string, expirationDate: number) {
-      localStorage.setItem('token',token)
-    localStorage.setItem('expiration', expirationDate.toString());
+  private saveAuthData(token: string, expirationDate: number) {
+      localStorage.setItem('token',token);
+      localStorage.setItem('expiration', expirationDate.toString());
+  }
+
+  public getAuthData(): {token:string, expirationDate:number}{
+    let authData: {token:string, expirationDate:number};
+
+   authData = {
+      token: localStorage.getItem('token'),
+      expirationDate: +localStorage.getItem('expiration')
+  }
+  console.log("LOCALSTORAGE!!!!!!!!!");
+
+  console.log(authData);
+
+    return authData
   }
 
   private clearAuthData() {
     localStorage.removeItem('token')
     localStorage.removeItem('expiration');
   }
+
   resetPage(){
     setTimeout(() => {
       this.router.navigate(['/']);
