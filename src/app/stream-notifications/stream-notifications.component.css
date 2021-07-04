@@ -28,26 +28,23 @@
 }
 
 
-
 .top-divider {
   margin-top: 80px;
   margin-bottom: 2px;  
-  max-width: 103rem;
-  min-width: 103rem;
+  width: 1252px;
 }
 
 .bottom-divider {
   top: -5px;
   position: relative;
   z-index: 4;  
-  max-width: 103rem;
-  min-width: 103rem;
+  width: 1252px;  
 }
 
 .notification-wrapper {
   position: relative;
   text-align: center;  
-  min-width: 107rem;
+  
 }
 
 .centernotifications{
@@ -67,8 +64,8 @@
 }
 
 .notificationplaceholder{
-  width: 150px;
-  height: 100px;
+  width: 114px;
+  height: 76px;
   background-color: #ffffff38;
   border: 1px dashed #bebcbc54;
   text-align: center;
@@ -81,35 +78,34 @@
 }
 
 .notificationplaceholder2{
-  left: 150px;  
-  
+  left: 114px;
 }
 .notificationplaceholder3{
-  left: 300px;  
+  left: 228px;  
 }
 .notificationplaceholder4{
-  left: 450px;  
+  left: 342px;  
 }
 .notificationplaceholder5{
-  left: 600px;  
+  left: 456px;  
 }
 .notificationplaceholder6{
-  left: 750px;  
+  left: 570px;  
 }
 .notificationplaceholder7{
-  left: 900px;  
+  left: 684px;  
 }
 .notificationplaceholder8{
-  left: 1050px;  
+  left: 798px;  
 }
 .notificationplaceholder9{
-  left: 1200px;  
+  left: 912px;  
 }
 .notificationplaceholder10{
-  left: 1350px;  
+  left: 1026px;  
 }
 .notificationplaceholder11{
-  left: 1500px;  
+  left: 1140px;  
 }
 
 

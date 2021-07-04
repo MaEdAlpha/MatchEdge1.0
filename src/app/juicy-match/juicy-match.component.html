@@ -93,14 +93,15 @@
                       <div class="teamnamecontainer">
                         <div class="teamname-container">
                           <div class="selection">
-                            <p>{{selection.Selection}}</p>
+                            <div>{{selection.Selection}}</div>
+                            <div class="logo-img-cont">
+                              <img src="/assets/img/fcLogo/{{selection.Logo}}.png">
+                            </div>
+                            <div class="leaguename">
+                              <p>{{selection.League}}</p>
+                          </div>
                         </div>
-                          <div class="logo-img-cont">
-                          <img src="/assets/img/fcLogo/{{selection.Logo}}.png">
-                        </div>
-                        <div class="leaguename">
-                          <p>{{selection.League}}</p>
-                      </div>
+                          
                         </div>
 
                       </div>
@@ -111,7 +112,7 @@
                       <div class="bookiecontainer">
 
                         <div class="bookie-container-disp">
-                            <p class="bookie-text-lhs">Back Bet</p>
+                            <div class="bookie-text-lhs">Back Bet</div>
                               <button tabindex="-1" class="bookie-button-container shadow" mat-raised-button href= {{selection.UrlB365}} ></button>
                         </div>
 
@@ -134,7 +135,7 @@
                         <div class="exchange-container-disp" >
                           <p class="exchange-text-lhs">Lay Bet </p>
                           <button tabindex="-1" class="exchange-button-container mat-raised-button-bookie-exchange shadow" mat-raised-button href={{selection.UrlSmarkets}}></button>
-                          <p class="exchange-text-comm">Commission: {{userCommission | number:'0.2-2' }}%</p>
+                          <p class="exchange-text-comm">Comm.: {{userCommission | number:'0.2-2' }}%</p>
                         </div>
 
                         <div class="exchange-container-input" >
@@ -153,7 +154,7 @@
                             <button  mat-raised-button class="bet-state-button"  [style.background]="selection.betState ? ' #076044' : '#8a0606'" (click)="selection.betState = !selection.betState">{{ selection.betState ? 'Matched' : 'Unmatched'}}</button>
                           </div>
                           <div class="exchange-row">
-                            <p class="liability-text">Liability:</p>
+                            <p class="liability-text">Liab.:</p>
                             <p class="liability-amount">{{ Liability(getGroup(i).get('LayOdds').value, LayStake(getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value, getGroup(i).get('Stake').value)) | currency:'GBP'}} </p>
                           </div>
                         </div>

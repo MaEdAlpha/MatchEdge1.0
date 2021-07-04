@@ -252,16 +252,7 @@ span.Home, span.Away {
   font-size: 0.75rem;
 }
 
-span.BHome,
-span.BAway,
-span.SMHome,
-span.SMAway {
-  color: white;
-  font-size: 1.25rem;
-  font-weight: 500;
-  padding-left: 0px;
-  border-radius: 0.3125rem;
-}
+
 
 /* .odds-container{
   margin-left: auto;
@@ -324,7 +315,7 @@ mat-header-cell.cdk-column-FixturesDate {
 }
 
 button.viewCell {
-  background: #ffffff;
+  background: #c3c3c3;  
 }
 
 .match-inactive{
@@ -334,7 +325,6 @@ button.viewCell {
 
 .button-inactive {
   background: grey;
-  border: 0.0625rem solid white;
 }
 
 /* mat-column generic styling */
@@ -383,9 +373,7 @@ button.viewCell {
   flex: 0 0 2% !important;
 }
 
-.cdk-column-AStatus {
-  margin-right: auto;
-}
+
 
 /* Occurences */
 .cdk-column-OccH,
@@ -786,29 +774,22 @@ span.away-selection {
   height: 3.0625rem;
   padding: 0;
   border-radius: 0px 0px 0px 0px;
+  border: 0.0625rem solid white;
 }
 
 
 span.BHome,
 span.BAway,
 span.SMHome,
-span.SMAway,
-span.BHome,
-span.BAway {
+span.SMAway{
+  border-radius: 0.3125rem;
   color: white;
   font-size: 1.25rem;
   font-weight: 500;
-}
-
-
-span.BHome,
-span.SMHome,
-span.BAway,
-span.SMAway{
-  font-size: 1.25rem;
   height: 50%;
+  padding-left: 0px;
   line-height: 100%;
-  margin-left: 45%;
+  margin-left: 36%;
   margin-right: -5%;
 }
 
@@ -828,7 +809,7 @@ span.SMAway{
 }
 
 button.viewCell {
-  background: #afafaf;
+  background: #c3c3c3;
 }
 
 /* mat-column generic styling  */
@@ -923,8 +904,8 @@ button.viewCell {
 }
 
 .cdk-column-AStatus {
-  margin-right: auto;
-  margin-left:0.625rem;
+  margin-left:1.3rem;
+  margin-right:1.3rem;
 }
 
 .team-home-container{
@@ -1014,8 +995,7 @@ button.viewCell {
 }
 
 .mat-column-BAway, .mat-column-SMAway{
-  margin-right: -0.625rem;
-  margin-left: 0.125rem;
+  margin-left: 1rem;
   margin-bottom: 0.125rem;
 }
 
