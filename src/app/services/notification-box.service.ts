@@ -85,7 +85,7 @@ export class NotificationBoxService {
       toastClass: "toast border-gold",
       closeButton: true,
       messageClass: 'toast-message',
-      positionClass:'toast-top-right',
+      positionClass:'toast-top-left',
     });
 
     //may cause issues.
@@ -97,12 +97,12 @@ export class NotificationBoxService {
     var toast: ActiveToast<any>;
     toast= this.toast.show( ' ', 'Successfully Deleted!', {
       toastComponent: SABToastDeleteComponent,
-      timeOut:1500,
-      disableTimeOut: true,
-      tapToDismiss: true,
+      timeOut:1200,
+      disableTimeOut: false,
+      tapToDismiss: false,
       toastClass: "toast border-gold",
       messageClass: 'toast-message',
-      positionClass:'toast-bottom-right',
+      positionClass:'toast-top-right',
     });
     return toast;
   }

@@ -14,6 +14,7 @@
   pointer-events: all;
   cursor: pointer;
   box-shadow: 0 0 12px #999999;
+  z-index: 1000;
 }
 /* .btn-pink {
   -webkit-backface-visibility: hidden;

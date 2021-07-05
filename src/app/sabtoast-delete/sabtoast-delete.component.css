@@ -2,18 +2,19 @@
   background-image: linear-gradient(to bottom right, red, #a76f6f);
   background-repeat: no-repeat;
   background-size: cover;
-  position: fixed;
+  /* position: fixed;
   top: 40%;
-  right: 36%;
+  right: 36%; */
   overflow: hidden;
-  margin: 0 0 6px;
-  padding-top: 4px;
+  margin: 0 0 2px;
+  padding-top: 2px;
   width: 350px;
   height: 67px;
   border-radius: 3px 3px 3px 3px;
   pointer-events: all;
   cursor: pointer;
   box-shadow: 0 0 12px #999999;
+
 }
 
 :host:hover {
