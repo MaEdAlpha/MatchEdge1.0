@@ -1,15 +1,14 @@
 :host {
   background-color: #263238;
-  background-image: url(/assets/img/notificationbackground2.png);
-  background-size: contain;
+  background-image: url(/assets/img/notificationbackground1280x800.png);
   background-repeat: no-repeat;
   color: black;
   position: relative;
   overflow: hidden;
   margin: 0 0 6px;
   padding: 0px;
-  width: 150px;
-  height: 100px;
+  width: 114px;
+  height: 76px;
   border-radius: 3px 3px 3px 3px;
   pointer-events: all;
   cursor: pointer;
@@ -29,13 +28,13 @@
 
 
 .backOdds{
-  margin-left: 60%;
-  margin-top: 5%;
+  margin-left: 50%;
+  margin-top: 0%;
   display: grid;
   line-height: 175%;
   font-family: Roboto, "Helvetica Neue", sans-serif;
   font-weight: bold;
-  font-size: large;
+  font-size: 14px;
   color: #37474f;
 
 }
