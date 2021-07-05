@@ -93,9 +93,9 @@
             <div class="bookie shadow">
               <div class="bookiecontainer">
 
-                <div class="bookie-container">
-                    <p class="bookie-text-lhs">Back Bet</p>
-                      <button tabindex="-1" class="bookie-button-container shadow" mat-raised-button href='' ></button>
+                <div class="bookie-container-disp">
+                    <div class="bookie-text-lhs">Back Bet</div>
+                      <button tabindex="-1" class="bookie-button-container shadow" mat-raised-button href= "" ></button>
                 </div>
 
                 <div class="bookie-container">
@@ -114,13 +114,13 @@
 
             <div class="exchange shadow">
               <div class="exchangecontainer">
-                <div class="exchange-container" >
+                <div class="exchange-container-disp" >
                   <p class="exchange-text-lhs">Lay Bet </p>
-                  <button tabindex="-1" class="exchange-button-container mat-raised-button-bookie-exchange shadow" mat-raised-button href=""></button>
-                  <p class="exchange-text-comm">Commission: {{userCommission | number:'0.2-2' }}%</p>
+                  <button tabindex="-1" class="exchange-button-container mat-raised-button-bookie-exchange shadow" mat-raised-button href=''></button>
+                  <p class="exchange-text-comm">Comm.: {{userCommission | number:'0.2-2' }}%</p>
                 </div>
 
-                <div class="exchange-container" >
+                <div class="exchange-container-input" >
                   <div class="exchange-row">
                     <p class="exchange-text-mid">Stake </p>
                     <input tabindex="6" class="value-box-laystake" [readOnly]="true" placeholder="{{sab.layStake | number:'0.2-2' }}">
@@ -131,12 +131,12 @@
                   </div>
                 </div>
 
-                <div class="exchange-container">
+                <div class="exchange-container-output">
                   <div class="exchange-row" tabindex="1">
                     <button  mat-raised-button class="bet-state-button"  [style.background]="sab.betState ? ' #076044' : '#8a0606'" (click)="sab.betState = !sab.betState">{{ sab.betState ? 'Matched' : 'Unmatched'}}</button>
                   </div>
                   <div class="exchange-row">
-                    <p class="liability-text">Liability:</p>
+                    <p class="liability-text">Liab.:</p>
                     <p class="liability-amount">{{ Liability(getGroup(i).get('LayOdds').value, LayStake(getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value, getGroup(i).get('Stake').value)) | currency:'GBP'}} </p>
                   </div>
                 </div>
@@ -171,12 +171,12 @@
                 <hr class="MRdivider">
 
                 <div class="calculated-row">
-                    
-                    <span class="ROIvalue" *ngIf="sab.isBrkzFTA == 1">{{ ROI(getGroup(i).get('Stake').value, getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value, sab.occ) | number:'0.2-2'}}%</span>
-                    <span class="ROIvalue" *ngIf="sab.isBrkzFTA == 0 || undefined">{{ ROI(getGroup(i).get('Stake').value, getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value, 65) | number:'0.2-2'}}%</span>
 
-                    <span class="EVvalue" *ngIf="sab.isBrkzFTA == 1">{{ TotalEV( sab.occ,  getGroup(i).get('Stake').value, getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value)/sab.occ  | currency:'GBP' }}</span>
-                    <span class="EVvalue" *ngIf="sab.isBrkzFTA == 0 || undefined">{{ TotalEV( 65,  getGroup(i).get('Stake').value, getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value)/65  | currency:'GBP' }}</span>
+                  <span class="ROIvalue" *ngIf="sab.isBrkzFTA == 1">{{ ROI(getGroup(i).get('Stake').value, getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value, sab.occ) | number:'0.2-2'}}%</span>
+                  <span class="ROIvalue" *ngIf="sab.isBrkzFTA == 0 || undefined">{{ ROI(getGroup(i).get('Stake').value, getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value, 65) | number:'0.2-2'}}%</span>
+
+                  <span class="EVvalue" *ngIf="sab.isBrkzFTA == 1">{{ TotalEV( sab.occ,  getGroup(i).get('Stake').value, getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value)/sab.occ  | currency:'GBP' }}</span>
+                  <span class="EVvalue" *ngIf="sab.isBrkzFTA == 0 || undefined">{{ TotalEV( 65,  getGroup(i).get('Stake').value, getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value)/65  | currency:'GBP' }}</span>
 
                     <span class="MRvalue">{{ NewMatchRating( getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value)  | number:'0.2-2' }}%</span>
 
@@ -200,13 +200,13 @@
                     <span class="FTAvalue"> {{ FTA(getGroup(i).get('Stake').value, getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value  ) | currency:'GBP'}}</span>
                     <span class="QLPercentagevalue">{{ NewSS(  getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value, getGroup(i).get('Stake').value ) | number:'0.2-2' }}%</span>
                     <span class="QLvalue"> {{ QL( getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value, getGroup(i).get('Stake').value) | currency:'GBP'}}  </span>
-                    
+
                   </div>
 
                </div>
 
               </div>
-              <button tabindex="0" mat-raised-button class="exp-button" [disabled]="sab['isSettled']"  (click)="updateSAB(sab, i); expandedElement=null">Update Bet</button>
+              <button tabindex="0" mat-raised-button class="exp-button" [disabled]="sab['isSettled']"  (click)="updateSAB(sab, i); expandedElement=null"><span class="record-text">UPDATE</span></button>
             </div>
           </div>
         </div>

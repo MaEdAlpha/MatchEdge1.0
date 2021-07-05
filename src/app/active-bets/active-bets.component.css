@@ -1023,3 +1023,9 @@ input[type=number] {
   position: absolute;
   left: 76%;
 }
+.record-text {
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+  font-size: 11px;
+  outline: none;
+}
