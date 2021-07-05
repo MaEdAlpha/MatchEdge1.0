@@ -122,8 +122,8 @@ export class PopupViewSavedBetsComponent implements AfterViewInit {
       }
 
       const dialogRef = this.dialog.open(PopupFormSavedBetsComponent, {
-        width: '70%',
-        height: '50%',
+        height: '60%',
+        panelClass: 'saved-active-bets-responsive-view',
         data: {activeBet, isEdit}
       });
 
@@ -139,8 +139,8 @@ export class PopupViewSavedBetsComponent implements AfterViewInit {
       //pass in boolean on whether its an edit, or a manually added active bet
 
       const dialogRef = this.dialog.open(PopupFormSavedBetsComponent, {
-        width: '70%',
-        height: '48%',
+        height: '60%',
+        panelClass: 'saved-active-bets-responsive-view',
         data: {activeBet, isEdit}
       });
 
