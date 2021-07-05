@@ -6,6 +6,10 @@ import { loadStripe } from "@stripe/stripe-js";
 import { SimpleChanges } from '@angular/core';
 import { UserPropertiesService } from '../services/user-properties.service';
 import { Subscription } from 'rxjs';
+import { MatDialog } from '@angular/material/dialog';
+import { TermsOfUseComponent } from '../terms-of-use/terms-of-use.component';
+import { PopupDataProtectionRegulationComponent } from '../popup-data-protection-regulation/popup-data-protection-regulation.component';
+import { NotificationBoxService } from '../services/notification-box.service';
 const stripe = loadStripe(env.STRIPE_PUBLISHABLE_KEY);
 
 
@@ -29,7 +33,7 @@ export class SubscriptionsComponent implements OnInit, OnChanges, OnDestroy {
 
   viewTables = new EventEmitter<boolean>();
 
-  constructor(private matchesService: MatchesService, private userPropertiesService: UserPropertiesService, private http: HttpClient) { }
+  constructor(private matchesService: MatchesService, private userPropertiesService: UserPropertiesService, public dialog: MatDialog, public notificationService: NotificationBoxService) { }
   ngOnChanges(simpleChanges: SimpleChanges) {
     if(simpleChanges.userEmail && simpleChanges.userEmail.isFirstChange) {
       console.log("Updated with user Email~" + this.userEmail);
@@ -46,12 +50,26 @@ export class SubscriptionsComponent implements OnInit, OnChanges, OnDestroy {
       this.userName = this.userPropertiesService.getUserName();
       setTimeout( () =>{
         this.isNewUser = this.userPropertiesService.getUserMessage();
-      },200)
+      },300)
     });
   }
 
   ngOnDestroy(){
     this.welcomeMessageSubscription.unsubscribe();
+  }
+
+  //Notes: You setup app.js to create upon checkout an accepted_terms field which auto sets to true. If user has not signed up and bought a subscription, they will have to go through GDPR popup every
+  userAgreedToTermsOfUse(){
+    if(this.isNewUser){
+      const dialogReference = this.dialog.open(PopupDataProtectionRegulationComponent, {
+        height:'35%'
+      });
+
+      dialogReference.afterClosed().subscribe( userAcceptedTerms =>{
+        console.log(`GDPR Result: ${userAcceptedTerms}`);
+        userAcceptedTerms ? this.createCheckout('price_1J4K6xC2Ao5ETreld0Jpk3lT') : this.notificationService.cannotUseSite();
+      });
+    }
   }
 
   enterSite(){

@@ -109,6 +109,7 @@ import { PopupAboutUsComponent } from './popup-about-us/popup-about-us.component
 import { PopupContactUsComponent } from './popup-contact-us/popup-contact-us.component';
 import { TermsOfUseComponent } from './terms-of-use/terms-of-use.component';
 import { PrivacyContentComponent } from './privacy-content/privacy-content.component';
+import { PopupDataProtectionRegulationComponent } from './popup-data-protection-regulation/popup-data-protection-regulation.component';
 
 
 
@@ -174,6 +175,7 @@ import { PrivacyContentComponent } from './privacy-content/privacy-content.compo
     PopupContactUsComponent,
     TermsOfUseComponent,
     PrivacyContentComponent,
+    PopupDataProtectionRegulationComponent,
   ],
   imports: [
     AppRoutingModule,

@@ -135,6 +135,15 @@ export class NotificationBoxService {
     return
   }
 
+  cannotUseSite():ActiveToast<any>{
+    var toast: ActiveToast<string>;
+    toast = this.toast.info('In order to use this site, you must agree to the Terms of Use.','Terms of Use declined', {
+      disableTimeOut: true,
+      tapToDismiss:true
+    } )
+    return toast;
+  }
+
   IncompleteSABToast(message:string): ActiveToast<any>{
     var toast: ActiveToast<any>;
 

@@ -21,7 +21,7 @@ export class FooterComponent implements OnInit {
     option == 0 ? this.dialog.open(PopupAboutUsComponent, {panelClass: 'about-dialog'}) : this.dialog.open(PopupContactUsComponent, {panelClass: 'about-dialog'});
   }
 
-  openTOU():void{
+  openTermsAndConditions():void{
     this.dialog.open(TermsOfUseComponent, {panelClass:'about-dialog'});
   }
 

@@ -1,0 +1,5 @@
+span.popup-dialog:hover {
+  color: #ffc235;
+  text-decoration: underline;
+  cursor: pointer;
+}

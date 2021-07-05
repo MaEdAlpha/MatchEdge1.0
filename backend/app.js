@@ -202,12 +202,12 @@ app.post("/subscription", async (req,res) => {
     .then( userDoc => {
       if(userDoc == null){
         console.log("No subscription associated with " + email);
-        res.status(200).json({isActiveSub:false, isNewUser: true});
+        res.status(200).json({isActiveSub:false, isNewUser: true, userAcceptedTerms: false});
       } else if( userDoc != null && userDoc.subscription_status == 'paid') {
         console.log(email + " subscription is valid!");
-        res.status(200).json({isActiveSub:true, isNewUser: false});
+        res.status(200).json({isActiveSub:true, isNewUser: false, userAcceptedTerms: userDoc.accepted_terms});
       } else if (userDoc != null && userDoc.subscription_status == 'unpaid') {
-        res.status(400).json({isActiveSub:false, isNewUser: false});
+        res.status(400).json({isActiveSub:false, isNewUser: false, userAcceptedTerms: userDoc.accepted_terms});
       }
     })
     .catch(err => console.error(`Failed to find documents: ${err}`));
@@ -250,6 +250,7 @@ app.post('/webhook', express.raw({type: 'application/json'}),  (request, respons
         subscription_status:  checkoutCompleteEvent.payment_status,
         subscription_paid_on: 0,
         last_signed_in: 0,
+        accepted_terms: true,
 
       }
       subscription_collection.insertOne(document, function (error, response){

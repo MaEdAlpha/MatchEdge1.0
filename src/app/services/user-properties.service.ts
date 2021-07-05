@@ -105,10 +105,10 @@ export class UserPropertiesService {
     juicyId: "blank",
 
     account: {
-               username: "blank",
-               firstName: "blank",
-               lastName: "blank",
-               email: "blank@fmail.com",
+               username: "JuicyUser",
+               firstName: "Juicy",
+               lastName: "User",
+               email: "juicy@bets.com",
                quote: "blank",
              },
 
