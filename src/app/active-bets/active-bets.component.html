@@ -76,7 +76,7 @@
               <div class="teamnamecontainer">
                 <div class="teamname-container">
                   <div class="selection">
-                    <p>{{sab.selection}}</p>
+                    <div>{{sab.selection}}</div>
                 </div>
                   <div class="logo-img-cont">
                   <img src="/assets/img/fcLogo/{{sab.logo}}.png">
@@ -205,9 +205,8 @@
 
                </div>
 
-               <button tabindex="0" mat-raised-button class="exp-button" [disabled]="sab['isSettled']"  (click)="updateSAB(sab, i); expandedElement=null">Update Bet</button>
-
               </div>
+              <button tabindex="0" mat-raised-button class="exp-button" [disabled]="sab['isSettled']"  (click)="updateSAB(sab, i); expandedElement=null">Update Bet</button>
             </div>
           </div>
         </div>

@@ -86,7 +86,7 @@ input.value-box-lay {
 
   .toast-container {
     pointer-events: none;
-    position: fixed;
+    position: absolute;
     z-index: 999999;
     display: inline-flex;
   }

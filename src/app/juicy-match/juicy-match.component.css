@@ -437,7 +437,7 @@ div.jm-exp-details {
 
 .exchangecontainer{
   border-style: solid;
-    width: 92%;
+    width: 100%;
     height: 83%;
     color: #ffffff;
     padding-left: 0px;
@@ -455,7 +455,7 @@ div.jm-exp-details {
     padding-left: 0px;
     border-radius: 35px;
     background: radial-gradient(at 111% 0, #4f8ca2, #172329 66%), linear-gradient( 231deg, #383838, transparent 80%) bottom;
-    margin-left: -45px;
+    margin-left: -18px;
     margin-right: -138px;
     display: inline-flex;
     padding-top: 2px;

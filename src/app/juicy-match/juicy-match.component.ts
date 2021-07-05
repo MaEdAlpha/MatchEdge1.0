@@ -86,8 +86,8 @@ export class JuicyMatchComponent implements OnChanges, OnInit, OnDestroy, AfterV
     { field: "LayOdds", alias: " Lay Odds" },
     { field: "FTAround", alias: "FTA" },
     { field: "EVthisBet", alias: "EV (£)" },
-    { field: "MatchRating", alias: "Match Rating (%)" },
-    { field: "QLPercentage", alias: "Secret Sauce (%)"},
+    { field: "MatchRating", alias: "MR (%)" },
+    { field: "QLPercentage", alias: "QL (%)"},
   ];
 
   notificationSelectedSubscription: Subscription;

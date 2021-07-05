@@ -60,9 +60,16 @@
   width: 250px;
   height: 66%;
 }
+.sub-img{
+  margin-top: 10%;
+}
+
+.manage-payments-img{
+  margin-top: 30%;
+}
 
 img.two-up {
-  width: 87%;
+  width: 84%;
 }
 
 .inactive-btn-cont{
