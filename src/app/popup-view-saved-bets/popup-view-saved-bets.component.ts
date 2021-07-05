@@ -137,7 +137,7 @@ export class PopupViewSavedBetsComponent implements AfterViewInit {
     editDeleteSab(activeBet:ActiveBet, isEdit:boolean): void {
       console.log(activeBet);
       //pass in boolean on whether its an edit, or a manually added active bet
-
+      //Brooks note: access to Popup Overlays
       const dialogRef = this.dialog.open(PopupFormSavedBetsComponent, {
         height: '60%',
         panelClass: 'saved-active-bets-responsive-view',

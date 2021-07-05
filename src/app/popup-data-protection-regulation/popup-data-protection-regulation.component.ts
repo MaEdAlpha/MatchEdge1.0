@@ -9,11 +9,13 @@ import { TermsOfUseComponent } from '../terms-of-use/terms-of-use.component';
 })
 export class PopupDataProtectionRegulationComponent implements OnInit {
   checked:boolean;
+  addToMailList:boolean;
 
   constructor(public dialog:MatDialog) { }
 
   ngOnInit(): void {
     this.checked=false;
+    this.addToMailList=false;
   }
 
   openTermsAndConditions(){

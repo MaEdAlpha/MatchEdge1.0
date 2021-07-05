@@ -110,5 +110,9 @@ export class TopLayerFiltersComponent implements OnInit, OnChanges {
     //send little notification that
     this.notificationService.ClearJuicyToast();
   }
+
+  testToast(){
+    this.notificationService.showTestSAB();
+  }
 }
 

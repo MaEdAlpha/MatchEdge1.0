@@ -60,6 +60,7 @@ export class NotificationBoxService {
       onActivateTick: true,
       timeOut: 7000,
       tapToDismiss: true,
+      disableTimeOut:true,
       progressBar: true,
       extendedTimeOut: 2000,
       enableHtml:true,
@@ -69,6 +70,12 @@ export class NotificationBoxService {
     });
 
     return toast;
+  }
+
+  showTestSAB(){
+   let message = "3.88" + "<br>" + "3.99";
+   let title = "Aresenal";
+    this.showToast(message, title);
   }
 
   //might have to disable the toastContainer somehow.

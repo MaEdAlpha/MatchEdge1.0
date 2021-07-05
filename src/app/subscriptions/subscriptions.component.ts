@@ -59,18 +59,6 @@ export class SubscriptionsComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   //Notes: You setup app.js to create upon checkout an accepted_terms field which auto sets to true. If user has not signed up and bought a subscription, they will have to go through GDPR popup every
-  userAgreedToTermsOfUse(){
-    if(this.isNewUser){
-      const dialogReference = this.dialog.open(PopupDataProtectionRegulationComponent, {
-        height:'35%'
-      });
-
-      dialogReference.afterClosed().subscribe( userAcceptedTerms =>{
-        console.log(`GDPR Result: ${userAcceptedTerms}`);
-        userAcceptedTerms ? this.createCheckout('price_1J4K6xC2Ao5ETreld0Jpk3lT') : this.notificationService.cannotUseSite();
-      });
-    }
-  }
 
   enterSite(){
     console.log("toggle it");
@@ -156,8 +144,6 @@ export class SubscriptionsComponent implements OnInit, OnChanges, OnDestroy {
       }).then(handleFetchResult);
     };
     //create an API call to backend that uses /create-checkout-session
-
-
     // Setup event handler to create a Checkout Session when button is clicked
 
         createPurchaseSession(priceId, userEmail).then( async function(data) {

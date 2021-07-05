@@ -19,7 +19,7 @@
         <div class="obj-cont">
           <div class="active-sub" *ngIf="isActiveSub; else showInactiveSub">
             <div class="option-wrapper active-wrapper">
-              <div class="active-img" (click)="customerPortal(userEmail)">
+              <div class="active-img" (click)="customerPortal(userEmail);">
                 <img  class="sub-img" src="../../assets/img/billing-icon.png" alt="">
               </div>
               <div class="sport">
@@ -27,7 +27,7 @@
               </div>
             </div>
             <div class="option-wrapper active-wrapper">
-              <div class="active-img" (click)="enterSite()">
+              <div class="active-img" (click)="enterSite();">
                 <img  class="sub-img two-up" src="../../assets/img/color-2up.png" alt="">
               </div>
               <div class="sport">
@@ -44,7 +44,7 @@
               </div>
               <div class="inactive-btn-cont">
                 <!-- isActiveSub=!isActiveSub; -->
-                <button id="basic-plan-btn" class="sub-btn" mat-raised-button (click)="userAgreedToTermsOfUse()">Subscribe</button>
+                <button id="basic-plan-btn" class="sub-btn" mat-raised-button (click)="this.createCheckout('price_1J4K6xC2Ao5ETreld0Jpk3lT')">Subscribe</button>
                 <button  class="info-btn" mat-raised-button (click)="displayInfo(1)">Info</button>
               </div>
               </div>

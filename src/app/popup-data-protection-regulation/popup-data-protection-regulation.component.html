@@ -1,14 +1,13 @@
 <h2 mat-dialog-title>Juicy Bets Entertainment Ltd.</h2>
 <h3 mat-dialog-title> Protecting your Privacy</h3>
 <mat-dialog-content class="mat-typography">
-  <p>By using our site, you agree to the Juicy-Bets Entertainment LTD.<span class="popup-dialog" (click)="openTermsAndConditions()">Terms of Use</span><br>
-  If you wish to be notified about our new product launches, special discounts and exclusive betting offers, please tick the box below.</p>
-
-  <div class="check-box-container">
-    <mat-checkbox class="email-list" [(ngModel)]="checked"> Yes, I would like to recieve special discounts</mat-checkbox>
+  <div class="check-box-sentence">
+    <p>By using our site, you agree to the Juicy-Bets Entertainment LTD.<span class="popup-dialog" (click)="openTermsAndConditions()">Terms of Use</span></p> <mat-checkbox class="email-list" [(ngModel)]="checked"> I agree to these terms</mat-checkbox>
   </div>
-
-
+  <div class="check-box-sentence">
+    <br>
+    <p>If you wish to be notified about our new product launches, special discounts and exclusive betting offers, please tick the box below. </p><mat-checkbox class="email-list" [(ngModel)]="addToMailList"> Yes, add me to your mailing list</mat-checkbox>
+  </div>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
   <button mat-button mat-dialog-close>Cancel</button>
