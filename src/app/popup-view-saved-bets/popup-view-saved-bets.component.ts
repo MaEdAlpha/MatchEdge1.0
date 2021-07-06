@@ -120,9 +120,10 @@ export class PopupViewSavedBetsComponent implements AfterViewInit {
         isSettled: false,
         isBrkzFTA: ftaOption == 'generic' ? 0 : 1,
       }
-
+      //Change back to height='60%' for both
       const dialogRef = this.dialog.open(PopupFormSavedBetsComponent, {
         height: '60%',
+        width:'100%',
         panelClass: 'saved-active-bets-responsive-view',
         data: {activeBet, isEdit}
       });
@@ -140,6 +141,7 @@ export class PopupViewSavedBetsComponent implements AfterViewInit {
       //Brooks note: access to Popup Overlays
       const dialogRef = this.dialog.open(PopupFormSavedBetsComponent, {
         height: '60%',
+        width:'100%',
         panelClass: 'saved-active-bets-responsive-view',
         data: {activeBet, isEdit}
       });

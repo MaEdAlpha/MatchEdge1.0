@@ -42,7 +42,11 @@ th.mat-header-cell:last-of-type, td.mat-cell:last-of-type, td.mat-footer-cell:la
 }
 
 /* Main Juicy column headers hooks and rows juicy rows */
-.mat-column-BackOdds, .mat-column-LayOdds, .mat-column-EVthisBet, .mat-column-MatchRating, .mat-column-FTAround{
+.mat-column-BackOdds,
+.mat-column-LayOdds,
+.mat-column-EVthisBet,
+.mat-column-MatchRating,
+ .mat-column-FTAround{
   text-align: center;
   font-size: large;
   font-weight: 500;
@@ -118,7 +122,9 @@ tr.juicyMatch-row:not(.juicyMatch-expanded-row):active { /* when main container 
   text-align: left;
   padding-left: 10px;
   background: #263238;
+  width: 153px
 }
+
 .cdk-column-LayOdds>span {
   background: green;
   color: white;
@@ -668,7 +674,7 @@ padding-top: 8%;
   border: 1px solid #214549;
   border-radius: 0px 33px 33px 0px;
   box-shadow: 0px 0px 10px -1px #ffffff;
-  background: radial-gradient(at 47% 42%, #126E51, #00000061 74%), linear-gradient( 
+  background: radial-gradient(at 47% 42%, #126E51, #00000061 74%), linear-gradient(
 5deg
 , #095940, #0000002b 80%) bottom;
   color: #e6b522;
@@ -754,7 +760,7 @@ padding-top: 8%;
   font-size: 13px;
   text-align: center;
   box-shadow: 0px 0px 7px -1px #ffffff;
-  
+
 }
 
 p.betState {
