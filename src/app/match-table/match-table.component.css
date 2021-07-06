@@ -782,15 +782,15 @@ span.BHome,
 span.BAway,
 span.SMHome,
 span.SMAway{
-  border-radius: 0.3125rem;
   color: white;
-  font-size: 1.25rem;
-  font-weight: 500;
-  height: 50%;
-  padding-left: 0px;
-  line-height: 100%;
-  margin-left: 36%;
-  margin-right: -5%;
+    font-size: 1.20rem;
+    font-weight: 500;
+    height: 50%;
+    padding-left: 0px;
+    line-height: 100%;
+    margin-left: 35.5%;
+    margin-right: -5%;
+    margin-top: 2%;;
 }
 
 

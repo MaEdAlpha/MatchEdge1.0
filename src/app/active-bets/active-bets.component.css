@@ -488,12 +488,12 @@ div.jm-exp-details {
 .match-date {
   margin-left: 10px;
   width: fit-content;
+  font-size: 0.7rem; 
 }
 
 .mat-hint{
   color: white;
 }
-
 
 
 .exchange>b{
@@ -883,6 +883,7 @@ span.calculated-value{
 }
 .btn-default {
   background: white;
+  font-size: 0.7rem;
 }
 .mr-overlay {
   opacity: 0.9;
@@ -893,6 +894,7 @@ span.calculated-value{
 
 .status-btn {
   width: 91px;
+  font-size: 0.7rem;
 }
 
 .mr-overlay>td>div>span.mr7box {
@@ -1028,4 +1030,7 @@ input[type=number] {
   text-orientation: upright;
   font-size: 11px;
   outline: none;
+}
+.table-format{
+  font-size: 0.7rem;
 }
