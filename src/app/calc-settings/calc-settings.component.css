@@ -5,10 +5,12 @@ hr {
 
 h1 {
   margin-left: 4%;
+  font: 400 20px/14px Roboto, "Helvetica Neue", sans-serif
 }
 
 h3 {
   margin-left: 4%;
+  font: 400 16px/32px Roboto, "Helvetica Neue", sans-serif;
 }
 
 .header-container {
@@ -23,9 +25,11 @@ h3 {
   margin-left: 4%;
   padding-bottom: 25px;
   margin-right: 4%;
+  font: 400 12px/18px Roboto, "Helvetica Neue", sans-serif;
 }
 .odds-header{
   margin-left: 32%;
+  font: 400 14px/18px Roboto, "Helvetica Neue", sans-serif;
 }
 .stake-header {
   margin-left: 40px;
@@ -64,7 +68,7 @@ form {
   border: 1px solid #263238;
   background: #3a4a52;
   opacity: 0.5;
-  text-align: right;
+  text-align: center;
   width: 30%;
   margin-left: 20px;
 }
@@ -91,8 +95,8 @@ input::placeholder {
 
 .estimated-value-text{
   margin-left: 4%;
-  padding-bottom: 5px;
   margin-right: 4%;
+  font: 400 12px/18px Roboto, "Helvetica Neue", sans-serif;
 }
 
 ::ng-deep.mat-select-arrow {
@@ -153,7 +157,7 @@ input.ng-invalid.ng-touched {
   left: 50%;
 }
 .horizontal {
-  border-left: 525px solid #4b5960;
+  border-left: 475px solid #4b5960;
   left: 50%;
   height: 2px;
   margin-left: 20px;
@@ -163,11 +167,7 @@ input.ng-invalid.ng-touched {
 ::ng-deep.mat-hint, .mat-form-field-appearance-legacy .mat-hint{
   color: white;
 }
-.estimated-value-text{
-  margin-left: 4%;
-  padding-bottom: 5px;
-  margin-right: 4%;
-}
+
 
 .fta-highlight{
   color: #aa8920;
