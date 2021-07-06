@@ -494,19 +494,10 @@ button.viewCell {
   margin-left: 0.3125rem;
   margin-right: auto;
   margin-top: 0.28125rem;
-  width: 2.1875;
+  width: 2.1875rem;
   padding: 0px;
   font-size: 0.9375rem  !important;
   color: #ffffff !important;
-}
-
-
-
-.fta-value-cont {
-  background: radial-gradient(at 76% 0, #263238, #263238ad 70%), linear-gradient(0deg, #e0e1e2, transparent 50%) bottom;
-  border-radius: 0.3125rem;
-  padding: 0.625rem;
-  font-size: large;
 }
 
 /* mat-column generic styling  */
@@ -960,7 +951,7 @@ button.viewCell {
 .fta-value-cont {
   background: radial-gradient(at 76% 0, #263238, #263238ad 70%), linear-gradient(0deg, #e0e1e2, transparent 50%) bottom;
   border-radius: 0.3125rem;
-  padding:0.625rem;
+  padding: 0px;
   font-size: large;
 }
 

@@ -214,7 +214,8 @@ import { PopupCookiePolicyComponent } from './popup-cookie-policy/popup-cookie-p
                      ],
       }
     }),
-    ToastrModule.forRoot( {preventDuplicates: false}),
+    ToastrModule.forRoot( {maxOpened: 11 ,
+                          preventDuplicates: false}),
     ToastContainerModule,
   ],
   entryComponents: [ CustomToastComponent, SABToastDeleteComponent, SABToastSaveComponent, SABToastUpdatedComponent, SABToastIncompleteComponent ],

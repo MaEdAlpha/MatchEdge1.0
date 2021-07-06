@@ -432,6 +432,7 @@ button.viewCell {
 .mat-column-SMAway{
   margin-left: 1rem;
   margin-bottom: 0.125rem;
+  margin-right: 0px;
 }
 
 .mat-column-SMHome,
