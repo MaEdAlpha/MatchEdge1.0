@@ -4,7 +4,7 @@
       <p> Currently no matches selected to watch. <br> Go to the 'Fixtures' table and select some matches.</p>
     </div>
   </ng-container>
-          <mat-table  mat-table [dataSource] ="dataSource">
+          <mat-table class="watchList-table"  mat-table [dataSource] ="dataSource">
             <!-- Generate Column Headers -->
             <ng-container *ngFor="let column of columns" matColumnDef= {{column.field}}>
               <ng-container *ngIf="column.field.startsWith('B')">
@@ -20,7 +20,7 @@
               <mat-cell *matCellDef="let row; let i = index">
                   <!-- column.field.endsWith('OccH') || column.field.endsWith('OccA') || -->
                   <ng-container *ngIf="column.field.endsWith('BHome') ||  column.field.endsWith('SMHome')">
-                    <div class="homeodds-container" [ngClass]="{'match-inactive odds-container' : !row.HStatus.notify}">
+                    <div class="homeodds-container">
                       <ng-container *ngIf="column.field.endsWith('BHome')" >
                         <span class="{{column.field}} "> {{ row[column.field] | number:'0.2-2'}}</span>
                       </ng-container>
@@ -30,26 +30,16 @@
                     </div>
                   </ng-container>
 
-                  <!-- <ng-container *ngIf="column.field.endsWith('OccH')">
-                    <span class="{{column.field}} homeOccCell fta-value-cont" [ngClass]="{'match-inactive' : !row.HStatus.notify}"> {{ row[column.field] | number:'1.0-0'}}</span>
-                  </ng-container> -->
-
                   <ng-container *ngIf=" column.field.endsWith('BAway') || column.field.endsWith('SMAway')">
-                    <div class="awayodds-container" [ngClass]="{'match-inactive odds-container' : !row.AStatus.notify}">
+                    <div class="awayodds-container">
                       <ng-container *ngIf="column.field.endsWith('BAway')" >
                         <span class="{{column.field}} b3-odd-cont"> {{ row[column.field] | number:'0.2-2'}}</span>
                       </ng-container>
                       <ng-container *ngIf="column.field.endsWith('SMAway')">
                         <span class="{{column.field}} sm-odd-cont"> {{ row[column.field] | number:'0.2-2'}}</span>
                       </ng-container>
-
                     </div>
                   </ng-container>
-<!--
-                  <ng-container *ngIf="column.field.endsWith('OccA')">
-                    <span class="{{column.field}} awayOccCell fta-value-cont" [ngClass]="{'match-inactive' : !row.AStatus.notify}"> {{ row[column.field] | number:'1.0-0'}}</span>
-                  </ng-container> -->
-
 
                     <ng-container *ngIf="column.field=='Home'">
                       <div class="team-home-container">

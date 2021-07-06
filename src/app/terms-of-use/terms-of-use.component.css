@@ -1,0 +1,11 @@
+.cookie-anchor {
+  color: blue;
+  text-decoration: underline;
+}
+
+.cookie-anchor:hover {
+  transform: scale(1.10);
+  color: gold;
+  text-decoration: underline;
+  cursor:pointer;
+}

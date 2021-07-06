@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { PopupCookiePolicyComponent } from '../popup-cookie-policy/popup-cookie-policy.component';
 
 @Component({
   selector: 'app-terms-of-use',
@@ -7,9 +9,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TermsOfUseComponent implements OnInit {
 
-  constructor() { }
+  constructor(public dialog:MatDialog) { }
 
   ngOnInit(): void {
+  }
+
+  popupCookieDialog(){
+    this.dialog.open(PopupCookiePolicyComponent);
   }
 
 }

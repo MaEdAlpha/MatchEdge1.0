@@ -227,7 +227,9 @@ mat-header-row{
   display: none;
 }
 
-.mat-column-Home, .mat-column-Away, .mat-column-FixturesDate {
+.mat-column-Home,
+.mat-column-Away,
+.mat-column-FixturesDate {
   background: white;
   text-align: center;
 
@@ -476,14 +478,6 @@ button.viewCell {
   display: inline-flex;
 }
 
-.selection-button {
-  margin-right: 0px;
-  width: 100%;
-  height: 3.0625rem;
-  padding: 0;
-  border-radius: 0px 0px 0px 0px;
-}
-
 .selection-notify {
   color: #253036;
   font-size: 0.9375rem;
@@ -502,15 +496,8 @@ button.viewCell {
   margin-top: 0.28125rem;
   width: 2.1875rem;
   padding: 0px;
-  font-size: 0.9375;
-  color: #ffffff;
-}
-
-.fta-value-cont {
-  background: radial-gradient(at 76% 0, #263238, #263238ad 70%), linear-gradient(0deg, #e0e1e2, transparent 50%) bottom;
-  border-radius: 0.3125rem;
-  padding: 0.625rem;
-  font-size: large;
+  font-size: 0.9375rem  !important;
+  color: #ffffff !important;
 }
 
 /* mat-column generic styling  */
@@ -777,7 +764,6 @@ span.away-selection {
   border: 0.0625rem solid white;
 }
 
-
 span.BHome,
 span.BAway,
 span.SMHome,
@@ -863,6 +849,7 @@ button.viewCell {
   flex: 0 0 21.9% !important;
   border-radius: 0.5rem 0px 0px 0.5rem;
 }
+
 .mat-column-Away{
   flex: 0 0 21.9% !important;
   border-radius: 0px 0.5rem 0.5rem 0px;
@@ -930,7 +917,8 @@ button.viewCell {
   font-size: 11px;
 }
 
- .fixturesDate, .fixturesTime {
+ .fixturesDate,
+  .fixturesTime {
   margin-left: auto;
   margin-right: auto;
 }
@@ -963,7 +951,7 @@ button.viewCell {
 .fta-value-cont {
   background: radial-gradient(at 76% 0, #263238, #263238ad 70%), linear-gradient(0deg, #e0e1e2, transparent 50%) bottom;
   border-radius: 0.3125rem;
-  padding:0.625rem;
+  padding: 0px;
   font-size: large;
 }
 
@@ -978,23 +966,13 @@ button.viewCell {
   color: #ffffff  !important;
 }
 
-.homeOccCell{
-  float: left;
-  margin-left: 0.3125rem;
-  margin-right: auto;
-  margin-top: 0.28125rem;
-  width: 2.1875;
-  padding: 0px;
-  font-size: 0.9375rem  !important;
-  color: #ffffff !important;
-}
-
 .mat-column-BHome, .mat-column-SMHome{
   margin-right: 1rem;
   margin-bottom: 0.125rem;
 }
 
-.mat-column-BAway, .mat-column-SMAway{
+.mat-column-BAway,
+.mat-column-SMAway{
   margin-left: 1rem;
   margin-bottom: 0.125rem;
 }

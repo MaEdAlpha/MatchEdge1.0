@@ -12,14 +12,14 @@
   background: #f9a825;
   /* border: 2px solid #eba32f; */
   border-color: #f9a825;
-  
+
 }
 
 .top-divider,
 .bottom-divider,
 .notification-wrapper {
   z-index: 4;
-  
+
 }
 
 .notificationscontainer{
@@ -30,26 +30,26 @@
 
 .top-divider {
   margin-top: 80px;
-  margin-bottom: 2px;  
+  margin-bottom: 2px;
   width: 1252px;
 }
 
 .bottom-divider {
   top: -5px;
   position: relative;
-  z-index: 4;  
-  width: 1252px;  
+  z-index: 4;
+  width: 1252px;
 }
 
 .notification-wrapper {
   position: relative;
-  text-align: center;  
-  
+  text-align: center;
+
 }
 
 .centernotifications{
   position: relative;
-  text-align: center;  
+  text-align: center;
 }
 
 .notificationbackgroundtext{
@@ -58,6 +58,7 @@
   top: -9%;
   left: 49.5%;
   transform: translate(-50%, -50%);
+  margin-top: -10px;
   margin-left: -0.1em;
   letter-spacing: 3px;
   font-size: 19px;
@@ -70,42 +71,42 @@
   border: 1px dashed #bebcbc54;
   text-align: center;
   line-height: 7;
-  color: #bebcbc;  
+  color: #bebcbc;
   box-sizing: border-box;
   box-shadow: 0 0 9px #0b0b0ba6 ;
   display: inline-block;
-  vertical-align: middle;  
+  vertical-align: middle;
 }
 
 .notificationplaceholder2{
   left: 114px;
 }
 .notificationplaceholder3{
-  left: 228px;  
+  left: 228px;
 }
 .notificationplaceholder4{
-  left: 342px;  
+  left: 342px;
 }
 .notificationplaceholder5{
-  left: 456px;  
+  left: 456px;
 }
 .notificationplaceholder6{
-  left: 570px;  
+  left: 570px;
 }
 .notificationplaceholder7{
-  left: 684px;  
+  left: 684px;
 }
 .notificationplaceholder8{
-  left: 798px;  
+  left: 798px;
 }
 .notificationplaceholder9{
-  left: 912px;  
+  left: 912px;
 }
 .notificationplaceholder10{
-  left: 1026px;  
+  left: 1026px;
 }
 .notificationplaceholder11{
-  left: 1140px;  
+  left: 1140px;
 }
 
 

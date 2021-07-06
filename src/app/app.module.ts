@@ -110,6 +110,7 @@ import { PopupContactUsComponent } from './popup-contact-us/popup-contact-us.com
 import { TermsOfUseComponent } from './terms-of-use/terms-of-use.component';
 import { PrivacyContentComponent } from './privacy-content/privacy-content.component';
 import { PopupDataProtectionRegulationComponent } from './popup-data-protection-regulation/popup-data-protection-regulation.component';
+import { PopupCookiePolicyComponent } from './popup-cookie-policy/popup-cookie-policy.component';
 
 
 
@@ -176,6 +177,7 @@ import { PopupDataProtectionRegulationComponent } from './popup-data-protection-
     TermsOfUseComponent,
     PrivacyContentComponent,
     PopupDataProtectionRegulationComponent,
+    PopupCookiePolicyComponent,
   ],
   imports: [
     AppRoutingModule,
@@ -212,7 +214,8 @@ import { PopupDataProtectionRegulationComponent } from './popup-data-protection-
                      ],
       }
     }),
-    ToastrModule.forRoot( {preventDuplicates: false}),
+    ToastrModule.forRoot( {maxOpened: 11 ,
+                          preventDuplicates: false}),
     ToastContainerModule,
   ],
   entryComponents: [ CustomToastComponent, SABToastDeleteComponent, SABToastSaveComponent, SABToastUpdatedComponent, SABToastIncompleteComponent ],
