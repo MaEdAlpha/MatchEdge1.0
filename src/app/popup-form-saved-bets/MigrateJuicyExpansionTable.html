@@ -1,0 +1,578 @@
+<form class="form-container"  [formGroup]="sabFormValues">
+
+    <div class="jm-exp-details"> <!--Expansion container for juicy match-->
+
+
+      <div class="jm-expanded-container"> <!-- Relevant match values -->
+
+        <div class="teamname shadow">
+          <div class="teamnamecontainer">
+            <div class="teamname-container">
+              <div class="selection">
+                <div>{{data.activeBet.selection}}</div>
+                <div class="logo-img-cont">
+                  <img src="/assets/img/fcLogo/{{data.activeBet.logo}}.png">
+                </div>
+                <div class="leaguename">
+                  <p>"League Name Required?"</p>
+              </div>
+            </div>
+
+            </div>
+
+          </div>
+        </div>
+
+
+        <div class="bookie shadow">
+          <div class="bookiecontainer">
+
+            <div class="bookie-container-disp">
+                <div class="bookie-text-lhs">Back Bet</div>
+                  <button tabindex="-1" class="bookie-button-container shadow" mat-raised-button href= ''></button>
+            </div>
+
+            <div class="bookie-container">
+              <div class="bookie-row">
+                <p class="bookie-text-rhs">Stake</p>
+                <input  class = "value-box-back"
+                        formControlName="Stake"
+                        required
+                        placeholder="{{ getRealtimeUpdate().value.stake  | slice : '2' | currency : 'GBP':'1.0-0' }}"
+                        step="10"
+                        type="number">
+                <mat-error *ngIf="sabFormValues.controls.BackOdds.errors">
+                    {{ getErrorMessage() }}
+                </mat-error>
+
+              </div>
+
+              <div class="bookie-row">
+                <p class= "bookie-text-rhs">Odds </p>
+
+                <input  class="value-box-back"
+                        formControlName="BackOdds"
+                        required
+                        placeholder="{{getRealtimeUpdate().get('BackOdds').value | number:'0.2-2'}}"
+                        step="0.1"
+                        type="number"
+                        tabindex="0">
+                <mat-error *ngIf="sabFormValues.controls.BackOdds.errors">
+                    {{getErrorMessage()}}
+                </mat-error>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="exchange shadow">
+
+          <div class="exchangecontainer">
+
+            <div class="exchange-container-disp" >
+              <p class="exchange-text-lhs">Lay Bet </p>
+              <button tabindex="-1" class="exchange-button-container mat-raised-button-bookie-exchange shadow" mat-raised-button href={{selection.UrlSmarkets}}></button>
+              <p class="exchange-text-comm">Comm.: {{userCommission | number:'0.2-2' }}%</p>
+            </div>
+
+            <div class="exchange-container-input" >
+              <div class="exchange-row">
+                <p class="exchange-text-mid">Stake </p>
+                <input
+                      class="value-box-laystake"
+                      formControlName="LayStake"
+                      required
+                      readonly
+                      placeholder="{{getLayStake( getRealtimeUpdate().get('BackOdds').value, getRealtimeUpdate().get('LayOdds').value, getRealtimeUpdate().get('Stake').value) | currency:'GBP' }}"
+                      [readOnly]="true"
+                      tabindex="6">
+              </div>
+
+              <div class="exchange-row">
+                <p class="exchange-text-mid">Odds </p>
+                <input
+                      class="value-box-lay"
+                      formControlName="LayOdds"
+                      placeholder="{{getRealtimeUpdate().get('LayOdds').value | number:'0.2-2'}}"
+                      required
+                      step="0.1"
+                      type="number"
+                      tabindex="0">
+              </div>
+            </div>
+<!-- CONTINUE -->
+            <div class="exchange-container-output">
+              <div class="exchange-row" tabindex="1">
+                <button  mat-raised-button class="bet-state-button" [style.background]="sabFormValues.value.BetState ? ' #076044' : '#8a0606'"  (click)="sabFormValues.get('BetState').setValue(!sabFormValues.value.BetState); $event.stopPropagation();">{{ sabFormValues.value.BetState ? 'Matched' : 'Unmatched'}}</button>
+              </div>
+              <div class="exchange-row">
+                <p class="liability-text">Liab.:</p>
+                <p class="liability-amount">{{ getLiability( getRealtimeUpdate().get('BackOdds').value, getRealtimeUpdate().get('LayOdds').value, getRealtimeUpdate().get('Stake').value) | currency:'GBP'}} </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="calculated shadow">
+          <div class="calculatedcontainer">
+          <!-- Comment Box -->
+          <div class="calculated-container-comments">
+            <div class="comments-cont">
+              <mat-form-field tabindex="1" class="user-comments" appearance="outline">
+                <mat-label class="auto-calc-label">Match Comments</mat-label>
+                <textarea
+                  class="auto-calc-input"
+                  formControlName="MatchInfo"
+                  matInput
+                  placeholder="">
+                </textarea>
+                <mat-hint> ({{sabFormValues.value.MatchInfo == null ? sabFormValues.value.MatchInfo == ' ' : sabFormValues.value.MatchInfo.length}}/140)</mat-hint>
+                <mat-error *ngIf="sabFormValues.controls.MatchInfo.errors">{{getErrorMessage()}} </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <!-- Calculated Values -->
+          <div class="calculated-container">
+
+            <div class='valueheadercontainer'>
+                <span class="roi-text">ROI </span>
+                <span class="ev-text">EV </span>
+                <span class="mr-text">MR </span>
+            </div>
+
+                <hr class="ROIdivider">
+                <hr class="EVdivider">
+                <hr class="MRdivider">
+<!-- Use same Juicy Methods to calculate these based off of FTA selection. -->
+            <div class="calculated-row">
+
+                    <!-- <span class="ROIvalue"
+                        *ngIf="ftaOption == 'brooks'">
+                        {{ ROI(getGroup(i).get('Stake').value, getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value, selection.FTAround) | number:'0.2-2'}}%</span>
+
+                    <span class="ROIvalue"
+                        *ngIf="ftaOption == 'generic'">
+                        {{ ROI(getGroup(i).get('Stake').value, getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value, selection.GFTAround) | number:'0.2-2'}}%</span>
+
+
+                    <span class="EVvalue"
+                        *ngIf="ftaOption == 'brooks'">
+                        {{ TotalEV( selection.FTAround,  getGroup(i).get('Stake').value, getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value)/selection.FTAround  | currency:'GBP' }}</span>
+
+                    <span class="EVvalue"
+                        *ngIf="ftaOption == 'generic'">
+                        {{ TotalEV( selection.GFTAround,  getGroup(i).get('Stake').value, getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value)/selection.GFTAround  | currency:'GBP' }}</span>
+
+                    <span class="MRvalue">
+                        {{ NewMatchRating( getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value) | number:'0.2-2' }}%</span> -->
+
+            </div>
+
+            <div class='valueheadercontainer2'>
+
+              <span class="FTAText">FTA </span>
+              <span class="QLPercenttext">QL% </span>
+              <span class="QLText">QL </span>
+
+              </div>
+
+              <hr class="FTAdivider">
+              <hr class="QLPdivider">
+              <hr class="QLdivider">
+
+              <div class="calculated-row">
+
+                <!-- <span class="FTAvalue">
+                    {{ FTA(getGroup(i).get('Stake').value, getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value  ) | currency:'GBP'}}</span>
+
+                <span class="QLPercentagevalue">
+                    {{ NewSS(  getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value, getGroup(i).get('Stake').value ) | number:'0.2-2' }}%</span>
+
+                <span class="QLvalue">
+                    {{ getQL( getRealtimeUpdate().get('BackOdds').value, getRealtimeUpdate().get('LayOdds').value, getRealtimeUpdate().get('Stake').value) | currency:'GBP'}}  </span> -->
+
+              </div>
+
+           </div>
+
+          </div>
+          <button tabindex="0" mat-raised-button class="exp-button" type="button" (click)="saveAsActiveBet(selection, i)"><span class="record-text">RECORD</span></button>
+        </div>
+      </div>
+    </div>
+    </form>
+
+
+    <!-- CSS STYLINGS -->
+
+
+span  {
+  display: contents !important;
+  position: unset;
+}
+
+hr {
+  margin-top: 5px;
+}
+
+mat-hint{
+  color: white;
+}
+
+div.mat-dialog-content > p{
+  text-align: center;
+
+}
+
+
+.button-grouping{
+  float: right;
+}
+
+
+.popup-btn {
+  border: 1px #222c2f solid !important;
+}
+
+.popup-btn:focus,
+.bet-state-button:focus{
+  outline: none;
+  box-shadow: 0 0 0 3px #3b6676d4;
+  transform: scale(1.12);
+}
+
+.title-container {
+  display: inline-flex;
+  position: relative;
+  width: 100%;
+}
+.title-details {
+  margin: 0px;
+  width: 88%;
+  display: inline-block;
+}
+
+.text-details {
+  width: 70%;
+  display: grid;
+}
+
+.logo-container {
+  position: absolute;
+  top: 3%;
+  left: 88%;
+}
+
+.logo {
+  width: 60px;
+  border: 1px solid white;
+  padding: 10px;
+  border-radius: 39px;
+  margin-left: auto;
+}
+
+
+
+.sab-matched-container{
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.sab-matched-container > mat-form-field
+ {
+  float:right;
+  width: 100px;
+}
+
+
+
+
+
+
+.sab
+::ng-deep.mat-form-field-underline{
+  display: none !important;
+}
+
+.sab-values {
+  position: relative;
+  float: right;
+  text-align: right;
+  width: 100px;
+  margin-left: auto;
+  padding: 0px;
+}
+
+.sab-cont {
+  margin-top: 0.7rem;
+}
+
+
+.update-message {
+  color: #126E51;
+  margin-left: auto;
+  margin-right: auto;
+  min-height: 30px;
+  text-align: center;
+}
+
+.over-ride-pl {
+  display: inline-block;
+  margin-left: auto;
+  margin-top: 26px;
+  margin-bottom: 10px;
+  width: 100%;
+}
+
+.pl-input{
+  float: right;
+}
+
+.user-comments {
+  width: 96%;
+  margin-top: 0.75rem;
+  margin-left: 1rem;
+  height: 80%;
+}
+
+.mat-form-field-wrapper {
+  height: 80%;
+}
+
+.comment-box {
+  min-height: 45px;
+  height: 60px;
+  max-height: 100px;
+}
+
+.sab-input {
+  height: 17px;
+  padding: 0px;
+}
+
+.bookie-row {
+  margin-left: auto;
+  position: relative;
+  background: radial-gradient(at 52% 0, #126E51, transparent 80%),
+              linear-gradient(201deg, #095940, transparent 76%) top;
+  color: white;
+}
+
+.exchange-row {
+  position: relative;
+  background: radial-gradient(at 60% 0, #383838, transparent 80%),
+              linear-gradient(181deg, #383838, transparent 80%) bottom;
+  color: white;
+}
+
+.edit-main-fields{
+  display: inline-flex;
+  width: 100%;
+}
+
+.exchange-row,
+.auto-calculated-fields,
+.bookie-row {
+  border: 1px black solid;
+  margin-bottom: 5px;
+  border-radius: 5px;
+}
+
+.bookie-row {
+  width: 40%;
+}
+
+.exchange-row {
+  width: 60%;
+}
+
+.auto-calculated-fields{
+  width: 100%;
+  background: radial-gradient(at 60% 0, #4a8195, #11171a 80%),
+              linear-gradient(181deg, #383838, transparent 80%) bottom;
+  color: white;
+  display: inline-flex;
+}
+
+
+.bookie-container{
+  color: #fff;
+  background-size: cover;
+  width: fit-content;
+  margin-top: 5px;
+  border-radius: 3px;
+}
+
+/* Logos & Buttons */
+.bookie-link {
+  background-image: url(/assets/img/bet365II.png);
+}
+
+.exchange-link {
+  background-image: url(/assets/img/smarketsII.png);
+}
+
+.bet-state-button {
+  width: 150px;
+  height: 40px;
+  color: white;
+  margin-bottom: 0.5em;
+}
+
+.bet-state-button:focus {
+  color: #ffc235;
+}
+
+
+.glow {
+  color: snow;
+  opacity: .75;
+  text-align: center;
+  animation: glow 1s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+  0% {
+    background:#027b5b;
+  }
+  50% {
+    background: #37726a;
+  }
+  100% {
+    background: #0d5d44;
+  }
+}
+
+::ng-deep.mat-form-field-subscript-wrapper {
+  font-size: 85% !important;
+}
+
+
+
+.column-base {
+  display: inline-flex;
+  justify-content: space-between;
+  float: left;
+  width: 30%;
+}
+
+.bookie-column1 {
+    margin-top: 6%;
+    margin-left: 10px;
+    font-size: large;
+    display: inline;
+  }
+
+.exchange-column1 {
+  margin-top: 3%;
+  margin-left: 10px;
+  font-size: large;
+  display: inline;
+}
+
+.bookie-column1 {
+  width: 45%;
+}
+.bookie-column2 {
+  width: 45%;
+}
+
+.exchange-column1,
+.exchange-column2,
+.exchange-column3{
+  width: 30%;
+}
+
+.bookie-column1 > p,
+.exchange-column1 > p {
+  font-size: 20px;
+  text-align: center;
+}
+
+.bookie-column2,
+.exchange-column2,
+.exchange-column3 {
+  display: inline-grid;
+  margin-top: 0.8rem;
+}
+
+.exchange-column3 {
+  float: right;
+  margin-top: 1.6rem;
+}
+
+.bookie-wrapper,
+.exchange-wrapper,
+.liability-wrapper {
+  display: inline-flex;
+  max-height: 4em;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.liability-wrapper{
+  margin-top: 1.3rem;
+}
+
+.bookie-text,
+.exchange-text{
+  padding: .75em .75em 0 .75em;
+  margin-top: 1em;
+}
+
+div.exchange-column1 > p.exchange-text-comm  {
+  margin-top: 10px;
+  font-size: 15px;
+  text-align: center;
+}
+
+
+.liability-text {
+  margin-block-start: auto;
+  margin-right: 10px;
+}
+
+.mat-input-element:disabled{
+  color: #d0cdc4 !important;
+}
+
+/* Comments  & Auto Calc */
+.comments-cont {
+  width: 40%;
+}
+
+
+
+.user-update-notification{
+  display: inline-block;
+  width: 50%;
+}
+
+.sab-values-auto-calc {
+  width: 50%;
+  margin-right: auto;
+  margin-left: auto;
+  display: inline-flex;
+}
+
+
+.auto-calc-column {
+  width: 30%;
+  text-align: center;
+  padding-top: 0.5rem;
+}
+
+.ac-row {
+  margin-bottom: 0.6rem;
+}
+
+.ac-hr {
+  margin-top: -1px !important;
+  width: 90% !important;
+  border: 1px solid #aa8920 !important;
+}
+
+.auto-calc-text {
+  margin-bottom: 0.2rem;
+}
