@@ -137,9 +137,9 @@ export class PopupFormSavedBetsComponent implements OnInit {
     return liability.toFixed(2);
   }
 
-  getQL(backOdds:number, layOdds:number, stake:number):string{
+  QL(backOdds:number, layOdds:number, stake:number):string{
     var layStake:number = this.calcLayStake(backOdds, layOdds, stake);
-    var ql = layStake-stake;
+    var ql = (+layStake*(1-this.userCommission/100) - +stake);
     ql = this.filterValue(ql);
     this.sabFormValues.get('QL').setValue(ql.toFixed(2));
     if(!this.isEdit){
@@ -147,14 +147,13 @@ export class PopupFormSavedBetsComponent implements OnInit {
     }
     return ql.toFixed(2);
   }
-  getSauce(backOdds:number, layOdds:number, stake:number):string{
-    var fta = +this.getFTA(stake, backOdds, layOdds);
-    var ql = +this.getQL(backOdds, layOdds, stake);
+  NewSS(backOdds:number, layOdds:number, stake:number):string{
+    var fta = +this.FTA(stake, backOdds, layOdds);
+    var ql = +this.QL(backOdds, layOdds, stake);
     var qlPercentage = +(ql/fta*100);
     qlPercentage = this.filterValue(qlPercentage);
     this.sabFormValues.get('Sauce').setValue(qlPercentage.toFixed(2));
     return qlPercentage.toFixed(2);
-
   }
 
   getMatchRating(backOdds:number, layOdds:number):string{
@@ -174,7 +173,7 @@ export class PopupFormSavedBetsComponent implements OnInit {
     return evThisBet.toFixed(2);
   }
 
-  getFTA(backOdds:number, layOdds:number, stake:number):string{
+  FTA(stake:number, backOdds:number, layOdds:number):string{
     var layStake:number = this.calcLayStake(backOdds, layOdds, stake);
     var fta:number = (stake * (backOdds - 1 ) + layStake);
     fta = this.filterValue(fta);
@@ -183,12 +182,26 @@ export class PopupFormSavedBetsComponent implements OnInit {
   }
 
 
-  getROI(backOdds:number, layOdds:number, stake:number):string{
-    var evThisBet:number = +this.getEstValue(backOdds, layOdds, stake);
-    var roi = (evThisBet/stake)*100;
-    this.filterValue(backOdds) == 999 ? roi = 999: roi = this.filterValue(roi);
-    this.sabFormValues.get('ROI').setValue(roi.toFixed(2));
-    return roi.toFixed(2);
+
+  getROI(backOdds: number, layOdds:number, stake:number, occurence:number):number{
+    var layStake = (+backOdds* +stake / (+layOdds-+this.userCommission/100));
+    var fullTurnAround = +stake * (+backOdds -1) + +layStake;
+    var ql = +(+layStake- +stake);
+    var evTotal = +(fullTurnAround + ( +ql * (+occurence -1)));
+    var evThisBet = + (evTotal / occurence );
+
+    return +((evThisBet/stake)*100);
+  }
+
+  TotalEV(occurence:number, stake:number, backOdds:number, layOdds:number):number{
+    var layStake =  +backOdds * +stake / (+layOdds - (+this.userCommission/100));;
+    var result:number = +(+stake * (+backOdds - 1) + +layStake)+ (+layStake- +stake)*(+occurence-1);
+    return result;
+  }
+
+  //Match rating should also account user commission.
+  NewMatchRating(backOdds:number, layOdds:number){
+    return +(backOdds/(layOdds-+this.userCommission/100))*100;
   }
 
   test(){
@@ -208,7 +221,7 @@ export class PopupFormSavedBetsComponent implements OnInit {
   }
 
   calcLayStake(backOdds:number, layOdds:number, stake:number):number {
-    return (+backOdds/+layOdds*stake);
+    return +backOdds * +stake / (+layOdds - (+this.userCommission/100));
   }
 
   calcQL(backOdds:number, layOdds:number, stake:number): number {

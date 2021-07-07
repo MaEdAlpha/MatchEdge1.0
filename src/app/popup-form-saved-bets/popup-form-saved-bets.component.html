@@ -31,7 +31,7 @@
 
 
         <div class="jm-expanded-container"> <!-- Relevant match values -->
-
+<!--
           <div class="teamname shadow">
             <div class="teamnamecontainer">
               <div class="teamname-container">
@@ -41,7 +41,7 @@
                     <img src="/assets/img/fcLogo/{{data.activeBet.logo}}.png">
                   </div>
                   <div class="leaguename">
-                    <p>"League Name Required?"</p>
+                  <p>"League Name Required?"</p>
                 </div>
               </div>
 
@@ -49,7 +49,7 @@
 
             </div>
           </div>
-
+ -->
 
           <div class="bookie shadow">
             <div class="bookiecontainer">
@@ -173,25 +173,25 @@
   <!-- Use same Juicy Methods to calculate these based off of FTA selection. -->
               <div class="calculated-row">
 
-                      <!-- <span class="ROIvalue"
-                          *ngIf="ftaOption == 'brooks'">
-                          {{ ROI(getGroup(i).get('Stake').value, getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value, selection.FTAround) | number:'0.2-2'}}%</span>
+                      <span class="ROIvalue"
+                          *ngIf="formFtaOption == 1">
+                          {{ getROI( getRealtimeUpdate().get('BackOdds').value, getRealtimeUpdate().get('LayOdds').value, getRealtimeUpdate().get('Stake').value, data.activeBet.occ) | number:'0.2-2'}}%</span>
 
                       <span class="ROIvalue"
-                          *ngIf="ftaOption == 'generic'">
-                          {{ ROI(getGroup(i).get('Stake').value, getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value, selection.GFTAround) | number:'0.2-2'}}%</span>
+                          *ngIf="formFtaOption == 0">
+                          {{ getROI( getRealtimeUpdate().get('BackOdds').value, getRealtimeUpdate().get('LayOdds').value, getRealtimeUpdate().get('Stake').value, 65) | number:'0.2-2'}}%</span>
 
 
                       <span class="EVvalue"
-                          *ngIf="ftaOption == 'brooks'">
-                          {{ TotalEV( selection.FTAround,  getGroup(i).get('Stake').value, getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value)/selection.FTAround  | currency:'GBP' }}</span>
+                          *ngIf="formFtaOption == 1">
+                          {{ TotalEV( data.activeBet.occ,  getRealtimeUpdate().get('Stake').value, getRealtimeUpdate().get('BackOdds').value, getRealtimeUpdate().get('LayOdds').value)/data.activeBet.occ | currency:'GBP' }}</span>
 
                       <span class="EVvalue"
-                          *ngIf="ftaOption == 'generic'">
-                          {{ TotalEV( selection.GFTAround,  getGroup(i).get('Stake').value, getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value)/selection.GFTAround  | currency:'GBP' }}</span>
+                          *ngIf="formFtaOption == 0">
+                          {{ TotalEV( 65,  getRealtimeUpdate().get('Stake').value, getRealtimeUpdate().get('BackOdds').value, getRealtimeUpdate().get('LayOdds').value)/65  | currency:'GBP' }}</span>
 
                       <span class="MRvalue">
-                          {{ NewMatchRating( getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value) | number:'0.2-2' }}%</span> -->
+                          {{ NewMatchRating( getRealtimeUpdate().get('BackOdds').value, getRealtimeUpdate().get('LayOdds').value) | number:'0.2-2' }}%</span>
 
               </div>
 
@@ -209,14 +209,14 @@
 
                 <div class="calculated-row">
 
-                  <!-- <span class="FTAvalue">
-                      {{ FTA(getGroup(i).get('Stake').value, getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value  ) | currency:'GBP'}}</span>
+                  <span class="FTAvalue">
+                      {{ FTA(getRealtimeUpdate().get('Stake').value, getRealtimeUpdate().get('BackOdds').value, getRealtimeUpdate().get('LayOdds').value  ) | currency:'GBP'}}</span>
 
                   <span class="QLPercentagevalue">
-                      {{ NewSS(  getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value, getGroup(i).get('Stake').value ) | number:'0.2-2' }}%</span>
+                      {{ NewSS(  getRealtimeUpdate().get('BackOdds').value, getRealtimeUpdate().get('LayOdds').value, getRealtimeUpdate().get('Stake').value ) | number:'0.2-2' }}%</span>
 
                   <span class="QLvalue">
-                      {{ getQL( getRealtimeUpdate().get('BackOdds').value, getRealtimeUpdate().get('LayOdds').value, getRealtimeUpdate().get('Stake').value) | currency:'GBP'}}  </span> -->
+                      {{ QL( getRealtimeUpdate().get('BackOdds').value, getRealtimeUpdate().get('LayOdds').value, getRealtimeUpdate().get('Stake').value) | currency:'GBP'}}  </span>
 
                 </div>
 
