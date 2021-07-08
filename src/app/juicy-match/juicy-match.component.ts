@@ -117,13 +117,14 @@ export class JuicyMatchComponent implements OnChanges, OnInit, OnDestroy, AfterV
         this.ftaOption = this.userPrefService.getFTAOption();
         this.allIndvMatches = this.matchStatService.getSelectionStatCalcs(this.allMatches, this.ftaOption);
         this.sortedData = this.allIndvMatches;
-        // console.log("-----Converting matches to individual selection object-----");
-        // console.log(this.allIndvMatches);
+
+        //Create table of Juicy Matches once allIndvMatches is no longer undefined.
         if(this.allIndvMatches != undefined){
           console.log("----Creating a form Array \n Checking selections in range");
           this.dataSource = new FormArray(this.allIndvMatches.map( x=> this.createForm(x) ) );
-          //is what lets HTML see which matches to display. without this, you need to trigger date change in toplayer filter to initalize match load.
           this.popJuiceInRange();
+          //call match-Status service to trigger localStorage initialization.
+          this.matchStatusService.individualMatchesFinishedLoading(true);
         }
       }
     }

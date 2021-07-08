@@ -13,6 +13,7 @@ export class MatchStatusService {
   watchList: any[]=[];
   private watchSubject = new Subject<any>();
   private groupSubject = new Subject<any>();
+  private loadUserLocalStoredDataSubject = new Subject<boolean>();
   allSelections: any[];
   private notificationSubscription = new Subject<any>();
 
@@ -42,6 +43,15 @@ export class MatchStatusService {
     this.watchList.includes(match) ? null : this.watchList.push(match);
     this.updateNotificationStatus(match);
   }
+
+  individualMatchesFinishedLoading(triggerInFixturesTable:boolean){
+    this.loadUserLocalStoredDataSubject.next(triggerInFixturesTable);
+  }
+  initiatePreviousTableSettings():Observable<boolean>{
+    return this.loadUserLocalStoredDataSubject.asObservable();
+  }
+
+
 
    //called at matchTable on Initialization. Used to listen for any changes
   watchMatchSubject( selection: any){

@@ -110,6 +110,7 @@ import { on } from 'events';
     private tableSubscription: Subscription;
     private sabSubscription: Subscription;
     private newSabSubscriptioin: Subscription;
+    private userTablePreferenceSubscription: Subscription;
     private userStoredMatchSettings: any;
     todayDate: number;
     tomorrowDate: number;
@@ -201,7 +202,6 @@ import { on } from 'events';
                                             this.toggleActiveBetState(sab, true);
                                           });
                                           // Click League headers feature.
-                                          this.loadUserStoredSettings();
                                           this.tableGroups.forEach( group => {
                                                                               this.dataSource.data = this.addToListOnClick(this.matches, this.tableGroups, group);
                                                                             }
@@ -226,8 +226,14 @@ import { on } from 'events';
         this.tableGroups=[];
         this.cycleFixtures();
       });
+
+      this.userTablePreferenceSubscription = this.matchStatusService.initiatePreviousTableSettings().subscribe( juicyMatchesLoaded => {
+        if(juicyMatchesLoaded) this.loadUserStoredSettings();
+      });
+
       this.webSocketService.openSSE();
     }
+
 
     //Sends match to matchStatusService which Juicy subscribes to.
     sendToWatchListService(matches: any) {
