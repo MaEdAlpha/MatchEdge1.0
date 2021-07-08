@@ -40,12 +40,63 @@ export class MatchStatusService {
     console.log("Added to WatchList: " + match.Home + " v. " + match.Away);
     //selection already in watchlist? do nothing, else push.
     this.watchList.includes(match) ? null : this.watchList.push(match);
-
     this.updateNotificationStatus(match);
   }
 
+   //called at matchTable on Initialization. Used to listen for any changes
+  watchMatchSubject( selection: any){
+    //create observable
+      this.watchSubject.next(selection);
+      this.updateNotificationStatus(selection);
+    //add to list for notification services
+    //get user preferences for odds and set notification here.
+  }
+
+  //only updates when watchlist button is triggered, not notifications.
+  updateLocalStorage(userWatchList:any){
+    let item = JSON.stringify(userWatchList);
+    localStorage.setItem('userWatchList', item);
+  }
+
+  initializeLocalStorage(): any {
+    let userTableSettings = localStorage.getItem('userWatchList');
+    userTableSettings = JSON.parse(userTableSettings);
+    return userTableSettings ? userTableSettings : [];
+    // upon startup, return localStorage item 'userWatchList'
+    // pass this back to match-table and have it act like the watchAll setting, except based off of each watchList component.
+  }
+
+  //will updateNotification Status: Used to trigger toast notification.
+  private updateNotificationStatus(selection: any) {
+    var filterSelection: number = this.userPreferenceService.getOptionSelected();
+    var minOdds: number = +this.userPreferenceService.getMinOdds();
+    var maxOdds: number = +this.userPreferenceService.getMaxOdds();
+    //View status of seletion
+    // console.log(selection);
+
+    var tableFilterValue;
+
+    switch(filterSelection){
+      case 1:
+        tableFilterValue = this.userPreferenceService.getEV();
+        //May need to get individually calculated match stats and compare.. This block of code should handle in a separate method.
+        break;
+        case 2:
+          tableFilterValue = this.userPreferenceService.getMR();
+        break;
+        case 3:
+          tableFilterValue = this.userPreferenceService.getSS();
+        break;
+      default:
+        console.log("Error retrieving user filter settings");
+      }
+
+        selection.HStatus.notify = +selection.BHome <= maxOdds && +selection.BHome >= minOdds && selection.EpochTime*1000 > Date.now() ?  true :  false;
+        selection.AStatus.notify = +selection.BAway <= maxOdds && +selection.BAway >= minOdds && selection.EpochTime*1000 > Date.now() ? true : false;
+  }
+
   updateWatchList(matchObj: any, isHome:boolean): void{
-    const matchToUpdate = this.watchList.filter(watchListObj => {
+      this.watchList.filter(watchListObj => {
       // console.log("Updating Watchlist:");
 
       if(isHome && matchObj.Home == watchListObj.Home && matchObj.EpochTime == watchListObj.EpochTime){
@@ -60,9 +111,8 @@ export class MatchStatusService {
       }
     });
     console.log("UPDATEWATCHLIST METHOD");
-
     console.log(this.watchList);
-
+    this.updateLocalStorage(this.watchList);
   }
 
   //I THINK THIS IS TO NOTIFY WATCHLIST/FIXTURES WHEN TO CHANGE NOTIFY STATE.
@@ -129,55 +179,12 @@ export class MatchStatusService {
 
   notifyUser(juicy: {selection:string, notifyState:boolean, epoch:number} ){
     console.log('NotifyIn MatchStatus. Subject');
-
     console.log(juicy);
-
     this.notificationSubscription.next(juicy);
   }
 
   getNotifyUserListener():Observable<any>{
     return this.notificationSubscription.asObservable();
-  }
-
-  //called at matchTable on Initialization. Used to listen for any changes
-  watchMatchSubject( selection: any){
-    //create observable
-
-      this.watchSubject.next(selection);
-      this.updateNotificationStatus(selection);
-    //add to list for notification services
-    //get user preferences for odds and set notification here.
-  }
-
-  //will updateNotification Status: Used to trigger toast notification.
-  private updateNotificationStatus(selection: any) {
-    var filterSelection: number = this.userPreferenceService.getOptionSelected();
-    var minOdds: number = +this.userPreferenceService.getMinOdds();
-    var maxOdds: number = +this.userPreferenceService.getMaxOdds();
-    //View status of seletion
-    // console.log(selection);
-
-    var tableFilterValue;
-
-    switch(filterSelection){
-      case 1:
-        tableFilterValue = this.userPreferenceService.getEV();
-        //May need to get individually calculated match stats and compare.. This block of code should handle in a separate method.
-        break;
-        case 2:
-          tableFilterValue = this.userPreferenceService.getMR();
-        break;
-        case 3:
-          tableFilterValue = this.userPreferenceService.getSS();
-        break;
-      default:
-        console.log("Something went wrong in retrieving table filter data");
-      }
-      // console.log("Retrieving filter value: " + tableFilterValue + " Checking match time and min odds in user settings.....");
-        selection.HStatus.notify = +selection.BHome <= maxOdds && +selection.BHome >= minOdds && selection.EpochTime*1000 > Date.now() ?  true :  false;
-        selection.AStatus.notify = +selection.BAway <= maxOdds && +selection.BAway >= minOdds && selection.EpochTime*1000 > Date.now() ? true : false;
-      // console.log("Setting notification status for home/away " + selection.HStatus.notify + "/"+ selection.AStatus.notify);
-      //TOODO IMPORTANT CREATE a subject you send as an observable to Juicy match. this will update any changes made to Juicy
   }
 
   unwatchMatchSubject(rowData: any) {

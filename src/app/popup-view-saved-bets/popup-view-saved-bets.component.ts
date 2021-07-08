@@ -130,8 +130,7 @@ export class PopupViewSavedBetsComponent implements AfterViewInit {
 
       dialogRef.afterClosed().subscribe( result => {
         console.log('Form closed');
-
-      })
+      });
 
     }
 

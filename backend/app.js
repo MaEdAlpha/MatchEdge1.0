@@ -363,12 +363,13 @@ app.get(`/api/updates`, function(req, res) {
       let keepAliveMS = 45 * 1000;
 
       function keepAlive(){
-         console.log("HeartBeater");
+         console.log("keep-alive");
          res.write("event:message\n"+ "data: hearbeat\n\n");
          setTimeout(keepAlive, keepAliveMS);
         }
         //send SSE events back to user
         changeStream.on('change', (next) => {
+          console.log(next.fullDocument);
           var data = JSON.stringify(next.fullDocument);
           var msg = ("event: message\n" + "data: " + data + "\n\n");
           res.write(msg);

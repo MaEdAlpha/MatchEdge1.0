@@ -110,6 +110,7 @@ import { on } from 'events';
     private tableSubscription: Subscription;
     private sabSubscription: Subscription;
     private newSabSubscriptioin: Subscription;
+    private userStoredMatchSettings: any;
     todayDate: number;
     tomorrowDate: number;
 
@@ -180,17 +181,14 @@ import { on } from 'events';
           this.ftaOption = this.userPropertiesService.getFTAOption();
         },500);
       });
-      //Initializes matches -> Selections.
 
+      //Initializes matches -> Selections.
       this.matchesSub = this.matchesService.getMatchUpdateListener()
       .subscribe( ( matchData: any) => {
                                           //Takeout bad data
                                           this.matches = this.sanitizeList(matchData);
-                                          console.log("Sanitize...");
-                                          //loadingMatches is finished
                                           this.matchesService.loadingMatches(false);
                                           // console.log(this.matches);
-
                                           // Set up and clean groups
                                           this.buildGroupHeaders(this.matches, 0);
                                           this.cleanGroups(this.masterGroup);
@@ -201,8 +199,9 @@ import { on } from 'events';
                                           //set ActiveBet Icon on/off
                                           this.savedActiveBets.forEach( sab => {
                                             this.toggleActiveBetState(sab, true);
-                                          })
+                                          });
                                           // Click League headers feature.
+                                          this.loadUserStoredSettings();
                                           this.tableGroups.forEach( group => {
                                                                               this.dataSource.data = this.addToListOnClick(this.matches, this.tableGroups, group);
                                                                             }
@@ -215,7 +214,6 @@ import { on } from 'events';
       .subscribe( (streamObj) => {
         var indexOfmatch = this.matches.findIndex( match => match.Home == streamObj.HomeTeamName && match.Away == streamObj.AwayTeamName);
         indexOfmatch != undefined && this.matches[indexOfmatch] ? this.updateMatch(this.matches[indexOfmatch], streamObj) : console.log( streamObj.HomeTeamName + " vs. " + streamObj.AwayTeamName + " not found");
-
         //Execute a simple cycle to see if EpochTime*1000 < Date.Now()
         //If it is, then change set to Inactive. and set a boolean to reset the next fixturesDate header.
         this.checkDateHeaders();
@@ -228,10 +226,9 @@ import { on } from 'events';
         this.tableGroups=[];
         this.cycleFixtures();
       });
-
-      //LIVE UPDATES UNCOMMENT
       this.webSocketService.openSSE();
     }
+
     //Sends match to matchStatusService which Juicy subscribes to.
     sendToWatchListService(matches: any) {
       matches.forEach(match => {
@@ -239,9 +236,9 @@ import { on } from 'events';
       });
    }
 
-    getTokenFromStorage(){
-      this.userPropertiesService.getAuthData();
-    }
+    // getTokenFromStorage(){
+    //   this.userPropertiesService.getAuthData();
+    // }
 
     ngOnDestroy(){
       this.matchesSub.unsubscribe();
@@ -252,8 +249,6 @@ import { on } from 'events';
       this.sabSubscription.unsubscribe();
       this.newSabSubscriptioin.unsubscribe();
     }
-
-
 
     //Creates Group headers. Should only be called once in your code, or it resets the state of these LeagueGroupHeaders
     buildGroupHeaders(matches: any[], level: number){
@@ -316,6 +311,7 @@ import { on } from 'events';
     private compare(a, b) {
       return (a < b ? -1 : 1);
     }
+
     //used solely incase we start scraping ahead of time and have matches in leagues that don't fall within the date times.
     cleanGroups(groups){
       //Filter Groups
@@ -369,6 +365,7 @@ import { on } from 'events';
       });
       return this.tableGroups;
     }
+
     //when date selector is changed, update tableGroups
     cycleFixtures() {
       if(this.nothingExpanded(this.masterGroup)){
@@ -396,6 +393,7 @@ import { on } from 'events';
       var result = leaguesExpanded.length == 0 ? true : false;
       return result;
     }
+
     //Adds matches underneath their respective League header.
     addToListOnClick(allMatches, tableGroups, rowInfo): any[] {
 
@@ -458,21 +456,21 @@ import { on } from 'events';
     }
 
       //Compare previous date with current. If they're the same, mark current displayHeaderDate -> false.
-      setDisplayHeader(match, matchPosition, allMatchIndex, groupIndex, allMatches){
-        match.displayHeaderDate = false;
-        var currentDate: number = new Date(match.EpochTime * 1000).getDate();
-        var previousDate: number;
-        allMatchIndex == 0 ? previousDate = 0 : previousDate = new Date((allMatches[allMatchIndex-1].EpochTime * 1000)).getDate();
-        var currentMatchObj: any = allMatches[allMatchIndex]
-        var previousMatchObj: any = allMatches[allMatchIndex - 1];
+    setDisplayHeader(match, matchPosition, allMatchIndex, groupIndex, allMatches){
+      match.displayHeaderDate = false;
+      var currentDate: number = new Date(match.EpochTime * 1000).getDate();
+      var previousDate: number;
+      allMatchIndex == 0 ? previousDate = 0 : previousDate = new Date((allMatches[allMatchIndex-1].EpochTime * 1000)).getDate();
+      var currentMatchObj: any = allMatches[allMatchIndex]
+      var previousMatchObj: any = allMatches[allMatchIndex - 1];
 
-        //If first in the list, or a new date, set true.
-        (matchPosition == (groupIndex + 1) || (previousDate != 0 && currentDate != previousDate && match.League == previousMatchObj.League)) ? match.displayHeaderDate = true : match.displayHeaderDate = false;
-         //If current match and previous match are of the same league, and the previous match is pastPrime. display the date header.
-        ( allMatchIndex > 0 && currentMatchObj.League == previousMatchObj.League && previousMatchObj.isPastPrime == true && currentMatchObj.isPastPrime != previousMatchObj.isPastPrime && currentMatchObj.EpochTime*1000 < Date.now() ) ? match.displayHeaderDate = true : '';
-      }
+      //If first in the list, or a new date, set true.
+      (matchPosition == (groupIndex + 1) || (previousDate != 0 && currentDate != previousDate && match.League == previousMatchObj.League)) ? match.displayHeaderDate = true : match.displayHeaderDate = false;
+        //If current match and previous match are of the same league, and the previous match is pastPrime. display the date header.
+      ( allMatchIndex > 0 && currentMatchObj.League == previousMatchObj.League && previousMatchObj.isPastPrime == true && currentMatchObj.isPastPrime != previousMatchObj.isPastPrime && currentMatchObj.EpochTime*1000 < Date.now() ) ? match.displayHeaderDate = true : '';
+    }
 
-      removeFromListOnClick(viewTableList, tableGroups, rowInfo): any[] {
+    removeFromListOnClick(viewTableList, tableGroups, rowInfo): any[] {
 
         function removedMatches(item) {
           if(tableGroups.includes(item) || item.League != rowInfo.League){
@@ -514,7 +512,6 @@ import { on } from 'events';
       var tomorrowAtMidnight = new Date(new Date().setDate( new Date().getDate() + 2)).setHours(0,0,0,0)
       return { forStartOfDayOne: yesterdayAtMidnight, forDayOne: todayAtMidnight, forDayTwo: tomorrowAtMidnight}
     }
-
     //Date formatter
     addFixturesDate(matchList: any[] ): any[]{
       console.log("Fixture Date setup in progress...");
@@ -533,7 +530,6 @@ import { on } from 'events';
       });
       return matchList;
     }
-
     //maybe use for later on default match opened
     openAllGroups(){
       this._allGroup.forEach(element => {
@@ -541,7 +537,6 @@ import { on } from 'events';
       });
       console.log(this._allGroup);
     }
-
     //toggle each table type
     displaySelectedTable(fixtureBtnClicked: number){
       console.log('tableSelected!!!: ' + fixtureBtnClicked);
@@ -673,8 +668,7 @@ import { on } from 'events';
         match.OccH = streamMatch.OccurrenceHome;
         match.OccA = streamMatch.OccurrenceAway;
       }
-      this.chRef.detectChanges();
-
+        this.chRef.detectChanges();
     }
 
     //expands and collapses container
@@ -723,6 +717,51 @@ import { on } from 'events';
       return leagueMatches;
     }
 
+    loadUserStoredSettings(){
+      this.userStoredMatchSettings = this.matchStatusService.initializeLocalStorage();
+      this.userStoredMatchSettings = this.userStoredMatchSettings.filter( storedMatch => {
+        if(storedMatch.level != 1){
+          return true;
+        }
+      });
+      const currentDate = new Date(Date.now()).getUTCDate();
+      console.log("Stored Settings: ");
+      console.log(this.userStoredMatchSettings);
+
+      //using the stored matches, filter  the match from retrieved db matches[];
+      this.userStoredMatchSettings.forEach( localStoredMatch => {
+        console.log("Match: ", localStoredMatch.Home);
+
+        let storedMatchEpochTime = localStoredMatch.EpochTime*1000;
+        const storedMatchDate = new Date(storedMatchEpochTime).getUTCDate();
+        console.log(storedMatchDate +  " vs " + currentDate );
+
+        this.matches.filter( fixturesMatch => {
+
+          if( currentDate >= storedMatchDate && fixturesMatch.Home == localStoredMatch.Home && fixturesMatch.Away == localStoredMatch.Away && fixturesMatch.EpochTime == localStoredMatch.EpochTime){
+            //set isWatched, Home/Away Status notify.
+            fixturesMatch.isWatched = localStoredMatch.isWatched;
+            fixturesMatch.AStatus.notify = localStoredMatch.AStatus.notify;
+            fixturesMatch.HStatus.notify = localStoredMatch.HStatus.notify;
+
+            this.updateMatchStatusList(fixturesMatch, true);
+            this.updateMatchStatusList(fixturesMatch, false);
+            this.updateJuicyNotifyStatus(fixturesMatch, true);
+            this.updateJuicyNotifyStatus(fixturesMatch, false);
+
+            if(fixturesMatch.AStatus.notify || fixturesMatch.HStatus.notify){
+              this.matchStatusService.addToWatchList(fixturesMatch);
+              this.matchStatusService.watchMatchSubject(fixturesMatch);
+            }
+            return true;
+          }
+
+        });
+      })
+
+      //set state of isWatched
+    }
+
     watchAllLeagues():void{
       this.masterToggle = !this.masterToggle;
       var epochCutOff = this.getStartEndDaysAtMidnight();
@@ -742,6 +781,7 @@ import { on } from 'events';
           this.updateJuicyNotifyStatus(match, true);
           this.updateJuicyNotifyStatus(match, false);
 
+
           if(this.masterToggle){
             this.matchStatusService.addToWatchList(match);
             this.matchStatusService.watchMatchSubject(match);
@@ -753,39 +793,16 @@ import { on } from 'events';
       });
     }
 
+    updateMatchStatusList(matchObj:any, isHome:boolean):void{
+      this.matchStatusService.updateWatchList(matchObj, isHome);
+    }
 
-     openPopUp($event: MatSlideToggleChange, groupItem: any) {
-
-    //   if($event.checked == false && !this.dialogDisabled){
-    //     //if Turning toggle to "OFF", popup dialog box to warn user.
-    //     let dialogRef =  this.dialog.open(StatusDisableDialogueComponent);
-
-    //     dialogRef.afterClosed()
-    //       .subscribe( result => {
-    //         //If user selects "Cancel" then they CONTINUE to watch the league's matches. result = false.
-    //         //If user selects "Okay" they DISABLE all notifications for that league. result = true.
-    //         if(result == 'false') {
-    //           $event.source.checked = true;
-    //           //TODO send this groupItem to another method. Notifications Services.
-    //         }
-    //         if(result == 'true') {
-    //           $event.source.checked = false;
-    //           groupItem.ignoreAll = true;
-    //         }
-    //       });
-    //   } else if ($event.checked == true && !this.dialogDisabled) {
-    //     //if toggle is being clicked "ON", turn on Notifications.
-    //     groupItem.ignoreAll = false;
-    //   } else if (this.dialogDisabled) {
-    //     //If user has selected to ignore popups, then set notifications based off $event.checked
-    //       $event.source.checked == true ? groupItem.ignoreAll = false : groupItem.ignoreAll = true;
-    //       console.log("GroupItem: " + groupItem.League + "- ignoreAll: " + groupItem.ignoreAll);
-
-    //   } else if ($event.checked == false && this.dialogDisabled){
-    //     groupItem.ignoreAll = true;
-    //   }
-    //     // this.ignoreAllMatchesToggle(groupItem);
-     }
+    toggleNotification(matchObj:any, isHome:boolean):void{
+      isHome ? matchObj.HStatus.notify = !matchObj.HStatus.notify : matchObj.AStatus.notify = !matchObj.AStatus.notify;
+      //update match-status.services.
+      this.updateMatchStatusList(matchObj, isHome);
+      this.updateJuicyNotifyStatus(matchObj, isHome);
+    }
 
     showToast(typeOfToast: string){
       if(typeOfToast == "enableToggle"){
@@ -799,41 +816,6 @@ import { on } from 'events';
     toggleSideNav(){
       this.sidenav.toggle();
     }
-      //TODO BUG-FIX WHEN LOCALE_ID WORKS.
-      //Re-arranges en-US format MM/DD into DD/MM
-    // ignoreAllMatchesToggle(group: Group){
-    //   var array:any[] = []
-    //   array.push(group.ignoreAll);
-    //     this.matches.forEach( match => {
-    //       if(match.League == group.League){
-    //         array.push(match.Home);
-    //         array.push(match.Away);
-    //       }
-    //     });
-    //     this.ignoreList = array;
-    //   //this.matchStatusService.displayIgnoreList();
-    // }
-    //DON'T NEED
-
-    // ignoreHomeSelection(matchObject: any){
-    //   matchObject.HStatus.ignore = !matchObject.HStatus.ignore;
-    //   console.log("Ignore set to " + matchObject.HStatus.ignore + " for: " + matchObject.Home);
-    //   this.ignoreList = [matchObject.Home, matchObject.HStatus.ignore];
-    //   this.updateNotificationStatus(matchObject.Home, matchObject.HStatus.ignore);
-    // }
-
-    // ignoreAwaySelection(matchObject: any){
-    //   //toggle ignore status.
-    //   matchObject.AStatus.ignore = !matchObject.AStatus.ignore;
-    //   console.log("Ignore set to " + matchObject.AStatus.ignore + " for: " + matchObject.Away);
-    //   this.ignoreList = [matchObject.Away, matchObject.AStatus.ignore];
-
-    //   this.updateNotificationStatus(matchObject.Away, matchObject.AStatus.ignore);
-    // }
-
-    // updateNotificationStatus(selection: string, ignoreStatus: boolean){
-    //   // ignoreStatus ? this.matchStatusService.addToIgnoreList(selection) : this.matchStatusService.removeFromIgnoreList(selection);
-    // }
 
     addToWatchList(rowData:any){
       console.log(rowData);
@@ -850,20 +832,20 @@ import { on } from 'events';
     }
 
     openViewBets(row:any, selection:string): void {
-
       row.Selection = selection == 'home' ? row.Home:row.Away;
       row.fta = selection == 'home' ? row.OccH : row.OccA;
       const list: ActiveBet[] = this.savedActiveBets;
       console.log(this.savedActiveBets);
 
-      //filtered SAB List based off selection.
 
-      const matDialogConfig = new MatDialogConfig();
-      matDialogConfig.width = '70%';
-      matDialogConfig.height ='80%';
-      matDialogConfig.data = {row, list};
+      let matDialogConfig = new MatDialogConfig();
+      matDialogConfig = {
+        width: '70%',
+        height:  '80%',
+        data: {row, list}
+      }
+
       const dialogRef = this.dialog.open(PopupViewSavedBetsComponent, matDialogConfig);
-
 
       dialogRef.afterClosed().subscribe(result => {
         console.log('dialog is SAB popup closed, do something with data');
@@ -877,20 +859,13 @@ import { on } from 'events';
     oldNews(epochTime:number): boolean {
        return (epochTime*1000 < Date.now());
     }
-
+    //todo add hook somewhere to update rowData.
     checkDateHeaders():void{
       // this.viewTableList = this.hideFixtures
     }
-
-
-    toggleNotification(matchObj:any, isHome:boolean):void{
-
-      isHome ? matchObj.HStatus.notify = !matchObj.HStatus.notify : matchObj.AStatus.notify = !matchObj.AStatus.notify;
-      //update match-status.services.
-      this.updateMatchStatusList(matchObj, isHome);
-      this.updateJuicyNotifyStatus(matchObj, isHome);
+    initialiseUserPreferencesOnLoad(){
+      //Retrieve LocalStorage Array created by upDateMa
     }
-
     toggleActiveBetState(sabData:ActiveBet | { selection:string, matchDetail:number}, isActive:boolean){
       // console.log("IN ABS");
       // console.log(sabData);
@@ -904,22 +879,16 @@ import { on } from 'events';
         // Do not do the thing.
       }else{
         console.log("Cannot change state of SAB icon, an error occured.");
-
       }
     }
-
     //Assign a button that updates JuicyTable Notify status.
     updateJuicyNotifyStatus(match: any, isHome:boolean){
       // console.log("NOTIFY: In Match-Table");
       // console.log(match);
       //juicy: {selection:string, notifyState:boolean}
       let juicy = isHome? {selection: match.Home, notifyState: match.HStatus.notify, epoch: match.EpochTime} : {selection: match.Away, notifyState: match.AStatus.notify, epoch: match.EpochTime};
-
       this.matchStatusService.notifyUser(juicy);
     }
 
-    updateMatchStatusList(matchObj:any, isHome:boolean):void{
-      this.matchStatusService.updateWatchList(matchObj, isHome);
-    }
 }
 

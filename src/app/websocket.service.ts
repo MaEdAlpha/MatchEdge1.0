@@ -28,8 +28,8 @@ export class WebsocketService {
         console.log("MongoStream incoming....");
         console.log(event.data);
         if(event.data != "hearbeat"){
-          console.log(event.data == "heartbeat");
-          this.matchesService.addToUpdatedMatches(JSON.parse(event.data));
+          let streamUpdate = event.data;
+          this.matchesService.addToUpdatedMatches(JSON.parse(streamUpdate));
         }
       };
     }

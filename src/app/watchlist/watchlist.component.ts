@@ -114,13 +114,13 @@ export class WatchlistComponent implements OnInit, OnDestroy {
       if(simpleChange.watchlistEnabled && simpleChange.watchlistEnabled.currentValue == 2){
         console.log("WATCHLIST CHANGE");
         console.log(this.displayList);
-
         this.resetDateHeaders(this.displayList);
       }
     }
 
     ngOnInit() {
       this.ftaOption = this.userPref.getFTAOption();
+
       //Assigns listener for any matches in view-table that are clicked to be watched.
       this.watchMatchesubscription = this.matchStatusService.getMatchWatchStatus().
         subscribe( matchObject => {
@@ -187,6 +187,8 @@ export class WatchlistComponent implements OnInit, OnDestroy {
 
     //set to WatchListTable dataSource
     this.dataSource.data = this.displayList;
+    //update localStorage of watchlist
+    this.matchStatusService.updateLocalStorage(this.displayList);
   }
 
   //watchlist code ripped from addToListOnClick() in match-table.
