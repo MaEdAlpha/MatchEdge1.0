@@ -90,7 +90,7 @@ export class MatchStatusService {
       default:
         console.log("Error retrieving user filter settings");
       }
-
+        //alter notification state based off of min/max user odds
         selection.HStatus.notify = +selection.BHome <= maxOdds && +selection.BHome >= minOdds && selection.EpochTime*1000 > Date.now() ?  true :  false;
         selection.AStatus.notify = +selection.BAway <= maxOdds && +selection.BAway >= minOdds && selection.EpochTime*1000 > Date.now() ? true : false;
   }

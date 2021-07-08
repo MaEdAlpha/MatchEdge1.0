@@ -725,6 +725,8 @@ import { on } from 'events';
         }
       });
       const currentDate = new Date(Date.now()).getUTCDate();
+      const maxOdds = this.userPropertiesService.getMaxOdds();
+      const minOdds = this.userPropertiesService.getMinOdds();
       console.log("Stored Settings: ");
       console.log(this.userStoredMatchSettings);
 
@@ -736,9 +738,9 @@ import { on } from 'events';
         const storedMatchDate = new Date(storedMatchEpochTime).getUTCDate();
         console.log(storedMatchDate +  " vs " + currentDate );
 
-        this.matches.filter( fixturesMatch => {
+        let foundMatch = this.matches.filter( fixturesMatch => {
 
-          if( currentDate >= storedMatchDate && fixturesMatch.Home == localStoredMatch.Home && fixturesMatch.Away == localStoredMatch.Away && fixturesMatch.EpochTime == localStoredMatch.EpochTime){
+          if( storedMatchDate >= currentDate && fixturesMatch.Home == localStoredMatch.Home && fixturesMatch.Away == localStoredMatch.Away && fixturesMatch.EpochTime == localStoredMatch.EpochTime){
             //set isWatched, Home/Away Status notify.
             fixturesMatch.isWatched = localStoredMatch.isWatched;
             fixturesMatch.AStatus.notify = localStoredMatch.AStatus.notify;
@@ -753,13 +755,33 @@ import { on } from 'events';
               this.matchStatusService.addToWatchList(fixturesMatch);
               this.matchStatusService.watchMatchSubject(fixturesMatch);
             }
+            fixturesMatch.AStatus.notify = localStoredMatch.AStatus.notify;
+            fixturesMatch.HStatus.notify = localStoredMatch.HStatus.notify;
+
             return true;
           }
 
         });
+        //TODO Asynchronous race condition occurring. sortedData not compiling on time.
+        this.resetNotificationParameters(foundMatch, minOdds, maxOdds);
       })
 
       //set state of isWatched
+    }
+
+    private resetNotificationParameters(foundMatch: any, minOdds: number, maxOdds: number) {
+      if (+foundMatch.BHome >= minOdds && +foundMatch.BHome <= maxOdds && foundMatch.HStatus.notify) {
+        this.toggleNotification(foundMatch, true);
+      }
+      if (foundMatch.BAway >= minOdds && +foundMatch.BAway <= maxOdds && foundMatch.AStatus.notify) {
+        this.toggleNotification(foundMatch, false);
+      }
+      if (foundMatch.BHome < minOdds || foundMatch.BHome > maxOdds) {
+        foundMatch.HStatus.notify = false;
+      }
+      if (foundMatch.BAway < minOdds || foundMatch.BHome > maxOdds) {
+        foundMatch.AStatus.notify = false;
+      }
     }
 
     watchAllLeagues():void{
