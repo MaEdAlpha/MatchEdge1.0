@@ -358,13 +358,13 @@ app.get(`/api/updates`, function(req, res) {
 
       //point to matches collection and watch it.
       const collection =  client.db("MBEdge").collection("matches");
-      const changeStream = collection.watch();
+      const changeStream = collection.watch([],{fullDocument : "updateLookup"});
 
       let keepAliveMS = 45 * 1000;
 
       function keepAlive(){
          console.log("keep-alive");
-         res.write("event:message\n"+ "data: hearbeat\n\n");
+         res.write("event:message\n" + "data: hearbeat\n\n");
          setTimeout(keepAlive, keepAliveMS);
         }
         //send SSE events back to user

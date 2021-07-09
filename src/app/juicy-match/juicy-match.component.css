@@ -8,10 +8,16 @@ table, .table-title, .no-content {
   height: 100%;
 }
 
-th.mat-header-cell:first-of-type, td.mat-cell:first-of-type, td.mat-footer-cell:first-of-type,
-th.mat-header-cell:last-of-type, td.mat-cell:last-of-type, td.mat-footer-cell:last-of-type{
+th.mat-header-cell:first-of-type,
+td.mat-cell:first-of-type,
+td.mat-footer-cell:first-of-type,
+th.mat-header-cell:last-of-type,
+td.mat-cell:last-of-type,
+td.mat-footer-cell:last-of-type{
   padding: 0px;
+  width: 60px;
 }
+
 .no-content {
   height: 400px;
   background: #e0e1e2;
@@ -46,22 +52,38 @@ th.mat-header-cell:last-of-type, td.mat-cell:last-of-type, td.mat-footer-cell:la
 .mat-column-LayOdds,
 .mat-column-EVthisBet,
 .mat-column-MatchRating,
- .mat-column-FTAround{
+.mat-column-FTAround,
+.mat-column-QLPercentage {
   text-align: center;
   font-size: large;
   font-weight: 500;
+}
+
+/* Odds column cell width */
+.mat-column-BackOdds,
+.mat-column-LayOdds {
   width: 120px;
 }
+
+/* EV MR QL% and FTA column cell width  */
+.mat-column-MatchRating,
+.mat-column-FTAround,
+.mat-column-EVthisBet,
+.mat-column-QLPercentage {
+  width: 60px;
+}
+
+
 .mat-cell {
   border-bottom-width: 0;
 }
 
-.mat-cell-withdata { /*Added this class to add borders to only the cells/rows that have content *?
-  /*border-right:  1px solid #bebcbc;*/
+.mat-cell-withdata {
   border-bottom:  1px solid #bebcbc;
 }
+
 .mat-column-Selection {
-  font-size: large;
+  font-size: 0.875rem;
   font-weight: 500;
 }
 tr.juicyMatch-detail-row {
@@ -109,21 +131,39 @@ tr.juicyMatch-row:not(.juicyMatch-expanded-row):active { /* when main container 
   width: 50%;
 }
 
+/* Column Header Properties */
 #column0hdr,
 #column1hdr,
 #column2hdr {
   font-size: medium;
   font-weight: 400px;
   border-right: 1px solid #00000012;
-}
-#column0hdr,
-#column1hdr,
-#column2hdr {
   text-align: left;
   padding-left: 10px;
   background: #263238;
+}
+
+.secret-sauce-accent,
+#column3hdr,
+#column4hdr,
+#column5hdr {
+  background: #263238;
+  color: #ffbf0e;
+  font-size: small;
+  font-weight: 500;
+}
+#column0hdr {
+  width: 100px
+}
+
+#column1hdr {
   width: 153px
 }
+
+#column2hdr {
+  width: 153px
+}
+
 
 .cdk-column-LayOdds>span {
   background: green;
@@ -167,36 +207,31 @@ tr.juicyMatch-row:not(.juicyMatch-expanded-row):active { /* when main container 
     visibility: collapse;
   }
 
-  .ticker4box {
+  .ticker4box,
+  .ticker3box {
     z-index: 2;
-  background: #003366;
-  color: white;
-  width: 101px;
-  height: 100%;
-  border-top-left-radius: 10px;
-  border-bottom-left-radius: 10px;
-  position: absolute;
-  top: 0px;
-  left: 40px;
-  box-sizing: border-box;
-  border: 3px solid #003366;
-  margin-left: -38px;
-  }
-
-  .ticker3box{
-    z-index: 2;
-    background: #126e51;
     color: white;
     width: 101px;
     height: 100%;
-    border-top-left-radius: 10px;
-    border-bottom-left-radius: 10px;
     position: absolute;
     top: 0px;
-    left: 2px;
     box-sizing: border-box;
-    border: 3px solid #126E51;
-}
+  }
+
+  .ticker4box{
+    left: 40px;
+    background: #003366;
+    border: 3px solid #0b1e31;
+    margin-left: -38px;
+    border-radius: 10px 0px 0px 10px;
+  }
+
+  .ticker3box{
+    left: 2px;
+    background: #126e51;
+    border: 3px solid #08523b;
+    border-radius: 10px 0px 0px 10px;
+  }
   /* Flicker */
 .backDirective {
 
@@ -326,19 +361,15 @@ div.jm-exp-details {
 
 
  /* Bookie and exchange logo in main row of juicy table */
- .odds-img-bookie{
+ .odds-img-exchange,
+ .odds-img-bookie {
   position: relative;
   z-index: 3;
   min-height: 39px;
   width: 37px;
-  margin-left: -58px;
- }
- .odds-img-exchange{
-  position: relative;
-  z-index: 3;
-  min-height: 39px;
-  width: 37px;
-  margin-left: -58px;
+  float:left;
+  border-radius: 8px;
+  box-shadow: 2px 0px 6px 2px #0c0c0c;
  }
 
  #prev-odds {
@@ -643,24 +674,15 @@ padding-top: 8%;
   vertical-align: middle;
   margin-top: 5%;
   }
-  .exchange-button-style {
-    vertical-align: middle;
-    justify-items: center;
-    width: 20%;
-    height: 100%;
-    }
+
+.exchange-button-style {
+  vertical-align: middle;
+  justify-items: center;
+  width: 20%;
+  height: 100%;
+  }
 
 
-/* Record bet button*/
-/* .exp-button {
-  width: 13%;
-    height: 42%;
-    top: 28%;
-    white-space: normal;
-    word-wrap: break-word;
-    line-height: 13px;
-    font-size: 13px;
-} */
 
 .exp-button{
   height: 110px;
@@ -777,7 +799,9 @@ th.mat-sort-header-sorted {
   color: black;
 }
 
-.b3-odd-cont, .sm-odd-cont, .fta-value-cont {
+.b3-odd-cont,
+.sm-odd-cont,
+.fta-value-cont {
   height: 29px;
   color: #fff;
   background-size: contain;
@@ -787,9 +811,7 @@ th.mat-sort-header-sorted {
   border-radius: 3px;
 }
 
-.b3-odd-cont {
-  min-height: 39px;
-}
+.b3-odd-cont,
 .sm-odd-cont {
   min-height: 39px;
 }
@@ -806,8 +828,8 @@ th.mat-sort-header-sorted {
 
 .odd-text {
   position: relative;
-  top: 22%;
-  left: 6%;
+  top: 20%;
+  left: 18%;
 }
 .fta-value-text {
   position: absolute;
@@ -818,15 +840,7 @@ th.mat-sort-header-sorted {
   font-weight: 500;
 }
 
-.secret-sauce-accent,
-#column3hdr,
-#column4hdr,
-#column5hdr {
-  background: #263238;
-  color: #ffbf0e;
-  font-size: small;
-  font-weight: 500;
-}
+
 
 th.mat-column-Fixture, th.mat-column-EventStart, th.mat-column-Selection {
   background: #263238;
