@@ -847,13 +847,21 @@ import { on } from 'events';
 
     addToWatchList(rowData:any){
       console.log(rowData);
-      rowData.isWatched = rowData.isPastPrime ? false: !rowData.isWatched;
+      // rowData.isWatched = rowData.isPastPrime ? false: !rowData.isWatched;
+      rowData.isWatched = !rowData.isWatched;
       console.log("RowData.isWatched set to " + rowData.isWatched);
 
       if(rowData.isWatched && rowData.isPastPrime == false){
         this.matchStatusService.addToWatchList(rowData);
         this.matchStatusService.watchMatchSubject(rowData);
-      } else {
+      } else if (!rowData.isWatched && rowData.isPastPrime == false) {
+        this.matchStatusService.removeFromWatchList(rowData);
+        this.matchStatusService.watchMatchSubject(rowData);
+      } else if (rowData.isWatched && rowData.isPastPrime) {
+        //condition for user who was watching a match which is now inPlay.
+        this.matchStatusService.addToWatchList(rowData);
+        this.matchStatusService.watchMatchSubject(rowData);
+      } else if (!rowData.isWatched && rowData.isPastPrime){
         this.matchStatusService.removeFromWatchList(rowData);
         this.matchStatusService.watchMatchSubject(rowData);
       }

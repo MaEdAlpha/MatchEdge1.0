@@ -585,4 +585,30 @@ export class JuicyMatchComponent implements OnChanges, OnInit, OnDestroy, AfterV
       }
     }
 
+    thisIsJuicy(selection:any):boolean{
+      const userSettings = this.prefObj;
+      if(selection.isWatched && selection.inRange){
+        switch(this.fvSelected){
+          case 1:
+            return +selection['EVthisBet'] >= +userSettings.evFVI ? true: false;
+          case 2:
+            return +selection['MatchRating'] == +userSettings.matchRatingFilterI ||  selection['MatchRating'] > (+userSettings.matchRatingFilterI - 0.02);
+          case 3:
+            return +selection['QLPercentage'] == +userSettings.secretSauceI || selection['QLPercentage'] >= (+userSettings.secretSauceI);
+          default: console.log("Error occurered, reload your browser or contact support");
+        }
+      } else {
+        console.log(selection.Fixture + " HIDE: " + selection.Selection);
+        //count here.  to determine total matches to display and give default table message
+        return false;
+      }
+    }
 }
+
+
+//Currently, if user is watching a match ans isPastPrime . 1. button still highlighted, and still shows up in watchList. If user clicks watch button in Fixtures, it will remove the color highlight, but not the match from watchlist.
+
+
+// ( (fvSelected == 1 && +selection['EVthisBet'] >= +prefObj.evFVI) ||
+//                                             (fvSelected == 2 && (+selection['MatchRating'] == +prefObj.matchRatingFilterI ||  selection['MatchRating'] > (+prefObj.matchRatingFilterI - 0.02))) ||
+//                                             (fvSelected == 3 && (+selection['QLPercentage'] == +prefObj.secretSauceI || selection['QLPercentage'] >= (+prefObj.secretSauceI))))

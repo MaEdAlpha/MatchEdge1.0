@@ -22,11 +22,8 @@
                 *matCellDef="let selection; let i = dataIndex"
                 (click)="loadGroup(i); showSelectionValues(selection, i); closeIfRedirected(selection, $event)">
 
-                <ng-container *ngIf="selection.isWatched">
-                  <ng-container *ngIf="selection.inRange">
-                    <ng-container *ngIf= "( (fvSelected == 1 && +selection['EVthisBet'] >= +prefObj.evFVI) ||
-                                            (fvSelected == 2 && (+selection['MatchRating'] == +prefObj.matchRatingFilterI ||  selection['MatchRating'] > (+prefObj.matchRatingFilterI - 0.02))) ||
-                                            (fvSelected == 3 && (+selection['QLPercentage'] == +prefObj.secretSauceI || selection['QLPercentage'] >= (+prefObj.secretSauceI))))">
+
+                    <ng-container *ngIf="thisIsJuicy(selection);">
                     <ng-container *ngIf= "( +maxOddsFilter >= +selection['BackOdds'] && +selection['BackOdds'] >= +minOddsFilter )">
 
                           <div class="juicyCell b3-odd-cont" *ngIf="column.field.endsWith('BackOdds')">
@@ -68,10 +65,8 @@
                                       </div>
                                   </div>
                                       <span *ngIf="!column.field.endsWith('Odds') && !column.field.endsWith('EpochTime') && !column.field.endsWith('Bet') && !column.field.endsWith('Rating') && !column.field.endsWith('Around') && !column.field.endsWith('Percentage') && !column.field.endsWith('EVthisBet')"> {{ selection[column.field] }}</span>
-                      </ng-container>
                     </ng-container>
-                  </ng-container>
-                </ng-container>
+                    </ng-container>
             </td>
          </ng-container>
 
