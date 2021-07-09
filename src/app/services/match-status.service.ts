@@ -71,6 +71,10 @@ export class MatchStatusService {
   initializeLocalStorage(): any {
     let userTableSettings = localStorage.getItem('userWatchList');
     userTableSettings = JSON.parse(userTableSettings);
+    console.log("USERWATCHLIST");
+
+    console.log(userTableSettings);
+
     return userTableSettings ? userTableSettings : [];
     // upon startup, return localStorage item 'userWatchList'
     // pass this back to match-table and have it act like the watchAll setting, except based off of each watchList component.
@@ -116,7 +120,11 @@ export class MatchStatusService {
       else if (!isHome && matchObj.Away == watchListObj.Away && matchObj.EpochTime == watchListObj.EpochTime){
         watchListObj.AStatus.notify = matchObj.AStatus.notify;
         return true;
-      } else {
+      }
+      else if(watchListObj.isPastPrime && watchListObj.isWatched) {
+        return true;
+      }
+      else {
         return false;
       }
     });

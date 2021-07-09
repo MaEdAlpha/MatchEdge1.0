@@ -427,7 +427,7 @@ import { on } from 'events';
           //Conditional for Today&Tomorrow .
           if(this.viewSelectedDate == 'Today & Tomorrow' && ( matchEpoch >= epochCutOff.forStartOfDayOne && matchEpoch <= epochCutOff.forDayTwo )) {
             //Sets inactive Styling for table row.
-            matchEpoch <= timeNow ? match.isPastPrime = true : match.isPastPrime = false; //Set boolean for styling
+            match.isPastPrime = matchEpoch <= timeNow ? true : false; //Set boolean for styling
 
             this.setDisplayHeader(match, matchPosition, matchIndex, groupIndex, allMatches);
             this.viewTableList.splice(matchPosition, 0, match);
@@ -436,7 +436,7 @@ import { on } from 'events';
           //Conditional for Today
           if(this.viewSelectedDate == "Today" && (matchEpoch <= epochCutOff.forDayOne && matchEpoch >= epochCutOff.forStartOfDayOne )) {
 
-            matchEpoch <= timeNow ? match.isPastPrime = true : match.isPastPrime = false; //Set boolean for styling
+            match.isPastPrime = matchEpoch <= timeNow ? true : false; //Set boolean for styling
 
             this.setDisplayHeader(match, matchPosition, matchIndex, groupIndex, allMatches);
             this.viewTableList.splice(matchPosition, 0 , match);
@@ -724,26 +724,29 @@ import { on } from 'events';
     }
 
     loadUserStoredSettings(){
+
+      const currentDate = new Date(Date.now()).getUTCDate();
+      const maxOdds = this.userPropertiesService.getMaxOdds();
+      const minOdds = this.userPropertiesService.getMinOdds();
+
       this.userStoredMatchSettings = this.matchStatusService.initializeLocalStorage();
+
       this.userStoredMatchSettings = this.userStoredMatchSettings.filter( storedMatch => {
         if(storedMatch.level != 1){
           return true;
         }
       });
 
-      const currentDate = new Date(Date.now()).getUTCDate();
-      const maxOdds = this.userPropertiesService.getMaxOdds();
-      const minOdds = this.userPropertiesService.getMinOdds();
       console.log("Stored Settings: ");
       console.log(this.userStoredMatchSettings);
 
       //using the stored matches, filter  the match from retrieved db matches[];
       this.userStoredMatchSettings.forEach( localStoredMatch => {
-        console.log("Match: ", localStoredMatch.Home);
-
         let storedMatchEpochTime = localStoredMatch.EpochTime*1000;
         const storedMatchDate = new Date(storedMatchEpochTime).getUTCDate();
-        console.log(storedMatchDate +  " vs " + currentDate );
+
+        console.log();
+        console.log("Stored Match: ", localStoredMatch.Home + "matchDate vs currentDate " + storedMatchDate +  " vs " + currentDate + " update isWatched & Notify? " + (storedMatchDate >= currentDate) );
 
         let foundMatch = this.matches.filter( fixturesMatch => {
 
@@ -758,20 +761,17 @@ import { on } from 'events';
             this.updateJuicyNotifyStatus(fixturesMatch, true);
             this.updateJuicyNotifyStatus(fixturesMatch, false);
 
-            if(fixturesMatch.AStatus.notify || fixturesMatch.HStatus.notify){
+
               this.matchStatusService.addToWatchList(fixturesMatch);
               this.matchStatusService.watchMatchSubject(fixturesMatch);
-            }
+
+
             fixturesMatch.isWatched = localStoredMatch.isWatched;
 
             if(fixturesMatch.isPastPrime == false){
               fixturesMatch.AStatus.notify = localStoredMatch.AStatus.notify;
               fixturesMatch.HStatus.notify = localStoredMatch.HStatus.notify;
-            } else {
-              fixturesMatch.AStatus.notify = false;
-              fixturesMatch.HStatus.notify = false;
             }
-
             return true;
           }
 

@@ -598,8 +598,7 @@ export class JuicyMatchComponent implements OnChanges, OnInit, OnDestroy, AfterV
           default: console.log("Error occurered, reload your browser or contact support");
         }
       } else {
-        console.log(selection.Fixture + " HIDE: " + selection.Selection);
-        //count here.  to determine total matches to display and give default table message
+        //count here to determine total matches to display and give default table message
         return false;
       }
     }
