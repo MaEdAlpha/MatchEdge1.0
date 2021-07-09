@@ -711,7 +711,7 @@ import { on } from 'events';
         if(groupRow.watchAll && match.isPastPrime == false){
           this.matchStatusService.addToWatchList(match);
           this.matchStatusService.watchMatchSubject(match);
-        } else {
+        } else if (groupRow.watchAll == false && match.isPastPrime == false) {
           console.log("Removed from List: " + match.Home + " v " + match.Away);
           this.matchStatusService.removeFromWatchList(match);
           this.matchStatusService.watchMatchSubject(match);
@@ -730,6 +730,7 @@ import { on } from 'events';
           return true;
         }
       });
+
       const currentDate = new Date(Date.now()).getUTCDate();
       const maxOdds = this.userPropertiesService.getMaxOdds();
       const minOdds = this.userPropertiesService.getMinOdds();
@@ -761,8 +762,15 @@ import { on } from 'events';
               this.matchStatusService.addToWatchList(fixturesMatch);
               this.matchStatusService.watchMatchSubject(fixturesMatch);
             }
-            fixturesMatch.AStatus.notify = localStoredMatch.AStatus.notify;
-            fixturesMatch.HStatus.notify = localStoredMatch.HStatus.notify;
+            fixturesMatch.isWatched = localStoredMatch.isWatched;
+
+            if(fixturesMatch.isPastPrime == false){
+              fixturesMatch.AStatus.notify = localStoredMatch.AStatus.notify;
+              fixturesMatch.HStatus.notify = localStoredMatch.HStatus.notify;
+            } else {
+              fixturesMatch.AStatus.notify = false;
+              fixturesMatch.HStatus.notify = false;
+            }
 
             return true;
           }

@@ -497,6 +497,7 @@ button.viewCell {
 
 }
 .match-inactive{
+  opacity: 0.8;
   background:grey;
 }
 
