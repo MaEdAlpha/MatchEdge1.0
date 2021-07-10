@@ -740,12 +740,15 @@ img {
 span.home-selection{
   color: black;
   font-size: 0.875rem;
-  padding: 0.25rem 3.9375rem;
+  padding-right: 3.9375rem;
+  padding-top: 0.25rem;
 }
+
 span.away-selection {
   color: black;
   font-size: 0.875rem;
-  padding: 0.25rem 0.25rem;
+  padding-left: 0.25rem;
+  padding-top: 0.25rem;
 }
 
 .home-selection {

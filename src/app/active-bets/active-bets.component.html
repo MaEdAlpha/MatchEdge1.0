@@ -4,8 +4,7 @@
       multiTemplateDataRows>
   <ng-container matColumnDef="{{column.field}}" *ngFor="let column of activeHeaderAliases">
     <form [formGroup]="PandLform">
-      <th mat-header-cell mat-sort-header *matHeaderCellDef> {{column.alias}} </th>
-
+      <th mat-header-cell class = "column-head"mat-sort-header *matHeaderCellDef> {{column.alias}} </th>
 
 
     <td mat-cell
@@ -14,38 +13,39 @@
       (click)="loadGroup(i); showSelectionValues(sab, i);">
 
       <div *ngIf="column.field.endsWith('created') || column.field.endsWith('matchDetail')" class="match-date">
-        {{sab[column.field] | date: 'EEE dd LLL HH:mm'}}
+        {{ sab[column.field] | date: 'EEE dd LLL' }} | {{ sab[column.field] | date: 'HH:mm' }}
       </div>
 
       <div *ngIf="column.field.endsWith('isSettled')">
-        <mat-form-field>
-          <mat-label > <span class="pl-label"> Profit/Loss </span></mat-label>
+        <mat-form-field class="pl-input">
+          <mat-label > <span class="pl-label"> P/L </span></mat-label>
         <input
           matInput
           formControlName="ProfitLoss"
-          placeholder="Profit/Loss">
+          placeholder="P/L">
         </mat-form-field>
-      <button class="status-btn" mat-raised-button  (click)="sab[column.field]=!sab[column.field]; savePL(sab,i); $event.stopPropagation()" [ngClass]="sab['isSettled'] ? 'settled-overlay' : 'btn-default'"> <span> {{sab[column.field] ? 'Settled' : 'Unsettled'}}</span>  </button>
+        <div class="settle-bet-cont">
+          <mat-icon class="chevron-right" (click)="sab[column.field]=!sab[column.field]; savePL(sab,i); $event.stopPropagation()" [ngClass]="sab['isSettled'] ? 'settled-overlay' : 'btn-default glow'">chevron_right</mat-icon>
+        </div>
       </div>
 
-      <!-- <div *ngIf="column.endsWith('betState')">
-      <button class="status-button" mat-raised-button (click)="sab[column] = !sab[column]; $event.stopPropagation()">
-          <span> {{ sab[column] ? 'Matched' : 'Unmatched'}} </span> </button>
-      </div> -->
-
       <div *ngIf="column.field.endsWith('delete')">
-        <ng-container *ngIf="!sab.isSettled">
-        <mat-drawer-container class="delete-container" autosize disableClose="false">
-          <mat-drawer #drawer class="delete-sidenav" mode="side" position="end" >
-            <div class="confirm-delete">
-              <button class="confirm-delete"  mat-raised-button (click)="deleteSAB(sab); drawer.toggle();"><mat-icon class="confirm-delete">delete_outline</mat-icon> </button>
+        <ng-container *ngIf="!sab.isSettled else displaySettled">
+          <mat-drawer-container class="delete-container" autosize disableClose="false">
+            <mat-drawer #drawer class="delete-sidenav" mode="side" position="end" >
+              <div class="confirm-delete">
+                <button class="confirm-delete"  mat-raised-button (click)="deleteSAB(sab); drawer.toggle();"><mat-icon class="confirm-delete">delete_outline</mat-icon> </button>
+              </div>
+            </mat-drawer>
+            <button class="status-button" mat-raised-button (click)="drawer.toggle(); $event.stopPropagation()">
+              <mat-icon>clear</mat-icon></button>
+            </mat-drawer-container>
+          </ng-container>
+          <ng-template #displaySettled>
+            <div class="settled-bet">
+              <p class="chevron-locked"> {{sab['isSettled'] ? 'Settled' : ''}}  </p>
             </div>
-          </mat-drawer>
-
-          <button class="status-button" mat-raised-button (click)="drawer.toggle(); $event.stopPropagation()">
-            <mat-icon>clear</mat-icon></button>
-          </mat-drawer-container>
-        </ng-container>
+          </ng-template>
         </div>
       <div *ngIf="column.field.endsWith('stake') || column.field.endsWith('ql') || column.field.endsWith('pl') ">
         {{sab[column.field] | currency:'GBP' }}
@@ -77,7 +77,7 @@
                 <div class="teamname-container">
                   <div class="selection">
                     <div>{{sab.selection}}</div>
-                </div>
+                  </div>
                   <div class="logo-img-cont">
                   <img src="/assets/img/fcLogo/{{sab.logo}}.png">
                 </div>

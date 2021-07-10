@@ -118,10 +118,12 @@ export class JuicyMatchComponent implements OnChanges, OnInit, OnDestroy, AfterV
         this.allIndvMatches = this.matchStatService.getSelectionStatCalcs(this.allMatches, this.ftaOption);
         this.sortedData = this.allIndvMatches;
 
+
         //Create table of Juicy Matches once allIndvMatches is no longer undefined.
         if(this.allIndvMatches != undefined){
           console.log("----Creating a form Array \n Checking selections in range");
           this.dataSource = new FormArray(this.allIndvMatches.map( x=> this.createForm(x) ) );
+          this.sortedData = this.allIndvMatches;
           this.popJuiceInRange();
           //call match-Status service to trigger localStorage initialization.
           this.matchStatusService.individualMatchesFinishedLoading(true);
@@ -160,8 +162,11 @@ export class JuicyMatchComponent implements OnChanges, OnInit, OnDestroy, AfterV
     this.dataSource = new FormArray(this.allIndvMatches.map( x => this.createForm(x)));
     //accesses an eventEmitter of streamData that is coming in via MongoDB ChangeStream.  Setsup a subscription to observable.
     this.streamSub = this.matchesService.streamDataUpdate.subscribe( (streamObj) => {
+      console.log(streamObj);
 
-      console.log("Stream INCOMING!");
+      console.log("Stream INCOMING! Sorted Data below");
+      console.log(this.sortedData);
+
       var lookupIndex: number[] = []
 
       lookupIndex.push( this.sortedData.findIndex( (indvMatch) => indvMatch.Selection == streamObj.HomeTeamName && indvMatch.EpochTime == streamObj.unixDateTimestamp) );
@@ -170,6 +175,7 @@ export class JuicyMatchComponent implements OnChanges, OnInit, OnDestroy, AfterV
 
       lookupIndex.forEach( indexOfmatch => {
         var juicyMatchBase = this.sortedData[indexOfmatch];
+
         console.log('-------------PASSING IN TO COMPARE STREAM DATA--------');
         //sets wolverhapmton to false.....
         var resultII = juicyMatchBase.notify;
