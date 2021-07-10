@@ -332,25 +332,27 @@ export class JuicyMatchComponent implements OnChanges, OnInit, OnDestroy, AfterV
     this.startDay = dateValidator[0];
     this.endDay = dateValidator[1];
   }
-  //CommissionsUpdated
-  LayStake(backOdds: number, layOdds:number, steakYum: number):number{
 
+  calcLayStake(backOdds:number, layOdds:number, stake:number):number {
+    return +backOdds * +stake / (+layOdds - (+this.userCommission/100));
+  }
+
+
+  LayStake(backOdds: number, layOdds:number, steakYum: number):number{
     return this.calcLayStake(backOdds,layOdds,steakYum);
   }
-  //CommissionsUpdated
+
+
   FTA(stake:number, backOdds: number, layOdds:number):number{
     var layStake =this.calcLayStake(backOdds,layOdds,stake);
     return (+stake * (+backOdds - 1) + +layStake);
   }
 
-  //CommissionsUpdated
+
   TotalEV(occurence:number, stake:number, backOdds:number, layOdds:number):number{
-    var layStake =  +backOdds * +stake / (+layOdds - (+this.userCommission/100));;
+    var layStake =  +backOdds * +stake / (+layOdds - (+this.userCommission/100));
     var result:number = +(+stake * (+backOdds - 1) + +layStake)+ (+layStake- +stake)*(+occurence-1);
     return result;
-  }
-  calcLayStake(backOdds:number, layOdds:number, stake:number):number {
-    return +backOdds * +stake / (+layOdds - (+this.userCommission/100));
   }
 
 
@@ -365,7 +367,7 @@ export class JuicyMatchComponent implements OnChanges, OnInit, OnDestroy, AfterV
     var qlPercentage = +(ql/fta*100).toFixed(2);
     return qlPercentage;
   }
-  //CommissionsUpdated
+
   ROI(stake:number, backOdds: number, layOdds:number, occurence:number):number{
     var layStake = this.calcLayStake(backOdds,layOdds,stake);
     var fullTurnAround = +stake * (+backOdds -1) + +layStake;
@@ -376,7 +378,7 @@ export class JuicyMatchComponent implements OnChanges, OnInit, OnDestroy, AfterV
     return +((evThisBet/stake)*100);
   }
 
-  //CommissionsUpdated
+
   QL(backOdds: number, layOdds:number, stake:number){
     var layStake = this.calcLayStake(backOdds,layOdds,stake);
     return (+layStake*(1-this.userCommission/100) - +stake);

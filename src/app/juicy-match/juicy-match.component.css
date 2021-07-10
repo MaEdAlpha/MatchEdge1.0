@@ -369,7 +369,7 @@ div.jm-exp-details {
   width: 37px;
   float:left;
   border-radius: 8px;
-  box-shadow: 2px 0px 6px 2px #0c0c0c;
+  box-shadow: 1px 0px 5px 1px #0c0c0c45;
  }
 
  #prev-odds {

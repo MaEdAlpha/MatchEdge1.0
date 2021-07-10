@@ -38,6 +38,7 @@ export class ActiveBetsComponent implements OnChanges, OnInit, AfterViewInit {
   sabSource: FormArray;
   isEmptySABList: boolean = false;
   columnsToDisplay = ['created', 'fixture' , 'matchDetail', 'selection', 'stake', 'backOdd', 'layOdd', 'occ', 'ql', 'isSettled', 'pl', 'delete'];
+  userCommission:number;
 
 
   activeHeaderAliases: {field:string, alias:string}[] = [
@@ -79,6 +80,7 @@ export class ActiveBetsComponent implements OnChanges, OnInit, AfterViewInit {
         this.dataSource=[];
         this.dataSource= this.ACTIVE_BETS
         this.checkIfEmpty();
+        this.userCommission = this.userPrefService.getCommission();
 
     });
 
@@ -312,25 +314,28 @@ setChanges(sab:ActiveBet, index:number):ActiveBet{
 
   return updatedSAB
 }
+
+calcLayStake(backOdds:number, layOdds:number, stake:number):number {
+  return +backOdds * +stake / (+layOdds - (+this.userCommission/100));
+}
 //Calculations
 LayStake(backOdds: number, layOdds:number, steakYum: number):number{
-  var laySteak = (+backOdds / +layOdds)* +steakYum;
-return laySteak;
+  return this.calcLayStake(backOdds,layOdds,steakYum);
 }
 
 FTA(stake:number, backOdds: number, layOdds:number):number{
-  var layStake = (+backOdds / +layOdds) * +stake;
+  var layStake =this.calcLayStake(backOdds,layOdds,stake);
   return (+stake * (+backOdds - 1) + +layStake);
 }
 
 TotalEV(occurence:number, stake:number, backOdds:number, layOdds:number):number{
-  var layStake = (+backOdds / +layOdds) * +stake;
+  var layStake =  +backOdds * +stake / (+layOdds - (+this.userCommission/100));
   var result:number = +(+stake * (+backOdds - 1) + +layStake)+ (+layStake- +stake)*(+occurence-1);
   return result;
 }
 
 NewMatchRating(backOdds:number, layOdds:number){
-  return +(backOdds/layOdds)*100;
+  return +(backOdds/(layOdds-+this.userCommission/100))*100;
 }
 
 NewSS(backOdds:number,layOdds:number,stake:number){
@@ -341,7 +346,7 @@ NewSS(backOdds:number,layOdds:number,stake:number){
 }
 
 ROI(stake:number, backOdds: number, layOdds:number, occurence:number):number{
-  var layStake = (+backOdds / +layOdds) * +stake;
+  var layStake = this.calcLayStake(backOdds,layOdds,stake);
   var fullTurnAround = +stake * (+backOdds -1) + +layStake;
   var ql = +(+layStake- +stake);
   var evTotal = +(fullTurnAround + ( +ql * (+occurence -1)));
@@ -351,8 +356,8 @@ ROI(stake:number, backOdds: number, layOdds:number, occurence:number):number{
 }
 
 QL(backOdds: number, layOdds:number, stake:number){
-  var layStake = (+backOdds / +layOdds) * stake;
-  return +(+layStake - +stake);
+  var layStake = this.calcLayStake(backOdds,layOdds,stake);
+  return (+layStake*(1-this.userCommission/100) - +stake);
 }
 
 Liability(layOdds:number, layStake:number):number {

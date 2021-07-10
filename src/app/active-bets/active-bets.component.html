@@ -17,20 +17,28 @@
       </div>
 
       <div *ngIf="column.field.endsWith('isSettled')">
+        <ng-container *ngIf="!sab['isSettled'] else displaySettled">
         <mat-form-field class="pl-input">
           <mat-label > <span class="pl-label"> P/L </span></mat-label>
-        <input
-          matInput
-          formControlName="ProfitLoss"
-          placeholder="P/L">
-        </mat-form-field>
+            <input
+            matInput
+            formControlName="ProfitLoss"
+            type="number"
+            placeholder="P/L">
+          </mat-form-field>
+        </ng-container>
+        <ng-template #displaySettled>
+          <div class="settled-bet">
+            <p class="chevron-locked"> Settled  </p>
+          </div>
+        </ng-template>
         <div class="settle-bet-cont">
           <mat-icon class="chevron-right" (click)="sab[column.field]=!sab[column.field]; savePL(sab,i); $event.stopPropagation()" [ngClass]="sab['isSettled'] ? 'settled-overlay' : 'btn-default glow'">chevron_right</mat-icon>
         </div>
       </div>
 
       <div *ngIf="column.field.endsWith('delete')">
-        <ng-container *ngIf="!sab.isSettled else displaySettled">
+        <ng-container *ngIf="!sab.isSettled">
           <mat-drawer-container class="delete-container" autosize disableClose="false">
             <mat-drawer #drawer class="delete-sidenav" mode="side" position="end" >
               <div class="confirm-delete">
@@ -41,11 +49,6 @@
               <mat-icon>clear</mat-icon></button>
             </mat-drawer-container>
           </ng-container>
-          <ng-template #displaySettled>
-            <div class="settled-bet">
-              <p class="chevron-locked"> {{sab['isSettled'] ? 'Settled' : ''}}  </p>
-            </div>
-          </ng-template>
         </div>
       <div *ngIf="column.field.endsWith('stake') || column.field.endsWith('ql') || column.field.endsWith('pl') ">
         {{sab[column.field] | currency:'GBP' }}
@@ -148,10 +151,8 @@
               <div class="calculated-container-comments">
                 <div class="comments-cont">
                   <mat-form-field tabindex="1" class="user-comments" appearance="outline">
-                    <mat-label class="auto-calc-label">Match Comments</mat-label>
-                    <textarea class="auto-calc-input" formControlName="MatchInfo" matInput placeholder=""></textarea>
-                    <mat-hint> ({{selectionValues.value.MatchInfo == null ? selectionValues.value.MatchInfo == ' ' : selectionValues.value.MatchInfo.length}}/140)</mat-hint>
-                    <mat-error *ngIf="selectionValues.controls.MatchInfo.errors">{{getErrorMessage()}} </mat-error>
+                    <mat-label class="auto-calc-label">Comments | {{selectionValues.value.MatchInfo == null ? selectionValues.value.MatchInfo == ' ' : selectionValues.value.MatchInfo.length}}/140</mat-label>
+                    <textarea class="auto-calc-input" formControlName="MatchInfo" matInput [maxlength]="140" placeholder=""></textarea>
                   </mat-form-field>
                 </div>
               </div>

@@ -762,8 +762,8 @@ import { on } from 'events';
             this.updateJuicyNotifyStatus(fixturesMatch, false);
 
 
-              this.matchStatusService.addToWatchList(fixturesMatch);
-              this.matchStatusService.watchMatchSubject(fixturesMatch);
+            this.matchStatusService.addToWatchList(fixturesMatch);
+            this.matchStatusService.watchMatchSubject(fixturesMatch);
 
 
             fixturesMatch.isWatched = localStoredMatch.isWatched;
