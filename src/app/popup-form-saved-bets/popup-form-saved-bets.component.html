@@ -1,20 +1,21 @@
 
 
-  <div mat-dialog-content>
+  <div mat-dialog-content class="dialog-content">
     <form [formGroup]="sabFormValues">
 
 
       <div class="sab-ftaOption-container">
         <ng-container *ngIf="isEdit; else newBet" >
-          <h2>Bet was made with <span class="fta-selection">{{formFtaOption == 1 ? 'Juicy FTA Rating' : ' 1/65 Average FTA '}} </span> </h2>
+          <h3>This bet was made with <span class="fta-selection">{{formFtaOption == 1 ? 'our Juicy FTA Rating' : 'the 1/65 Average FTA value'}} </span> </h3>
         </ng-container>
         <ng-template #newBet>
           <div class="header-details">
             <p class="new-bet-title">Create a bet record for {{data.activeBet.selection}}</p>
             <div class="toggle-ftaOption-container">
               <div class="sab-ftaOption">
-                <div  *ngIf="sabFormValues.value.FtaOption == 1; else generic"><span class="fta-selection">Juicy FTA Rating</span> selected for calculating this bet </div>
-                <ng-template #generic><span class="fta-selection">1/65 Avg FTA Rating</span> selected for calculating this bet</ng-template>
+                <div  *ngIf="sabFormValues.value.FtaOption == 1; else generic"><span class="fta-selection">Juicy FTA Rating</span><p class="new-bet-title"> &nbsp; selected for calculating this bet</p></div>
+                <ng-template #generic><span class="fta-selection">1/65 Avg FTA Rating</span> <p class="new-bet-title"> &nbsp; selected for calculating this bet </p></ng-template>
+
                 <div class="sab-ftaToggle">
                   <mat-form-field>
                     <mat-slide-toggle class="example-margin" formControlName="FtaOption" [color]="color" [checked]="checked" [disabled]="disabled" (click)="updateFTA()">FTA Rating</mat-slide-toggle>
@@ -23,7 +24,7 @@
                 </div>
               </div>
             </div>
-           </div>
+          </div>
         </ng-template>
       </div>
 
@@ -31,62 +32,56 @@
 
 
         <div class="jm-expanded-container"> <!-- Relevant match values -->
-<!--
-          <div class="teamname shadow">
-            <div class="teamnamecontainer">
-              <div class="teamname-container">
-                <div class="selection">
-                  <div>{{data.activeBet.selection}}</div>
-                  <div class="logo-img-cont">
-                    <img src="/assets/img/fcLogo/{{data.activeBet.logo}}.png">
+          <!--
+            <div class="teamname shadow">
+              <div class="teamnamecontainer">
+                <div class="teamname-container">
+                  <div class="selection">
+                    <div>{{data.activeBet.selection}}</div>
+                    <div class="logo-img-cont">
+                      <img src="/assets/img/fcLogo/{{data.activeBet.logo}}.png">
+                    </div>
+                    <div class="leaguename">
+                      <p>"League Name Required?"</p>
+                    </div>
                   </div>
-                  <div class="leaguename">
-                  <p>"League Name Required?"</p>
+
                 </div>
-              </div>
 
               </div>
-
             </div>
-          </div>
- -->
+          -->
 
           <div class="bookie shadow">
             <div class="bookiecontainer">
 
               <div class="bookie-container-disp">
-                  <div class="bookie-text-lhs">Back Bet</div>
-                    <button tabindex="-1" class="bookie-button-container shadow" mat-raised-button href= ''></button>
+                <div class="bookie-text-lhs">Back Bet</div>
+                <button tabindex="-1" class="bookie-button-container shadow" mat-raised-button href= ''></button>
               </div>
 
               <div class="bookie-container">
                 <div class="bookie-row">
                   <p class="bookie-text-rhs">Stake</p>
                   <input  class = "value-box-back"
-                          formControlName="Stake"
-                          required
-                          placeholder="{{ getRealtimeUpdate().value.stake  | slice : '2' | currency : 'GBP':'1.0-0' }}"
-                          step="10"
-                          type="number">
-                  <mat-error *ngIf="sabFormValues.controls.BackOdds.errors">
-                      {{ getErrorMessage() }}
-                  </mat-error>
-
+                  [ngClass]="sabFormValues.controls.Stake.errors ? 'error-highlight': ''"
+                  formControlName="Stake"
+                  required
+                  placeholder="{{ getRealtimeUpdate().value.stake  | slice : '2' | currency : 'GBP':'1.0-0' }}"
+                  step="10"
+                  type="number">
                 </div>
 
                 <div class="bookie-row">
                   <p class= "bookie-text-rhs">Odds </p>
-
-                  <input  class="value-box-back"
-                          formControlName="BackOdds"
-                          required
-                          placeholder="{{getRealtimeUpdate().get('BackOdds').value | number:'0.2-2'}}"
-                          step="0.1"
-                          type="number"
-                          tabindex="0">
-                  <mat-error *ngIf="sabFormValues.controls.BackOdds.errors">
-                      {{getErrorMessage()}}
-                  </mat-error>
+                  <input tabindex="0"
+                  class="value-box-back"
+                  [ngClass]="sabFormValues.controls.BackOdds.errors ? 'error-highlight': ''"
+                  formControlName="BackOdds"
+                  required
+                  placeholder="{{getRealtimeUpdate().get('BackOdds').value | number:'0.2-2'}}"
+                  step="0.1"
+                  type="number">
                 </div>
               </div>
             </div>
@@ -119,6 +114,7 @@
                   <p class="exchange-text-mid">Odds </p>
                   <input
                         class="value-box-lay"
+                        [ngClass]="sabFormValues.controls.LayOdds.errors ? 'error-highlight': ''"
                         formControlName="LayOdds"
                         placeholder="{{getRealtimeUpdate().get('LayOdds').value | number:'0.2-2'}}"
                         required
@@ -127,7 +123,7 @@
                         tabindex="0">
                 </div>
               </div>
-  <!-- CONTINUE -->
+
               <div class="exchange-container-output">
                 <div class="exchange-row" tabindex="1">
                   <button  mat-raised-button class="bet-state-button" [style.background]="sabFormValues.value.BetState ? ' #076044' : '#8a0606'"  (click)="sabFormValues.get('BetState').setValue(!sabFormValues.value.BetState); $event.stopPropagation();">{{ sabFormValues.value.BetState ? 'Matched' : 'Unmatched'}}</button>
@@ -146,15 +142,13 @@
             <div class="calculated-container-comments">
               <div class="comments-cont">
                 <mat-form-field tabindex="1" class="user-comments" appearance="outline">
-                  <mat-label class="auto-calc-label">Match Comments</mat-label>
+                  <mat-label class="auto-calc-label">Comments  | {{sabFormValues.value.MatchInfo == null ? sabFormValues.value.MatchInfo == ' ' : sabFormValues.value.MatchInfo.length}}/140</mat-label>
                   <textarea
                     class="auto-calc-input"
                     formControlName="MatchInfo"
                     matInput
                     placeholder="">
                   </textarea>
-                  <mat-hint> ({{sabFormValues.value.MatchInfo == null ? sabFormValues.value.MatchInfo == ' ' : sabFormValues.value.MatchInfo.length}}/140)</mat-hint>
-                  <mat-error *ngIf="sabFormValues.controls.MatchInfo.errors">{{getErrorMessage()}} </mat-error>
                 </mat-form-field>
               </div>
             </div>
@@ -162,15 +156,17 @@
             <div class="calculated-container">
 
               <div class='valueheadercontainer'>
+
                   <span class="roi-text">ROI </span>
                   <span class="ev-text">EV </span>
                   <span class="mr-text">MR </span>
-              </div>
+
+                </div>
 
                   <hr class="ROIdivider">
                   <hr class="EVdivider">
                   <hr class="MRdivider">
-  <!-- Use same Juicy Methods to calculate these based off of FTA selection. -->
+
               <div class="calculated-row">
 
                       <span class="ROIvalue"
@@ -393,11 +389,10 @@
   </div>
 
   <div mat-dialog-actions class="button-grouping">
+    <mat-error *ngIf="sabFormValues.controls.BackOdds.errors || sabFormValues.controls.Stake.errors || sabFormValues.controls.LayOdds.errors || sabFormValues.controls.MatchInfo.errors">
+      {{ getErrorMessage() }}</mat-error>
+      <button mat-button class="popup-btn " type="submit" (click)="updateForm()" [disabled]="isDisabled" [ngClass]="{'glow' : sabFormValues.touched && sabFormValues.status == 'VALID'}"> {{isEdit ? 'Save' : 'Create'}}</button>
     <button mat-button class="popup-btn " (click)="onNoClick()"> Cancel </button>
-    <button mat-button class="popup-btn " type="submit" (click)="updateForm()" [disabled]="isDisabled" [ngClass]="{'glow' : sabFormValues.touched && sabFormValues.status == 'VALID'}">Save</button>
-    <div class="user-update-notification">
-      <h4 class="update-message cdk-global-overlay-wrapper"> {{sabFormValues.dirty && sabFormValues.status == "VALID" ? 'Update Changes?' : ''}}</h4>
-    </div>
   </div>
 
 

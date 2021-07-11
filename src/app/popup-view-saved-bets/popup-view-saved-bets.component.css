@@ -1,14 +1,26 @@
-::ng-deep.mat-dialog-container {
+/* ::ng-deep.mat-dialog-container {
   color:#ffffffec;
-  background: #263238;
+  background-image: linear-gradient(to top, #263238 60%, #161718e6 100%);
+} */
+
+.table-container {
+  margin-top: 50px;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
 }
+
+.sab-headers{
+  color: #ebbf57;
+  background: #263238;
+  width: inherit;
+  margin-left: inherit;
+  margin-right: inherit;
+}
+
 .sab-table {
   display: block;
-  margin-top: 50px;
-  margin-right: auto;
-  margin-left: auto;
-  width: 85%;
-  border: 2px solid #67767d;
+  border: 2px solid #41555e;
   padding: 10px;
   border-radius: 5px;
 }
@@ -37,6 +49,10 @@
 
 .sab-row-header {
   display: flex;
+}
+
+.row-header{
+  margin-left: 10px;
 }
 
 .rh0 {

@@ -104,19 +104,33 @@
                 <div class="bookie-container">
                   <div class="bookie-row">
                     <p class="bookie-text-rhs">Stake</p>
-                    <input formControlName="Stake" type="number"step="10" class = "value-box-back"  placeholder="{{sab.stake}}">
+                    <input
+                      class="value-box-back"
+                      formControlName="Stake"
+                      required
+                      step="10"
+                      type="number"
+                      placeholder="{{sab.stake}}">
                   </div>
 
                   <div class="bookie-row">
                     <p class= "bookie-text-rhs">Odds </p>
-                    <input tabindex="0" formControlName="BackOdds" type="number"step="0.1" class="value-box-back"  placeholder="{{sab.backOdd | number:'0.2-2'}}">
+                    <input tabindex="0"
+                    class="value-box-back"
+                    formControlName="BackOdds"
+                    required
+                    type="number"
+                    step="0.1"
+                    placeholder="{{sab.backOdd | number:'0.2-2'}}">
                   </div>
                 </div>
               </div>
             </div>
 
             <div class="exchange shadow">
+
               <div class="exchangecontainer">
+
                 <div class="exchange-container-disp" >
                   <p class="exchange-text-lhs">Lay Bet </p>
                   <button tabindex="-1" class="exchange-button-container mat-raised-button-bookie-exchange shadow" mat-raised-button href=''></button>
@@ -126,11 +140,20 @@
                 <div class="exchange-container-input" >
                   <div class="exchange-row">
                     <p class="exchange-text-mid">Stake </p>
-                    <input tabindex="6" class="value-box-laystake" [readOnly]="true" placeholder="{{sab.layStake | number:'0.2-2' }}">
+                    <input tabindex="6"
+                      class="value-box-laystake"
+                      [readOnly]="true"
+                      placeholder="{{sab.layStake | number:'0.2-2' }}">
                   </div>
+
                   <div class="exchange-row">
                     <p class="exchange-text-mid">Odds </p>
-                    <input tabindex="0" formControlName="LayOdds" type="number"step="0.1" class = "value-box-lay"  placeholder="{{sab.layOdd| number:'0.2-2'}}">
+                    <input tabindex="0"
+                      class="value-box-lay"
+                      formControlName="LayOdds"
+                      type="number"
+                      step="0.1"
+                      placeholder="{{sab.layOdd| number:'0.2-2'}}">
                   </div>
                 </div>
 
@@ -145,6 +168,7 @@
                 </div>
               </div>
             </div>
+
             <div class="calculated shadow">
               <div class="calculatedcontainer">
               <!-- Comment Box -->
@@ -198,9 +222,14 @@
 
                   <div class="calculated-row">
 
-                    <span class="FTAvalue"> {{ FTA(getGroup(i).get('Stake').value, getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value  ) | currency:'GBP'}}</span>
-                    <span class="QLPercentagevalue">{{ NewSS(  getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value, getGroup(i).get('Stake').value ) | number:'0.2-2' }}%</span>
-                    <span class="QLvalue"> {{ QL( getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value, getGroup(i).get('Stake').value) | currency:'GBP'}}  </span>
+                    <span class="FTAvalue">
+                      {{ FTA(getGroup(i).get('Stake').value, getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value  ) | currency:'GBP'}}</span>
+
+                    <span class="QLPercentagevalue">
+                      {{ NewSS(  getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value, getGroup(i).get('Stake').value ) | number:'0.2-2' }}%</span>
+
+                    <span class="QLvalue">
+                      {{ QL( getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value, getGroup(i).get('Stake').value) | currency:'GBP'}}  </span>
 
                   </div>
 

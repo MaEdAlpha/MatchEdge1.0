@@ -122,10 +122,13 @@ export class PopupViewSavedBetsComponent implements AfterViewInit {
       }
       //Change back to height='60%' for both
       const dialogRef = this.dialog.open(PopupFormSavedBetsComponent, {
-        height: '40%',
-        width:'100%',
         panelClass: 'saved-active-bets-responsive-view',
         data: {activeBet, isEdit}
+      });
+
+      dialogRef.updatePosition({
+        top: '20%',
+        left: '5%',
       });
 
       dialogRef.afterClosed().subscribe( result => {
@@ -139,10 +142,13 @@ export class PopupViewSavedBetsComponent implements AfterViewInit {
       //pass in boolean on whether its an edit, or a manually added active bet
       //Brooks note: access to Popup Overlays
       const dialogRef = this.dialog.open(PopupFormSavedBetsComponent, {
-        height: '40%',
-        width:'100%',
         panelClass: 'saved-active-bets-responsive-view',
         data: {activeBet, isEdit}
+      });
+
+      dialogRef.updatePosition({
+        top: '20%',
+        left: '5%',
       });
 
       dialogRef.afterClosed().subscribe( result => {

@@ -168,9 +168,8 @@
                       <div class="calculated-container-comments">
                         <div class="comments-cont">
                           <mat-form-field tabindex="1" class="user-comments" appearance="outline">
-                            <mat-label class="auto-calc-label">Match Comments</mat-label>
+                            <mat-label class="auto-calc-label">Comments | {{selectionValues.value.MatchInfo == null ? selectionValues.value.MatchInfo == ' ' : selectionValues.value.MatchInfo.length}}/140</mat-label>
                             <textarea class="auto-calc-input" formControlName="MatchInfo" matInput placeholder=""></textarea>
-                            <mat-hint> ({{selectionValues.value.MatchInfo == null ? selectionValues.value.MatchInfo == ' ' : selectionValues.value.MatchInfo.length}}/140)</mat-hint>
                             <mat-error *ngIf="selectionValues.controls.MatchInfo.errors">{{getErrorMessage()}} </mat-error>
                           </mat-form-field>
                         </div>

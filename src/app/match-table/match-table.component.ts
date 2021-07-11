@@ -886,6 +886,7 @@ import { on } from 'events';
       matDialogConfig = {
         width: '70%',
         height:  '80%',
+        panelClass: 'view-active-bets-responsive',
         data: {row, list}
       }
 

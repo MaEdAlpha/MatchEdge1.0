@@ -67,7 +67,7 @@ export class PopupFormSavedBetsComponent implements OnInit {
   getErrorMessage() {
     var formInput = this.sabFormValues.controls;
     if(formInput.BackOdds.errors || formInput.Stake.errors || formInput.LayOdds.errors || formInput.PL.errors){
-      return 'Invalid entry';
+      return 'Manually create a slip by filling in the highlighted fields';
     }
     if(formInput.MatchInfo.errors){
       return 'Allowed char. ' + '(' + this.sabFormValues.value.MatchInfo.length + '/' + this.sabFormValues.controls.MatchInfo.errors.maxlength.requiredLength + ')';
@@ -181,8 +181,6 @@ export class PopupFormSavedBetsComponent implements OnInit {
     return fta.toFixed(2);
   }
 
-
-
   getROI(backOdds: number, layOdds:number, stake:number, occurence:number):number{
     var layStake = (+backOdds* +stake / (+layOdds-+this.userCommission/100));
     var fullTurnAround = +stake * (+backOdds -1) + +layStake;
@@ -213,7 +211,6 @@ export class PopupFormSavedBetsComponent implements OnInit {
     //if user selects toggle, set FormFTAOPtion
     this.formFtaOption = this.sabFormValues.get('FtaOption').value ? 1:0;
     console.log(this.formFtaOption);
-
   }
 
   getBetState():boolean{
@@ -242,6 +239,4 @@ export class PopupFormSavedBetsComponent implements OnInit {
     var value = ( isNaN(input) || !isFinite(input)) ? 999:input;
     return value;
   }
-
-
 }
