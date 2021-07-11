@@ -13,9 +13,8 @@
 .sab-headers{
   color: #ebbf57;
   background: #263238;
-  width: inherit;
-  margin-left: inherit;
-  margin-right: inherit;
+  width: 77%;
+  margin-bottom: 3px;
 }
 
 .sab-table {
@@ -23,11 +22,6 @@
   border: 2px solid #41555e;
   padding: 10px;
   border-radius: 5px;
-}
-
-.sab-row{
-  display: flex;
-  justify-content: space-between;
 }
 
 .sab-title-container {
@@ -48,40 +42,48 @@
 }
 
 .sab-row-header {
-  display: flex;
+  width: 77%;
+  text-align: center;
 }
 
 .row-header{
-  margin-left: 10px;
+  margin-left: 0px;
+}
+
+.row-header,
+.sab-row-item{
+  display: table-cell;
 }
 
 .rh0 {
-  margin-left: 25px;
+  width: 18%;
+  padding-left: 19px;
 }
-
-.rh1 {
-  margin-left: 80px;
+.cell0 {
+  width: 17%;
 }
-
-.rh2 {
-  margin-left: 36px;
-}
-
-.rh3 {
-  margin-left: 33px;
-}
-
-.rh4 {
-  margin-left: 35px;
-}
-
-.rh5 {
-  margin-left: 66px;
-}
-
+.rh1,
+.rh2,
+.rh3,
+.rh4,
+.rh5,
 .rh6{
-  margin-left: 70px;
+  margin-left: 0px;
+  width: 7%;
+  text-align: center;
 }
+
+.cell,
+.cell1,
+.cell2,
+.cell3,
+.cell4,
+.cell5,
+.cell6{
+  width: 7%;
+  text-align: center;
+}
+
 
 
 .sab-row-item{

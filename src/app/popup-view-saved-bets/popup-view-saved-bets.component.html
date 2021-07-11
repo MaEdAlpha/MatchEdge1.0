@@ -26,31 +26,29 @@
   <div class="table-container">
     <div class="sab-headers">
       <mat-list-option class="sab-row-header">
-        <h3 class="row-header rh0"> Created </h3>
-        <h3 class="row-header rh1"> Back Stake </h3>
-        <h3 class="row-header rh2"> Back Odds</h3>
-        <h3 class="row-header rh3"> Lay Odds</h3>
-        <h3 class="row-header rh4"> FTA Returns </h3>
-        <h3 class="row-header rh5"> QL </h3>
-        <h3 class="row-header rh6"> Match State</h3>
+        <h4 class="row-header rh0"> Created </h4>
+        <h4 class="row-header rh1"> Stake </h4>
+        <h4 class="row-header rh2"> Odds</h4>
+        <h4 class="row-header rh3"> Lay Odds</h4>
+        <h4 class="row-header rh4"> FTA </h4>
+        <h4 class="row-header rh5"> QL </h4>
+        <h4 class="row-header rh6"> Status</h4>
       </mat-list-option>
     </div>
     <div class="sab-table">
        <mat-action-list  #activeBets [multiple]="false">
          <mat-list-option *ngFor="let activeBet of filteredSabList; let i = index">
            <div class="sab-row">
-             <p class="sab-row-item"> {{activeBet.created | date: 'EEE dd LLL HH:mm'}}</p>
+             <p class="sab-row-item cell0"> {{activeBet.created | date: 'EEE dd LLL HH:mm'}}</p>
                <!-- <span class="sab-row-item"> {{activeBet.matchDetail | date: 'EEE dd LLL  HH:mm' }}</span> -->
-               <span class="sab-row-item"> {{activeBet.stake | currency:'GBP'}}</span>
-               <span class="sab-row-item"> {{activeBet.backOdd}}</span>
-               <span class="sab-row-item"> {{activeBet.layOdd}}</span>
-               <span class="sab-row-item"> {{activeBet.fta | currency: 'GBP'}}</span>
-               <span class="sab-row-item"> {{activeBet.ql | currency:'GBP'}}</span>
-               <span class="sab-row-item"> <span> {{activeBet.betState ? 'Matched': 'Unmatched'}}</span></span>
-
-
-             <button mat-button (click)="editDeleteSab(activeBet, true); showMe(activeBet); " class="sab-row-button popup-btn"> Edit </button>
-             <button mat-button (click)="deleteSab(activeBet)" class="sab-row-button popup-btn"> Delete</button>
+               <span class="sab-row-item cell1"> {{activeBet.stake | currency:'GBP'}}</span>
+               <span class="sab-row-item cell2"> {{activeBet.backOdd}}</span>
+               <span class="sab-row-item cell3"> {{activeBet.layOdd}}</span>
+               <span class="sab-row-item cell4"> {{activeBet.fta | currency: 'GBP'}}</span>
+               <span class="sab-row-item cell5"> {{activeBet.ql | currency:'GBP'}}</span>
+               <span class="sab-row-item cell6"> <span> {{activeBet.betState ? 'Matched': 'Unmatched'}}</span></span>
+               <span class=" sab-row-item cell"> <button mat-button (click)="editDeleteSab(activeBet, true); showMe(activeBet); " class="sab-row-button popup-btn"> Edit </button> </span>
+               <span class=" sab-row-item cell"> <button mat-button (click)="deleteSab(activeBet)" class="sab-row-button popup-btn"> Delete</button></span>
            </div>
          </mat-list-option>
        </mat-action-list>
