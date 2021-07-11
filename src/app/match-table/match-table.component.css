@@ -317,7 +317,7 @@ mat-header-cell.cdk-column-FixturesDate {
 }
 
 button.viewCell {
-  background: #c3c3c3;
+  background:#c3c3c300;
 }
 
 .match-inactive{
@@ -795,10 +795,6 @@ span.SMAway{
 .viewCell {
     padding: 0.125rem;
 
-}
-
-button.viewCell {
-  background: #c3c3c3;
 }
 
 /* mat-column generic styling  */

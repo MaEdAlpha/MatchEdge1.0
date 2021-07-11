@@ -3,6 +3,18 @@
   text-decoration: underline;
 }
 
+h2,
+h3,
+p,
+ul,
+li {
+  color: white;
+}
+
+b{
+  font-weight: 400;
+}
+
 .cookie-anchor:hover {
   transform: scale(1.10);
   color: gold;

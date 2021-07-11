@@ -2,14 +2,20 @@
 <hr class="inner-hr">
 <div class="sab-title-container">
   <div class="text-details">
-    <h1 mat-dialog-title class="title-details"> {{data.row.Selection}}</h1>
+    <div class="team-fta-cont">
+      <h1 mat-dialog-title class="title-details">{{data.row.Selection}} &nbsp;&nbsp;</h1>
+      <p  class="FTA-text"
+          matTooltip="FTA Value"
+          matTooltipPosition="right">{{data.row.fta}} </p>
+    </div>
     <h2 mat-dialog-title class="title-details"> {{data.row.Home}} v. {{data.row.Away}}</h2>
     <h2 mat-dialog-title class="title-details"> {{data.row.EpochTime*1000 | date: 'EEE dd LLL  HH:mm'}}</h2>
   </div>
 
-  <div class="FTA-container">
-    <h2 class="FTA-text">{{data.row.fta}} </h2>
-  </div>
+  <!-- <div class="FTA-container">
+    <h4 class="FTA-text">{{data.row.fta}} </h4>
+
+  </div> -->
 
   <div class="logo-container">
     <img class="logo" src="/assets/img/fcLogo/{{data.row.Selection.toLowerCase().split(' ').join('-')}}.png">

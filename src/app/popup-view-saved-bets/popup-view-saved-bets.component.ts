@@ -100,6 +100,7 @@ export class PopupViewSavedBetsComponent implements AfterViewInit {
         created: Date.now(),
         fixture: this.data.row.Home + " vs " + this.data.row.Away,
         selection: this.data.row.Selection,
+        league: this.data.row.League,
         logo: this.data.row.Selection.toLowerCase().split(' ').join('-'),
         matchDetail: this.data.row.EpochTime*1000,
         stake: null,

@@ -35,9 +35,13 @@
     display: grid;
 }
 
+.team-fta-cont {
+  display: inline-flex;
+}
+
 .title-details {
   margin: 0px;
-  width: 88%;
+  width: fit-content;
   display: inline-block;
 }
 
@@ -84,8 +88,6 @@
   text-align: center;
 }
 
-
-
 .sab-row-item{
   height: fit-content;
   padding: 2px;
@@ -107,7 +109,7 @@
 }
 
 .sab-view-btn-container {
-  padding: 8px 0;
+    padding: 8px 0;
     display: flex;
     min-height: 52px;
     margin-left: auto;
@@ -116,17 +118,18 @@
 }
 
 .logo-container {
-  position: absolute;
-  top: 3%;
-  left: 88%;
+  display: inline-flex;
+  width: 30%;
 }
 
 .logo {
-  width: 60px;
-  border: 1px solid white;
-  padding: 10px;
-  border-radius: 39px;
+  width: 100px;
+  border-radius: 8px;
   margin-left: auto;
+  background: linear-gradient(146deg, #2b2f31 0%, rgb(132 156 167) 25%, #474e51 40%);
+  padding: 4px;
+  float: right;
+  border: 1px solid #ffffff2b;
 }
 
 ::ng-deep.mat-form-field-label{
@@ -149,15 +152,14 @@ hr {
 }
 
 .FTA-text{
-  float: left;
-  margin-left: 5px;
-  margin-right: auto;
-  margin-top: 4.5px;
-  width: 35px;
-  padding: 15px;
-  font-size: 33px !important;
+  font-size: 15px !important;
   color: #ffffff !important;
   background: radial-gradient(at 76% 0, #47606d, #354750ad 70%), linear-gradient(0deg, #e0e1e2, transparent 0%) bottom;
   border-radius: 5px;
+  width: fit-content;
   text-align: center;
+  padding: 5px;
+  padding-left: 6px;
+  padding-right: 6px;
+  cursor: default;
 }

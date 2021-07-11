@@ -53,6 +53,8 @@
   width: fit-content;
   margin-top: 2em;
   border-radius:2px;
+  border: 1px solid #ffffff17;
+  background: linear-gradient(146deg, rgb(100,116,124,1) 0%, rgb(37 46 51) 25%, rgb(42 54 60) 40%);
 }
 
 .active-img{
@@ -70,10 +72,6 @@
 
 img.two-up {
   width: 84%;
-}
-
-.inactive-btn-cont{
-  color: salmon;
 }
 
 .sub-btn{

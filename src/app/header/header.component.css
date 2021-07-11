@@ -35,4 +35,5 @@ img {
 
 .settings-img:hover {
   opacity: 0.8;
+  cursor: pointer;
 }

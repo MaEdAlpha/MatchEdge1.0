@@ -513,6 +513,7 @@ div.jm-exp-details {
 
 .calculated {
   width:34%;
+  height: 95%;
   padding-top: 7px;
   margin-left: 13px;
 }
@@ -576,7 +577,7 @@ div.jm-exp-details {
   margin-top: 9px;
 }
 .exchange-container-output{
-  margin-top: 14px;
+  margin-top: 7px;
   margin-left: 8px;
 }
 
@@ -685,7 +686,7 @@ padding-top: 8%;
 
 
 .exp-button{
-  height: 110px;
+  height: 106px;
   right: -95px;
   top: 1px;
   width: -21px;
@@ -776,13 +777,16 @@ padding-top: 8%;
 
 .bet-state-button {
   color: white;
-  width: 95%;
-  margin-top: -2px;
+  width: 95px;
+  line-height: 20px;
+  margin-top: 12px;
   margin-bottom: 4px;
-  font-size: 13px;
+  font-size: 12px;
+  padding: 1px;
   text-align: center;
   box-shadow: 0px 0px 7px -1px #ffffff;
-
+  margin-left: auto;
+  margin-right: auto;
 }
 
 p.betState {
@@ -904,8 +908,14 @@ input[type=number] {
 }
 .valueheadercontainer{
   margin-bottom: -10px;
-  margin-top: 0px
+  margin-top: 5px;
 }
+
+.valueheadercontainer,
+.valueheadercontainer2{
+  line-height: 15px;
+}
+
 .roi-text{
   color: white;
   padding-left: 35px;
@@ -931,6 +941,7 @@ input[type=number] {
 .calculated-row
 {
   position: relative;
+  line-height: 8px;
 }
 .ROIvalue{
   color: white;

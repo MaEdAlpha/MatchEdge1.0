@@ -539,6 +539,7 @@ export class JuicyMatchComponent implements OnChanges, OnInit, OnDestroy, AfterV
         created: Date.now(),
         fixture: row.Fixture,
         selection: row.Selection,
+        league: row.League,
         logo: row.Selection.toLowerCase().split(' ').join('-'),
         matchDetail: row.EpochTime*1000,
         stake:  stake,

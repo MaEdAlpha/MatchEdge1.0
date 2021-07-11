@@ -389,8 +389,8 @@
   </div>
 
   <div mat-dialog-actions class="button-grouping">
-    <mat-error *ngIf="sabFormValues.controls.BackOdds.errors || sabFormValues.controls.Stake.errors || sabFormValues.controls.LayOdds.errors || sabFormValues.controls.MatchInfo.errors">
-      {{ getErrorMessage() }}</mat-error>
+    <!-- <mat-error *ngIf="sabFormValues.controls.BackOdds.errors || sabFormValues.controls.Stake.errors || sabFormValues.controls.LayOdds.errors || sabFormValues.controls.MatchInfo.errors">
+      {{ getErrorMessage() }}</mat-error> -->
       <button mat-button class="popup-btn " type="submit" (click)="updateForm()" [disabled]="isDisabled" [ngClass]="{'glow' : sabFormValues.touched && sabFormValues.status == 'VALID'}"> {{isEdit ? 'Save' : 'Create'}}</button>
     <button mat-button class="popup-btn " (click)="onNoClick()"> Cancel </button>
   </div>

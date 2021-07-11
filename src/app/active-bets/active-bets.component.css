@@ -160,9 +160,9 @@ tr.sab-row:not(.sab-expanded-row):active{ /* when main container clicked, change
 
 .leaguename>p{
   text-align: center;
-    margin-top: -10px;
-    margin-bottom: 0px;
-    font-size: smaller;
+  margin-top: -5px;
+  margin-bottom: 0px;
+  font-size: smaller;
 }
 
 #logo {

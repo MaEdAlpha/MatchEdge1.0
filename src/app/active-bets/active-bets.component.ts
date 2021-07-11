@@ -291,6 +291,7 @@ setChanges(sab:ActiveBet, index:number):ActiveBet{
     created: Date.now(),
     fixture: sab.fixture,
     selection: sab.selection,
+    league: sab.league,
     logo: sab.selection.toLowerCase().split(' ').join('-'),
     matchDetail: sab.matchDetail,
     stake:  stake,

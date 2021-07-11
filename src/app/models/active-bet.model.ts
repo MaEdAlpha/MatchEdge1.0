@@ -4,6 +4,7 @@ export interface ActiveBet {
   created:number;
   fixture:string;
   selection:string;
+  league:string;
   logo:string;
   matchDetail:number;
   stake:number;
