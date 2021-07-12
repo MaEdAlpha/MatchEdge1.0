@@ -82,7 +82,7 @@ export class MatchStatusService {
 
   //will updateNotification Status: Used to trigger toast notification.
   private updateNotificationStatus(selection: any) {
-    var filterSelection: number = this.userPreferenceService.getOptionSelected();
+    var filterSelection: number = this.userPreferenceService.getSelectedFilterValue();
     var minOdds: number = +this.userPreferenceService.getMinOdds();
     var maxOdds: number = +this.userPreferenceService.getMaxOdds();
     //View status of seletion
@@ -128,8 +128,10 @@ export class MatchStatusService {
         return false;
       }
     });
-    console.log("UPDATEWATCHLIST METHOD");
+    console.log("-------UPDATEWATCHLIST METHOD-------");
     console.log(this.watchList);
+    console.log("-----------------------------------");
+
     this.updateLocalStorage(this.watchList);
   }
 
@@ -149,13 +151,6 @@ export class MatchStatusService {
     console.log(matchToUpdate[0])
   }
 
-  displayIgnoreList(){
-    console.log("MATCHES IN IGNORE LIST: ");
-    this.watchList.forEach(selection =>{
-      console.log(selection);
-    })
-  }
-
   getWatchList(): any[]{
     // console.log(this.watchList);
     return this.watchList;
@@ -164,31 +159,32 @@ export class MatchStatusService {
     //compares WatchList with juicySelection states.
     //MAKE SURE WATCHLIST IS ACTUALLY BEING UPDATED>
   isWatched( selectionName:string):boolean {
-      console.log("ISWATCHED METHOD 1.watchlist --> 2.selectionName");
+      console.log("----------isWatchedMethod---------");
       console.log(this.watchList);
       console.log(selectionName);
 
 
     const state:any = this.watchList.filter( fixture => {
       if(fixture.Home == selectionName && fixture.HStatus.notify) {
-        console.log("RETURNED TRUE isWATCHED");
+        console.log(fixture.Home + "= Home Team, isWatched = true");
 
         return true
       }
       else if(fixture.Away == selectionName && fixture.AStatus.notify) {
-        console.log("RETURNED TRUE from isWATCHED");
+        console.log(fixture.Away + "= Away Team, isWatched = true");
 
         return true;
       } else {
-        console.log("----Watchlist FIXTURE");
+        console.log("----Fixture: ");
         console.log(fixture);
-        console.log("----JUICY SELECTION");
-        console.log(selectionName);
-
-        console.log("not in watchlist OR notification set to false.");
+        console.log("-------JUICY SELECTION: " + selectionName + " isWatched = false" );
         return false;
       }
     });
+
+    console.log("--------Filtered State constant: ------------");
+    console.log(state);
+    console.log("------------------------------------------------");
 
     let result =  state.length > 0 ? true : false
 
@@ -196,8 +192,7 @@ export class MatchStatusService {
   }
 
   notifyUser(juicy: {selection:string, notifyState:boolean, epoch:number} ){
-    console.log('NotifyIn MatchStatus. Subject');
-    console.log(juicy);
+    console.log('Notify User: ' + juicy.selection + " notifyState: " + juicy.notifyState);
     this.notificationSubscription.next(juicy);
   }
 

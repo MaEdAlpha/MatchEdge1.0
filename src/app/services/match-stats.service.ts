@@ -186,10 +186,7 @@ getMatchStats(allMatches, ftaOption:string): JuicyMatch[] {
       matchStatObj = this.calculateMatchStats(matchStatObj, ftaOption);
       //return updated values to match object
        match = this.updateJuicyObject(match, matchStatObj);
-       if(match.Selection == "Bournemouth") {
-         //verify changes of EVthisBet
-         console.log(match);
-       }
+
     });
     //return array of  updated matches.
     recalculatedMatches = [...juicyMatches];
