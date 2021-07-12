@@ -100,8 +100,8 @@ getMatchStats(allMatches, ftaOption:string): JuicyMatch[] {
     return selection;
   }
 
-  //Used in JuicyMatch Handling Service: To process incoming data to the SelectionObject (single Match object).
-  retrieveStreamData(streamObj, teamName:string): JuicyMatch{
+  //Converts Stream Object to JuicyMatch Object
+  retrieveStreamDataForJuicyTable(streamObj, teamName:string): JuicyMatch{
 
     var juicyStreamBuild : JuicyMatch;
     var ftaOption = this.userPropertiesService.getFTAOption();
@@ -126,6 +126,25 @@ getMatchStats(allMatches, ftaOption:string): JuicyMatch[] {
         juicyStreamBuild = MatchStatsService.createJuicyObject(streamObj, this.awayMatchStats, 'away', true);
     }
         return juicyStreamBuild
+  }
+
+  //Creates a JSON object identifying which odds to update for a Fixtures Object. Used in Fixtures and Watchlist Tables.
+  retrieveStreamDataForThisFixturesTable(streamObj:any, fixture:any): {homeBackOdds: boolean, homeLayOdds: boolean, awayBackOdds: boolean,  awayLayOdds:boolean} {
+    let homeBACK:boolean = false;
+    let homeLAY: boolean = false;
+    let awayBACK: boolean = false;
+    let awayLAY: boolean = false;
+    let fixtureOddsUpdated:{ homeBackOdds: boolean, homeLayOdds: boolean, awayBackOdds: boolean,  awayLayOdds:boolean} =  {
+                                                                                                                            homeBackOdds: homeBACK,
+                                                                                                                            homeLayOdds: homeLAY,
+                                                                                                                            awayBackOdds: awayBACK,
+                                                                                                                            awayLayOdds: awayLAY
+                                                                                                                          }
+
+    //pass through a filter to verify change in odds.
+    //if streamObj odds are not 0, and current odds != streamObj Odds for homeBACK/LAY and awayBACK/LAY set the booleans to true;
+
+    return fixtureOddsUpdated
   }
 
   getAllSingleMatches(): JuicyMatch[]{

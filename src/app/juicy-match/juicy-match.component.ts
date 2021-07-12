@@ -162,31 +162,29 @@ export class JuicyMatchComponent implements OnChanges, OnInit, OnDestroy, AfterV
     this.dataSource = new FormArray(this.allIndvMatches.map( x => this.createForm(x)));
     //accesses an eventEmitter of streamData that is coming in via MongoDB ChangeStream.  Setsup a subscription to observable.
     this.streamSub = this.matchesService.streamDataUpdate.subscribe( (streamObj) => {
-      console.log(streamObj);
 
-      console.log("Stream INCOMING! Sorted Data below");
-      console.log(this.sortedData);
+      var juicyMatchBase = null;
+
+      console.log("INCOMING STREAM DATA: " + streamObj.HomeTeamName + " vs " + streamObj.AwayTeamName);
 
       var lookupIndex: number[] = []
-
       lookupIndex.push( this.sortedData.findIndex( (indvMatch) => indvMatch.Selection == streamObj.HomeTeamName && indvMatch.EpochTime == streamObj.unixDateTimestamp) );
       lookupIndex.push( this.sortedData.findIndex( (indvMatch) => indvMatch.Selection == streamObj.AwayTeamName && indvMatch.EpochTime == streamObj.unixDateTimestamp) );
-      console.log(lookupIndex);
 
       lookupIndex.forEach( indexOfmatch => {
-        var juicyMatchBase = this.sortedData[indexOfmatch];
 
-        console.log('-------------PASSING IN TO COMPARE STREAM DATA--------');
-        //sets wolverhapmton to false.....
-        var resultII = juicyMatchBase.notify;
-        console.log(resultII);
-        var result = this.sortedData[indexOfmatch].notify;
-        console.log(result);
-        console.log('----------------------------------------------------------');
+        juicyMatchBase = this.sortedData[indexOfmatch];
+
+        console.log('-------------------Current JuicyMatch------------------');
+        console.log(juicyMatchBase);
+        console.log('------------------ Incoming STREAM DATA----------------');
+        console.log(streamObj);
+        console.log('-------------------------------------------------------');
 
         //singleMatchPair is a freshly pushed Match object from our database. It is processed in retrieveStreamData.
-        this.juicyMatchStreamUpdate =  (indexOfmatch != undefined && this.sortedData[indexOfmatch]) ? this.matchStatService.retrieveStreamData(streamObj, juicyMatchBase.Selection ) : null;
-        (indexOfmatch != undefined && this.sortedData[indexOfmatch]) ? this.juicyMHService.updateSingleMatch( juicyMatchBase, this.juicyMatchStreamUpdate, indexOfmatch) : console.log("did not find singleMatch in indvMatch Array");
+        this.juicyMatchStreamUpdate =  ( indexOfmatch != undefined && this.sortedData[indexOfmatch] ) ? this.matchStatService.retrieveStreamDataForJuicyTable( streamObj, juicyMatchBase.Selection ) : null;
+        //Sends to Juicy Match Handling Services to update juicyMatch.notify state and trigger notification + flicker animations for juicy matches.
+        if(this.juicyMatchStreamUpdate != null) this.juicyMHService.updateSingleMatch( juicyMatchBase, this.juicyMatchStreamUpdate, indexOfmatch );
         this.chRef.detectChanges();
       });
 

@@ -39,7 +39,11 @@
     PreviousB365HomeOdds:any[];
     PreviousB365AwayOdds:any[];
     isWatched: boolean;
-    }
+    homeLayOddsFlicker: boolean;
+    awayLayOddsFlicker: boolean;
+    homeBackOddsFlicker: boolean;
+    awayBackOddsFlicker: boolean;
+  }
 
 
 

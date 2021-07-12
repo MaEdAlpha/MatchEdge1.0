@@ -52,7 +52,11 @@ export class MatchesService {
             PreviousB365AwayOdds: match.PreviousB365AwayOdds,
             HStatus: {notify: false, activeBet: false, ignore: false },
             AStatus: {notify: false, activeBet: false, ignore: false },
-            isWatched: false
+            isWatched: false,
+            homeLayOddsFlicker: false,
+            awayLayOddsFlicker: false,
+            homeBackOddsFlicker: false,
+            awayBackOddsFlicker: false,
           }
         })
       }))

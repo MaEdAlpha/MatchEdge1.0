@@ -22,6 +22,7 @@ import { ActiveBet } from '../models/active-bet.model';
 import { PopupViewSavedBetsComponent } from '../popup-view-saved-bets/popup-view-saved-bets.component';
 import { truncate } from 'fs';
 import { on } from 'events';
+import { MatchStatsService } from '../services/match-stats.service';
 
   export class Group {
     level = 0;
@@ -115,7 +116,7 @@ import { on } from 'events';
     todayDate: number;
     tomorrowDate: number;
 
-    constructor(private savedActiveBetsService: SavedActiveBetsService, private chRef: ChangeDetectorRef, private userPropertiesService: UserPropertiesService, public datepipe: DatePipe, private sidenav: SidenavService , private matchesService: MatchesService, private webSocketService: WebsocketService, public dialog: MatDialog, private notificationBox: NotificationBoxService, private matchStatusService: MatchStatusService, private dateHandlingService: DateHandlingService) {
+    constructor(private savedActiveBetsService: SavedActiveBetsService, private chRef: ChangeDetectorRef, private userPropertiesService: UserPropertiesService, public datepipe: DatePipe, private sidenav: SidenavService , private matchesService: MatchesService, private webSocketService: WebsocketService, public dialog: MatDialog, private notificationBox: NotificationBoxService, private matchStatusService: MatchStatusService, private matchStatisticsService: MatchStatsService, private dateHandlingService: DateHandlingService) {
     }
 
     ngOnInit() {
@@ -142,7 +143,6 @@ import { on } from 'events';
             this.toggleActiveBetState(sab, true);
           });
         }
-
       });
 
       this.newSabSubscriptioin = this.savedActiveBetsService.getSabListObservable().subscribe( (newSAB: ActiveBet) => {
@@ -210,13 +210,20 @@ import { on } from 'events';
                  );
 
       //StreamChange data. Updates individual matches, where toast should be triggered.
-     this.tableSubscription = this.matchesService.streamDataUpdate
-      .subscribe( (streamObj) => {
+     this.tableSubscription = this.matchesService.streamDataUpdate.subscribe( (streamObj) => {
+
         var indexOfmatch = this.matches.findIndex( match => match.Home == streamObj.HomeTeamName && match.Away == streamObj.AwayTeamName);
+        let fixturesMatch = this.matches[indexOfmatch];
+
         indexOfmatch != undefined && this.matches[indexOfmatch] ? this.updateMatch(this.matches[indexOfmatch], streamObj) : console.log( streamObj.HomeTeamName + " vs. " + streamObj.AwayTeamName + " not found");
-        //Execute a simple cycle to see if EpochTime*1000 < Date.Now()
-        //If it is, then change set to Inactive. and set a boolean to reset the next fixturesDate header.
+        //TODO isInPlay() Hook for updating tables. set a boolean to reset the next fixturesDate header.
         this.checkDateHeaders();
+
+        //FlickerUpdates
+        let fixtureOddsUpdated: {homeBackOdds: boolean, homeLayOdds: boolean, awayBackOdds: boolean,  awayLayOdds:boolean} = this.matchStatisticsService.retrieveStreamDataForThisFixturesTable( streamObj, fixturesMatch);
+        //flickersAnimationsUpdated
+        console.log(fixtureOddsUpdated);
+
       });
 
       //Update Start/End Dates
@@ -656,14 +663,27 @@ import { on } from 'events';
       this.matchWatched[index]='true';
     }
 
+    //entry point for directives
     updateMatch(match, streamMatch){
       if(streamMatch.SmarketsHomeOdds != 0 && streamMatch.SmarketsAwayOdds != 0)
       {
+        match.homeLayOddsFlicker = this.updateFlickerAnimationState(streamMatch.SmarketsHomeOdds, match.SMHome);
+        match.homeLayOddsFlicker = match.homeLayOddsFlicker ? setTimeout(() => { return false } , 3000) : null;
+
+        match.awayLayOddsFlicker = this.updateFlickerAnimationState(streamMatch.SmarketsAwayOdds, match.SMAway);
+        match.awayLayOddsFlicker = match.awayLayOddsFlicker ? setTimeout(() => { return false } , 3000) : null;
+
         match.SMHome = streamMatch.SmarketsHomeOdds;
         match.SMAway = streamMatch.SmarketsAwayOdds;
       }
       if(streamMatch.B365HomeOdds != 0 && streamMatch.B365AwayOdds != 0)
       {
+        match.homeBackOddsFlicker = this.updateFlickerAnimationState(streamMatch.B365HomeOdds, match.BHome);
+        match.homeBackOddsFlicker = match.homeBackOddsFlicker ? setTimeout(() => { return false } , 3000) : null;
+
+        match.awayBackOddsFlicker = this.updateFlickerAnimationState(streamMatch.B365AwayOdds, match.BAway);
+        match.awayBackOddsFlicker = match.awayBackOddsFlicker ? setTimeout(() => { return false } , 3000) : null;
+
         match.BHome = streamMatch.B365HomeOdds;
         match.BAway = streamMatch.B365AwayOdds;
       }
@@ -675,6 +695,18 @@ import { on } from 'events';
         match.OccA = streamMatch.OccurrenceAway;
       }
         this.chRef.detectChanges();
+    }
+
+    updateFlickerAnimationState(streamOdds:number, fixtureOdds:number): boolean {
+      let triggerOddsUpdate: boolean;
+        if(streamOdds != fixtureOdds)
+        {
+          console.log(streamOdds + " == " + fixtureOdds + " " + (streamOdds == fixtureOdds));
+          triggerOddsUpdate = true;
+        } else {
+          triggerOddsUpdate = false;
+        }
+      return triggerOddsUpdate;
     }
 
     //expands and collapses container
