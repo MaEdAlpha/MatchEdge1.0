@@ -51,39 +51,40 @@ export class JuicyMatchHandlingService {
   }
 
   //Triggers Odds Update Animation and Notifications.
-  updateSingleMatch(mainMatch, juicyMatchStreamUpdate, index){
+  updateSingleMatch(juicyMatchBase, juicyMatchStreamUpdate, index){
 
     var oddsChanged: boolean = false;
     var ftaOption: string = this.userPropertiesService.getFTAOption();
     // DEBUG
-    console.log("-----Stream Log----");
-    console.log("Stream");
+    console.log("---------Stream Object--------");
     console.log(juicyMatchStreamUpdate);
-    console.log("mainMatch");
-    console.log(mainMatch);
-    console.log("-----Stream Log----");
+    console.log("---------------------------\n");
+
+    console.log("--------Juicy Selection----------");
+    console.log(juicyMatchBase);
+    console.log("---------------------------\n");
 
     //THIS CODE should trigger your matches to disable notify if not in min Max odds range. //DO WE WANT THIS????
-    this.incomingStreamBetweenMinMaxOdds(juicyMatchStreamUpdate, mainMatch);
+    this.incomingStreamBetweenMinMaxOdds(juicyMatchStreamUpdate, juicyMatchBase);
     // If stream odds are within user min/max odds BUT currrent match is less than min odds. set match.notify = true.
-    this.incomingStreamBetweenMinMaxOddsAndCurrentOddsIsNot(juicyMatchStreamUpdate, mainMatch);
+    this.incomingStreamBetweenMinMaxOddsAndCurrentOddsIsNot(juicyMatchStreamUpdate, juicyMatchBase);
     //Update notify boolean for watchList, incase any updates come in where odds drop, it should disable realtime in Watchlist.
-    this.matchStatusService.updateWatchListFromStream(mainMatch);
+    this.matchStatusService.updateWatchListFromStream(juicyMatchBase);
     // //Detect change in BackOdds, trigger flicker animation.
-    oddsChanged = this.triggerJuicyFlickerAnimation(mainMatch, juicyMatchStreamUpdate, index, oddsChanged);
+    oddsChanged = this.triggerJuicyFlickerAnimation(juicyMatchBase, juicyMatchStreamUpdate, index, oddsChanged);
 
-    mainMatch = this.matchStatService.updateSelection(mainMatch, ftaOption);
-    mainMatch =  oddsChanged ? this.notificationService.showJuicyNotification(mainMatch) : mainMatch;
+    juicyMatchBase = this.matchStatService.updateSelection(juicyMatchBase, ftaOption);
+    juicyMatchBase =  oddsChanged ? this.notificationService.showJuicyNotification(juicyMatchBase) : juicyMatchBase;
 
-    return mainMatch;
+    return juicyMatchBase;
   }
 
 
-  private triggerJuicyFlickerAnimation(mainMatch: any, juicyMatchStreamUpdate: any, index: any, oddsChanged: boolean) {
-    if (mainMatch.BackOdds != juicyMatchStreamUpdate.BackOdds || mainMatch.LayOdds != juicyMatchStreamUpdate.LayOdds) {
-      console.log("BACKODDS UPDATED AT INDEX: " + index);
-      juicyMatchBackOddsUpdated(mainMatch, juicyMatchStreamUpdate);
-      juicyMatchLayOddsUpdated(mainMatch, juicyMatchStreamUpdate);
+  private triggerJuicyFlickerAnimation(mainMatch: any, streamUpdate: any, index: any, oddsChanged: boolean) {
+    if (mainMatch.BackOdds != streamUpdate.BackOdds || mainMatch.LayOdds != streamUpdate.LayOdds) {
+      console.log("Trigger Flicker for: " + mainMatch.Selection);
+      juicyMatchBackOddsUpdated(mainMatch, streamUpdate);
+      juicyMatchLayOddsUpdated(mainMatch, streamUpdate);
       oddsChanged = true;
       setTimeout(() => {
         mainMatch.backIsUpdated = false;
@@ -99,15 +100,15 @@ export class JuicyMatchHandlingService {
   }
   private incomingStreamBetweenMinMaxOddsAndCurrentOddsIsNot(juicyMatchStreamUpdate: any, mainMatch: any) {
     //Why not combine the two? Did I do this for a reason I forgot about?
-    juicyMatchStreamUpdate.BackOdds >= this.userPropertiesService.getMinOdds() && juicyMatchStreamUpdate.BackOdds <= this.userPropertiesService.getMaxOdds() && mainMatch.isWatched && mainMatch.BackOdds <= this.userPropertiesService.getMinOdds() ? mainMatch.notify = true : null;
+    juicyMatchStreamUpdate.BackOdds >= this.userPropertiesService.getMinOdds() && juicyMatchStreamUpdate.BackOdds <= this.userPropertiesService.getMaxOdds() && mainMatch.isWatched && mainMatch.BackOdds < this.userPropertiesService.getMinOdds() ? mainMatch.notify = true : null;
   }
 }
 
-function juicyMatchLayOddsUpdated(mainMatch: any, juicyMatchStreamUpdate: any) {
-  mainMatch.LayOdds != juicyMatchStreamUpdate.LayOdds ? (mainMatch.layIsUpdated = true && (mainMatch.LayOdds = juicyMatchStreamUpdate.LayOdds)) : null;
+function juicyMatchLayOddsUpdated(mainMatch: any, streamUpdate: any) {
+  mainMatch.LayOdds != streamUpdate.LayOdds ? (mainMatch.layIsUpdated = true && (mainMatch.LayOdds = streamUpdate.LayOdds)) : null;
 }
 
-function juicyMatchBackOddsUpdated(mainMatch: any, juicyMatchStreamUpdate: any) {
-  mainMatch.BackOdds != juicyMatchStreamUpdate.BackOdds ? (mainMatch.backIsUpdated = true && (mainMatch.BackOdds = juicyMatchStreamUpdate.BackOdds)) : null;
+function juicyMatchBackOddsUpdated(mainMatch: any, streamUpdate: any) {
+  mainMatch.BackOdds != streamUpdate.BackOdds ? (mainMatch.backIsUpdated = true && (mainMatch.BackOdds = streamUpdate.BackOdds)) : null;
 }
 

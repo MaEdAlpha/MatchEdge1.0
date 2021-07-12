@@ -32,6 +32,10 @@ export class MatchNotificationSettingsComponent implements OnInit, AfterViewInit
     this.selectedTab == null ? 0 : this.resetToTab;
     console.log("--Initializing User settings--");
     this.smCommission = this.userPropertiesService.getCommission();
+
+    this.userPropertiesService.getCommissionObservable().subscribe( ()=>{
+      this.initializeAllForms();
+    });
     this.initializeAllForms();
     this.initialFtaOption = this.userPropertiesService.getFTAOption();
 

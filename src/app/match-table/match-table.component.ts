@@ -23,6 +23,7 @@ import { PopupViewSavedBetsComponent } from '../popup-view-saved-bets/popup-view
 import { truncate } from 'fs';
 import { on } from 'events';
 import { MatchStatsService } from '../services/match-stats.service';
+import { TablePreferences } from '../user-properties.model';
 
   export class Group {
     level = 0;
@@ -72,6 +73,7 @@ import { MatchStatsService } from '../services/match-stats.service';
     viewSelectedDate:string;
     ftaOption: string;
     masterToggle: boolean;
+    userSettings:TablePreferences;
 
 
     //HeaderGroup Test
@@ -176,8 +178,14 @@ import { MatchStatsService } from '../services/match-stats.service';
                                                                       }
                                                             );
 
-      this.userPropertiesService.getUserPrefs().subscribe( () => {
+      this.userPropertiesService.getUserPrefs().subscribe( (userSettings) => {
         //This gets called everytime the form is saved, but we aren't collecting form data.
+        console.log("------User Settings: retrieve tablepreference in MatchTable Observable--------");
+        console.log(userSettings);
+        console.log("------------------------------------------------------------------------------");
+
+        this.userSettings = userSettings;
+
         setTimeout(()=>{
           this.ftaOption = this.userPropertiesService.getFTAOption();
         },500);

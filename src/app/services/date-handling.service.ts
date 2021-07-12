@@ -112,8 +112,8 @@ export class DateHandlingService {
         lowerLimit: Date.now(),
         upperLimit: new Date( new Date().setDate( new Date().getDate() + 2 )).setHours(0,0,0,0)
       }
-      console.log(epoch.lowerLimit);
-      console.log(epoch.upperLimit);
+      // console.log(epoch.lowerLimit);
+      // console.log(epoch.upperLimit);
 
     return epoch;
   }

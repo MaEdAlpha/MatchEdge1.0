@@ -406,7 +406,7 @@ export class UserPropertiesService {
     return Number(this.settings.filters.maxOdds);
   }
 
-  getOptionSelected(): number {
+  getSelectedFilterValue(): number {
     return Number(this.settings.filters.fvSelected);
   }
 

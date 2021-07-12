@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { GlobalConfig, ActiveToast, ToastContainerDirective, ToastrService } from 'ngx-toastr';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { DateHandlingService } from './date-handling.service';
@@ -14,8 +14,8 @@ import { SABToastIncompleteComponent } from '../sabtoast-incomplete/sabtoast-inc
 @Injectable({
   providedIn: 'root'
 })
-export class NotificationBoxService {
-
+export class NotificationBoxService implements OnInit {
+  public userSettings;
   public matchRatingFilterNotification: number = this.userPropService.getMR();
   public evNotificationFilter: number = this.userPropService.getEVNotification();
   public secretSauceNotification: number = this.userPropService.getSS();
@@ -36,19 +36,37 @@ export class NotificationBoxService {
 
       this.toastOptions = this.toast.toastrConfig;
 
-      this.juicyFilterChange = this.userPropService.getUserPrefs().subscribe(filterSettings => {
-        console.log("NOTIFICATION SETTINGS");
 
-        console.log(filterSettings);
-
-      this.matchRatingFilterNotification = +filterSettings.matchRatingFilterII,
-      this.evNotificationFilter = +filterSettings.evFVII,
-      this.secretSauceNotification = +filterSettings.secretSauceII,
-      this.fvSelected = +filterSettings.fvSelected,
-      this.tableDate = filterSettings.timeRange,
-      this.audioEnabled = filterSettings.audioEnabled
-    });
    }
+
+  ngOnInit(){
+
+
+    this.userSettings = this.userPropService.getTablePrefs();
+    console.log("----------NOTIFICATION SETTINGS: Initialized Notif-box services-----------");
+    console.log(this.userSettings);
+    console.log("-------------------------------------------------------------------");
+    this.matchRatingFilterNotification = +this.userSettings.matchRatingFilterII;
+    this.evNotificationFilter = +this.userSettings.evFVII;
+    this.secretSauceNotification = +this.userSettings.secretSauceII;
+    this.fvSelected = +this.userSettings.fvSelected;
+    this.tableDate = this.userSettings.timeRange;
+    this.audioEnabled = this.userSettings.audioEnabled;
+
+    this.juicyFilterChange = this.userPropService.getUserPrefs().subscribe(filterSettings => {
+      console.log("----------NOTIFICATION SETTINGS: Observable refreshed in services-----------");
+      console.log(filterSettings);
+      console.log("-------------------------------------------------------------------");
+
+    this.matchRatingFilterNotification = +filterSettings.matchRatingFilterII;
+    this.evNotificationFilter = +filterSettings.evFVII;
+    this.secretSauceNotification = +filterSettings.secretSauceII;
+    this.fvSelected = +filterSettings.fvSelected;
+    this.tableDate = filterSettings.timeRange;
+    this.audioEnabled = filterSettings.audioEnabled;
+  });
+  }
+
   showNotification(){
     this.toast.success('Toastr Working', 'title');
   }
@@ -58,9 +76,9 @@ export class NotificationBoxService {
     toast = this.toast.show(message, title,{
       toastComponent:CustomToastComponent,
       onActivateTick: true,
-      timeOut: 7000,
+      timeOut: 5000,
       tapToDismiss: true,
-      disableTimeOut:true,
+      disableTimeOut:false,
       progressBar: true,
       extendedTimeOut: 2000,
       enableHtml:true,
@@ -169,10 +187,11 @@ export class NotificationBoxService {
 
   //TODO import Datehandling ranges
   showJuicyNotification(mainMatch: any){
+    this.fvSelected = this.userPropService.getSelectedFilterValue();
     var epochNotifications = this.dateHandlingService.returnGenericNotificationBoundaries();
      this.audioEnabled = this.userPropService.getAudioPreferences();
-    console.log("JUICY TOASTIFICATION");
-    console.log(mainMatch);
+    console.log("--------INPUT => SET isJuicy for: " + mainMatch.Selection + " isJuicy= " + mainMatch.isJuicy);
+
 
     //THIS IS THE BREAD AND BUTTER FOR TOAST. FIX isWatched~~~ SHOULD GET AN ACTUAL STATE OF JUICY. Match STATUS SHOULD BE GETTING THE ACTUAL STATE. SHOULD BE UPDATING MATCH STATUS SERVICES.
     if(this.matchStatusService.isWatched(mainMatch.Selection) && this.isInEpochLimits(epochNotifications, mainMatch) ) {
@@ -182,7 +201,7 @@ export class NotificationBoxService {
             case 1:
               if(mainMatch.EVthisBet >= this.evNotificationFilter && mainMatch.EVthisBet < 100000 ){
                 console.log(mainMatch);
-                  this.toastIt(mainMatch);
+                  mainMatch = this.toastIt(mainMatch);
                   //play audio if settings enables it
                   (this.audioEnabled) ? this.playAudio() : null;
                   mainMatch.isJuicy = true;
@@ -213,7 +232,9 @@ export class NotificationBoxService {
             }
           }
       } else {
-        console.log("Incoming stream was no bueno~ jajajaja ");
+        console.log("--------- " + mainMatch.Selection + " did not qualify");
+        console.log(mainMatch);
+
       }
     return mainMatch;
   }
