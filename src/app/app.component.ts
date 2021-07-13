@@ -36,19 +36,19 @@ export class AppComponent {
     )
     .subscribe(
       ( event:NavigationStart ) => {
-        console.group( "NavigationStart Event");
-        console.log("nagivation id:", event.id);
-        console.log("route:", event.url);
+
           /*
             navigationTrigger will be one of:
               imperative (user clicked link)
               popstate (browswer controlled change such as BackButton)
               -hashchange ??? don't know what this is.
           */
-
-         console.log("trigger:", event.navigationTrigger);
-         //upon detecting back/forward click. Set entryPoint boolean
-         //Need to account for multiple mongoDB connections on backend if user keeps hitting back forward back forward button.
+          // console.group( "NavigationStart Event");
+          // console.log("nagivation id:", event.id);
+          // console.log("route:", event.url);
+          //  console.log("trigger:", event.navigationTrigger);
+          //upon detecting back/forward click. Set entryPoint boolean
+          //Need to account for multiple mongoDB connections on backend if user keeps hitting back forward back forward button.
          if(event.restoredState){
 
            if(event.url == '/'){
@@ -125,7 +125,8 @@ export class AppComponent {
   }
 
   onEntryToSite(showDisplaySettings: boolean) {
-    console.log("SITE ENTRYYYYYYYYYYYYYYYYYYYY!!~~~~~~~~!!!!!!S");
+    console.log("---------------------ENTERING 2UP SITE---------------------");
+    console.log("-----------------------------------------------------------");
 
     this.activateDisplaySettings = showDisplaySettings;
   }

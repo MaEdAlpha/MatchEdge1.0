@@ -16,8 +16,7 @@ export class HeaderComponent implements OnInit, OnChanges {
 
   ngOnChanges(simpleChange: SimpleChanges){
     if(simpleChange.displayActivated){
-      console.log("ONNGONCHANGES");
-
+      //Enables ability to open UserSettings upon entering website.
       this.enableDisplaySettings = this.displayActivated;
     }
   }
@@ -32,16 +31,11 @@ export class HeaderComponent implements OnInit, OnChanges {
   }
 
   toggleNotificationSettings(event){
-    console.log("HEADER CMPONENT TOGGLED!");
-
+    //Toggles user setting window
     this.displayNotification = event;
   }
-
-
 
   test(){
     console.log(this.userService.getToken());
   }
-  //TODO
-  // Add attribute directive to listen for ESC key to change displayNotificatin to false
 }

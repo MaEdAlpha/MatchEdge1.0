@@ -34,7 +34,11 @@ export class TopLayerFiltersComponent implements OnInit, OnChanges {
 
   private userClickSubscription: Subscription;
 
-  constructor( private http: HttpClient, private userPropertiesService: UserPropertiesService, private juicyMatchHandlingService: JuicyMatchHandlingService, private dateHandlingService: DateHandlingService, private notificationService: NotificationBoxService) { }
+  constructor( private http: HttpClient,
+    private userPropertiesService: UserPropertiesService,
+    private juicyMatchHandlingService: JuicyMatchHandlingService,
+    private dateHandlingService: DateHandlingService,
+    private notificationService: NotificationBoxService) { }
 
       //first layer filter
       viewThisDate:string;
@@ -66,6 +70,10 @@ export class TopLayerFiltersComponent implements OnInit, OnChanges {
     this.userClickSubscription = this.notificationService.getNotificationPing().subscribe( matchObject => {
       console.log("Click registerd in TopFilterComp");
       matchObject.notificationIsActivated ? this.goToThisJuicy() : console.log(matchObject + "returned false");
+    });
+
+    this.notificationService.getNotificationPing().subscribe(()=> {
+      this.displayFixtures = 3;
     })
 
     //setup an observable to listen for a change  that executes a method to go to Juicy Matches

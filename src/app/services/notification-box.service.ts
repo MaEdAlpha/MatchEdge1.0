@@ -14,7 +14,7 @@ import { SABToastIncompleteComponent } from '../sabtoast-incomplete/sabtoast-inc
 @Injectable({
   providedIn: 'root'
 })
-export class NotificationBoxService implements OnInit {
+export class NotificationBoxService {
   public userSettings;
   public matchRatingFilterNotification: number = this.userPropService.getMR();
   public evNotificationFilter: number = this.userPropService.getEVNotification();
@@ -24,48 +24,39 @@ export class NotificationBoxService implements OnInit {
   private clickSubject = new Subject<{notificationIsActivated: boolean, matchObject: any }>();
   private audioEnabled: boolean = this.userPropService.getAudioPreferences();
 
-
-
   juicyFilterChange: Subscription;
   matchStatus:Subscription;
 
   toastOptions: GlobalConfig;
-  //get container location from StrmNotComp
 
   constructor(private toast: ToastrService, private userPropService: UserPropertiesService, private dateHandlingService: DateHandlingService, private matchStatusService: MatchStatusService) {
 
       this.toastOptions = this.toast.toastrConfig;
+      this.userSettings = this.userPropService.getTablePrefs();
+      console.log("----------NOTIFICATION SETTINGS: Initialized Notif-box services-----------");
+      console.log(this.userSettings);
+      console.log("-------------------------------------------------------------------");
+      this.matchRatingFilterNotification = +this.userSettings.matchRatingFilterII;
+      this.evNotificationFilter = +this.userSettings.evFVII;
+      this.secretSauceNotification = +this.userSettings.secretSauceII;
+      this.fvSelected = +this.userSettings.fvSelected;
+      this.tableDate = this.userSettings.timeRange;
+      this.audioEnabled = this.userSettings.audioEnabled;
 
+      this.juicyFilterChange = this.userPropService.getUserPrefs().subscribe(filterSettings => {
+        console.log("----------NOTIFICATION SETTINGS: Observable refreshed in services-----------");
+        console.log(filterSettings);
+        console.log("-------------------------------------------------------------------");
+
+      this.matchRatingFilterNotification = +filterSettings.matchRatingFilterII;
+      this.evNotificationFilter = +filterSettings.evFVII;
+      this.secretSauceNotification = +filterSettings.secretSauceII;
+      this.fvSelected = +filterSettings.fvSelected;
+      this.tableDate = filterSettings.timeRange;
+      this.audioEnabled = filterSettings.audioEnabled;
+    });
 
    }
-
-  ngOnInit(){
-
-
-    this.userSettings = this.userPropService.getTablePrefs();
-    console.log("----------NOTIFICATION SETTINGS: Initialized Notif-box services-----------");
-    console.log(this.userSettings);
-    console.log("-------------------------------------------------------------------");
-    this.matchRatingFilterNotification = +this.userSettings.matchRatingFilterII;
-    this.evNotificationFilter = +this.userSettings.evFVII;
-    this.secretSauceNotification = +this.userSettings.secretSauceII;
-    this.fvSelected = +this.userSettings.fvSelected;
-    this.tableDate = this.userSettings.timeRange;
-    this.audioEnabled = this.userSettings.audioEnabled;
-
-    this.juicyFilterChange = this.userPropService.getUserPrefs().subscribe(filterSettings => {
-      console.log("----------NOTIFICATION SETTINGS: Observable refreshed in services-----------");
-      console.log(filterSettings);
-      console.log("-------------------------------------------------------------------");
-
-    this.matchRatingFilterNotification = +filterSettings.matchRatingFilterII;
-    this.evNotificationFilter = +filterSettings.evFVII;
-    this.secretSauceNotification = +filterSettings.secretSauceII;
-    this.fvSelected = +filterSettings.fvSelected;
-    this.tableDate = filterSettings.timeRange;
-    this.audioEnabled = filterSettings.audioEnabled;
-  });
-  }
 
   showNotification(){
     this.toast.success('Toastr Working', 'title');
@@ -156,7 +147,7 @@ export class NotificationBoxService implements OnInit {
       toastClass: "toast border-gold",
       messageClass: 'toast-message',
       positionClass:'toast-bottom-right',
-    })
+    });
     return
   }
 
@@ -165,7 +156,7 @@ export class NotificationBoxService implements OnInit {
     toast = this.toast.info('In order to use this site, you must agree to the Terms of Use.','Terms of Use declined', {
       disableTimeOut: true,
       tapToDismiss:true
-    } )
+    });
     return toast;
   }
 
@@ -177,7 +168,7 @@ export class NotificationBoxService implements OnInit {
       timeOut:2000,
       toastClass: "toast border-gold",
       messageClass: 'toast-message'
-    } );
+    });
     return toast;
   }
 
@@ -187,26 +178,38 @@ export class NotificationBoxService implements OnInit {
 
   //TODO import Datehandling ranges
   showJuicyNotification(mainMatch: any){
-    this.fvSelected = this.userPropService.getSelectedFilterValue();
-    var epochNotifications = this.dateHandlingService.returnGenericNotificationBoundaries();
+     var epochNotifications = this.dateHandlingService.returnGenericNotificationBoundaries();
      this.audioEnabled = this.userPropService.getAudioPreferences();
-    console.log("--------INPUT => SET isJuicy for: " + mainMatch.Selection + " isJuicy= " + mainMatch.isJuicy);
+    console.log("--------Input " + mainMatch.Selection + " | current isJuicy= " + mainMatch.isJuicy);
+    console.log(mainMatch);
+    console.log("---------------------------------\n\n");
+
+
 
 
     //THIS IS THE BREAD AND BUTTER FOR TOAST. FIX isWatched~~~ SHOULD GET AN ACTUAL STATE OF JUICY. Match STATUS SHOULD BE GETTING THE ACTUAL STATE. SHOULD BE UPDATING MATCH STATUS SERVICES.
     if(this.matchStatusService.isWatched(mainMatch.Selection) && this.isInEpochLimits(epochNotifications, mainMatch) ) {
+      console.log("----------------------------------------------------------------------------------------------------");
+      console.log("---------Now inside set isJuicy = true conditional " + this.fvSelected + " -------------");
+      console.log(mainMatch.Selection + " states |  Notify: " + mainMatch.notify + " userAware = " + mainMatch.userAware + " EvThisBet >= evNotificationFilter ? " + (mainMatch.EVthisBet >= this.evNotificationFilter) + " EVthisBet: " + mainMatch.EVthisBet + " >= ? " + this.evNotificationFilter + " this.evNotificationFilter" );
+      console.log("----------------------------------------------------------------------------------------------------");
+      console.log("----------------------------------------------------------------------------------------------------");
+
+
       //DISPLAY TOAST IF match is set to Notify && user is not Aware of the match being Juicy.
       if(mainMatch.notify && !mainMatch.userAware ){
         switch(this.fvSelected){
             case 1:
-              if(mainMatch.EVthisBet >= this.evNotificationFilter && mainMatch.EVthisBet < 100000 ){
-                console.log(mainMatch);
+              if(mainMatch.EVthisBet >= this.evNotificationFilter){
+
                   mainMatch = this.toastIt(mainMatch);
                   //play audio if settings enables it
                   (this.audioEnabled) ? this.playAudio() : null;
                   mainMatch.isJuicy = true;
                   //User is no aware of match being juicy. Therefore, they will not be notified of repeat updates until they click it in juicy.
                   mainMatch.userAware = true;
+                  console.log("--------Output " + mainMatch.Selection + " | final isJuicy= " + mainMatch.isJuicy);
+                  console.log("---------------------------------\n\n");
                 }
                 break;
             case 2:
@@ -232,8 +235,10 @@ export class NotificationBoxService implements OnInit {
             }
           }
       } else {
-        console.log("--------- " + mainMatch.Selection + " did not qualify");
+        console.log("\n\n--------- " + mainMatch.Selection + " did not qualify");
         console.log(mainMatch);
+        console.log("-----------^^^^ Something went wrong--------------------------\n\n");
+
 
       }
     return mainMatch;
@@ -279,7 +284,12 @@ export class NotificationBoxService implements OnInit {
   //Need to discuss how to show midnight times.
   isInEpochLimits(epochNotifications, selection): boolean{
     var selectionTime = selection.EpochTime*1000;
-    return (selectionTime <= epochNotifications.upperLimit && selectionTime >= Date.now());
+    let result  = (selectionTime <= epochNotifications.upperLimit && selectionTime >= Date.now())
+    console.log("-----------------Is within EpochLimits method. Result = " + result + "-----------------------");
+    console.log("------------ selectionTime: " + selectionTime + " epochNotifications.upperLimit " + epochNotifications.upperLimit + " selectionTime " + selectionTime + "  " + Date.now() + "------------");
+
+
+    return result ;
   }
 
   playAudio(){

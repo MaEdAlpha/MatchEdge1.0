@@ -9,7 +9,8 @@
             <p class="all-leagues-toggle-text" [ngClass]="{'hide-toggle' : tableSelected == 2}">Watch All</p>
             <mat-slide-toggle
             class="all-leagues-toggle"
-            (click)="watchAllLeagues();">
+            (click)=" watchAllLeagues();"
+            [disabled]="loadingInProgress">
           </mat-slide-toggle>
           </div>
           <mat-table mat-table [dataSource] ="dataSource">
@@ -190,7 +191,8 @@
                             <div class="league-item">
                               <mat-slide-toggle
                               class="leagueToggleSelect"
-                              (click)="group.watchAll = !group.watchAll; watchAllMatches(group); $event.stopPropagation()"
+                              (click)=" watchAllMatches(group); $event.stopPropagation()"
+                              [disabled]="loadingInProgress"
                               [(checked)]="masterToggle">
                             </mat-slide-toggle>
                             </div>

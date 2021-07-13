@@ -144,14 +144,7 @@ export class JuicyMatchComponent implements OnChanges, OnInit, OnDestroy, AfterV
     this.prefObj = this.userPrefService.getTablePrefs();
     this.ftaOption = this.userPrefService.getFTAOption();
     this.noMatchesToDisplay = true;
-    console.log(this.ftaOption);
-
-    console.log("User settings.filters from UserPref Services. ");
-    console.log(this.prefObj);
-
     this.userCommission= this.userPrefService.getCommission();
-
-
     this.fvSelected = +this.prefObj.fvSelected;
     console.log("Juicy Table Filter selection: " + this.fvSelected);
 
@@ -166,6 +159,9 @@ export class JuicyMatchComponent implements OnChanges, OnInit, OnDestroy, AfterV
       var juicyMatchBase = null;
 
       console.log("INCOMING STREAM DATA: " + streamObj.HomeTeamName + " vs " + streamObj.AwayTeamName);
+      console.log('------------------ Incoming STREAM DATA----------------');
+      console.log(streamObj);
+      console.log('-------------------------------------------------------');
 
       var lookupIndex: number[] = []
       lookupIndex.push( this.sortedData.findIndex( (indvMatch) => indvMatch.Selection == streamObj.HomeTeamName && indvMatch.EpochTime == streamObj.unixDateTimestamp) );
@@ -175,13 +171,11 @@ export class JuicyMatchComponent implements OnChanges, OnInit, OnDestroy, AfterV
 
         juicyMatchBase = this.sortedData[indexOfmatch];
 
-        console.log('-------------------Current JuicyMatch------------------');
+        console.log('-------------------Current JuicyMatch To Compare-----------------');
         console.log(juicyMatchBase);
-        console.log('------------------ Incoming STREAM DATA----------------');
-        console.log(streamObj);
-        console.log('-------------------------------------------------------');
+        console.log('----------------------------------------------------------------');
 
-        //singleMatchPair is a freshly pushed Match object from our database. It is processed in retrieveStreamData.
+        //Takes in Stream Data and formats it to a single Juicy Match Selection Object
         this.juicyMatchStreamUpdate =  ( indexOfmatch != undefined && this.sortedData[indexOfmatch] ) ? this.matchStatService.retrieveStreamDataForJuicyTable( streamObj, juicyMatchBase.Selection ) : null;
         //Sends to Juicy Match Handling Services to update juicyMatch.notify state and trigger notification + flicker animations for juicy matches.
         if(this.juicyMatchStreamUpdate != null) this.juicyMHService.updateSingleMatch( juicyMatchBase, this.juicyMatchStreamUpdate, indexOfmatch );
@@ -312,8 +306,6 @@ export class JuicyMatchComponent implements OnChanges, OnInit, OnDestroy, AfterV
 
   getGroup(index:number)
   {
-    // console.log("GETTING GROUP");
-
     //console.log(this.dataSource.at(index) as FormGroup);
     return this.dataSource.at(index) as FormGroup
   }
@@ -359,12 +351,14 @@ export class JuicyMatchComponent implements OnChanges, OnInit, OnDestroy, AfterV
     return +(backOdds/(layOdds-+this.userCommission/100))*100;
   }
 
+
   NewSS(backOdds:number,layOdds:number,stake:number){
     var fta = this.FTA(stake, backOdds, layOdds);
     var ql = this.QL(backOdds, layOdds, stake);
     var qlPercentage = +(ql/fta*100).toFixed(2);
     return qlPercentage;
   }
+
 
   ROI(stake:number, backOdds: number, layOdds:number, occurence:number):number{
     var layStake = this.calcLayStake(backOdds,layOdds,stake);
@@ -381,6 +375,7 @@ export class JuicyMatchComponent implements OnChanges, OnInit, OnDestroy, AfterV
     var layStake = this.calcLayStake(backOdds,layOdds,stake);
     return (+layStake*(1-this.userCommission/100) - +stake);
   }
+
   //layStake has commission already pre-calculated into it
   Liability(layOdds:number, layStake:number):number {
     return +(+layOdds - 1 )* +layStake;
@@ -423,14 +418,13 @@ export class JuicyMatchComponent implements OnChanges, OnInit, OnDestroy, AfterV
         var status: boolean = ignoreSelection[0];
         ignoreSelection.forEach( selection => {
           this.allIndvMatches.forEach( juicySelection => {
-           if(juicySelection.Selection == selection) {
-             juicySelection.ignore = status;
+          if(juicySelection.Selection == selection) {
+            juicySelection.ignore = status;
             }
           });
-       });
+      });
     }
   }
-
 
   //Set visibility of selection. Based off selected date and current epoch time.
   dateInRange(selection: any){
@@ -438,177 +432,184 @@ export class JuicyMatchComponent implements OnChanges, OnInit, OnDestroy, AfterV
     if(this.tableDateSelected != undefined){
       ( selection.EpochTime*1000 > Date.now() && selection.EpochTime*1000 <= epoch.upperLimit ) ? selection.inRange = true : selection.inRange = false;
     }
-   }
+  }
 
-    showSelectionValues(selection: any, index: number){
-      console.log(index);
-      var data: FormGroup = this.getGroup(index);
-      data.setValue({
-        Stake: this.userPrefService.getUserPrefferedStakes(selection.BackOdds),
-        LayStake: selection.LayStake,
-        BackOdds: selection.BackOdds,
-        LayOdds: selection.LayOdds,
-        MatchInfo: ' ',
-      });
-      //use a method to reset the formGroup values to selectionObject values.
-    }
+  showSelectionValues(selection: any, index: number){
+    console.log(index);
+    var data: FormGroup = this.getGroup(index);
+    data.setValue({
+      Stake: this.userPrefService.getUserPrefferedStakes(selection.BackOdds),
+      LayStake: selection.LayStake,
+      BackOdds: selection.BackOdds,
+      LayOdds: selection.LayOdds,
+      MatchInfo: ' ',
+    });
+    //use a method to reset the formGroup values to selectionObject values.
+  }
 
-    //what expands  JuicyMatches
-    openVIANotification(notification){
-
-      //Get the matchObject you want to expand via notification object that was clicked.
-      //notification object is => { notificationIsActivated: true, matchObject: updatedMainMatch }
-      var expandItem = this.allIndvMatches.filter( match =>{
-        if(match.Selection == notification.matchObject.Selection && match.EpochTime == notification.matchObject.EpochTime) {
-          match.isRedirected = 'Yes';
-          var index = this.allIndvMatches.indexOf(match);
-          //simulate click
-          this.loadGroup(index);
-          this.showSelectionValues(match, index);
-          //scroll to id with matchLogo + best to take match.Logo from client side stored data incase we strip away streamUpdates later.
-          let identifier = match.Logo + notification.matchObject.EpochTime;
-          this.scrollTo(identifier);
-          return true;
-        }
-      });
-      this.expandedElement = expandItem;
-      this.chRef.detectChanges();
-      console.log(notification.matchObject.Selection + " Is Expanded!!!!");
-    }
-
-
-    scrollTo(idTag:string){
-      console.log("ID: " + idTag);
-      let el = document.getElementById(idTag);
-      setTimeout(()=>{
-        el.scrollIntoView();
-
-      },400);
-
-    }
-
-    getErrorMessage() {
-      var formInput = this.selectionValues.controls;
-      console.log(formInput);
-
-      // if(formInput.minOdds.errors || formInput.maxOdds.errors || formInput.evFilterValueI.errors || formInput.evFilterValueII.errors || formInput.matchRatingFilterI.errors || formInput.matchRatingFilterII.errors || formInput.secretSauceI.errors || formInput.secretSauceII.errors){
-      //   return 'Invalid entry, please enter a valid number'
-      // }
-    }
-
-    closeIfRedirected(selection, event: Event){
-      if(selection.isRedirected == 'Yes'){
-        selection.isRedirected = 'No';
-
-        console.log(event);
-
-        event.stopPropagation();
-      } else if (selection.isRedirected == 'No'){
-        console.log("Doing Nothing On Click");
-
+  //what expands  JuicyMatches
+  openVIANotification(notification){
+    // close any previously opened matches. By setting isRedirected = 'No'. As it's one of the qualifiers for expanding an item.
+    this.closePreviousExpandedElement();
+    //Get the matchObject you want to expand via notification object that was clicked.
+    //notification object is => { notificationIsActivated: true, matchObject: updatedMainMatch }
+    let expandItem: JuicyMatch[] = this.allIndvMatches.filter( match =>{
+      if(match.Selection == notification.matchObject.Selection && match.EpochTime == notification.matchObject.EpochTime) {
+        match.isRedirected = 'Yes';
+        var index = this.allIndvMatches.indexOf(match);
+        //simulate click
+        this.loadGroup(index);
+        this.showSelectionValues(match, index);
+        //scroll to id with matchLogo + best to take match.Logo from client side stored data incase we strip away streamUpdates later.
+        let identifier = match.Logo + notification.matchObject.EpochTime;
+        this.scrollTo(identifier);
+        return true;
       }
+    });
+    this.expandedElement = expandItem;
+    this.chRef.detectChanges();
+
+    console.log(notification.matchObject.Selection + " Is Expanded!!!!");
+  }
+
+
+  scrollTo(idTag:string){
+    console.log("ID: " + idTag);
+    let el = document.getElementById(idTag);
+    setTimeout(()=>{
+      el.scrollIntoView({behavior: "smooth", block:"center"});
+
+    },400);
+
+  }
+
+  getErrorMessage() {
+    var formInput = this.selectionValues.controls;
+    console.log(formInput);
+
+    // if(formInput.minOdds.errors || formInput.maxOdds.errors || formInput.evFilterValueI.errors || formInput.evFilterValueII.errors || formInput.matchRatingFilterI.errors || formInput.matchRatingFilterII.errors || formInput.secretSauceI.errors || formInput.secretSauceII.errors){
+    //   return 'Invalid entry, please enter a valid number'
+    // }
+  }
+
+  closeIfRedirected(selection, event: Event){
+    if(selection.isRedirected == 'Yes'){
+      selection.isRedirected = 'No';
+
+      console.log(event);
+
+      event.stopPropagation();
+    } else if (selection.isRedirected == 'No'){
+      console.log("Doing Nothing On Click");
+
     }
+  }
 
-
-    saveAsActiveBet(row, index):void{
-
-      var activeBetObject = this.returnActiveBetObject(row, index);
-      this.savedActiveBetsService.saveToActiveBets(activeBetObject);
-      //Set this row to ActiveBet = true; *TODO = hide this row now.
-      row.activeBet = true;
-      this.notificationServices.showSABNotification(row);
+  closePreviousExpandedElement(){
+    //check to see if isRedirected = 'Yes';
       this.expandedElement = null;
+      this.chRef.detectChanges();
 
+  }
+
+
+  saveAsActiveBet(row, index):void{
+
+    var activeBetObject = this.returnActiveBetObject(row, index);
+    this.savedActiveBetsService.saveToActiveBets(activeBetObject);
+    //Set this row to ActiveBet = true; *TODO = hide this row now.
+    row.activeBet = true;
+    this.notificationServices.showSABNotification(row);
+    this.closePreviousExpandedElement()
+
+  }
+  //Creates an activeBet Object
+  returnActiveBetObject(row,index): ActiveBet{
+
+    var activeBetDetails = this.getGroup(index);
+    var backOdd = activeBetDetails.value.BackOdds;
+    var layOdd = activeBetDetails.value.LayOdds;
+    var stake = activeBetDetails.value.Stake;
+    var matchInfo = activeBetDetails.value.MatchInfo;
+
+    console.log("Row Data");
+
+    var activeBet: ActiveBet = {
+      id: null,
+      juId: this.userPrefService.getUserId(),
+      created: Date.now(),
+      fixture: row.Fixture,
+      selection: row.Selection,
+      league: row.League,
+      logo: row.Selection.toLowerCase().split(' ').join('-'),
+      matchDetail: row.EpochTime*1000,
+      stake:  stake,
+      backOdd: backOdd,
+      layOdd: layOdd,
+      layStake: +(backOdd/layOdd*stake).toFixed(2),
+      liability: +((layOdd - 1) * +(backOdd/layOdd*stake)).toFixed(2),
+      ev: +this.TotalEV(row.FTAround, stake, backOdd, layOdd).toFixed(2),
+      mr: +this.NewMatchRating(backOdd, layOdd),
+      sauce: +this.NewSS(backOdd, layOdd, stake),
+      fta: +this.FTA(stake, backOdd, layOdd).toFixed(2),
+      ql: +this.QL(backOdd, layOdd, stake).toFixed(2),
+      roi: +this.ROI(stake, backOdd, layOdd, row.FTAround).toFixed(2),
+      betState: row.betState,
+      occ: row.FTAround,
+      pl: +this.QL(backOdd, layOdd, stake).toFixed(2),
+      comment: matchInfo,
+      isSettled: false,
+      isBrkzFTA: this.ftaOption == 'brooks' ? 1 : 0,
     }
-    //Creates an activeBet Object
-    returnActiveBetObject(row,index): ActiveBet{
+    console.log("ActiveBet Saved!");
+    console.log(activeBet);
+    return activeBet;
+  }
 
-      var activeBetDetails = this.getGroup(index);
-      var backOdd = activeBetDetails.value.BackOdds;
-      var layOdd = activeBetDetails.value.LayOdds;
-      var stake = activeBetDetails.value.Stake;
-      var matchInfo = activeBetDetails.value.MatchInfo;
-
-      console.log("Row Data");
-
-      var activeBet: ActiveBet = {
-        id: null,
-        juId: this.userPrefService.getUserId(),
-        created: Date.now(),
-        fixture: row.Fixture,
-        selection: row.Selection,
-        league: row.League,
-        logo: row.Selection.toLowerCase().split(' ').join('-'),
-        matchDetail: row.EpochTime*1000,
-        stake:  stake,
-        backOdd: backOdd,
-        layOdd: layOdd,
-        layStake: +(backOdd/layOdd*stake).toFixed(2),
-        liability: +((layOdd - 1) * +(backOdd/layOdd*stake)).toFixed(2),
-        ev: +this.TotalEV(row.FTAround, stake, backOdd, layOdd).toFixed(2),
-        mr: +this.NewMatchRating(backOdd, layOdd),
-        sauce: +this.NewSS(backOdd, layOdd, stake),
-        fta: +this.FTA(stake, backOdd, layOdd).toFixed(2),
-        ql: +this.QL(backOdd, layOdd, stake).toFixed(2),
-        roi: +this.ROI(stake, backOdd, layOdd, row.FTAround).toFixed(2),
-        betState: row.betState,
-        occ: row.FTAround,
-        pl: +this.QL(backOdd, layOdd, stake).toFixed(2),
-        comment: matchInfo,
-        isSettled: false,
-        isBrkzFTA: this.ftaOption == 'brooks' ? 1 : 0,
+  resetIsJuicy(){
+    this.allIndvMatches.filter( (match) => {
+      //update match each time to clear matches no longer in juicy.
+      this.dateInRange(match);
+      if(match.isJuicy){
+        match.isJuicy = false;
+        match.userAware = false;
       }
-      console.log("ActiveBet Saved!");
-      console.log(activeBet);
-      return activeBet;
+    });
+  }
+
+  toggleIsTouched(selection){
+    console.log("Touched!");
+    console.log(selection);
+    console.log(this.sortedData);
+
+    if(selection.isJuicy && selection.userAware){
+      setTimeout( () => {
+        selection.userAware= false;
+        selection.isJuicy = false;
+        console.log("resetting values...maybe push to another service for changes?");
+
+        console.log(selection);
+      }, 1000)
     }
+  }
 
-    resetIsJuicy(){
-      this.allIndvMatches.filter( (match) => {
-        //update match each time to clear matches no longer in juicy.
-        this.dateInRange(match);
-       if(match.isJuicy){
-          match.isJuicy = false;
-          match.userAware = false;
-        }
-      });
-    }
-
-    toggleIsTouched(selection){
-      console.log("Touched!");
-      console.log(selection);
-      console.log(this.sortedData);
-
-
-
-      if(selection.isJuicy && selection.userAware){
-        setTimeout( () => {
-          selection.userAware= false;
-          selection.isJuicy = false;
-          console.log("resetting values...maybe push to another service for changes?");
-
-          console.log(selection);
-        }, 1000)
+  thisIsJuicy(selection:any):boolean{
+    const userSettings = this.prefObj;
+    if(selection.isWatched && selection.inRange){
+      switch(this.fvSelected){
+        case 1:
+          return +selection['EVthisBet'] >= +userSettings.evFVI ? true: false;
+        case 2:
+          return +selection['MatchRating'] == +userSettings.matchRatingFilterI ||  selection['MatchRating'] > (+userSettings.matchRatingFilterI - 0.02);
+        case 3:
+          return +selection['QLPercentage'] == +userSettings.secretSauceI || selection['QLPercentage'] >= (+userSettings.secretSauceI);
+        default: console.log("Error occurered, reload your browser or contact support");
       }
+    } else {
+      //count here to determine total matches to display and give default table message
+      return false;
     }
-
-    thisIsJuicy(selection:any):boolean{
-      const userSettings = this.prefObj;
-      if(selection.isWatched && selection.inRange){
-        switch(this.fvSelected){
-          case 1:
-            return +selection['EVthisBet'] >= +userSettings.evFVI ? true: false;
-          case 2:
-            return +selection['MatchRating'] == +userSettings.matchRatingFilterI ||  selection['MatchRating'] > (+userSettings.matchRatingFilterI - 0.02);
-          case 3:
-            return +selection['QLPercentage'] == +userSettings.secretSauceI || selection['QLPercentage'] >= (+userSettings.secretSauceI);
-          default: console.log("Error occurered, reload your browser or contact support");
-        }
-      } else {
-        //count here to determine total matches to display and give default table message
-        return false;
-      }
-    }
+  }
 }
 
 
