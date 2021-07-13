@@ -17,6 +17,7 @@ import { NotificationBoxService } from '../services/notification-box.service';
 import { MatSort, Sort } from '@angular/material/sort';
 import { SavedActiveBetsService } from '../services/saved-active-bets.service';
 import { ActiveBet } from '../models/active-bet.model';
+import { timeout } from 'rxjs/operators';
 
 @Component({
   selector: 'app-juicy-match',
@@ -37,6 +38,7 @@ export class JuicyMatchComponent implements OnChanges, OnInit, OnDestroy, AfterV
   //Table properties
   @Input() allMatches: any;
   @Input()  ftaOption: string;
+  @Input() collapseExpandedElement: boolean;
   juicyMatches: JuicyMatch[];
   noMatchesToDisplay:boolean=true;
   //Used in DOM to select object view container for expansion
@@ -44,6 +46,7 @@ export class JuicyMatchComponent implements OnChanges, OnInit, OnDestroy, AfterV
   displayedColumns: string[] = ['EpochTime', 'Fixture', 'Selection',  'BackOdds', 'LayOdds' , 'FTAround', 'EVthisBet', 'MatchRating', 'QLPercentage'];
   SecondcolumnsToDisplay: string[] = ['Logo', 'FTAround', 'ReturnRating', 'MatchRating', 'BackOdds', 'LayOdds', 'Liability', 'FTAProfit', 'QL', 'ROI', 'EVthisBet'];
   columnsToDisplay: string[] = this.displayedColumns.slice();
+  expandedViaNotifications: JuicyMatch[] | null;
 
   //Tooltip properties
   positionOptions: TooltipPosition[] = ['below', 'above', 'left', 'right'];
@@ -136,6 +139,12 @@ export class JuicyMatchComponent implements OnChanges, OnInit, OnDestroy, AfterV
       let updatedArray: JuicyMatch[] = this.matchStatService.recalculateStatCalcs(this.sortedData, this.ftaOption);
       this.sortedData = updatedArray;
       this.popJuiceInRange();
+    }
+
+    if(changes.collapseExpandedElement){
+      console.log("-----------------CollapsedELMENT TRIGGERED----------------");
+      this.expandedElement = null;
+      this.closePreviousExpandedNotificationElement();
     }
   }
 
@@ -450,7 +459,7 @@ export class JuicyMatchComponent implements OnChanges, OnInit, OnDestroy, AfterV
   //what expands  JuicyMatches
   openVIANotification(notification){
     // close any previously opened matches. By setting isRedirected = 'No'. As it's one of the qualifiers for expanding an item.
-    this.closePreviousExpandedElement();
+    this.closePreviousExpandedNotificationElement()
     //Get the matchObject you want to expand via notification object that was clicked.
     //notification object is => { notificationIsActivated: true, matchObject: updatedMainMatch }
     let expandItem: JuicyMatch[] = this.allIndvMatches.filter( match =>{
@@ -466,6 +475,7 @@ export class JuicyMatchComponent implements OnChanges, OnInit, OnDestroy, AfterV
         return true;
       }
     });
+    this.expandedViaNotifications = expandItem;
     this.expandedElement = expandItem;
     this.chRef.detectChanges();
 
@@ -505,11 +515,12 @@ export class JuicyMatchComponent implements OnChanges, OnInit, OnDestroy, AfterV
     }
   }
 
-  closePreviousExpandedElement(){
+  closePreviousExpandedNotificationElement(){
     //check to see if isRedirected = 'Yes';
-      this.expandedElement = null;
-      this.chRef.detectChanges();
 
+   if(this.expandedViaNotifications != null ) this.expandedViaNotifications[0].isRedirected = 'No';
+      this.expandedViaNotifications = null;
+      this.chRef.detectChanges();
   }
 
 
@@ -520,7 +531,10 @@ export class JuicyMatchComponent implements OnChanges, OnInit, OnDestroy, AfterV
     //Set this row to ActiveBet = true; *TODO = hide this row now.
     row.activeBet = true;
     this.notificationServices.showSABNotification(row);
-    this.closePreviousExpandedElement()
+    //close current container not opened via notification
+    this.expandedElement=null;
+    //closs current container IF opened via notification
+    this.closePreviousExpandedNotificationElement();
 
   }
   //Creates an activeBet Object
@@ -581,7 +595,8 @@ export class JuicyMatchComponent implements OnChanges, OnInit, OnDestroy, AfterV
     console.log("Touched!");
     console.log(selection);
     console.log(this.sortedData);
-
+    //closes any opened matches via Toast Notifications
+    this.closePreviousExpandedNotificationElement();
     if(selection.isJuicy && selection.userAware){
       setTimeout( () => {
         selection.userAware= false;

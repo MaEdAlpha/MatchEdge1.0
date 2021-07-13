@@ -56,8 +56,8 @@ import { TablePreferences } from '../user-properties.model';
     columnsToDisplay: string[] = this.displayedColumns.slice();
     matches: any;
     savedActiveBets: ActiveBet[] = null;
-    @Output() ignoreList: string[];
     @Input() isLoading: boolean;
+    collapseExpandedElement: boolean;
     matchStream: any;
     expandedElement: any[] | null;
     retrieveMatches = false;
@@ -138,7 +138,6 @@ import { TablePreferences } from '../user-properties.model';
       this.matches = this.matchesService.getMatches(); //fetches matches from matchesService
       this.viewSelectedDate = this.userPropertiesService.getSelectedDate();
       this.setStartEndDays(this.viewSelectedDate);
-      this.ignoreList = [];
       this.tableGroups = [];
       this.savedActiveBets = this.savedActiveBetsService.getActiveBets();
       this.ftaOption = this.userPropertiesService.getFTAOption();
@@ -584,7 +583,12 @@ import { TablePreferences } from '../user-properties.model';
           this.resetDateHeaders(this.dataSource.data);
       }
 
+      if(this.tableSelected !=3){
+        this.collapseExpandedElement = !this.collapseExpandedElement;
+      }
       this.savedActiveBets = this.savedActiveBetsService.getSabList();
+
+
     }
 
     resetDateHeaders(matchList:any[]){
