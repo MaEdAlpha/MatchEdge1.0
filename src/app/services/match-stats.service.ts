@@ -101,12 +101,12 @@ getMatchStats(allMatches, ftaOption:string): JuicyMatch[] {
   }
 
   //Converts Stream Object to JuicyMatch Object
-  retrieveStreamDataForJuicyTable(streamObj, teamName:string): JuicyMatch{
+  retrieveStreamDataForJuicyTable(streamObj, selectionName:string): JuicyMatch{
 
     var juicyStreamBuild : JuicyMatch;
     var ftaOption = this.userPropertiesService.getFTAOption();
 
-    if(streamObj.HomeTeamName == teamName){
+    if(streamObj.HomeTeamName == selectionName){
         // Home
         this.homeMatchStats.stake = this.userPropertiesService.getUserPrefferedStakes(streamObj.B365HomeOdds);
         this.homeMatchStats.backOdds = streamObj.B365HomeOdds;
@@ -115,7 +115,7 @@ getMatchStats(allMatches, ftaOption:string): JuicyMatch[] {
         this.homeMatchStats = this.calculateMatchStats(this.homeMatchStats, ftaOption);
         juicyStreamBuild = MatchStatsService.createJuicyObject(streamObj, this.homeMatchStats, 'home', true);
 
-    } else if (streamObj.AwayTeamName == teamName){
+    } else if (streamObj.AwayTeamName == selectionName){
         // Calculate Away Juicy values
         this.awayMatchStats.stake = this.userPropertiesService.getUserPrefferedStakes(streamObj.B365AwayOdds);
         this.awayMatchStats.backOdds = streamObj.B365AwayOdds;
@@ -321,8 +321,11 @@ getMatchStats(allMatches, ftaOption:string): JuicyMatch[] {
       userAware: isUpdatedValue ? null : false,
     }
     //Debug juicy object
-    // console.log("JUICYYYY Object created!");
-    // console.log(juicyObject);
+    console.log("---------------------------------------------------------------");
+    console.log("---------------------JUICYYYY Object created!------------------");
+    console.log(juicyObject);
+    console.log("---------------------------------------------------------------");
+    console.log("---------------------------------------------------------------");
 
 
     return juicyObject;

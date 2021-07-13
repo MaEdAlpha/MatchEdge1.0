@@ -756,12 +756,12 @@ export class WatchlistComponent implements OnInit, OnDestroy {
         //pass row data specifying t/f home/away
         this.updateMatchStatusList(rowData, true);
         this.updateMatchStatusList(rowData,false);
-        console.log(rowData);
-        console.log(minOdds + " " + maxOdds);
+        console.log("--Check for Odds Change--");
 
-        console.log((+rowData.BHome >= +minOdds)+ " " + (+rowData.BHome <= +maxOdds));
-        console.log((+rowData.BAway >= +minOdds)+ " " + (+rowData.BAway <= +maxOdds));
-        console.log("--------------------------");
+        console.log("--------------------------------------------------------------------------------------------------------");
+        console.log("Home Back Odds |  >= userMinOdds? " + (+rowData.BHome >= +minOdds)+ " <= maxOdds " + (+rowData.BHome <= +maxOdds));
+        console.log("Away Back Odds |  >= userMinOdds? " + (+rowData.BAway >= +minOdds)+ " <= maxOdds " + (+rowData.BAway <= +maxOdds));
+        console.log("--------------------------------------------------------------------------------------------------------");
 
 
       }

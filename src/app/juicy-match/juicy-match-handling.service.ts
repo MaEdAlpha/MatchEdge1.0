@@ -56,13 +56,9 @@ export class JuicyMatchHandlingService {
     var oddsChanged: boolean = false;
     var ftaOption: string = this.userPropertiesService.getFTAOption();
     // DEBUG
-    console.log("---------Stream Object--------");
-    console.log(juicyMatchStreamUpdate);
-    console.log("---------------------------\n");
-
-    console.log("--------Juicy Selection----------");
+    console.log("--------Comparint Stream with Juicy Selection--------");
     console.log(juicyMatchBase);
-    console.log("---------------------------\n");
+    console.log("-----------------------------------------------------\n");
 
     //THIS CODE should trigger your matches to disable notify if not in min Max odds range. //DO WE WANT THIS????
     this.incomingStreamBetweenMinMaxOdds(juicyMatchStreamUpdate, juicyMatchBase);

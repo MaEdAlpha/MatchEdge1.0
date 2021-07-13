@@ -21,8 +21,6 @@
                 class="mat-column{{flickerColmnIndex}}-data mat-cell-withdata"
                 *matCellDef="let selection; let i = dataIndex"
                 (click)="loadGroup(i); showSelectionValues(selection, i); closeIfRedirected(selection, $event)">
-
-
                     <ng-container *ngIf="thisIsJuicy(selection);">
                     <ng-container *ngIf= "( +maxOddsFilter >= +selection['BackOdds'] && +selection['BackOdds'] >= +minOddsFilter )">
 

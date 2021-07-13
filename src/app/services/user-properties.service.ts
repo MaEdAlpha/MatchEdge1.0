@@ -91,8 +91,8 @@ export class UserPropertiesService {
     timeRange: 'Today & Tomorrow',
     minOdds: '2.5',
     maxOdds: '20',
-    evFVI: '-20',
-    evFVII: '1',
+    evFVI: '-2000',
+    evFVII: '-1000',
     matchRatingFilterI: '95',
     matchRatingFilterII: '97',
     secretSauceI: '-1.5',
@@ -358,6 +358,10 @@ export class UserPropertiesService {
   }
   getUserPrefs(): Observable<TablePreferences>{
     return this.userPrefSub.asObservable();
+  }
+
+  refreshTablePreference() {
+    this.userPrefSub.next(this.settings.filters);
   }
 
   getCommissionObservable(): Observable<number>{

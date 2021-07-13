@@ -166,27 +166,32 @@ export class MatchStatusService {
 
     const state:any = this.watchList.filter( fixture => {
       if(fixture.Home == selectionName && fixture.HStatus.notify) {
-        console.log(fixture.Home + "= Home Team, isWatched = true");
+        console.log("--------isWatched Result: ------------");
+        console.log("Found " + fixture.Home + "= Home Team, isWatched = true");
 
         return true
       }
-      else if(fixture.Away == selectionName && fixture.AStatus.notify) {
-        console.log(fixture.Away + "= Away Team, isWatched = true");
+      if(fixture.Away == selectionName && fixture.AStatus.notify) {
+        console.log("--------isWatched Result: ------------");
+        console.log("Found " + fixture.Away + "= Away Team, isWatched = true");
 
         return true;
-      } else {
-        console.log("----Fixture: ");
-        console.log(fixture);
-        console.log("-------JUICY SELECTION: " + selectionName + " isWatched = false" );
+      } else if (fixture.Away != selectionName || fixture.Home != selectionName){
+        console.log("--------isWatched Result: ------------");
+        console.log(" Nothing Found! for above SelectionName! ");
+
+          //selection name did not match.
         return false;
       }
     });
 
-    console.log("--------Filtered State constant: ------------");
-    console.log(state);
-    console.log("------------------------------------------------");
 
     let result =  state.length > 0 ? true : false
+    console.log("----------------Showing Filter Results: " + selectionName + "----------------");
+    console.log(state);
+    console.log("Result: " + result);
+
+    console.log("------------------------------------------------");
 
     return result
   }

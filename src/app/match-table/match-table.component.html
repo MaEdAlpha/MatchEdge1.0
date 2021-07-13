@@ -9,7 +9,8 @@
             <p class="all-leagues-toggle-text" [ngClass]="{'hide-toggle' : tableSelected == 2}">Watch All</p>
             <mat-slide-toggle
             class="all-leagues-toggle"
-            (click)="watchAllLeagues();">
+            (click)=" watchAllLeagues();"
+            [disabled]="loadingInProgress">
           </mat-slide-toggle>
           </div>
           <mat-table mat-table [dataSource] ="dataSource">
@@ -190,7 +191,8 @@
                             <div class="league-item">
                               <mat-slide-toggle
                               class="leagueToggleSelect"
-                              (click)="group.watchAll = !group.watchAll; watchAllMatches(group); $event.stopPropagation()"
+                              (click)=" watchAllMatches(group); $event.stopPropagation()"
+                              [disabled]="loadingInProgress"
                               [(checked)]="masterToggle">
                             </mat-slide-toggle>
                             </div>
@@ -208,7 +210,7 @@
 
         <!-- Display Juicy Table -->
         <div [style.visibility]="tableSelected == 3 ? 'visible' : 'collapse' "[style.height]="tableSelected == 3 ? ' ' : '0' " [style.margin-bottom]="tableSelected == 3 ? '5px' : '0'" [style.display]="tableSelected == 3 ? 'inline' : '' ">
-          <app-juicy-match [allMatches]="matches" [ftaOption]="ftaOption"></app-juicy-match>
+          <app-juicy-match [allMatches]="matches" [ftaOption]="ftaOption" [collapseExpandedElement]="collapseExpandedElement"></app-juicy-match>
         </div>
         <!-- Display Active Bets -->
         <div [style.visibility]="tableSelected == 4 ? 'visible' : 'collapse' "[style.height]="tableSelected == 4 ? ' ' : '0' " [style.margin-bottom]="tableSelected == 4 ? '5px' : '0'" [style.display]="tableSelected == 4 ? 'inline' : '' ">
