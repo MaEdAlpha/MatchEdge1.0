@@ -62,7 +62,7 @@ export class ActiveBetsComponent implements OnChanges, OnInit, AfterViewInit {
   @ViewChild(MatSort) activeBetSort: MatSort;
   ngOnChanges(changes: SimpleChanges){
       if( changes.tableSelected.currentValue){
-
+        this.expandedElement = null;
       }
   }
 
@@ -181,18 +181,22 @@ export class ActiveBetsComponent implements OnChanges, OnInit, AfterViewInit {
     console.log(this.PandLform);
 
     var message:string;
+    var phrase: string = 'Settled bet with P/L of '
     if(this.PandLform.value.ProfitLoss == "" && sab.isSettled)
     {
-      message = sab.pl == sab.ql ? 'Q/L stored as P/L' : 'P/L stored: ' + sab.pl;
+      message = sab.pl == sab.ql ? (phrase + sab.ql) : (phrase + sab.pl);
       sab.pl = sab.ql;
 
-      this.notificationBoxService.IncompleteSABToast(message);
+      this.notificationBoxService.SettledToastSAB(message);
 
 
     } else if(this.PandLform.value.ProfitLoss != "" && sab.isSettled) {
       sab.pl = +this.PandLform.value.ProfitLoss;
       //update DB
-      this.notificationBoxService.IncompleteSABToast('Incompletedmethod')
+      message = sab.pl == sab.ql ? (phrase + sab.ql) : (phrase + sab.pl);
+      sab.pl = sab.pl;
+
+      this.notificationBoxService.SettledToastSAB(message)
       //disable this matInput
       //set style to change this row green.
     }

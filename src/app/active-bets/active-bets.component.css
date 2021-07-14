@@ -846,7 +846,6 @@ span.calculated-value{
 }
 
 
-
 .btn-default {
   background: #ffffff;
   position: relative;
@@ -995,8 +994,8 @@ input[type=number] {
 }
 .QLPercenttext{
   padding-left: 55px;
-    padding-right: 72px;
-    color: white;
+  padding-right: 72px;
+  color: white;
 }
 .QLText{
   color: white;
@@ -1012,9 +1011,9 @@ input[type=number] {
   color: white;
   font-size: 95%;
   color: white;
-    font-size: 95%;
-    position: absolute;
-    left: 44%;
+  font-size: 95%;
+  position: absolute;
+  left: 44%;
 
 }
 .QLvalue{
@@ -1028,4 +1027,17 @@ input[type=number] {
   text-orientation: upright;
   font-size: 11px;
   outline: none;
+}
+
+.unsettled-bet {
+  font-size: 12px;
+  font-weight: 400;
+  margin: 0px;
+}
+
+.settled-bet-value {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #1d262b;
+  margin: 0px;
 }

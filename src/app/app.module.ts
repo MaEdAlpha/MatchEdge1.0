@@ -113,9 +113,6 @@ import { PopupDataProtectionRegulationComponent } from './popup-data-protection-
 import { PopupCookiePolicyComponent } from './popup-cookie-policy/popup-cookie-policy.component';
 
 
-
-
-
 @NgModule({
   declarations: [
     AppComponent,

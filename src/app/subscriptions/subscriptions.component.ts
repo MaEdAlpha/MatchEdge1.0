@@ -27,6 +27,7 @@ export class SubscriptionsComponent implements OnInit, OnChanges, OnDestroy {
   infoSelected:number = 0;
   welcomeMessageSubscription: Subscription;
   userName:string;
+  isLoading:boolean;
 
   @Input() userEmail: string;
   @Output() displaySettings = new EventEmitter <boolean>();
@@ -43,9 +44,11 @@ export class SubscriptionsComponent implements OnInit, OnChanges, OnDestroy {
 
   ngOnInit(): void {
     //retrieve useSubscription info. How to handle it to prevent easy tampering?
-    this.isActiveSub=false;
+    this.isActiveSub = null;
+    this.isLoading = true;
     this.welcomeMessageSubscription = this.userPropertiesService.getSubscriptionState().subscribe( subState => {
       //assign landing page to returning user, or new user with custom message
+      this.isLoading = false;
       this.isActiveSub = subState;
       this.userName = this.userPropertiesService.getUserName();
       setTimeout( () =>{

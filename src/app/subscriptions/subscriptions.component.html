@@ -17,40 +17,47 @@
     <div class="opt-obj-cont">
 
         <div class="obj-cont">
-          <div class="active-sub" *ngIf="isActiveSub; else showInactiveSub">
-            <div class="option-wrapper active-wrapper">
-              <div class="active-img" (click)="customerPortal(userEmail);">
-                <img  class="manage-payments-img" src="../../assets/img/ManagePaymentsLogo.png" alt="">
+
+          <ng-container *ngIf="isActiveSub != null else showLoadingSpinner">
+            <div class="active-sub" *ngIf="isActiveSub; else showInactiveSub">
+              <div class="option-wrapper active-wrapper">
+                <div class="active-img" (click)="customerPortal(userEmail);">
+                  <img  class="manage-payments-img" src="../../assets/img/ManagePaymentsLogo.png" alt="">
+                </div>
+                <div class="sport">
+                  <h2> Manage <br> Subscriptions & Billing</h2>
+                </div>
               </div>
-              <div class="sport">
-                <h2> Manage <br> Subscriptions & Billing</h2>
-              </div>
-            </div>
-            <div class="option-wrapper active-wrapper">
-              <div class="active-img" (click)="enterSite();">
-                <img  class="sub-img two-up" src="../../assets/img/2upEnabled210x210.png" alt="">
-              </div>
-              <div class="sport">
-                <h2> Football</h2>
-              </div>
-            </div>
-          </div>
-          <ng-template #showInactiveSub>
-            <div class="inactive-sub">
-              <div class="option-wrapper">
-              <div class="inactive-img">
-                <img class="sub-img" src="../../assets/img/2upDisabled210x210.png" alt="">
-                <h3>£13.99/month</h3>
-              </div>
-              <div class="inactive-btn-cont">
-                <!-- isActiveSub=!isActiveSub; -->
-                <button id="basic-plan-btn" class="sub-btn" mat-raised-button (click)="this.createCheckout('price_1J4K6xC2Ao5ETreld0Jpk3lT')">Subscribe</button>
-                <button  class="info-btn" mat-raised-button (click)="displayInfo(1)">Info</button>
-              </div>
+              <div class="option-wrapper active-wrapper">
+                <div class="active-img" (click)="enterSite();">
+                  <img  class="sub-img two-up" src="../../assets/img/2upEnabled210x210.png" alt="">
+                </div>
+                <div class="sport">
+                  <h2> Football</h2>
+                </div>
               </div>
             </div>
-            <div id="error-message" class="error-message"></div>
+            <ng-template #showInactiveSub>
+              <div class="inactive-sub">
+                <div class="option-wrapper">
+                <div class="inactive-img">
+                  <img class="sub-img" src="../../assets/img/2upDisabled210x210.png" alt="">
+                  <h3>£13.99/month</h3>
+                </div>
+                <div class="inactive-btn-cont">
+                  <!-- isActiveSub=!isActiveSub; -->
+                  <button id="basic-plan-btn" class="sub-btn" mat-raised-button (click)="this.createCheckout('price_1J4K6xC2Ao5ETreld0Jpk3lT')">Subscribe</button>
+                  <button  class="info-btn" mat-raised-button (click)="displayInfo(1)">Info</button>
+                </div>
+                </div>
+              </div>
+              <div id="error-message" class="error-message"></div>
+            </ng-template>
+          </ng-container>
+          <ng-template #showLoadingSpinner>
+            <app-loading [isLoading]="isLoading"></app-loading>
           </ng-template>
+
         </div>
 
         <div class="info-container">

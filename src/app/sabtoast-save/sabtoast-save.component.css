@@ -1,21 +1,21 @@
 :host {
-
-  background-image: linear-gradient(to bottom right,#076044, #649787);
-  background-repeat: no-repeat;
-  background-size: cover;
+  background: rgb(7,96,68);
+  background: linear-gradient(53deg, rgba(7,96,68,1) 48%, rgba(6,140,98,1) 90%, rgba(113,189,165,1) 98%);
   position: fixed;
   top: 40%;
   right: 36%;
-  overflow: hidden;
-  margin: 0 0 6px;
-  padding-top: 4px;
-  width: 350px;
-  height: 67px;
-  border-radius: 3px 3px 3px 3px;
-  pointer-events: all;
+  background-repeat: no-repeat;
+  background-size: cover;
+  border: 2px solid #f9a825;
+  border-radius: 7px;
   cursor: pointer;
-
-  box-shadow: 0 0 12px #999999;
+  padding-top: 5px;
+  font-weight: 400;
+  font-size: 16px;
+  height: 65px;
+  padding-top: 10px;
+  overflow: hidden;
+  width: 336px;
 }
 
 :host:hover {
@@ -34,7 +34,7 @@
   .toast-title{
     text-align: center;
     color: #ef9e1b;
-    font-size: 125%;
+    font-size: 100%;
   }
 
   .toast-message{

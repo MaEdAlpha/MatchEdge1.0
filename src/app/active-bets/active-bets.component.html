@@ -37,6 +37,15 @@
         </div>
       </div>
 
+      <div *ngIf="column.field.endsWith('pl')">
+        <ng-container *ngIf="sab['isSettled'] else hidePL">
+          <p class="settled-bet-value"> {{sab['pl'] | currency:'GBP' }}</p>
+        </ng-container>
+        <ng-template #hidePL>
+          <p class="unsettled-bet">Settle this.</p>
+        </ng-template>
+      </div>
+
       <div *ngIf="column.field.endsWith('delete')">
         <ng-container *ngIf="!sab.isSettled">
           <mat-drawer-container class="delete-container" autosize disableClose="false">
@@ -50,7 +59,7 @@
             </mat-drawer-container>
           </ng-container>
         </div>
-      <div *ngIf="column.field.endsWith('stake') || column.field.endsWith('ql') || column.field.endsWith('pl') ">
+      <div *ngIf="column.field.endsWith('stake') || column.field.endsWith('ql') ">
         {{sab[column.field] | currency:'GBP' }}
       </div>
       <div *ngIf="column.field.endsWith('fixture') || column.field.endsWith('selection')  || column.field.endsWith('backOdd') ||  column.field.endsWith('layOdd') || column.field.endsWith('layStake')|| column.field.endsWith('occ') ">
