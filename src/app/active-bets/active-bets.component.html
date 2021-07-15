@@ -13,18 +13,19 @@
       (click)="loadGroup(i); showSelectionValues(sab, i);">
 
       <div *ngIf="column.field.endsWith('created') || column.field.endsWith('matchDetail')" class="match-date">
-        {{ sab[column.field] | date: 'EEE dd LLL' }} | {{ sab[column.field] | date: 'HH:mm' }}
+        {{ sab[column.field] | date: 'EEE dd LLL' }} {{ sab[column.field] | date: 'HH:mm' }}
       </div>
 
-      <div *ngIf="column.field.endsWith('isSettled')">
+      <div *ngIf="column.field.endsWith('isSettled')" [appSettledBet] [isSettled]="sab.isSettled">
+      <ng-container *ngIf="sab.betState else hideChevron">
         <ng-container *ngIf="!sab['isSettled'] else displaySettled">
         <mat-form-field class="pl-input">
-          <mat-label > <span class="pl-label"> P/L </span></mat-label>
+          <mat-label > <span class="pl-label"> Settle Bet </span></mat-label>
             <input
             matInput
             formControlName="ProfitLoss"
             type="number"
-            placeholder="P/L">
+            placeholder="{{sab.betState ? 'P/L' : 'Unmatched'}}">
           </mat-form-field>
         </ng-container>
         <ng-template #displaySettled>
@@ -33,16 +34,26 @@
           </div>
         </ng-template>
         <div class="settle-bet-cont">
-          <mat-icon class="chevron-right" (click)="sab[column.field]=!sab[column.field]; savePL(sab,i); $event.stopPropagation()" [ngClass]="sab['isSettled'] ? 'settled-overlay' : 'btn-default glow'">chevron_right</mat-icon>
+            <mat-icon class="chevron-right"
+            (click)="sab[column.field]=!sab[column.field]; savePL(sab,i); $event.stopPropagation()"
+            [ngClass]="sab['isSettled'] ? 'settled-overlay' : 'btn-default glow'">chevron_right
+            </mat-icon>
+
+          </div>
+        </ng-container>
+        <ng-template #hideChevron>
+          <div class="unmatched-text">
+            <p>Unmatched Bet</p>
+          </div>
+        </ng-template>
         </div>
-      </div>
 
       <div *ngIf="column.field.endsWith('pl')">
         <ng-container *ngIf="sab['isSettled'] else hidePL">
           <p class="settled-bet-value"> {{sab['pl'] | currency:'GBP' }}</p>
         </ng-container>
         <ng-template #hidePL>
-          <p class="unsettled-bet">Settle this.</p>
+          <p class="unsettled-bet">- - -</p>
         </ng-template>
       </div>
 
@@ -258,7 +269,6 @@
   <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
   <tr mat-row *matRowDef="let sab; columns: columnsToDisplay;"
       class="sab-row"
-      [appSettledBet] [isSettled]="sab.isSettled"
       [class.sab-expanded-row]="expandedElement === sab"
       (click)="expandedElement = expandedElement === sab ? null : sab;">
   </tr>

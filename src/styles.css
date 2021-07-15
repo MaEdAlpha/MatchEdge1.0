@@ -48,6 +48,12 @@ body {
   background-image: linear-gradient(to top, #263238 60%, #161718e6 100%);
   border:1px solid #41555e;
 }
+
+.two-up-product .mat-dialog-container {
+  background-image: linear-gradient(90deg, #37464d 0%, #0f1214 55%, #36444b 100%);
+  border: 1px solid #41555e;
+  color: white;
+}
 /* Increment Arrow buttons hide*/
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
@@ -138,6 +144,12 @@ input.value-box-lay {
   h1.about-text,
   h2.about-text{
     color: white;
+  }
+
+  span.popup-dialog:hover {
+    color: #ffc235;
+    text-decoration: underline;
+    cursor: pointer;
   }
 
 

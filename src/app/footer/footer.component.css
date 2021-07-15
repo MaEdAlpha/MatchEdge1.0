@@ -1,11 +1,7 @@
-.ftr-cont{
-  margin-top: 12%;
-}
 
 .ftr-buffer {
   height: 100px;
 }
-
 
 .ftr-body {
   background: #29373e;
@@ -58,12 +54,28 @@ h2.sm-link:hover{
   color: whitesmoke;
   display: inline-flex;
   width: 100%;
-  border-top: 1px solid #ffc235;
+  margin-bottom: 0px;
 }
 
-.copy-right,
+.final-footer {
+  border-top: 1px solid #ffc235;
+  color: whitesmoke;
+  margin: 0px;
+  text-align: center;
+  width: 100%;
+  padding-top: 10px;
+}
+
+p{
+  margin: 0px;
+}
+
+.copy-right {
+  width: 45%;
+}
+
 .aware-disc {
-  width: 50%;
+  width: 55%;
 }
 
 a {

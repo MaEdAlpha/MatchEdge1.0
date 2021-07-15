@@ -4,6 +4,10 @@
   margin-top: 60px;
 }
 
+.mn-cont {
+  height: 800px;
+}
+
 .title-text{
   color: #ffc235;
   text-align: center;
@@ -81,8 +85,13 @@ img.two-up {
 
 .sub-btn,
 .info-btn {
-  background: #607d8b;
+  background: rgb(96,125,139);
+  background: linear-gradient(146deg, rgba(96,125,139,1) 5%,  rgb(135 149 156) 30%, rgba(96,125,139,1) 45%);
+  border: 1px solid #2b373d;
   color: #ffbf0e;
+  width: 50%;
+  display: inline;
+  margin: 0;
 }
 
 .expiration {
@@ -94,19 +103,21 @@ img.two-up {
 }
 
 .info-content {
-  width: 80%;
+  width: 90%;
   margin-left: auto;
   margin-right: auto;
   margin-top: 2%;
   border: 2px solid #607d8b;
-  border-radius: 5px;
+  border-radius: 10px;
   padding: 10px;
 }
 
 .info-wrapper {
-  width: 50%;
+  width: 72%;
   margin-left: auto;
   margin-right: auto;
+  padding: 20px 0px;
+  font-size: 1.2rem;
 }
 
 .info-text {
@@ -126,6 +137,15 @@ img.two-up {
   margin-right: 1rem;
 }
 
+.bottom-spacer{
+  height: 10px;
+  width: 100%;
+}
+
+.popup-dialog{
+  color: #ffc235;
+  cursor: pointer;
+}
 
 
 

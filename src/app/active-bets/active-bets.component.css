@@ -404,8 +404,8 @@ div.jm-exp-details {
 
 .match-date {
   margin-left: 10px;
-  width: 100px;
-  font-size: 0.7rem;
+  width: 75px;
+  font-size: 0.76rem;
 }
 
 .mat-hint{
@@ -741,6 +741,10 @@ th.mat-column-delete {
   background: #263238;
 }
 
+th.mat-column-isSettled {
+  width: 100px;
+}
+
 
 td.mat-column-fixture {
   font-weight: 400;
@@ -814,8 +818,21 @@ span.calculated-value{
 
 .settled-row {
     opacity: 0.8;
-    background: #f9a825;
     box-shadow: 0px;
+    background: #f9a825;
+    height: -webkit-fill-available;
+}
+
+.unmatched-text{
+  background: #8a0606e0;
+  height: -webkit-fill-available;
+  color: white;
+  border-radius: 6px;
+}
+
+.unmatched-text>p{
+  margin:0px;
+  padding: 4px;
 }
 
 .sbet{
@@ -829,6 +846,7 @@ span.calculated-value{
   border-radius: 3px;
   box-shadow: 3px 2px 15px 1px #5f5f5f;
   cursor: pointer;
+  margin-top: 5px;
 }
 
 .hidden-input {
@@ -1030,14 +1048,14 @@ input[type=number] {
 }
 
 .unsettled-bet {
-  font-size: 12px;
+  font-size: 20px;
   font-weight: 400;
   margin: 0px;
 }
 
 .settled-bet-value {
   font-size: 1.1rem;
-  font-weight: 600;
+  font-weight: 500;
   color: #1d262b;
   margin: 0px;
 }

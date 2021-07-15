@@ -207,7 +207,7 @@ app.post("/subscription", async (req,res) => {
         console.log(email + " subscription is valid!");
         res.status(200).json({isActiveSub:true, isNewUser: false, userAcceptedTerms: userDoc.accepted_terms});
       } else if (userDoc != null && userDoc.subscription_status == 'unpaid') {
-        res.status(400).json({isActiveSub:false, isNewUser: false, userAcceptedTerms: userDoc.accepted_terms});
+        res.status(200).json({isActiveSub:false, isNewUser: false, userAcceptedTerms: userDoc.accepted_terms});
       }
     })
     .catch(err => console.error(`Failed to find documents: ${err}`));

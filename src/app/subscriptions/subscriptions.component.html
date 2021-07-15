@@ -5,10 +5,17 @@
   </div>
   <div class="opt-cont">
     <div class="opt-desc">
-      <div class="welcome-msg" *ngIf="!isNewUser; else showNewUserMessage">
-        <h2>Welcome back {{userName}}!</h2>
-        <h3>You currently have an active subscription for 2Up</h3>
-      </div>
+      <ng-container *ngIf="!isNewUser; else showNewUserMessage">
+        <div class="welcome-msg">
+          <h2>Welcome back {{userName}}!</h2>
+          <ng-container *ngIf="isActiveSub else inactiveSubscription">
+            <h3>You currently have an active subscription for 2Up</h3>
+          </ng-container>
+          <ng-template #inactiveSubscription>
+            <h3>You currently have no active subscriptions. Select a Juicy-Bet tool to start! </h3>
+          </ng-template>
+        </div>
+      </ng-container>
       <ng-template #showNewUserMessage>
         <h2>Welcome to Juicy-Bets, please select a subscription to begin.</h2>
         <h3>You currently have no active subscriptions. Select a Juicy-Bet tool to start! </h3>
@@ -18,8 +25,9 @@
 
         <div class="obj-cont">
 
-          <ng-container *ngIf="isActiveSub != null else showLoadingSpinner">
-            <div class="active-sub" *ngIf="isActiveSub; else showInactiveSub">
+          <ng-container *ngIf="!isLoading else showLoadingSpinner">
+
+            <div class="active-sub" *ngIf="isActiveSub && !isNewUser; else showInactiveSub">
               <div class="option-wrapper active-wrapper">
                 <div class="active-img" (click)="customerPortal(userEmail);">
                   <img  class="manage-payments-img" src="../../assets/img/ManagePaymentsLogo.png" alt="">
@@ -40,14 +48,13 @@
             <ng-template #showInactiveSub>
               <div class="inactive-sub">
                 <div class="option-wrapper">
-                <div class="inactive-img">
+                <div id='focal-point' class="inactive-img">
                   <img class="sub-img" src="../../assets/img/2upDisabled210x210.png" alt="">
                   <h3>£13.99/month</h3>
-                </div>
-                <div class="inactive-btn-cont">
-                  <!-- isActiveSub=!isActiveSub; -->
-                  <button id="basic-plan-btn" class="sub-btn" mat-raised-button (click)="this.createCheckout('price_1J4K6xC2Ao5ETreld0Jpk3lT')">Subscribe</button>
-                  <button  class="info-btn" mat-raised-button (click)="displayInfo(1)">Info</button>
+                  <div class="inactive-btn-cont">
+                    <button id="basic-plan-btn" class="sub-btn" mat-raised-button (click)="this.createCheckout('price_1J4K6xC2Ao5ETreld0Jpk3lT')">Subscribe</button>
+                    <button  class="info-btn" mat-raised-button (click)="displayInfo()">Info</button>
+                  </div>
                 </div>
                 </div>
               </div>
@@ -61,14 +68,17 @@
         </div>
 
         <div class="info-container">
-          <div class="info-content" *ngIf="infoSelected == 1">
-            <div class="info-wrapper">
+          <div class="info-content" *ngIf="infoSelected">
+            <div id="info" class="info-wrapper">
               <h2>Footie 2Up</h2>
-              <p class="2up-info info-text"> Content content content Cows should be inseminated within four to 16 hours of observed estrus when the precise onset of estrus is known (Figures 1 and 2). If estrous detection is conducted twice daily, most cows should be within this time period. </p>
+              <p class="2up-info info-text"> Content content content Cows should be inseminated within four
+                to 16 hours of observed estrus when the precise onset of estrus is known (Figures 1 and 2).
+                If estrous detection is conducted twice daily, most cows should be within this time period. <span class="popup-dialog" (click)="openProductPopup()">Learn More...</span>
             </div>
           </div>
         </div>
     </div>
   </div>
-  <app-footer></app-footer>
+  <div class="bottom-spacer"></div>
+
 </div>
