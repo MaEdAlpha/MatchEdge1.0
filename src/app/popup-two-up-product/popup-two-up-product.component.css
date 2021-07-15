@@ -1,0 +1,37 @@
+.italicize-league{
+  width: 85%;
+  margin-left: auto;
+  margin-right: auto;
+}
+p{
+  font-size: 15px;
+}
+
+.definition{
+  width: 98%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 12px;
+  border: 1px solid white;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+
+.definition >h3 {
+  margin: 0px;
+}
+
+.popup-dialog,
+.important{
+  color: #f9a825;
+}
+
+.league-list {
+  font-style: italic;
+}
+
+.expansion-panel{
+  color: white;
+  background: #303b40;
+}

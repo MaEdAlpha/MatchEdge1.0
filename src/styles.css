@@ -51,7 +51,8 @@ body {
 
 .two-up-product .mat-dialog-container {
   background-image: linear-gradient(318deg, #3d4c53 0%, #293136 69%, #4f616a 100%);
-  border: 1px solid #41555e;
+  background: #313b40;
+  border: 1px solid #f9a825;
   color: white;
 }
 /* Increment Arrow buttons hide*/

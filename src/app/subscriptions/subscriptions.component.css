@@ -5,7 +5,7 @@
 }
 
 .mn-cont {
-  height: 1000px;
+  height: 1070px;
 }
 
 .title-text{
@@ -25,6 +25,11 @@
 
 .opt-obj-cont{
   color: white;
+}
+
+.obj-cont {
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .vertical-spacer {
@@ -47,7 +52,13 @@
   cursor: pointer;
 }
 
+.product-features{
+  text-align: initial;
+}
 
+.learn-more {
+  border: 1px solid white;
+}
 
 .inactive-sub,
 .active-sub{
@@ -128,6 +139,7 @@ img.two-up {
 .info-text {
   margin: 0px;
   text-align: left;
+  line-height: 25px;
 }
 
 .sport  {
@@ -159,7 +171,27 @@ img.two-up {
   background: #394951;
 }
 
+.learn-more {
+  border: 1px solid white;
+  padding: 10px;
+  width: 60%;
+  border-radius: 18px;
+  margin-left: auto;
+  margin-right: auto;
+}
 
+.learn-more>p{
+  margin: 0px;
+}
+
+li{
+  line-height: 30px;
+}
+
+.info-title{
+  color: #ffc235;
+  text-decoration: underline;
+}
 
 
 
