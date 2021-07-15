@@ -24,6 +24,7 @@
     <div class="opt-obj-cont">
 
         <div class="obj-cont">
+          <div class="vertical-spacer"></div>
 
           <ng-container *ngIf="!isLoading else showLoadingSpinner">
 
@@ -64,7 +65,7 @@
           <ng-template #showLoadingSpinner>
             <app-loading [isLoading]="isLoading"></app-loading>
           </ng-template>
-
+          <div class="vertical-spacer"></div>
         </div>
 
         <div class="info-container">
