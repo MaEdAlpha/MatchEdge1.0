@@ -21,7 +21,8 @@ export class AuthSignupButtonComponent implements OnInit {
     userAgreedToTermsOfUse(){
       if(this.isNewUser){
         const dialogReference = this.dialog.open(PopupDataProtectionRegulationComponent, {
-          height:'35%'
+          height:'45%',
+          panelClass:'pyp-popup'
         });
 
         dialogReference.afterClosed().subscribe( userAcceptedTerms =>{

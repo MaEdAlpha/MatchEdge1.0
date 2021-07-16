@@ -192,8 +192,7 @@ app.use((req, res, next) => {
 
 app.post("/subscription", async (req,res) => {
   //Need to make sure multiple emails do not exist.
-  const email = req.body.email;
-
+  let email = req.body.email;
   let update = {
     last_signed_in : 0,
   }
@@ -251,7 +250,6 @@ app.post('/webhook', express.raw({type: 'application/json'}),  (request, respons
         subscription_paid_on: 0,
         last_signed_in: 0,
         accepted_terms: true,
-
       }
       subscription_collection.insertOne(document, function (error, response){
         console.log("New Subscriber: " + document.cust_email + " created!");
@@ -591,5 +589,7 @@ function createNewUserDocument(userEmail){
                               });
                             });
 }
+
+
 
 module.exports = app;

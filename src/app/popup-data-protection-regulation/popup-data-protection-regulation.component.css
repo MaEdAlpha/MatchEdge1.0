@@ -3,3 +3,16 @@ span.popup-dialog:hover {
   text-decoration: underline;
   cursor: pointer;
 }
+.check-box-sentence:last-of-type{
+  margin-top: 5%;
+}
+
+.popup-dialog {
+  color: #ffc235;
+}
+mat-checkbox {
+  float: left;
+}
+mat-dialog-actions {
+  float: right;
+}

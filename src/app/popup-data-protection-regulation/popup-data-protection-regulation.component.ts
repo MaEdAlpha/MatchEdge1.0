@@ -19,7 +19,7 @@ export class PopupDataProtectionRegulationComponent implements OnInit {
   }
 
   openTermsAndConditions(){
-    this.dialog.open(TermsOfUseComponent);
+   this.dialog.open(TermsOfUseComponent, {panelClass:'about-dialog'});
   }
 
 }

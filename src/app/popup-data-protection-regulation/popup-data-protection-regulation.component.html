@@ -2,14 +2,17 @@
 <h3 mat-dialog-title> Protecting your Privacy</h3>
 <mat-dialog-content class="mat-typography">
   <div class="check-box-sentence">
-    <p>By using our site, you agree to the Juicy-Bets Entertainment LTD.<span class="popup-dialog" (click)="openTermsAndConditions()">Terms of Use</span></p> <mat-checkbox class="email-list" [(ngModel)]="checked"> I agree to these terms</mat-checkbox>
+    <p>By using our site, you agree to the Juicy-Bets Entertainment LTD.
+      <span class="popup-dialog" (click)="openTermsAndConditions()"> Terms of Use</span></p>
+      <mat-checkbox class="email-list" [(ngModel)]="checked"> I agree to these terms</mat-checkbox>
   </div>
   <div class="check-box-sentence">
-    <br>
-    <p>If you wish to be notified about our new product launches, special discounts and exclusive betting offers, please tick the box below. </p><mat-checkbox class="email-list" [(ngModel)]="addToMailList"> Yes, add me to your mailing list</mat-checkbox>
+    <br><p>If you wish to be notified about our new product launches, special discounts and exclusive betting offers,
+      please tick the box below. </p>
+      <mat-checkbox class="email-list" [(ngModel)]="addToMailList"> Yes, add me to your mailing list</mat-checkbox>
   </div>
 </mat-dialog-content>
-<mat-dialog-actions align="end">
+<mat-dialog-actions>
   <button mat-button mat-dialog-close>Cancel</button>
   <button mat-button [mat-dialog-close]="true" cdkFocusInitial [disabled]="!checked">Accept Terms of Use</button>
 </mat-dialog-actions>
