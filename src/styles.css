@@ -54,6 +54,7 @@ body {
   background: #313b40;
   border: 1px solid #f9a825;
   color: white;
+  overflow: hidden;
 }
 /* Increment Arrow buttons hide*/
 input::-webkit-outer-spin-button,

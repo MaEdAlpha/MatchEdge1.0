@@ -1,42 +1,188 @@
-<h2>Juicy 2Up</h2>
+<h2>Juicy Bets</h2>
 <mat-dialog-content class="mat-typography">
-  <h2>What is 2Up?</h2>
-  <p> &nbsp;“2Up” also known as “Early Payout” promotions are a well-known matched betting technique. They are also becoming more popular with bookmakers.
-    At the time of writing this, the promotion is available at Bet365, Paddy Power, Sporting Index and StarSports. <br>
-    Bet365’s terms for the Early Payout offer state the following:</p> <br>
+
+  <div id='content' class="contents">
+    <h2>Contents</h2>
+    <ul>
+      <li (click)="scrollToView('#what')">What is a 2Up</li>
+      <li (click)="scrollToView('#how')">How to make a profit</li>
+      <li (click)="scrollToView('#indicators')">2Up Indicators</li>
+      <li (click)="scrollToView('#fixtures')">Fixtures/Wathclist</li>
+      <li (click)="scrollToView('#juicy')">Your Juicy bets</li>
+      <li (click)="scrollToView('#active')">Your Active bets</li>
+    </ul>
+  </div>
+
+  <div class="welcome">
+    <p>&nbsp;Before we begin, please ensure that you are familiar with the following:</p>
+  </div>
+  <hr class="content-separator">
+
+<div class="expansion-container">
+  <mat-expansion-panel class="betting-exchange-exp expansion-panel" hideToggle>
+    <mat-expansion-panel-header>
+      <mat-panel-title class="popup-dialog">What is a betting exchange?</mat-panel-title>
+    </mat-expansion-panel-header>
+    <div class="definition">
+      <h3>Betting exchange: A platform that allows users to bet against each other.<span class="important">
+      Instead of placing your bet against a bookmaker, you place it against another person. </span></h3>
+    </div>
+
+     <p>You can play the role of ‘customer’ and bet that something WILL happen or you can play the role of ‘bookmaker’ and bet that something WON’T happen. Being able to bet
+      that something won’t happen is what makes matched betting possible.<br><br>Don’t have a betting exchange account?<br>Join now - Referral links to Betfair and Smarkets </p>
+
+    <!-- <div class="example-cont">
+      <p><u>Example: Chelsea vs. Liverpool</u><br><br>
+      You go to Bet365 and <u>place a bet on Chelsea to win the game</u>. In this case you play the role of 'customer', and this is known as placing a <span class="important">BACK bet.</span><br><br>
+      Then, you go to a <span class="important">betting exchange</span> and <u>bet on Chelsea to lose the game</u>. You are playing the role of 'bookmarker' and this is known as placing a <span class="important">LAY bet</span>. <br><br>
+      IMPORTANT! <span class="important"> When you LAY <u>you are wagering on Chelsea to lose</u>. You are not wagering on Liverpool to win!</span><br><br>
+      <u>In Summary:</u> <br>You have a position on Chelsea with Bet365 to win the game (Back position) and a position on Chelsea to lose the game (Lay position).</p>
+    </div> -->
+  </mat-expansion-panel>
+
+  <mat-expansion-panel class="expansion-panel" hideToggle>
+    <mat-expansion-panel-header>
+      <mat-panel-title class="popup-dialog">
+        What is a matched bet?
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <div class="definition"><h3>A matched bet involves placing a back bet at a bookmaker while placing the opposing lay bet at a betting exchange.</h3></div>
+  </mat-expansion-panel>
+
+  <mat-expansion-panel class="expansion-panel" hideToggle>
+    <mat-expansion-panel-header>
+      <mat-panel-title class="popup-dialog">
+        What is Expected Value?
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <div class="definition"> <h3>In betting, the expected value (EV) is the measure of what a bettor can expect to win or lose per bet placed on the same odds time and time again.</h3></div>
+    <p>Positive expected value (+EV) implies profit over time, while a negative value (-EV) implies a loss over time. All bettors should be aiming to identify betting value with every bet they make.</p>
+  </mat-expansion-panel>
+<!--   Expansion Template
+  <mat-expansion-panel class="" hideToggle>
+    <mat-expansion-panel-header>
+      <mat-panel-title class="popup-dialog">
+
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <div class="definition"> --- </div>
+  </mat-expansion-panel> -->
+</div>
+
+  <hr class="content-separator">
+
+  <h2 id="what">What is a 2Up?
+    <mat-icon (click)="scrollToView('#content')"
+      matTooltip="Back to top"
+      matToolPosition="right">
+      keyboard_arrow_up
+    </mat-icon>
+  </h2>
+  <p>&nbsp;“2Up” also known as “Early Payout” promotions are a well-known matched betting technique. They are also becoming more popular with bookmakers.
+    At the time of writing this, the promotion is available at Bet365, Paddy Power, Sporting Index and StarSports.
+    <br> Bet365’s terms for the Early Payout offer state the following:</p> <br>
     <div class="italicize-league">
       <span class="league-list"> Place a pre-match bet on the standard Full Time Result market for games from the Premier League, Spain La Liga, Championship, FA Cup, EFL Cup, Italian Serie A,
         Germany Bundasliga, Champions League, Europa League, French Ligue 1, Scottish Premiership, English Championship, English League 1, English League 2 and we’ll
         settle your bet as a winner if the team you back goes 2 goals ahead. </span>
     </div>
+   <br><p>&nbsp;To extract value from this offer, we need to place 2 bets each time we attempt it. We will place a back bet at Bet365 and a lay bet at a betting exchange.</p>
 
-   <br>
-   <p>&nbsp;To extract value from this offer, we need to place 2 bets each time we attempt it. We will place a back bet at
-      Bet365 and a lay bet at a betting exchange.</p>
-     <mat-expansion-panel class="expansion-panel" hideToggle>
-      <mat-expansion-panel-header>
-        <mat-panel-title class="popup-dialog">
-          What is a betting exchange?
-        </mat-panel-title>
-      </mat-expansion-panel-header>
-      <div class="definition">
-        <h3>Betting exchange: A platform that allows users to bet against each other.<span class="important"> Instead of placing your bet against a bookmaker, you place it against another person. </span></h3>
-      </div>
+  <hr class="content-separator">
 
+  <h2 id="how">How to make a profit with 2Up
+    <mat-icon (click)="scrollToView('#content')"
+      matTooltip="Back to top"
+      matToolPosition="right">
+      keyboard_arrow_up
+    </mat-icon>
+  </h2>
+  <p>&nbsp; There are important factors to consider when doing 2Ups. The most important thing is your <span class="important">Qualifying Loss (QL)</span>. This the amount of money that you stand to lose regardless of the outcome when attempting this offer.
+    <br>Let’s take an example of Leicester City vs Manchester City
+    <br>We’ll use Bet365 as our bookmaker. They are offering <span class="important">back odds</span> for Leicester of 3.5.
+    <br>We’ll use Smarkets as our exchange. They are offering <span class="important">lay odds</span> for Leicester of 3.6.
+    <br>Let’s assume a <span class="important">back stake</span> of £100 and put these values into the juicy-bets calculator.</p>
+    <div class="img-cont">
+      <img class="img-make-profit" src="../../assets/img/make-profit.PNG" alt="test">
+    </div>
+    <p><br>By placing this bet, we can see that our qualifying loss is going to be £2.78.
+      <br><br><i>How do we know if this is a good 2up bet?</i>
+      <br><br>In order for 2Ups to be profitable, we must first understand where the value comes from. By thoughtlessly placing back and lay bets on teams without this knowledge we will be unlikely
+      to make a profit, and may even lose money.
+      <br><br>We will assume that the strategy being followed is the “Do Nothing” strategy. Therefore, if our backed team goes 2 goals ahead, we do nothing with our lay bet and hope for a FTA.
+      <br><br>We must now consider how much profit we stand to win if a FTA occurs. In this example we can see that the FTA returns £347.22.
+      <br><br>The question now is, with a QL of £2.78, how many times could we place this bet before we surpass the amount we stand to win from a FTA?
+      <br><br>Let’s divide our FTA by our QL. 347.22 /2.78 = approx. 124 times.
+      <br><br>That means that as long as we hit a FTA at least once in 124 attempts we will at worst break even or better still, make a profit.
+      <br><br>The next question therefore must be “How often does a FTA occur?”
+      <br><br>After studying years of historical data from all eligible football leagues we can conclude that on average 1 in 65 attempts at this offer will result in a FTA.
+      <br><br>Continuing on with the example from above, we needed to hit a FTA 1 in 124 attempts to secure a profit. In reality we can expect to hit a FTA 1/65 attempts. At that point it begins
+      to become clear where the value comes from and how a profit can be made.
+      <br><br>It’s important to note that this is an average and you may experience long runs without a FTA.
+      <br><br>It is therefore very clear why a low QL is such an important part of 2Ups. </p>
 
+      <hr class="content-separator">
 
-       <p>You can play the role of ‘customer’ and bet that something WILL happen or you can play the role of ‘bookmaker’ and bet that something WON’T happen. Being able to bet
-        that something won’t happen is what makes matched betting possible.</p>
-        <div class="example-cont">
-         <p><u>Example: Chelsea vs. Liverpool</u> <br><br>
-          You go to Bet365 and <u>place a bet on Chelsea to win the game</u>. In this case you play the role of 'customer', and this is known as placing a <span class="important">BACK bet.</span> <br><br>
-          Then, you go to a <span class="important">betting exchange</span> and <u>bet on Chelsea to lose the game</u>. You are playing the role of 'bookmarker' and this is known as placing a <span class="important">LAY bet</span>. <br><br>
-          IMPORTANT! <span class="important"> When you LAY <u>you are wagering on Chelsea to lose</u>. You are not wagering on Liverpool to win!</span><br><br>
-          <u>In Summary:</u> <br>You have a position on Chelsea with Bet365 to win the game (Back position) and a position on Chelsea to lose the game (Lay position).</p>
+      <h2 id="indicators"> 2Up Indicators
+        <mat-icon (click)="scrollToView('#content')"
+          matTooltip="Back to top"
+          matToolPosition="right">
+          keyboard_arrow_up
+        </mat-icon>
+      </h2>
+      <p> While studying the historical data, we were also able to recognise trends and key indicators that enabled us to form an algorithm that can be applied to upcoming fixtures. The result is the
+        <span class="important">Juicy-Bets FTA</span> occurrence indicator, used to produce a 2Up rating for all teams in upcoming fixtures.
+        <br><br> We must consider that the chance of triggering a 2Up FTA in every game is not equal. Low scoring teams are less likely to produce a game with the 2 goals required to trigger the offer.
+         Therefore, vastly reducing the chance of a FTA and therefore offering less Expected Value (EV).
+        <br><br> While using the site users can choose whether to apply the <span class="important">Average 1/65</span> or the <span class="important">Juicy-Bets FTA</span> occurrence value when calculating
+         the Expected value of their bets.
+        <br><br> This indicator is displayed next to each team name throughout the site.
+
+        <br><br>&nbsp;Below is an overview of the main sections of Juicy 2Up and how they work.
+        <br><br>Clicking the Juicy Bets logo at the top of the screen opens the <span class="important">User Settings and Preferences</span>. From here we can customise our juicy bet preferences, set preferred
+        stake amounts, set min and max odds ranges, and select what 2Up occurrence factor to apply.
+      </p>
+
+      <hr class="content-separator">
+
+      <h2 id="fixtures">Fixtures
+        <mat-icon (click)="scrollToView('#content')"
+          matTooltip="Back to top"
+          matToolPosition="right">
+          keyboard_arrow_up
+        </mat-icon>
+      </h2>
+      <p>The fixtures tab is the first place we come to. From here we can enable notifications for leagues or fixtures that we want to follow. When the back and lay odds of a followed team meet the criteria
+        set in the user preferences, the team will be visible in the Juicy tab. A notification will also be displayed in the Juicy Notifications zone at the top of the page. Clicking the notification takes us
+        straight the Juicy tab with the bet details open along with our preferred stake, ready for us to place our 2Up bet.</p>
+
+        <hr class="content-separator">
+
+      <h2 id="juicy">Juicy
+        <mat-icon (click)="scrollToView('#content')"
+          matTooltip="Back to top"
+          matToolPosition="right">
+          keyboard_arrow_up
+        </mat-icon>
+      </h2>
+      <p>The Juicy tab displays all Juicy Bets that are currently available. Juicy bets are matched bets for teams that meet the criteria set in the <span class="important">User Settings and Preferences</span> and that are actively being
+        watched in the fixtures tab. It contains all the information we need to place our bets. Additional bet details are also displayed. There is also the option to set the status of our lay bet to “Matched” or “Unmatched”.</p>
+
+        <div class="img-cont">
+          <img class="img-bet-details" src="./../../assets/img/bet-details.PNG" alt="">
         </div>
 
-    </mat-expansion-panel>
-    <p>
-      More text...does it move?
-    </p>
-</mat-dialog-content>
+        <h2 id="active">Active
+          <mat-icon
+            (click)="scrollToView('#content')"
+            matTooltip="Back to top"
+            matToolPosition="right">
+           keyboard_arrow_up
+          </mat-icon>
+        </h2>
+        <p>The Active tab displays all of our active bets.
+          <br><br>From here we can view, edit or remove our saved bets.
+          <br><br>Losing 2Up bets can be settled with just one click, recording the QL as the final profit and loss.
+        </p>
+ </mat-dialog-content>
+ <!-- <span class="important"></span> -->

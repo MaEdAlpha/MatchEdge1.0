@@ -12,4 +12,10 @@ export class PopupTwoUpProductComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  scrollToView(idTag:string) {
+    let el = document.querySelector(idTag);
+
+    el.scrollIntoView({ block:"start", inline:"center", behavior: "smooth"});
+  }
+
 }
