@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 
 @Component({
   selector: 'app-loading',
@@ -8,6 +8,9 @@ import { Component, Input, OnInit } from '@angular/core';
 export class LoadingComponent implements OnInit {
   @Input() isLoading:boolean;
   constructor() { }
+
+  ngOnChanges(simpleChanges:SimpleChanges){
+  }
 
   ngOnInit(): void {
 

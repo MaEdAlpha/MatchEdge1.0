@@ -12,7 +12,7 @@
 
       <div *ngIf="isEntryPoint">
         <app-subscriptions [userEmail]="userEmail" (displaySettings)="onEntryToSite($event)"></app-subscriptions>
-        <!-- set app-loading here as well, and toggle isLoading boolean to false after loaded. Also, disble ability to open JuicyBets Setting while here  -->
+        <app-footer></app-footer>
       </div>
 
       <div *ngIf="toggleSettingsTemplate && !isLoading">
@@ -28,7 +28,6 @@
       </div>
 
       </div>
-
   </ng-template>
 
 

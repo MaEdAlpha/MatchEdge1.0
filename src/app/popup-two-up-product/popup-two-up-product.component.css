@@ -1,0 +1,90 @@
+.italicize-league{
+  width: 85%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+mat-dialog-content{
+  max-height: 92%;
+}
+
+mat-icon {
+  font-size: 15px;
+  margin-left: 10px;
+}
+
+mat-icon:hover {
+  background: #8080804d;
+  border: 1px solid #f9a825;
+  width: fit-content;
+  height: -webkit-fill-available;
+}
+
+.img-cont{
+  margin-top: 20px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+.img-make-profit {
+  width: 89%;
+}
+
+.img-bet-details{
+  width: fit-content;
+}
+
+p{
+  font-size: 15px;
+}
+
+.definition{
+  width: 98%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 12px;
+  border: 1px solid white;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+
+.definition >h3 {
+  margin: 0px;
+}
+
+.popup-dialog,
+.important,
+h2{
+  color: #f9a825;
+  text-decoration: underline;
+}
+
+.contents>ul>li:hover{
+  text-decoration: underline;
+  color: #f9a825;
+  cursor: pointer;
+}
+
+.content-separator{
+  border: 1px solid #f9a825;
+  width: 75%;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.league-list {
+  font-style: italic;
+}
+
+.expansion-panel{
+  color: white;
+  background: #374045;
+}
+
+.expansion-container {
+  width: 89%;
+  margin-left: auto;
+  margin-right: auto;
+}

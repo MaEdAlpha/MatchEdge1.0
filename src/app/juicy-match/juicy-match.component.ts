@@ -530,7 +530,7 @@ export class JuicyMatchComponent implements OnChanges, OnInit, OnDestroy, AfterV
     this.savedActiveBetsService.saveToActiveBets(activeBetObject);
     //Set this row to ActiveBet = true; *TODO = hide this row now.
     row.activeBet = true;
-    this.notificationServices.showSABNotification(row);
+    this.notificationServices.saveToastSAB(row);
     //close current container not opened via notification
     this.expandedElement=null;
     //closs current container IF opened via notification

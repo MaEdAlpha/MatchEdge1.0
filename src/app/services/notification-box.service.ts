@@ -84,12 +84,12 @@ export class NotificationBoxService {
   showTestSAB(){
    let message = "3.88" + "<br>" + "3.99";
    let title = "Aresenal";
-    this.showToast(message, title);
+   this.showToast(message, title);
   }
 
   //might have to disable the toastContainer somehow.
 
-  showSABNotification(row:any):ActiveToast<any>{
+  saveToastSAB(row:any):ActiveToast<any>{
     var toast: ActiveToast<any>;
 
     toast= this.toast.show( row.Selection + ' saved to Active Bets.', 'Saved!',{
@@ -115,10 +115,10 @@ export class NotificationBoxService {
       toastComponent: SABToastDeleteComponent,
       timeOut:1200,
       disableTimeOut: false,
-      tapToDismiss: false,
+      tapToDismiss: true,
       toastClass: "toast border-gold",
       messageClass: 'toast-message',
-      positionClass:'toast-top-right',
+      positionClass:'toast-top-left',
     });
     return toast;
   }
@@ -160,7 +160,7 @@ export class NotificationBoxService {
     return toast;
   }
 
-  IncompleteSABToast(message:string): ActiveToast<any>{
+  SettledToastSAB(message:string): ActiveToast<any>{
     var toast: ActiveToast<any>;
 
     toast= this.toast.show(message, 'Bet Settled!', {

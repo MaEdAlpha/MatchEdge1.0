@@ -1,20 +1,18 @@
 :host {
-  background-image: linear-gradient(to bottom right, red, #a76f6f);
+  background: linear-gradient(52deg, rgba(166,20,20,1) 10%, rgba(145,7,7,1) 79%, rgba(219,67,67,1) 89%);
+  position: fixed;
+  top: 40%;
+  right: 36%;
+  border: 2px solid #f9a825;
   background-repeat: no-repeat;
   background-size: cover;
-  /* position: fixed;
-  top: 40%;
-  right: 36%; */
   overflow: hidden;
-  margin: 0 0 2px;
+  width: 336px;
+  height: 60px;
   padding-top: 2px;
-  width: 350px;
-  height: 67px;
-  border-radius: 3px 3px 3px 3px;
+  border-radius: 7px;
   pointer-events: all;
   cursor: pointer;
-  box-shadow: 0 0 12px #999999;
-
 }
 
 :host:hover {

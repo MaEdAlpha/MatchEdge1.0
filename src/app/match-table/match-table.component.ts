@@ -586,6 +586,7 @@ import { TablePreferences } from '../user-properties.model';
       if(this.tableSelected !=3){
         this.collapseExpandedElement = !this.collapseExpandedElement;
       }
+
       this.savedActiveBets = this.savedActiveBetsService.getSabList();
 
 

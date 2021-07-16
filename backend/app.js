@@ -192,8 +192,7 @@ app.use((req, res, next) => {
 
 app.post("/subscription", async (req,res) => {
   //Need to make sure multiple emails do not exist.
-  const email = req.body.email;
-
+  let email = req.body.email;
   let update = {
     last_signed_in : 0,
   }
@@ -207,7 +206,7 @@ app.post("/subscription", async (req,res) => {
         console.log(email + " subscription is valid!");
         res.status(200).json({isActiveSub:true, isNewUser: false, userAcceptedTerms: userDoc.accepted_terms});
       } else if (userDoc != null && userDoc.subscription_status == 'unpaid') {
-        res.status(400).json({isActiveSub:false, isNewUser: false, userAcceptedTerms: userDoc.accepted_terms});
+        res.status(200).json({isActiveSub:false, isNewUser: false, userAcceptedTerms: userDoc.accepted_terms});
       }
     })
     .catch(err => console.error(`Failed to find documents: ${err}`));
@@ -251,7 +250,6 @@ app.post('/webhook', express.raw({type: 'application/json'}),  (request, respons
         subscription_paid_on: 0,
         last_signed_in: 0,
         accepted_terms: true,
-
       }
       subscription_collection.insertOne(document, function (error, response){
         console.log("New Subscriber: " + document.cust_email + " created!");
@@ -591,5 +589,7 @@ function createNewUserDocument(userEmail){
                               });
                             });
 }
+
+
 
 module.exports = app;

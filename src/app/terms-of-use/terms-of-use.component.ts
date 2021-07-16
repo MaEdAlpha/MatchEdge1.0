@@ -15,7 +15,7 @@ export class TermsOfUseComponent implements OnInit {
   }
 
   popupCookieDialog(){
-    this.dialog.open(PopupCookiePolicyComponent);
+    this.dialog.open(PopupCookiePolicyComponent, {panelClass:'about-dialog'});
   }
 
 }

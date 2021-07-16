@@ -10,6 +10,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { TermsOfUseComponent } from '../terms-of-use/terms-of-use.component';
 import { PopupDataProtectionRegulationComponent } from '../popup-data-protection-regulation/popup-data-protection-regulation.component';
 import { NotificationBoxService } from '../services/notification-box.service';
+import { PopupTwoUpProductComponent } from '../popup-two-up-product/popup-two-up-product.component';
 const stripe = loadStripe(env.STRIPE_PUBLISHABLE_KEY);
 
 
@@ -22,18 +23,23 @@ const stripe = loadStripe(env.STRIPE_PUBLISHABLE_KEY);
 
 export class SubscriptionsComponent implements OnInit, OnChanges, OnDestroy {
   isActiveSub: boolean;
-  isNewUser: boolean;
+  isNewUser: boolean = true;
   subExpiration: number;
-  infoSelected:number = 0;
+  infoSelected:boolean = false;
   welcomeMessageSubscription: Subscription;
   userName:string;
+  isLoading:boolean;
 
   @Input() userEmail: string;
   @Output() displaySettings = new EventEmitter <boolean>();
 
   viewTables = new EventEmitter<boolean>();
 
-  constructor(private matchesService: MatchesService, private userPropertiesService: UserPropertiesService, public dialog: MatDialog, public notificationService: NotificationBoxService) { }
+  constructor(private matchesService: MatchesService,
+    private userPropertiesService: UserPropertiesService,
+    public dialog: MatDialog,
+    public notificationService: NotificationBoxService) { }
+
   ngOnChanges(simpleChanges: SimpleChanges) {
     if(simpleChanges.userEmail && simpleChanges.userEmail.isFirstChange) {
       console.log("Updated with user Email~" + this.userEmail);
@@ -43,14 +49,16 @@ export class SubscriptionsComponent implements OnInit, OnChanges, OnDestroy {
 
   ngOnInit(): void {
     //retrieve useSubscription info. How to handle it to prevent easy tampering?
-    this.isActiveSub=false;
-    this.welcomeMessageSubscription = this.userPropertiesService.getSubscriptionState().subscribe( subState => {
+    this.isActiveSub = null;
+    this.isNewUser = true;
+    this.isLoading = true;
+
+    this.welcomeMessageSubscription = this.userPropertiesService.getSubscriptionState().subscribe( user => {
       //assign landing page to returning user, or new user with custom message
-      this.isActiveSub = subState;
+      this.isLoading = false;
+      this.isActiveSub = user.isActiveSub;
       this.userName = this.userPropertiesService.getUserName();
-      setTimeout( () =>{
-        this.isNewUser = this.userPropertiesService.getUserMessage();
-      },300)
+      this.isNewUser = user.isNewUser;
     });
   }
 
@@ -68,8 +76,29 @@ export class SubscriptionsComponent implements OnInit, OnChanges, OnDestroy {
     }
   }
 
-  displayInfo(selected:number){
-    this.infoSelected = selected;
+  displayInfo(){
+
+    this.infoSelected = !this.infoSelected;
+
+    if(this.infoSelected){
+      setTimeout(()=>{
+        document.querySelector('#info').scrollIntoView({ block:"start", inline:"center", behavior: "smooth"});
+      },200)
+
+    }else {
+      setTimeout(()=>{
+        document.querySelector('#focal-point').scrollIntoView({ block:"end", inline:"center", behavior: "smooth"});
+      },200)
+    }
+  }
+
+  openProductPopup(){
+    this.dialog.open(PopupTwoUpProductComponent,
+    {
+      width: '100%',
+      height:  '100%',
+      panelClass:'two-up-product'
+    });
   }
 
   customerPortal(userEmail: string){
@@ -158,4 +187,6 @@ export class SubscriptionsComponent implements OnInit, OnChanges, OnDestroy {
     this.userPropertiesService.getSubState(this.userEmail);
     this.userName = this.userPropertiesService.getUserName();
   }
+
+
 }

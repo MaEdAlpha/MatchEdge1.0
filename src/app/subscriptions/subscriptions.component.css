@@ -4,6 +4,10 @@
   margin-top: 60px;
 }
 
+.mn-cont {
+  height: 1070px;
+}
+
 .title-text{
   color: #ffc235;
   text-align: center;
@@ -23,12 +27,22 @@
   color: white;
 }
 
+.obj-cont {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.vertical-spacer {
+  width: 100%;
+  height: 10%;
+  display: inline-flex;
+}
+
 .obj-cont{
   border: 2px solid #1f272b;
   border-radius: 10px;
   width: 98%;
   height: 400px;
-  display: inline-flex;
   box-shadow: 0px 0px 81px 6px rgb(0 0 0 / 50%);
 }
 
@@ -38,21 +52,30 @@
   cursor: pointer;
 }
 
+.product-features{
+  text-align: initial;
+}
 
+.learn-more {
+  border: 1px solid white;
+}
 
 .inactive-sub,
 .active-sub{
   color: #ffffff36;
   margin-left: auto;
   margin-right: auto;
+  width: fit-content;
+}
+
+.active-sub {
   display: inline-flex;
 }
 
 .inactive-img,
 .active-img{
-  width: fit-content;
-  margin-top: 2em;
-  border-radius:2px;
+  width: -webkit-fit-content;
+  border-radius: 2px;
   border: 1px solid #ffffff17;
   background: linear-gradient(146deg, rgb(100,116,124,1) 0%, rgb(37 46 51) 25%, rgb(42 54 60) 40%);
 }
@@ -62,12 +85,9 @@
   width: 250px;
   height: 66%;
 }
-.sub-img{
-  margin-top: 10%;
-}
 
 .manage-payments-img{
-  margin-top: 30%;
+  margin-top: 22%;;
 }
 
 img.two-up {
@@ -81,8 +101,13 @@ img.two-up {
 
 .sub-btn,
 .info-btn {
-  background: #607d8b;
+  background: rgb(96,125,139);
+  background: linear-gradient(146deg, rgba(96,125,139,1) 5%,  rgb(135 149 156) 30%, rgba(96,125,139,1) 45%);
+  border: 1px solid #2b373d;
   color: #ffbf0e;
+  width: 50%;
+  display: inline;
+  margin: 0;
 }
 
 .expiration {
@@ -94,24 +119,27 @@ img.two-up {
 }
 
 .info-content {
-  width: 80%;
+  width: 90%;
   margin-left: auto;
   margin-right: auto;
   margin-top: 2%;
   border: 2px solid #607d8b;
-  border-radius: 5px;
+  border-radius: 10px;
   padding: 10px;
 }
 
 .info-wrapper {
-  width: 50%;
+  width: 72%;
   margin-left: auto;
   margin-right: auto;
+  padding: 20px 0px;
+  font-size: 1.2rem;
 }
 
 .info-text {
   margin: 0px;
   text-align: left;
+  line-height: 25px;
 }
 
 .sport  {
@@ -126,7 +154,44 @@ img.two-up {
   margin-right: 1rem;
 }
 
+.bottom-spacer{
+  height: 10px;
+  width: 100%;
+}
 
+.popup-dialog{
+  color: #ffc235;
+  cursor: pointer;
+}
+
+#focal-point >h3{
+  margin: 0px;
+  padding: 2px;
+  color: white;
+  background: #394951;
+}
+
+.learn-more {
+  border: 1px solid white;
+  padding: 10px;
+  width: 60%;
+  border-radius: 18px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.learn-more>p{
+  margin: 0px;
+}
+
+li{
+  line-height: 30px;
+}
+
+.info-title{
+  color: #ffc235;
+  text-decoration: underline;
+}
 
 
 
