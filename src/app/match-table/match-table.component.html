@@ -83,8 +83,14 @@
                               <span class="{{column.field}} homeOccCell fta-value-cont" *ngIf="ftaOption == 'generic'"> {{ row['GenericOcc'] | number:'1.0-0'}}</span>
                               <mat-icon class="selection-notify home-bell" *ngIf="!row.HStatus.notify || !row.isWatched">notifications_off</mat-icon>
                               <!-- <mat-icon class="selection-notify home-bell" *ngIf="row.HStatus.notify || row.isWatched ">notifications_on</mat-icon> -->
-                              <span class="{{column.field.toLowerCase()}}-selection"> {{ row[column.field] }}</span>
-                              <img class="bookie-logo-home home-fc-logo" src="/assets/img/fcLogo/{{row[column.field].toLowerCase().split(' ').join('-')}}.png" alt="">
+                              <div class="home-container">
+                                <div class="home-selection">
+                                  <span class="{{column.field.toLowerCase()}}-selection"> {{ row[column.field] }}</span>
+                                </div>
+                                <div class="home-logo-img">
+                                  <img class="bookie-logo-home home-fc-logo" src="/assets/img/fcLogo/{{row[column.field].toLowerCase().split(' ').join('-')}}.png" alt="">
+                                </div>
+                              </div>
                             </button>
                             </div>
                           </ng-container>
@@ -92,7 +98,7 @@
                           <ng-container *ngIf="column.field=='Away'">
                             <div class="team-away-container">
                               <button mat-raised-button class="selection-button" (click)="toggleNotification(row, false)" [ngClass]="{'button-inactive' : !row.AStatus.notify || !row.isWatched}">
-                                <img class="bookie-logo-away away-fc-logo" src="/assets/img/fcLogo/{{row[column.field].toLowerCase().split(' ').join('-')}}.png" alt="">
+                                <span class="away-logo-img"><img class="bookie-logo-away away-fc-logo" src="/assets/img/fcLogo/{{row[column.field].toLowerCase().split(' ').join('-')}}.png" alt=""> </span>
                                 <span class="{{column.field.toLowerCase()}}-selection"> {{ row[column.field] }}</span>
                                 <span class="{{column.field}} awayOccCell fta-value-cont" *ngIf="ftaOption == 'brooks'">{{ row['OccA'] | number:'1.0-0'}}</span>
                                 <span class="{{column.field}} awayOccCell fta-value-cont" *ngIf="ftaOption == 'generic'"> {{ row['GenericOcc'] | number:'1.0-0'}}</span>
@@ -183,12 +189,7 @@
                         <mat-cell colspan="10" *matCellDef="let group">
                           <div class="leagueGroupContainer">
                             <div class="league-item">
-                              <p class="short-text"></p>
-                            </div>
-                            <div class="league-item">
                               <h2>{{group[groupByColumns[0]]}}</h2>
-                            </div>
-                            <div class="league-item">
                               <mat-slide-toggle
                               class="leagueToggleSelect"
                               (click)=" watchAllMatches(group); $event.stopPropagation()"

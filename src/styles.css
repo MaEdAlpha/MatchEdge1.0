@@ -23,6 +23,13 @@ body {
   overflow-y: scroll;
 }
 
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+
+
 
 
 /* Mat Dialog Style change*/
@@ -164,4 +171,19 @@ input.value-box-lay {
  */
 
 
+ @media only screen and (max-width:1280px){
+  body {font-size: 0.78rem;}
+}
 
+@media (max-width:1370px){
+  body {font-size: 0.95rem;;}
+}
+
+
+@media only screen and (max-width:1440px){
+  body {font-size: 0.80rem;}
+}
+
+@media only screen and (max-width:1920px){
+
+}

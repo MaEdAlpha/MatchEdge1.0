@@ -1,5 +1,5 @@
 
-<div class="mn-cont">
+<div [ngClass]="infoSelected ? 'extend-mn-cont':'mn-cont'">
   <div class="title-cont">
     <h1 class="title-text">Subscriptions</h1>
   </div>
@@ -73,8 +73,8 @@
             <div id="info" class="info-wrapper">
               <h2 class="info-title"> Juicy 2Up</h2>
               <p class="2up-info info-text">
-                &nbsp; Introducing the Juicy 2Up application. A matched betting tool, designed specifically for 2ups.
-                Whether you’re a newbie or a 2up pro, this product has a lot to offer. <br><br>&nbsp; Product features include:</p>
+                Introducing the Juicy 2Up application, a matched betting tool designed specifically for 2ups.
+                Whether you’re a newbie or a 2up pro, this product has a lot to offer. <br><br>&nbsp; <span id="twoUp-features">Product features include:</span></p>
 
                 <div class="product-features">
                   <ul>
@@ -87,7 +87,7 @@
 
                 </div>
                 <div class="learn-more">
-                  <p> Save Time, Make More Money <br><br>
+                  <p> <span id='stmmm'>Save Time, Make More Money!</span> <br><br>
                    Click here for more information <span class="popup-dialog" (click)="openProductPopup()">Learn More...</span></p>
                 </div>
             </div>

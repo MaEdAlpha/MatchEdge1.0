@@ -21,6 +21,7 @@ mat-row {
   min-height: 3.125rem !important;
   background: #c3c3c3;
   color: white;
+  justify-content: center;
 }
 
 .OccA, .OccH {
@@ -166,13 +167,14 @@ div.footer-container{
 }
 
 .leagueGroupContainer{
- display: flex;
  width: 100%;
 }
 
 .league-item > h2 {
   color: #37474f;
-  vertical-align: middle;
+  display: inline-flex;
+  justify-content: center;
+  margin-left: 36px;
 }
 
 .league-item:last-child { margin-left:auto }
@@ -182,6 +184,7 @@ div.footer-container{
   text-align: center;
   height: 2.5rem;
   margin-top: 0.4375rem;
+
 }
 
 .league-title{
@@ -597,7 +600,8 @@ mat-row {
   background: #c3c3c3;
 }
 
-.mat-column-groupHeader, .leagueGroupContainer  {
+.mat-column-groupHeader,
+.leagueGroupContainer  {
   background: #e0e1e2;
 }
 
@@ -705,8 +709,8 @@ div.footer-container{
 }
 
 .leagueToggleSelect{
-  float: right;
-  display: inline-flex;
+  display: -webkit-inline-box;
+  margin-left: auto;
 }
 .leagueGroupContainer>h2 {
   display: inline;
@@ -894,11 +898,6 @@ span.SMAway{
   margin-right:1.3rem;
 }
 
-.team-home-container{
-  width: 100%;
-  margin-left: auto;
-  display: inline-flex;
-}
 
 .team-away-container{
   width: 100%;
@@ -1074,5 +1073,149 @@ span.SMAway{
 }
 .hide-toggle{
   display: none;
+}
+
+/* Responsive layout */
+
+@media(min-width: 700px){
+  .bookie-logo-home{
+    margin-left: 58%;
+  }
+
+  span.BHome,
+  span.BAway,
+  span.SMHome,
+  span.SMAway {
+    color: white;
+    font-size: 0.85rem;
+    line-height: 0px;
+  }
+
+  .awayodds-container,
+  .homeodds-container{
+    justify-content: center;
+    padding-right: 6px;
+  }
+  span.home-selection,
+  span.away-selection{
+    font-size: 0.652rem;
+  }
+}
+
+@media (min-width: 1000px){
+  .bookie-logo-home{
+    margin-left: 65%;
+  }
+
+  span.BHome,
+  span.BAway,
+  span.SMHome,
+  span.SMAway {
+    color: white;
+    font-size: 0.95rem;
+    line-height: 0px;
+  }
+
+  .awayodds-container,
+  .homeodds-container{
+    justify-content: center;
+    padding-right: 6px;
+  }
+
+  span.home-selection,
+  span.away-selection{
+    font-size: 0.8rem;
+  }
+}
+
+@media(min-width: 1140px){
+  .bookie-logo-home{
+    margin-left: 66%;
+  }
+  span.BHome,
+  span.BAway,
+  span.SMHome,
+  span.SMAway {
+    color: white;
+    font-size: 1.1rem;
+    line-height: 0px;
+  }
+
+  .awayodds-container,
+  .homeodds-container{
+    justify-content: center;
+    padding-right: 6px;
+  }
+
+  span.home-selection,
+  span.away-selection{
+    font-size: 1.05rem;
+  }
+
+}
+
+@media(min-width: 1300px){
+  .bookie-logo-home{
+    margin-left: 69%;
+  }
+}
+
+@media(min-width: 1366px){
+  .bookie-logo-home{
+    margin-left: 70%;
+  }
+
+  span.home-selection,
+  span.away-selection{
+    font-size: 1rem;
+  }
+}
+
+@media(min-width: 1400px){
+  .bookie-logo-home{
+    margin-left: 70%;
+  }
+}
+
+@media(min-width: 1500px){
+  .bookie-logo-home{
+    margin-left: 71%;
+  }
+  span.home-selection,
+  span.away-selection{
+    font-size: 1rem;
+  }
+}
+
+@media(min-width:1600px){
+  .bookie-logo-home{
+    margin-left: 71.5%;
+  }
+  .fixturesText{
+    font-size: 0.8rem;
+  }
+}
+
+@media(min-width:1700px){
+  .bookie-logo-home{
+    margin-left: 73%;
+  }
+}
+
+@media(min-width:1801px){
+  .bookie-logo-home{
+    margin-left: 75%;
+  }
+  .fixturesText{
+    font-size: 0.9rem;
+  }
+}
+
+@media(min-width:1401px) and (max-width:1920px){
+  mat-table{
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+  }
 }
 

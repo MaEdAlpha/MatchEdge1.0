@@ -118,3 +118,76 @@
   text-align: center;
   display: inline-block;
 }
+
+@media(max-width: 797px){
+  .notificationplaceholder11,
+  .notificationplaceholder10,
+  .notificationplaceholder9,
+  .notificationplaceholder8,
+  .notificationplaceholder7{
+    display: none;
+  }
+
+  .notificationbackgroundtext{
+    display: none;;
+  }
+}
+
+@media(max-width: 911px){
+  .top-divider,
+  .bottom-divider{
+    width: 89%;
+  }
+
+  .notificationplaceholder11,
+  .notificationplaceholder10,
+  .notificationplaceholder9,
+  .notificationplaceholder8{
+    display: none;
+  }
+}
+
+@media (max-width: 1024px){
+  .top-divider,
+  .bottom-divider{
+    width: 89%;
+  }
+
+  .notificationplaceholder11,
+  .notificationplaceholder10,
+  .notificationplaceholder9{
+    display: none;
+  }
+}
+
+@media(max-width: 1139px){
+  .top-divider,
+  .bottom-divider{
+    width: 100%;
+  }
+
+  .notificationplaceholder11,
+  .notificationplaceholder10
+  {
+    display: none;
+  }
+}
+
+@media(max-width: 1254px){
+  .notificationplaceholder11
+  {
+    display: none;
+  }
+}
+
+@media(max-width: 1366px){
+
+}
+
+@media(max-width: 1440px){
+
+}
+
+@media(min-width:1441px) and (max-width:1920px){
+
+}
