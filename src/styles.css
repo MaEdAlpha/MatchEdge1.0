@@ -27,6 +27,9 @@ img {
   max-width: 100%;
   height: auto;
 }
+.mat-tab-body-content {
+  overflow: hidden;
+}
 
 
 

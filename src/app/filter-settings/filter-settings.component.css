@@ -79,7 +79,7 @@ h1{
 h1.main-header, h1.header {
   float: left;
   margin-left: 4%;
-  
+
 }
 
 h1.header {
@@ -168,3 +168,67 @@ button {
   min-height: 150px;
 }
 
+/* Responsive layout */
+
+@media(min-width: 700px){
+  .odds-container{
+    display: inline-block;
+  }
+  .filter-container{
+    width: 100%;
+    align-content: center;
+    display: inline-flex;
+    justify-content: center;
+  }
+}
+
+@media (min-width: 1000px){
+  .settings-view-container{
+    width: 90%;
+  }
+  .filter-container{
+    width: 1000px;
+  }
+
+}
+
+@media(min-width: 1140px){
+
+}
+
+@media(min-width: 1300px){
+  .primary-description{
+    width: 80%;
+  }
+  .settings-view-container{
+    width: 78%;
+  }
+}
+
+@media(min-width: 1366px){
+
+}
+
+@media(min-width: 1400px){
+
+}
+
+@media(min-width: 1500px){
+
+}
+
+@media(min-width:1600px){
+
+}
+
+@media(min-width:1700px){
+
+}
+
+@media(min-width:1801px){
+
+}
+
+@media(min-width:1401px) and (max-width:1920px){
+
+}

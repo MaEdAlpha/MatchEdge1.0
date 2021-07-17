@@ -16,6 +16,7 @@ h3 {
 .header-container {
   width: 100%;
   display: inline-flex;
+  justify-content: space-between;
 }
 
 .header {
@@ -28,11 +29,12 @@ h3 {
   font: 400 12px/18px Roboto, "Helvetica Neue", sans-serif;
 }
 .odds-header{
-  margin-left: 32%;
   font: 400 14px/18px Roboto, "Helvetica Neue", sans-serif;
+  width: fit-content;
 }
 .stake-header {
-  margin-left: 40px;
+  width: 30%;
+  text-align: center;
 }
 
 form {
@@ -52,16 +54,27 @@ form {
   float: left;
 }
 
+.pref-stake-form{
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .preferred-stake-cont{
   margin-left: 0%;
 }
 .stake-field-cont {
   width: 100%;
+  display: inline-flex;
+  justify-content: space-between;
 }
 
-.stake-range,
-.stake-input-cont {
+.stake-range {
   display: inline-block;
+}
+
+.stake-input-cont{
+  display: contents;
 }
 
 .stake-input {
@@ -78,10 +91,8 @@ input::placeholder {
   opacity: 1;
 }
 
-.stake-range{
-  margin-left: 60px;
-  text-align: right;
-  width: 35%;
+.stake-range>p{
+  margin: 0px;
 }
 
 .stake-input-cont{
@@ -156,11 +167,9 @@ input.ng-invalid.ng-touched {
   position:absolute;
   left: 50%;
 }
-.horizontal {
-  border-left: 475px solid #4b5960;
-  left: 50%;
-  height: 2px;
-  margin-left: 20px;
+
+.ev-fta-divider{
+  border: 1px solid #4b5960;
   margin-bottom: 15px;
 }
 
@@ -171,4 +180,76 @@ input.ng-invalid.ng-touched {
 
 .fta-highlight{
   color: #aa8920;
+}
+
+@media(min-width: 700px){
+
+  .settings-view-container{
+    width: 99%;
+  }
+
+  .preffered-stake-cont{
+    margin-left: 0%;
+    width: 40%;
+  }
+}
+
+@media (min-width: 1000px){
+  p.estimated-value-text,
+  p.estimated,
+  .pref-stake-text {
+    font-size: 1rem;
+  }
+
+  .pref-stake-form{
+    width: 40%;
+  }
+
+  .exchange-container,
+  .fta-container{
+    width: 80%;
+  }
+
+  .exchange-content{
+    display: inline-flex;
+  }
+  .exchange-wrapper {
+    margin-left: 10px;
+  }
+}
+
+@media(min-width: 1140px){
+
+}
+
+@media(min-width: 1300px){
+
+}
+
+@media(min-width: 1366px){
+
+}
+
+@media(min-width: 1400px){
+
+}
+
+@media(min-width: 1500px){
+
+}
+
+@media(min-width:1600px){
+
+}
+
+@media(min-width:1700px){
+
+}
+
+@media(min-width:1801px){
+
+}
+
+@media(min-width:1401px) and (max-width:1920px){
+
 }
