@@ -44,21 +44,19 @@ export class AppComponent {
               popstate (browswer controlled change such as BackButton)
               -hashchange ??? don't know what this is.
           */
-         if(event.url == '/privacy-policy'){
+         if(event.url == '/privacy'){
            this.isReadingPolicy =true;
            this.getPage();
-           this.router.navigate(['/privacy-policy']);
-         } else if (event.url == '/terms-of-service'){
+         } else if (event.url == '/terms'){
            this.isReadingPolicy = true;
-           this.getPage();
-           this.router.navigate(['/terms-of-service']);
+          //  this.getPage();
          } else {
            this.isReadingPolicy = false;
          }
-          console.group( "NavigationStart Event");
-          console.log("nagivation id:", event.id);
-          console.log("route:", event.url);
-           console.log("trigger:", event.navigationTrigger);
+          // console.group( "NavigationStart Event");
+          // console.log("nagivation id:", event.id);
+          // console.log("route:", event.url);
+          //  console.log("trigger:", event.navigationTrigger);
           // upon detecting back/forward click. Set entryPoint boolean
           // Need to account for multiple mongoDB connections on backend if user keeps hitting back forward back forward button.
          if(event.restoredState){
@@ -144,7 +142,7 @@ export class AppComponent {
   }
 
   getPage(){
-    this.userPropertiesService.getTermsPage();
+    // this.userPropertiesService.getTermsPage();
   }
 
   resetSettings(event:{state:boolean, tab:number}){
