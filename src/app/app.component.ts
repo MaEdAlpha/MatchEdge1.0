@@ -46,8 +46,12 @@ export class AppComponent {
           */
          if(event.url == '/privacy-policy'){
            this.isReadingPolicy =true;
+           this.getPage();
+           this.router.navigate(['/privacy-policy']);
          } else if (event.url == '/terms-of-service'){
            this.isReadingPolicy = true;
+           this.getPage();
+           this.router.navigate(['/terms-of-service']);
          } else {
            this.isReadingPolicy = false;
          }
@@ -137,6 +141,10 @@ export class AppComponent {
     console.log("-----------------------------------------------------------");
 
     this.activateDisplaySettings = showDisplaySettings;
+  }
+
+  getPage(){
+    this.userPropertiesService.getTermsPage();
   }
 
   resetSettings(event:{state:boolean, tab:number}){
