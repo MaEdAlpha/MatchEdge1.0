@@ -386,6 +386,10 @@ app.get('/api/matches', checkAuth, async(req, res) => {
     let body = matchesList;
     res.status(200).json({body})
 });
+
+app.get('/api/policy', async(req,res) => {
+  res.status(200).json({response:'fetched!'});
+})
 //////////////////////////////////////////////////////////////////////////////////////////
 //                                  SAB ROUTES                                         //
 ////////////////////////////////////////////////////////////////////////////////////////

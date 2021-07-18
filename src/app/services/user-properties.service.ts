@@ -180,6 +180,13 @@ export class UserPropertiesService {
 
     }
 
+    getTermsPage(){
+      this.http.get<{response:string}>(env.serverUrl + 'api/policy').subscribe((body)=>{
+        console.log(body.response);
+
+      });
+    }
+
 
     //get token and save to localStorage
   private saveAuthData(token: string, expirationDate: number) {
