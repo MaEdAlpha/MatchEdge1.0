@@ -67,9 +67,9 @@ app.use(express.urlencoded({ extended: true }));
 ////////////////////////////////////////////////////////////////////////////////////////
 //Retrieves User Settings or generates a default one.
 
-app.get('/api/test', async (req,res)=>{
-  res.status(200).json({message:"Test O.K"})
-});
+// app.get('/api/test', async (req,res)=>{
+//   res.status(200).json({message:"Test O.K"})
+// });
 
 app.put('/api/user/connect', async (req,res) => {
   //upsert document. If new user, return _id. If not new user, find in database.
@@ -388,8 +388,8 @@ app.get('/api/matches', checkAuth, async(req, res) => {
 });
 
 app.get('/api/policy', async(req,res) => {
-  res.status(200).json({response:'fetched!'});
-})
+  res.writeHead(200, {'Content-Type': 'text/html'}).json({response:'fetched!'});
+});
 //////////////////////////////////////////////////////////////////////////////////////////
 //                                  SAB ROUTES                                         //
 ////////////////////////////////////////////////////////////////////////////////////////

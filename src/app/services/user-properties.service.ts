@@ -181,7 +181,7 @@ export class UserPropertiesService {
     }
 
     getTermsPage(){
-      this.http.get<{response:string}>(env.serverUrl + 'api/policy').subscribe((body)=>{
+      this.http.get<any>(env.serverUrl + 'api/policy').subscribe((body)=>{
         console.log(body.response);
 
       });
