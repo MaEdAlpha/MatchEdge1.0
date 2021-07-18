@@ -1,3 +1,5 @@
 h2,h3, p {
   color: white;
+  padding-left: 10px;
+  padding-top: 10px;
 }

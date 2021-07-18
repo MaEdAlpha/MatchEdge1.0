@@ -6,7 +6,7 @@
   </div>
 
   <ng-template #loaded>
-    <div *ngIf="isAuthenticated">
+    <div *ngIf="isAuthenticated && !isReadingPolicy">
       <app-header (notificationSettings)="displayPanel($event)" [displayActivated]="activateDisplaySettings"></app-header>
       <hr>
 
@@ -27,11 +27,11 @@
         </div>
       </div>
 
-      </div>
+    </div>
   </ng-template>
 
 
-   <div *ngIf="!isAuthenticated">
+   <div *ngIf="!isAuthenticated && !isReadingPolicy">
 
       <div class="welcome-container">
 
@@ -47,9 +47,15 @@
           </div>
           <div class="about-us">
             <div class="about-text-cont" >
-              <h1>Welcome to Juicy-Bets!</h1><br>
-              <p class="about-text-title">We are creators of quality betting tools, designed at helping you identify valuable opportunities with ease!</p><br>
+              <h1 class="welcome-banner">Welcome to Juicy-Bets!</h1><br>
+              <p class="about-text-title"><i>We are creators of quality betting indicator tools, helping you identify valuable opportunities with ease!</i></p><br>
               <div class="about-text-wrapper">
+
+                <div class="about-container">
+                  <p class="about-text"><span class="about-text-lead">&nbsp;The aim of Juicy-Bets is to create lightning-fast and intuitive tools </span> that offer close to real-time odds data from bookmakers and exchanges. Combine this with the logic of profitable matched betting strategies
+                    and a user-friendly interface and the result is increased productivity and earnings.</p>
+                </div>
+
                 <div class="about-container">
                   <p class="about-text"><span class="about-text-lead">&nbsp; You may have heard of 'Matched Betting' or 'Value Betting'.</span> What these terms have in common is that they both involve taking value from bookmakers.  It is a well-known fact that when followed correctly these strategies are a great low-risk way to make extra income. In fact, for some people, it is their full-time
                     job and sole source of income.</p>
@@ -60,20 +66,16 @@
                   when it comes to odds data. Other matched betting services are unable to offer anything close to real time odds data, often displaying bookmaker odds that are 5 minutes old. In the betting world this is an eternity and offers little value as odds can move so quickly.</p>
                 </div>
 
-                <div class="about-container">
-                  <p class="about-text"><span class="about-text-lead">&nbsp;The aim of Juicy-Bets is to create lightning-fast and intuitive tools </span> that offer close to real-time odds data from bookmakers and exchanges. Combine this with the logic of profitable matched betting strategies
-                    and a user-friendly interface and the result is increased productivity and earnings.</p>
-                </div>
-
-
-
               </div>
-
-
             </div>
           </div>
           <app-footer></app-footer>
       </div>
+  </div>
 
+  <div *ngIf="!isAuthenticated && isReadingPolicy">
+    <app-header></app-header>
+    <router-outlet></router-outlet>
+    <app-footer></app-footer>
   </div>
 

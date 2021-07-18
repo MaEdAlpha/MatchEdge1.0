@@ -1005,3 +1005,29 @@ input[type=number] {
   position: absolute;
   left: 76%;
 }
+
+/* Responsive layout */
+
+@media(max-width: 700px){
+
+}
+
+@media (max-width: 1000px){
+
+}
+
+@media(max-width: 1140px){
+
+}
+
+@media(max-width: 1366px){
+
+}
+
+@media(max-width: 1440px){
+
+}
+
+@media(min-width:1441px) and (max-width:1920px){
+
+}

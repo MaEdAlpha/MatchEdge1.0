@@ -6,13 +6,14 @@
         <div class="pref-stake-text">
           Set the default back stake amount that you would usually use for each odds range.
         </div>
-        <div class="header-container">
-          <p class="odds-header header">Odds Range</p>
-          <p class="stake-header header">Stake</p>
-        </div>
+
+        <div class="pref-stake-form">
+          <div class="header-container">
+            <p class="odds-header header">Odds Range</p>
+            <p class="stake-header header">Stake (£)</p>
+          </div>
 
 
-        <div class="stakeContainerForm">
           <div formArrayName="stakes">
             <div *ngFor="let stake of stakes.controls; index as i;">
 
@@ -24,7 +25,7 @@
                     <input
                     class="stake-input"
                     type="number"
-                    step="0.1"
+                    step="1"
                     matInput
                     [formControlName]="i"
                     value="{{userStakes[i]}}"
@@ -36,8 +37,8 @@
 
           </div>
         </div>
+
       </div>
-      <div class ="vertical"></div>
 
       <div class="estimated-value-cont">
         <div formArrayName="options">
@@ -49,35 +50,38 @@
                   <mat-form-field appearance="fill">
                                         <mat-select formControlName="FTASelected">
                       <mat-option *ngFor="let ftaSelect of ftaSelection" [value]="ftaSelect.value">
-                        {{ftaSelect.viewValue}}
+                        {{ftaSelect.viewValue }}
                       </mat-option>
                     </mat-select>
                   </mat-form-field>
               </div>
-                <p class="estimated-value-text"> The  <span class="fta-highlight">  {{options.get('FTASelected').value == 'generic' ? ftaSelection[1].viewValue : ftaSelection[0].viewValue }} Rating</span> will be applied with your saved <b>Preferred Stake</b> to calculate the estimated value (EV) of matches shown in the Juicy-Bets table.</p>
+                <p class="estimated-value-text"> The  <span class="fta-highlight">  {{options.get('FTASelected').value == 'generic' ? ftaSelection[1].viewValue : ftaSelection[0].viewValue }} Rating</span> will be applied with your saved <i>Preferred Stake</i> to calculate the estimated value (EV) of matches shown in the Juicy-Bets table.</p>
             </div>
-            <div class="horizontal"></div>
 
-
-
+            <hr class="ev-fta-divider">
               <div class="exchange-container">
                 <h1>Exchanges</h1>
-                <h3>Primary Exchange</h3>
-                <mat-form-field appearance="fill">
-                  <mat-select formControlName="Exchange">
-                    <mat-option *ngFor="let exchangeSelect of exchangeSelection"  [value]="exchangeSelect.value">
-                      {{exchangeSelect.viewValue}}
-                    </mat-option>
-                  </mat-select>
-                  <mat-label class="value-selector"> {{preferenceForm.value.options.Exchange}}</mat-label>
-                </mat-form-field>
-
-
-                  <h3>Commission % Rates</h3>
-                  <mat-form-field appearance="fill">
-                    <mat-label class="value-selector"> Smarkets</mat-label>
-                    <input formControlName="Commission" matInput placeholder="{{preferenceForm.get('options').value[2]}}" [value]="preferenceForm.get('options').value[2]">
+                <div class="exchange-content">
+                  <div class="exchange-wrapper">
+                    <h3>Primary Exchange</h3>
+                    <mat-form-field appearance="fill">
+                      <mat-select formControlName="Exchange">
+                        <mat-option *ngFor="let exchangeSelect of exchangeSelection"  [value]="exchangeSelect.value">
+                          {{exchangeSelect.viewValue}}
+                        </mat-option>
+                      </mat-select>
+                      <mat-label class="value-selector"> {{preferenceForm.value.options.Exchange}}</mat-label>
                     </mat-form-field>
+                  </div>
+
+                  <div class="exchange-wrapper">
+                    <h3>Commission % Rates</h3>
+                    <mat-form-field appearance="fill">
+                      <mat-label class="value-selector"> Smarkets</mat-label>
+                      <input formControlName="Commission" matInput placeholder="{{preferenceForm.get('options').value[2]}}" [value]="preferenceForm.get('options').value[2]">
+                    </mat-form-field>
+                  </div>
+                </div>
 
                 </div>
               </div>

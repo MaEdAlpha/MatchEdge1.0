@@ -10,3 +10,10 @@
   border:solid 0.5px #7f7f7f;
   box-shadow: 0 0 11px #0b0b0ba6 ;
 }
+
+
+button:hover{
+  box-shadow: 1px 1px 1px 1px #e1ad18;
+  text-decoration: underline;
+  opacity: 0.8;
+}

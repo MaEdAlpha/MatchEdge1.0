@@ -5,7 +5,21 @@
     <div class="primary-filter">
       <h1>Primary Filter</h1>
       <div class="primary-description">
-        <p>Follow teams with win back odds between: </p>
+
+        <div class="primary-input">
+          <p>Follow teams with win back odds between: </p>
+          <div class="audio-group">
+            <mat-form-field class="audio-wrapper">
+              <mat-slide-toggle class="audio-toggle" formControlName="audioEnabled">
+                  <div class="sab-matched" *ngIf="viewTableForm.value.audioEnabled; else noSound">Audio notification | ON </div>
+                  <ng-template class="sab-unmatched" #noSound>Audio notification | OFF</ng-template>
+                </mat-slide-toggle>
+                <input formControlName="audioEnabled" matInput #value hidden/>
+              </mat-form-field>
+          </div>
+        </div>
+
+
         <div class="primary-input">
           <div class="odds-group">
             <div class="odds-container">
@@ -29,19 +43,9 @@
             </div>
           </div>
 
-          <div class="audio-group">
-            <mat-form-field class="audio-wrapper">
-              <mat-slide-toggle class="audio-toggle" formControlName="audioEnabled">
-                  <div class="sab-matched" *ngIf="viewTableForm.value.audioEnabled; else noSound">Audio notification | ON </div>
-                  <ng-template class="sab-unmatched" #noSound>Audio notification | OFF</ng-template>
-                </mat-slide-toggle>
-                <input formControlName="audioEnabled" matInput #value hidden/>
-              </mat-form-field>
-          </div>
         </div>
       </div>
     </div>
-    <div class="horizontal"></div>
     <div class="secondary-filter">
       <div class="vt-settings-container">
         <h1>Secondary Filter</h1>
@@ -50,6 +54,7 @@
 
               <div class="filterby-text">Filter by:
               <mat-form-field appearance="fill">
+                <mat-label>Current: {{evPlaceholder}}</mat-label>
                 <mat-select
                   formControlName="fvSelected"
                   [value]="fvSelected"
@@ -69,12 +74,14 @@
 
                 </div>
 
-
+                <div class="input-containers">
+                  <div class="filter-wrapper">
                     <div class="ev-text">
                       Display results with a minimum Expected Value (£) of:
                     </div>
                     <div class="ev-input">
                       <mat-form-field appearance="fill">
+                        <mat-label>Display in Juicy</mat-label>
                           <input
                           formControlName="evFilterValueI"
                           matInput
@@ -82,14 +89,16 @@
                           <mat-error *ngIf="viewTableForm.controls.evFilterValueI.errors">{{getErrorMessage()}}</mat-error>
                       </mat-form-field>
                     </div>
+                  </div>
 
 
-
+                  <div class="filter-wrapper">
                     <div class="ev-text">
                       Display <b>notifications</b> for results with a minimum Expected Value (£) of:
                     </div>
                     <div>
                       <mat-form-field appearance="fill">
+                        <mat-label>Notification Alert</mat-label>
                         <input
                         formControlName="evFilterValueII"
                         matInput
@@ -97,7 +106,8 @@
                         <mat-error *ngIf="viewTableForm.controls.evFilterValueII.errors">{{getErrorMessage()}}</mat-error>
                       </mat-form-field>
                     </div>
-
+                  </div>
+                </div>
               </div>
             </ng-container>
 
@@ -106,32 +116,42 @@
               <div class="mr-text">
                 Match Rating (%) indicates our profit/loss when placing a matched bet. A matched bet with a back stake of £100.00 and a Match Rating (%) of 95% would have a qaulifying loss of £5.00.
               </div>
-                <div class="mr-text">
-                  Display results with a Match Rating (%) between: <span [ngStyle]="{'color':viewTableForm.controls.matchRatingFilterI.errors ? 'red' : 'white'}">{{!viewTableForm.controls.matchRatingFilterI.errors ? (viewTableForm.get('matchRatingFilterI').value + '% - 100%') : ' Invalid entry, please enter a Match Rating % between 0-100'}}</span>
+
+              <div class="input-containers">
+                <div class="filter-wrapper">
+                  <div class="mr-text">
+                    Display results with a Match Rating (%) between: <span [ngStyle]="{'color':viewTableForm.controls.matchRatingFilterI.errors ? 'red' : 'white'}">{{!viewTableForm.controls.matchRatingFilterI.errors ? (viewTableForm.get('matchRatingFilterI').value + '% - 100%') : ' Invalid entry, please enter a Match Rating % between 0-100'}}</span>
+                  </div>
+                  <div>
+                    <mat-form-field appearance="fill">
+                      <mat-label>Display in Juicy</mat-label>
+                      <input
+                        formControlName="matchRatingFilterI"
+                        matInput
+                        required
+                        placeholder= "{{ matchRatingFilterI }}">
+                        <mat-error *ngIf="viewTableForm.controls.matchRatingFilterI.errors || viewTableForm.controls.errors?.mrMismatch">{{getErrorMessage()}}</mat-error>
+                    </mat-form-field>
+                  </div>
                 </div>
-                <div>
-                  <mat-form-field appearance="fill">
-                    <input
-                      formControlName="matchRatingFilterI"
-                      matInput
-                      required
-                      placeholder= "{{ matchRatingFilterI }}">
-                      <mat-error *ngIf="viewTableForm.controls.matchRatingFilterI.errors || viewTableForm.controls.errors?.mrMismatch">{{getErrorMessage()}}</mat-error>
-                  </mat-form-field>
+
+                <div class="filter-wrapper">
+                  <div class="mr-text">
+                    Display notifications for results with a Match Rating (%) greater than {{viewTableForm.get('matchRatingFilterII').value}}% and less than 100%.
+                  </div>
+                  <div>
+                    <mat-form-field appearance="fill">
+                      <mat-label>Notification Alert</mat-label>
+                      <input
+                        formControlName="matchRatingFilterII"
+                        matInput
+                        required
+                        placeholder= "{{ matchRatingFilterII }}">
+                        <mat-error *ngIf="viewTableForm.controls.matchRatingFilterII.errors">{{getErrorMessage()}}</mat-error>
+                    </mat-form-field>
+                  </div>
                 </div>
-                <div class="mr-text">
-                  Display notifications for results with a Match Rating (%) greater than {{viewTableForm.get('matchRatingFilterII').value}}% and less than 100%.
-                </div>
-                <div>
-                  <mat-form-field appearance="fill">
-                    <input
-                      formControlName="matchRatingFilterII"
-                      matInput
-                      required
-                      placeholder= "{{ matchRatingFilterII }}">
-                      <mat-error *ngIf="viewTableForm.controls.matchRatingFilterII.errors">{{getErrorMessage()}}</mat-error>
-                  </mat-form-field>
-                </div>
+              </div>
 
 
             </ng-container>
@@ -143,30 +163,38 @@
                     Qualifying Loss (%) is the qualifying loss of a matched 2up bet expressed as a percentage of the amount returned in the event of a 2up Full Turnaround (E.g. A matched bet with a qualifying loss of -£1.00, with a potential Full Turnaround payout of £100.00 would have a Qualifying Loss (%) of -1.00%).
                   </div>
 
-                  <div class="ss-text">
-                    Display results with a Qualifying Loss (%) less than {{viewTableForm.get('secretSauceI').value}}%.
-                  </div>
-                  <div>
-                    <mat-form-field appearance="fill">
-                      <input
-                        formControlName="secretSauceI"
-                        matInput
-                        placeholder= "{{ secretSauceI }}">
-                        <mat-error *ngIf="viewTableForm.controls.secretSauceI.errors">{{getErrorMessage()}}</mat-error>
-                    </mat-form-field>
-                  </div>
+                  <div class="input-containers">
+                    <div class="filter-wrapper">
+                      <div class="ss-text">
+                        Display results with a Qualifying Loss (%) less than {{viewTableForm.get('secretSauceI').value}}%.
+                      </div>
+                      <div>
+                        <mat-form-field appearance="fill">
+                          <mat-label>Display in Juicy</mat-label>
+                          <input
+                            formControlName="secretSauceI"
+                            matInput
+                            placeholder= "{{ secretSauceI }}">
+                            <mat-error *ngIf="viewTableForm.controls.secretSauceI.errors">{{getErrorMessage()}}</mat-error>
+                        </mat-form-field>
+                      </div>
+                    </div>
 
-                  <div class="ss-text">
-                    Display notifications for results with a Qualifying Loss (%) less than {{viewTableForm.get('secretSauceII').value}}%.
-                  </div>
-                  <div>
-                    <mat-form-field appearance="fill">
-                      <input
-                        formControlName="secretSauceII"
-                        matInput
-                        placeholder= "{{ secretSauceII }}">
-                        <mat-error *ngIf="viewTableForm.controls.secretSauceII.errors">{{getErrorMessage()}}</mat-error>
-                    </mat-form-field>
+                    <div class="filter-wrapper">
+                      <div class="ss-text">
+                        Display notifications for results with a Qualifying Loss (%) less than {{viewTableForm.get('secretSauceII').value}}%.
+                      </div>
+                      <div>
+                        <mat-form-field appearance="fill">
+                          <mat-label>Notification Alert</mat-label>
+                          <input
+                            formControlName="secretSauceII"
+                            matInput
+                            placeholder= "{{ secretSauceII }}">
+                            <mat-error *ngIf="viewTableForm.controls.secretSauceII.errors">{{getErrorMessage()}}</mat-error>
+                        </mat-form-field>
+                      </div>
+                    </div>
                   </div>
 
 
