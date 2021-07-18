@@ -604,7 +604,12 @@ button.viewCell {
 
   span.home-selection,
   span.away-selection{
-    font-size: 0.8rem;
+    font-size: 0.6rem;
+  }
+
+  span.homeOccCell,
+  span.awayOccCell{
+    font-size: 0.75rem;
   }
 }
 
@@ -617,7 +622,7 @@ button.viewCell {
   span.SMHome,
   span.SMAway {
     color: white;
-    font-size: 1.1rem;
+    font-size: 0.87rem;
     line-height: 0px;
   }
 
@@ -626,12 +631,6 @@ button.viewCell {
     justify-content: center;
     padding-right: 6px;
   }
-
-  span.home-selection,
-  span.away-selection{
-    font-size: 1.05rem;
-  }
-
 }
 
 @media(min-width: 1300px){
@@ -647,7 +646,7 @@ button.viewCell {
 
   span.home-selection,
   span.away-selection{
-    font-size: 1rem;
+    font-size: 0.92rem;
   }
 }
 

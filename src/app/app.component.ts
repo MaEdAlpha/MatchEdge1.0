@@ -25,6 +25,7 @@ export class AppComponent {
   activateDisplaySettings: boolean;
   tabSelection: number;
   userEmail:string;
+  isReadingPolicy:boolean = false;
 
   constructor(public auth: AuthService, private userPropertiesService: UserPropertiesService, private router: Router, private matchesService: MatchesService) {
     this.router.events.pipe(
@@ -43,19 +44,26 @@ export class AppComponent {
               popstate (browswer controlled change such as BackButton)
               -hashchange ??? don't know what this is.
           */
-          // console.group( "NavigationStart Event");
-          // console.log("nagivation id:", event.id);
-          // console.log("route:", event.url);
-          //  console.log("trigger:", event.navigationTrigger);
-          //upon detecting back/forward click. Set entryPoint boolean
-          //Need to account for multiple mongoDB connections on backend if user keeps hitting back forward back forward button.
+         if(event.url == '/privacy-policy'){
+           this.isReadingPolicy =true;
+         } else if (event.url == '/terms-of-service'){
+           this.isReadingPolicy = true;
+         } else {
+           this.isReadingPolicy = false;
+         }
+          console.group( "NavigationStart Event");
+          console.log("nagivation id:", event.id);
+          console.log("route:", event.url);
+           console.log("trigger:", event.navigationTrigger);
+          // upon detecting back/forward click. Set entryPoint boolean
+          // Need to account for multiple mongoDB connections on backend if user keeps hitting back forward back forward button.
          if(event.restoredState){
 
            if(event.url == '/'){
 
              this.isEntryPoint = !this.isEntryPoint;
 
-            } else if (event.url !='/'){
+            }else if (event.url !='/'){
 
               this.isEntryPoint = false;
 
@@ -63,7 +71,7 @@ export class AppComponent {
           }
        });
 
-       //KEEP THIS FUNCTIONALITY TO AVOID ACCESSING LOCALSTORAGE?
+      //  //KEEP THIS FUNCTIONALITY TO AVOID ACCESSING LOCALSTORAGE?
       //  this.router.events.pipe(
       //   filter (
       //     (event: RouterEvent) => {

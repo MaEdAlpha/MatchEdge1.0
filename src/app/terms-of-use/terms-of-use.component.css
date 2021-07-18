@@ -9,6 +9,8 @@ p,
 ul,
 li {
   color: white;
+  padding-left: 10px;
+  padding-top: 10px;
 }
 
 b{

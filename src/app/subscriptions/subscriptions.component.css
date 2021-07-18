@@ -72,7 +72,6 @@
   padding: 5px;
 }
 
-.inactive-sub,
 .active-sub{
   color: #ffffff36;
   justify-content: center;
@@ -83,6 +82,10 @@
   display: inline-flex;
 }
 
+.inactive-sub{
+  margin-left: auto;
+  margin-right: auto;
+}
 .inactive-img,
 .active-img{
   width: inherit;

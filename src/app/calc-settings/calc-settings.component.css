@@ -198,7 +198,7 @@ input.ng-invalid.ng-touched {
   p.estimated-value-text,
   p.estimated,
   .pref-stake-text {
-    font-size: 1rem;
+    font-size: 0.82rem;
   }
 
   .pref-stake-form{
@@ -235,7 +235,11 @@ input.ng-invalid.ng-touched {
 }
 
 @media(min-width: 1500px){
-
+  p.estimated-value-text,
+  p.estimated,
+  .pref-stake-text {
+    font-size: 0.97rem;
+  }
 }
 
 @media(min-width:1600px){
