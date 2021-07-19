@@ -122,7 +122,8 @@ tr.juicyMatch-row:not(.juicyMatch-expanded-row):active { /* when main container 
   margin-bottom: 0px;
   font-size: smaller;
   width: 75%;
-  margin-left: 15px;
+  margin-left: auto;
+  margin-right: auto;
   line-height: 17px;
 }
 
@@ -1008,26 +1009,50 @@ input[type=number] {
 
 /* Responsive layout */
 
-@media(max-width: 700px){
+@media(min-width: 700px){
 
 }
 
-@media (max-width: 1000px){
+@media (min-width: 1000px){
 
 }
 
-@media(max-width: 1140px){
+@media(min-width: 1140px){
 
 }
 
-@media(max-width: 1366px){
+@media(min-width: 1300px){
 
 }
 
-@media(max-width: 1440px){
+@media(min-width: 1366px){
 
 }
 
-@media(min-width:1441px) and (max-width:1920px){
+@media(min-width: 1401px){
+  .table-container{
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+@media(min-width: 1500px){
+
+}
+
+@media(min-width:1600px){
+
+}
+
+@media(min-width:1700px){
+
+}
+
+@media(min-width:1801px){
+
+}
+
+@media(min-width:1401px) and (max-width:1920px){
 
 }

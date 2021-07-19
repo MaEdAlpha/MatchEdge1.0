@@ -6,6 +6,11 @@ table,
   margin-right: auto;
 }
 
+
+mat-icon.chevron-right {
+  margin-top: 10px;
+}
+
 td {
   cursor: default;
 }
@@ -16,8 +21,13 @@ td {
   text-align: center;
 }
 
-.form-container {
-  height: 100%;
+.form-container{
+  height: 98%;
+}
+div.jm-exp-details,
+.expanded-content,
+.jm-expanded-container {
+  height: inherit;
 }
 
 th.mat-header-cell:first-of-type,
@@ -150,7 +160,7 @@ tr.sab-row:not(.sab-expanded-row):active{ /* when main container clicked, change
 .juicyMatch-detail { /* hides juicy detaisl */
   overflow: hidden;
   background:whitesmoke;
-  height: 100%;
+  height: auto;
 }
 
 .selection {
@@ -160,17 +170,29 @@ tr.sab-row:not(.sab-expanded-row):active{ /* when main container clicked, change
 
 .leaguename>p{
   text-align: center;
-  margin-top: -5px;
+  margin-top: 0px;
   margin-bottom: 0px;
-  font-size: smaller;
+  font-size: 0.5rem;
+  width: 75%;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 10px;
 }
+
+
 
 #logo {
   width: 100%;
 }
 
-.logo-img-cont>img{
-  width: 50%;
+.logo-img-cont{
+  width: 100%;
+  height: 100%;
+}
+
+.logo-cell>img{
+  width: 61%;
+  max-width:90px;
 }
 
 #column0hdr,
@@ -207,13 +229,11 @@ div.selection-logo-cont {
 div.jm-exp-details {
   display: inline-flex;
   width: 100%;
-  height: 100%;
   background: #d2d2d2;
 }
 /* Parent container for all back and lay bet details excluding logo*/
 .jm-expanded-container {
   width: 100%;
-  height: 100px;
   display: inline-block;
   padding-bottom: 10px;
 }
@@ -280,7 +300,7 @@ div.jm-exp-details {
 }
 
 .value-box-back{
-  width: 45%;
+  width: 50%;
 }
 
 .value-box-lay,
@@ -315,12 +335,11 @@ div.jm-exp-details {
 .teamname,
 .bookie,
 .exchange,
-.calculated
-{
+.calculated {
   display: inline-flex;
   float: left;
   text-align: center;
-  height: 95%;
+  height: 105px;
   padding-top: 0px;
   padding-bottom:0px;
 }
@@ -335,9 +354,9 @@ div.jm-exp-details {
 .teamnamecontainer{
   border-style: solid;
     width: 100%;
-
     color: #263238;;
     padding-left: 0px;
+    border:3px solid white;
     border-radius: 35px;
     background: radial-gradient(at 60% 0, #ffffff, transparent 80%), linear-gradient(5deg, #939393, transparent 80%) bottom;
     margin-left: 5px;
@@ -568,7 +587,7 @@ padding-top: 8%;
   }
 
 .exp-button{
-  height: 96px;
+  height: 105px;
   right: -97px;
   top: 0px;
   min-width: 42px;
@@ -795,17 +814,13 @@ span.calculated-value{
 }
 .settle-bet-cont{
   display: inline-flex;
-  width: 20px;
-  padding-bottom: 14px;
+  width: 100%;
+  justify-content: space-around;
 }
+
 
 .chevron-right,
 .chevron-locked{
-  width: 100%;
-}
-
-.settled-bet {
-  display: inline;
   width: 100%;
 }
 
@@ -840,19 +855,16 @@ span.calculated-value{
 }
 .settled-overlay{
   background: #263238;
-  position: relative;
   top: 6px;
   color: #dbab18;
   border-radius: 3px;
   box-shadow: 3px 2px 15px 1px #5f5f5f;
   cursor: pointer;
-  margin-top: 5px;
 }
 
 .hidden-input {
   display: inline;
   visibility: hidden;
-  background:pink;
 }
 .status-button {
   color: #8a0606;
@@ -866,8 +878,6 @@ span.calculated-value{
 
 .btn-default {
   background: #ffffff;
-  position: relative;
-  top: 6px;
   color: #263238;
   border-radius: 3px;
   border: 1px solid #2a363c5c;
@@ -888,7 +898,6 @@ span.calculated-value{
   width: 60px;
   max-height: 30px;
   margin-bottom: 20px;
-  margin-right: 5px;
 }
 
 .status-btn {
@@ -1059,3 +1068,130 @@ input[type=number] {
   color: #1d262b;
   margin: 0px;
 }
+
+
+
+/* Responsive layout */
+
+@media(min-width: 700px){
+  .bookie-container-disp,
+  .exchange-container-disp,
+  .calculated-container-comments{
+    display: none;
+  }
+  .bookiecontainer,
+  .exchangecontainer{
+    justify-content: space-around;
+  }
+  .value-box-back,
+  .value-box-laystake,
+  .value-box-lay,
+  .selection-box{
+    min-width: 40px;
+  }
+  input {
+    width: 40px;
+  }
+  .bookie{
+    width: 18%;
+  }
+  .exchange{
+    width: 24%;
+    margin-left: 8px;
+    padding-top: 7px;
+  }
+  .calculated{
+    width: 26%;
+  }
+}
+
+@media (min-width: 1000px){
+  .calculated-container-comments{
+    display: unset;
+  }
+  .calculated{
+    width: unset;
+  }
+  table{
+    width: 98%;
+  }
+
+}
+
+@media(min-width: 1140px){
+  .logo-cell>img{
+    width: 83%;
+    max-width:85px;
+  }
+}
+
+@media(min-width:1280px){
+  .bookie-container-disp,
+  .exchange-container-disp,
+  .calculated-container-comments{
+    display: initial;
+  }
+  .teamname{
+    width: 10%;
+    padding-top: 7px;
+  }
+  .bookie{
+    width: 20%;
+    padding-top: 7px;
+  }
+  .exchange{
+    width: 27%;
+    padding-top: 7px;
+  }
+  .calculated {
+    width:34%;
+    padding-top: 7px;
+    margin-left: 13px;
+  }
+}
+
+@media(min-width: 1300px){
+  .bookie-container-disp,
+  .exchange-container-disp{
+    display: unset;
+  }
+}
+
+@media(min-width: 1366px){
+
+}
+
+@media(min-width: 1401px){
+  .mat-table{
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .logo-img-cont>img {
+    width: 64%;
+  }
+}
+
+@media(min-width: 1500px){
+  .logo-img-cont>img {
+    max-width: 64%;
+  }
+}
+
+@media(min-width:1600px){
+
+}
+
+@media(min-width:1700px){
+
+}
+
+@media(min-width:1801px){
+
+}
+
+@media(min-width:1401px) and (max-width:1920px){
+
+}
+

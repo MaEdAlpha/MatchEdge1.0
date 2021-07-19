@@ -18,6 +18,7 @@
 
       <div *ngIf="column.field.endsWith('isSettled')" [appSettledBet] [isSettled]="sab.isSettled">
       <ng-container *ngIf="sab.betState else hideChevron">
+        <div class="settle-bet-cont">
         <ng-container *ngIf="!sab['isSettled'] else displaySettled">
         <mat-form-field class="pl-input">
           <mat-label > <span class="pl-label"> Settle Bet </span></mat-label>
@@ -33,11 +34,12 @@
             <p class="chevron-locked"> Settled  </p>
           </div>
         </ng-template>
-        <div class="settle-bet-cont">
-            <mat-icon class="chevron-right"
-            (click)="sab[column.field]=!sab[column.field]; savePL(sab,i); $event.stopPropagation()"
-            [ngClass]="sab['isSettled'] ? 'settled-overlay' : 'btn-default glow'">chevron_right
-            </mat-icon>
+        <div>
+          <mat-icon class="chevron-right"
+          (click)="sab[column.field]=!sab[column.field]; savePL(sab,i); $event.stopPropagation()"
+          [ngClass]="sab['isSettled'] ? 'settled-overlay' : 'btn-default glow'">chevron_right
+          </mat-icon>
+        </div>
 
           </div>
         </ng-container>
@@ -102,7 +104,9 @@
                     <div>{{sab.selection}}</div>
                   </div>
                   <div class="logo-img-cont">
-                  <img src="/assets/img/fcLogo/{{sab.logo}}.png">
+                    <div class="logo-cell">
+                      <img src="/assets/img/fcLogo/{{sab.logo}}.png">
+                    </div>
                 </div>
                 <div class="leaguename">
                   <p>{{sab.league}}</p>
@@ -179,7 +183,7 @@
 
                 <div class="exchange-container-output">
                   <div class="exchange-row" tabindex="1">
-                    <button  mat-raised-button class="bet-state-button"  [style.background]="sab.betState ? ' #076044' : '#8a0606'" (click)="sab.betState = !sab.betState">{{ sab.betState ? 'Matched' : 'Unmatched'}}</button>
+                    <button  mat-raised-button class="bet-state-button" [disabled]="sab.isSettled"  [style.background]="sab.betState ? ' #076044' : '#8a0606'" (click)="sab.betState = !sab.betState">{{ sab.betState ? 'Matched' : 'Unmatched'}}</button>
                   </div>
                   <div class="exchange-row">
                     <p class="liability-text">Liab.:</p>
