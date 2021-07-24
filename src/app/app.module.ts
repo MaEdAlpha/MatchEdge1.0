@@ -112,6 +112,8 @@ import { PrivacyContentComponent } from './privacy-content/privacy-content.compo
 import { PopupDataProtectionRegulationComponent } from './popup-data-protection-regulation/popup-data-protection-regulation.component';
 import { PopupCookiePolicyComponent } from './popup-cookie-policy/popup-cookie-policy.component';
 import { PopupTwoUpProductComponent } from './popup-two-up-product/popup-two-up-product.component';
+import { PopupSubscribeComponent } from './popup-subscribe/popup-subscribe.component';
+import { ManageBillingComponent } from './manage-billing/manage-billing.component';
 
 
 @NgModule({
@@ -177,6 +179,8 @@ import { PopupTwoUpProductComponent } from './popup-two-up-product/popup-two-up-
     PopupDataProtectionRegulationComponent,
     PopupCookiePolicyComponent,
     PopupTwoUpProductComponent,
+    PopupSubscribeComponent,
+    ManageBillingComponent,
   ],
   imports: [
     AppRoutingModule,

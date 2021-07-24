@@ -30,6 +30,7 @@
 
             <div class="active-sub" *ngIf="isActiveSub && !isNewUser; else showInactiveSub">
               <div class="option-wrapper active-wrapper">
+
                 <div class="active-img" (click)="customerPortal(userEmail);">
                   <img  class="manage-payments-img" src="../../assets/img/ManagePaymentsLogo.png" alt="">
                 </div>
@@ -52,21 +53,23 @@
                 <div id='focal-point' class="inactive-img">
                   <img class="sub-img" src="../../assets/img/2upDisabled210x210.png" alt="">
                   <h3>£13.99/month</h3>
+
                   <div class="inactive-btn-cont">
-                    <button id="basic-plan-btn" class="sub-btn" mat-raised-button (click)="this.createCheckout('price_1J4K6xC2Ao5ETreld0Jpk3lT')">Subscribe</button>
+                    <button id="basic-plan-btn" class="sub-btn" mat-raised-button (click)="this.popupViewCheckout()">Subscribe</button>
                     <button  class="info-btn" mat-raised-button (click)="displayInfo()">Info</button>
                   </div>
                 </div>
-                </div>
               </div>
-              <div id="error-message" class="error-message"></div>
-            </ng-template>
-          </ng-container>
-          <ng-template #showLoadingSpinner>
-            <app-loading [isLoading]="isLoading"></app-loading>
+            </div>
+            <div id="error-message" class="error-message"></div>
+
           </ng-template>
-          <div class="vertical-spacer"></div>
-        </div>
+        </ng-container>
+        <ng-template #showLoadingSpinner>
+          <app-loading [isLoading]="isLoading"></app-loading>
+        </ng-template>
+        <div class="vertical-spacer"></div>
+      </div>
 
         <div class="info-container">
           <div class="info-content" *ngIf="infoSelected">
@@ -98,3 +101,4 @@
   <div class="bottom-spacer"></div>
 
 </div>
+

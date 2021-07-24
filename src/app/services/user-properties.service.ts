@@ -460,12 +460,42 @@ export class UserPropertiesService {
   }
 
   getSubState(email:string){
-    let data = { 'email': email }
+    let login = Date.now();
+
+    let data = { 'email': email,
+                  'login': login
+               }
+
     this.http.post<any>(env.serverUrl + "/subscription", data)
     .subscribe(( response: {isActiveSub: boolean, isNewUser: boolean}) => {
-      console.log('Subs State: ' + response.isActiveSub);
       this.userSubscriptionSubject.next(response);
       this.isNewUser = response.isNewUser;
     });
   }
+
+  updateUserPurchase(email, purchaseID, purchaseTime){
+    let data = {
+      email: email,
+      subcription_id: purchaseID,
+      subscription_created: purchaseTime
+    }
+
+    this.http.post<any>(env.serverUrl + "/finalize-subscription-session",data).subscribe( (response)=> {
+      //do the thing for response.
+      console.log(response);
+
+    });
+  }
+
+  testPayPal(){
+
+    let data = {
+      message:'hi'
+    }
+    this.http.post<any>(env.serverUrl + '/api/paypal', data).subscribe( (response)=>{
+      console.log(response);
+
+    })
+  }
+
 }

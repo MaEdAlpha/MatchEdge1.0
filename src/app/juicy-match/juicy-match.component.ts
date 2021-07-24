@@ -322,7 +322,6 @@ export class JuicyMatchComponent implements OnChanges, OnInit, OnDestroy, AfterV
   resetJuicyStates(isClicked:boolean){
     if(isClicked){
       console.log("Reset all Juicy? " + isClicked);
-
     }
   }
 

@@ -1,17 +1,16 @@
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output } from '@angular/core';
+
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { MatchesService } from '../match/matches.service';
 import { environment as env } from '../../environments/environment.prod';
-import { loadStripe } from "@stripe/stripe-js";
 import { SimpleChanges } from '@angular/core';
 import { UserPropertiesService } from '../services/user-properties.service';
 import { Subscription } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
-import { TermsOfUseComponent } from '../terms-of-use/terms-of-use.component';
-import { PopupDataProtectionRegulationComponent } from '../popup-data-protection-regulation/popup-data-protection-regulation.component';
 import { NotificationBoxService } from '../services/notification-box.service';
 import { PopupTwoUpProductComponent } from '../popup-two-up-product/popup-two-up-product.component';
-const stripe = loadStripe(env.STRIPE_PUBLISHABLE_KEY);
+import { PopupSubscribeComponent } from '../popup-subscribe/popup-subscribe.component';
+// import { loadStripe } from "@stripe/stripe-js";
+// const stripe = loadStripe(env.STRIPE_PUBLISHABLE_KEY);
 
 
 @Component({
@@ -21,7 +20,7 @@ const stripe = loadStripe(env.STRIPE_PUBLISHABLE_KEY);
 })
 
 
-export class SubscriptionsComponent implements OnInit, OnChanges, OnDestroy {
+export class SubscriptionsComponent implements OnInit, OnChanges, OnDestroy, AfterViewInit {
   isActiveSub: boolean;
   isNewUser: boolean = true;
   subExpiration: number;
@@ -38,7 +37,8 @@ export class SubscriptionsComponent implements OnInit, OnChanges, OnDestroy {
   constructor(private matchesService: MatchesService,
     private userPropertiesService: UserPropertiesService,
     public dialog: MatDialog,
-    public notificationService: NotificationBoxService) { }
+    public notificationService: NotificationBoxService,
+    public chRef: ChangeDetectorRef) { }
 
   ngOnChanges(simpleChanges: SimpleChanges) {
     if(simpleChanges.userEmail && simpleChanges.userEmail.isFirstChange) {
@@ -60,6 +60,10 @@ export class SubscriptionsComponent implements OnInit, OnChanges, OnDestroy {
       this.userName = this.userPropertiesService.getUserName();
       this.isNewUser = user.isNewUser;
     });
+  }
+
+  ngAfterViewInit(){
+
   }
 
   ngOnDestroy(){
@@ -101,6 +105,25 @@ export class SubscriptionsComponent implements OnInit, OnChanges, OnDestroy {
     });
   }
 
+  payPalPortal(){
+    // paypal.Buttons({
+    //   createOrder: function(data, actions) {
+    //     return actions.order.create({
+    //       purchase_units: [{
+    //         amount: {
+    //           value: '0.01'
+    //         }
+    //       }]
+    //     });
+    //   },
+    //   onApprove: function(data, actions) {
+    //     return actions.order.capture().then(function(details) {
+    //       alert('Transaction completed by ' + details.payer.name.given_name);
+    //     });
+    //   }
+    // }).render('#paypal-button-container');
+  }
+
   customerPortal(userEmail: string){
 
     fetch(env.serverUrl +'/customer-portal', {
@@ -126,66 +149,25 @@ export class SubscriptionsComponent implements OnInit, OnChanges, OnDestroy {
   }
 
 
-  createCheckout(priceId:string){
-    const userEmail = this.userPropertiesService.getUserEmail()
-    console.log(userEmail);
+ popupViewCheckout(){
+   const dialogRef = this.dialog.open(PopupSubscribeComponent,
+    {
+      height:'100%',
+      width:'100%',
+      panelClass: 'two-up-product'
+    });
 
-    var handleFetchResult = function(result) {
-      console.log(result);
-
-      if (!result.ok) {
-        return result.json().then(function(json) {
-          if (json.error && json.error.message) {
-            throw new Error(result.url + ' ' + result.status + ' ' + json.error.message);
-          }
-        }).catch(function(err) {
-          showErrorMessage(err);
-          throw err;
-        });
-      }
-      return result.json();
-    };
-    // Handle any errors returned from Checkout
-    var handleResult = function(result) {
-      if (result.error) {
-        showErrorMessage(result.error.message);
-      }
-    };
-
-    var showErrorMessage = function(message) {
-      var errorEl = document.getElementById("error-message")
-      errorEl.textContent = message;
-      errorEl.style.display = "block";
-    };
-
-
-    var createPurchaseSession = function(priceId, _email) {
-
-      return fetch(env.serverUrl + "/create-checkout-session", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          priceId: priceId,
-          email: _email
-        }),
-      }).then(handleFetchResult);
-    };
-    //create an API call to backend that uses /create-checkout-session
-    // Setup event handler to create a Checkout Session when button is clicked
-
-        createPurchaseSession(priceId, userEmail).then( async function(data) {
-          // Call Stripe.js method to redirect to the new Checkout page
-          console.log(data);
-
-          await (await stripe).redirectToCheckout({sessionId: data.sessionId}).then(handleResult);
-        });
-  }
+    dialogRef.afterClosed().subscribe(()=>{
+      this.userPropertiesService.getSubState(this.userEmail);
+    });
+ }
 
   getUserSubscription(){
+    console.log("Checking for user Subscription... " + this.userEmail);
+
     this.userPropertiesService.getSubState(this.userEmail);
     this.userName = this.userPropertiesService.getUserName();
+    this.chRef.detectChanges();
   }
 
 
