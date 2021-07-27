@@ -51,8 +51,8 @@
         <div formArrayName="options">
 
         <div class="fta-container">
-          <h1>Estimated Value Preferences</h1>
-          <p class="estimated-value-text"> Apply either the <span class="fta-highlight">Juicy FTA Rating</span> value or the <span class="fta-highlight">1/65 Avg Rating</span> to calculate the Estimated Value of a bet. </p>
+          <h1>2Up Occurrence Indicator </h1>
+          <p class="estimated-value-text"> Apply either the <span class="fta-highlight">Juicy-Bets FTA</span> or the <span class="fta-highlight">Avg 1/65 FTA</span> indicator while calculating the Estimated Value of a bet. </p>
                         <div class="ev-content-row1">
                   <mat-form-field appearance="fill">
                                         <mat-select formControlName="FTASelected">
@@ -62,7 +62,7 @@
                     </mat-select>
                   </mat-form-field>
               </div>
-                <p class="estimated-value-text"> The  <span class="fta-highlight">  {{options.get('FTASelected').value == 'generic' ? ftaSelection[1].viewValue : ftaSelection[0].viewValue }} Rating</span> will be applied with your saved <i>Preferred Stake</i> to calculate the estimated value (EV) of matches shown in the Juicy-Bets table.</p>
+                <p class="estimated-value-text"> The  <span class="fta-highlight">  {{options.get('FTASelected').value == 'generic' ? ftaSelection[1].viewValue : ftaSelection[0].viewValue }} </span> indicator will be applied.</p>
             </div>
 
             <hr class="ev-fta-divider">
