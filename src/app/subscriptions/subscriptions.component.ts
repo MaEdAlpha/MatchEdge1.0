@@ -9,6 +9,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { NotificationBoxService } from '../services/notification-box.service';
 import { PopupTwoUpProductComponent } from '../popup-two-up-product/popup-two-up-product.component';
 import { PopupSubscribeComponent } from '../popup-subscribe/popup-subscribe.component';
+import { PopupManageBillingComponent } from '../popup-manage-billing/popup-manage-billing.component';
 // import { loadStripe } from "@stripe/stripe-js";
 // const stripe = loadStripe(env.STRIPE_PUBLISHABLE_KEY);
 
@@ -28,6 +29,7 @@ export class SubscriptionsComponent implements OnInit, OnChanges, OnDestroy, Aft
   welcomeMessageSubscription: Subscription;
   userName:string;
   isLoading:boolean;
+  accountStatus:string;
 
   @Input() userEmail: string;
   @Output() displaySettings = new EventEmitter <boolean>();
@@ -42,7 +44,6 @@ export class SubscriptionsComponent implements OnInit, OnChanges, OnDestroy, Aft
 
   ngOnChanges(simpleChanges: SimpleChanges) {
     if(simpleChanges.userEmail && simpleChanges.userEmail.isFirstChange) {
-      console.log("Updated with user Email~" + this.userEmail);
       this.getUserSubscription();
     }
   }
@@ -59,6 +60,7 @@ export class SubscriptionsComponent implements OnInit, OnChanges, OnDestroy, Aft
       this.isActiveSub = user.isActiveSub;
       this.userName = this.userPropertiesService.getUserName();
       this.isNewUser = user.isNewUser;
+      this.accountStatus = user.status;
     });
   }
 
@@ -73,7 +75,6 @@ export class SubscriptionsComponent implements OnInit, OnChanges, OnDestroy, Aft
   //Notes: You setup app.js to create upon checkout an accepted_terms field which auto sets to true. If user has not signed up and bought a subscription, they will have to go through GDPR popup every
 
   enterSite(){
-    console.log("toggle it");
     this.displaySettings.emit(true);
     if(this.isActiveSub){
       this.matchesService.open2Ups();
@@ -94,6 +95,15 @@ export class SubscriptionsComponent implements OnInit, OnChanges, OnDestroy, Aft
         document.querySelector('#focal-point').scrollIntoView({ block:"end", inline:"center", behavior: "smooth"});
       },200)
     }
+  }
+
+  openManageBillingPopUp(){
+    this.dialog.open(PopupManageBillingComponent,
+      {
+        width: '50%',
+        height: '50%',
+        panelClass:'manage-billing-page'
+      });
   }
 
   openProductPopup(){

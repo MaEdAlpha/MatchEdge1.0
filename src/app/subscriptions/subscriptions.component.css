@@ -83,6 +83,7 @@
 }
 
 .inactive-sub{
+  width: 30%;
   margin-left: auto;
   margin-right: auto;
 }
@@ -92,6 +93,11 @@
   border-radius: 2px;
   border: 1px solid #ffffff17;
   background: linear-gradient(146deg, rgb(100,116,124,1) 0%, rgb(37 46 51) 25%, rgb(42 54 60) 40%);
+}
+
+.inactive-img{
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .active-img{
@@ -188,6 +194,7 @@ img.two-up {
   margin-right: auto;
   padding: 6px;
   margin-bottom: 5%;
+  box-shadow: 1px 1px 0px 0px #00000082;
 }
 
 .learn-more {
@@ -223,7 +230,10 @@ li{
 }
 
 @media (max-width: 1000px){
-  .inactive-sub,
+  .inactive-sub{
+    width: 30%;
+  }
+
   .active-sub{
     width: 80%;
     justify-content: center;
@@ -255,14 +265,14 @@ li{
     font-size: 2rem;
   }
   .welcome-msg>h2,h3{
-    margin-bottom: 0px;
+    margin-bottom: 30px;
   }
   .info-wrapper{
     font-size: 1.314159265359rem;
   }
 }
 
-@media(min-width:1441px) and (max-width:1920px){
+@media(min-width:1441px) {
   .title-text,
   .info-title{
     font-size: 2rem;
@@ -283,15 +293,6 @@ li{
     line-height: 30px;
   }
 
-  .inactive-img{
-    width: -webkit-fill-available;
-    border-radius: 15px;
-  }
-
-  .sub-btn,
-  .info-btn{
-    border-radius: 13px;
-  }
 
   .product-features{
     font-size: 1.314159265359rem;
@@ -314,17 +315,19 @@ li{
   }
 
   #focal-point>h3{
+    margin: 0px;
+    padding: 2px;
     color: white;
+    border: 1px solid #394951;
+    background: #3949511a;
     border-radius: 10px;
-    background: #00000017;
-    width: fit-content;;
+    width: 50%;
     margin-left: auto;
     margin-right: auto;
-    padding-left: 10%;
-    padding-right: 10%;
-    font-size: 1.5rem;
-    padding: 10px;
-    margin-bottom: 10px;
+    padding: 6px;
+    margin-bottom: 5%;
+    box-shadow: 1px 1px 0px 0px #00000082;
+    font-size: 1.3rem;
   }
 
   .extend-mn-cont{

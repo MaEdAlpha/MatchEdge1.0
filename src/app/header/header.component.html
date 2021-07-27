@@ -1,4 +1,7 @@
 <mat-toolbar>
+
+    <button class="subscription-btn" mat-raised-button *ngIf="displayActivated" (click)="goToSubscriptions()">Subscriptions</button>
+
     <div *ngIf="displayActivated else displayIconOnly">
       <img class="settings-img"
         matTooltip="View settings"

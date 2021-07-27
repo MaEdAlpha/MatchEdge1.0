@@ -130,7 +130,6 @@
                         <div class="exchange-container-disp" >
                           <p class="exchange-text-lhs">Lay Bet </p>
                           <button tabindex="-1" class="exchange-button-container mat-raised-button-bookie-exchange shadow" mat-raised-button href={{selection.UrlSmarkets}}></button>
-                          <p class="exchange-text-comm">Comm.: {{userCommission | number:'0.2-2' }}%</p>
                         </div>
 
                         <div class="exchange-container-input" >
@@ -146,13 +145,17 @@
                         </div>
 
                         <div class="exchange-container-output">
-                          <div class="exchange-row" tabindex="1">
+                          <div class="exchange-row">
+                            <p class="exchange-text-comm">Comm.: {{userCommission | number:'0.2-2' }}%</p>
+                          </div>
+                          <div class="exchange-row exchange-row-button" tabindex="1">
                             <button  mat-raised-button class="bet-state-button"  [style.background]="selection.betState ? ' #076044' : '#8a0606'" (click)="selection.betState = !selection.betState">{{ selection.betState ? 'Matched' : 'Unmatched'}}</button>
                           </div>
                           <div class="exchange-row">
                             <p class="liability-text">Liab.:</p>
                             <p class="liability-amount">{{ Liability(getGroup(i).get('LayOdds').value, LayStake(getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value, getGroup(i).get('Stake').value)) | currency:'GBP'}} </p>
                           </div>
+
                         </div>
 
                       </div>

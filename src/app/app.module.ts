@@ -113,7 +113,8 @@ import { PopupDataProtectionRegulationComponent } from './popup-data-protection-
 import { PopupCookiePolicyComponent } from './popup-cookie-policy/popup-cookie-policy.component';
 import { PopupTwoUpProductComponent } from './popup-two-up-product/popup-two-up-product.component';
 import { PopupSubscribeComponent } from './popup-subscribe/popup-subscribe.component';
-import { ManageBillingComponent } from './manage-billing/manage-billing.component';
+import { PopupManageBillingComponent } from './popup-manage-billing/popup-manage-billing.component';
+
 
 
 @NgModule({
@@ -180,7 +181,7 @@ import { ManageBillingComponent } from './manage-billing/manage-billing.componen
     PopupCookiePolicyComponent,
     PopupTwoUpProductComponent,
     PopupSubscribeComponent,
-    ManageBillingComponent,
+    PopupManageBillingComponent,
   ],
   imports: [
     AppRoutingModule,

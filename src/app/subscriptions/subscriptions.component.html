@@ -12,7 +12,13 @@
             <h3>You currently have an active subscription for 2Up</h3>
           </ng-container>
           <ng-template #inactiveSubscription>
-            <h3>You currently have no active subscriptions. Select a Juicy-Bet tool to start! </h3>
+            <h3>Your account status is currently showing {{accountStatus}} </h3>
+            <ng-container *ngIf="accountStatus == 'FAILED PAYMENT'">
+            <p> Please contact support to re-activate your account</p>
+          </ng-container>
+          <ng-container *ngIf="accountStatus == 'CANCELLED'">
+            <p>You no longer have a subscription with us. Purchase one below to begin!</p>
+          </ng-container>
           </ng-template>
         </div>
       </ng-container>
@@ -31,7 +37,7 @@
             <div class="active-sub" *ngIf="isActiveSub && !isNewUser; else showInactiveSub">
               <div class="option-wrapper active-wrapper">
 
-                <div class="active-img" (click)="customerPortal(userEmail);">
+                <div class="active-img" (click)="openManageBillingPopUp()">
                   <img  class="manage-payments-img" src="../../assets/img/ManagePaymentsLogo.png" alt="">
                 </div>
                 <div class="sport">
@@ -55,7 +61,7 @@
                   <h3>£13.99/month</h3>
 
                   <div class="inactive-btn-cont">
-                    <button id="basic-plan-btn" class="sub-btn" mat-raised-button (click)="this.popupViewCheckout()">Subscribe</button>
+                    <button id="basic-plan-btn" class="sub-btn" mat-raised-button [disabled]="accountStatus == 'FAILED PAYMENT'" (click)="this.popupViewCheckout()">Subscribe</button>
                     <button  class="info-btn" mat-raised-button (click)="displayInfo()">Info</button>
                   </div>
                 </div>

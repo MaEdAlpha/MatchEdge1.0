@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Router } from '@angular/router';
+import { MatchesService } from '../match/matches.service';
 import { UserPropertiesService } from '../services/user-properties.service';
 
 @Component({
@@ -8,7 +9,7 @@ import { UserPropertiesService } from '../services/user-properties.service';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit, OnChanges {
-  constructor(private userService: UserPropertiesService){};
+  constructor(private userService: UserPropertiesService, private router: Router, private matchServices: MatchesService){};
   @Input() displayNotification:boolean;
   @Input() displayActivated: boolean;
   @Output() notificationSettings = new EventEmitter<boolean>();
@@ -37,5 +38,15 @@ export class HeaderComponent implements OnInit, OnChanges {
 
   test(){
     console.log(this.userService.getToken());
+  }
+
+  goToSubscriptions(){
+    this.displayNotification = false;
+    this.enableDisplaySettings = false;
+    this.displayActivated = false;
+    this.matchServices.openSubscriptions();
+    setTimeout( ()=>{
+      this.router.navigate(['/']);
+    });;
   }
 }

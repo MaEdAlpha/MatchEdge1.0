@@ -38,3 +38,9 @@ img {
   opacity: 0.8;
   cursor: pointer;
 }
+
+.subscription-btn{
+  color: rgb(255, 191, 14);
+  border: 1px solid #ffffff17;
+  background: linear-gradient(146deg, rgb(100,116,124,1) 0%, rgb(61 78 87) 25%, rgba(55,71,79,1) 40%);
+}

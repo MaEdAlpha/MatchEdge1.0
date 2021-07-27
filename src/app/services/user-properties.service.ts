@@ -21,12 +21,13 @@ import { Subscriber } from 'rxjs';
 })
 export class UserPropertiesService {
   //for sending to JuicyTable Filter method
-
+  private PROMOTION_PLAN = 'P-55U356720M569264VMD32CZI';
+  private BASIC_PLAN ='P-59888107MU817684HMD3ZXZY';
   userToken = new EventEmitter<string>();
   userPrefSub = new Subject<TablePreferences>();
   userCommissionSub = new Subject<number>();
   tokenSubscription = new Subject<string>();
-  userSubscriptionSubject = new Subject<{isActiveSub:boolean, isNewUser:boolean}>();
+  userSubscriptionSubject = new Subject<{isActiveSub:boolean, isNewUser:boolean, status: string}>();
   isNewUser: boolean = true;
   private lockAudio:boolean = true;
   private smCommission:number = 2.05;
@@ -375,7 +376,7 @@ export class UserPropertiesService {
     return this.userCommissionSub.asObservable();
   }
 
-  getSubscriptionState(): Observable<{isActiveSub:boolean, isNewUser:boolean}>{
+  getSubscriptionState(): Observable<{isActiveSub:boolean, isNewUser:boolean, status: string}>{
     return this.userSubscriptionSubject.asObservable();
   }
 
@@ -467,7 +468,7 @@ export class UserPropertiesService {
                }
 
     this.http.post<any>(env.serverUrl + "/subscription", data)
-    .subscribe(( response: {isActiveSub: boolean, isNewUser: boolean}) => {
+    .subscribe(( response: {isActiveSub: boolean, isNewUser: boolean, status: string}) => {
       this.userSubscriptionSubject.next(response);
       this.isNewUser = response.isNewUser;
     });
@@ -492,10 +493,34 @@ export class UserPropertiesService {
     let data = {
       message:'hi'
     }
-    this.http.post<any>(env.serverUrl + '/api/paypal', data).subscribe( (response)=>{
+    this.http.post<any>(env.serverUrl + '/api/paypal', data).subscribe( (response) => {
       console.log(response);
 
+    });
+  }
+
+  getBillingInfo(userEmail:string): Promise<{subscription: string, status: string, lastPaid: string, nextPayment: string, paymentEmail: string}>{
+    let data = {
+      email:userEmail
+    }
+    return new Promise( resolve => {
+      this.http.post<any>(env.serverUrl + '/billing-info', data).subscribe( (response) => {
+        try{
+          console.log(response);
+          resolve({ subscription: response.subscription, status: response.status, lastPaid:response.lastPaid, nextPayment: response.nextPayment, paymentEmail: response.subscription_email});
+        } catch (err){
+          resolve(null);
+        }
+      });
     })
+  }
+
+  getPlans():{promo:string, basic:string}{
+    return {promo: this.PROMOTION_PLAN, basic: this.BASIC_PLAN}
+  }
+
+  getUserAccountType():boolean{
+    return this.isNewUser
   }
 
 }

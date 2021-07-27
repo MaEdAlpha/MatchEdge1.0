@@ -7,9 +7,9 @@ const jwt = require('jsonwebtoken');
 const path = require('path');
 const envFilePath = path.resolve(__dirname, './.env');
 const env = require("dotenv").config({ path: envFilePath });
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY, {
-  apiVersion: '2020-08-27'
-});
+// const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY, {
+//   apiVersion: '2020-08-27'
+// });
 const checkoutNodeJssdk = require('@paypal/checkout-server-sdk');
 const paypal = require('@paypal/checkout-server-sdk');
 var request  = require('request');
@@ -122,6 +122,9 @@ let clientSecret = "EFwpsvpjfVglBuPcXURyd2wsPJ4AAztjVgKpVMfhgtDdbe-uxscXxqZL7P85
 // This sample uses SandboxEnvironment. In production, use LiveEnvironment
 let environment = new paypal.core.SandboxEnvironment(clientId, clientSecret);
 let elonMusky = new paypal.core.PayPalHttpClient(environment);
+let token_option = new paypal.core.AccessTokenRequest(environment);
+let access_token = new paypal.core.AccessToken(token_option);
+
 
 // Construct a request object and set desired parameters
 // Here, OrdersCreateRequest() creates a POST request to /v2/checkout/orders
@@ -154,20 +157,18 @@ let elonMusky = new paypal.core.PayPalHttpClient(environment);
 app.post('/paypal-transaction', async (req,res) => {
   const orderID = req.body.orderID;
   const created = new Date(req.body.orderCreated).toUTCString();
+  const nextPayment = new Date(req.body.orderCreated + (7*24*60*60*1000)).toUTCString();
   const email = req.body.email;
   const subID = req.body.subID;
   let subActivated = false;
   let request = new checkoutNodeJssdk.orders.OrdersGetRequest(orderID);
   let order;
-  console.log( email + " Created: " + created + " Subscription: " + subID);
+  console.log("---> NEW SUBSCRIPTION: " + email + " Subscription: " + subID + " Created: " + created );
   try {
     order = await elonMusky.execute(request);
-    console.log();
-    console.log(order.result.status);
-    console.log(order.result.payer.email_address);
-
+    console.log(order.result.payer.name);
+    console.log(order.result.payer.address);
   } catch (err) {
-
     // 4. Handle any errors from the call
     console.error(err);
     return res.status(500);
@@ -182,10 +183,13 @@ app.post('/paypal-transaction', async (req,res) => {
   // await database.saveTransaction(orderID);
   let replace_document = {
     juicy_email: email,
+    juicy_birth: order.result.create_time,
     subscription_id: subID,
     subscription_status:  order.result.status,
     subscription_paid_on: created,
-    subsciprtion_email: order.result.payer.email_address,
+    subscription_next_payment: nextPayment,
+    subscription_email: order.result.payer.email_address,
+    uniqe_tag: order.result.payer.name.given_name+"_"+order.result.payer.name.surname,
     last_login: created,
     accepted_terms: true,
   }
@@ -196,13 +200,14 @@ app.post('/paypal-transaction', async (req,res) => {
   await subscription_collection
     .findOneAndReplace( {juicy_email: email}, replace_document, {upsert: true, returnDocument: true}, function (error, response){
       try{
-        console.log(response);
-        console.log("New Subscriber! " + response.value.juicy_email + " at: " + response.value.subscription_paid_on);
+        console.log("Upsert Reference: " + response.lastErrorObject?.upserted);
+        console.log("---> SUBSCRIPTION UPDATED for: " + response.value.subscription_email + "  invoiced to. At: " + response.value.subscription_paid_on);
         subActivated = true;
 
       } catch (err) {
-        subActivated = false;
-        console.warn("Error: " + email + " had issues in user_subscriptions collection: " + err + " MongoDB Error: " + error);
+          if(error == null){
+            console.log("---> NEW USER CREATED: " + email);
+          }
       }
     });
   // 7. Return a successful response to the client
@@ -213,159 +218,169 @@ app.post('/paypal-transaction', async (req,res) => {
 
 app.post('/webhook', async (req, res) => {
   let postData = req.body
-  console.log(JSON.stringify(postData, null, 4));
-
+  //console.log(JSON.stringify(postData, null, 4));
+  const subscription_collection = client.db("JuicyClients").collection("juicy_users_subscription");
   //https://developer.paypal.com/docs/api-basics/notifications/webhooks/event-names/#subscriptions
   if(postData.event_type == "BILLING.SUBSCRIPTION.ACTIVATED"){
-    console.log("Billing Subscription Activated!");
-    console.log(postData.resource.id);
-  }
-
-  if(postData.event_type == "BILLING.SUBSCIPRTION.ACTIVATED"){
+    console.log("///////////////////////////////////////////////////////////////////////////////////////");
     console.log("Subscription Activated!");
+    console.log(postData.resource.id);
+    console.log(postData.resource.billing_info.last_payment.time);
+    console.log(postData.resource.billing_info.next_billing_time);
+
+    //updateDataBase with last_payment
+    //updateDataBase with next_billing_cycle
+    console.log("///////////////////////////////////////////////////////////////////////////////////////");
   }
 
   if(postData.event_type == "PAYMENT.SALE.COMPLETED"){
+    console.log("///////////////////////////////////////////////////////////////////////////////////////");
+    //Payment is made on a subscription
     console.log("Payment Completed");
-    console.log(postData.summary + " for ID: " + postData.id);
+    // console.log(JSON.stringify(postData.resource, null, 4));
+    console.log(postData.summary + " for SubID: " + postData.resource.billing_agreement_id);
+    let payPalUrl="https://api-m.sandbox.paypal.com/v1/billing/subscriptions/";
+    //retrieve subscription ID and get Subscriptions information
+    let subID = postData.resource.billing_agreement_id;
+    const basic_token = environment.authorizationString(); //call api to get token
+    let getUrl = payPalUrl+subID;
+    let lastPaid;
+    let nextPayment;
+    var headers = {
+      'Content-Type': 'application/json',
+      'Authorization': basic_token
+    };
+
+    var options = {
+      url: getUrl,
+      headers: headers,
+    };
+
+    function callback(error, response, body) {
+      if (!error && response.statusCode == 200) {
+          let subObject = JSON.parse(body);
+          lastPaid = subObject.billing_info.last_payment.time;
+          nextPayment = subObject.billing_info.next_billing_time;
+      } else {
+        console.log(JSON.stringify(response, null, 4));
+      }
+  }
+
+  let query = {'juicy_email' : subID }
+  let update = { $set: {'subscription_status' : postData.resource.status,
+                        'subscription_paid_on' : last_paid,
+                        'subscription_next_payment': nextPayment
+                        }
+                }
+
+    subscription_collection.findOneAndUpdate(query, update , {upsert:false}).then( response => {
+        console.log(response);
+    });
+
+          request(options, callback);
+    console.log("///////////////////////////////////////////////////////////////////////////////////////");
   }
 
   if(postData.event_type == "BILLING.SUBSCRIPTION.CANCELLED"){
+    console.log("///////////////////////////////////////////////////////////////////////////////////////");
     console.log("Subscription Cancelled!");
+    // console.log(JSON.stringify(postData.resource, null, 4));
     let subscriber_email = postData.resource.subscriber.email_address;
-    let subscriptionID = postData.id;
-    let cancellationTime = postData.status_update_time;
+    let subscriptionID = postData.resource.id;
+    let cancellationTime = postData.resource.status_update_time;
+    let subscriptionState = postData.resource.status;
+    console.log(subscriber_email + " " + subscriptionState + " at " + cancellationTime + " for ID: " , subscriptionID);
+
+    //Update Database.
+    let query = { 'subscription_id' : postData.resource.id }
+    let update = { $set: {'subscription_status' : postData.resource.status }}
+
+    subscription_collection.findOneAndUpdate(query, update , {upsert:false}).then( response => {
+      console.log(response);
+    });
+    console.log("///////////////////////////////////////////////////////////////////////////////////////");
   }
 
   if(postData.event_type == 'BILLING.SUBSCRIPTION.PAYMENT.FAILED'){
-    console.log("Failed Payment!");
+    console.log("///////////////////////////////////////////////////////////////////////////////////////");
+    console.log("Failed Payment on subscription");
+    //suspend activity of subscription, set subscription_status: suspended. User flow? Login with non active subscription bars them access.....
+
+    let query = { 'subscription_id' : postData.resource.id }
+    let update = { $set: {'subscription_status' : 'FAILED PAYMENT' }}
+
+    subscription_collection.findOneAndUpdate(query, update , {upsert:false}).then( response => {
+      console.log(response);
+    });
+    //User should be able to make a payment via button in manage billing.
+
+    //if payment fails, send a message to user saying they have to update their subscription/make a payment.
+    // console.log(JSON.stringify(postData, null, 4));
+    console.log(postData.resource.id + " is " + postData.resource.status + " but..." + postData.summary + " amount due is: " + postData.resource.billing_info.outstanding_balance.value + " " + postData.resource.billing_info.outstanding_balance.currency_code);
+    console.log("///////////////////////////////////////////////////////////////////////////////////////");
   }
 });
 
 app.post('/cancel-subscription', async (req, res)=>{
-  console.log(req.body.subID +  " detected subscription ID!");
-  //execut paypal API request using paypalhttp
-
+  let subID = req.body.subID;
+  let created = new Date().toUTCString();
+  const basic_token = environment.authorizationString(); //call api to get token
+  let cancelUrl = "https://api-m.sandbox.paypal.com/v1/billing/subscriptions/"+subID+"/cancel";
   var headers = {
     'Content-Type': 'application/json',
-    'Authorization': 'Bearer A21AALD0WIilDGhdtr0T4C2y_ZgtI9o22jlal5kAtg3j2ykrEo3lG6Ap5mSloA6X7-4-htVdy6OWpAljYBOO_9Jbhz9w5m_-g'
+    'Authorization': basic_token
   };
 
-var dataString = ""
+  var dataString = "" //insert reason?
 
-var options = {
-    url: 'https://api-m.sandbox.paypal.com/v1/billing/subscriptions/I-HXEFX9BR1XP0/cancel',
+  var options = {
+    url: cancelUrl,
     method: 'POST',
     headers: headers,
     body: dataString
-};
+  };
 
-function callback(error, response, body) {
-    if (!error && response.statusCode == 200) {
-      console.log("SUCCESS!!!");
-        console.log(body);
-    } else {
-      console.log(JSON.stringify(response, null, 4));
-    }
-}
-
-request(options, callback);
-})
-
-
-
-
-
-/////////////////////////////////////////////////////////////////////////////////////////
-//               STRIPE PAYMENT PROCESSING API CALLS                                  //
-////////////////////////////////////////////////////////////////////////////////////////
-
-// Copy the .env.example in the root into a .env file in this folder
-if (env.error) {
-  throw new Error(`Unable to load the .env file from ${envFilePath}. Please copy .env.example to ${envFilePath}`);
-}
-
-
-app.use(express.static(process.env.STATIC_DIR));
-
-// Fetch the Checkout Session to display the JSON result on the success page
-app.get("/checkout-session", async (req, res) => {
-  const { sessionId } = req.query;
-  const session = await stripe.checkout.sessions.retrieve(sessionId);
-  res.send(session);
-});
-
-//create a record of a user.
-app.post("/finalize-subscription-session", async (req,res) => {
-
-
-});
-
-app.post("/api/paypal", async (req,res)=>{
-  console.log(req.body.email);
-  console.log("Worked?!?!?");
-});
-
-//PayPal webhooks
-app.post("/api/webhooks", async ( req, res) => {
-  let hooks = req.body.event_types;
-  console.log(req.body);
-  console.log(hooks);
-
-  res.status(200);
-});
-
-
-
-app.post("/create-checkout-session", async (req, res) => {
-  const domainURL = process.env.DOMAIN;
-  const  priceId  = req.body.priceId;
-  const customerEmail = req.body.email;
-  console.log(req.body);
-  // Create new Checkout Session for the order
-  // Other optional params include:
-  // [billing_address_collection] - to display billing address details on the page
-  // [customer] - if you have an existing Stripe Customer ID
-  // [customer_email] - lets you prefill the email input in the form
-  // For full details see https://stripe.com/docs/api/checkout/sessions/create
-  try {
-    const session = await stripe.checkout.sessions.create({
-      mode: "subscription",
-      payment_method_types: ["card"],
-      line_items: [
-        {
-          price: priceId,
-          quantity: 1,
-        }
-      ],
-      customer_email: customerEmail,
-      success_url: `${domainURL}?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${domainURL}`,
-    });
-
-    console.log("~~~~~~~~~~Session:~~~~~~~~~~~");
-    console.log(session);
-
-    res.send({
-      sessionId: session.id,
-    });
-  } catch (e) {
-    res.status(400);
-    return res.send({
-      error: {
-        message: e.message,
+  function callback(error, response, body) {
+      if (!error && response.statusCode == 204) {
+        console.log("CANCELLATION: " + subID + " requested at " + created );
+          res.status(200).json({message:'Cancellation completed!'});
+      } else {
+          console.log("VERIFY CANCELLATION: " + subID + " error was thrown in callback");
       }
-    });
   }
+
+  request(options, callback);
+
 });
 
+app.post('/billing-info', async (req,res)=>{
+  let email = req.body.email
 
+  const subscription_collection = client.db("JuicyClients").collection("juicy_users_subscription");
+  await subscription_collection.findOne({'juicy_email':email}, function (error,response){
+    try{
+      console.log(response);
+      response.subscriptionID; //where do you get subscriptionUpdates.....
 
+      response = {
+                  subscription: response.subscription_id,
+                  status: response.subscription_status,
+                  lastPaid: response.subscription_paid_on,
+                  nextPayment: response.subscription_next_payment,
+                  subscription_email: response.subscription_email
+      }
+
+      return res.status(200).json(response);
+
+    } catch (err){
+      console.log(err);
+    }
+  });
+})
 
 app.post("/subscription", async (req,res) => {
   //Need to make sure multiple emails do not exist.
   let email = req.body.email;
-  console.log("Checking " + email);
   let login = new Date(new Date(req.body.login).toUTCString())
   //update UserLogin
   let update = { $set:{'last_login' : login } }
@@ -374,155 +389,29 @@ app.post("/subscription", async (req,res) => {
   .findOneAndUpdate({'juicy_email' : email}, update, {upsert:false})
     .then( userDoc => {
       let juicyUser = userDoc.value;
-      console.log("Client Log in: ", email + " on: " + login);
+
       if(userDoc.value == null){
-        console.log("No subscription associated with " + email);
-        res.status(200).json({isActiveSub:false, isNewUser: true, userAcceptedTerms: false});
+        console.log("NO_ACCOUNT: " + email + " " + login);
+        res.status(200).json({isActiveSub:false, isNewUser: true, status: 'INACTIVE'});
       } else if( userDoc != null && juicyUser.subscription_status == 'APPROVED') {
-        console.log(email + " subscription is valid!");
-        res.status(200).json({isActiveSub:true, isNewUser: false, userAcceptedTerms: userDoc.accepted_terms});
+        console.log("VISIT: " + email + " exists. Subscription: ACTIVE: " + login);
+        res.status(200).json({isActiveSub:true, isNewUser: false, status: juicyUser.subscription_status});
       } else if (userDoc != null && juicyUser.subscription_status != 'APPROVED') {
-        console.log(email + " is valid, but subscription is not! ");
-        res.status(200).json({isActiveSub:false, isNewUser: false, userAcceptedTerms: userDoc.accepted_terms});
+        console.log("VISIT: " + email + " exists! Subscription: INACTIVE: " + login);
+        res.status(200).json({isActiveSub:false, isNewUser: false, status: juicyUser.subscription_status});
       }
     })
     .catch(err => console.error(`Failed to find documents: ${err}`));
 });
-// Webhook handler for asynchronous events.
-// app.post('/webhook', express.raw({type: 'application/json'}),  (request, response) => {
-//   const payload = request.body;
-//   const sig = request.headers['stripe-signature'];
-//   const webhookSecret = 'whsec_qwedhfV13bJ5peI9pLCMrqaLa4ZBTpM0';
-//   // console.log("///////////////////////////////////////////////");
-//   // console.log(payload);
-//   // console.log("///////////////////////////////////////////////");
-//   let event;
-//   //Testing: event= payload confirm that constructEvent works for LIVE mode.
-//   event = payload;
-//   // try {
-//   //   event = stripe.webhooks.constructEvent(payload, sig, webhookSecret);
-//   //   console.log("~~~~~~SUCCESS: " + event.type);
-//   // } catch (err) {
-//   //   console.log(err.message);
-//   //   return response.status(400).send(`Webhook Error: ${err.message}`);
-//   // }
-//   //Successfully constructed event
-//   console.log('✅ Success:', event.id);
-//   const subscription_collection = client.db("JuicyClients").collection("juicy_users_subscription");
-//   // Handle the event
-//   switch (event.type) {
-//     case 'checkout.session.completed':
-//       const checkoutCompleteEvent = event.data.object;
-//       console.log('////////////Completed Checkout////////////');
-//       console.log(checkoutCompleteEvent);
-//       console.log('////////////////////////////////////');
-//       //Provision subscription + Get Customer ID &  Write to MongoDB
-//       const customerID = checkoutCompleteEvent.customer;
-//       // assign email, status (paid/unpaid) and create a paid_on field.
-//       let document = {
-//         cust_id: customerID,
-//         cust_email: checkoutCompleteEvent.customer_details.email,
-//         subscription_id: checkoutCompleteEvent.subscription,
-//         subscription_status:  checkoutCompleteEvent.payment_status,
-//         subscription_paid_on: 0,
-//         last_signed_in: 0,
-//         accepted_terms: true,
-//       }
-//       subscription_collection.insertOne(document, function (error, response){
-//         console.log("New Subscriber: " + document.cust_email + " created!");
-//       });
-
-//       break;
-//       case 'invoice.paid':
-//         const paidInvoiceEvent = event.data.object;
-//         console.log('////////////Invoice Paid////////////');
-//         console.log(paidInvoiceEvent.status_transitions.paid_at);
-//         console.log('////////////////////////////////////');
-//         const query = { "cust_id" : paidInvoiceEvent.customer };
-
-//         const update = {
-//            "$set": {
-//              "subscription_status" : checkoutCompleteEvent.payment_status,
-//              "subscription_paid_on" : paidInvoiceEvent.status_transitions.paid_at
-//            }
-//          }
-
-//         const options  = { returnNewDocument: true };
-//         //Continue to provision Subscription as payments continue to be made.
-//         subscription_collection.findOneAndUpdate(query, update, options).then( updatedDocument => {
-//           if(updatedDocument){
-//             console.log("Successfully updated document");
-//           } else {
-//             console.log("Failed to update document");
-//           }
-//           return updatedDocument
-//         }).catch( err => console.error('Failed to find and update document: ' + err))
-//         //Update Status & expiration...can check user access frequency.
-//         break;
-
-//       case 'invoice.payment_failed':
-//           const invoiceFailed = event.data.object;
-//           console.log('////////////Invoice *FAILED*////////////');
-//           console.log(invoiceFailed);
-//           console.log('////////////////////////////////////');
-//           // The payment failed or the customer does not have a valid payment method.
-//           // The subscription becomes past_due. Notify your customer and send them to the
-//           // customer portal to update their payment information.
-//         break;
-
-//       case 'payment_intent.succeeded':
-//           const piSucceededEvent = event.data.object;
-//           console.log('////////////PI Success!////////////');
-//           console.log(piSucceededEvent);
-//           console.log('////////////////////////////////////');
-//           // The payment failed or the customer does not have a valid payment method.
-//           // The subscription becomes past_due. Notify your customer and send them to the
-//           // customer portal to update their payment information.
-//         break;
-//           default:
-//             console.log(`Unhandled event type ${event.type}`);
-//           }
-//          // Return a response to acknowledge receipt of the event
-//          response.status(200).json({message:"Test O.K"});
-//   });
-
-  // app.post('/customer-portal', async (req, res) => {
-  //   // This is the url to which the customer will be redirected when they are done
-  //   // managing their billing with the portal.
-  //   const returnUrl = process.env.DOMAIN;
-  //   const client_email = req.body.email;
-
-  //   const subscription_collection = client.db("JuicyClients").collection("juicy_users_subscription");
-  //   let cust_id;
-
-  //   await subscription_collection.findOne({"cust_email" : client_email})
-  //   .then( document => {
-  //     console.log(document);
-  //     cust_id = document.cust_id;
-  //     console.log("CUSTOMER ID 1: " + cust_id);
-  //   })
-
-  //   console.log("CUSTOMER ID 2: " + cust_id);
-  //   const portalsession = await stripe.billingPortal.sessions.create({
-  //     customer: cust_id,
-  //     return_url: returnUrl,
-  //   });
-
-  //   res.send({
-  //     url: portalsession.url,
-  //   });
-
-
-  // });
 
 /////////////////////////////////////////////////////////////////////////////////////////
 //               INITIAL MATCHES AND STREAM DATA API                                  //
 ////////////////////////////////////////////////////////////////////////////////////////
 //TODO: Authenticat UPDATES API Call. Need to pass token in here and assign to writeHead(200)
 app.get(`/api/updates`, function(req, res) {
-  //'X-Accel-Buffering': turns off server buffering for SSE to work
-  //PRODUCTION CORS : 'https://www.juicy-bets.com'
-  //TODO can you wildcard Access-control-allow-origin?
+//'X-Accel-Buffering': turns off server buffering for SSE to work
+//PRODUCTION CORS : 'https://www.juicy-bets.com'
+//TODO can you wildcard Access-control-allow-origin?
   res.writeHead(200, {
     'Access-Control-Allow-Origin': '*',
     'Content-Type': 'text/event-stream',
@@ -531,31 +420,28 @@ app.get(`/api/updates`, function(req, res) {
     'X-Accel-Buffering': 'no'
   });
 
-      //point to matches collection and watch it.
-      const collection =  client.db("MBEdge").collection("matches");
-      const changeStream = collection.watch([],{fullDocument : "updateLookup"});
+    //point to matches collection and watch it.
+    const collection =  client.db("MBEdge").collection("matches");
+    const changeStream = collection.watch([],{fullDocument : "updateLookup"});
 
-      let keepAliveMS = 45 * 1000;
+    let keepAliveMS = 45 * 1000;
 
-      function keepAlive(){
-         console.log("keep-alive");
-         res.write("event:message\n" + "data: hearbeat\n\n");
-         setTimeout(keepAlive, keepAliveMS);
-        }
-        //send SSE events back to user
-        changeStream.on('change', (next) => {
-          console.log(next.fullDocument);
-          var data = JSON.stringify(next.fullDocument);
-          var msg = ("event: message\n" + "data: " + data + "\n\n");
-          res.write(msg);
-        });
+    function keepAlive(){
+        console.log("keep-alive");
+        res.write("event:message\n" + "data: hearbeat\n\n");
         setTimeout(keepAlive, keepAliveMS);
+      }
+      //send SSE events back to user
+      changeStream.on('change', (next) => {
+        console.log(next.fullDocument);
+        var data = JSON.stringify(next.fullDocument);
+        var msg = ("event: message\n" + "data: " + data + "\n\n");
+        res.write(msg);
+      });
+      setTimeout(keepAlive, keepAliveMS);
 
-  });
+});
 
-  //View Table Matches => /api/matches
-
-  //DEV MODE add in checkAuth
 app.get('/api/matches', checkAuth, async(req, res) => {
 
     const cursor = await client.db("MBEdge").collection("matches").find().sort({"League": 1, "unixDateTimestamp":1});

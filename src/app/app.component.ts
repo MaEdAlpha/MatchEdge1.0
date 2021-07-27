@@ -120,8 +120,8 @@ export class AppComponent {
       this.isLoading = isDone;
     });
 
-    this.matchesService.view2Ups.subscribe( (unlock) => {
-      this.isEntryPoint= unlock;
+    this.matchesService.viewSubscriptionsPage.subscribe( (selectSubscriptionPage) => {
+      this.isEntryPoint = selectSubscriptionPage;
     });
   }
 

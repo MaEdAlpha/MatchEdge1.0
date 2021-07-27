@@ -2,6 +2,9 @@ import { Component, ElementRef, OnInit, Output, ViewChild, EventEmitter } from '
 import { MatDialog } from '@angular/material/dialog';
 import { UserPropertiesService } from '../services/user-properties.service';
 import { environment as env } from '../../environments/environment.prod';
+import { resolve } from 'dns';
+import { Subject } from 'rxjs';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-popup-subscribe',
@@ -13,18 +16,26 @@ export class PopupSubscribeComponent implements OnInit {
   constructor( public userPropertiesService: UserPropertiesService) { }
 
   public dialog: MatDialog;
-  public productID:string;
+  private isNewUser:boolean;
+  private plan:{promo:string, basic:string};
+  public returningSubscription: Subscription;
   @ViewChild('payPalRef', {static:true}) private payPalRef:ElementRef;
-  @Output() subActiveEvent = new EventEmitter<string>();
+
 
   ngOnInit(): void {
-
+      this.isNewUser = this.userPropertiesService.getUserAccountType();
+     this.returningSubscription = this.userPropertiesService.getSubscriptionState().subscribe( result => {
+       this.isNewUser = result.isNewUser;
+       console.log(this.isNewUser ? "Promotion Plan being used!": "Basic Plan being used!");
+     });
+     console.log(this.isNewUser ? "Promotion Plan being used!": "Basic Plan being used!");
+     this.plan = this.userPropertiesService.getPlans();
      const USER_EMAIL = this.userPropertiesService.getUserEmail();
-
+     const planID = this.isNewUser ?  this.plan.promo : this.plan.basic;
     window.paypal.Buttons({
       createSubscription: async function(data, actions) {
         return actions.subscription.create({
-          'plan_id': 'P-55U356720M569264VMD32CZI' // Creates the subscription
+          'plan_id': planID // Creates the subscription
         });
       },
       onApprove: function(data, actions) {
@@ -60,14 +71,5 @@ export class PopupSubscribeComponent implements OnInit {
 
 
     showID(){
-      fetch(env.serverUrl + '/cancel-subscription', {
-        method: 'POST',
-        headers: {
-          'content-type': 'application/json'
-        },
-        body: JSON.stringify({
-          subID: 'I-RRTYRCSWDW40 ' //track this
-        })
-      })
     }
  }

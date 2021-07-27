@@ -15,7 +15,7 @@ export class MatchesService {
   //Broadcasts WS Data
   streamDataUpdate = new EventEmitter<any>();
   loadPage = new EventEmitter<boolean>();
-  view2Ups = new EventEmitter<boolean>();
+  viewSubscriptionsPage = new EventEmitter<boolean>();
   //Creates an Observable of all Fixtures
   public matchesUpdated = new Subject<any>();
 
@@ -78,15 +78,19 @@ export class MatchesService {
   }
 
   open2Ups(){
-    this.view2Ups.emit(!true);
+    this.viewSubscriptionsPage.emit(false);
     //Re-direct to football
-    const promise: Promise<boolean> = new Promise( (resolve,reject) => {
+    new Promise( (resolve,reject) => {
       //Re-direct to football
       setTimeout(()=>{
           this.router.navigate(['/matches']);
           resolve(true);
         }, 1000);
       });
+  }
+
+  openSubscriptions(){
+    this.viewSubscriptionsPage.emit(true);
   }
 
   updateMatch(match, streamMatch){

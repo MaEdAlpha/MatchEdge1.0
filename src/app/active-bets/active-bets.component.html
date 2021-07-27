@@ -121,7 +121,7 @@
               <div class="bookiecontainer">
 
                 <div class="bookie-container-disp">
-                    <div class="bookie-text-lhs">Back Bet</div>
+                      <p class="bookie-text-lhs">Back Bet</p>
                       <button tabindex="-1" class="bookie-button-container shadow" mat-raised-button href= "" ></button>
                 </div>
 
@@ -158,7 +158,7 @@
                 <div class="exchange-container-disp" >
                   <p class="exchange-text-lhs">Lay Bet </p>
                   <button tabindex="-1" class="exchange-button-container mat-raised-button-bookie-exchange shadow" mat-raised-button href=''></button>
-                  <p class="exchange-text-comm">Comm.: {{userCommission | number:'0.2-2' }}%</p>
+
                 </div>
 
                 <div class="exchange-container-input" >
@@ -182,7 +182,10 @@
                 </div>
 
                 <div class="exchange-container-output">
-                  <div class="exchange-row" tabindex="1">
+                  <div class="exchange-row">
+                    <p class="exchange-text-comm">Comm.: {{userCommission | number:'0.2-2' }}%</p>
+                  </div>
+                  <div class="exchange-row exchange-row-button" tabindex="1">
                     <button  mat-raised-button class="bet-state-button" [disabled]="sab.isSettled"  [style.background]="sab.betState ? ' #076044' : '#8a0606'" (click)="sab.betState = !sab.betState">{{ sab.betState ? 'Matched' : 'Unmatched'}}</button>
                   </div>
                   <div class="exchange-row">
@@ -208,55 +211,58 @@
               <div class="calculated-container">
 
                 <div class='valueheadercontainer'>
+                  <div class="odds-cell">
+                    <div class="calculated-item">
+                      <span class="roi-text">ROI </span>
+                    </div>
+                    <div class="calculated-item">
+                      <hr class="ROIdivider">
+                    </div>
+                    <div class="calculated-item">
+                      <span class="ROIvalue" *ngIf="sab.isBrkzFTA == 1">{{ ROI(getGroup(i).get('Stake').value, getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value, sab.occ) | number:'0.2-2'}}%</span>
+                      <span class="ROIvalue" *ngIf="sab.isBrkzFTA == 0 || undefined">{{ ROI(getGroup(i).get('Stake').value, getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value, 65) | number:'0.2-2'}}%</span>
+                    </div>
+                  </div>
 
-                    <span class="roi-text">ROI </span>
+                  <div class="odds-cell">
                     <span class="ev-text">EV </span>
-                    <span class="mr-text">MR </span>
+                    <hr class="EVdivider">
 
-                </div>
-
-                <hr class="ROIdivider">
-                <hr class="EVdivider">
-                <hr class="MRdivider">
-
-                <div class="calculated-row">
-
-                  <span class="ROIvalue" *ngIf="sab.isBrkzFTA == 1">{{ ROI(getGroup(i).get('Stake').value, getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value, sab.occ) | number:'0.2-2'}}%</span>
-                  <span class="ROIvalue" *ngIf="sab.isBrkzFTA == 0 || undefined">{{ ROI(getGroup(i).get('Stake').value, getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value, 65) | number:'0.2-2'}}%</span>
 
                   <span class="EVvalue" *ngIf="sab.isBrkzFTA == 1">{{ TotalEV( sab.occ,  getGroup(i).get('Stake').value, getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value)/sab.occ  | currency:'GBP' }}</span>
                   <span class="EVvalue" *ngIf="sab.isBrkzFTA == 0 || undefined">{{ TotalEV( 65,  getGroup(i).get('Stake').value, getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value)/65  | currency:'GBP' }}</span>
 
-                    <span class="MRvalue">{{ NewMatchRating( getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value)  | number:'0.2-2' }}%</span>
+                  </div>
 
+                  <div class="odds-cell">
+                    <span class="mr-text">MR </span>
+                    <hr class="MRdivider">
+                    <span class="MRvalue">{{ NewMatchRating( getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value)  | number:'0.2-2' }}%</span>
+                  </div>
                 </div>
 
-
                 <div class='valueheadercontainer2'>
-
-                  <span class="FTAText">FTA </span>
-                  <span class="QLPercenttext">QL% </span>
-                  <span class="QLText">QL </span>
-
-                  </div>
-
-                  <hr class="FTAdivider">
-                  <hr class="QLPdivider">
-                  <hr class="QLdivider">
-
-                  <div class="calculated-row">
-
+                  <div class="odds-cell">
+                    <span class="FTAText">FTA </span>
+                    <hr class="FTAdivider">
                     <span class="FTAvalue">
                       {{ FTA(getGroup(i).get('Stake').value, getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value  ) | currency:'GBP'}}</span>
-
-                    <span class="QLPercentagevalue">
-                      {{ NewSS(  getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value, getGroup(i).get('Stake').value ) | number:'0.2-2' }}%</span>
-
-                    <span class="QLvalue">
-                      {{ QL( getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value, getGroup(i).get('Stake').value) | currency:'GBP'}}  </span>
-
                   </div>
 
+                  <div class="odds-cell">
+                    <span class="QLPercenttext">QL% </span>
+                    <hr class="QLPdivider">
+                    <span class="QLPercentagevalue">
+                      {{ NewSS(  getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value, getGroup(i).get('Stake').value ) | number:'0.2-2' }}%</span>
+                  </div>
+
+                  <div class="odds-cell">
+                    <span class="QLText">QL </span>
+                    <hr class="QLdivider">
+                    <span class="QLvalue">
+                       {{ QL( getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value, getGroup(i).get('Stake').value) | currency:'GBP'}}  </span>
+                  </div>
+                </div>
                </div>
 
               </div>
