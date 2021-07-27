@@ -21,8 +21,8 @@ export class CalcSettingsComponent implements OnInit {
   selectedValue: string;
 
   ftaSelection: { value:string, viewValue:string} [] = [
-    { value:'brooks', viewValue:'Juicy FTA'},
-    { value:'generic', viewValue:'1/65 Avg FTA'}
+    { value:'brooks', viewValue:'Juicy-Bets FTA'},
+    { value:'generic', viewValue:'Avg 1/65 FTA'}
   ]
 
   exchangeSelection: { value: string, viewValue: string}[] = [

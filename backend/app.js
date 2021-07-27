@@ -7,9 +7,6 @@ const jwt = require('jsonwebtoken');
 const path = require('path');
 const envFilePath = path.resolve(__dirname, './.env');
 const env = require("dotenv").config({ path: envFilePath });
-// const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY, {
-//   apiVersion: '2020-08-27'
-// });
 const checkoutNodeJssdk = require('@paypal/checkout-server-sdk');
 const paypal = require('@paypal/checkout-server-sdk');
 var request  = require('request');

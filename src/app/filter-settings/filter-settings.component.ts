@@ -56,8 +56,8 @@ export class FilterSettingsComponent implements OnInit {
       ]
 
       ftaSelection: { value:string, viewValue:string} [] = [
-        { value:'brooks', viewValue:'FTA Rating'},
-        { value:'generic', viewValue:'1/65 Average'}
+        { value:'brooks', viewValue:'Juicy-Bets FTA'},
+        { value:'generic', viewValue:'Avg 1/65 FTA'}
       ]
 
   constructor( private userPrefService: UserPropertiesService, private chRef: ChangeDetectorRef) {}
