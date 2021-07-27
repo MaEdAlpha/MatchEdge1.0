@@ -1,6 +1,7 @@
 table,
 .table-title,
 .no-content {
+  min-width: 1000px;
   width: 100%;
   margin-left: auto;
   margin-right: auto;
@@ -406,7 +407,7 @@ div.jm-exp-details {
   margin-left: -18px;
   margin-right: -138px;
   display: inline-flex;
-  justify-content: space-around;
+  justify-content: center;
   align-items: center;
   padding-top: 2px;
 }
@@ -974,7 +975,8 @@ input[type=number] {
 
 .user-comments{
   width: 110%;
-  padding-left: 5%
+  padding-left: 5%;
+  margin-top: 20px;
 }
 
 .auto-calc-input{
@@ -1097,14 +1099,23 @@ input[type=number] {
 
 
 /* Responsive layout */
+@media(max-width: 1000px){
 
-@media(min-width: 600px){
+  .logo-img-cont{
+    width: 100%;
+  }
+  .calculatedcontainer{
+    justify-content: center;
+  }
 
-  .bookie-container-disp,
-  .exchange-container-disp,
-  .calculated-container-comments{
+  .leaguename{
     display: none;
   }
+
+  .logo-img-cont{
+    width: 100%;
+  }
+
 
   .bookiecontainer,
   .exchangecontainer{
@@ -1124,18 +1135,29 @@ input[type=number] {
     width: 40px;
   }
 
+  .teamname{
+    width: 10%;
+    display: inline-flex;
+    align-items: center;
+  }
+
   .bookie{
-    width: 18%;
+    width: 25%;
+    padding-top: 7px;
+    display: flex;
+    justify-content: space-evenly;
+    margin-right: 10px;
   }
 
   .exchange{
-    width: 24%;
-    margin-left: 8px;
+    width: 31%;
     padding-top: 7px;
   }
 
-  .calculated{
-    width: 26%;
+  .calculated {
+    width: 20.5%;
+    padding-top: 7px;
+    margin-left: 13px;
   }
 
   .mat-column-backOdd > div,
@@ -1144,24 +1166,47 @@ input[type=number] {
   }
 }
 
-@media (min-width: 1000px){
+@media(min-width:1000px){
 
+  .bookie-container-disp,
+  .exchange-container-disp,
   .calculated-container-comments{
-    display: unset;
+    display: initial;
+    height: fit-content;
   }
 
-  .calculated{
-    width: unset;
-    width: 37%;
+  .bookiecontainer,
+  .exchangecontainer{
+    align-items: center;
   }
 
-  table{
-    width: 98%;
+  .teamname{
+    width: 10%;
+    width: 10%;
+    display: inline-flex;
+    align-items: center;
   }
 
-  .mat-column-backOdd > div,
-  .mat-column-layOdd > div {
-     width: 40px;
+  .bookie{
+    width: 20%;
+    padding-top: 7px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+  }
+
+  .exchange{
+    width: 27%;
+    padding-top: 7px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+  }
+
+  .calculated {
+    width:33.5%;
+    padding-top: 7px;
+    margin-left: 13px;
   }
 }
 

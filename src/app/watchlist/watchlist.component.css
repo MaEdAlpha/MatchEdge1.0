@@ -557,7 +557,7 @@ button.viewCell {
 }
 /* Responsive layout */
 
-@media(min-width: 700px){
+@media(min-width: 500px){
   .bookie-logo-home{
     margin-left: 58%;
   }
@@ -575,10 +575,11 @@ button.viewCell {
   .homeodds-container{
     justify-content: center;
     padding-right: 6px;
+    font-size: 0.8rem;
   }
   span.home-selection,
   span.away-selection{
-    font-size: 0.652rem;
+    font-size: 0.70rem;
   }
 }
 
@@ -604,7 +605,7 @@ button.viewCell {
 
   span.home-selection,
   span.away-selection{
-    font-size: 0.6rem;
+    font-size: 0.8rem;
   }
 
   span.homeOccCell,
@@ -615,7 +616,7 @@ button.viewCell {
 
 @media(min-width: 1140px){
   .bookie-logo-home{
-    margin-left: 67%;
+    margin-left: 66%;
   }
   span.BHome,
   span.BAway,

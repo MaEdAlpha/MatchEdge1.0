@@ -3,8 +3,9 @@ html, body { height: 100%; }
 
 html{
   width: 100%;
-  overflow: scroll;
-  position: relative;
+  overflow: visible !important;
+  overflow-x: scroll !important;
+  overflow-y: scroll !important;
   position: relative;
   top: 0 !important;
   left: 0 !important;
@@ -18,13 +19,14 @@ html{
 body {
   margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif;
   background-color: #263238;
-  overflow-x: scroll;
+  overflow-x: scroll !important;
+  overflow-y: scroll !important;
+  overflow: auto;
   position: absolute;
   top: 0;
   bottom: 0;
   left: 0;
   right: -17px; /* Increase/Decrease this value for cross-browser compatibility */
-  overflow-y: scroll;
 }
 
 img {
@@ -32,7 +34,11 @@ img {
   height: auto;
 }
 .mat-tab-body-content {
-  overflow: hidden;
+  overflow: scroll;
+}
+
+mat-table {
+  min-width: 1000px;
 }
 
 
@@ -40,7 +46,7 @@ img {
 .about-dialog .mat-dialog-container {
   padding: 30px;
   background-color: #37474f;
-  overflow: hidden;
+  overflow: scroll;
   border: 1px solid #f9a825;
 }
 
@@ -59,9 +65,11 @@ img {
   background: #313b40;
   border: 1px solid #f9a825;
   color: white;
-  overflow: hidden;
+  overflow: scroll;
 }
 .view-active-bets-responsive .mat-dialog-container {
+  min-width: 800px;
+  overflow-x: scroll;
   color:#ffffffec;
   background-image: linear-gradient(to top, #263238 60%, #161718e6 100%);
   border:1px solid #41555e;
@@ -73,7 +81,7 @@ img {
   background: #313b40;
   border: 1px solid #f9a825;
   color: white;
-  overflow: hidden;
+  overflow: scroll;
 }
 
 

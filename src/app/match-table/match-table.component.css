@@ -1077,7 +1077,7 @@ span.SMAway{
 
 /* Responsive layout */
 
-@media(min-width: 700px){
+@media(min-width: 500px){
   .bookie-logo-home{
     margin-left: 58%;
   }
@@ -1095,10 +1095,11 @@ span.SMAway{
   .homeodds-container{
     justify-content: center;
     padding-right: 6px;
+    font-size: 0.8rem;
   }
   span.home-selection,
   span.away-selection{
-    font-size: 0.652rem;
+    font-size: 0.70rem;
   }
 }
 
@@ -1129,7 +1130,7 @@ span.SMAway{
 
   span.homeOccCell,
   span.awayOccCell{
-    font-size: 0.70rem;
+    font-size: 0.75rem;
   }
 }
 

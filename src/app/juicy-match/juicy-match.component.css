@@ -28,6 +28,7 @@ td.mat-footer-cell:last-of-type{
 }
  table {
    height: fit-content;
+   min-width: 1000px;
 }
 .hdr-items {
   display: inline-block;
@@ -514,7 +515,7 @@ div.jm-exp-details,
   margin-left: -18px;
   margin-right: -138px;
   display: inline-flex;
-  justify-content: space-around;
+  justify-content: center;
   align-items: center;
   padding-top: 2px;
 }
@@ -1081,8 +1082,8 @@ input[type=number] {
 }
 
 .user-comments{
-  width: 110%;
-  padding-left: 5%
+  width: 135%;
+  margin-top: 20px;
 }
 
 .auto-calc-input{
@@ -1206,16 +1207,23 @@ input[type=number] {
 
 /* Responsive layout */
 
-@media(min-width: 700px){
-  .bookie-container-disp,
-  .exchange-container-disp,
-  .calculated-container-comments{
+@media(max-width: 1000px){
+
+  .logo-img-cont{
+    width: 100%;
+  }
+  .calculatedcontainer{
+    justify-content: center;
+  }
+
+  .leaguename{
     display: none;
   }
 
   .logo-img-cont{
     width: 100%;
   }
+
 
   .bookiecontainer,
   .exchangecontainer{
@@ -1235,18 +1243,29 @@ input[type=number] {
     width: 40px;
   }
 
+  .teamname{
+    width: 10%;
+    display: inline-flex;
+    align-items: center;
+  }
+
   .bookie{
-    width: 18%;
+    width: 25%;
+    padding-top: 7px;
+    display: flex;
+    justify-content: space-evenly;
+    margin-right: 10px;
   }
 
   .exchange{
-    width: 24%;
-    margin-left: 8px;
+    width: 31%;
     padding-top: 7px;
   }
 
-  .calculated{
-    width: 26%;
+  .calculated {
+    width: 20.5%;
+    padding-top: 7px;
+    margin-left: 13px;
   }
 
   .mat-column-backOdd > div,
@@ -1255,23 +1274,7 @@ input[type=number] {
   }
 }
 
-@media(max-width: 1000px){
-  .calculatedcontainer{
-    justify-content: end;
-
-  }
-
-  .leaguename{
-    display: none;
-  }
-
-  .logo-img-cont{
-    width: 100%;
-  }
-
-}
-
-@media (min-width: 1000px){
+/* @media (min-width: 10px){
 
   .calculated-container-comments{
     display: unset;
@@ -1298,14 +1301,20 @@ input[type=number] {
     width: 83%;
     max-width:85px;
   }
-}
+} */
 
-@media(min-width:1280px){
+@media(min-width:1000px){
 
   .bookie-container-disp,
   .exchange-container-disp,
   .calculated-container-comments{
     display: initial;
+    height: fit-content;
+  }
+
+  .bookiecontainer,
+  .exchangecontainer{
+    align-items: center;
   }
 
   .teamname{
@@ -1320,11 +1329,15 @@ input[type=number] {
     padding-top: 7px;
     display: flex;
     justify-content: space-evenly;
+    align-items: center;
   }
 
   .exchange{
     width: 27%;
     padding-top: 7px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
   }
 
   .calculated {
@@ -1348,10 +1361,6 @@ input[type=number] {
     height: fit-content;
     display: inline-grid;
   }
-}
-
-@media(min-width: 1366px){
-
 }
 
 @media(min-width: 1401px){
