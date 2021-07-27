@@ -20,7 +20,9 @@ h3 {
 }
 
 .header {
-  width: 15%;
+  min-width: 25%;
+  flex-grow: 1;
+  text-align: center;
 }
 .pref-stake-text{
   margin-left: 4%;
@@ -30,7 +32,6 @@ h3 {
 }
 .odds-header{
   font: 400 14px/18px Roboto, "Helvetica Neue", sans-serif;
-  width: fit-content;
 }
 .stake-header {
   width: 30%;
@@ -60,6 +61,11 @@ form {
   margin-right: auto;
 }
 
+.pref-stake-column{
+  width: 25%;
+  text-align: center;
+}
+
 .preferred-stake-cont{
   margin-left: 0%;
 }
@@ -67,10 +73,12 @@ form {
   width: 100%;
   display: inline-flex;
   justify-content: space-between;
+  margin-bottom: 2px;
 }
 
 .stake-range {
-  display: inline-block;
+  display: inline-flex;
+  justify-content: center;
 }
 
 .stake-input-cont{
@@ -79,11 +87,12 @@ form {
 
 .stake-input {
   border: 1px solid #263238;
-  background: #3a4a52;
-  opacity: 0.5;
+  background: #ffffff;
+  color: black;
+  font-weight: 500;
+  opacity: 0.9;
   text-align: center;
-  width: 30%;
-  margin-left: 20px;
+  width: 10%;
 }
 
 input::placeholder {
@@ -202,7 +211,7 @@ input.ng-invalid.ng-touched {
   }
 
   .pref-stake-form{
-    width: 40%;
+    width: 90%;
   }
 
   .exchange-container,

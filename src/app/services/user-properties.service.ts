@@ -87,6 +87,8 @@ export class UserPropertiesService {
                                   "10.01 - 12.00",
                                   "12.01 - 14.00",
                                   "   > 14.0 "];
+
+  private oddsRangeUpperLimit: number[]= [2,3,4,5,6,8,10,12,14,14]
   //ViewTable User Preferences
   private viewTablePrefs: TablePreferences = {
     timeRange: 'Today & Tomorrow',
@@ -250,8 +252,12 @@ export class UserPropertiesService {
   }
 
 
-  accessOddsRange() {
+  accessOddsRange(): string[] {
     return this.oddsRange;
+  }
+
+  accessOddsRangeUpperLimit(): number[] {
+    return this.oddsRangeUpperLimit;
   }
 
   saveCalcSettings(calcPref) {

@@ -11,6 +11,8 @@
           <div class="header-container">
             <p class="odds-header header">Odds Range</p>
             <p class="stake-header header">Stake (£)</p>
+            <p class="header"> ~ Liability / bet</p>
+            <p class="header"> ~ FTA Return</p>
           </div>
 
 
@@ -18,12 +20,11 @@
             <div *ngFor="let stake of stakes.controls; index as i;">
 
               <div class="stake-field-cont">
-                <div class="stake-range">
+                <div class="stake-range pref-stake-column">
                   <p>{{stakeRanges[i]}} </p>
                 </div>
-                <div class="stake-input-cont">
-                    <input
-                    class="stake-input"
+                <div class="stake-input-cont pref-stake-column ">
+                    <input class="stake-input"
                     type="number"
                     step="1"
                     matInput
@@ -31,6 +32,12 @@
                     value="{{userStakes[i]}}"
                     placeholder="Stake"
                     required>
+                </div>
+                <div class="pref-stake-column">
+                  £{{userStakes[i] * (oddsRangeUpperLimit[i]-1)}}
+                </div>
+                <div class="pref-stake-column">
+                  £ {{userStakes[i] * oddsRangeUpperLimit[i]}}
                 </div>
               </div>
             </div>

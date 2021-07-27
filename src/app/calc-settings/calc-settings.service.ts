@@ -18,6 +18,10 @@ export class CalcSettingsService {
     return this.userPropertiesService.accessOddsRange();
   }
 
+  getOddsRangeUpperLimit():number[]{
+    return this.userPropertiesService.accessOddsRangeUpperLimit();
+  }
+
   saveToUserProfile(calcPref: CalcSettings[]) {
     this.userPropertiesService.saveCalcSettings(calcPref);
   }

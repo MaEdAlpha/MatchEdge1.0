@@ -30,6 +30,7 @@ export class CalcSettingsComponent implements OnInit {
   ]
 
 
+  oddsRangeUpperLimit: number[];
   stakeRanges: string[];
   defaultStakes: CalcSettings[];
   userStakes: CalcSettings[];
@@ -38,6 +39,7 @@ export class CalcSettingsComponent implements OnInit {
 
   ngOnInit(): void {
     this.stakeRanges = this.calcSettingsService.getRanges();
+    this.oddsRangeUpperLimit = this.calcSettingsService.getOddsRangeUpperLimit();
     this.userStakes = this.userPropertiesService.getUserSettings().preferences.userPrefferedStakes;
     console.log("USERSTAKES");
     //for some reason, this comes back just as an array of stakes, without [{stakes:number, lowOdds:number, highOdds:number}]
