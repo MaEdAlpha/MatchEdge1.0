@@ -5,7 +5,7 @@ table, .table-title, .no-content {
   margin-right: auto;
 }
 .form-container {
-  height: 100%;
+  height: 98%;
 }
 
 th.mat-header-cell:first-of-type,
@@ -109,8 +109,9 @@ tr.juicyMatch-row:not(.juicyMatch-expanded-row):active { /* when main container 
 .juicyMatch-detail { /* hides juicy detaisl */
   overflow: hidden;
   background:whitesmoke;
-  height: 100%;
+  height: auto;
 }
+
 .selection {
   text-align: center;
 
@@ -118,10 +119,8 @@ tr.juicyMatch-row:not(.juicyMatch-expanded-row):active { /* when main container 
 
 .leaguename>p{
   text-align: center;
-  margin-top: -5px;
-  margin-bottom: 0px;
-  font-size: smaller;
-  width: 75%;
+  font-size: small;
+  width: 90%;
   margin-left: auto;
   margin-right: auto;
   line-height: 17px;
@@ -358,9 +357,17 @@ div.jm-exp-details {
   background: #d2d2d2;
 }
 /* Parent container for all back and lay bet details excluding logo*/
+div.jm-exp-details,
+.expanded-content,
+.jm-expanded-container {
+  height: inherit;
+}
+/* Parent container for all back and lay bet details excluding logo*/
 .jm-expanded-container {
   width: 100%;
-  display: inline-block;
+  display: inline-flex;
+  padding-bottom: 10px;
+  justify-content: start;
 }
 
 
@@ -441,24 +448,32 @@ div.jm-exp-details {
 .teamname,
 .bookie,
 .exchange,
-.calculated
-{
+.calculated {
   display: inline-flex;
   float: left;
   text-align: center;
-  height: 100%;
+  height: 105px;
   padding-top: 0px;
   padding-bottom:0px;
 }
 
+.teacmnamecontainer,
+.bookiecontainer,
+.exchangecontainer,
+.calculatedcontainer {
+  height: 95%;
+}
+
 .teamnamecontainer{
-  border-style: solid;
+    border-style: solid;
     width: 100%;
-    height: 83%;
+    height: 100%;
+    display: flex;
     color: #263238;;
     padding-left: 0px;
+    border:3px solid white;
     border-radius: 35px;
-    background: radial-gradient(at 60% 0, #ffffff, transparent 80%), linear-gradient(5deg, #939393, transparent 80%) bottom;
+    background: radial-gradient(at 85% 0, #ffffffb5, #00000033 80%), linear-gradient(24deg, #939393, white 39%) bottom;
     margin-left: 5px;
     margin-right: 0;
 }
@@ -466,7 +481,7 @@ div.jm-exp-details {
 .bookiecontainer{
   border-style: solid;
     width: 86%;
-    height: 83%;
+
     color: #538878;
     padding-left: 0px;
     border-radius: 35px;
@@ -477,9 +492,8 @@ div.jm-exp-details {
 }
 
 .exchangecontainer{
-  border-style: solid;
     width: 100%;
-    height: 83%;
+    border: 3px solid #19222b;
     color: #ffffff;
     padding-left: 0px;
     border-radius: 35px;
@@ -489,17 +503,20 @@ div.jm-exp-details {
 }
 
 .calculatedcontainer{
-  border-style: solid;
-    width: -webkit-fill-available;
-    height: 83%;
-    color: #487e92;
-    padding-left: 0px;
-    border-radius: 35px;
-    background: radial-gradient(at 111% 0, #4f8ca2, #172329 66%), linear-gradient( 231deg, #383838, transparent 80%) bottom;
-    margin-left: -18px;
-    margin-right: -138px;
-    display: inline-flex;
-    padding-top: 2px;
+  border: 3px solid #2d4d5a;
+  width: -webkit-fill-available;
+  color: #487e92;
+  height: 93%;
+  padding-left: 0px;
+  border-radius: 35px;
+  background: radial-gradient(at 111% 0, #4f8ca2, #172329 66%),
+              linear-gradient(231deg, #383838, transparent 80%) bottom;
+  margin-left: -18px;
+  margin-right: -138px;
+  display: inline-flex;
+  justify-content: space-around;
+  align-items: center;
+  padding-top: 2px;
 }
 
 .teamname{
@@ -517,20 +534,19 @@ div.jm-exp-details {
 
 .calculated {
   width:34%;
-  height: 95%;
   padding-top: 7px;
   margin-left: 13px;
 }
 
 .match-date {
   margin-left: 10px;
-  width: fit-content;
+  width: 75px;
+  font-size: 0.76rem;
 }
 
 .mat-hint{
   color: white;
 }
-
 
 
 .exchange>b{
@@ -544,7 +560,6 @@ div.jm-exp-details {
   height: 24px;
   box-sizing: border-box;
   border: 0.5px solid #31715d;
-  margin-top: 40px;
 }
 
 .exchange-button-container{
@@ -554,18 +569,29 @@ div.jm-exp-details {
   width: 80px;
   height: 24px;
 }
+
 .teamname-container {
-  width: 100%;
-  float: left;
-  padding-top: 6px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
+
 .bookie-container {
   width: 50%;
-  padding-top: 9px;
+  /* padding-top: 4px; */
+  padding-right: 1px;
 }
+
 .bookie-container-disp {
   width: 50%;
-  padding-top: 17px;
+}
+
+.exchange-container-disp {
+  height: 100%;
+  justify-content: center;
+  display: inline-grid;
+  align-items: center;
+ /* margin-top: 3px; */
 }
 
 .exchange-container-disp,
@@ -574,31 +600,37 @@ div.jm-exp-details {
   width: 33%;
 }
 
-.exchange-container-disp {
- margin-top: 14px;
-}
-.exchange-container-input{
-  margin-top: 9px;
-}
-.exchange-container-output{
-  margin-top: 7px;
-  margin-left: 8px;
+.exchange-container-output {
+  height: fit-content;
+  display: inline-grid;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
 }
 
 .bookie-row,
 .exchange-row {
   display: inline-flex;
   width: 100%;
+  justify-content: center;
 }
 
+.exchange-row-button {
+  width: 120px;
+  margin: 0px;
+}
+
+/*
 .bookie-row,
 .exchange-row{
-  margin-top: 5px;
-}
-
+   margin-top: 5px;
+ }
+ */
 .exchange-text-comm{
   font: 400 10px/20px Roboto, "Helvetica Neue", sans-serif;
   letter-spacing: normal;
+  width: 100%;
+  margin-bottom: 2px;
 }
 
 .bookie-text-lhs,
@@ -606,7 +638,10 @@ div.jm-exp-details {
 color: #ececec;
 float: left;
 font-size: large;
-margin-top: 7px;
+}
+
+.exchange-text-lhs{
+  margin-bottom: 13px;
 }
 
 .bookie-text-rhs,
@@ -621,11 +656,12 @@ margin-top: 7px;
 .exchange-text-rhs {
   width: 18%;
   margin-right: 20px;
-  margin-top: 10px;
-  padding-top: 4px;
+  margin-top: 11px;
+  padding-top: 0px;
   margin-bottom: 0px;
   font-size: 14px;
 }
+
 .bookie-text-lhs,
 .exchange-text-lhs {
   width: 100%;
@@ -639,25 +675,24 @@ margin-top: 7px;
   text-align: center;
   vertical-align: middle;
   margin-top: 5%;
-  }
+}
+
 .bookie-button-style {
   vertical-align: middle;
   justify-items: center;
   width: 20%;
   position: relaative;
-
 }
 
 .liability-text,
 .liability-amount {
   width: fit-content;
   padding-top: 5%;
-  margin-left: auto;
   font-size: small;
+  margin: 0px;
 }
 
 .liability-amount{
-  margin-right: auto;
   margin-left: 5px;
   font-size: small;
 }
@@ -665,11 +700,13 @@ margin-top: 7px;
 .exchange-atodds-style {
   width: 100%;
   padding-top: 8%;
-  }
+}
+
 .exchange-liability-style {
 width: 100%;
 padding-top: 8%;
 }
+
 .exchange-layamount-style {
   width: 100%;
   font-size: large;
@@ -678,34 +715,27 @@ padding-top: 8%;
   text-align: center;
   vertical-align: middle;
   margin-top: 5%;
-  }
+}
 
 .exchange-button-style {
   vertical-align: middle;
   justify-items: center;
   width: 20%;
   height: 100%;
-  }
-
-
+}
 
 .exp-button{
-  height: 106px;
-  right: -95px;
-  top: 1px;
-  width: -21px;
-  min-width: 40px;
-  width: -moz-fit-content;
+  height: 105px;
+  right: -97px;
+  top: 0px;
+  min-width: 42px;
   line-height: 13px;
-  padding: 0px;
-  border: 1px solid #214549;
+  padding: 2px;
+  border: 1px solid #2d4d5a;
   border-radius: 0px 33px 33px 0px;
-  box-shadow: 0px 0px 10px -1px #ffffff;
-  background: radial-gradient(at 47% 42%, #126E51, #00000061 74%), linear-gradient(
-5deg
-, #095940, #0000002b 80%) bottom;
+  background: radial-gradient(at 47% 42%, #126E51, #00000061 74%), linear-gradient(5deg, #095940, #0000002b 80%) bottom;
+  box-shadow: 0px 0px 10px -1px #ffffffa8;
   color: #e6b522;
-
 }
 
 .record-text {
@@ -718,7 +748,6 @@ padding-top: 8%;
 .button-container {
   width: 165px;
 }
-
 
 .r1, .r2 {
   width: 35%;
@@ -750,28 +779,26 @@ padding-top: 8%;
   margin-right: auto;
 }
 
-
 .calculated-value-fta-ql{
   font-size: 120%;
 }
+
 .calculated-value-lhs,
 .calculated-text-lhs {
   font-size: 90%;
 }
-
-
 
 .last-dividers{
   width: 85%;
   margin-top: -1px;
   margin-left: 0px;
 }
+
 .selection-figures {
   display: inline-flex;
   width: 50%;
   justify-content: space-around;
 }
-
 
  input::placeholder {
   background: #fff;
@@ -781,16 +808,12 @@ padding-top: 8%;
 
 .bet-state-button {
   color: white;
-  width: 95px;
+  width: 77%;
   line-height: 20px;
-  margin-top: 12px;
-  margin-bottom: 4px;
   font-size: 12px;
   padding: 1px;
   text-align: center;
   box-shadow: 0px 0px 7px -1px #ffffff;
-  margin-left: auto;
-  margin-right: auto;
 }
 
 p.betState {
@@ -807,9 +830,7 @@ th.mat-sort-header-sorted {
   color: black;
 }
 
-.b3-odd-cont,
-.sm-odd-cont,
-.fta-value-cont {
+.b3-odd-cont, .sm-odd-cont, .fta-value-cont {
   height: 29px;
   color: #fff;
   background-size: contain;
@@ -819,7 +840,10 @@ th.mat-sort-header-sorted {
   border-radius: 3px;
 }
 
-.b3-odd-cont,
+.b3-odd-cont {
+  min-height: 39px;
+}
+
 .sm-odd-cont {
   min-height: 39px;
 }
@@ -836,9 +860,10 @@ th.mat-sort-header-sorted {
 
 .odd-text {
   position: relative;
-  top: 20%;
-  left: 18%;
+  top: 22%;
+  left: 6%;
 }
+
 .fta-value-text {
   position: absolute;
   top: 7px;
@@ -848,16 +873,45 @@ th.mat-sort-header-sorted {
   font-weight: 500;
 }
 
-
-
-th.mat-column-Fixture, th.mat-column-EventStart, th.mat-column-Selection {
+/* column headers */
+th.mat-column-created,
+th.mat-column-stake,
+th.mat-column-fixture,
+th.mat-column-backOdd,
+th.mat-column-layOdd,
+th.mat-column-occ,
+th.mat-column-ql,
+th.mat-column-isSettled,
+th.mat-column-matchDetail,
+th.mat-column-selection,
+th.mat-column-pl,
+th.mat-column-delete {
+  color: #ffbf0e;
+  font-size: small;
+  font-weight: 400;
+  border-right: 1px solid #43535c;
   background: #263238;
-    color: #263238;
 }
+
+th.mat-column-isSettled {
+  width: 100px;
+}
+
+
+td.mat-column-fixture {
+  font-weight: 400;
+  width: 128px;
+}
+
+.mat-column-selection {
+  width: 140px;
+}
+
 ::ng-deep.mat-sort-header-content{
   margin-left: auto;
-  margin-right: auto;
+  padding: 4px;
 }
+
 ::ng-deep.mat-sort-header-arrow {
   color: #ffbf0e;
 }
@@ -867,15 +921,134 @@ span.calculated-value{
 }
 
 .touchRow {
-  background:#ffc2358f;
+  background:#ffc235;;
+}
+
+.sidenav-content {
+  display: flex;
+  height: 100%;
+}
+
+::ng-deep.mat-drawer-container.mat-drawer-container{
+  float: right;
+  width: fit-content;
+}
+
+.delete-container {
+  padding: 0px;
+}
+
+.delete-sidenav {
+  padding: 0px;
+}
+
+.confirm-delete {
+  background: #8a0606;
+  color: white
+}
+
+.settle-bet-cont{
+  display: inline-flex;
+  width: 100%;
+  justify-content: space-around;
+}
+
+.chevron-right,
+.chevron-locked{
+  width: 100%;
+}
+
+.chevron-locked {
+  text-align: center;
+  margin-top: 13px;
+  display: inherit;
+  padding-right: 7px;
+}
+
+.settled-row {
+    opacity: 0.8;
+    box-shadow: 0px;
+    background: #f9a825;
+    height: -webkit-fill-available;
+}
+
+.unmatched-text{
+  background: #8a0606e0;
+  height: -webkit-fill-available;
+  color: white;
+  border-radius: 6px;
+}
+
+.unmatched-text>p{
+  margin:0px;
+  padding: 4px;
+}
+
+.sbet{
+  display: inline;
+}
+
+.settled-overlay{
+  background: #263238;
+  top: 6px;
+  color: #dbab18;
+  border-radius: 3px;
+  box-shadow: 3px 2px 15px 1px #5f5f5f;
+  cursor: pointer;
+  width: 100%;
+  margin: 0px;
+}
+
+.hidden-input {
+  display: inline;
+  visibility: hidden;
+}
+
+.status-button {
+  color: #8a0606;
+  cursor: pointer;
+}
+
+.status-button:hover {
+  border: 1px solid #8a0606;
+}
+
+.btn-default {
+  background: #ffffff;
+  color: #263238;
+  border-radius: 3px;
+  border: 1px solid #2a363c5c;
+  cursor: pointer;
 }
 
 .mr-overlay {
   opacity: 0.9;
 }
 
+.pl-label {
+  color: #131212;
+}
+
+.status-btn:hover {
+  color: #eba32f;
+}
+
+.pl-input {
+  width: 60px;
+  max-height: 30px;
+  margin-bottom: 20px;
+}
+
+.status-btn {
+  width: 64px;
+  font-size: 0.65rem;
+  padding: 0px;
+  border: 1px solid #c3bbbb;
+}
+
 .mr-overlay>td>div>span.mr7box {
   color: red;
+  cursor: pointer;
 }
 
 /* Input increment arrow hide */
@@ -889,7 +1062,13 @@ input[type=number] {
   -moz-appearance: textfield;
 }
 
+.calculated-container {
+  margin-top: 5px;
+  width: 50%;
+}
+
 .calculated-container-comments{
+  height: fit-content;
   width: 33%;
   float: left;
   padding-top: 5px;
@@ -908,121 +1087,267 @@ input[type=number] {
 
 .auto-calc-input{
   height: 35px;
+  font-size: 12px;
   color: white;
-}
-.valueheadercontainer{
-  margin-bottom: -10px;
-  margin-top: 5px;
 }
 
 .valueheadercontainer,
 .valueheadercontainer2{
-  line-height: 15px;
+  line-height: 5px;
+  display: inline-flex;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.caclulated-container{
+  width: 50%;
+}
+
+.odds-cell{
+  display: inline-block;
+  justify-content: center;
+  width: 30%;
+  height: 40px;
 }
 
 .roi-text{
   color: white;
-  padding-left: 35px;
 }
 .ev-text{
-  padding-left: 80px;
-  padding-right: 80px;
   color: white;
 }
 .mr-text{
   color: white;
-  padding-right: 40px
 }
-.ROIdivider, .EVdivider, .MRdivider, .FTAdivider, .QLPdivider, .QLdivider{
-  margin-top: -1px !important;
-    width: 18% !important;
-    border: 1px solid #aa8920 !important;
-    display: inline-flex;
-    margin-right: 5px;
-    padding-right: 38px;
-    margin-bottom: 0px;
+
+.ROIdivider,
+.EVdivider,
+.MRdivider,
+.FTAdivider,
+.QLPdivider,
+.QLdivider{
+  width: 25% !important;
+  border: 1px solid #aa8920 !important;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 6px;
+  margin-bottom: 10px;
 }
+
 .calculated-row
 {
   position: relative;
-  line-height: 8px;
 }
+
 .ROIvalue{
   color: white;
-  font-size: 95%;
-  position: absolute;
-  left :9%;
 }
+
 .EVvalue{
   color: white;
   font-size: 95%;
   color: white;
   font-size: 95%;
-  position: absolute;
-  left: 44%;
 }
+
 .MRvalue{
   color: white;
   font-size: 95%;
-  position: absolute;
-  left: 76%;
 }
-.valueheadercontainer2{
-  margin-top: 23px;
-  margin-bottom: -9px;
-}
+
 .FTAText{
   color: white;
-  padding-left: 25px;
-  padding-right: 20px;
 }
+
 .QLPercenttext{
-  padding-left: 55px;
-    padding-right: 72px;
-    color: white;
+  color: white;
 }
+
 .QLText{
   color: white;
-  padding-right: 35px
 }
+
 .FTAvalue{
   color: white;
   font-size: 95%;
-  position: absolute;
-  left :8%;
 }
+
 .QLPercentagevalue{
   color: white;
   font-size: 95%;
-  color: white;
-    font-size: 95%;
-    position: absolute;
-    left: 44%;
-
 }
+
 .QLvalue{
   color: white;
   font-size: 95%;
-  position: absolute;
-  left: 76%;
 }
+
+.record-text {
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+  font-size: 11px;
+  outline: none;
+}
+
+.unsettled-bet {
+  font-size: 20px;
+  font-weight: 400;
+  margin: 0px;
+}
+
+.settled-bet-value {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #1d262b;
+  margin: 0px;
+}
+
+
 
 /* Responsive layout */
 
 @media(min-width: 700px){
+  .bookie-container-disp,
+  .exchange-container-disp,
+  .calculated-container-comments{
+    display: none;
+  }
+
+  .logo-img-cont{
+    width: 100%;
+  }
+
+  .bookiecontainer,
+  .exchangecontainer{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+  }
+
+  .value-box-back,
+  .value-box-laystake,
+  .value-box-lay,
+  .selection-box{
+    min-width: 40px;
+  }
+
+  input {
+    width: 40px;
+  }
+
+  .bookie{
+    width: 18%;
+  }
+
+  .exchange{
+    width: 24%;
+    margin-left: 8px;
+    padding-top: 7px;
+  }
+
+  .calculated{
+    width: 26%;
+  }
+
+  .mat-column-backOdd > div,
+  .mat-column-layOdd > div {
+     width: 30px;
+  }
+}
+
+@media(max-width: 1000px){
+  .calculatedcontainer{
+    justify-content: end;
+
+  }
+
+  .leaguename{
+    display: none;
+  }
+
+  .logo-img-cont{
+    width: 100%;
+  }
 
 }
 
 @media (min-width: 1000px){
 
+  .calculated-container-comments{
+    display: unset;
+  }
+
+  .calculated{
+    width: unset;
+    width: 37%;
+  }
+
+  table{
+    width: 98%;
+  }
+
+  .mat-column-backOdd > div,
+  .mat-column-layOdd > div {
+     width: 40px;
+  }
 }
 
 @media(min-width: 1140px){
 
+  .logo-cell>img{
+    width: 83%;
+    max-width:85px;
+  }
+}
+
+@media(min-width:1280px){
+
+  .bookie-container-disp,
+  .exchange-container-disp,
+  .calculated-container-comments{
+    display: initial;
+  }
+
+  .teamname{
+    width: 10%;
+    width: 10%;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .bookie{
+    width: 20%;
+    padding-top: 7px;
+    display: flex;
+    justify-content: space-evenly;
+  }
+
+  .exchange{
+    width: 27%;
+    padding-top: 7px;
+  }
+
+  .calculated {
+    width:33.5%;
+    padding-top: 7px;
+    margin-left: 13px;
+  }
 }
 
 @media(min-width: 1300px){
 
+  .bookiecontainer,
+  .exchange-container-disp,
+  .exchangecontainer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .exchange-container-disp {
+    height: fit-content;
+    display: inline-grid;
+  }
 }
 
 @media(min-width: 1366px){
@@ -1030,26 +1355,49 @@ input[type=number] {
 }
 
 @media(min-width: 1401px){
-  .table-container{
+
+  .mat-table{
     width: 90%;
     margin-left: auto;
     margin-right: auto;
   }
+
+  .logo-img-cont>img {
+    width: 30%;
+  }
+
+  .calculated {
+    width:33.5%;
+  }
 }
 
 @media(min-width: 1500px){
+  .logo-img-cont>img {
+    max-width: 35%;
+  }
 
+  .calculated {
+    width:34%;
+  }
 }
 
 @media(min-width:1600px){
-
+  .calculated {
+    width:34.5%;
+  }
 }
 
-@media(min-width:1700px){
 
+@media(min-width:1800px){
+  .calculated {
+    width:35.6%;
+  }
 }
 
-@media(min-width:1801px){
+@media(min-width:1900px){
+  .calculated {
+    width:36%;
+  }
 
 }
 

@@ -6,7 +6,6 @@ table,
   margin-right: auto;
 }
 
-
 mat-icon.chevron-right {
   margin-top: 10px;
 }
@@ -194,7 +193,7 @@ tr.sab-row:not(.sab-expanded-row):active{ /* when main container clicked, change
 
 .logo-img-cont{
   width: 100%;
-  height: 100%;
+  height: auto;
 }
 
 .logo-cell>img{
@@ -366,7 +365,7 @@ div.jm-exp-details {
     padding-left: 0px;
     border:3px solid white;
     border-radius: 35px;
-    background: radial-gradient(at 60% 0, #ffffff, transparent 80%), linear-gradient(5deg, #939393, transparent 80%) bottom;
+    background: radial-gradient(at 50% 0, #000000, #00000033 80%), linear-gradient(5deg, #939393, transparent 80%) bottom;
     margin-left: 5px;
     margin-right: 0;
 }
@@ -1202,7 +1201,7 @@ input[type=number] {
   }
 
   .calculated {
-    width:36%;
+    width:33.5%;
     padding-top: 7px;
     margin-left: 13px;
   }
@@ -1239,11 +1238,19 @@ input[type=number] {
   .logo-img-cont>img {
     width: 64%;
   }
+
+  .calculated {
+    width:33.5%;
+  }
 }
 
 @media(min-width: 1500px){
   .logo-img-cont>img {
     max-width: 64%;
+  }
+
+  .calculated {
+    width:34%;
   }
 }
 

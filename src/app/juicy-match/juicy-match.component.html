@@ -155,11 +155,8 @@
                             <p class="liability-text">Liab.:</p>
                             <p class="liability-amount">{{ Liability(getGroup(i).get('LayOdds').value, LayStake(getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value, getGroup(i).get('Stake').value)) | currency:'GBP'}} </p>
                           </div>
-
                         </div>
-
                       </div>
-
                     </div>
 
                     <div class="calculated shadow">
@@ -169,8 +166,7 @@
                         <div class="comments-cont">
                           <mat-form-field tabindex="1" class="user-comments" appearance="outline">
                             <mat-label class="auto-calc-label">Comments | {{selectionValues.value.MatchInfo == null ? selectionValues.value.MatchInfo == ' ' : selectionValues.value.MatchInfo.length}}/140</mat-label>
-                            <textarea class="auto-calc-input" formControlName="MatchInfo" matInput placeholder=""></textarea>
-                            <mat-error *ngIf="selectionValues.controls.MatchInfo.errors">{{getErrorMessage()}} </mat-error>
+                            <textarea class="auto-calc-input" formControlName="MatchInfo" matInput [maxlength]="140" placeholder=""></textarea>
                           </mat-form-field>
                         </div>
                       </div>
@@ -178,49 +174,88 @@
                       <div class="calculated-container">
 
                         <div class='valueheadercontainer'>
-                            <span class="roi-text">ROI </span>
-                            <span class="ev-text">EV </span>
-                            <span class="mr-text">MR </span>
+
+                          <div class="odds-cell">
+                            <div class="calculated-item">
+
+                              <span class="roi-text">ROI </span>
+                              <hr class="ROIdivider">
+
+                              <span class="ROIvalue" *ngIf="ftaOption == 'brooks'">
+                                {{ ROI(getGroup(i).get('Stake').value, getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value, selection.FTAround) | number:'0.2-2'}}%
+                              </span>
+
+                              <span class="ROIvalue" *ngIf="ftaOption == 'generic'">
+                                {{ ROI(getGroup(i).get('Stake').value, getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value, selection.GFTAround) | number:'0.2-2'}}%
+                              </span>
+
+                            </div>
+                          </div>
+
+                          <div class="odds-cell">
+                            <div class="calculated-item">
+
+                              <span class="ev-text">EV </span>
+                              <hr class="EVdivider">
+
+                              <span class="EVvalue" *ngIf="ftaOption == 'brooks'">
+                                {{ TotalEV( selection.FTAround,  getGroup(i).get('Stake').value, getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value)/selection.FTAround  | currency:'GBP' }}
+                              </span>
+
+                              <span class="EVvalue" *ngIf="ftaOption == 'generic'">
+                                {{ TotalEV( selection.GFTAround,  getGroup(i).get('Stake').value, getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value)/selection.GFTAround  | currency:'GBP' }}
+                              </span>
+
+                            </div>
+                          </div>
+
+                          <div class="odds-cell">
+                            <div class="calculated-item">
+
+                              <span class="mr-text">MR </span>
+                              <hr class="MRdivider">
+                              <span class="MRvalue">
+                                {{ NewMatchRating( getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value)  | number:'0.2-2' }}%
+                              </span>
+
+                            </div>
+                          </div>
                         </div>
 
-                        <hr class="ROIdivider">
-                        <hr class="EVdivider">
-                        <hr class="MRdivider">
-
-                        <div class="calculated-row">
-
-                            <span class="ROIvalue" *ngIf="ftaOption == 'brooks'">{{ ROI(getGroup(i).get('Stake').value, getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value, selection.FTAround) | number:'0.2-2'}}%</span>
-                            <span class="ROIvalue" *ngIf="ftaOption == 'generic'">{{ ROI(getGroup(i).get('Stake').value, getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value, selection.GFTAround) | number:'0.2-2'}}%</span>
-
-                            <span class="EVvalue" *ngIf="ftaOption == 'brooks'">{{ TotalEV( selection.FTAround,  getGroup(i).get('Stake').value, getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value)/selection.FTAround  | currency:'GBP' }}</span>
-                            <span class="EVvalue" *ngIf="ftaOption == 'generic'">{{ TotalEV( selection.GFTAround,  getGroup(i).get('Stake').value, getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value)/selection.GFTAround  | currency:'GBP' }}</span>
-
-                            <span class="MRvalue">{{ NewMatchRating( getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value)  | number:'0.2-2' }}%</span>
-
-                        </div>
 
                         <div class='valueheadercontainer2'>
 
-                          <span class="FTAText">FTA </span>
-                          <span class="QLPercenttext">QL% </span>
-                          <span class="QLText">QL </span>
+                          <div class="odds-cell">
+                            <div class="calculated-item">
 
+                              <span class="FTAText">FTA </span>
+                              <hr class="FTAdivider">
+                              <span class="FTAvalue"> {{ FTA(getGroup(i).get('Stake').value, getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value  ) | currency:'GBP'}}</span>
+
+                            </div>
                           </div>
 
-                          <hr class="FTAdivider">
-                          <hr class="QLPdivider">
-                          <hr class="QLdivider">
+                          <div class="odds-cell">
+                            <div class="calculated-item">
 
-                          <div class="calculated-row">
+                              <span class="QLPercenttext">QL% </span>
+                              <hr class="QLPdivider">
+                              <span class="QLPercentagevalue">{{ NewSS(  getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value, getGroup(i).get('Stake').value ) | number:'0.2-2' }}%</span>
 
-                            <span class="FTAvalue"> {{ FTA(getGroup(i).get('Stake').value, getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value  ) | currency:'GBP'}}</span>
-                            <span class="QLPercentagevalue">{{ NewSS(  getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value, getGroup(i).get('Stake').value ) | number:'0.2-2' }}%</span>
-                            <span class="QLvalue"> {{ QL( getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value, getGroup(i).get('Stake').value) | currency:'GBP'}}  </span>
-
+                            </div>
                           </div>
 
+                          <div class="odds-cell">
+                            <div class="calculated-item">
+
+                              <span class="QLText">QL </span>
+                              <hr class="QLdivider">
+                              <span class="QLvalue"> {{ QL( getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value, getGroup(i).get('Stake').value) | currency:'GBP'}}  </span>
+
+                            </div>
+                          </div>
+                          </div>
                        </div>
-
                       </div>
                       <button tabindex="0" mat-raised-button class="exp-button" type="button" (click)="saveAsActiveBet(selection, i)"><span class="record-text">RECORD</span></button>
                     </div>
@@ -228,8 +263,6 @@
                 </div>
                 </form>
               </ng-container>
-
-
               </div>
             </td>
           </ng-container>

@@ -30,7 +30,6 @@
     <div class="opt-obj-cont">
 
         <div class="obj-cont">
-          <div class="vertical-spacer"></div>
 
           <ng-container *ngIf="!isLoading else showLoadingSpinner">
 
@@ -41,7 +40,7 @@
                   <img  class="manage-payments-img" src="../../assets/img/ManagePaymentsLogo.png" alt="">
                 </div>
                 <div class="sport">
-                  <h2> Manage <br> Subscriptions & Billing</h2>
+                  <h2> Subscriptions & Billing</h2>
                 </div>
               </div>
               <div class="option-wrapper active-wrapper">
@@ -74,7 +73,6 @@
         <ng-template #showLoadingSpinner>
           <app-loading [isLoading]="isLoading"></app-loading>
         </ng-template>
-        <div class="vertical-spacer"></div>
       </div>
 
         <div class="info-container">
