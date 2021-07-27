@@ -1126,7 +1126,7 @@ input[type=number] {
 .FTAdivider,
 .QLPdivider,
 .QLdivider{
-  width: 25% !important;
+  width: 45% !important;
   border: 1px solid #aa8920 !important;
   margin-left: auto;
   margin-right: auto;
