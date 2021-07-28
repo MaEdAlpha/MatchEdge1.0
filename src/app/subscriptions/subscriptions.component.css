@@ -18,6 +18,14 @@
 .sport > h2{
   color: #ffc235;
   text-align: center;
+  margin: 0px;
+}
+
+.welcom-msg {
+  margin-bottom: 5px;
+}
+.welcome-msg>h2,h3{
+  margin-bottom: 0px;
 }
 
 .opt-cont{
@@ -261,9 +269,7 @@ li{
   .info-title{
     font-size: 2rem;
   }
-  .welcome-msg>h2,h3{
-    margin-bottom: 30px;
-  }
+
   .info-wrapper{
     font-size: 1.314159265359rem;
   }

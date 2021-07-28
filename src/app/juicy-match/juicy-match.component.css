@@ -115,7 +115,6 @@ tr.juicyMatch-row:not(.juicyMatch-expanded-row):active { /* when main container 
 
 .selection {
   text-align: center;
-
 }
 
 .leaguename>p{
@@ -601,6 +600,10 @@ div.jm-exp-details,
   width: 33%;
 }
 
+.exchange-container-input{
+  width: 40%;
+}
+
 .exchange-container-output {
   height: fit-content;
   display: inline-grid;
@@ -621,12 +624,6 @@ div.jm-exp-details,
   margin: 0px;
 }
 
-/*
-.bookie-row,
-.exchange-row{
-   margin-top: 5px;
- }
- */
 .exchange-text-comm{
   font: 400 10px/20px Roboto, "Helvetica Neue", sans-serif;
   letter-spacing: normal;
@@ -1100,9 +1097,6 @@ input[type=number] {
   justify-content: space-between;
 }
 
-.caclulated-container{
-  width: 50%;
-}
 
 .odds-cell{
   display: inline-block;
@@ -1329,7 +1323,6 @@ input[type=number] {
     width: 20%;
     padding-top: 7px;
     display: flex;
-    justify-content: space-evenly;
     align-items: center;
   }
 
@@ -1342,7 +1335,7 @@ input[type=number] {
   }
 
   .calculated {
-    width:33.5%;
+    width:32.3%;
     padding-top: 7px;
     margin-left: 13px;
   }
