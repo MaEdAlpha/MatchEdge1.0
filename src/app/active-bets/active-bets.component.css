@@ -480,7 +480,7 @@ div.jm-exp-details {
 }
 
 .exchange-container-disp {
-  height: 100%;
+  height: fit-content;
   justify-content: center;
   display: inline-grid;
   align-items: center;
@@ -534,7 +534,7 @@ font-size: large;
 }
 
 .exchange-text-lhs{
-  margin-bottom: 13px;
+  margin-bottom: 3px;
 }
 
 .bookie-text-rhs,
@@ -1020,7 +1020,7 @@ input[type=number] {
 .FTAdivider,
 .QLPdivider,
 .QLdivider{
-  width: 25% !important;
+  width: 48% !important;
   border: 1px solid #aa8920 !important;
   margin-left: auto;
   margin-right: auto;
@@ -1105,7 +1105,7 @@ input[type=number] {
     width: 100%;
   }
   .calculatedcontainer{
-    justify-content: center;
+    justify-content: end;
   }
 
   .leaguename{
@@ -1177,6 +1177,7 @@ input[type=number] {
 
   .bookiecontainer,
   .exchangecontainer{
+    justify-content: space-around;
     align-items: center;
   }
 
@@ -1204,9 +1205,28 @@ input[type=number] {
   }
 
   .calculated {
-    width:33.5%;
+    width:30.5%;
     padding-top: 7px;
-    margin-left: 13px;
+  }
+}
+
+@media(max-width: 1139px){
+
+  .bookie-container-disp,
+  .exchange-container-disp{
+    width: fit-content;
+  }
+
+  .bookie-button-container,
+  .exchange-button-container{
+    display:none;
+  }
+
+  .bookie-text-lhs,
+  .exchange-text-lhs{
+    font-size: small;
+    width: fit-content;
+    margin-bottom: 11px;
   }
 }
 
@@ -1215,6 +1235,9 @@ input[type=number] {
   .logo-cell>img{
     width: 83%;
     max-width:85px;
+  }
+  .bookie-button-container{
+    display:initial;
   }
 }
 

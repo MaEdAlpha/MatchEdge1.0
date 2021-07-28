@@ -68,7 +68,7 @@ mat-table {
   overflow: scroll;
 }
 .view-active-bets-responsive .mat-dialog-container {
-  min-width: 800px;
+  min-width: 600px;
   overflow-x: scroll;
   color:#ffffffec;
   background-image: linear-gradient(to top, #263238 60%, #161718e6 100%);

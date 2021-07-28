@@ -13,11 +13,12 @@
 .sab-headers{
   color: #ebbf57;
   background: #263238;
-  width: 77%;
+  width: 77.77%;
   margin-bottom: 3px;
 }
 
 .sab-table {
+  width: 99%;
   display: block;
   border: 2px solid #41555e;
   padding: 10px;
@@ -46,53 +47,29 @@
 }
 
 .sab-row-header {
-  width: 77%;
-  text-align: center;
+  width: 100%;
+  display: flex;
+  justify-content: start;
+  align-items: center;
 }
 
 .row-header{
-  margin-left: 0px;
-}
-
-.row-header,
-.sab-row-item{
-  display: table-cell;
-}
-
-.rh0 {
-  width: 18%;
-  padding-left: 19px;
-}
-.cell0 {
-  width: 17%;
-}
-.rh1,
-.rh2,
-.rh3,
-.rh4,
-.rh5,
-.rh6{
-  margin-left: 0px;
-  width: 7%;
+  width: 14.28%;
   text-align: center;
 }
 
-.cell,
-.cell1,
-.cell2,
-.cell3,
-.cell4,
-.cell5,
-.cell6{
-  width: 7%;
-  text-align: center;
+.sab-row {
+  display: inline-flex;
+  justify-content: space-between;
+  width: 100%;
 }
+
 
 .sab-row-item{
   height: fit-content;
-  padding: 2px;
-  margin-top: auto;
-  margin-bottom: auto;
+  display: table-column;
+  width: fit-content;
+  padding-right: 15px;
 }
 
 .no-sab-message {
@@ -104,8 +81,13 @@
 }
 
 .sab-row-button {
-  width: 50px;
-  height: min-content;
+  min-width: fit-content;
+  font-size: normal;
+  padding: 10px;
+  height: 20px;
+  background: #6e6f6f;
+  color: #dadadb;
+  line-height: 1px;
 }
 
 .sab-view-btn-container {
@@ -162,4 +144,22 @@ hr {
   padding-left: 6px;
   padding-right: 6px;
   cursor: default;
+}
+
+
+@media (max-width: 1000px){
+  .sab-row-item{
+    font-size: small;
+  }
+
+  .sab-row-button{
+      min-width: fit-content;
+      font-size: smaller;
+      padding: 5px;
+      height: 20px;
+      background: #6e6f6f;
+      color: #dadadb;
+      line-height: 1px;
+  }
+
 }
