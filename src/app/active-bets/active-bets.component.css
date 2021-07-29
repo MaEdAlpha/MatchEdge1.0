@@ -802,12 +802,21 @@ td.mat-column-fixture {
 
 ::ng-deep.mat-sort-header-content{
   margin-left: auto;
-  padding: 4px;
+  margin-right: auto;
+  padding-left: 20px;
 }
 
 ::ng-deep.mat-sort-header-arrow {
   color: #ffbf0e;
 }
+
+/* .column-head{
+  color: #ffbf0e;
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  margin: 0px;
+} */
 
 span.calculated-value{
   padding: 4px;
@@ -875,6 +884,17 @@ span.calculated-value{
 .unmatched-text>p{
   margin:0px;
   padding: 4px;
+}
+
+.occ-wrapper {
+  margin-left: auto;
+  margin-right: auto;
+  width: 2.1875rem;
+  font-size: 0.9375rem !important;
+  color: #ffffff !important;
+  background: radial-gradient(at 76% 0, #263238, #263238ad 70%), linear-gradient(0deg, #e0e1e2, transparent 50%) bottom;
+  padding: 5px;
+  border-radius: 8px;
 }
 
 .sbet{
@@ -1115,6 +1135,8 @@ input[type=number] {
   .logo-img-cont{
     width: 100%;
   }
+
+
 
 
   .bookiecontainer,

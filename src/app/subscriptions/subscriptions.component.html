@@ -17,8 +17,7 @@
             <p> Please contact support to re-activate your account</p>
           </ng-container>
           <ng-container *ngIf="accountStatus == 'CANCELLED'">
-            <p>You no longer have a subscription with us. Purchase one below to begin!</p>
-          </ng-container>
+            <p>Your subscription appears to be cancelled. Access will be revoked on {{subExpiration}}. Purchase a new one below to begin!</p>          </ng-container>
           </ng-template>
         </div>
       </ng-container>

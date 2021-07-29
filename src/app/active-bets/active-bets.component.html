@@ -4,7 +4,7 @@
       multiTemplateDataRows>
   <ng-container matColumnDef="{{column.field}}" *ngFor="let column of activeHeaderAliases">
     <form [formGroup]="PandLform">
-      <th mat-header-cell class = "column-head"mat-sort-header *matHeaderCellDef> {{column.alias}} </th>
+      <th mat-header-cell class="column-head" mat-sort-header *matHeaderCellDef> {{column.alias}} </th>
 
 
     <td mat-cell
@@ -75,7 +75,12 @@
       <div *ngIf="column.field.endsWith('stake') || column.field.endsWith('ql') ">
         {{sab[column.field] | currency:'GBP' }}
       </div>
-      <div *ngIf="column.field.endsWith('fixture') || column.field.endsWith('selection')  || column.field.endsWith('backOdd') ||  column.field.endsWith('layOdd') || column.field.endsWith('layStake')|| column.field.endsWith('occ') ">
+
+      <div *ngIf="column.field.endsWith('occ')" class="occ-wrapper">
+        {{sab[column.field]}}
+      </div>
+
+      <div *ngIf="column.field.endsWith('fixture') || column.field.endsWith('selection')  || column.field.endsWith('backOdd') ||  column.field.endsWith('layOdd') || column.field.endsWith('layStake') ">
         {{sab[column.field]}}
       </div>
     </td>

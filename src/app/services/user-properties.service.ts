@@ -27,7 +27,7 @@ export class UserPropertiesService {
   userPrefSub = new Subject<TablePreferences>();
   userCommissionSub = new Subject<number>();
   tokenSubscription = new Subject<string>();
-  userSubscriptionSubject = new Subject<{isActiveSub:boolean, isNewUser:boolean, status: string}>();
+  userSubscriptionSubject = new Subject<{isActiveSub:boolean, isNewUser:boolean, status: string, expiry: string}>();
   isNewUser: boolean = true;
   private lockAudio:boolean = true;
   private smCommission:number = 2.05;
@@ -382,7 +382,7 @@ export class UserPropertiesService {
     return this.userCommissionSub.asObservable();
   }
 
-  getSubscriptionState(): Observable<{isActiveSub:boolean, isNewUser:boolean, status: string}>{
+  getSubscriptionState(): Observable<{isActiveSub:boolean, isNewUser:boolean, status: string, expiry: string}>{
     return this.userSubscriptionSubject.asObservable();
   }
 
@@ -474,8 +474,10 @@ export class UserPropertiesService {
                }
 
     this.http.post<any>(env.serverUrl + "/subscription", data)
-    .subscribe(( response: {isActiveSub: boolean, isNewUser: boolean, status: string}) => {
+    .subscribe(( response: {isActiveSub: boolean, isNewUser: boolean, status: string, expiry: string}) => {
       this.userSubscriptionSubject.next(response);
+      console.log(Date.parse(response.expiry));
+
       this.isNewUser = response.isNewUser;
     });
   }

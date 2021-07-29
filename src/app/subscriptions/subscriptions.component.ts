@@ -24,7 +24,7 @@ import { PopupManageBillingComponent } from '../popup-manage-billing/popup-manag
 export class SubscriptionsComponent implements OnInit, OnChanges, OnDestroy, AfterViewInit {
   isActiveSub: boolean;
   isNewUser: boolean = true;
-  subExpiration: number;
+  subExpiration: string;
   infoSelected:boolean = false;
   welcomeMessageSubscription: Subscription;
   userName:string;
@@ -61,6 +61,7 @@ export class SubscriptionsComponent implements OnInit, OnChanges, OnDestroy, Aft
       this.userName = this.userPropertiesService.getUserName();
       this.isNewUser = user.isNewUser;
       this.accountStatus = user.status;
+      this.subExpiration = user.expiry
     });
   }
 
