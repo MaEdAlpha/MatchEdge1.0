@@ -476,7 +476,7 @@ export class UserPropertiesService {
     this.http.post<any>(env.serverUrl + "/subscription", data)
     .subscribe(( response: {isActiveSub: boolean, isNewUser: boolean, status: string, expiry: string}) => {
       this.userSubscriptionSubject.next(response);
-      console.log(Date.parse(response.expiry));
+      console.log(response);
 
       this.isNewUser = response.isNewUser;
     });

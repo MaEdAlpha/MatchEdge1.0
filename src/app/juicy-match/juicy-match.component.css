@@ -375,7 +375,7 @@ div.jm-exp-details,
   width: 100%;
   display: inline-flex;
   padding-bottom: 10px;
-  justify-content: start;
+  justify-content: flex-start;
 }
 
 
