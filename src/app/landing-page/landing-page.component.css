@@ -13,24 +13,12 @@
   text-shadow: 2px 2px 1px #0000009e;
   font-stretch: condensed;
   visibility: visible;
+  margin-top: -90px;
 }
 
 img {
   max-width: 100%;
   height: auto;
-}
-
-.welcometext{
-  color: #e1ad18;
-  font-size: 68px;
-  line-height: 1.125;
-  font-family: Bahnschrift SemiBold;
-  letter-spacing: normal;
-  text-shadow: 3px 4px 2px #0000009e;
-  font-stretch: condensed;
-  margin-left: 10%;
-  margin-right: 10%;
-  visibility: visible;
 }
 
 .unsupported{
@@ -91,18 +79,6 @@ img {
 
 @media(max-width: 700px)
 {
-  .welcometext{
-    font-size: 40px;
-    color: #e1ad18;
-    line-height: 1.125;
-    font-family: Bahnschrift SemiBold;
-    letter-spacing: normal;
-    text-shadow: 3px 4px 2px #0000009e;
-    font-stretch: condensed;
-    margin-left: 10%;
-    margin-right: 10%;
-    visibility:hidden;
-}
   .slogan{
     color: #e1ad18;
     font-size: 26px;
