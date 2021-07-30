@@ -390,7 +390,7 @@ app.post("/subscription", async (req,res) => {
       if(userDoc.value == null){
 
         console.log("NO_ACCOUNT: " + email + " " + login);
-        res.status(200).json({isActiveSub:false, isNewUser: true, status: 'INACTIVE', expiry: juicyUser.subscription_next_payment });
+        res.status(200).json({isActiveSub:false, isNewUser: true, status: 'INACTIVE', expiry: Date.now() });
 
       } else if( userDoc != null && isNotFailedPayment(juicyUser.subscription_status) && subscriptionStillActivated(juicyUser.subscription_next_payment) ) {
 
@@ -402,12 +402,21 @@ app.post("/subscription", async (req,res) => {
         console.log("VISIT: " + email + " exists! Subscription: " + juicyUser.subscription_status + " for " + login);
         res.status(200).json({isActiveSub:false, isNewUser: false, status: juicyUser.subscription_status, expiry: juicyUser.subscription_next_payment });
 
+      } else {
+        console.log("CONDITION_CATCH: " + email + " " + login);
+        res.status(200).json({isActiveSub:false, isNewUser: true, status: 'INACTIVE', expiry: Date.now() });
       }
-      console.log("Grant Access to " + email + "? " + isNotFailedPayment(juicyUser.subscription_status) + " " + subscriptionStillActivated(juicyUser.subscription_next_payment));
+      console.log(userDoc);
+     // console.log("Grant Access to " + email + "? " + isNotFailedPayment(juicyUser.subscription_status) + " " + subscriptionStillActivated(juicyUser.subscription_next_payment));
     })
-    .catch(err => console.error(`Failed to find documents: ${err}`));
+    .catch( (err) =>  {
+      console.error(`Failed to find documents: ${err}`)
+    });
 
     function subscriptionStillActivated(endOfPaymentCycle){
+      if(endOfPaymentCycle == null) {
+        return false;
+      }
        return Date.now() < Date.parse(endOfPaymentCycle);
     }
 

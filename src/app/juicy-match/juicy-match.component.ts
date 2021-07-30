@@ -82,7 +82,7 @@ export class JuicyMatchComponent implements OnChanges, OnInit, OnDestroy, AfterV
   tableSubject: BehaviorSubject<JuicyMatch[]>;
 
   columnHeaders: any[] = [
-    { field: "EpochTime" , alias: "" },
+    { field: "EpochTime" , alias: "Kick-Off" },
     { field: "Fixture", alias: "Match" },
     { field: "Selection", alias: "Selection" },
     { field: "BackOdds", alias: "Back Odds" },

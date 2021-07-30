@@ -66,6 +66,12 @@ td.mat-footer-cell:last-of-type{
   width: 120px;
 }
 
+#column0hdr,
+#column1hdr,
+#column2hdr {
+  color: white;
+}
+
 /* EV MR QL% and FTA column cell width  */
 .mat-column-MatchRating,
 .mat-column-FTAround,
@@ -73,7 +79,6 @@ td.mat-footer-cell:last-of-type{
 .mat-column-QLPercentage {
   width: 60px;
 }
-
 
 .mat-cell {
   border-bottom-width: 0;
@@ -219,6 +224,9 @@ tr.juicyMatch-row:not(.juicyMatch-expanded-row):active { /* when main container 
     position: absolute;
     top: 0px;
     box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   .ticker4box{
@@ -857,9 +865,10 @@ th.mat-sort-header-sorted {
 }
 
 .odd-text {
-  position: relative;
-  top: 22%;
-  left: 6%;
+  width: fit-content;
+  height: fit-content;
+  margin: 0px;
+  padding-left: 32px;
 }
 
 .fta-value-text {
