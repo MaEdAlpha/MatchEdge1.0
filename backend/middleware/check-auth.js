@@ -1,4 +1,5 @@
 const jwt = require ("jsonwebtoken");
+const env = require("dotenv").config({ path: envFilePath });
 
 
 module.exports = (req, res, next) => {
@@ -9,7 +10,7 @@ module.exports = (req, res, next) => {
     // console.log(token);
     console.log('Auth Check triggered');
     //token  + private Key JWT_KEY
-    jwt.verify(token, "0A6aKFksbmPgDlIKiUGcMm82eycRgTivqkZx4zjDJn2CWm9LF5Kq5wnKltq4Uk3Zlpt9UJxbf");
+    jwt.verify(token, process.env.JWT_PVT_K);
     next();
   }catch (e) {
     res.status(401).json({message: "Auth Failed!"});

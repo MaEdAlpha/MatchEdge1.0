@@ -9,7 +9,7 @@ const envFilePath = path.resolve(__dirname, './.env');
 const env = require("dotenv").config({ path: envFilePath });
 const checkoutNodeJssdk = require('@paypal/checkout-server-sdk');
 const paypal = require('@paypal/checkout-server-sdk');
-var request  = require('request');
+const request  = require('request');
 
 
 app.use((req, res, next) => {
@@ -114,42 +114,12 @@ app.put('/api/user/connect', async (req,res) => {
 //               PAYPAL PAYMENT PROCESSING API CALLS                                  //
 ////////////////////////////////////////////////////////////////////////////////////////
 // Creating an environment
-let clientId = "AamQykAJWLnNDxCtnxpjJM3pNeWdvFR6xhiMP7QWJXUOVSJElOj4bcx7PAi92RSV4ZfLh8zS1MfIgh4N";
-let clientSecret = "EFwpsvpjfVglBuPcXURyd2wsPJ4AAztjVgKpVMfhgtDdbe-uxscXxqZL7P85Re-LXnZOrv4gPFHiE0ia";
+const clientId = "AamQykAJWLnNDxCtnxpjJM3pNeWdvFR6xhiMP7QWJXUOVSJElOj4bcx7PAi92RSV4ZfLh8zS1MfIgh4N";
+const clientSecret = "EFwpsvpjfVglBuPcXURyd2wsPJ4AAztjVgKpVMfhgtDdbe-uxscXxqZL7P85Re-LXnZOrv4gPFHiE0ia";
 // This sample uses SandboxEnvironment. In production, use LiveEnvironment
 let environment = new paypal.core.SandboxEnvironment(clientId, clientSecret);
 let elonMusky = new paypal.core.PayPalHttpClient(environment);
 let token_option = new paypal.core.AccessTokenRequest(environment);
-let access_token = new paypal.core.AccessToken(token_option);
-
-
-// Construct a request object and set desired parameters
-// Here, OrdersCreateRequest() creates a POST request to /v2/checkout/orders
-// let request = new paypal.orders.OrdersCreateRequest();
-// request.requestBody({
-//                           "intent": "CAPTURE",
-//                           "purchase_units": [
-//                               {
-//                                   "amount": {
-//                                       "currency_code": "GBP",
-//                                       "value": "100.00"
-//                                   }
-//                               }
-//                            ]
-//                     });
-
-// // Call API with your client and get a response for your call
-// let createOrder  = async function(){
-//         let response = await elonMusky.execute(request);
-//         console.log(`Response: ${JSON.stringify(response)}`);
-//         // If call returns body in response, you can get the deserialized version from the result attribute of the response.
-//        console.log(`Order: ${JSON.stringify(response.result)}`);
-
-//        console.log(paypal);
-// }
-// createOrder();
-
-
 
 app.post('/paypal-transaction', async (req,res) => {
   const orderID = req.body.orderID;
@@ -219,7 +189,7 @@ app.post('/webhook', async (req, res) => {
   const subscription_collection = client.db("JuicyClients").collection("juicy_users_subscription");
   //https://developer.paypal.com/docs/api-basics/notifications/webhooks/event-names/#subscriptions
   if(postData.event_type == "BILLING.SUBSCRIPTION.ACTIVATED"){
-    console.log("///////////////////////////////////////////////////////////////////////////////////////");
+
     console.log("Subscription Activated!");
     console.log(postData.resource.id);
     console.log(postData.resource.billing_info.last_payment.time);
@@ -227,11 +197,10 @@ app.post('/webhook', async (req, res) => {
 
     //updateDataBase with last_payment
     //updateDataBase with next_billing_cycle
-    console.log("///////////////////////////////////////////////////////////////////////////////////////");
+
   }
 
   if(postData.event_type == "PAYMENT.SALE.COMPLETED"){
-    console.log("///////////////////////////////////////////////////////////////////////////////////////");
     //Payment is made on a subscription
     console.log("Payment Completed");
     // console.log(JSON.stringify(postData.resource, null, 4));
@@ -275,11 +244,10 @@ app.post('/webhook', async (req, res) => {
     });
 
           request(options, callback);
-    console.log("///////////////////////////////////////////////////////////////////////////////////////");
+
   }
 
   if(postData.event_type == "BILLING.SUBSCRIPTION.CANCELLED"){
-    console.log("///////////////////////////////////////////////////////////////////////////////////////");
     console.log("Subscription Cancelled!");
     // console.log(JSON.stringify(postData.resource, null, 4));
     let subscriber_email = postData.resource.subscriber.email_address;
@@ -295,11 +263,10 @@ app.post('/webhook', async (req, res) => {
     subscription_collection.findOneAndUpdate(query, update , {upsert:false}).then( response => {
       console.log(response);
     });
-    console.log("///////////////////////////////////////////////////////////////////////////////////////");
+
   }
 
   if(postData.event_type == 'BILLING.SUBSCRIPTION.PAYMENT.FAILED'){
-    console.log("///////////////////////////////////////////////////////////////////////////////////////");
     console.log("Failed Payment on subscription");
     //suspend activity of subscription, set subscription_status: suspended. User flow? Login with non active subscription bars them access.....
 
@@ -314,7 +281,6 @@ app.post('/webhook', async (req, res) => {
     //if payment fails, send a message to user saying they have to update their subscription/make a payment.
     // console.log(JSON.stringify(postData, null, 4));
     console.log(postData.resource.id + " is " + postData.resource.status + " but..." + postData.summary + " amount due is: " + postData.resource.billing_info.outstanding_balance.value + " " + postData.resource.billing_info.outstanding_balance.currency_code);
-    console.log("///////////////////////////////////////////////////////////////////////////////////////");
   }
 });
 

@@ -1,6 +1,5 @@
 
 const http = require('http'); //default node.js package already installed on node.js
-const { request } = require('./app');
 const debug = require('debug')('node-angular');
 const app = require('./app');
 
