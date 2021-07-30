@@ -10,11 +10,9 @@ import { TermsOfUseComponent } from './terms-of-use/terms-of-use.component';
 
 const routes: Routes = [
   // { path: 'settings', component: MatchNotificationSettingsComponent},
-  { path: 'privacy', component: PrivacyContentComponent },
-  { path: 'terms', component: TermsOfUseComponent },
-  { path: 'matches', component: MatchTableComponent, canActivate: [AuthGuard] },
+  { path: ' ', component: AppComponent},
+  { path: 'matches', component: MatchTableComponent, canActivate: [AuthGuard] }
   // { path: 'matches', component: MatchTableComponent },
-  { path: ' ', component: AppComponent}
 ];
 
 

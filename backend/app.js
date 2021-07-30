@@ -265,7 +265,7 @@ app.post('/webhook', async (req, res) => {
 
   let query = {'juicy_email' : subID }
   let update = { $set: {'subscription_status' : postData.resource.status,
-                        'subscription_paid_on' : last_paid,
+                        'subscription_paid_on' : lastPaid,
                         'subscription_next_payment': nextPayment
                         }
                 }
