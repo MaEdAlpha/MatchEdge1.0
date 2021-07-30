@@ -152,12 +152,11 @@ export class UserPropertiesService {
       env.serverUrl + "/api/user/connect", data)
       .subscribe( (body) => {
         userData = body;
-        // console.log('Requesting...');
-        // console.log(body);
 
         this.token = userData.token;
+        console.log(this.token);
+
         this.saveAuthData(this.token, userData.expiry)
-        // this.tokenSubscription.next(userData.token);
 
         this.settings.juicyId = userData.userDetails._id;
         this.settings.account = userData.userDetails.account;
@@ -175,6 +174,7 @@ export class UserPropertiesService {
           audioEnabled: userData.userDetails.filters.audioEnabled,
         }
         this.settings.preferences = userData.userDetails.preferences;
+
       });
 
       this.userCommissionSub.next(+this.settings.preferences.exchangeOption.commission);

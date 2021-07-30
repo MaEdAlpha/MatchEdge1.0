@@ -7,15 +7,15 @@ export class AuthInterceptor implements HttpInterceptor {
   constructor(private userService: UserPropertiesService){}
 
   intercept(req: HttpRequest<any>, next: HttpHandler){
-    const  authToken = this.userService.getToken();
+    const  authToken = localStorage.getItem('token');
     console.log("===>Intcpr Called: " + authToken);
 
-
-
     //manipulate request to use token. Must clone or it breaks.
-    let authRequest = req.clone({
-      headers: req.headers.append('Authorization', "Bearer " + authToken)
-    });
-    return next.handle(authRequest);
+    if(authToken != undefined){
+      let authRequest = req.clone({
+        headers: req.headers.append('Authorization', "Bearer " + authToken)
+      });
+      return next.handle(authRequest);
+    }
   }
 }
