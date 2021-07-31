@@ -17,7 +17,7 @@
 }
 
 img {
-  max-width: 100%;
+  max-width: 1000px;
   height: auto;
 }
 
@@ -33,6 +33,311 @@ img {
   visibility: hidden;
 }
 
+hr {
+  border-color:  #f9a825;
+  margin-top: unset;
+}
+
+mat-spinner {
+  position: absolute;
+  left: 45%;
+  top: 50%;
+  z-index: 6;
+}
+
+.mat-spinner-circle {
+  /* located in theming.scss line 4744 */
+  stroke: #f9a825;
+}
+
+.welcome-banner{
+  color: #f9a825;
+  text-align: center;
+}
+
+.welcome-container{
+  width: 95%;
+  margin: 0 auto;
+  display: inline;
+}
+
+.button{
+  margin-left: 2%;
+}
+
+.load-screen {
+  text-align: center;
+  width: 100%;
+  height: 1000px;
+  background: #263238;
+}
+
+p{
+  color:#494949;
+}
+
+.companydetails{
+  margin-top: 10px;
+  margin-bottom: 10px;
+  text-align: center;
+  padding: 5px 70px;
+  line-height: 1rem;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-size: small;
+  color: #a5a18c;
+  padding-top: 1rem;
+
+}
+
+.welcome-buttons{
+  margin-top: 10px;
+  margin-bottom: 10px;
+  text-align: center;
+  padding: 5px 70px;
+  visibility: visible;
+}
+
+.button{
+  margin-left: 1rem;
+}
+
+
+.about-title{
+  color: black;
+  text-align: center;
+}
+.about-text-title {
+  font-size: 2rem;
+  word-spacing: 5px;
+  text-align: center;
+  color: whitesmoke;
+  font-family: serif;
+}
+
+.about-text-lead {
+  font-size: 1.2em;
+  color: #393636;
+}
+
+.about-text {
+  font-size: 0.9rem;
+  text-align: center;
+  line-height: 25px;
+}
+
+.about-text-wrapper {
+  width: 100%;
+  display: inline-flex;
+  justify-content: center;
+  background: #cecece
+}
+
+.buy-me{
+  margin-top: 60px;
+  margin-left: auto;
+  margin-right: auto;
+  width: fit-content;
+  color: whitesmoke;
+  padding: 30px;
+  text-decoration: underline;
+}
+
+h1.welcome-banner {
+  font-size: 2.2rem;
+  font-family: serif;
+  margin-bottom: -5px;
+}
+
+.about-title {
+  text-align: center;
+}
+
+
+.about-text-cont {
+  margin-left: auto;
+  margin-right: auto;
+}
+.about-text-cont > h1 {
+  text-align: center;
+}
+
+.about-text-wrapper {
+  margin-top: 20px;
+  min-height: inherit;
+}
+
+.about-container {
+  width: 85%;
+  min-height: inherit;
+  padding:30px;
+  height: auto;
+}
+
+.tool-box{
+  display: inline-block;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 60px;
+}
+
+.tool-title{
+  width: 100%;
+  color: #f9a825;
+  font-family: serif;
+  font-size: 1.8rem;
+  text-align: center;
+}
+
+.tool-wrapper{
+  width: 100%;
+  display: inline-flex;
+}
+
+.tool-container{
+  border: 1px solid #69777e;
+  border-radius: 25px;
+  width: 90%;
+  min-height: 300px;
+  margin-left: auto;
+  margin-right: auto;
+  display: inline-flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.tool-item {
+  width: 30%;
+  max-width: 300px;
+  height: 75%;
+  display: inline-flex;
+  justify-content: center;
+}
+
+.option-wrapper {
+  border-radius: 2px;
+  border: 1px solid #ffffff17;
+  background: linear-gradient(146deg, rgb(100,116,124,1) 0%, rgb(37 46 51) 25%, rgb(42 54 60) 40%);
+  height: 100%;
+  width: 80%;
+}
+
+.sub-img{
+  max-width: 200px;
+  display: flex;
+  width: 100%;
+  margin: 0px;
+  padding: 0px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.button-wrapper{
+  width: 100%;
+  display: inline-flex;
+  justify-content: center;
+}
+
+.button-wrapper>button{
+  width: 100%;
+  line-height: 25px;
+}
+
+.info-button{
+  background: linear-gradient(139deg, rgba(115,132,140,1) 4%, rgba(157,173,181,1) 16%, rgba(89,100,105,1) 45%);
+  color: #f9a825;
+}
+
+.coming-soon{
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.sad-ball{
+  width: 140px;
+  height: 140px;
+  border-radius: 90px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  border: 1px solid #778085;
+  background: linear-gradient(-204deg, #263035 -3%, rgb(50 62 69) 25%, rgb(40 54 60) 40%);
+  margin-top: -20px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.sad-ball>p{
+  padding-top: 14px;
+  color: white;
+  font-size: 1.2rem;
+}
+
+
+/* Responsive layout */
+
+@media(max-width: 700px)
+{
+  p.about-text{
+    font-size: 0.8rem;;
+  }
+  .slogan{
+    color: #e1ad18;
+    font-size: 26px;
+    line-height: 2;
+    font-family: Bahnschrift SemiBold;
+    letter-spacing: normal;
+    text-shadow: 2px 2px 1px #0000009e;
+    font-stretch: condensed;
+    visibility: hidden;
+  }
+
+  .unsupported{
+    color: #e1ad18;
+    font-size: 40px;
+    line-height: 2;
+    font-family: Bahnschrift SemiBold;
+    letter-spacing: normal;
+    text-shadow: 2px 2px 1px #0000009e;
+    font-stretch: condensed;
+    position: relative;
+    visibility: visible;
+  }
+
+}
+
+
+@media(max-width: 750px)
+{
+  img{
+    max-width: 100%;
+    height: auto;
+  }
+
+  .welcometext{
+    font-size: 40px;
+    color: #e1ad18;
+    line-height: 1.125;
+    font-family: Bahnschrift SemiBold;
+    letter-spacing: normal;
+    text-shadow: 3px 4px 2px #0000009e;
+    font-stretch: condensed;
+    margin-left: 10%;
+    margin-right: 10%;
+    visibility: visible;
+ }
+}
+
+@media (max-width: 1000px){
+
+  p.about-text{
+    font-size: 1rem;
+    text-align: center;
+    line-height: 25px;
+  }
+}
 
 @media(max-width: 1280px)
 {
@@ -55,50 +360,51 @@ img {
   }
 }
 
+@media(max-width: 1440px){
+  img {
+    width: 70%
+  };
 
-@media(max-width: 750px)
-{
+  .about-text-wrapper{
+    padding-left: 0px;
+  }
+}
+
+@media(min-width:1441px) and (max-width:1920px){
   img{
-    max-width: 100%;
-    height: auto;
+    width: 60%;
   }
 
-  .welcometext{
-    font-size: 40px;
-    color: #e1ad18;
-    line-height: 1.125;
-    font-family: Bahnschrift SemiBold;
-    letter-spacing: normal;
-    text-shadow: 3px 4px 2px #0000009e;
-    font-stretch: condensed;
-    margin-left: 10%;
-    margin-right: 10%;
-    visibility: visible;
-}
-}
-
-@media(max-width: 700px)
-{
-  .slogan{
-    color: #e1ad18;
-    font-size: 26px;
-    line-height: 2;
-    font-family: Bahnschrift SemiBold;
-    letter-spacing: normal;
-    text-shadow: 2px 2px 1px #0000009e;
-    font-stretch: condensed;
-    visibility: hidden;
+  h2.about-title{
+    font-size: 1.5rem;
   }
-    .unsupported{
-      color: #e1ad18;
-      font-size: 40px;
-      line-height: 2;
-      font-family: Bahnschrift SemiBold;
-      letter-spacing: normal;
-      text-shadow: 2px 2px 1px #0000009e;
-      font-stretch: condensed;
-      position: relative;
-      visibility: visible;
-    }
+
+  p.about-text{
+    font-size: 1.4rem;
+    padding: 20px;
+    line-height: 45px;
+  }
+
+  .tool-container{
+    margin-top: 25px;
+    width: 55%;
+  }
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

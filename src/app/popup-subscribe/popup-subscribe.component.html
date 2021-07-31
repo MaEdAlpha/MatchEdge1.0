@@ -1,23 +1,69 @@
 <div class="subscribe-container">
   <div class="outer-box">
     <div class="inner-box">
-      <button (click)="showID()">Test Button ID</button>
       <div class='word-box'>
         <div class="title-box">
-          <h3> MONTHLY RATE</h3>
-          <span>*Special promotion*</span>
-          <span class="base-price">£15.00</span>
-          <span class="promotion-price">£10.00</span>
-          <em>per month</em>
+          <h2> Subscribe</h2>
+          <!-- <span>*Special promotion*</span> -->
+          <div class="price-header">
+            <img  class="sub-img two-up" src="../../assets/img/2upEnabled210x210.png" alt="">
+            <div class="price-box">
+              <span class="base-price">£14.00/<em>per month</em></span>
+              <span class="promote"><br>Start your 7 day free trial now<br></span>
+              <span class="promote">Cancel anytime</span>
+            </div>
+          </div>
         </div>
-        <ul>
-          <li>Almost Real-Time odds data comparison</li>
-          <li>Customised Expected Value calculations</li>
-          <li>Advanced match filtering, easily find value faster</li>
-          <li>Receive notifications off min/max odds + EV/MR/QL</li>
-          <li>Bets logging and storing</li>
-          <li>Cancel Anytime</li>
-        </ul>
+
+        <div class="sales-box">
+          <div class="sales-row">
+            <div class="sales-cell">
+              <img class ="ball-bullet" src="../../assets/img/ball-20x20.png" alt="">
+              <div class="info-wrapper">
+                <h4>Up-To-Date Odds Data Comparison</h4>
+                <p> Custom filters and notifications, focus on the fixtures you want.</p>
+              </div>
+            </div>
+            <div class="sales-cell">
+              <img class ="ball-bullet" src="../../assets/img/ball-20x20.png" alt="">
+              <div class="info-wrapper">
+                <h4>Custom Watchlist View </h4>
+                <p>Filter the upcoming fixtures list to focus on games of interest.</p>
+              </div>
+            </div>
+            <div class="sales-cell">
+              <img class ="ball-bullet" src="../../assets/img/ball-20x20.png" alt="">
+              <div class="info-wrapper">
+                <h4>Flexible Expected Value Settings</h4>
+                <p>User defined EV settings to accurately track profits the way you want.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="sales-row">
+            <div class="sales-cell">
+              <img class ="ball-bullet" src="../../assets/img/ball-20x20.png" alt="">
+              <div class="info-wrapper">
+                <h4>2Up Rating System</h4>
+                <p> Identify the best potential games for a 2Up by using the Juicy-Bets FTA occurrence indicator.</p>
+              </div>
+            </div>
+            <div class="sales-cell">
+              <img class ="ball-bullet" src="../../assets/img/ball-20x20.png" alt="">
+              <div class="info-wrapper">
+                <h4>Custom Filters and Notifications</h4>
+                <p>Focus on the fixtures, leagues and odds ranges that you want by setting using preferences.</p>
+              </div>
+            </div>
+            <div class="sales-cell">
+              <img class ="ball-bullet" src="../../assets/img/ball-20x20.png" alt="">
+              <div class="info-wrapper">
+                <h4>Bet Tracking Tool</h4>
+                <p>Track your bets and quickly record your progress.</p>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
       <div class="center-box">
         <div #payPalRef class="paypal-box"></div>

@@ -1,37 +1,88 @@
 .subscribe-container{
-  padding: 10px;
+  height: -webkit-fill-available;
+  display: flex;
+  align-items: center;
 }
 
 .outer-box{
-  width: 50%;
-  margin-left: auto;
-  margin-right: auto;
-  padding: 10%;
+  width: 100%;
 }
 
 .base-price {
-  text-decoration: line-through;
-  color: red;
+  /* text-decoration: line-through;
+  color: red; */
+  font-size: 1rem;
 }
 
 .inner-box{
-  display: inline-grid;
+  display: inline;
   width: 80%;
-  justify-content: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.word-box{
+  width: 900px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .title-box{
   display: inline-grid;
   text-align: center;
-  background: blue;
-  border: 1px solid salmon;
+  background: #313b4080;
+  border: 1px solid #e1ad1852;
+  border-radius: 36px;
   width: 100%;
   padding-top: 5px;
   padding-bottom: 5px;
+  color: #f9a825;
+}
+
+.promote{
+  color: white;
+}
+
+h4{
+  color: #f9a825;
+}
+
+
+.sales-box{
+  display: inline-block;
+  width: 100%;
+}
+
+.sales-row{
+  width: 100%;
+  display: inline-flex;
+  justify-content: space-between;
+  margin-top: 10px;
+  padding-left: 2px;
+  padding-right: 2px;
+}
+
+.sales-cell{
+  display: -webkit-inline-box;
+  margin: 0px;
+  padding: 5px;
+  width: 26%;
+}
+
+.sub-img{
+  max-width: 115px;
+}
+
+.ball-bullet{
+  margin-right: 5px;
+  width: 10px;
 }
 
 .center-box{
-  width: 100%;
+  width: 20%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 25px;
 }
 
 .paypal-box{
