@@ -8,12 +8,12 @@
   color: #e1ad18;
   font-size: 26px;
   line-height: 2;
-  font-family: Bahnschrift SemiBold;
   letter-spacing: normal;
   text-shadow: 2px 2px 1px #0000009e;
   font-stretch: condensed;
   visibility: visible;
   margin-top: -90px;
+  font-family: 'Prompt', sans-serif;
 }
 
 img {
@@ -25,7 +25,6 @@ img {
   color: #e1ad18;
   font-size: 26px;
   line-height: 2;
-  font-family: Bahnschrift SemiBold;
   letter-spacing: normal;
   text-shadow: 2px 2px 1px #0000009e;
   font-stretch: condensed;
@@ -82,7 +81,7 @@ p{
   text-align: center;
   padding: 5px 70px;
   line-height: 1rem;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
+
   font-size: small;
   color: #a5a18c;
   padding-top: 1rem;
@@ -107,11 +106,12 @@ p{
   text-align: center;
 }
 .about-text-title {
-  font-size: 2rem;
+  font-size: 1.8rem;
   word-spacing: 5px;
   text-align: center;
   color: whitesmoke;
-  font-family: serif;
+  font-weight: 100;
+  font-family: 'Prompt', sans-serif;
 }
 
 .about-text-lead {
@@ -129,7 +129,7 @@ p{
   width: 100%;
   display: inline-flex;
   justify-content: center;
-  background: #cecece
+  background: #dfe2e4c7
 }
 
 .buy-me{
@@ -144,7 +144,6 @@ p{
 
 h1.welcome-banner {
   font-size: 2.2rem;
-  font-family: serif;
   margin-bottom: -5px;
 }
 
@@ -184,7 +183,6 @@ h1.welcome-banner {
 .tool-title{
   width: 100%;
   color: #f9a825;
-  font-family: serif;
   font-size: 1.8rem;
   text-align: center;
 }
@@ -215,11 +213,12 @@ h1.welcome-banner {
 }
 
 .option-wrapper {
+  height: 100%;
+  width: 80%;
   border-radius: 2px;
   border: 1px solid #ffffff17;
   background: linear-gradient(146deg, rgb(100,116,124,1) 0%, rgb(37 46 51) 25%, rgb(42 54 60) 40%);
-  height: 100%;
-  width: 80%;
+  box-shadow: 1px 1px 15px 1px black;
 }
 
 .sub-img{
@@ -287,7 +286,6 @@ h1.welcome-banner {
     color: #e1ad18;
     font-size: 26px;
     line-height: 2;
-    font-family: Bahnschrift SemiBold;
     letter-spacing: normal;
     text-shadow: 2px 2px 1px #0000009e;
     font-stretch: condensed;
@@ -298,7 +296,6 @@ h1.welcome-banner {
     color: #e1ad18;
     font-size: 40px;
     line-height: 2;
-    font-family: Bahnschrift SemiBold;
     letter-spacing: normal;
     text-shadow: 2px 2px 1px #0000009e;
     font-stretch: condensed;
@@ -320,7 +317,6 @@ h1.welcome-banner {
     font-size: 40px;
     color: #e1ad18;
     line-height: 1.125;
-    font-family: Bahnschrift SemiBold;
     letter-spacing: normal;
     text-shadow: 3px 4px 2px #0000009e;
     font-stretch: condensed;
@@ -350,7 +346,6 @@ h1.welcome-banner {
     font-size: 60px;
     color: #e1ad18;
     line-height: 1.125;
-    font-family: Bahnschrift SemiBold;
     letter-spacing: normal;
     text-shadow: 3px 4px 2px #0000009e;
     font-stretch: condensed;
@@ -377,7 +372,10 @@ h1.welcome-banner {
 
   h2.about-title{
     font-size: 1.5rem;
+    font-weight: 900;
+    color: #4c5156d9;
   }
+
 
   p.about-text{
     font-size: 1.4rem;
@@ -388,6 +386,14 @@ h1.welcome-banner {
   .tool-container{
     margin-top: 25px;
     width: 55%;
+    box-shadow: inset 0px 1px 9px 2px black;
+  }
+
+  .info-button:hover{
+    transform: scale(1.03);
+    opacity: 0.9;
+    background: linear-gradient(150deg, rgba(115,132,140,1) 4%, rgba(157,173,181,1) 16%, rgba(89,100,105,1) 45%);
+    color: #f0980b;
   }
 
 }

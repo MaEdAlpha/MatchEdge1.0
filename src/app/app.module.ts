@@ -114,6 +114,7 @@ import { PopupCookiePolicyComponent } from './popup-cookie-policy/popup-cookie-p
 import { PopupTwoUpProductComponent } from './popup-two-up-product/popup-two-up-product.component';
 import { PopupSubscribeComponent } from './popup-subscribe/popup-subscribe.component';
 import { PopupManageBillingComponent } from './popup-manage-billing/popup-manage-billing.component';
+import { ProductFeaturesComponent } from './product-features/product-features.component';
 
 
 
@@ -182,6 +183,7 @@ import { PopupManageBillingComponent } from './popup-manage-billing/popup-manage
     PopupTwoUpProductComponent,
     PopupSubscribeComponent,
     PopupManageBillingComponent,
+    ProductFeaturesComponent,
   ],
   imports: [
     AppRoutingModule,

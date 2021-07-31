@@ -77,21 +77,7 @@
         <div class="info-container">
           <div class="info-content" *ngIf="infoSelected">
             <div id="info" class="info-wrapper">
-              <h2 class="info-title"> Juicy 2Up</h2>
-              <p class="2up-info info-text">
-                Introducing the Juicy 2Up application, a matched betting tool designed specifically for 2ups.
-                Whether you’re a newbie or a 2up pro, this product has a lot to offer. <br><br>&nbsp; <span id="twoUp-features">Product features include:</span></p>
-
-                <div class="product-features">
-                  <ul>
-                    <li> Almost Real-Time odds data comparison* </li>
-                    <li> Customised Expected Value calculations to track your profits </li>
-                    <li> Advanced filtering options to focus on matches of interest </li>
-                    <li> Fixture Rating System to identify the best potential games for a 2up</li>
-                    <li> Subscribe to teams/fixtures to receive notifications for specific games </li>
-                  </ul>
-
-                </div>
+              <app-product-features></app-product-features>
                 <div class="learn-more">
                   <p> <span id='stmmm'>Save Time, Make More Money!</span> <br><br>
                    Click here for more information <span class="popup-dialog" (click)="openProductPopup()">Learn More...</span></p>

@@ -41,6 +41,9 @@ mat-table {
   min-width: 1000px;
 }
 
+*{
+  font-family: 'Prompt',sans-serif;
+}
 
 /* Mat Dialog Style change*/
 .about-dialog .mat-dialog-container {
@@ -73,6 +76,16 @@ mat-table {
   color:#ffffffec;
   background-image: linear-gradient(to top, #263238 60%, #161718e6 100%);
   border:1px solid #41555e;
+}
+
+.two-up-landing-page .mat-dialog-container{
+  min-width: 60vw !important;
+  width: 100%;
+  height: 90%;
+  overflow-x: scroll;
+  background-image: linear-gradient(318deg, #3d4c53 0%, #293136 69%, #4f616a 100%);
+  border: 1px solid lightgray;
+  border-radius: 75px;
 }
 
 .two-up-product .mat-dialog-container ,
