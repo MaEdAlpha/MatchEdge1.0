@@ -101,8 +101,8 @@ export class SubscriptionsComponent implements OnInit, OnChanges, OnDestroy, Aft
   openManageBillingPopUp(){
     this.dialog.open(PopupManageBillingComponent,
       {
-        width: '50%',
-        height: '50%',
+        width: '60%',
+        height: '60%',
         panelClass:'manage-billing-page'
       });
   }
