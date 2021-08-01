@@ -2,20 +2,41 @@
 .about-us-cont{
   background: #3d4f58;
   padding: 20px;
+  color: lightgray;
+  font-size: 0.95rem;
+  padding: 0px 63px;
+  padding-top: 15px;
+  line-height: 1.5;
+  font-size: 1rem;
+}
+
+
+.about-us-header>img{
+  padding-top: 10px;
+}
+.about-us-header{
+  text-align: center;
 }
 
 .about-title{
-  background-color: #37474f;
+  color: #f9a825;
+  font-size: 1.5rem;
+  font-weight: bolder;
+  text-shadow: 3px 2px 3px black;
 }
 
-h2,h3 {
-  color: whitesmoke;
+.about-second-title{
+  color: lightgray;
+  font-size: 1.2rem;
+  font-weight: 100;
+  text-shadow: 3px 2px 3px black;
 }
 
-.about-us-cont > p,
-.about-us-cont > h3 {
-color: whitesmoke;
+.support{
+  font-weight: 500;
+  color: white;
 }
+
 
 mat-dialog-content{
   border: 1px solid #4b5960;

@@ -115,6 +115,8 @@ import { PopupTwoUpProductComponent } from './popup-two-up-product/popup-two-up-
 import { PopupSubscribeComponent } from './popup-subscribe/popup-subscribe.component';
 import { PopupManageBillingComponent } from './popup-manage-billing/popup-manage-billing.component';
 import { ProductFeaturesComponent } from './product-features/product-features.component';
+import { PopupQuickReferenceGuideComponent } from './popup-quick-reference-guide/popup-quick-reference-guide.component';
+import { PopupLoginMessageComponent } from './popup-login-message/popup-login-message.component';
 
 
 
@@ -184,6 +186,8 @@ import { ProductFeaturesComponent } from './product-features/product-features.co
     PopupSubscribeComponent,
     PopupManageBillingComponent,
     ProductFeaturesComponent,
+    PopupQuickReferenceGuideComponent,
+    PopupLoginMessageComponent,
   ],
   imports: [
     AppRoutingModule,

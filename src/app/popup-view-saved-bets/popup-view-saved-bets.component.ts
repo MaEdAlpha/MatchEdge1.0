@@ -25,28 +25,15 @@ export class PopupViewSavedBetsComponent implements AfterViewInit {
                private notificationBoxService: NotificationBoxService,
                public dialog: MatDialog,
                public dialogRef: MatDialogRef<PopupViewSavedBetsComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any, private savedActiveBetService: SavedActiveBetsService, private chRef: ChangeDetectorRef) {
+              @Inject(MAT_DIALOG_DATA) public data: any,
+               private savedActiveBetService: SavedActiveBetsService,
+               private chRef: ChangeDetectorRef) {
       //gets master list of all SAB
       this.importedSabList = this.data.list;
       console.log(this.importedSabList);
 
       //filter based off of selection.
       this.filteredSabList = this.filterList(data);
-
-      //Refresh list for any newly added SAB
-      // this.savedActiveBetService.sabListChange.subscribe( () => {
-      //   //find only SAB to show for that selection.
-      //  this.filteredSabList = this.importedSabList.filter(sab => {
-      //   if (sab.selection == data.row.Selection) {
-      //     return true;
-      //   } else {
-      //     return false;
-      //   }
-
-      // });
-      //  this.checkIfEmpty();
-      // //  this.chRef.detectChanges();
-      // });
 
       //Update list for any deleted SAB
       this.savedActiveBetService.removeFromList.subscribe( ()=> {

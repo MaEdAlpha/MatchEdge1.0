@@ -1,5 +1,4 @@
 import { Component, ElementRef, OnInit, Output, ViewChild, EventEmitter } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 import { UserPropertiesService } from '../services/user-properties.service';
 import { environment as env } from '../../environments/environment.prod';
 import { resolve } from 'dns';
@@ -14,8 +13,6 @@ import { Subscription } from 'rxjs';
 export class PopupSubscribeComponent implements OnInit {
 
   constructor( public userPropertiesService: UserPropertiesService) { }
-
-  public dialog: MatDialog;
   private isNewUser:boolean;
   private plan:{promo:string, basic:string};
   public returningSubscription: Subscription;

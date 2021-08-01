@@ -3,6 +3,7 @@ h3 {
   color: whitesmoke;
   margin-bottom: 50px;
   padding-top: 22px;
+  font-size: 1.2rem;
 }
 
 a{
@@ -31,13 +32,21 @@ mat-dialog-content{
 
 .contact-info{
   padding: 0px 40px;
-  padding-top: 40px;
+  padding-top: 22px;
+  color: lightgray;
+  line-height: 1.5
+}
+
+.support{
+  font-weight: 500;
+  color: white;
 }
 
 .contact-title{
   background: white;
   color: black;
   height: 80px;
+  font-weight: 500;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -69,4 +78,5 @@ mat-dialog-content{
 
 .corp-cont{
   text-align: center;
+  font-size: 0.8rem;
 }

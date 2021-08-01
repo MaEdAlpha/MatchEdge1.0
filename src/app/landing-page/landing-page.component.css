@@ -112,6 +112,7 @@ p{
   color: whitesmoke;
   font-weight: 100;
   font-family: 'Prompt', sans-serif;
+  text-shadow: 3px 2px 3px black;
 }
 
 .about-text-lead {
@@ -145,6 +146,7 @@ p{
 h1.welcome-banner {
   font-size: 2.2rem;
   margin-bottom: -5px;
+  text-shadow: 3px 2px 3px black;
 }
 
 .about-title {
@@ -185,6 +187,7 @@ h1.welcome-banner {
   color: #f9a825;
   font-size: 1.8rem;
   text-align: center;
+  text-shadow: 3px 2px 3px black;
 }
 
 .tool-wrapper{
