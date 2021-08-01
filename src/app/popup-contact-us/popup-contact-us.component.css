@@ -80,3 +80,59 @@ mat-dialog-content{
   text-align: center;
   font-size: 0.8rem;
 }
+
+
+@media(max-width: 1139px){
+
+
+}
+
+@media(min-width: 1140px){
+.contact-info{
+  padding: 0px 5px;
+  padding-top: 15px;
+  color: lightgray;
+  line-height: 1.4;
+}
+
+.contact-thirds{
+  height: 380px;
+}
+
+.about-us-cont{
+  height: 400px;
+}
+
+
+}
+
+@media(min-width: 1300px){
+
+
+}
+
+@media(min-width: 1401px){
+
+
+}
+
+@media(min-width: 1500px){
+
+}
+
+@media(min-width:1600px){
+
+}
+
+
+@media(min-width:1800px){
+
+}
+
+@media(min-width:1900px){
+
+}
+
+@media(min-width:1401px) and (max-width:1920px){
+
+}

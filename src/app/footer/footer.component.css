@@ -105,7 +105,9 @@ a:hover {
 }
 
 @media (min-width: 1000px){
-
+  .ftr-cont {
+    margin-top: 212px;
+  }
 }
 
 @media(min-width: 1140px){
@@ -113,13 +115,15 @@ a:hover {
 }
 
 @media(min-width: 1300px){
-
+  .ftr-cont {
+    margin-top: 120px;
+  }
 }
 
 @media(min-width: 1366px){
-  .ftr-cont[_ngcontent-kpr-c129] {
+  .ftr-cont {
     margin-top: 90px;
-}
+  }
 }
 
 

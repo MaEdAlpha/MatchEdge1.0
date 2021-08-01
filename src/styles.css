@@ -53,14 +53,13 @@ mat-table {
   border: 1px solid #f9a825;
   max-width: 80vw;
   height: 27vw;
-  min-height: 20vw !important;
-  max-height: 30vw !important;
 }
 
 .quick-reference-guide .mat-dialog-container{
   width: 100%;
   height: 100%;
-  background: salmon;
+  background-color: #37474f;
+  border: 1px solid #f9a825;
 }
 
 .goodbye-dialog .mat-dialog-container{
@@ -86,8 +85,6 @@ mat-table {
   border: 1px solid #f9a825;
   max-width: 57vw;
   height: 27vw;
-  min-height: 20vw !important;
-  max-height: 30vw !important;
 }
 
 /*Media Query for popup boxes 1280x800 view */
@@ -106,6 +103,8 @@ mat-table {
   border: 1px solid #f9a825;
   color: white;
   overflow: scroll;
+  min-height: 30vw !important;
+  min-width: 50vw !important;
 }
 .view-active-bets-responsive .mat-dialog-container {
   min-width: 600px;
@@ -233,7 +232,7 @@ input.value-box-lay {
     cursor: pointer;
   }
 
- @media only screen and (max-width:1280px){
+@media only screen and (max-width:1280px){
   body {font-size: 0.78rem;}
 }
 
@@ -242,10 +241,78 @@ input.value-box-lay {
 }
 
 
-@media only screen and (max-width:1440px){
+@media (max-width:1440px){
   body {font-size: 0.80rem;}
+
+  .manage-billing-page .mat-dialog-container {
+    width: 1000px;
+    height: 540px;
+    background-image: linear-gradient(318deg, #3d4c53 0%, #293136 69%, #4f616a 100%);
+    background: #313b40;
+    border: 1px solid #f9a825;
+    color: white;
+    overflow: scroll;
+    min-height: 30vw !important;
+    min-width: 50vw !important;
+  }
+
+  .manage-billing-page{
+    width: 120vw !important;
+    height: auto !important;
+  }
 }
 
 @media only screen and (max-width:1920px){
+
+}
+
+
+@media(max-width: 1139px){
+
+
+}
+
+@media(min-width: 1140px){
+
+.about-dialog .mat-dialog-container {
+  height: 42vw;
+}
+
+.contact-dialog .mat-dialog-container {
+
+  max-width: 80vw;
+  height: 42vw;
+}
+
+}
+
+@media(min-width: 1300px){
+
+
+}
+
+@media(min-width: 1401px){
+
+
+}
+
+@media(min-width: 1500px){
+
+}
+
+@media(min-width:1600px){
+
+}
+
+
+@media(min-width:1800px){
+
+}
+
+@media(min-width:1900px){
+
+}
+
+@media(min-width:1401px) and (max-width:1920px){
 
 }

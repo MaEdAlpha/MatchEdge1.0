@@ -12,4 +12,12 @@ export class PopupQuickReferenceGuideComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  cycleImageForward(clickedRight:boolean){
+
+    if(clickedRight){
+      //cycle +1 in image index
+    }else{
+      //cycle to -1 indexed image
+    }
+  }
 }

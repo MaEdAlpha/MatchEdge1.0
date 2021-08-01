@@ -25,7 +25,7 @@ export class SubscriptionsComponent implements OnInit, OnChanges, OnDestroy, Aft
   isActiveSub: boolean;
   isNewUser: boolean = true;
   subExpiration: string;
-  infoSelected:boolean = false;
+  infoSelected:boolean;
   welcomeMessageSubscription: Subscription;
   userName:string;
   isLoading:boolean;
@@ -53,6 +53,7 @@ export class SubscriptionsComponent implements OnInit, OnChanges, OnDestroy, Aft
     this.isActiveSub = null;
     this.isNewUser = true;
     this.isLoading = true;
+    this.infoSelected = false;
 
     this.welcomeMessageSubscription = this.userPropertiesService.getSubscriptionState().subscribe( user => {
       //assign landing page to returning user, or new user with custom message
@@ -96,6 +97,7 @@ export class SubscriptionsComponent implements OnInit, OnChanges, OnDestroy, Aft
         document.querySelector('#focal-point').scrollIntoView({ block:"end", inline:"center", behavior: "smooth"});
       },200)
     }
+
   }
 
   openManageBillingPopUp(){
@@ -116,48 +118,7 @@ export class SubscriptionsComponent implements OnInit, OnChanges, OnDestroy, Aft
     });
   }
 
-  payPalPortal(){
-    // paypal.Buttons({
-    //   createOrder: function(data, actions) {
-    //     return actions.order.create({
-    //       purchase_units: [{
-    //         amount: {
-    //           value: '0.01'
-    //         }
-    //       }]
-    //     });
-    //   },
-    //   onApprove: function(data, actions) {
-    //     return actions.order.capture().then(function(details) {
-    //       alert('Transaction completed by ' + details.payer.name.given_name);
-    //     });
-    //   }
-    // }).render('#paypal-button-container');
-  }
 
-  customerPortal(userEmail: string){
-
-    fetch(env.serverUrl +'/customer-portal', {
-      method: 'POST',
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        email: userEmail
-      }),
-    })
-    .then(function(response) {
-      console.log(response);
-
-      return response.json()
-    })
-    .then(function(data) {
-      window.location.href = data.url;
-    })
-    .catch(function(error) {
-      console.error('Error:', error);
-    });
-  }
 
 
  popupViewCheckout(){

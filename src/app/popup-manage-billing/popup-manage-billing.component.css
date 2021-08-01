@@ -7,6 +7,10 @@ h2{
   font-size: 1.4rem;
 }
 
+.mat-dialog-content{
+  padding: 2px 10px;
+}
+
 .support{
   font-weight: 500;
   color: white;
@@ -102,4 +106,6 @@ p{
 .billing-contacts{
   margin-top: 10px;
 }
+
+
 

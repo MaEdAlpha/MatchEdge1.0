@@ -4,10 +4,14 @@
   font-size: 2rem;
 }
 
+ul{
+  list-style-type: none;
+}
+
 li{
   color: #ffc235;
   line-height: 1.8;
-  font-size: 1.4rem;
+  font-size: 1.3rem;
 }
 
 .info-text {
@@ -29,6 +33,9 @@ li{
   background: linear-gradient(146deg, rgb(100,116,124,1) 0%, rgb(37 46 51) 25%, rgb(42 54 60) 40%);
   height: 100%;
   width: 80%;
+  float: right;
+  margin-top: -60px;
+  margin-right: 20px;
 }
 
 .sub-img{
@@ -67,17 +74,42 @@ li{
   .product-features {
     width: 100%;
   }
+
+  .features-text{
+    width: 80%;
+    font-size: 1rem;
+    color: lightgray;
+  }
+
+  .option-wrapper{
+    width: 60%;
+  }
 }
 
 @media(max-width: 1440px){
   .info-title{
-    font-size: 1rem;
+    font-size: 1.4rem;
+  }
+
+  .info-wrapper{
+    width: 95%;
+  }
+
+  li{
+    line-height: 1.8;
+    font-size: 1.0rem;
   }
 }
 
 @media(min-width:1441px) {
   .info-title{
+    font-size: 1.8rem;
     margin-bottom: 2%;
+  }
+
+  .info-text{
+    font-size: 1rem;
+    color: lightgray;
   }
 
   .info-text{

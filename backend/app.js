@@ -120,35 +120,6 @@ let clientSecret = "EFwpsvpjfVglBuPcXURyd2wsPJ4AAztjVgKpVMfhgtDdbe-uxscXxqZL7P85
 let environment = new paypal.core.SandboxEnvironment(clientId, clientSecret);
 let elonMusky = new paypal.core.PayPalHttpClient(environment);
 let token_option = new paypal.core.AccessTokenRequest(environment);
-let access_token = new paypal.core.AccessToken(token_option);
-
-
-// Construct a request object and set desired parameters
-// Here, OrdersCreateRequest() creates a POST request to /v2/checkout/orders
-// let request = new paypal.orders.OrdersCreateRequest();
-// request.requestBody({
-//                           "intent": "CAPTURE",
-//                           "purchase_units": [
-//                               {
-//                                   "amount": {
-//                                       "currency_code": "GBP",
-//                                       "value": "100.00"
-//                                   }
-//                               }
-//                            ]
-//                     });
-
-// // Call API with your client and get a response for your call
-// let createOrder  = async function(){
-//         let response = await elonMusky.execute(request);
-//         console.log(`Response: ${JSON.stringify(response)}`);
-//         // If call returns body in response, you can get the deserialized version from the result attribute of the response.
-//        console.log(`Order: ${JSON.stringify(response.result)}`);
-
-//        console.log(paypal);
-// }
-// createOrder();
-
 
 
 app.post('/paypal-transaction', async (req,res) => {
@@ -224,6 +195,7 @@ app.post('/webhook', async (req, res) => {
     console.log(postData.resource.id);
     console.log(postData.resource.billing_info.last_payment.time);
     console.log(postData.resource.billing_info.next_billing_time);
+    console.log(postData.resouce.billing_info.outstanding_balance.last_payment.amount.value);
 
     //updateDataBase with last_payment
     //updateDataBase with next_billing_cycle
@@ -265,7 +237,7 @@ app.post('/webhook', async (req, res) => {
 
   let query = {'juicy_email' : subID }
   let update = { $set: {'subscription_status' : postData.resource.status,
-                        'subscription_paid_on' : last_paid,
+                        'subscription_paid_on' : lastPaid,
                         'subscription_next_payment': nextPayment
                         }
                 }
