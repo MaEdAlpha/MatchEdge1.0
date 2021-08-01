@@ -68,6 +68,7 @@ h2.sm-link:hover{
   text-align: center;
   width: 100%;
   padding-top: 10px;
+  font-size: 12px;
 }
 
 p{
@@ -116,29 +117,15 @@ a:hover {
 }
 
 @media(min-width: 1366px){
-
+  .ftr-cont[_ngcontent-kpr-c129] {
+    margin-top: 90px;
+}
 }
 
-@media(min-width: 1400px){
 
-}
-
-@media(min-width: 1500px){
-
-}
-
-@media(min-width:1600px){
-
-}
-
-@media(min-width:1700px){
-
-}
-
-@media(min-width:1801px){
-
-}
 
 @media(min-width:1401px) and (max-width:1920px){
-
+  .ftr-cont[_ngcontent-kpr-c129] {
+    margin-top: 125px;
+}
 }
