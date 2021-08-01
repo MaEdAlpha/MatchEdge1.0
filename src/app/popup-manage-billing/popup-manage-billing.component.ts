@@ -26,16 +26,6 @@ export class PopupManageBillingComponent implements OnInit {
       this.paymentEmail = result.paymentEmail;
       this.chRef.detectChanges();
     });
-
-
-
-
-
-    //get userName
-    //get user specific details
-    //signup-date
-    //next payment
-    //email used for payment.
   }
 
   cancelSubscription():void{

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { ProductFeaturesComponent } from '../product-features/product-features.component';
 
 @Component({
   selector: 'app-landing-page',
@@ -7,9 +9,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LandingPageComponent implements OnInit {
 
-  constructor() { }
+  constructor( private dialog: MatDialog) { }
 
   ngOnInit(): void {
+  }
+
+  displayTwoUpInfo(){
+     this.dialog.open(ProductFeaturesComponent, {panelClass: 'two-up-landing-page'});
   }
 
 }

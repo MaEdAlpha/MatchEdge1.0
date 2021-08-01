@@ -18,7 +18,7 @@ app.use((req, res, next) => {
   //   res.setHeader("Access-Control-Allow-Methods",'GET, PUT, POST, PATCH, DELETE, OPTIONS');
   //     next();
     // Website you wish to allow to connect
-    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Origin', 'https://www.juicy-bets.com');
     // Request methods you wish to allow
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
     // Request headers you wish to allow
@@ -405,7 +405,7 @@ app.get(`/api/updates`, function(req, res) {
 //PRODUCTION CORS : 'https://www.juicy-bets.com'
 //TODO can you wildcard Access-control-allow-origin?
   res.writeHead(200, {
-    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Origin': 'https://www.juicy-bets.com',
     'Content-Type': 'text/event-stream',
     'Cache-Control': 'no-cache',
     'Connection': 'keep-alive',

@@ -1,0 +1,23 @@
+.popup-content {
+  width: 100%;
+  display: inline-block;
+  text-align: center;
+  padding-top: 10px;
+  color: lightgray;
+  line-height: 1.5;
+}
+
+.popup-content>img{
+  width: 100px;
+}
+
+.popup-content>p{
+  padding: 10px 20px;
+  font-size: 1rem;
+}
+
+ .login-redirects{
+ width: 100%;
+ display: flex;
+ justify-content: center;
+}

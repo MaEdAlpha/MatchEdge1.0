@@ -215,18 +215,6 @@ img.two-up {
   margin: 0px;
 }
 
-ul{
-  list-style-image: url(../../assets/img/ball-20x20.png);
-}
-li{
-  line-height: 30px;
-}
-
-.info-title{
-  color: #ffc235;
-  text-decoration: underline;
-}
-
 @media (max-width: 700px){
   .inactive-img>h3,
   button{
@@ -276,11 +264,6 @@ li{
 }
 
 @media(min-width:1441px) {
-  .title-text,
-  .info-title{
-    font-size: 2rem;
-  }
-
   .info-wrapper{
     width: 89%;
   }
@@ -295,7 +278,6 @@ li{
     font-size: 1.5rem;
     line-height: 30px;
   }
-
 
   .product-features{
     font-size: 1.314159265359rem;

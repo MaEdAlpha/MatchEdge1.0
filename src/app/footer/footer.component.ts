@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { PopupAboutUsComponent } from '../popup-about-us/popup-about-us.component';
 import { PopupContactUsComponent } from '../popup-contact-us/popup-contact-us.component';
@@ -11,14 +11,14 @@ import { TermsOfUseComponent } from '../terms-of-use/terms-of-use.component';
   styleUrls: ['./footer.component.css']
 })
 export class FooterComponent implements OnInit {
-
+  @Input() hasAccess;
   constructor(public dialog: MatDialog) { }
 
   ngOnInit(): void {
   }
 
   openDialog(option:number):void{
-    option == 0 ? this.dialog.open(PopupAboutUsComponent, {panelClass: 'about-dialog'}) : this.dialog.open(PopupContactUsComponent, {panelClass: 'about-dialog'});
+    option == 0 ? this.dialog.open(PopupAboutUsComponent, {panelClass: 'contact-dialog'}) : this.dialog.open(PopupContactUsComponent, {panelClass: 'about-dialog', data: {hasAccess: this.hasAccess}});
   }
 
   openTermsAndConditions():void{

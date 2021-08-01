@@ -8,7 +8,7 @@ module.exports = (req, res, next) => {
     // console.log(req.headers.authorization);
     const token = req.headers.authorization.split(" ")[1];
     // console.log(token);
-    console.log('Auth Check triggered');
+    console.log('Auth Check triggered ' + process.env.JWT_PVT_K);
     //token  + private Key JWT_KEY
     jwt.verify(token, process.env.JWT_PVT_K);
     next();

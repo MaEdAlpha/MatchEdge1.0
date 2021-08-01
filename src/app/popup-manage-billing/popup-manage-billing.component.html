@@ -1,18 +1,23 @@
 <div class="billing-info-wrapper">
   <h2>Current Billing Info</h2>
   <div class="billing-information">
-    <p>Subscription: {{subscription}}</p>
-    <p>Account Status: {{subscriptionStatus}}</p>
+    <p>Subscription ID: {{subscription}}</p>
     <p>Last payment recieved: {{lastPaid}}</p>
-    <p>Next payment is due: {{nextPayment}}</p>
+    <p>Subscription Status: {{subscriptionStatus}}</p>
+    <ng-container *ngIf="subscriptionStatus =='CANCELLED' else normalMessage">
+      <p>Subscription expires on {{nextPayment}}</p>
+    </ng-container>
+    <ng-template #normalMessage>
+      <p>Next payment is due: {{nextPayment}}</p>
+    </ng-template>
     <p>Invoice is being sent to: {{paymentEmail}}</p>
     <div class="billing-details">
       <p>Hi, we do not store any personal data on our site. If you have any issues about your account, please contact us with the subscription number above.
-        If you would like to cancel your subscription, you may do so at any time. Just know that by clicking the cancel button below, you will no longer have access to this account once you are logged out.</p>
+        If you would like to cancel your subscription, you may do so at any time. Just know that by clicking the cancel button below, you will no longer have
+        access to this account once you are logged out.</p>
 
       <p> To reactivate an inactive account, you can do so the same way as before. Please note, that you will not qualify for another free trial periods if you do so. </p>
       <p>If you have any further questions (or would like to just say Hi), please contact us at support@juicy-bets.com or visit our <a href="https://facebook.com">Facebook page</a></p>
-
     </div>
     <div class="billing">
       <button mat-raised-button (click)="cancelSubscription();">Cancel</button>
