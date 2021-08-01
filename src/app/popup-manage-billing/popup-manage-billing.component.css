@@ -1,12 +1,105 @@
-.billing-info-wrapper {
-  padding: 10px;
-  height: 100%;
+
+
+h2{
+  text-align: center;
+  color: #ffc235;
+  font-weight: bolder;
+  font-size: 1.4rem;
 }
 
-.billing-information {
-  border: 1px solid white;
-  border-radius: 5px;
-  width: 100%;
-  height: 80%;
-  padding: 10px;
+.support{
+  font-weight: 500;
+  color: white;
 }
+
+p{
+  color: lightgray;
+  margin: 0px;
+  font-size: 1.0rem;
+  line-height: 2.2;
+}
+
+.small-text{
+  font-size: 0.7rem;
+}
+
+.billing-details{
+  display: inline-flex;
+  justify-content: space-between;
+
+}
+.billing-information{
+  width: 50%;
+}
+
+.billing-value{
+  color: #ffc235;
+}
+
+.billing-contacts,
+.billing-information{
+  background: #37474f6e;
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 1px 1px 1px 1px black;
+}
+.billing-cancellation{
+  width: 30%;
+}
+
+.billing-cancellation{
+  display:flex;
+  align-items: center;
+}
+
+.button-wrapper{
+  text-align: center;
+  margin: 5px;
+}
+
+.cancellation-container {
+  border: 1px solid #f9a825;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 1px 1px 5px 1px black;
+}
+
+.hide{
+  visibility: hidden;
+}
+.unhide{
+  visibility: visible;
+}
+
+.cancel-recurring-toggle{
+  display: inline-flex;
+  width: 60%;
+  justify-content: space-evenly;
+}
+.button-wrapper > button {
+  padding: 10px;
+  line-height: 10px;
+  margin: 10px;
+  background: #37474f;
+}
+
+.button-wrapper > button:first-of-type{
+  color: whitesmoke;
+}
+.button-wrapper > button:last-of-type{
+  color: #f9a825;
+}
+
+.two-up-logo{
+  width: 10%;
+}
+
+.two-up-logo>img{
+  float: right;
+  margin-top: -10px;
+}
+
+.billing-contacts{
+  margin-top: 10px;
+}
+

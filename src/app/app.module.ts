@@ -117,6 +117,7 @@ import { PopupManageBillingComponent } from './popup-manage-billing/popup-manage
 import { ProductFeaturesComponent } from './product-features/product-features.component';
 import { PopupQuickReferenceGuideComponent } from './popup-quick-reference-guide/popup-quick-reference-guide.component';
 import { PopupLoginMessageComponent } from './popup-login-message/popup-login-message.component';
+import { PopupConfirmCancellationComponent } from './popup-confirm-cancellation/popup-confirm-cancellation.component';
 
 
 
@@ -188,6 +189,7 @@ import { PopupLoginMessageComponent } from './popup-login-message/popup-login-me
     ProductFeaturesComponent,
     PopupQuickReferenceGuideComponent,
     PopupLoginMessageComponent,
+    PopupConfirmCancellationComponent,
   ],
   imports: [
     AppRoutingModule,

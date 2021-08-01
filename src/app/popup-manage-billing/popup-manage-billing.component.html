@@ -1,26 +1,46 @@
+<h2>Juicy2Ups Subscription</h2>
 <div class="billing-info-wrapper">
-  <h2>Current Billing Info</h2>
-  <div class="billing-information">
-    <p>Subscription ID: {{subscription}}</p>
-    <p>Last payment recieved: {{lastPaid}}</p>
-    <p>Subscription Status: {{subscriptionStatus}}</p>
-    <ng-container *ngIf="subscriptionStatus =='CANCELLED' else normalMessage">
-      <p>Subscription expires on {{nextPayment}}</p>
-    </ng-container>
-    <ng-template #normalMessage>
-      <p>Next payment is due: {{nextPayment}}</p>
-    </ng-template>
-    <p>Invoice is being sent to: {{paymentEmail}}</p>
-    <div class="billing-details">
-      <p>Hi, we do not store any personal data on our site. If you have any issues about your account, please contact us with the subscription number above.
-        If you would like to cancel your subscription, you may do so at any time. Just know that by clicking the cancel button below, you will no longer have
-        access to this account once you are logged out.</p>
 
-      <p> To reactivate an inactive account, you can do so the same way as before. Please note, that you will not qualify for another free trial periods if you do so. </p>
-      <p>If you have any further questions (or would like to just say Hi), please contact us at support@juicy-bets.com or visit our <a href="https://facebook.com">Facebook page</a></p>
+  <div class="billing-details">
+    <div class="billing-information">
+      <p class="normal-text">Account ID: <span class="billing-value"> {{subscription}}</span></p>
+      <p class="small-text">Please quote your Account ID when contacting our support team.</p>
+      <p class="normal-text">Last payment recieved: <span class="billing-value"> {{lastPaid}}</span></p>
+      <p class="normal-text">Last payment amount:<span class="billing-value"> *PlacemarkerValue </span></p>
+      <ng-container *ngIf="subscriptionStatus =='CANCELLED' else normalMessage">
+        <p>Subscription access ends: <span class="billing-value">{{nextPayment}}</span> </p>
+        <p>Next payment amount: <span class="billing-value">£0.00</span></p>
+      </ng-container>
+      <ng-template #normalMessage>
+        <p>Next payment date: <span class="billing-value">{{nextPayment}}</span></p>
+        <p>Next payment amount: <span class="billing-value">*get Variable*</span></p>
+      </ng-template>
+
+      <p>Reccuring payment status: <span class="billing-value">{{subscriptionStatus}}</span></p>
+      <div class="cancel-recurring-toggle">
+        <p class="small-text"> Cancel recurring payment</p>
+        <mat-checkbox [(ngModel)]="checked" [disabled]="subscriptionStatus =='CANCELLED'">Yes</mat-checkbox>
+      </div>
+      <p>Billing sent to: <span class="billing-value">{{paymentEmail}}</span></p>
     </div>
-    <div class="billing">
-      <button mat-raised-button (click)="cancelSubscription();">Cancel</button>
+
+    <div class="billing-cancellation">
+      <div class="cancellation-container" [ngClass]="checked?'unhide':'hide'">
+        <p>Are you sure that you would like to cancel your reoccurring payment for Juicy2Ups?</p>
+        <div class="button-wrapper">
+          <button mat-raised-button (click)="cancelSubscription();">Yes, I'm sure!</button>
+          <button mat-raised-button (click)="sillyClick()">No thanks!</button>
+        </div>
+      </div>
+    </div>
+    <div class="two-up-logo">
+      <img src="../../assets/img/jbLogo.png" alt="">
     </div>
   </div>
+
+
+  <div class="billing-contacts">
+    <p>If you have any questions about your subscription, contact our support team at <span class="support">support@juicy-bets.com</span> from your registered email address. Please provide your Account ID.</p>
+  </div>
 </div>
+

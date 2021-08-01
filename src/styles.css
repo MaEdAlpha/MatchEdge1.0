@@ -63,6 +63,12 @@ mat-table {
   background: salmon;
 }
 
+.goodbye-dialog .mat-dialog-container{
+  background-color: #37474f;
+  border: 1px solid #f9a825;
+  color: lightgray;
+}
+
 .login-message .mat-dialog-container{
   background-color: #37474f;
   height: 15vw;

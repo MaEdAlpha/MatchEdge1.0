@@ -1,0 +1,14 @@
+.cancelled-sub-message{
+  padding: 10px;
+}
+
+h2,
+.highlight{
+  text-align: center;
+  color: #ffc235;
+}
+
+p{
+  color: lightgray;
+  font-size: 1rem;
+}

@@ -62,6 +62,12 @@ export class NotificationBoxService {
     this.toast.success('Toastr Working', 'title');
   }
 
+  showLove(){
+    this.toast.info('Good Choice 😃 👊','',{
+      timeOut:3000
+    });
+  }
+
   showToast(message, title): ActiveToast<any>{
     var toast: ActiveToast<any>;
     toast = this.toast.show(message, title,{

@@ -32,11 +32,6 @@
   text-shadow: 3px 2px 3px black;
 }
 
-.support{
-  font-weight: 500;
-  color: white;
-}
-
 
 mat-dialog-content{
   border: 1px solid #4b5960;
