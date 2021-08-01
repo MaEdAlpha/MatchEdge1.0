@@ -47,10 +47,14 @@ mat-table {
 
 /* Mat Dialog Style change*/
 .about-dialog .mat-dialog-container {
-  padding: 30px;
+  padding: 0px 25px;
   background-color: #37474f;
   overflow: scroll;
   border: 1px solid #f9a825;
+  max-width: 80vw;
+  height: 27vw;
+  min-height: 20vw !important;
+  max-height: 30vw !important;
 }
 
 /*Media Query for popup boxes 1280x800 view */

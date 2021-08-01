@@ -37,7 +37,7 @@ span.popup-dialog:hover {
 }
 
 h2.sm-link:hover{
-  color: blue;
+  color: #4164f6;
   text-decoration: underline;
   cursor: pointer;
 }
@@ -85,11 +85,11 @@ p{
 }
 
 a {
-  color: #c0c0c0;
+  color: #ffeec5;
 }
 
 a:hover {
-  color: blue;
+  color: #4164f6;
   cursor: pointer;
 }
 

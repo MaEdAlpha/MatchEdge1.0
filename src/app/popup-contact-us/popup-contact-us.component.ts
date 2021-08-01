@@ -12,4 +12,8 @@ export class PopupContactUsComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  popupInfo(option:number):void{
+
+  }
+
 }

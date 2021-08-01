@@ -1,25 +1,70 @@
-.about-us-cont{
-  background: #3d4f58;
-  padding: 20px;
-}
 
-.about-us-cont > p,
-.about-us-cont > h3 {
-color:whitesmoke;
-}
-
-h2,h3 {
+h3 {
   color: whitesmoke;
+  margin-bottom: 50px;
+  padding-top: 22px;
 }
 
 a{
-  color:#c0c0c0;
+  color:#ffeec5;
   text-decoration: underline;
+
 }
 a:hover {
-  color: blue;
+  color: #4164f6;
 }
 
 mat-dialog-content{
   border: 1px solid #4b5960;
+}
+
+.contact-thirds {
+  width: 30%;
+  height: 365px;
+  background: #263238;
+  color: white;
+  font-size: 1rem;
+  padding: 10px;
+  border: 1px solid white;
+}
+
+.contact-info{
+  padding: 0px 40px;
+  padding-top: 40px;
+}
+
+.contact-title{
+  background: white;
+  color: black;
+  height: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0px 30px;
+  text-align: center;
+}
+
+.center-content{
+  text-align: center;
+}
+
+.about-us-cont {
+  display: flex;
+  height: 382px;
+  color:whitesmoke;
+  justify-content: space-between;
+  background: #36454c;
+  padding: 5px;
+}
+
+.popup-dialog{
+  color: #ffc235;
+}
+
+.popup-dialog:hover{
+  text-decoration: underline;
+}
+
+.corp-cont{
+  text-align: center;
 }
