@@ -259,6 +259,9 @@ tr.juicyMatch-row:not(.juicyMatch-expanded-row):active { /* when main container 
   animation: backBlinkBackground 1.5s infinite;
   box-sizing: border-box;
   border: 3px solid #126E51;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 @keyframes backBlinkBackground{
   /*OPTION 1
@@ -288,7 +291,9 @@ tr.juicyMatch-row:not(.juicyMatch-expanded-row):active { /* when main container 
   box-sizing: border-box;
   border: 3px solid #003366;
   margin-left: -38px;
-
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 @keyframes layBackground{
   /*OPTION 1
