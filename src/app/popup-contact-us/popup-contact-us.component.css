@@ -28,6 +28,14 @@ mat-dialog-content{
   padding: 10px;
   border: 1px solid white;
   box-shadow: 1px 1px 3px 1px black;
+  opacity: 0.3;
+}
+
+
+.first-thirds:hover,
+.second-thirds:hover,
+.final-thirds:hover {
+  opacity: 1;
 }
 
 .contact-info{

@@ -6,15 +6,15 @@
     <div class="billing-information">
       <p class="normal-text">Account ID: <span class="billing-value"> {{subscription}}</span></p>
       <p class="small-text">Please quote your Account ID when contacting our support team.</p>
-      <p class="normal-text">Last payment recieved: <span class="billing-value"> {{lastPaid}}</span></p>
-      <p class="normal-text">Last payment amount:<span class="billing-value"> *PlacemarkerValue </span></p>
+      <!-- <p class="normal-text">Last payment recieved: <span class="billing-value"> {{lastPaid}}</span></p> -->
+      <!-- <p class="normal-text">Last payment amount:<span class="billing-value"> *PlacemarkerValue </span></p> -->
       <ng-container *ngIf="subscriptionStatus =='CANCELLED' else normalMessage">
         <p>Subscription access ends: <span class="billing-value">{{nextPayment}}</span> </p>
-        <p>Next payment amount: <span class="billing-value">£0.00</span></p>
+        <!-- <p>Next payment amount: <span class="billing-value">£0.00</span></p> -->
       </ng-container>
       <ng-template #normalMessage>
         <p>Next payment date: <span class="billing-value">{{nextPayment}}</span></p>
-        <p>Next payment amount: <span class="billing-value">*get Variable*</span></p>
+        <!-- <p>Next payment amount: <span class="billing-value">*get Variable*</span></p> -->
       </ng-template>
 
       <p>Reccuring payment status: <span class="billing-value">{{subscriptionStatus}}</span></p>

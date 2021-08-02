@@ -8,6 +8,14 @@ ul{
   list-style-type: none;
 }
 
+a:hover{
+  color: #ffc235;
+}
+
+a{
+  color:#ffeec5;
+}
+
 li{
   color: #ffc235;
   line-height: 1.8;

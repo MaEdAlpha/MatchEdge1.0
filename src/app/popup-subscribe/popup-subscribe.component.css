@@ -28,15 +28,15 @@
 }
 
 .title-box{
-  display: inline-grid;
+  display: inline;
   text-align: center;
   background: #313b4080;
-  border: 1px solid #e1ad1852;
   border-radius: 36px;
-  width: 100%;
+  width: 400px;
   padding-top: 5px;
-  padding-bottom: 5px;
+  padding-bottom: 10px;
   color: #f9a825;
+  margin-left: auto;
 }
 
 .promote{
@@ -47,7 +47,9 @@ h4{
   color: #f9a825;
 }
 
-
+.highlight{
+  color: #f9a825;
+}
 .sales-box{
   display: inline-block;
   width: 100%;
