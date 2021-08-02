@@ -63,7 +63,7 @@ export class NotificationBoxService {
   }
 
   showLove(){
-    this.toast.info('Good Choice 😃 👊','',{
+    this.toast.info('😃 👊👊👊','',{
       timeOut:3000
     });
   }

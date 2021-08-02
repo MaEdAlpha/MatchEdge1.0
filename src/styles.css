@@ -3,7 +3,7 @@ html, body { height: 100%; }
 
 html{
   width: 100%;
-  overflow: visible !important;
+  overflow: hidden !important;
   overflow-x: scroll !important;
   overflow-y: scroll !important;
   position: relative;
@@ -104,8 +104,7 @@ mat-table {
   border: 1px solid #f9a825;
   color: white;
   overflow: scroll;
-  min-height: 30vw !important;
-  min-width: 50vw !important;
+  height: 23vw !important;
 }
 .view-active-bets-responsive .mat-dialog-container {
   min-width: 600px;
@@ -247,14 +246,8 @@ input.value-box-lay {
 
   .manage-billing-page .mat-dialog-container {
     width: 1000px;
-    height: 540px;
-    background-image: linear-gradient(318deg, #3d4c53 0%, #293136 69%, #4f616a 100%);
-    background: #313b40;
-    border: 1px solid #f9a825;
-    color: white;
+    height: 540px !important;
     overflow: scroll;
-    min-height: 30vw !important;
-    min-width: 50vw !important;
   }
 
   .manage-billing-page{
@@ -280,7 +273,7 @@ input.value-box-lay {
 }
 
 .contact-dialog .mat-dialog-container {
-
+  max-height: 100%;
   max-width: 80vw;
   height: 44vw;
 }
@@ -302,11 +295,17 @@ input.value-box-lay {
   .about-dialog .mat-dialog-container {
     height: 37vw;
   }
+  .manage-billing-page .mat-dialog-container{
+    height: 37vw !important;
+  }
 }
 
 @media(min-width: 1500px){
   .about-dialog .mat-dialog-container {
     height: 35vw;
+  }
+  .manage-billing-page .mat-dialog-container{
+    height: 30vw !important;
   }
 }
 
@@ -314,11 +313,14 @@ input.value-box-lay {
   .about-dialog .mat-dialog-container {
     height: 33vw;
   }
+  .manage-billing-page .mat-dialog-container{
+    height: 23vw !important;
+  }
 }
 
 
 @media(min-width:1800px){
-  .about-dialog .mat-dialog-container {
+  .about-dialog .mat-dialog-container  {
     height: 30vw;
   }
 }

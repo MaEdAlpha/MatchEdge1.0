@@ -116,13 +116,13 @@ a:hover {
 
 @media(min-width: 1300px){
   .ftr-cont {
-    margin-top: 120px;
+    margin-top: 190px;
   }
 }
 
 @media(min-width: 1366px){
   .ftr-cont {
-    margin-top: 90px;
+    margin-top: 200px;
   }
 }
 

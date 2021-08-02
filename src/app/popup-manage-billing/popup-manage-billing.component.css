@@ -29,7 +29,8 @@ p{
 
 .billing-details{
   display: inline-flex;
-  justify-content: space-between;
+  justify-content: right;
+  align-items: center;
 
 }
 .billing-information{
@@ -40,20 +41,17 @@ p{
   color: #ffc235;
 }
 
-.billing-contacts,
-.billing-information{
-  background: #37474f6e;
-  padding: 10px;
-  border-radius: 10px;
-  box-shadow: 1px 1px 1px 1px black;
-}
 .billing-cancellation{
-  width: 30%;
+  width: 40%;
 }
 
 .billing-cancellation{
   display:flex;
   align-items: center;
+}
+
+.billing-info-wrapper{
+  padding-top: 20px;
 }
 
 .button-wrapper{
@@ -73,6 +71,7 @@ p{
 }
 .unhide{
   visibility: visible;
+  width: max-content;
 }
 
 .cancel-recurring-toggle{
@@ -95,7 +94,10 @@ p{
 }
 
 .two-up-logo{
-  width: 10%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-around;
+  width: 100%;
 }
 
 .two-up-logo>img{
@@ -108,4 +110,18 @@ p{
 }
 
 
+
+@media (max-width:1180px){
+  p{
+    font-size: 0.85rem;
+  }
+  .billing-value {
+    font-size: 0.7rem;
+  }
+}
+
+@media(min-width:1415p)and(max-width:1720px)
+{
+
+}
 
