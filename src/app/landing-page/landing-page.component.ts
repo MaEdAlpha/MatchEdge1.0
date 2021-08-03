@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ProductFeaturesComponent } from '../product-features/product-features.component';
+import { TwoUpProductFeaturesComponent } from '../two-up-product-features/two-up-product-features.component';
 
 @Component({
   selector: 'app-landing-page',
@@ -15,7 +16,7 @@ export class LandingPageComponent implements OnInit {
   }
 
   displayTwoUpInfo(){
-     this.dialog.open(ProductFeaturesComponent, {panelClass: 'two-up-landing-page'});
+     this.dialog.open(TwoUpProductFeaturesComponent, {panelClass: 'two-up-landing-page'});
   }
 
 }

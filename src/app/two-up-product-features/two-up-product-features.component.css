@@ -1,0 +1,41 @@
+
+h4{
+  color: #f9a825;
+}
+
+p{
+  color: lightgray;
+}
+
+.highlight{
+  color: #f9a825;
+}
+.sales-box{
+  display: inline-block;
+  width: 100%;
+}
+
+.sales-row{
+  width: 100%;
+  display: inline-flex;
+  justify-content: space-evenly;
+  margin-top: 10px;
+  padding-left: 2px;
+  padding-right: 2px;
+}
+
+.sales-cell{
+  display: -webkit-inline-box;
+  margin: 0px;
+  padding: 5px;
+  width: 26%;
+}
+
+.sub-img{
+  max-width: 115px;
+}
+
+.ball-bullet{
+  margin-right: 5px;
+  width: 10px;
+}
