@@ -277,6 +277,32 @@ h1.welcome-banner {
   font-size: 1.2rem;
 }
 
+.faq-title {
+  width: 100%;
+  color: #f9a825;
+  padding-left: 20px;
+  opacity: 0.8;
+  font-size: 1.8rem;
+  text-shadow: 3px 2px 3px black;
+}
+
+.faq{
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 79px;
+}
+
+.expansion-panel{
+  background: transparent;
+  margin-bottom: 10px;
+}
+
+.popup-dialog,
+.faq-info {
+  color: lightgray;
+}
+
 
 /* Responsive layout */
 
