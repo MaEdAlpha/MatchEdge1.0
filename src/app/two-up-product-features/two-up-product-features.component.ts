@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from '@auth0/auth0-angular';
 
 @Component({
   selector: 'app-two-up-product-features',
@@ -7,9 +8,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TwoUpProductFeaturesComponent implements OnInit {
 
-  constructor() { }
+  constructor(private auth: AuthService) { }
 
   ngOnInit(): void {
+  }
+
+  login():void{
+    this.auth.loginWithRedirect();
   }
 
 }

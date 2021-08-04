@@ -1,6 +1,6 @@
-
 h4{
   color: #f9a825;
+  text-shadow: 2px 2px 1px black;
 }
 
 p{
@@ -9,10 +9,17 @@ p{
 
 .highlight{
   color: #f9a825;
+  text-shadow: 2px 4px 5px black;
+}
+
+.highlight:hover{
+  cursor: pointer;
+  text-shadow: none;
 }
 .sales-box{
   display: inline-block;
   width: 100%;
+  margin-top: 10px;
 }
 
 .sales-row{
@@ -22,6 +29,10 @@ p{
   margin-top: 10px;
   padding-left: 2px;
   padding-right: 2px;
+}
+
+.sales-row:last-child{
+  margin-bottom: 10px;
 }
 
 .sales-cell{
@@ -38,4 +49,15 @@ p{
 .ball-bullet{
   margin-right: 5px;
   width: 10px;
+}
+
+.redirect {
+  display: flex;
+  justify-content: center;
+  font-size: 1.2rem;
+  padding-top: 20px;
+}
+
+hr{
+  border-color: #f9a825;
 }

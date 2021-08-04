@@ -1,7 +1,7 @@
 .info-title{
-  color: #ffc235;
+  color: #f9a825;
   text-align: center;
-  font-size: 2rem;
+  text-shadow: 2px 2px 1px black;
 }
 
 ul{
@@ -22,8 +22,8 @@ li{
   font-size: 1.3rem;
 }
 
-.info-text {
-  color: whitesmoke;
+.info-text, h3 {
+  color: lightgray;
   margin: 0px;
   text-align: left;
   line-height: 25px;
@@ -118,10 +118,7 @@ li{
   .info-text{
     font-size: 1rem;
     color: lightgray;
-  }
-
-  .info-text{
-    font-size: 1.2rem;
     line-height: 30px;
   }
+
 }

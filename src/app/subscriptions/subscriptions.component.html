@@ -43,8 +43,11 @@
                 </div>
               </div>
               <div class="option-wrapper active-wrapper">
-                <div class="active-img" (click)="enterSite();">
-                  <img  class="sub-img two-up" src="../../assets/img/2upEnabled210x210.png" alt="">
+                <div class="active-img">
+                  <div class="img-wrapper" (click)="enterSite();">
+                    <img  class="sub-img two-up" src="../../assets/img/2upEnabled210x210.png" alt="">
+                  </div>
+                  <button  class="info-btn solo-btn" mat-raised-button (click)="openProductPopup()">View guide</button>
                 </div>
                 <div class="sport">
                   <h2> Juicy2Ups</h2>
@@ -60,7 +63,7 @@
 
                   <div class="inactive-btn-cont">
                     <button id="basic-plan-btn" class="sub-btn" mat-raised-button [disabled]="accountStatus == 'FAILED PAYMENT'" (click)="this.popupViewCheckout()">Subscribe</button>
-                    <button  class="info-btn" mat-raised-button (click)="displayInfo()">Info</button>
+                    <button  class="info-btn" mat-raised-button (click)="displayInfo()">View guide</button>
                   </div>
                 </div>
               </div>
