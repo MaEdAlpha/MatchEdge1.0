@@ -1,24 +1,24 @@
-<h2>Juicy Bets</h2>
+<h2 class="main-title">Juicy2Ups</h2>
 <mat-dialog-content class="mat-typography">
 
   <div id='content' class="contents">
-    <h2>Contents</h2>
+    <div class="welcome">
+      <p>&nbsp;Below you will find some material to help you navigate through our site. Skip ahead by clicking one of titles below.</p>
+    </div>
+
     <ul>
-      <li (click)="scrollToView('#what')">What is a 2Up</li>
-      <li (click)="scrollToView('#how')">How to make a profit</li>
-      <li (click)="scrollToView('#indicators')">2Up Indicators</li>
-      <li (click)="scrollToView('#fixtures')">Fixtures/Wathclist</li>
-      <li (click)="scrollToView('#juicy')">My Juicy bets</li>
+      <li (click)="scrollToView('#what')">What is the 2Up Early Payout offer?</li>
+      <li (click)="scrollToView('#how')">How can I make a profit?</li>
+      <li (click)="scrollToView('#indicators')">FTA occurence indicators</li>
+      <li (click)="scrollToView('#settings')">Settings</li>
+      <li (click)="scrollToView('#juicy')">Fixtures/Watchlist and notifications </li>
       <li (click)="scrollToView('#active')">My Active bets</li>
     </ul>
   </div>
 
-  <div class="welcome">
-    <p>&nbsp;Before we begin, please ensure that you are familiar with the following:</p>
-  </div>
   <hr class="content-separator">
 
-<div class="expansion-container">
+<!-- <div class="expansion-container">
   <mat-expansion-panel class="betting-exchange-exp expansion-panel" hideToggle>
     <mat-expansion-panel-header>
       <mat-panel-title class="popup-dialog">What is a betting exchange?</mat-panel-title>
@@ -30,14 +30,6 @@
 
      <p>You can play the role of ‘customer’ and bet that something WILL happen or you can play the role of ‘bookmaker’ and bet that something WON’T happen. Being able to bet
       that something won’t happen is what makes matched betting possible.<br><br>Don’t have a betting exchange account?<br>Join now - Referral links to Betfair and Smarkets </p>
-
-    <!-- <div class="example-cont">
-      <p><u>Example: Chelsea vs. Liverpool</u><br><br>
-      You go to Bet365 and <u>place a bet on Chelsea to win the game</u>. In this case you play the role of 'customer', and this is known as placing a <span class="important">BACK bet.</span><br><br>
-      Then, you go to a <span class="important">betting exchange</span> and <u>bet on Chelsea to lose the game</u>. You are playing the role of 'bookmarker' and this is known as placing a <span class="important">LAY bet</span>. <br><br>
-      IMPORTANT! <span class="important"> When you LAY <u>you are wagering on Chelsea to lose</u>. You are not wagering on Liverpool to win!</span><br><br>
-      <u>In Summary:</u> <br>You have a position on Chelsea with Bet365 to win the game (Back position) and a position on Chelsea to lose the game (Lay position).</p>
-    </div> -->
   </mat-expansion-panel>
 
   <mat-expansion-panel class="expansion-panel" hideToggle>
@@ -58,131 +50,292 @@
     <div class="definition"> <h3>In betting, the expected value (EV) is the measure of what a bettor can expect to win or lose per bet placed on the same odds time and time again.</h3></div>
     <p>Positive expected value (+EV) implies profit over time, while a negative value (-EV) implies a loss over time. All bettors should be aiming to identify betting value with every bet they make.</p>
   </mat-expansion-panel>
-<!--   Expansion Template
-  <mat-expansion-panel class="" hideToggle>
-    <mat-expansion-panel-header>
-      <mat-panel-title class="popup-dialog">
-
-      </mat-panel-title>
-    </mat-expansion-panel-header>
-    <div class="definition"> --- </div>
-  </mat-expansion-panel> -->
 </div>
 
-  <hr class="content-separator">
+  <hr class="content-separator"> -->
 
-  <h2 id="what">What is a 2Up?
+  <h2 id="what">What is the 2Up Early Payout offer?
     <mat-icon (click)="scrollToView('#content')"
-      matTooltip="Back to top"
+      matTooltip="scroll up"
       matToolPosition="right">
       keyboard_arrow_up
     </mat-icon>
   </h2>
-  <p>&nbsp;“2Up” also known as “Early Payout” promotions are a well-known matched betting technique. They are also becoming more popular with bookmakers.
-    At the time of writing this, the promotion is available at Bet365, Paddy Power, Sporting Index and StarSports.
-    <br> Bet365’s terms for the Early Payout offer state the following:</p> <br>
-    <div class="italicize-league">
-      <span class="league-list"> Place a pre-match bet on the standard Full Time Result market for games from the Premier League, Spain La Liga, Championship, FA Cup, EFL Cup, Italian Serie A,
-        Germany Bundasliga, Champions League, Europa League, French Ligue 1, Scottish Premiership, English Championship, English League 1, English League 2 and we’ll
-        settle your bet as a winner if the team you back goes 2 goals ahead. </span>
-    </div>
-   <br><p>&nbsp;To extract value from this offer, we need to place 2 bets each time we attempt it. We will place a back bet at Bet365 and a lay bet at a betting exchange.</p>
-
-  <hr class="content-separator">
-
-  <h2 id="how">How to make a profit with 2Up
-    <mat-icon (click)="scrollToView('#content')"
-      matTooltip="Back to top"
-      matToolPosition="right">
-      keyboard_arrow_up
-    </mat-icon>
-  </h2>
-  <p>&nbsp; There are important factors to consider when doing 2Ups. The most important thing is your <span class="important">Qualifying Loss (QL)</span>. This the amount of money that you stand to lose regardless of the outcome when attempting this offer.
-    <br>Let’s take an example of Leicester City vs Manchester City
-    <br>We’ll use Bet365 as our bookmaker. They are offering <span class="important">back odds</span> for Leicester of 3.5.
-    <br>We’ll use Smarkets as our exchange. They are offering <span class="important">lay odds</span> for Leicester of 3.6.
-    <br>Let’s assume a <span class="important">back stake</span> of £100 and put these values into the juicy-bets calculator.</p>
-    <div class="img-cont">
-      <img class="img-make-profit" src="../../assets/img/make-profit.PNG" alt="test">
-    </div>
-    <p><br>By placing this bet, we can see that our qualifying loss is going to be £2.78.
-      <br><br><i>How do we know if this is a good 2up bet?</i>
-      <br><br>In order for 2Ups to be profitable, we must first understand where the value comes from. By thoughtlessly placing back and lay bets on teams without this knowledge we will be unlikely
-      to make a profit, and may even lose money.
-      <br><br>We will assume that the strategy being followed is the “Do Nothing” strategy. Therefore, if our backed team goes 2 goals ahead, we do nothing with our lay bet and hope for a FTA.
-      <br><br>We must now consider how much profit we stand to win if a FTA occurs. In this example we can see that the FTA returns £347.22.
-      <br><br>The question now is, with a QL of £2.78, how many times could we place this bet before we surpass the amount we stand to win from a FTA?
-      <br><br>Let’s divide our FTA by our QL. 347.22 /2.78 = approx. 124 times.
-      <br><br>That means that as long as we hit a FTA at least once in 124 attempts we will at worst break even or better still, make a profit.
-      <br><br>The next question therefore must be “How often does a FTA occur?”
-      <br><br>After studying years of historical data from all eligible football leagues we can conclude that on average 1 in 65 attempts at this offer will result in a FTA.
-      <br><br>Continuing on with the example from above, we needed to hit a FTA 1 in 124 attempts to secure a profit. In reality we can expect to hit a FTA 1/65 attempts. At that point it begins
-      to become clear where the value comes from and how a profit can be made.
-      <br><br>It’s important to note that this is an average and you may experience long runs without a FTA.
-      <br><br>It is therefore very clear why a low QL is such an important part of 2Ups. </p>
-
-      <hr class="content-separator">
-
-      <h2 id="indicators"> 2Up Indicators
-        <mat-icon (click)="scrollToView('#content')"
-          matTooltip="Back to top"
-          matToolPosition="right">
-          keyboard_arrow_up
-        </mat-icon>
-      </h2>
-      <p> While studying the historical data, we were also able to recognise trends and key indicators that enabled us to form an algorithm that can be applied to upcoming fixtures. The result is the
-        <span class="important">Juicy-Bets FTA</span> occurrence indicator, used to produce a 2Up rating for all teams in upcoming fixtures.
-        <br><br> We must consider that the chance of triggering a 2Up FTA in every game is not equal. Low scoring teams are less likely to produce a game with the 2 goals required to trigger the offer.
-         Therefore, vastly reducing the chance of a FTA and therefore offering less Expected Value (EV).
-        <br><br> While using the site users can choose whether to apply the <span class="important">Average 1/65</span> or the <span class="important">Juicy-Bets FTA</span> occurrence value when calculating
-         the Expected value of their bets.
-        <br><br> This indicator is displayed next to each team name throughout the site.
-
-        <br><br>&nbsp;Below is an overview of the main sections of Juicy2Up and how they work.
-        <br><br>Clicking the Juicy Bets logo at the top of the screen opens the <span class="important">User Settings and Preferences</span>. From here we can customise our juicy bet preferences, set preferred
-        stake amounts, set min and max odds ranges, and select what 2Up occurrence factor to apply.
+  <div class="content-box">
+    <p>&nbsp;2Up is one of the most exciting offers in the matched betting world. It can be found on Bet365 and Paddy Power.
+      It is also one of the simplest matched betting offers to understand and can be very lucrative.
+      <br>
+      Bet365’s terms for the Early Payout offer state the following:
+      </p> <br>
+      <div class="italicize-league">
+        <span class="league-list">
+          “Place a pre-match bet on the standard Full Time Result market for games from the Premier League, Spain La Liga, Championship,
+          FA Cup, EFL Cup, Italian Serie A, Germany Bundesliga, Champions League, Europa League, French Ligue 1, Scottish Premiership, English Championship,
+          English League 1, English League 2 and we’ll settle your bet as a winner if the team you back goes 2 goals ahead.”
+        </span>
+      </div>
+    <br><p>&nbsp;This means if we place a bet at Bet365 for a football team from an eligible league to win a match,
+      and that team goes 2 goals ahead at any point  during the game, Bet365 will settle the bet as a winner, regardless of the outcome of the game. </p>
+      <br>
+      <h3>How do I take part in this offer?</h3>
+      <p>To do this offer we simply place a back bet at the bookmaker for a football team to win a match. Then we place an opposing lay bet at a betting exchange for the same
+        team not to win the match.  These 2 bets essentially cancel each other out so that our final position will be the same, no matter the outcome of the game.
+      </p><br>
+      <h3>What happens next?</h3>
+      <p> For the 2Up offer to be triggered, our team must go 2 goals ahead of the opposing team. If that happens during the match, our back bet has won.
+          However our lay bet, for our team not to win the match, is still open. This is because the game has not finished yet and our team may not win the match.
+          <br>
+          To make a profit we must now choose a strategy to follow:
       </p>
+          <br>
+          <ol class="profit-options">
+            <li><span class="highlight">Do nothing</span> and hope that our team does not win the match. If this happens then our lay bet at the exchange, for our team not to win the match has won, as well as our back bet at the bookmaker. This is what’s known as a FTA (Full Turnaround) and is the most profitable outcome from this offer.</li>
+            <li><span class="highlight">Immediately cash out our lay bet at the exchange.</span> Immediately cash out our lay bet at the exchange. This will automatically place a back bet at the exchange against our original lay bet. It locks in our position at the exchange so that our final position at the exchange will be the same, no matter the outcome of the game.</li>
+            <li><span class="highlight">Wait for the trailing team to close the gap.</span>  If the team that is behind by 2 goals were to score next, making a goal difference of only 1 goal, the odds at the exchange will be higher than they were with a 2 goal difference. If we cash out at the exchange at this point, our profit will be significantly higher than if we’d cashed out with a 2 goal difference. Alternatively we could wait and hope that the trailing team closes the gap entirely, so that the score becomes tied. With an equal score the odds at the exchange would be higher than they were at the start of the game. Cashing out at this point would return a significant profit.</li>
+          </ol>
+        <p>
+          The right strategy for you comes down to personal preference. The level of variance for each strategy varies significantly. For those wanting to see regular returns but with smaller profits, option 2 is perhaps more suited. Option 1 returns a profit less often but when it does the profits are high. Option 2 is for those in-between.
+          <br>
+          It’s advisable that you pick a strategy and stick to it, but again that comes down to personal preference. Sometimes you can get a feel for the match if you are watching it or following live stats, allowing you to choose a suitable strategy for that game.
+        </p>
+        <br>
+    </div>
+  <hr class="content-separator">
+
+  <h2 id="how">How can I make a profit?
+    <mat-icon (click)="scrollToView('#content')"
+      matTooltip="scroll up"
+      matToolPosition="right">
+      keyboard_arrow_up
+    </mat-icon>
+  </h2>
+  <div class="content-box">
+    <p>&nbsp; The most important thing to consider when doing 2Up is our <span class="important">Qualifying Loss (QL)</span>.
+      <br>
+      Our QL is the amount of money that we stand to lose, regardless of the outcome of our bet. We should expect to incur a
+      small loss each time we attempt the offer. The QL for a bet is determined by the difference between the back odds that we
+      take at the bookmaker and the lay odds that we take at the exchange.
+      <br>Our exchange commission rate could also be a factor but for simplicity in this guide, we will assume a commission rate of 0%.
+      <br>Let’s look at an example.
+      <br>We’ll use Bet365 as our bookmaker. They are offering back odds for a team to win the match of  <span class="back-odds">12.0</span>
+      <br>We’ll use Smarkets as our exchange. They are offering lay odds for a team not to win the match of  <span class="lay-odds">14.0</span>
+      <br>We’ll use a back stake of £5.00.
+      <br>Let’s look at this example from within the Juicy Bets calculator.</p>
+      <br>
+  </div>
+
+    <div class="img-cont">
+      <img class="img-make-profit centered" src="../../assets/img/guide-img-1.PNG" alt="test">
+    </div>
+
+    <div class="bet-details">
+        <h2 class="highlight"> Bet Details</h2>
+        <div class="detail-container">
+          <div class="detail-column">
+            <ul>
+             <li><pre>ROI (%)   Return On Investment</pre></li>
+             <li><pre>EV (£)    Expected Value of the current bet</pre></li>
+             <li><pre>MR (%)    Match Rating percentage of the back and lay odds</pre></li>
+           </ul>
+          </div>
+          <div class="detail-column">
+            <ul>
+             <li><pre>FTA (£)  	The amount in the event of a 2Up Full Turnaround</pre></li>
+             <li><pre>QL (£)  	The qualifying loss of this matched bet</pre></li>
+             <li><pre>QL (%)  	The qualifying loss expressed as a percentage of the FTA amount</pre></li>
+           </ul>
+          </div>
+        </div>
+    </div>
+
+  <div class="content-box">
+    <p> Let’s review our bet.
+      <br>
+      The first thing to consider is the liability required at the exchange for our lay bet. In this case, our lay bet stake of £4.29 will require £55.71 of liability to be available in our exchange balance. It is important to ensure that our available exchange balance is sufficient before placing our back bet.
+      <br>
+      We have a qualifying loss (QL) of -£0.71
+      with a full turnaround (FTA) returning £59.29
+      <br>
+      The Expected Value (EV) of this matched bet is positive, therefore this bet is worth taking.
+      <br>
+      By adjusting the values in the calculator we can experiment with different odds and stakes to find a level that works within our bankroll.
+
+      <br><br>
+      Next we will look at a lower odds team to see how that affects the values in the Juicy Bets calculator.
+      <br>
+      We’ll use the same bookmaker and exchange as in the last example.
+      <br>
+      This time the back odds, for our to team to win the match are <span class="back-odds">2.10</span>
+      <br>
+      The lay odds, for our team not to win the match are <span class="lay-odds">2.18</span>
+      <br>
+      We will use a back stake of £5.00.
+    </p>
+      <br>
+    <div class="img-cont">
+      <img class="img-make-profit centered" src="../../assets/img/guide-img-2.PNG" alt="test">
+    </div>
+    <p>
+      <br>
+      Let’s review our bet.
+      <br>
+      The first thing to note is that with lower back and lay odds, the liability required at the exchange is a lot less. To lay this bet would only require £5.68 to be available in our exchange balance.
+      <br>
+      We have a qualifying loss (QL) of -£0.18  <br>
+      with a full turnaround (FTA) of £10.32
+      <br>
+      The Expected Value (EV) of this matched bet is -£0.44 which is negative, therefore this bet is not worth taking.
+      <br>
+      It is worth noting that the FTA of this example is £10.32.  <br>
+      The FTA of the previous example was £59.29. <br>
+      Both examples had a back stake of £5.00. The difference is caused by the odds being high or low.  <br>
+      It is therefore important to remember to adjust our back stake according to a team’s odds.  Fortunately Juicy2Ups does this for you. Preferred stake amounts can be set in the user settings menu. Just input the stake size for each odds range to have it automatically entered into the Juicy Bets calculator.
+      <br>
+      A low odds team is due to a team being a heavy favourite to win the match. If we bet on a low odds team and they are able to take a 2 goal lead, it is expected that they will go on to win the game. This will limit our options if we are planning to cash out as the odds at the exchange will be extremely low. Therefore, some people prefer to avoid betting on strong favourites when doing this offer.
+      <br>
+      It should be clear by now that just backing and laying teams without having the right information can actually result in –EV bets being taken and may result in a long-term loss.
+    </p>
+  </div>
+      <hr class="content-separator">
+
+      <h2 id="indicators"> FTA occurence indicators
+        <mat-icon (click)="scrollToView('#content')"
+          matTooltip="scroll up"
+          matToolPosition="right">
+          keyboard_arrow_up
+        </mat-icon>
+      </h2>
+
+      <div class="content-box">
+        <p> Full Turnaround (FTA) occurrence indicators are used throughout Juicy2Ups for calculating EV.
+          <br>
+          We have analysed years of historical football data from all eligible football leagues to determine how often a FTA occurs.
+          The study concluded that on average, 1 in 65 attempts at this offer will result in a FTA.
+          <br>
+          <span class="important">It’s important to note that this is an average and you may experience long runs without a FTA.</span>
+          <br>
+          We must also consider that the chance of having a FTA in every game is not equal. Low scoring teams are less likely to score the required 2 goals. This vastly reduces the chance of a FTA and therefore offers reduced EV for our bets.
+          <br>
+          Introducing the <span class="important">Juicy-Bets FTA occurrence indicator</span>.
+          During our research into historical game data, we were able to detect trends and key indicators for games that included a FTA. We used this data to form an algorithm that can be applied to upcoming fixtures to calculate a 2Up rating for all teams in upcoming fixtures.
+          <br>
+          While using Juicy2Ups, we can choose whether to apply the <span class="important">Average 1/65</span> or the <span class="important">Juicy-Bets FTA</span> occurrence indicator when calculating the EV of our bets.
+          <br>
+          <br>
+          This indicator is displayed next to each team name throughout the site.
+        </p>
+        <img class="centered" src="../../assets/img/guide-img-4.PNG" alt="">
+      </div>
 
       <hr class="content-separator">
 
-      <h2 id="fixtures">Fixtures
+      <h2 id="settings">Settings
         <mat-icon (click)="scrollToView('#content')"
-          matTooltip="Back to top"
+          matTooltip="scroll up"
           matToolPosition="right">
           keyboard_arrow_up
         </mat-icon>
       </h2>
-      <p>The fixtures tab is the first place we come to. From here we can enable notifications for leagues or fixtures that we want to follow. When the back and lay odds of a followed team meet the criteria
-        set in the user preferences, the team will be visible in the Juicy tab. A notification will also be displayed in the Juicy Notifications zone at the top of the page. Clicking the notification takes us
-        straight the Juicy tab with the bet details open along with our preferred stake, ready for us to place our 2Up bet.</p>
+      <div class="content-box">
+        <p>
+          To view the Juicy2Up settings, click  the <img class="icon" src="../../assets/img/jbLogo.png" alt=""> logo located at the top of the page.
+          You should see a popup appear similar to the image below.
+        </p>
+        <br>
+        <img class="centered" src="../../assets/img/guide-img-3.PNG" alt="">
+        <p>
+          From the <span class="important">Filters</span> tab we can apply additional filters to fixtures and notifications.
+          The primary filter allows us to set the minimum and maximum back odds for teams that we want to watch. This prevents unwanted teams from displaying in the Juicy Bets tab and permanently disables notifications for those teams.
+          The secondary filter gives us 3 options. These are <span class="important">Expected Value(£),</span> <span class="important">Match Rating(%)</span> and <span class="important">Qualifying Loss(%)</span>.
+        </p>
 
-        <hr class="content-separator">
+        <h3>Expected Value (£) </h3>
+        <p>
+          Filters results based upon the expected value of the bet. This is calculated by applying our preferred stake and the FTA occurrence indicator.
+        </p>
 
-      <h2 id="juicy">Juicy
+        <h3>Match Rating (%)</h3>
+        <p>
+          Filters results based upon the match rating percentage. <span class="important">Match Rating (%)</span> indicates our profit/loss when placing a matched bet.
+          A matched bet with a back stake of £100.00 and a <span class="important">Match Rating (%) </span>of 95% would have a qualifying loss of £5.00.
+        </p>
+
+        <h3>Qualifying Loss(%)</h3>
+        <p>Qualifying Loss (%) is our qualifying loss expressed as a percentage of the FTA  amount.
+          A matched bet with a qualifying loss of -£4.50, with a FTA of approximately £450.00 would have a Qualifying Loss (%) of -1.00%.
+          By keeping our Qualifying Loss (%) above -1.00% we have 100 attempts at the offer to hit a FTA in order for us to make a profit.
+          <br>
+          An example of a bet that meets this criteria is shown below.
+          </p>
+          <br>
+          <div class="guide-img-cont">
+            <img  class="centered" src="../../assets/img/guide-img-5.PNG" alt="">
+          </div>
+          <br>
+          <p>
+            For each of these options we must set 2 values. Display in Juicy Bets and Notification Alert.<br>
+            Display in Juicy Bets sets the value that must be met before displaying the team in the Juicy Bets tab. <br>
+            Notification Alert sets the value that must be met before a notification is triggered for a team.<br>
+            This gives us the flexibility to monitor teams that are approaching +EV while only receiving notifications for teams that are ready for us to bet on. <br>
+          </p>
+
+      </div>
+
+      <hr class="content-separator">
+
+      <h2 id="fixtres-watchlist">Fixtures/Watchlist and notifications
         <mat-icon (click)="scrollToView('#content')"
-          matTooltip="Back to top"
+          matTooltip="scroll up"
           matToolPosition="right">
           keyboard_arrow_up
         </mat-icon>
       </h2>
-      <p>The Juicy tab displays all Juicy Bets that are currently available. Juicy bets are matched bets for teams that meet the criteria set in the <span class="important">User Settings and Preferences</span> and that are actively being
-        watched in the fixtures tab. It contains all the information we need to place our bets. Additional bet details are also displayed. There is also the option to set the status of our lay bet to “Matched” or “Unmatched”.</p>
+      <p>Upon launching Juicy2Ups, we are presented with the fixtures tab. We begin by enabling the leagues that we want to add to our Watchlist by clicking the toggle button on the right.
+        <br>
+        Within each league we can make further adjustments to our Watchlist. Each fixture displays the home team on the left side and the away team on the right. The kick-off time for the match is located in a button in the center of the fixture. Clicking this button adds or removes the fixture from our watchlist. When the button is orange, the fixture is being watched.
+        <br>
+        By default, teams in the Watchlist will trigger a notification when the odds meet the filter conditions set in our user settings.
+        To mute notifications for an individual team from a fixture, click the team name. To re-enable notifications click the team name again.
+        <br>
+        Note that muted teams in the Watchlist will still appear in the Juicy Bets tab, however, they will not trigger notifications.
+        <br>
+        Bets can manually be added for a team by clicking the juicy bets logo located at the end of the row. A coloured logo indicates a team with an existing saved bet.
+        </p>
 
-        <div class="img-cont">
-          <img class="img-bet-details" src="./../../assets/img/bet-details.PNG" alt="">
+        <div class="guide-img-cont">
+          <img  class="centered" src="../../assets/img/guide-img-6.PNG" alt="">
         </div>
 
-        <h2 id="active">Active
+        <p>
+          Notifications are displayed in the Juicy Notifications panel located at the top of the page. When we receive a notification, clicking it takes us straight the Juicy tab with the bet details open, along with our preferred stake, ready for us to place our 2Up bet.
+        </p>
+
+        <div class="guide-img-cont">
+          <img class="centered" src="../../assets/img/guide-img-7.PNG" alt="">
+        </div>
+
+
+        <h2 id="active">Active Bets
           <mat-icon
             (click)="scrollToView('#content')"
-            matTooltip="Back to top"
+            matTooltip="scroll up"
             matToolPosition="right">
            keyboard_arrow_up
           </mat-icon>
         </h2>
-        <p>The Active tab displays all of our active bets.
-          <br><br>From here we can view, edit or remove our saved bets.
-          <br><br>Losing 2Up bets can be settled with just one click, recording the QL as the final profit and loss.
+        <p>The active bets tab is used to track our saved bets and record our profits.
+          Bet details can be updated if necessary.  To record any changes be sure to click Update.
+          <br>
+          When a game has concluded, bets can be settled by clicking the settle bet button.
+          Unless an amount has been entered into the Final Profit/Loss field, the qualifying loss for the bet will automatically be logged as the profit/loss for the settled bet.
+          <br>
+          We can sort our saved bets by clicking the column headers.
+          Saved bets can be deleted by clicking the x located on the right side of the row.
         </p>
+
+
+        <div class="guide-img-cont">
+          <img class="centered" src="../../assets/img/guide-img-8.PNG" alt="">
+        </div>
  </mat-dialog-content>
  <!-- <span class="important"></span> -->

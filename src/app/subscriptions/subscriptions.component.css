@@ -139,8 +139,7 @@ img.two-up {
 
 .sub-btn,
 .info-btn {
-  background: rgb(96,125,139);
-  background: linear-gradient(146deg, rgba(96,125,139,1) 5%,  rgb(135 149 156) 30%, rgba(96,125,139,1) 45%);
+  background: linear-gradient(146deg, rgb(33 45 51) 5%, rgb(75 85 90) 30%, rgb(45 57 64) 45%);
   border: 1px solid #2b373d;
   color: #ffbf0e;
   width: 50%;
@@ -157,7 +156,8 @@ img.two-up {
 }
 
 .info-btn:hover{
-  background: linear-gradient(146deg, rgb(88, 118, 133) 5%,  rgb(135 149 156) 30%, rgb(87, 117, 133) 45%);
+  box-shadow: 0px 1px 7px 2px #636f77;
+  background: linear-gradient(146deg, rgb(33 45 51) 5%, rgb(75 85 90) 30%, rgb(52 64 71) 45%);
   transform: scale(1.02);
   text-decoration: underline;
 }

@@ -4,6 +4,34 @@
   margin-right: auto;
 }
 
+ul{
+  width: 100%;
+  padding: 20px;
+  background: #3e494ecc;
+  text-align: center;
+  list-style: none;
+}
+
+li:hover{
+  background: inherit;
+}
+
+p,
+li,
+mat-panel-title.popup-dialog {
+  line-height: 2;
+  color: lightgray;
+}
+
+#what{
+  margin-top: 50px;
+}
+
+.main-title{
+  text-align: center;
+  text-shadow: 1px 1px 1px black;
+}
+
 mat-dialog-content{
   max-height: 92%;
 }
@@ -47,16 +75,15 @@ p{
   padding: 10px;
 }
 
-
 .definition >h3 {
   margin: 0px;
 }
 
+.highlight,
 .popup-dialog,
 .important,
 h2{
   color: #f9a825;
-  text-decoration: underline;
 }
 
 .contents>ul>li:hover{
@@ -87,4 +114,59 @@ h2{
   width: 89%;
   margin-left: auto;
   margin-right: auto;
+}
+
+.back-odds{
+  background: #126e51;
+}
+
+.lay-odds{
+  background: #003366;
+}
+
+.back-odds,
+.lay-odds {
+  box-shadow: 2px 2px 5px 1px #5f5f5f;
+  padding-left: 6px;
+  padding-right: 6px;
+  margin-left: 4px;
+  margin-right: 4px;
+  color: white;
+  border-radius: 3px;
+}
+
+.bet-details{
+  border: 1px solid lightgray;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-radius: 10px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.bet-details>h2{
+  text-align: center;
+}
+
+.detail-container{
+  display: inline-flex;
+}
+
+.detail-column{
+  width: 50%;
+}
+
+.content-box {
+  border: 1px solid #76767630;
+  padding: 20px;
+  background: #20282c2b;
+  border-radius: 6px;
+}
+
+.centered {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 20px;
+  margin-top: 20px;
 }

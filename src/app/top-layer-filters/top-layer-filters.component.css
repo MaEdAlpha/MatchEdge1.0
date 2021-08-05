@@ -21,6 +21,7 @@
 .date-selector {
   float: right;
   margin-top: 0.6rem;
+  margin-right: 30px;
 }
 
 .table-tabs {
