@@ -2,9 +2,11 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, Subject } from "rxjs";
 import { map } from 'rxjs/operators'
 import { Injectable, EventEmitter } from '@angular/core';
-import { UserPropertiesService } from '../services/user-properties.service';
+import { MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import { environment as env } from '../../environments/environment.prod';
 import { Router } from '@angular/router';
+import { ActiveBet } from '../models/active-bet.model';
+import { PopupViewSavedBetsComponent } from '../popup-view-saved-bets/popup-view-saved-bets.component';
 
 
 
@@ -19,7 +21,7 @@ export class MatchesService {
   //Creates an Observable of all Fixtures
   public matchesUpdated = new Subject<any>();
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private http: HttpClient, private router: Router, private dialog: MatDialog) {}
   //TODO update all Emitters to Observables
   getMatches() {
     this.http
@@ -111,9 +113,17 @@ export class MatchesService {
       match.OccH = streamMatch.OccurrenceHome;
       match.OccA = streamMatch.OccurrenceAway;
     }
-
     return match
   }
 
+  openSABPopup(row:any, list:ActiveBet[]){
 
+    const matDialogConfig: MatDialogConfig =  {
+      width: '70%',
+      height:  '80%',
+      panelClass: 'view-active-bets-responsive',
+      data: {row, list}
+    }
+    this.dialog.open(PopupViewSavedBetsComponent, matDialogConfig);
+  }
 }

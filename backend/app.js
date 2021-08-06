@@ -68,9 +68,9 @@ app.use(express.urlencoded({ extended: true }));
 ////////////////////////////////////////////////////////////////////////////////////////
 //Retrieves User Settings or generates a default one.
 
-// app.get('/api/test', async (req,res)=>{
-//   res.status(200).json({message:"Test O.K"})
-// });
+app.get('/api/test', async (req,res)=>{
+  res.status(200).json({message:"Test O.K"})
+});
 
 app.put('/api/user/connect', async (req,res) => {
   //upsert document. If new user, return _id. If not new user, find in database.
@@ -182,6 +182,7 @@ app.post('/paypal-transaction', async (req,res) => {
   return res.status(200).json({status: order.result.status, invoiced_to: order.result.payer.email_address, subActivated: subActivated});
 
 });
+
 
 
 app.post('/webhook', async (req, res) => {
@@ -431,7 +432,7 @@ app.get(`/api/updates`, function(req, res) {
       }
       //send SSE events back to user
       changeStream.on('change', (next) => {
-        console.log(next.fullDocument);
+        // console.log(next.fullDocument);
         var data = JSON.stringify(next.fullDocument);
         var msg = ("event: message\n" + "data: " + data + "\n\n");
         res.write(msg);
@@ -451,6 +452,7 @@ app.get('/api/matches', checkAuth, async(req, res) => {
 app.get('/api/policy', async(req,res) => {
   res.writeHead(200, {'Content-Type': 'text/html'}).json({response:'fetched!'});
 });
+
 //////////////////////////////////////////////////////////////////////////////////////////
 //                                  SAB ROUTES                                         //
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -482,7 +484,7 @@ app.post('/api/sab', checkAuth, async(req,res) => {
           console.log("Succesfully written to DB!");
           res.status(200).json({_id: response.insertedId});
         }else{
-          console.log("Oooops, shit fucked up when writing to DB contact support, Cheers.  ");
+          console.log("Oooops, best to contact support, Cheers. ");
           res.status(404).json({error});
         }
       });

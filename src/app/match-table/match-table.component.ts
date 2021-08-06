@@ -823,10 +823,8 @@ import { TablePreferences } from '../user-properties.model';
             this.updateJuicyNotifyStatus(fixturesMatch, true);
             this.updateJuicyNotifyStatus(fixturesMatch, false);
 
-
             this.matchStatusService.addToWatchList(fixturesMatch);
             this.matchStatusService.watchMatchSubject(fixturesMatch);
-
 
             fixturesMatch.isWatched = localStoredMatch.isWatched;
 
@@ -840,9 +838,7 @@ import { TablePreferences } from '../user-properties.model';
         });
         //TODO Asynchronous race condition occurring. sortedData not compiling on time.
         this.resetNotificationParameters(foundMatch, minOdds, maxOdds);
-      })
-
-      //set state of isWatched
+      });
     }
 
     private resetNotificationParameters(foundMatch: any, minOdds: number, maxOdds: number) {
@@ -943,25 +939,10 @@ import { TablePreferences } from '../user-properties.model';
     }
 
     openViewBets(row:any, selection:string): void {
-      row.Selection = selection == 'home' ? row.Home:row.Away;
+      row.Selection = selection == 'home' ? row.Home : row.Away;
       row.fta = selection == 'home' ? row.OccH : row.OccA;
       const list: ActiveBet[] = this.savedActiveBets;
-      console.log(this.savedActiveBets);
-
-
-      let matDialogConfig = new MatDialogConfig();
-      matDialogConfig = {
-        width: '70%',
-        height:  '80%',
-        panelClass: 'view-active-bets-responsive',
-        data: {row, list}
-      }
-
-      const dialogRef = this.dialog.open(PopupViewSavedBetsComponent, matDialogConfig);
-
-      dialogRef.afterClosed().subscribe(result => {
-        console.log('dialog is SAB popup closed, do something with data');
-      });
+      this.matchesService.openSABPopup(row, list);
     }
 
     saveMasterGroup( masterGroup: any){

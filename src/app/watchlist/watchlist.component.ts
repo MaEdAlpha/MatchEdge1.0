@@ -1,12 +1,12 @@
 import {Component, OnDestroy, OnInit, ViewChild, Input , Output, OnChanges, SimpleChanges, AfterViewInit, Inject, ChangeDetectorRef} from '@angular/core';
-import { Subscription } from 'rxjs';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
-import { MatchesService } from '../match/matches.service';
-import { MatDialog, MatDialogConfig, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { animate, group, state, style, transition, trigger } from '@angular/animations';
-import { Match } from '../match/match.model';
-import { NotificationBoxService } from '../services/notification-box.service';
 import { DatePipe } from '@angular/common';
+import { MatDialog, MatDialogConfig} from '@angular/material/dialog';
+import { animate, state, style, transition, trigger } from '@angular/animations';
+import { Subscription } from 'rxjs';
+import { Match } from '../match/match.model';
+import { MatchesService } from '../match/matches.service';
+import { NotificationBoxService } from '../services/notification-box.service';
 import { SidenavService } from '../view-table-sidenav/sidenav.service';
 import { UserPropertiesService } from '../services/user-properties.service';
 import { DateHandlingService } from '../services/date-handling.service';
@@ -665,74 +665,15 @@ export class WatchlistComponent implements OnInit, OnDestroy {
     }
   }
 
-
   toggleSideNav(){
     this.sidenav.toggle();
   }
 
-  ignoreAllMatchesToggle(group: Group){
-    var array:any[] = []
-    array.push(group.ignoreAll);
-      this.matches.forEach( match => {
-        if(match.League == group.League){
-          array.push(match.Home);
-          array.push(match.Away);
-        }
-      });
-      this.ignoreList = array;
-    //this.matchStatusService.displayIgnoreList();
-  }
-
-  //POTENTIALLY REMOVE. DEPENDS IF WE RE_INTRODUCE IGNORE HOME/AWAY
-  // ignoreHomeSelection(matchObject: any){
-  //   matchObject.HStatus.ignore = !matchObject.HStatus.ignore;
-  //   console.log("Ignore set to " + matchObject.HStatus.ignore + " for: " + matchObject.Home);
-  //   this.ignoreList = [matchObject.Home, matchObject.HStatus.ignore];
-  //   this.updateNotificationStatus(matchObject.Home, matchObject.HStatus.ignore);
-  // }
-
-  // ignoreAwaySelection(matchObject: any){
-  //   //toggle ignore status.
-  //   matchObject.AStatus.ignore = !matchObject.AStatus.ignore;
-  //   console.log("Ignore set to " + matchObject.AStatus.ignore + " for: " + matchObject.Away);
-  //   this.ignoreList = [matchObject.Away, matchObject.AStatus.ignore];
-
-  //   this.updateNotificationStatus(matchObject.Away, matchObject.AStatus.ignore);
-  // }
-
-  // updateNotificationStatus(selection: string, ignoreStatus: boolean){
-  //   if(ignoreStatus == true)
-  //   {
-  //     this.matchStatusService.addToIgnoreList(selection);
-  //   } else {
-  //     this.matchStatusService.removeFromIgnoreList(selection);
-  //   }
-  // }
-
-  removefromWatchList(row:any){
-    console.log("Need functionality here");
-  }
-
   openViewBets(row:any, selection:string) {
-
-    selection == 'home' ? row.Selection = row.Home : row.Selection = row.Away;
+    row.Selection = selection == 'home' ?  row.Home : row.Away;
     row.fta = selection == 'home' ? row.OccH : row.OccA;
     const list: ActiveBet[] = this.sabList;
-    console.log(this.sabList);
-    console.log("opening: " + row.Selection);
-
-    //filtered SAB List based off selection.
-
-    const matDialogConfig = new MatDialogConfig();
-    matDialogConfig.width = '70%';
-    matDialogConfig.height ='80%';
-    matDialogConfig.data = {row, list};
-    const dialogRef = this.dialog.open(PopupViewSavedBetsComponent, matDialogConfig);
-
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('dialog is SAB popup closed, do something with data');
-    });
+    this.matchesService.openSABPopup(row, list);
   }
 
   toggleNotification(matchObj:any, isHome:boolean):void{

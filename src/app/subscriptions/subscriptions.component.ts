@@ -1,17 +1,13 @@
 
-import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
-import { MatchesService } from '../match/matches.service';
-import { environment as env } from '../../environments/environment.prod';
-import { SimpleChanges } from '@angular/core';
-import { UserPropertiesService } from '../services/user-properties.service';
-import { Subscription } from 'rxjs';
+import { ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Subscription } from 'rxjs';
+import { MatchesService } from '../match/matches.service';
+import { UserPropertiesService } from '../services/user-properties.service';
 import { NotificationBoxService } from '../services/notification-box.service';
 import { PopupTwoUpProductComponent } from '../popup-two-up-product/popup-two-up-product.component';
 import { PopupSubscribeComponent } from '../popup-subscribe/popup-subscribe.component';
 import { PopupManageBillingComponent } from '../popup-manage-billing/popup-manage-billing.component';
-// import { loadStripe } from "@stripe/stripe-js";
-// const stripe = loadStripe(env.STRIPE_PUBLISHABLE_KEY);
 
 
 @Component({
@@ -21,7 +17,7 @@ import { PopupManageBillingComponent } from '../popup-manage-billing/popup-manag
 })
 
 
-export class SubscriptionsComponent implements OnInit, OnChanges, OnDestroy, AfterViewInit {
+export class SubscriptionsComponent implements OnInit, OnChanges, OnDestroy {
   isActiveSub: boolean;
   isNewUser: boolean = true;
   subExpiration: string;
@@ -64,10 +60,6 @@ export class SubscriptionsComponent implements OnInit, OnChanges, OnDestroy, Aft
       this.accountStatus = user.status;
       this.subExpiration = user.expiry
     });
-  }
-
-  ngAfterViewInit(){
-
   }
 
   ngOnDestroy(){
@@ -118,9 +110,6 @@ export class SubscriptionsComponent implements OnInit, OnChanges, OnDestroy, Aft
     });
   }
 
-
-
-
  popupViewCheckout(){
    const dialogRef = this.dialog.open(PopupSubscribeComponent,
     {
@@ -141,6 +130,4 @@ export class SubscriptionsComponent implements OnInit, OnChanges, OnDestroy, Aft
     this.userName = this.userPropertiesService.getUserName();
     this.chRef.detectChanges();
   }
-
-
 }
