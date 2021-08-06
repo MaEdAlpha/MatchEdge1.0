@@ -7,9 +7,19 @@
 ul{
   width: 100%;
   padding: 20px;
-  background: #3e494ecc;
-  text-align: center;
+  border-radius: 16px;
+  background: #3e494e36;
+  text-align: left;
   list-style: none;
+  border: 1px solid #d3d3d312;
+}
+
+ul.contents-list{
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  border: 1px solid #d3d3d312;
 }
 
 li:hover{
@@ -136,7 +146,6 @@ h2{
 }
 
 .bet-details{
-  border: 1px solid lightgray;
   padding-top: 10px;
   padding-bottom: 10px;
   border-radius: 10px;
@@ -149,11 +158,12 @@ h2{
 }
 
 .detail-container{
-  display: inline-flex;
+  display: flex;
+  justify-content: space-evenly;
 }
 
 .detail-column{
-  width: 50%;
+  width: fit-content
 }
 
 .content-box {
