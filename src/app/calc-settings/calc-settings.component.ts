@@ -41,9 +41,6 @@ export class CalcSettingsComponent implements OnInit {
     this.stakeRanges = this.calcSettingsService.getRanges();
     this.oddsRangeUpperLimit = this.calcSettingsService.getOddsRangeUpperLimit();
     this.userStakes = this.userPropertiesService.getUserSettings().preferences.userPrefferedStakes;
-    console.log("USERSTAKES");
-    //for some reason, this comes back just as an array of stakes, without [{stakes:number, lowOdds:number, highOdds:number}]
-    console.log(this.userStakes);
 
     this.preferenceForm = new FormGroup({
       stakes: new FormArray([
@@ -83,22 +80,18 @@ export class CalcSettingsComponent implements OnInit {
   get options(): FormArray {
     return this.preferenceForm.get('options') as FormArray;
   }
-  // populateStakes() {
-  //   this.stakeFormData.setValue({
-  //     stakeData: {
-  //       user1Stakes: this.preferenceForm.PrefStake1,
-  //       user2Stakes: this.preferenceForm.PrefStake2,
-  //       user3Stakes: this.preferenceForm.PrefStake3,
-  //       user4Stakes: this.preferenceForm.PrefStake4,
-  //       user5Stakes: this.preferenceForm.PrefStake5,
-  //       user6Stakes: this.preferenceForm.PrefStake6,
-  //       user7Stakes: this.preferenceForm.PrefStake7,
-  //       user8Stakes: this.preferenceForm.PrefStake8,
-  //       user9Stakes: this.preferenceForm.PrefStake9,
-  //       user10Stakes: this.preferenceForm.PrefStake10,
-  //     }
-  //   });
-  // }
+
+  calcLiability(index:number){
+    let liabilityCalculation = this.preferenceForm.value.stakes[index] * (this.oddsRangeUpperLimit[index]-1)
+
+    return liabilityCalculation;
+  }
+
+  calcFTAReturn(index:number){
+    let ftaCalculation = this.preferenceForm.value.stakes[index] * this.oddsRangeUpperLimit[index];
+    return ftaCalculation;
+  }
+
   saveStakePref()
   {
     // console.log(stakeValues.form.value.stakeData);

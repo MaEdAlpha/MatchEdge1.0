@@ -20,14 +20,13 @@ export class MatchNotificationSettingsComponent implements OnInit, AfterViewInit
   settingsForm: FormGroup;
   userSettings: any;
   initialFtaOption:string;
+  initialCommission:number;
 
   @ViewChild('tab', {static:false}) tab: MatTabGroup;
 
   constructor(private userPropertiesService: UserPropertiesService) { }
 
   ngOnInit(): void {
-    //if user does not have commission saved then use default
-
 
     this.selectedTab == null ? 0 : this.resetToTab;
     console.log("--Initializing User settings--");
@@ -38,6 +37,7 @@ export class MatchNotificationSettingsComponent implements OnInit, AfterViewInit
     });
     this.initializeAllForms();
     this.initialFtaOption = this.userPropertiesService.getFTAOption();
+    this.initialCommission = this.userPropertiesService.getCommission();
 
   }
 
@@ -143,7 +143,7 @@ export class MatchNotificationSettingsComponent implements OnInit, AfterViewInit
     console.log("Two calls. set Form Value (change on client side)+ saveUserSettings (server side)*Issues? Debug starting here.");
 
     //check to see that initialFtaOption == this.settingsForm.value.preferences.ftaOption
-    this.initialFtaOption == this.settingsForm.value.preferences.SelectedFTA ? this.storeUserSettings(): this.resetPage();
+    this.initialFtaOption == this.settingsForm.value.preferences.SelectedFTA && this.initialCommission == this.settingsForm.value.preferences.SelectedCommission ? this.storeUserSettings(): this.resetPage();
     this.toggleSettingsView();
   }
 
