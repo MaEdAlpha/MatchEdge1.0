@@ -25,7 +25,7 @@
 
       <div class="date-selector">
         <mat-form-field class="hdr-date" appearance="fill">
-          <mat-label> Selected Time </mat-label>
+          <mat-label>Selected date range </mat-label>
           <mat-select
             [(value)]="viewThisDate" name="dateSelect">
             <mat-option [value]="dayRange.viewValue" *ngFor="let dayRange of dateSelect" (click)="sendDateSelection(dayRange.viewValue)">

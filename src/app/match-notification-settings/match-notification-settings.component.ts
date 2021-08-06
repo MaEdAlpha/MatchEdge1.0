@@ -143,17 +143,12 @@ export class MatchNotificationSettingsComponent implements OnInit, AfterViewInit
     console.log("Two calls. set Form Value (change on client side)+ saveUserSettings (server side)*Issues? Debug starting here.");
 
     //check to see that initialFtaOption == this.settingsForm.value.preferences.ftaOption
-    this.initialFtaOption == this.settingsForm.value.preferences.SelectedFTA && this.initialCommission == this.settingsForm.value.preferences.SelectedCommission ? this.storeUserSettings(): this.resetPage();
+    this.resetPage();
     this.toggleSettingsView();
   }
 
   closeSettings(){
     this.toggleSettingsView();
-  }
-
-  storeUserSettings(){
-    this.userPropertiesService.setFormValues(this.settingsForm.value);
-    this.userPropertiesService.saveUserSettings(this.settingsForm.value, this.userPropertiesService.getUserSettings().juicyId );
   }
 
   resetSettings(){
