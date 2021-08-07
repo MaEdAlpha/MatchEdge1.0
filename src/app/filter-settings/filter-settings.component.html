@@ -8,15 +8,23 @@
 
         <div class="primary-input">
           <p>Follow teams with win back odds between: </p>
+
           <div class="audio-group">
+
             <mat-form-field class="audio-wrapper">
               <mat-slide-toggle class="audio-toggle" formControlName="audioEnabled">
-                  <div class="sab-matched" *ngIf="viewTableForm.value.audioEnabled; else noSound">Audio notification | ON </div>
-                  <ng-template class="sab-unmatched" #noSound>Audio notification | OFF</ng-template>
-                </mat-slide-toggle>
-                <input formControlName="audioEnabled" matInput #value hidden/>
-              </mat-form-field>
+
+                <div class="sab-matched" *ngIf="viewTableForm.value.audioEnabled; else noSound">Audio notification | ON </div>
+
+                <ng-template class="sab-unmatched" #noSound>Audio notification | OFF</ng-template>
+
+              </mat-slide-toggle>
+
+              <input formControlName="audioEnabled" matInput #value hidden/>
+
+            </mat-form-field>
           </div>
+
         </div>
 
 
@@ -42,17 +50,18 @@
               </mat-form-field>
             </div>
           </div>
-
         </div>
       </div>
     </div>
+
     <div class="secondary-filter">
       <div class="vt-settings-container">
+
         <h1>Secondary Filter</h1>
         <p>Additional filters used for displaying results and triggering notifications. </p>
-        <!-- point to viewTableForm : FormGroup  -->
 
               <div class="filterby-text">Filter by:
+
               <mat-form-field appearance="fill">
                 <mat-label>Current: {{evPlaceholder}}</mat-label>
                 <mat-select
@@ -63,7 +72,9 @@
                 </mat-select>
               </mat-form-field>
             </div>
+
             <div class="choice-container">
+
             <ng-container *ngIf="viewTableForm.get('fvSelected').value == 1">
               <div class="ev-filter-container">
                 <div class="ev-row">
@@ -71,15 +82,17 @@
                     Calculates the expected value of a single 2up bet by taking the current back and lay odds and applying the <b>Preferred Stake</b> and the expected <b>2Up Occurrence Indicator</b>.
                     From the preferences menu, 2Up Occurrence Indicator can be set to the average 1 in 65 bets, or the <b>Juicy-Bets FTA rating</b>.
                   </div>
-
                 </div>
 
                 <div class="input-containers">
                   <div class="filter-wrapper">
+
                     <div class="ev-text">
                       Display results with a minimum Expected Value (£) of:
                     </div>
+
                     <div class="ev-input">
+
                       <mat-form-field appearance="fill">
                         <mat-label>Display in Juicy</mat-label>
                           <input
@@ -91,11 +104,12 @@
                     </div>
                   </div>
 
-
                   <div class="filter-wrapper">
+
                     <div class="ev-text">
                       Display <b>notifications</b> for results with a minimum Expected Value (£) of:
                     </div>
+
                     <div>
                       <mat-form-field appearance="fill">
                         <mat-label>Notification Alert</mat-label>
@@ -106,6 +120,7 @@
                         <mat-error *ngIf="viewTableForm.controls.evFilterValueII.errors">{{getErrorMessage()}}</mat-error>
                       </mat-form-field>
                     </div>
+
                   </div>
                 </div>
               </div>
@@ -152,8 +167,6 @@
                   </div>
                 </div>
               </div>
-
-
             </ng-container>
 
             <ng-container *ngIf="viewTableForm.get('fvSelected').value == 3" >
@@ -196,14 +209,15 @@
                       </div>
                     </div>
                   </div>
-
-
               </div>
             </ng-container>
           </div>
-               <div *ngIf="viewTableForm.errors && (viewTableForm.touched || viewTableForm.dirty)" class="cross-validation-error-message alert alert-danger">
-                Something went wrong! Most likely the second value in your 'Secondary Filter' is less than your table view filter setting for the following fields: {{ getFormErrorMessage() }}
-              </div>
+
+          <div *ngIf="viewTableForm.errors && (viewTableForm.touched || viewTableForm.dirty)" class="cross-validation-error-message alert alert-danger">
+            <p>
+              Something went wrong! Most likely the second value in your 'Secondary Filter' is less than your table view filter setting for the following fields: {{ getFormErrorMessage() }}
+            </p>
+          </div>
       </div>
     </div>
   </form>

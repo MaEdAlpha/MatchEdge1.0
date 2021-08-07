@@ -16,7 +16,9 @@ export class LandingPageComponent implements OnInit {
   }
 
   displayTwoUpInfo(){
-     this.dialog.open(TwoUpProductFeaturesComponent, {panelClass: 'two-up-landing-page'});
+     this.dialog.open(TwoUpProductFeaturesComponent, {
+       panelClass: 'two-up-landing-page'
+      });
   }
 
 }

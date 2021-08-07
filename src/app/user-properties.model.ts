@@ -34,3 +34,15 @@ export interface TablePreferences {
   fvSelected: string;
   audioEnabled: boolean;
 }
+
+export class Group {
+
+  level = 0;
+  expanded = false;
+  League = "";
+  isActive = false;
+  totalCounts = 0;
+  watchAll = false;
+  isToday = false;
+  isTomorrow = false;
+}

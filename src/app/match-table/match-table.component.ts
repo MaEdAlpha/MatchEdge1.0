@@ -1,40 +1,21 @@
-import { Component, OnDestroy, OnInit, OnChanges, Output, EventEmitter, SimpleChanges, ChangeDetectorRef, Input, ViewChild, SimpleChange} from '@angular/core';
-import { Subject, Subscription } from 'rxjs';
-import { MatTable, MatTableDataSource } from '@angular/material/table';
+import { Component, OnDestroy, OnInit, ChangeDetectorRef, Input } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { MatTableDataSource } from '@angular/material/table';
 import { MatchesService } from '../match/matches.service';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { animate, group, state, style, transition, trigger } from '@angular/animations';
+import { MatDialog } from '@angular/material/dialog';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 import { WebsocketService } from '../websocket.service';
-import { Match } from '../match/match.model';
-import { MatSlideToggleChange } from '@angular/material/slide-toggle';
-import { StatusDisableDialogueComponent } from '../status-disable-dialogue/status-disable-dialogue.component';
-import { ToastrService } from 'ngx-toastr';
 import { NotificationBoxService } from '../services/notification-box.service';
-import { DatePipe, getLocaleDateFormat } from '@angular/common';
+import { DatePipe} from '@angular/common';
 import { SidenavService } from '../view-table-sidenav/sidenav.service';
 import { UserPropertiesService } from '../services/user-properties.service';
 import { MatchStatusService } from '../services/match-status.service';
 import { DateHandlingService } from '../services/date-handling.service';
-import { Observable } from 'rxjs';
-import { MatCheckbox } from '@angular/material/checkbox';
 import { SavedActiveBetsService } from '../services/saved-active-bets.service';
 import { ActiveBet } from '../models/active-bet.model';
-import { PopupViewSavedBetsComponent } from '../popup-view-saved-bets/popup-view-saved-bets.component';
-import { truncate } from 'fs';
-import { on } from 'events';
 import { MatchStatsService } from '../services/match-stats.service';
-import { TablePreferences } from '../user-properties.model';
+import { TablePreferences, Group } from '../user-properties.model';
 
-  export class Group {
-    level = 0;
-    expanded = false;
-    League = "";
-    isActive = false;
-    totalCounts = 0;
-    watchAll = false;
-    isToday = false;
-    isTomorrow = false;
-  }
 
   @Component({
     templateUrl: './match-table.component.html',
@@ -665,7 +646,6 @@ import { TablePreferences } from '../user-properties.model';
                 }
               } else {
               }
-
           });
 
           if(this.isNotInList || this.matches.length == 0)
@@ -718,6 +698,7 @@ import { TablePreferences } from '../user-properties.model';
       }
       if(streamMatch.OccurrenceAway != 0){
         match.BTTSOdds = streamMatch.B365BTTSOdds;
+
         match.B25GOdds = streamMatch.B365O25GoalsOdds;
         match.BDraw = streamMatch.B365DrawOdds;
         match.OccH = streamMatch.OccurrenceHome;
@@ -728,13 +709,9 @@ import { TablePreferences } from '../user-properties.model';
 
     updateFlickerAnimationState(streamOdds:number, fixtureOdds:number): boolean {
       let triggerOddsUpdate: boolean;
-        if(streamOdds != fixtureOdds)
-        {
-          console.log(streamOdds + " == " + fixtureOdds + " " + (streamOdds == fixtureOdds));
-          triggerOddsUpdate = true;
-        } else {
-          triggerOddsUpdate = false;
-        }
+
+      triggerOddsUpdate = streamOdds != fixtureOdds ? true : false;
+
       return triggerOddsUpdate;
     }
 
@@ -751,13 +728,15 @@ import { TablePreferences } from '../user-properties.model';
     watchAllMatches(groupRow:any):void{
 
       if(this.loadingInProgress == false){
+
+        let epochCutOff = this.getStartEndDaysAtMidnight();
+        //toggle property used for individual league watch toggle.
         groupRow.watchAll = !groupRow.watchAll;
-        console.log("----------------------------------- Watch All Of " + groupRow.League + "-----------------------------------\n Adding all matches to watchMatchSubject & watchList in matchStatus Services");
-        // console.log(this.matches);
-        var epochCutOff = this.getStartEndDaysAtMidnight();
-        //filter by league
+
         const leagueMatches = this.matches.filter( (match) => {
+
           var matchEpoch:number = match.EpochTime*1000;
+
             if(match.League == groupRow.League && match.isPastPrime == false && ( matchEpoch >= epochCutOff.forStartOfDayOne && matchEpoch <= epochCutOff.forDayTwo ))
             {
               match.isWatched = groupRow.watchAll ? true : false;
@@ -767,7 +746,8 @@ import { TablePreferences } from '../user-properties.model';
               return true;
             }
         });
-        // console.log(leagueMatches);
+
+
         leagueMatches.forEach( (match)=> {
           if(groupRow.watchAll && match.isPastPrime == false){
             this.matchStatusService.addToWatchList(match);
@@ -778,10 +758,21 @@ import { TablePreferences } from '../user-properties.model';
             this.matchStatusService.watchMatchSubject(match);
           }
         });
-        // console.log("Watchlist:");
-        // console.log(this.matchStatusService.getWatchList());
-        // console.log("----------------------------------------------------------------------");
+
         return leagueMatches;
+      }
+    }
+
+    addToWatchList(rowData:any){
+
+      rowData.isWatched = !rowData.isWatched;
+
+      if(rowData.isWatched){
+        this.matchStatusService.addToWatchList(rowData);
+        this.matchStatusService.watchMatchSubject(rowData);
+      } else {
+        this.matchStatusService.removeFromWatchList(rowData);
+        this.matchStatusService.watchMatchSubject(rowData);
       }
     }
 
@@ -793,55 +784,56 @@ import { TablePreferences } from '../user-properties.model';
 
       this.userStoredMatchSettings = this.matchStatusService.initializeLocalStorage();
 
+      //remove non-matchObjects
       this.userStoredMatchSettings = this.userStoredMatchSettings.filter( storedMatch => {
         if(storedMatch.level != 1){
           return true;
         }
       });
-      console.log("---------------------------------");
-      console.log("User Stored Match Settings: ");
-      console.log(this.userStoredMatchSettings);
-      console.log("---------------------------------");
 
+       //using the stored matches, filter the match from retrieved db matches[];
+      this.userStoredMatchSettings.forEach( cachedMatchObject => {
 
-      //using the stored matches, filter  the match from retrieved db matches[];
-      this.userStoredMatchSettings.forEach( localStoredMatch => {
-        let storedMatchEpochTime = localStoredMatch.EpochTime*1000;
-        const storedMatchDate = new Date(storedMatchEpochTime).getUTCDate();
-        console.log("Stored Match: ", localStoredMatch.Home + " matchDate:  " + storedMatchDate +  " vs currentDate: " + currentDate + " sMDate > currentDate ? " + (storedMatchDate >= currentDate) );
+        let dbMatchEpochTime = cachedMatchObject.EpochTime*1000;
+        const dbMatchDate = new Date(dbMatchEpochTime).getUTCDate();
 
-        let foundMatch = this.matches.filter( fixturesMatch => {
+        //console.log("Stored Match: ", dbStoredMatch.Home + " matchDate:  " + dbMatchDate +  " vs currentDate: " + currentDate + " sMDate > currentDate ? " + (dbMatchDate >= currentDate) );
 
-          if( storedMatchDate >= currentDate && fixturesMatch.Home == localStoredMatch.Home && fixturesMatch.Away == localStoredMatch.Away && fixturesMatch.EpochTime == localStoredMatch.EpochTime){
-            //set isWatched, Home/Away Status notify.
-            fixturesMatch.isWatched = localStoredMatch.isWatched;
-            fixturesMatch.AStatus.notify = localStoredMatch.AStatus.notify;
-            fixturesMatch.HStatus.notify = localStoredMatch.HStatus.notify;
+        this.matches.filter( fixturesMatch => {
+
+          if( dbMatchDate >= currentDate && fixturesMatch.Home == cachedMatchObject.Home && fixturesMatch.Away == cachedMatchObject.Away && fixturesMatch.EpochTime == cachedMatchObject.EpochTime){
+            //update localStorage match state to session.
+
+            fixturesMatch.isWatched = cachedMatchObject.isWatched;
+            fixturesMatch.AStatus.notify = cachedMatchObject.AStatus.notify;
+            fixturesMatch.HStatus.notify = cachedMatchObject.HStatus.notify;
 
             this.updateMatchStatusList(fixturesMatch, true);
             this.updateMatchStatusList(fixturesMatch, false);
             this.updateJuicyNotifyStatus(fixturesMatch, true);
             this.updateJuicyNotifyStatus(fixturesMatch, false);
 
+            //Send updated objects to watchList component.
             this.matchStatusService.addToWatchList(fixturesMatch);
             this.matchStatusService.watchMatchSubject(fixturesMatch);
 
-            fixturesMatch.isWatched = localStoredMatch.isWatched;
+            //fixturesMatch.isWatched = cachedMatchObject.isWatched; //Delete if no bug on loading localStorage detected 07-08-2021
+
+            this.notificationRegardingDefinedOdds(fixturesMatch, minOdds, maxOdds);
 
             if(fixturesMatch.isPastPrime == false){
-              fixturesMatch.AStatus.notify = localStoredMatch.AStatus.notify;
-              fixturesMatch.HStatus.notify = localStoredMatch.HStatus.notify;
+              fixturesMatch.AStatus.notify = cachedMatchObject.AStatus.notify;
+              fixturesMatch.HStatus.notify = cachedMatchObject.HStatus.notify;
             }
             return true;
           }
-
         });
-        //TODO Asynchronous race condition occurring. sortedData not compiling on time.
-        this.resetNotificationParameters(foundMatch, minOdds, maxOdds);
       });
     }
 
-    private resetNotificationParameters(foundMatch: any, minOdds: number, maxOdds: number) {
+    //adjust notification based off matchOdds and user Defined odds
+    private notificationRegardingDefinedOdds(foundMatch: any, minOdds: number, maxOdds: number) {
+
       if (+foundMatch.BHome >= minOdds && +foundMatch.BHome <= maxOdds && foundMatch.HStatus.notify) {
         this.toggleNotification(foundMatch, true);
       }
@@ -854,6 +846,13 @@ import { TablePreferences } from '../user-properties.model';
       if (foundMatch.BAway < minOdds || foundMatch.BHome > maxOdds) {
         foundMatch.AStatus.notify = false;
       }
+    }
+
+    toggleNotification(matchObj:any, isHome:boolean):void{
+      isHome ? matchObj.HStatus.notify = !matchObj.HStatus.notify : matchObj.AStatus.notify = !matchObj.AStatus.notify;
+      //update match-status.services.
+      this.updateMatchStatusList(matchObj, isHome);
+      this.updateJuicyNotifyStatus(matchObj, isHome);
     }
 
     watchAllLeagues():void{
@@ -895,13 +894,6 @@ import { TablePreferences } from '../user-properties.model';
       this.matchStatusService.updateWatchList(matchObj, isHome);
     }
 
-    toggleNotification(matchObj:any, isHome:boolean):void{
-      isHome ? matchObj.HStatus.notify = !matchObj.HStatus.notify : matchObj.AStatus.notify = !matchObj.AStatus.notify;
-      //update match-status.services.
-      this.updateMatchStatusList(matchObj, isHome);
-      this.updateJuicyNotifyStatus(matchObj, isHome);
-    }
-
     showToast(typeOfToast: string){
       if(typeOfToast == "enableToggle"){
         this.notificationBox.enableToggleToast();
@@ -913,29 +905,6 @@ import { TablePreferences } from '../user-properties.model';
 
     toggleSideNav(){
       this.sidenav.toggle();
-    }
-
-    addToWatchList(rowData:any){
-      console.log(rowData);
-      // rowData.isWatched = rowData.isPastPrime ? false: !rowData.isWatched;
-      rowData.isWatched = !rowData.isWatched;
-      console.log("---------------------------------");
-      console.log("RowData.isWatched set to: " + rowData.isWatched);
-      console.log("---------------------------------");
-      if(rowData.isWatched && rowData.isPastPrime == false){
-        this.matchStatusService.addToWatchList(rowData);
-        this.matchStatusService.watchMatchSubject(rowData);
-      } else if (!rowData.isWatched && rowData.isPastPrime == false) {
-        this.matchStatusService.removeFromWatchList(rowData);
-        this.matchStatusService.watchMatchSubject(rowData);
-      } else if (rowData.isWatched && rowData.isPastPrime) {
-        //condition for user who was watching a match which is now inPlay.
-        this.matchStatusService.addToWatchList(rowData);
-        this.matchStatusService.watchMatchSubject(rowData);
-      } else if (!rowData.isWatched && rowData.isPastPrime){
-        this.matchStatusService.removeFromWatchList(rowData);
-        this.matchStatusService.watchMatchSubject(rowData);
-      }
     }
 
     openViewBets(row:any, selection:string): void {

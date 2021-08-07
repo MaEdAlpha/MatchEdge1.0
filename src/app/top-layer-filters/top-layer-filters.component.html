@@ -1,19 +1,15 @@
 <div class="hdr-cont">
       <div class="table-tabs">
+
         <button mat-raised-button
           class="fixtures-watchlist-btn"
-          (click)="displaySelectedTable(tableTitle)">  {{ tableTitle }}
-
-          <mat-slide-toggle
-          class="toggle-btn-table"
-          (change) = "toggleTable($event)">
-          </mat-slide-toggle></button>
-      <!-- Have a container what toggles text Fixtures/Watchlist.
-              Should look like a button
-                Should have a mat-slide-toggle that sets showTable(1) / showTable(2) -->
+          (click)="displaySelectedTable(tableTitle)">
+          {{ tableTitle }}
+          <mat-slide-toggle  class="toggle-btn-table" (change) = "toggleTable($event)">  </mat-slide-toggle></button>
 
         <button mat-raised-button class="generic-btn" (click)="showTable(3);">Juicy Bets</button>
         <button mat-raised-button class="generic-btn" (click)="showTable(4)">Active Bets</button>
+
         <ng-container  *ngIf="displayFixtures == 3">
           <button mat-raised-button (click)="clearJuicyClicked()"
           matTooltip="Clears highlighted matches"
@@ -33,17 +29,6 @@
             </mat-option>
           </mat-select>
         </mat-form-field>
-
       </div>
-      <!-- <mat-form-field class="hdr-selector" appearance="fill">
-        <mat-label>View Selector</mat-label>
-        <mat-select [(ngModel)]="viewThisMode" name="viewMode">
-          <mat-option *ngFor="let mode of viewModes" [value]="mode.value">
-            {{mode.viewValue}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field> -->
-      <!-- <button class="hdr-btn"  id="hdr-hide" mat-raised-button (click)="toggle()">Main Table <mat-icon><span *ngIf="!isTableHidden">visibility_on</span><span *ngIf="isTableHidden">visibility_off</span></mat-icon></button> -->
-
 </div>
 

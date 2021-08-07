@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, Input, OnInit } from '@angular/core';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AuthService } from '@auth0/auth0-angular';
 
 @Component({
@@ -7,10 +8,11 @@ import { AuthService } from '@auth0/auth0-angular';
   styleUrls: ['./two-up-product-features.component.css']
 })
 export class TwoUpProductFeaturesComponent implements OnInit {
-
-  constructor(private auth: AuthService) { }
+  @Input() displayProductFeatures:boolean = true;
+  constructor(private auth: AuthService) {}
 
   ngOnInit(): void {
+    console.log("Show Product FEATURES INIT: ", this.displayProductFeatures);
   }
 
   login():void{
