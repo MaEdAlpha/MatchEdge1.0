@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatchesService } from '../match/matches.service';
 import { UserPropertiesService } from '../services/user-properties.service';
@@ -9,9 +9,10 @@ import { UserPropertiesService } from '../services/user-properties.service';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit, OnChanges {
-  constructor(private userService: UserPropertiesService, private router: Router, private matchServices: MatchesService){};
+  constructor(private userService: UserPropertiesService, private router: Router, private matchServices: MatchesService, private chRef: ChangeDetectorRef){};
   @Input() displayNotification:boolean;
   @Input() displayActivated: boolean;
+  @Input() showSubscriptionButton: boolean;
   @Output() notificationSettings = new EventEmitter<boolean>();
   enableDisplaySettings: boolean;
 
@@ -19,6 +20,11 @@ export class HeaderComponent implements OnInit, OnChanges {
     if(simpleChange.displayActivated){
       //Enables ability to open UserSettings upon entering website.
       this.enableDisplaySettings = this.displayActivated;
+    }
+    if(simpleChange.showSubscriptionButton && simpleChange.showSubscriptionButton.currentValue){
+      console.log(this.showSubscriptionButton);
+      console.log("SUBBUTTON WTF");
+      this.chRef.detectChanges();
     }
   }
 
@@ -45,8 +51,7 @@ export class HeaderComponent implements OnInit, OnChanges {
     this.enableDisplaySettings = false;
     this.displayActivated = false;
     this.matchServices.openSubscriptions();
-    setTimeout( ()=>{
-      this.router.navigate(['/']);
-    });;
+
+      // this.router.navigate(['/']);
   }
 }

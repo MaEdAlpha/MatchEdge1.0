@@ -1,11 +1,8 @@
-import { HttpParams } from '@angular/common/http';
+
 import { Component } from '@angular/core';
 import { AuthService } from '@auth0/auth0-angular';
-import { NavigationEnd, NavigationStart, Router, RouterEvent, RoutesRecognized } from '@angular/router';
-import { Subscription } from 'rxjs';
-import { Match } from './match/match.model';
+import { NavigationStart, Router, RouterEvent, RoutesRecognized } from '@angular/router';
 import { MatchesService } from './match/matches.service';
-import { SavedActiveBetsService } from './services/saved-active-bets.service';
 import { UserPropertiesService } from './services/user-properties.service';
 import { filter } from 'rxjs/operators';
 
@@ -26,6 +23,7 @@ export class AppComponent {
   tabSelection: number;
   userEmail:string;
   isReadingPolicy:boolean = false;
+  onEnterSite:boolean = false;
 
   constructor(public auth: AuthService, private userPropertiesService: UserPropertiesService, private router: Router, private matchesService: MatchesService) {
     this.router.events.pipe(
@@ -121,7 +119,10 @@ export class AppComponent {
     });
 
     this.matchesService.viewSubscriptionsPage.subscribe( (selectSubscriptionPage) => {
+      console.log("EVENT EMITTED ON SUBSCRIPTION PAGE");
       this.isEntryPoint = selectSubscriptionPage;
+      this.onEnterSite = !this.isEntryPoint;
+      this.isLoading = !this.isEntryPoint;
     });
   }
 
@@ -137,8 +138,9 @@ export class AppComponent {
   onEntryToSite(showDisplaySettings: boolean) {
     console.log("---------------------ENTERING 2UP SITE---------------------");
     console.log("-----------------------------------------------------------");
-
+    this.onEnterSite = true;
     this.activateDisplaySettings = showDisplaySettings;
+
   }
 
   getPage(){
