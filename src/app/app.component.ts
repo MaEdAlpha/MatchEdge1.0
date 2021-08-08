@@ -123,6 +123,7 @@ export class AppComponent {
       this.isEntryPoint = selectSubscriptionPage;
       this.onEnterSite = !this.isEntryPoint;
       this.isLoading = !this.isEntryPoint;
+      this.activateDisplaySettings = !this.isEntryPoint;
     });
   }
 
