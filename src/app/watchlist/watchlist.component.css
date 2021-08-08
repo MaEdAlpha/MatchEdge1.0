@@ -614,31 +614,21 @@ button.viewCell {
   }
 }
 
-@media(min-width: 1140px){
+@media(min-width: 1300px){
   .bookie-logo-home{
-    margin-left: 66%;
+    margin-left: 69%;
   }
+
   span.BHome,
   span.BAway,
   span.SMHome,
   span.SMAway {
     color: white;
-    font-size: 0.87rem;
+    font-size: 1.25rem;
     line-height: 0px;
   }
-
-  .awayodds-container,
-  .homeodds-container{
-    justify-content: center;
-    padding-right: 6px;
-  }
 }
 
-@media(min-width: 1300px){
-  .bookie-logo-home{
-    margin-left: 69%;
-  }
-}
 
 @media(min-width: 1366px){
   .bookie-logo-home{

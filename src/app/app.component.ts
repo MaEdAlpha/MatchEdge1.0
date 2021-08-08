@@ -102,7 +102,6 @@ export class AppComponent {
   }
 
   ngOnInit(){
-    console.log("Get JWT Token");
     this.tabSelection=0;
     this.userEmail='';
     this.toggleSettingsTemplate = false;
@@ -119,7 +118,7 @@ export class AppComponent {
     });
 
     this.matchesService.viewSubscriptionsPage.subscribe( (selectSubscriptionPage) => {
-      console.log("EVENT EMITTED ON SUBSCRIPTION PAGE");
+      //reset parameters, never again setup routes ZALGO.
       this.isEntryPoint = selectSubscriptionPage;
       this.onEnterSite = !this.isEntryPoint;
       this.isLoading = !this.isEntryPoint;

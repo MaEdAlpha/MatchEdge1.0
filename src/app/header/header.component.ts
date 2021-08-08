@@ -22,8 +22,6 @@ export class HeaderComponent implements OnInit, OnChanges {
       this.enableDisplaySettings = this.displayActivated;
     }
     if(simpleChange.showSubscriptionButton && simpleChange.showSubscriptionButton.currentValue){
-      console.log(this.showSubscriptionButton);
-      console.log("SUBBUTTON WTF");
       this.chRef.detectChanges();
     }
   }
