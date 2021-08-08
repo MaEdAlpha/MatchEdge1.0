@@ -8,7 +8,7 @@ export class AuthInterceptor implements HttpInterceptor {
 
   intercept(req: HttpRequest<any>, next: HttpHandler){
     const  authToken = localStorage.getItem('token');
-    console.log("===>Intcpr Called: " + authToken);
+    // console.log("===>Intcpr Called: " + authToken);
 
     //manipulate request to use token. Must clone or it breaks.
     if(authToken != undefined){

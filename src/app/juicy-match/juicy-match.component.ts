@@ -202,14 +202,14 @@ export class JuicyMatchComponent implements OnChanges, OnInit, OnDestroy, AfterV
 
     //supposedly this is the fastest way to iterate in JS.
     this.notifySubscription = this.matchStatusService.getNotifyUserListener().subscribe( juicy => {
-      console.log("IN JUICY...Updating JuicyMatch Selection");
+      //console.log("IN JUICY...Updating JuicyMatch Selection");
       for (let i = 0; i < this.sortedData.length; i++){
         if(this.sortedData[i].Selection == juicy.selection && this.sortedData[i].EpochTime == juicy.epoch){
           this.sortedData[i].notify = juicy.notifyState;
           break;
         }
       }
-      console.log(this.sortedData);
+      //console.log(this.sortedData);
     });
 
     //set userPreference Values

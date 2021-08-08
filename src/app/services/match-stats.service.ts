@@ -321,13 +321,8 @@ getMatchStats(allMatches, ftaOption:string): JuicyMatch[] {
       userAware: isUpdatedValue ? null : false,
     }
     //Debug juicy object
-    console.log("---------------------------------------------------------------");
-    console.log("---------------------JUICYYYY Object created!------------------");
-    console.log(juicyObject);
-    console.log("---------------------------------------------------------------");
-    console.log("---------------------------------------------------------------");
-
-
+    // console.log("JuicyObject created")
+    // console.log(juicyObject);
     return juicyObject;
   }
 }

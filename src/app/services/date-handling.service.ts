@@ -108,8 +108,9 @@ export class DateHandlingService {
   //Returns generic notification Boundary of Today & Tomorrow format.
   returnGenericNotificationBoundaries(): {lowerLimit:number, upperLimit:number} {
     var epoch;
+    let unixTimeNow = Math.floor(new Date().getTime() / 1000);
       epoch = {
-        lowerLimit: Date.now(),
+        lowerLimit: unixTimeNow,
         upperLimit: new Date( new Date().setDate( new Date().getDate() + 2 )).setHours(0,0,0,0)
       }
       // console.log(epoch.lowerLimit);

@@ -26,7 +26,7 @@ export class MatchStatusService {
     var selectionPosition: number;
 
     selectionPosition = this.watchList.indexOf(selectionToRemove);
-    console.log(" Found " + selectionToRemove.Home + " vs " + selectionToRemove.Away + " in watchList: " + this.watchList.includes(selectionToRemove) + ". removing now..." );
+    //console.log(" Found " + selectionToRemove.Home + " vs " + selectionToRemove.Away + " in watchList: " + this.watchList.includes(selectionToRemove) + ". removing now..." );
 
     this.watchList.forEach( (selectionInList, index) => {
 
@@ -38,7 +38,7 @@ export class MatchStatusService {
   }
 
   addToWatchList(match: any) {
-    console.log("Added to WatchList: " + match.Home + " v. " + match.Away);
+    //console.log("Added to WatchList: " + match.Home + " v. " + match.Away);
     //selection already in watchlist? do nothing, else push.
     this.watchList.includes(match) ? null : this.watchList.push(match);
     this.updateNotificationStatus(match);
@@ -71,9 +71,9 @@ export class MatchStatusService {
   initializeLocalStorage(): any {
     let userTableSettings = localStorage.getItem('userWatchList');
     userTableSettings = JSON.parse(userTableSettings);
-    console.log("USERWATCHLIST");
+    //console.log("USERWATCHLIST");
 
-    console.log(userTableSettings);
+    //console.log(userTableSettings);
 
     return userTableSettings ? userTableSettings : [];
     // upon startup, return localStorage item 'userWatchList'
@@ -93,7 +93,6 @@ export class MatchStatusService {
     switch(filterSelection){
       case 1:
         tableFilterValue = this.userPreferenceService.getEV();
-        //May need to get individually calculated match stats and compare.. This block of code should handle in a separate method.
         break;
         case 2:
           tableFilterValue = this.userPreferenceService.getMR();
@@ -128,9 +127,9 @@ export class MatchStatusService {
         return false;
       }
     });
-    console.log("-------UPDATEWATCHLIST METHOD-------");
-    console.log(this.watchList);
-    console.log("-----------------------------------");
+    //console.log("-------UPDATEWATCHLIST METHOD-------");
+    //console.log(this.watchList);
+    //console.log("-----------------------------------");
 
     this.updateLocalStorage(this.watchList);
   }
@@ -146,9 +145,9 @@ export class MatchStatusService {
         return false;
       }
     });
-    console.log("No. of events to update: " + matchToUpdate.length);
+   // console.log("No. of events to update: " + matchToUpdate.length);
     (matchToUpdate.length > 0) ? (isHome ? matchToUpdate[0].HStatus.notify = selection.notify : matchToUpdate[0].AStatus.notify = selection.notify) : null;
-    console.log(matchToUpdate[0])
+   // console.log(matchToUpdate[0])
   }
 
   getWatchList(): any[]{
@@ -159,45 +158,39 @@ export class MatchStatusService {
     //compares WatchList with juicySelection states.
     //MAKE SURE WATCHLIST IS ACTUALLY BEING UPDATED>
   isWatched( selectionName:string):boolean {
-      console.log("----------isWatchedMethod---------");
-      console.log(this.watchList);
-      console.log(selectionName);
+     console.log("----------isWatchedMethod---------");
+     console.log(this.watchList);
+     console.log(selectionName);
 
 
     const state:any = this.watchList.filter( fixture => {
-      if(fixture.Home == selectionName && fixture.HStatus.notify) {
-        console.log("--------isWatched Result: ------------");
-        console.log("Found " + fixture.Home + "= Home Team, isWatched = true");
-
+      if(fixture.Home == selectionName && fixture.HStatus.notify || (fixture.Away == selectionName && fixture.AStatus.notify)) {
+       // console.log("--------isWatched Result: ------------");
+       // console.log("Found " + fixture.Home + "= Home Team, isWatched = true");
+       console.log(selectionName + " match FOUND in watchList, return TRUE");
         return true
-      }
-      if(fixture.Away == selectionName && fixture.AStatus.notify) {
-        console.log("--------isWatched Result: ------------");
-        console.log("Found " + fixture.Away + "= Away Team, isWatched = true");
+      } else {
+       // console.log("--------isWatched Result: ------------");
+       // console.log(" Nothing Found! for above SelectionName! ");
+         console.log(selectionName + " match NOT found in watchList, return FALSE");
 
-        return true;
-      } else if (fixture.Away != selectionName || fixture.Home != selectionName){
-        console.log("--------isWatched Result: ------------");
-        console.log(" Nothing Found! for above SelectionName! ");
-
-          //selection name did not match.
         return false;
       }
     });
 
 
     let result =  state.length > 0 ? true : false
-    console.log("----------------Showing Filter Results: " + selectionName + "----------------");
-    console.log(state);
-    console.log("Result: " + result);
+    //console.log("----------------Showing Filter Results: " + selectionName + "----------------");
+   // console.log(state);
+    //console.log("Result: " + result);
 
-    console.log("------------------------------------------------");
+    //console.log("------------------------------------------------");
 
     return result
   }
 
   notifyUser(juicy: {selection:string, notifyState:boolean, epoch:number} ){
-    console.log('Notify User: ' + juicy.selection + " notifyState: " + juicy.notifyState);
+   // console.log('Notify User: ' + juicy.selection + " notifyState: " + juicy.notifyState);
     this.notificationSubscription.next(juicy);
   }
 

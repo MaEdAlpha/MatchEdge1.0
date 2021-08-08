@@ -586,26 +586,26 @@ import { TablePreferences, Group } from '../user-properties.model';
           prevObject = "groupHeader";
           count ++;
         }else if(count == 1 || prevObject == "groupHeader"){
-          console.log("TRUE HDRDATE1");
-          console.log(object);
+          // console.log("TRUE HDRDATE1");
+          // console.log(object);
           //find first match in leagueGroup
           object.displayHeaderDate = true;
           prevObject ="";
           count ++;
         } else if (currentDate != previousDate && object.League == matchList[count-1].League ){
           //find date change within same league
-          console.log("TRUE HDRDATE2");
-          console.log(object);
-          console.log("Date compare " + currentDate + ' == ' + previousDate);
-          console.log("League compare " + object.League + " vs " + matchList[count-1].League );
+          // console.log("TRUE HDRDATE2");
+          // console.log(object);
+          // console.log("Date compare " + currentDate + ' == ' + previousDate);
+          // console.log("League compare " + object.League + " vs " + matchList[count-1].League );
 
 
           object.displayHeaderDate = true;
           prevObject= "";
           count ++;
         } else {
-          console.log("FALSE HDRDATE3");
-          console.log(object);
+          // console.log("FALSE HDRDATE3");
+          // console.log(object);
 
           count ++;
         }
@@ -662,7 +662,7 @@ import { TablePreferences, Group } from '../user-properties.model';
       for(var i=0; i < this.matches.length; i++){
         if( match.Home === this.matches[i].Home && match.Away === this.matches[i].Away){
           this.matchWatched[i] = 'false';
-          console.log("Testing index call " + this.matches.findIndex(match))
+          //console.log("Testing index call " + this.matches.findIndex(match))
         }
       }
     }
@@ -753,7 +753,7 @@ import { TablePreferences, Group } from '../user-properties.model';
             this.matchStatusService.addToWatchList(match);
             this.matchStatusService.watchMatchSubject(match);
           } else if (groupRow.watchAll == false && match.isPastPrime == false) {
-            console.log("Removed from List: " + match.Home + " v " + match.Away);
+            //console.log("Removed from List: " + match.Home + " v " + match.Away);
             this.matchStatusService.removeFromWatchList(match);
             this.matchStatusService.watchMatchSubject(match);
           }
@@ -781,6 +781,8 @@ import { TablePreferences, Group } from '../user-properties.model';
       const currentDate = new Date(Date.now()).getUTCDate();
       const maxOdds = this.userPropertiesService.getMaxOdds();
       const minOdds = this.userPropertiesService.getMinOdds();
+      console.log("USER MIN/MAX ODDS: " , minOdds + "/", maxOdds);
+
 
       this.userStoredMatchSettings = this.matchStatusService.initializeLocalStorage();
 
@@ -799,7 +801,7 @@ import { TablePreferences, Group } from '../user-properties.model';
 
         //console.log("Stored Match: ", dbStoredMatch.Home + " matchDate:  " + dbMatchDate +  " vs currentDate: " + currentDate + " sMDate > currentDate ? " + (dbMatchDate >= currentDate) );
 
-        this.matches.filter( fixturesMatch => {
+        let foundMatch = this.matches.filter( fixturesMatch => {
 
           if( dbMatchDate >= currentDate && fixturesMatch.Home == cachedMatchObject.Home && fixturesMatch.Away == cachedMatchObject.Away && fixturesMatch.EpochTime == cachedMatchObject.EpochTime){
             //update localStorage match state to session.
@@ -807,6 +809,7 @@ import { TablePreferences, Group } from '../user-properties.model';
             fixturesMatch.isWatched = cachedMatchObject.isWatched;
             fixturesMatch.AStatus.notify = cachedMatchObject.AStatus.notify;
             fixturesMatch.HStatus.notify = cachedMatchObject.HStatus.notify;
+
 
             this.updateMatchStatusList(fixturesMatch, true);
             this.updateMatchStatusList(fixturesMatch, false);
@@ -817,9 +820,7 @@ import { TablePreferences, Group } from '../user-properties.model';
             this.matchStatusService.addToWatchList(fixturesMatch);
             this.matchStatusService.watchMatchSubject(fixturesMatch);
 
-            //fixturesMatch.isWatched = cachedMatchObject.isWatched; //Delete if no bug on loading localStorage detected 07-08-2021
-
-            this.notificationRegardingDefinedOdds(fixturesMatch, minOdds, maxOdds);
+            fixturesMatch.isWatched = cachedMatchObject.isWatched; //Delete if no bug on loading localStorage detected 07-08-2021
 
             if(fixturesMatch.isPastPrime == false){
               fixturesMatch.AStatus.notify = cachedMatchObject.AStatus.notify;
@@ -828,6 +829,8 @@ import { TablePreferences, Group } from '../user-properties.model';
             return true;
           }
         });
+          //this 'jump starts' re-initialization to register notify states.
+          this.notificationRegardingDefinedOdds(foundMatch, minOdds, maxOdds);
       });
     }
 
@@ -885,13 +888,21 @@ import { TablePreferences, Group } from '../user-properties.model';
               this.matchStatusService.watchMatchSubject(match);
             }
           }
-
         });
       }
     }
 
     updateMatchStatusList(matchObj:any, isHome:boolean):void{
       this.matchStatusService.updateWatchList(matchObj, isHome);
+    }
+
+    //Assign a button that updates JuicyTable Notify status.
+    updateJuicyNotifyStatus(match: any, isHome:boolean){
+      // console.log("NOTIFY: In Match-Table");
+      // console.log(match);
+
+      let juicy = isHome? {selection: match.Home, notifyState: match.HStatus.notify, epoch: match.EpochTime} : {selection: match.Away, notifyState: match.AStatus.notify, epoch: match.EpochTime};
+      this.matchStatusService.notifyUser(juicy);
     }
 
     showToast(typeOfToast: string){
@@ -943,14 +954,7 @@ import { TablePreferences, Group } from '../user-properties.model';
         console.log("Cannot change state of SAB icon, an error occured.");
       }
     }
-    //Assign a button that updates JuicyTable Notify status.
-    updateJuicyNotifyStatus(match: any, isHome:boolean){
-      // console.log("NOTIFY: In Match-Table");
-      // console.log(match);
-      //juicy: {selection:string, notifyState:boolean}
-      let juicy = isHome? {selection: match.Home, notifyState: match.HStatus.notify, epoch: match.EpochTime} : {selection: match.Away, notifyState: match.AStatus.notify, epoch: match.EpochTime};
-      this.matchStatusService.notifyUser(juicy);
-    }
+
 
 }
 

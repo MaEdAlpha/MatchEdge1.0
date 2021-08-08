@@ -568,6 +568,7 @@ div.jm-exp-details,
 
 .bookie-button-container {
   background-image: url(/assets/img/bet365II.png);
+  display: inline-block;
   background-size: cover;
   width: 80px;
   height: 24px;
@@ -1382,7 +1383,7 @@ input[type=number] {
     max-width:85px;
   }
   .bookie-button-container{
-    display:initial;
+    display:inline-block;
   }
 }
 

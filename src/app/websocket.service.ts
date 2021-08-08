@@ -15,21 +15,19 @@ export class WebsocketService {
   }
 
   public openSSE() {
-    console.log("STREAM CONNECT");
-
     this.eventSource = new EventSource(env.serverUrl + '/api/updates');
     // this.eventSource = new EventSource('/');
     if(window.EventSource){
       this.eventSource.onopen = (event) => {
-        console.log('SSE connection initialized!~', event);
+        // console.log('SSE connection initialized!~', event);
       };
 
       this.eventSource.onmessage = (event) => {
-        console.log("MongoStream incoming....");
-        console.log(event.data);
-        if(event.data != "hearbeat"){
-          let streamUpdate = event.data;
-          this.matchesService.addToUpdatedMatches(JSON.parse(streamUpdate));
+        console.log("EventIncoming--");
+        if(event.data != "heartbeat"){
+          let streamUpdate = JSON.parse(event.data);
+          console.log(streamUpdate);
+          this.matchesService.addToUpdatedMatches(streamUpdate);
         }
       };
     }

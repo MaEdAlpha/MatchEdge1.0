@@ -56,7 +56,7 @@ export class JuicyMatchHandlingService {
     var oddsChanged: boolean = false;
     var ftaOption: string = this.userPropertiesService.getFTAOption();
     // DEBUG
-    console.log("--------Comparint Stream with Juicy Selection--------");
+    console.log("--------Comparing Stream with Juicy Selection--------");
     console.log(juicyMatchBase);
     console.log("-----------------------------------------------------\n");
 

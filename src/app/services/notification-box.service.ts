@@ -1,11 +1,10 @@
-import { Injectable, OnInit } from '@angular/core';
-import { GlobalConfig, ActiveToast, ToastContainerDirective, ToastrService } from 'ngx-toastr';
+import { Injectable } from '@angular/core';
+import { GlobalConfig, ActiveToast, ToastrService } from 'ngx-toastr';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { DateHandlingService } from './date-handling.service';
 import { MatchStatusService } from './match-status.service';
 import { UserPropertiesService } from './user-properties.service';
 import { SABToastSaveComponent } from '../sabtoast-save/sabtoast-save.component';
-import { StreamNotificationsComponent } from '../stream-notifications/stream-notifications.component';
 import { CustomToastComponent } from '../custom-toast/custom-toast.component';
 import { SABToastDeleteComponent } from '../sabtoast-delete/sabtoast-delete.component';
 import { SABToastUpdatedComponent } from '../sabtoast-updated/sabtoast-updated.component';
@@ -186,67 +185,62 @@ export class NotificationBoxService {
   showJuicyNotification(mainMatch: any){
      var epochNotifications = this.dateHandlingService.returnGenericNotificationBoundaries();
      this.audioEnabled = this.userPropService.getAudioPreferences();
-    console.log("--------Input " + mainMatch.Selection + " | current isJuicy= " + mainMatch.isJuicy);
-    console.log(mainMatch);
-    console.log("---------------------------------\n\n");
-
-
-
+    console.log("Stream Detected: " + mainMatch.Selection + " | isJuicy = " + mainMatch.isJuicy);
 
     //THIS IS THE BREAD AND BUTTER FOR TOAST. FIX isWatched~~~ SHOULD GET AN ACTUAL STATE OF JUICY. Match STATUS SHOULD BE GETTING THE ACTUAL STATE. SHOULD BE UPDATING MATCH STATUS SERVICES.
     if(this.matchStatusService.isWatched(mainMatch.Selection) && this.isInEpochLimits(epochNotifications, mainMatch) ) {
-      console.log("----------------------------------------------------------------------------------------------------");
-      console.log("---------Now inside set isJuicy = true conditional " + this.fvSelected + " -------------");
-      console.log(mainMatch.Selection + " states |  Notify: " + mainMatch.notify + " userAware = " + mainMatch.userAware + " EvThisBet >= evNotificationFilter ? " + (mainMatch.EVthisBet >= this.evNotificationFilter) + " EVthisBet: " + mainMatch.EVthisBet + " >= ? " + this.evNotificationFilter + " this.evNotificationFilter" );
-      console.log("----------------------------------------------------------------------------------------------------");
-      console.log("----------------------------------------------------------------------------------------------------");
+      // console.log("----------------------------------------------------------------------------------------------------");
+      // console.log("---------Now inside set isJuicy = true conditional " + this.fvSelected + " -------------");
+      // console.log(mainMatch.Selection + " states |  Notify: " + mainMatch.notify + " userAware = " + mainMatch.userAware + " EvThisBet >= evNotificationFilter ? " + (mainMatch.EVthisBet >= this.evNotificationFilter) + " EVthisBet: " + mainMatch.EVthisBet + " >= ? " + this.evNotificationFilter + " this.evNotificationFilter" );
+      // console.log("----------------------------------------------------------------------------------------------------");
+      // console.log("----------------------------------------------------------------------------------------------------");
 
+      mainMatch = this.toastNotificationTriggers(mainMatch);
+    } else {
+      console.log("\n\n--------- " + mainMatch.Selection + " did not qualify");
+      console.log(mainMatch);
+    }
+    return mainMatch;
+  }
 
-      //DISPLAY TOAST IF match is set to Notify && user is not Aware of the match being Juicy.
-      if(mainMatch.notify && !mainMatch.userAware ){
-        switch(this.fvSelected){
-            case 1:
-              if(mainMatch.EVthisBet >= this.evNotificationFilter){
+  private toastNotificationTriggers(mainMatch: any) {
+    if (mainMatch.notify && !mainMatch.userAware) {
+      switch (this.fvSelected) {
+        case 1:
+          if (mainMatch.EVthisBet >= this.evNotificationFilter) {
 
-                  mainMatch = this.toastIt(mainMatch);
-                  //play audio if settings enables it
-                  (this.audioEnabled) ? this.playAudio() : null;
-                  mainMatch.isJuicy = true;
-                  //User is no aware of match being juicy. Therefore, they will not be notified of repeat updates until they click it in juicy.
-                  mainMatch.userAware = true;
-                  console.log("--------Output " + mainMatch.Selection + " | final isJuicy= " + mainMatch.isJuicy);
-                  console.log("---------------------------------\n\n");
-                }
-                break;
-            case 2:
-              if( mainMatch.MatchRating >= this.matchRatingFilterNotification) {
-                mainMatch = this.toastIt(mainMatch);
-                //play audio if settings enables it
-                (this.audioEnabled) ? this.playAudio() : null;
-                mainMatch.isJuicy = true;
-                mainMatch.userAware = true;
-              }
-              break;
-            case 3:
-              if(mainMatch.QLPercentage >= this.secretSauceNotification) {
-                mainMatch = this.toastIt(mainMatch);
-                //play audio if settings enables it
-                (this.audioEnabled) ? this.playAudio() : null;
-                mainMatch.isJuicy = true;
-                mainMatch.userAware = true;
-              }
-              break;
-            default:
-              console.log("no entiendo");
-            }
+            mainMatch = this.toastIt(mainMatch);
+            //play audio if settings enables it
+            (this.audioEnabled) ? this.playAudio() : null;
+            mainMatch.isJuicy = true;
+            //User is no aware of match being juicy. Therefore, they will not be notified of repeat updates until they click it in juicy.
+            mainMatch.userAware = true;
+            // console.log("Output Notification " + mainMatch.Selection + " | final isJuicy = " + mainMatch.isJuicy);
+            // console.log("---------------------------------\n\n");
           }
-      } else {
-        console.log("\n\n--------- " + mainMatch.Selection + " did not qualify");
-        console.log(mainMatch);
-        console.log("-----------^^^^ Something went wrong--------------------------\n\n");
-
-
+          break;
+        case 2:
+          if (mainMatch.MatchRating >= this.matchRatingFilterNotification) {
+            mainMatch = this.toastIt(mainMatch);
+            //play audio if settings enables it
+            (this.audioEnabled) ? this.playAudio() : null;
+            mainMatch.isJuicy = true;
+            mainMatch.userAware = true;
+          }
+          break;
+        case 3:
+          if (mainMatch.QLPercentage >= this.secretSauceNotification) {
+            mainMatch = this.toastIt(mainMatch);
+            //play audio if settings enables it
+            (this.audioEnabled) ? this.playAudio() : null;
+            mainMatch.isJuicy = true;
+            mainMatch.userAware = true;
+          }
+          break;
+        default:
+          console.log("no entiendo");
       }
+    }
     return mainMatch;
   }
 
@@ -291,8 +285,8 @@ export class NotificationBoxService {
   isInEpochLimits(epochNotifications, selection): boolean{
     var selectionTime = selection.EpochTime*1000;
     let result  = (selectionTime <= epochNotifications.upperLimit && selectionTime >= Date.now())
-    console.log("-----------------Is within EpochLimits method. Result = " + result + "-----------------------");
-    console.log("------------ selectionTime: " + selectionTime + " epochNotifications.upperLimit " + epochNotifications.upperLimit + " selectionTime " + selectionTime + "  " + Date.now() + "------------");
+    console.log("-----------------Within EpochLimits ? " + result );
+    console.log(  " selectionTime > current Time ? " + selectionTime >  Date.now() + " less than epochNotification Upper limit?  " +  selectionTime < epochNotifications.upperLimit );
 
 
     return result ;

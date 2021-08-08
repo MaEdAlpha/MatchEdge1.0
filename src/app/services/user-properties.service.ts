@@ -92,8 +92,8 @@ export class UserPropertiesService {
   //ViewTable User Preferences
   private viewTablePrefs: TablePreferences = {
     timeRange: 'Today & Tomorrow',
-    minOdds: '2.5',
-    maxOdds: '20',
+    minOdds: '0',
+    maxOdds: '2',
     evFVI: '-2000',
     evFVII: '-1000',
     matchRatingFilterI: '95',
@@ -155,9 +155,7 @@ export class UserPropertiesService {
 
         this.token = userData.token;
         console.log(this.token);
-
         this.saveAuthData(this.token, userData.expiry)
-
         this.settings.juicyId = userData.userDetails._id;
         this.settings.account = userData.userDetails.account;
         this.settings.filters = {
@@ -193,8 +191,12 @@ export class UserPropertiesService {
 
     //get token and save to localStorage
   private saveAuthData(token: string, expirationDate: number) {
+      this.clearAuthData();
       localStorage.setItem('token',token);
       localStorage.setItem('expiration', expirationDate.toString());
+      this.token = token;
+      // console.log("Token Saved: ", this.token);
+
   }
 
   public getAuthData(): {token:string, expirationDate:number}{
@@ -204,9 +206,6 @@ export class UserPropertiesService {
       token: localStorage.getItem('token'),
       expirationDate: +localStorage.getItem('expiration')
   }
-  console.log("LOCALSTORAGE!!!!!!!!!");
-
-  console.log(authData);
 
     return authData
   }

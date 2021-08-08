@@ -193,6 +193,8 @@ app.post('/webhook', async (req, res) => {
   if(postData.event_type == "BILLING.SUBSCRIPTION.ACTIVATED"){
     console.log("///////////////////////////////////////////////////////////////////////////////////////");
     console.log("Subscription Activated!");
+    console.log(postData.resource);
+    console.log("///////////////////////////////////////////////////////////////////////////////////////");
     console.log(postData.resource.id);
     console.log(postData.resource.billing_info.last_payment.time);
     console.log(postData.resource.billing_info.next_billing_time);
@@ -208,10 +210,12 @@ app.post('/webhook', async (req, res) => {
     //Payment is made on a subscription
     console.log("Payment Completed");
     // console.log(JSON.stringify(postData.resource, null, 4));
-    console.log(postData.summary + " for SubID: " + postData.resource.billing_agreement_id);
+    console.log(postData.summary + " for SubID: " + postData.resource.id);
+    console.log(postData);
+    console.log("///////////////////////////////////////////////////////////////////////////////////////");
     let payPalUrl="https://api-m.sandbox.paypal.com/v1/billing/subscriptions/";
     //retrieve subscription ID and get Subscriptions information
-    let subID = postData.resource.billing_agreement_id;
+    let subID = postData.resource.id;
     const basic_token = environment.authorizationString(); //call api to get token
     let getUrl = payPalUrl+subID;
     let lastPaid;
@@ -227,27 +231,29 @@ app.post('/webhook', async (req, res) => {
     };
 
     function callback(error, response, body) {
-      if (!error && response.statusCode == 200) {
-          let subObject = JSON.parse(body);
-          lastPaid = subObject.billing_info.last_payment.time;
-          nextPayment = subObject.billing_info.next_billing_time;
-      } else {
+      if (error) {
         console.log(JSON.stringify(response, null, 4));
+      } else if (response.statusCode == 200) {
+
+        let subObject = JSON.parse(body);
+        console.log(subObject);
+
+        lastPaid = subObject.billing_info.last_payment.time;
+        nextPayment = subObject.billing_info.next_billing_time;
+
+        let query = {'juicy_email' : subID }
+        let update = { $set: {'subscription_status' : postData.resource.status,
+                              'subscription_paid_on' : lastPaid,
+                              'subscription_next_payment': nextPayment
+                              }
+                      }
+
+          subscription_collection.findOneAndUpdate(query, update , {upsert:false}).then( response => {
+              console.log(response);
+          });
       }
   }
-
-  let query = {'juicy_email' : subID }
-  let update = { $set: {'subscription_status' : postData.resource.status,
-                        'subscription_paid_on' : lastPaid,
-                        'subscription_next_payment': nextPayment
-                        }
-                }
-
-    subscription_collection.findOneAndUpdate(query, update , {upsert:false}).then( response => {
-        console.log(response);
-    });
-
-          request(options, callback);
+  request(options, callback)
     console.log("///////////////////////////////////////////////////////////////////////////////////////");
   }
 
@@ -427,7 +433,7 @@ app.get(`/api/updates`, function(req, res) {
 
     function keepAlive(){
         console.log("keep-alive");
-        res.write("event:message\n" + "data: hearbeat\n\n");
+        res.write("event: message\n" + "data: heartbeat\n\n");
         setTimeout(keepAlive, keepAliveMS);
       }
       //send SSE events back to user
@@ -656,7 +662,5 @@ function createNewUserDocument(userEmail){
                               });
                             });
 }
-
-
 
 module.exports = app;
