@@ -2,20 +2,20 @@
   background: rgb(7,96,68);
   background: linear-gradient(53deg, rgba(7,96,68,1) 48%, rgba(6,140,98,1) 90%, rgba(113,189,165,1) 98%);
   position: fixed;
-  top: 40%;
-  right: 36%;
+  top: 50%;
+  left: 0;
   background-repeat: no-repeat;
   background-size: cover;
-  border: 2px solid #f9a825;
+  border: 1px solid #f9a825;
   border-radius: 7px;
   cursor: pointer;
   padding-top: 5px;
   font-weight: 400;
   font-size: 16px;
-  height: 65px;
+  height: 90px;
   padding-top: 10px;
   overflow: hidden;
-  width: 336px;
+  width: 100%;
 }
 
 :host:hover {

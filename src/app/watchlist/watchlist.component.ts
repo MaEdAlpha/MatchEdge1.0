@@ -1,7 +1,7 @@
-import {Component, OnDestroy, OnInit, ViewChild, Input , Output, OnChanges, SimpleChanges, AfterViewInit, Inject, ChangeDetectorRef} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild, Input , Output, OnChanges, SimpleChanges, ChangeDetectorRef} from '@angular/core';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { DatePipe } from '@angular/common';
-import { MatDialog, MatDialogConfig} from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Subscription } from 'rxjs';
 import { Match } from '../match/match.model';
@@ -11,7 +11,6 @@ import { SidenavService } from '../view-table-sidenav/sidenav.service';
 import { UserPropertiesService } from '../services/user-properties.service';
 import { DateHandlingService } from '../services/date-handling.service';
 import { MatchStatusService } from '../services/match-status.service';
-import { PopupViewSavedBetsComponent } from '../popup-view-saved-bets/popup-view-saved-bets.component';
 import { ActiveBet } from '../models/active-bet.model';
 
 export class Group {
@@ -47,7 +46,6 @@ export class WatchlistComponent implements OnInit, OnDestroy {
     @Input() watchlistEnabled:number = 0;
 
     ftaOption:string;
-    @Output() ignoreList: string[];
     matchStream: any;
     expandedElement: any[] | null;
     retrieveMatches = false;
@@ -85,9 +83,11 @@ export class WatchlistComponent implements OnInit, OnDestroy {
     expandedCar: any[] = [];
     expandedSubCar: any[] = [];
 
-    //userPreference dialog popup
     //watches any watchlist toggles.
     private watchMatchesubscription: Subscription;
+
+    //watchs any saved active bets, and removes from watchlist
+    private removeSavedActiveBetSubscription: Subscription;
     //watches any date change toggles
     private dateSubscription: Subscription;
     //watches any new leauges that enter.
@@ -107,13 +107,19 @@ export class WatchlistComponent implements OnInit, OnDestroy {
     @ViewChild(MatTable) table: MatTable<any>;
 
 
-    constructor(private matchesService: MatchesService, private dateHandlingService: DateHandlingService, private matchStatusService: MatchStatusService, private userPref: UserPropertiesService, public datepipe: DatePipe, private sidenav: SidenavService , public dialog: MatDialog, private notificationBox: NotificationBoxService, private chRef: ChangeDetectorRef) {
-     } //creates an instance of matchesService. Need to add this in app.module.ts providers:[]
+    constructor(
+      private matchesService: MatchesService,
+      private dateHandlingService: DateHandlingService,
+      private matchStatusService: MatchStatusService,
+      private userPref: UserPropertiesService,
+      public datepipe: DatePipe,
+      private sidenav: SidenavService ,
+      public dialog: MatDialog,
+      private notificationBox: NotificationBoxService) {
+     }
 
     ngOnChanges(simpleChange: SimpleChanges) {
       if(simpleChange.watchlistEnabled && simpleChange.watchlistEnabled.currentValue == 2){
-        console.log("WATCHLIST CHANGE");
-        console.log(this.watchList);
         this.matchStatusService.updateLocalStorage(this.watchList);
         this.resetDateHeaders(this.displayList);
       }
@@ -125,6 +131,14 @@ export class WatchlistComponent implements OnInit, OnDestroy {
       //Assigns listener for any matches in view-table that are clicked to be watched.
       this.watchMatchesubscription = this.matchStatusService.getMatchWatchStatus().
         subscribe( matchObject => {
+          this.updateWatchList(matchObject);
+        });
+
+      this.removeSavedActiveBetSubscription = this.matchStatusService.removeFromWatchListEvent().
+        subscribe( selectionObject => {
+          let index = this.watchList.findIndex( match =>  match.Home == selectionObject.Selection || match.Away == selectionObject.Selection && match.EpochTime == selectionObject.EpochTime);
+          let matchObject = this.watchList[index];
+          matchObject.isWatched = false;
           this.updateWatchList(matchObject);
         });
 
@@ -158,8 +172,6 @@ export class WatchlistComponent implements OnInit, OnDestroy {
           this.matches[indexOfmatch] = indexOfmatch != undefined && this.matches[indexOfmatch] ? this.matchesService.updateMatch(this.matches[indexOfmatch], streamObj) : this.matches[indexOfmatch];
         }
       });
-
-      this.ignoreList = [];
     }
 
   private updateWatchList(matchObject: any) {
@@ -272,6 +284,7 @@ export class WatchlistComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(){
     this.watchMatchesubscription.unsubscribe();
+    this.removeSavedActiveBetSubscription.unsubscribe();
     this.dateSubscription.unsubscribe();
     this.groupSubscription.unsubscribe();
     this.watchListSubscription.unsubscribe();

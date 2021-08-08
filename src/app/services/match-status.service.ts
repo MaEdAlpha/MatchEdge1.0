@@ -12,6 +12,7 @@ export class MatchStatusService {
 
   watchList: any[]=[];
   private watchSubject = new Subject<any>();
+  private removeMatchSubject = new Subject<any>();
   private groupSubject = new Subject<any>();
   private loadUserLocalStoredDataSubject = new Subject<boolean>();
   allSelections: any[];
@@ -31,10 +32,18 @@ export class MatchStatusService {
     this.watchList.forEach( (selectionInList, index) => {
 
       if(selectionInList == selectionToRemove.Home || selectionInList == selectionToRemove.Away){
+        console.log("TWO THE SAME? " + selectionPosition == index + "IF SO, DELETE THIS");
         selectionPosition = index;
       }
     });
     this.watchList.splice(selectionPosition, 1);
+  }
+
+  removeFromWatchListAfterRecordBet(row){
+    let selectionPosition = this.watchList.indexOf(fixture => { fixture.Home == row.Selection || fixture.Away == row.Selection && row.EpochTime == fixture.EpochTime})
+    this.watchList.splice(selectionPosition, 1);
+
+    this.removeMatchSubject.next(row);
   }
 
   addToWatchList(match: any) {
@@ -92,7 +101,7 @@ export class MatchStatusService {
 
     switch(filterSelection){
       case 1:
-        tableFilterValue = this.userPreferenceService.getEV();
+          tableFilterValue = this.userPreferenceService.getEV();
         break;
         case 2:
           tableFilterValue = this.userPreferenceService.getMR();
@@ -203,6 +212,10 @@ export class MatchStatusService {
   }
   getMatchWatchStatus(): Observable<any>{
     return this.watchSubject.asObservable();
+  }
+
+  removeFromWatchListEvent(): Observable<any>{
+    return this.removeMatchSubject.asObservable();
   }
 
   watchGroupSubject( masterGroup: any) {

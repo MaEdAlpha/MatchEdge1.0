@@ -97,16 +97,15 @@ export class NotificationBoxService {
   saveToastSAB(row:any):ActiveToast<any>{
     var toast: ActiveToast<any>;
 
-    toast= this.toast.show( row.Selection + ' saved to Active Bets.', 'Saved!',{
+    toast= this.toast.show( row.Fixture + ' removed from watchlist.', row.Selection + ' saved to Active Bets!',{
       toastComponent: SABToastSaveComponent,
       onActivateTick: true,
-      timeOut: 2000,
+      timeOut: 1800,
       disableTimeOut: false,
       tapToDismiss: true,
       toastClass: "toast border-gold",
       closeButton: true,
       messageClass: 'toast-message',
-      positionClass:'toast-top-left',
     });
 
     //may cause issues.

@@ -26,6 +26,7 @@ interface ViewModes {
   templateUrl: './top-layer-filters.component.html',
   styleUrls: ['./top-layer-filters.component.css']
 })
+
 export class TopLayerFiltersComponent implements OnInit, OnChanges {
   displayFixtures: number;
   @Output() hideTable: EventEmitter<number> = new EventEmitter<number>();

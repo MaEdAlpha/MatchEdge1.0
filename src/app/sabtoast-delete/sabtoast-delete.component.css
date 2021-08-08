@@ -2,8 +2,8 @@
   background: linear-gradient(52deg, rgba(166,20,20,1) 10%, rgba(145,7,7,1) 79%, rgba(219,67,67,1) 89%);
   position: fixed;
   top: 40%;
-  right: 36%;
-  border: 2px solid #f9a825;
+  right: 41%;
+  border: 1px solid #f9a825;
   background-repeat: no-repeat;
   background-size: cover;
   overflow: hidden;
@@ -20,10 +20,7 @@
   opacity: 1;
   cursor: pointer;
 }
-/* .btn-pink {
-  -webkit-backface-visibility: hidden;
-  -webkit-transform: translateZ(0);
-} */
+
 :host.border-gold{
   border-top: 1px solid #ffc235;
   }
@@ -31,7 +28,7 @@
   .toast-title{
     text-align: center;
     color: #ef9e1b;
-    font-size: 125%;
+    font-size: 100%;
     padding-top: 5%;
   }
 

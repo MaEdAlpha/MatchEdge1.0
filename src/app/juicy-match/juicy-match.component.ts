@@ -58,6 +58,8 @@ export class JuicyMatchComponent implements OnChanges, OnInit, OnDestroy, AfterV
   private streamSub: Subscription;
   private notifySubscription: Subscription;
   private clearJuicySubscription: Subscription;
+  //watchs any saved active bets, and removes from watchlist
+  private removeSavedActiveBetSubscription: Subscription;
   tableDateSelected: string;
   startDay: number;
   endDay: number
@@ -238,6 +240,7 @@ export class JuicyMatchComponent implements OnChanges, OnInit, OnDestroy, AfterV
       this.updateMatchWatchStatus(matchObject);
       this.noMatchesToDisplay = this.matchStatusService.checkIfWatchlistEmpty();
     });
+
     //manually opens up Selection. Need to center view it by filtering it on it's Team Name + EpochTime.
     this.notificationSelectedSubscription = this.notificationServices.getNotificationPing().subscribe( notification => {
       this.openVIANotification(notification);
@@ -487,18 +490,11 @@ export class JuicyMatchComponent implements OnChanges, OnInit, OnDestroy, AfterV
     let el = document.getElementById(idTag);
     setTimeout(()=>{
       el.scrollIntoView({behavior: "smooth", block:"center"});
-
     },400);
-
   }
 
   getErrorMessage() {
     var formInput = this.selectionValues.controls;
-    console.log(formInput);
-
-    // if(formInput.minOdds.errors || formInput.maxOdds.errors || formInput.evFilterValueI.errors || formInput.evFilterValueII.errors || formInput.matchRatingFilterI.errors || formInput.matchRatingFilterII.errors || formInput.secretSauceI.errors || formInput.secretSauceII.errors){
-    //   return 'Invalid entry, please enter a valid number'
-    // }
   }
 
   closeIfRedirected(selection, event: Event){
@@ -530,10 +526,19 @@ export class JuicyMatchComponent implements OnChanges, OnInit, OnDestroy, AfterV
     //Set this row to ActiveBet = true; *TODO = hide this row now.
     row.activeBet = true;
     this.notificationServices.saveToastSAB(row);
+    this.matchStatusService.removeFromWatchListAfterRecordBet(row);
+    let opposingSelection = this.allIndvMatches.find( match => match.Selection != row.Selection && match.Fixture == row.Fixture);
+    opposingSelection === undefined ? '' : opposingSelection.isWatched = false;
+
     //close current container not opened via notification
     this.expandedElement=null;
     //closs current container IF opened via notification
     this.closePreviousExpandedNotificationElement();
+    setTimeout(()=>{
+      row.isWatched = false;
+
+      this.chRef.detectChanges();
+    },500)
 
   }
   //Creates an activeBet Object

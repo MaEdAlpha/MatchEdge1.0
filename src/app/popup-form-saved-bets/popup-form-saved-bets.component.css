@@ -164,27 +164,25 @@ td.mat-footer-cell:last-of-type{
 }
 
 .glow {
-
-  opacity: .95;
   text-align: center;
   animation: glow 2s ease-in-out infinite alternate;
 }
 
 @keyframes glow {
   0% {
-    color:#263238;
+    color: lightgray;
     border: 1px solid #ffffff5c;
-    background: aliceblue;
+    background: #027b5b;
   }
   50% {
-    color: #91a6b1;
+    color: rgb(238, 238, 238);
     border: 1px solid #7e90995c;
-    background: rgb(174, 187, 197);
+    background: #027b5b;
   }
   100% {
-    color: #263238;
+    color: lightgray;
     border: 1px solid #ffffff5c;
-    background: aliceblue;
+    background: #027b5b;
   }
 }
 

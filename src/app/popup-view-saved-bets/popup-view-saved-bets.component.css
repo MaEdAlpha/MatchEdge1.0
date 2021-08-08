@@ -70,6 +70,8 @@
   display: table-column;
   width: fit-content;
   padding-right: 15px;
+  padding-top: 10px;
+  margin: 0px;
 }
 
 .no-sab-message {
@@ -150,6 +152,7 @@ hr {
 @media (max-width: 1000px){
   .sab-row-item{
     font-size: small;
+    padding-top: 5px;
   }
 
   .sab-row-button{
