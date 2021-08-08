@@ -121,7 +121,6 @@ export class AppComponent {
       //reset parameters, never again setup routes ZALGO.
       this.isEntryPoint = selectSubscriptionPage;
       this.onEnterSite = !this.isEntryPoint;
-      this.isLoading = !this.isEntryPoint;
       this.activateDisplaySettings = !this.isEntryPoint;
     });
   }
