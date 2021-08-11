@@ -113,6 +113,16 @@ export class NotificationBoxService {
    return toast
   }
 
+  showFreeMessage():ActiveToast<any>{
+    var toast: ActiveToast<any>;
+    toast= this.toast.show( 'Thanks for checking us out, stay a while, let us know what you think!', 'Free trial', {
+      timeOut:4000,
+      tapToDismiss: true,
+      positionClass:'toast-top-right',
+    });
+    return toast;
+  }
+
   DeleteToastSAB(): ActiveToast<any>{
     var toast: ActiveToast<any>;
     toast= this.toast.show( ' ', 'Successfully Deleted!', {
@@ -152,7 +162,7 @@ export class NotificationBoxService {
       messageClass: 'toast-message',
       positionClass:'toast-bottom-right',
     });
-    return
+    return toast;
   }
 
   cannotUseSite():ActiveToast<any>{

@@ -26,6 +26,7 @@ export class SubscriptionsComponent implements OnInit, OnChanges, OnDestroy {
   userName:string;
   isLoading:boolean;
   accountStatus:string;
+  isFree:boolean;
 
   @Input() userEmail: string;
   @Output() displaySettings = new EventEmitter <boolean>();
@@ -50,6 +51,7 @@ export class SubscriptionsComponent implements OnInit, OnChanges, OnDestroy {
     this.isNewUser = true;
     this.isLoading = true;
     this.infoSelected = false;
+    this.isFree = true; //Fuck yeahhhh
 
     this.welcomeMessageSubscription = this.userPropertiesService.getSubscriptionState().subscribe( user => {
       //assign landing page to returning user, or new user with custom message
@@ -70,7 +72,11 @@ export class SubscriptionsComponent implements OnInit, OnChanges, OnDestroy {
 
   enterSite(){
     this.displaySettings.emit(true);
-    if(this.isActiveSub){
+
+    // if(this.isActiveSub){
+    //   this.matchesService.open2Ups();
+    // }
+    if(this.isFree){
       this.matchesService.open2Ups();
     }
   }
@@ -93,12 +99,14 @@ export class SubscriptionsComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   openManageBillingPopUp(){
-    this.dialog.open(PopupManageBillingComponent,
-      {
-        width: '60%',
-        height: '60%',
-        panelClass:'manage-billing-page'
-      });
+    // this.dialog.open(PopupManageBillingComponent,
+    //   {
+    //     width: '60%',
+    //     height: '60%',
+    //     panelClass:'manage-billing-page'
+    //   });
+
+    this.notificationService.showFreeMessage();
   }
 
   openProductPopup(){

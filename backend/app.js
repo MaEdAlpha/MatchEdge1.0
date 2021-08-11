@@ -18,7 +18,7 @@ app.use((req, res, next) => {
   //   res.setHeader("Access-Control-Allow-Methods",'GET, PUT, POST, PATCH, DELETE, OPTIONS');
   //     next();
     // Website you wish to allow to connect
-    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Origin', 'https://www.juicy-bets.com');
     // Request methods you wish to allow
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
     // Request headers you wish to allow
@@ -108,8 +108,20 @@ app.put('/api/user/connect', async (req,res) => {
                         } catch (e) { res.status(300).json({token: "Error retrieving user details"});
                       } finally { console.log("Enter.....");}
 
-                      });
+                });
     });
+
+    //Uses upsert to create default userSettings, assigning userEmail.
+//Recieves upsertID, finds newly inserted document, returns it to client.
+async function authenticateUser(userEmail, userId){
+  // JWT_ky
+  let pv_key = process.env.JWT_PVT_K;
+  let encodedData =  {email: userEmail, userId: userId };
+  let options =  {expiresIn: "1h"};
+  let expirationSeconds = 3600 //convert "1h" string into seconds
+  const token =  await jwt.sign(encodedData, pv_key, options,);
+  return {token: token, expires: expirationSeconds };
+}
 /////////////////////////////////////////////////////////////////////////////////////////
 //               PAYPAL PAYMENT PROCESSING API CALLS                                  //
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -418,7 +430,7 @@ app.get(`/api/updates`, function(req, res) {
 //PRODUCTION CORS : 'https://www.juicy-bets.com'
 //TODO can you wildcard Access-control-allow-origin?
   res.writeHead(200, {
-    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Origin': 'https://www.juicy-bets.com',
     'Content-Type': 'text/event-stream',
     'Cache-Control': 'no-cache',
     'Connection': 'keep-alive',
@@ -605,17 +617,7 @@ app.delete("/api/sab/:id", checkAuth, async(req,res,next) => {
     });
 
 });
-//Uses upsert to create default userSettings, assigning userEmail.
-//Recieves upsertID, finds newly inserted document, returns it to client.
-async function authenticateUser(userEmail, userId){
-  // JWT_ky
-  let pv_key = process.env.JWT_PVT_K;
-  let encodedData =  {email: userEmail, userId: userId };
-  let options =  {expiresIn: "1h"};
-  let expirationSeconds = 3600 //convert "1h" string into seconds
-  const token =  await jwt.sign(encodedData, pv_key, options,);
-  return {token: token, expires: expirationSeconds };
-}
+
 
 function createNewUserDocument(userEmail){
   //UpdateOne parameters

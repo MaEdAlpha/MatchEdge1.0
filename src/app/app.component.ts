@@ -25,7 +25,11 @@ export class AppComponent {
   isReadingPolicy:boolean = false;
   onEnterSite:boolean = false;
 
-  constructor(public auth: AuthService, private userPropertiesService: UserPropertiesService, private router: Router, private matchesService: MatchesService) {
+  constructor(public auth: AuthService, 
+    private userPropertiesService: UserPropertiesService,
+    private router: Router, 
+    private matchesService: MatchesService) {
+      
     this.router.events.pipe(
       filter (
         (event: RouterEvent) => {
@@ -107,7 +111,7 @@ export class AppComponent {
     this.toggleSettingsTemplate = false;
 
     this.auth.user$.subscribe( (profile) => {
-       this.profileJson = JSON.stringify(profile, null, 2);
+      this.profileJson = JSON.stringify(profile, null, 2);
       this.isAuthenticated = profile != null ?  true : false;
       this.isAuthenticated ? this.getUserSettings(profile.email, profile.sub) : null;
       this.userEmail = profile != null ? profile.email : null;

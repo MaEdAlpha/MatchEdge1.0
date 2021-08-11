@@ -145,17 +145,19 @@ export class UserPropertiesService {
   getSettings(email:string, sub:string){
     //http GET request to retrieve user properties from DB;
     var data: {email: string, sub: string} = {email: email, sub:sub};
-    var userData;
+
     //initially would return a promise to allow the rest of the site to load.
 
-    this.http.put<{token:string, userDetails: UserSettings}>(
+    
+    this.http.put<any>(
       env.serverUrl + "/api/user/connect", data)
       .subscribe( (body) => {
-        userData = body;
-
+        let userData = body;
+        console.log(userData);
+        
         this.token = userData.token;
         console.log(this.token);
-        this.saveAuthData(this.token, userData.expiry)
+        this.saveAuthData(this.token, userData.expiry);
         this.settings.juicyId = userData.userDetails._id;
         this.settings.account = userData.userDetails.account;
         this.settings.filters = {
@@ -191,12 +193,10 @@ export class UserPropertiesService {
 
     //get token and save to localStorage
   private saveAuthData(token: string, expirationDate: number) {
-      this.clearAuthData();
       localStorage.setItem('token',token);
       localStorage.setItem('expiration', expirationDate.toString());
       this.token = token;
-      // console.log("Token Saved: ", this.token);
-
+      console.log("Token Saved: ", this.token);
   }
 
   public getAuthData(): {token:string, expirationDate:number}{

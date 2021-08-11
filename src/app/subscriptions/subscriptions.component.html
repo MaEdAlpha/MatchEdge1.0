@@ -32,7 +32,8 @@
 
           <ng-container *ngIf="!isLoading else showLoadingSpinner">
 
-            <div class="active-sub" *ngIf="isActiveSub && !isNewUser; else showInactiveSub">
+            <!-- <div class="active-sub" *ngIf="isActiveSub && !isNewUser; else showInactiveSub"> -->
+              <div class="active-sub" *ngIf="isFree; else showInactiveSub">
               <div class="option-wrapper active-wrapper">
 
                 <div class="active-img" (click)="openManageBillingPopUp()">
