@@ -61,20 +61,11 @@
   box-shadow: 0px 0px 81px 6px rgb(0 0 0 / 50%);
 }
 
-.img-wrapper {
-  border-radius: 25px;
-  border: 1px solid #ffffff17;
-  background: linear-gradient(146deg, rgb(100,116,124,1) 0%, rgb(37 46 51) 25%, rgb(42 54 60) 40%);
-  box-shadow: 2px 6px 10px -2px rgb(0 0 0 / 60%);
-}
-
 .img-wrapper:hover{
-  box-shadow: 0px 0px 1px 1px rgb(0 0 0 / 16%);
   cursor: pointer;
 }
 
  .active-img:hover {
-    box-shadow: 0px 0px 1px 1px rgb(0 0 0 / 16%);
     cursor: pointer;
 }
 
@@ -148,11 +139,10 @@ img.two-up {
 }
 
 .solo-btn{
-  width: fit-content;
-  text-align: center;
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 2px;
+  width: 100%;
+    width: -moz-fit-content;
+    text-align: center;
+    margin-top: -18px;
 }
 
 .info-btn:hover{
