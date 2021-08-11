@@ -94,6 +94,21 @@ export class NotificationBoxService {
 
   //might have to disable the toastContainer somehow.
 
+  ClearJuicyToast(): ActiveToast<any>{
+    var toast: ActiveToast<string>;
+    toast = this.toast.show('', 'Juicy Reset!' , {
+      toastComponent: SABToastUpdatedComponent,
+      timeOut:2000,
+      disableTimeOut:false,
+      tapToDismiss: true,
+      closeButton: true,
+      toastClass: 'ngx-toastr toast-success',
+      messageClass: 'toast-message',
+      positionClass : "toast-top-center",
+    });
+    return
+  }
+
   saveToastSAB(row:any):ActiveToast<any>{
     var toast: ActiveToast<any>;
 
@@ -140,20 +155,6 @@ export class NotificationBoxService {
       positionClass:'toast-bottom-right',
     });
     return toast;
-  }
-
-  ClearJuicyToast(): ActiveToast<any>{
-    var toast: ActiveToast<string>;
-    toast = this.toast.show('', 'Juicy Reset!' , {
-      toastComponent: SABToastUpdatedComponent,
-      timeOut:500,
-      disableTimeOut:false,
-      tapToDismiss:true,
-      toastClass: "toast border-gold",
-      messageClass: 'toast-message',
-      positionClass:'toast-bottom-right',
-    });
-    return
   }
 
   cannotUseSite():ActiveToast<any>{
