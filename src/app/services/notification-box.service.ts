@@ -100,12 +100,13 @@ export class NotificationBoxService {
     toast= this.toast.show( row.Fixture + ' removed from watchlist.', row.Selection + ' saved to Active Bets!',{
       toastComponent: SABToastSaveComponent,
       onActivateTick: true,
-      timeOut: 1800,
+      timeOut: 3000,
       disableTimeOut: false,
       tapToDismiss: true,
-      toastClass: "toast border-gold",
       closeButton: true,
-      messageClass: 'toast-message',
+      positionClass : "toast-top-center",
+      toastClass: 'ngx-toastr toast-success',
+      messageClass: 'toast-message'
     });
 
     //may cause issues.
