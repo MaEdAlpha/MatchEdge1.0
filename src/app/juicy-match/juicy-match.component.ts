@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Input, OnInit, OnDestroy, DoCheck, OnChanges, SimpleChanges, ChangeDetectorRef, ViewChild, Inject } from '@angular/core';
+import { AfterViewInit, Component, Input, OnInit, OnDestroy, DoCheck, OnChanges, SimpleChanges, ChangeDetectorRef, ViewChild } from '@angular/core';
 import { JuicyMatchHandlingService } from './juicy-match-handling.service';
 import { TooltipPosition } from '@angular/material/tooltip';
 import { FormControl,FormGroup,FormArray } from '@angular/forms';
@@ -17,7 +17,7 @@ import { NotificationBoxService } from '../services/notification-box.service';
 import { MatSort, Sort } from '@angular/material/sort';
 import { SavedActiveBetsService } from '../services/saved-active-bets.service';
 import { ActiveBet } from '../models/active-bet.model';
-import { timeout } from 'rxjs/operators';
+
 
 @Component({
   selector: 'app-juicy-match',
@@ -249,6 +249,8 @@ export class JuicyMatchComponent implements OnChanges, OnInit, OnDestroy, AfterV
     this.clearJuicySubscription = this.juicyMHService.listenToClearJuicyButton().subscribe( buttonIsClicked => {
       this.resetIsJuicy();
       console.log("Clear button Clicked!");
+      this.expandedElement = null;
+      this.closePreviousExpandedNotificationElement();
     });
   }
 

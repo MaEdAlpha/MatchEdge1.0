@@ -13,30 +13,43 @@
   pointer-events: all;
   cursor: pointer;
   bottom: 0px;
+  font-size: 0.8rem;
 }
 
-:host.border-gold{
-/*border-top: 1px solid #ffc235;*/
-}
+/* :host.border-gold{
+border-top: 1px solid #ffc235;
+}*/
+
+
 .toast-title{
-  margin-top: 5%;
+  margin-top: 0px;
   text-align: center;
-  color: white;
-  font: 400 14px/20px Roboto, "Helvetica Neue", sans-serif;
-  letter-spacing: normal;
+  color: lightgray;
+  height: 20px;
+  max-height: fit-content;
+  width: 100%;
+  font-family: 'Prompt';
+  font-size: 0.75rem;
+  line-height: 11px;
+  font-weight: 300;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 
 .backOdds{
-  margin-left: 50%;
-  margin-top: 0%;
-  display: grid;
+  display: flex;
   line-height: 175%;
   font-family: Roboto, "Helvetica Neue", sans-serif;
   font-weight: bold;
   font-size: 14px;
   color: #37474f;
-
+  justify-content: center;
+  align-items: center;
+  padding-top: 3px;
+  margin-left: 50%;
+  height: 54px;
 }
 
 .backOdds > div.subheader {

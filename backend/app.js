@@ -31,10 +31,6 @@ app.use((req, res, next) => {
 const MongoClient = require("mongodb").MongoClient;
 const ObjectID = require('mongodb').ObjectID;
 
-
-//const connectionString = "mongodb+srv://Dan:x6RTQn5bD79QLjkJ@cluster0.uljb3.gcp.mongodb.net/MBEdge?retryWrites=true&w=majority";
-// const connectionString = "mongodb+srv://Randy:4QQJnbscvoZQXr0l@clusterme.lfzcj.mongodb.net/MBEdge?retryWrites=true&w=majority";
-// const connectionString = "mongodb+srv://ryan:MGoGo2021GU12$@juicybets.tcynp.mongodb.net/MBEdge?retryWrites=true&w=majority";
 const connectionString = process.env.MONGO_CONNECT_STR;
 
 const options = {useUnifiedTopology: true, useNewUrlParser: true};
@@ -430,7 +426,7 @@ app.get(`/api/updates`, function(req, res) {
 //PRODUCTION CORS : 'https://www.juicy-bets.com'
 //TODO can you wildcard Access-control-allow-origin?
   res.writeHead(200, {
-    'Access-Control-Allow-Origin': 'https://www.juicy-bets.com',
+    'Access-Control-Allow-Origin': '*',
     'Content-Type': 'text/event-stream',
     'Cache-Control': 'no-cache',
     'Connection': 'keep-alive',
