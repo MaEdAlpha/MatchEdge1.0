@@ -64,7 +64,7 @@ mat-icon:hover {
   text-align: center;
 }
 .img-make-profit {
-  width: 89%;
+  width: 70%;
 }
 
 .img-bet-details{
@@ -179,4 +179,47 @@ h2{
   margin-right: auto;
   margin-bottom: 20px;
   margin-top: 20px;
+}
+
+.FTA {
+  margin-left: 14%;
+  display: block;
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+
+.examplebet{
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 20px;
+  margin-top: 20px;
+  max-width: 70%;
+}
+
+.notifications{
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 20px;
+  margin-top: 20px;
+  max-width: 50%;
+}
+
+.sabimg{
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 20px;
+  margin-top: 20px;
+  max-width: 80%;
+}
+
+.optionsimg{
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 20px;
+  margin-top: 20px;
+  max-width: 70%;
 }
