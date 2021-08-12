@@ -323,11 +323,6 @@ button.viewCell {
   background:#c3c3c300;
 }
 
-.match-inactive{
-  opacity: 0.8;
-  background: grey;
-}
-
 .button-inactive {
   background: grey;
 }
@@ -485,11 +480,6 @@ button.viewCell {
   color: #253036;
   font-size: 0.9375rem;
   position: relative;
-}
-
-.match-inactive{
-  opacity: 0.8;
-  background:grey;
 }
 
 .homeOccCell{

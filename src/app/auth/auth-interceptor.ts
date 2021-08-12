@@ -13,7 +13,7 @@ export class AuthInterceptor implements HttpInterceptor {
     console.log("===>Intcpr Called: " + authToken);
 
     //manipulate request to use token. Must clone or it breaks.
-    if(authToken != undefined){
+
       let authRequest = req.clone({
         headers: req.headers.append('Authorization', "Bearer " + authToken)
       });
@@ -22,6 +22,6 @@ export class AuthInterceptor implements HttpInterceptor {
         
         return of(err);
       }));
-    }
+
   }
 }

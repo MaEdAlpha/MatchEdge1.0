@@ -129,8 +129,8 @@ export class MatchStatusService {
         watchListObj.AStatus.notify = matchObj.AStatus.notify;
         return true;
       }
-      else if(watchListObj.isPastPrime && watchListObj.isWatched) {
-        return true;
+      else if(watchListObj.isPastPrime) {
+        return false;
       }
       else {
         return false;

@@ -71,7 +71,7 @@
 
                         <div class="team-home-container">
 
-                          <button mat-raised-button class="selection-button" (click)="toggleNotification(row, true)" [ngClass]="{'button-inactive' : !row.HStatus.notify || !row.isWatched}" >
+                          <button mat-raised-button class="selection-button" (click)="toggleNotification(row, true)" [ngClass]="{'button-inactive' : !row.HStatus.notify || !row.isWatched || row.isPastPrime}" >
 
                             <span class=" homeOccCell fta-value-cont" *ngIf="ftaOption == 'brooks' else ftaStandard">
                               {{ row['OccH'] | number:'1.0-0' }}
@@ -106,7 +106,7 @@
 
                           <div class="team-away-container">
 
-                            <button mat-raised-button class="selection-button" (click)="toggleNotification(row, false)" [ngClass]="{'button-inactive' : !row.AStatus.notify || !row.isWatched}">
+                            <button mat-raised-button class="selection-button" (click)="toggleNotification(row, false)" [ngClass]="{'button-inactive' : !row.AStatus.notify || !row.isWatched || row.isPastPrime}">
 
                               <span class="away-logo-img">
                                 <img class="bookie-logo-away away-fc-logo" src="/assets/img/fcLogo/{{row[column.field].toLowerCase().split(' ').join('-')}}.png" alt="">
@@ -245,6 +245,7 @@
         <div [style.visibility]="tableSelected == 4 ? 'visible' : 'collapse' "[style.height]="tableSelected == 4 ? ' ' : '0' " [style.margin-bottom]="tableSelected == 4 ? '5px' : '0'" [style.display]="tableSelected == 4 ? 'inline' : '' ">
           <app-active-bets [tableSelected]="tableSelected"></app-active-bets>
         </div>
+        <!-- <div class="no-content" *ngIf="noMatchesToDisplay">Currently No Matches Detected:<br> Add matches to your Watchlist, or refine your filter parameters</div> -->
       </div>
 
       <div class="footer-spacer">

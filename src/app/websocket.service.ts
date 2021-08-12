@@ -24,11 +24,13 @@ export class WebsocketService {
 
       this.eventSource.onmessage = (event) => {
         console.log("EventIncoming--");
+        this.matchesService.triggerChangeDetection('blip');
+        
         if(event.data != "heartbeat"){
           let streamUpdate = JSON.parse(event.data);
           console.log(streamUpdate);
           this.matchesService.addToUpdatedMatches(streamUpdate);
-        }
+        } 
       };
     }
   }

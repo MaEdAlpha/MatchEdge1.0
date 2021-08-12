@@ -20,6 +20,7 @@ export class MatchesService {
   viewSubscriptionsPage = new EventEmitter<boolean>();
   //Creates an Observable of all Fixtures
   public matchesUpdated = new Subject<any>();
+  public refreshTableSubject = new Subject<any>();
 
   constructor(private http: HttpClient, private router: Router, private dialog: MatDialog) {}
   //TODO update all Emitters to Observables
@@ -69,6 +70,14 @@ export class MatchesService {
 
   getMatchUpdateListener(): Observable<any[]> {
      return this.matchesUpdated.asObservable();
+  }
+
+  triggerChangeDetection(message:string){
+    this.refreshTableSubject.next(message);
+  }
+
+  getTableUpdateListener(): Observable<string>{
+    return this.refreshTableSubject.asObservable();
   }
 
   addToUpdatedMatches(_streamObj){

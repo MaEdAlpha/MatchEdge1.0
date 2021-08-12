@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit, ViewChild, Input , Output, OnChanges, Simp
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { DatePipe } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
-import { animate, state, style, transition, trigger } from '@angular/animations';
+import { animate, group, state, style, transition, trigger } from '@angular/animations';
 import { Subscription } from 'rxjs';
 import { Match } from '../match/match.model';
 import { MatchesService } from '../match/matches.service';
@@ -46,7 +46,6 @@ export class WatchlistComponent implements OnInit, OnDestroy {
     @Input() watchlistEnabled:number = 0;
 
     ftaOption:string;
-    matchStream: any;
     expandedElement: any[] | null;
     retrieveMatches = false;
 
@@ -78,14 +77,13 @@ export class WatchlistComponent implements OnInit, OnDestroy {
     ];
 
     masterList: any[] = [];
-    masterGroup: any[];
-
+    
     expandedCar: any[] = [];
     expandedSubCar: any[] = [];
-
+    
     //watches any watchlist toggles.
     private watchMatchesubscription: Subscription;
-
+    
     //watchs any saved active bets, and removes from watchlist
     private removeSavedActiveBetSubscription: Subscription;
     //watches any date change toggles
@@ -94,27 +92,30 @@ export class WatchlistComponent implements OnInit, OnDestroy {
     private groupSubscription: Subscription;
     //watches stream
     private watchListSubscription:Subscription;
-    dateSelected: string;
-
+    private tableChangeSubscription:Subscription;
+    dateSelected: string;    
     watchStateChange:any;
-    //main list of all matches to watch
-    watchList:any[]=[];
-    //list to display wrt dateSelected
+
+    //list used to update WatchList table with correct GroupHeader fields and watchlist Objects.
     displayList: any[]=[];
-
+    //What you populate with watched Matches.
+    watchList:any[]=[];
+    //All group header fields used to separate leagues. Used to populate displayList.
+    private masterGroup: any[];
     displayHeaderDate: boolean = true;
-
+    
     @ViewChild(MatTable) table: MatTable<any>;
-
-
+    
+    
+    
     constructor(
       private matchesService: MatchesService,
       private dateHandlingService: DateHandlingService,
       private matchStatusService: MatchStatusService,
       private userPref: UserPropertiesService,
       public datepipe: DatePipe,
-      private sidenav: SidenavService ,
       public dialog: MatDialog,
+      public chRef: ChangeDetectorRef,
       private notificationBox: NotificationBoxService) {
      }
 
@@ -147,6 +148,21 @@ export class WatchlistComponent implements OnInit, OnDestroy {
           this.masterGroup = groupList;
         });
 
+        this.tableChangeSubscription = this.matchesService.getTableUpdateListener().subscribe( (message) => {
+          console.log(message);
+          
+          console.log(this.displayList);
+          
+          setTimeout(()=> {
+            this.watchList.forEach(match => {
+              this.updateWatchList(match);
+            });
+            this.resetDateHeaders(this.displayList);
+            this.chRef.detectChanges();
+          },1000);
+          
+        });
+
           //Subscribe to Event listener in matches Service for StreamChange data. Update this.matches.
       this.dateSelected = this.userPref.getSelectedDate();
 
@@ -175,10 +191,12 @@ export class WatchlistComponent implements OnInit, OnDestroy {
     }
 
   private updateWatchList(matchObject: any) {
+    
     if (matchObject.isWatched && !this.watchList.includes(matchObject)) {
       this.watchList.push(matchObject);
       this.isTableEmpty = false;
-    } else if(!matchObject.isWatched) {
+    } else if(!matchObject.isWatched || matchObject.isPastPrime) { 
+      
       var index: number;
       index = this.watchList.indexOf(matchObject);
       this.watchList.splice(index, 1);
@@ -196,7 +214,7 @@ export class WatchlistComponent implements OnInit, OnDestroy {
     //Also, create an event listener to dateSelected to pick the appropriate list if user is cycling through watchlist.
     //Add a default view saying "Currently no matches selected for this specification"
 
-    //set to WatchListTable dataSource
+    //set to WatchListTable dataSource    
     this.dataSource.data = this.displayList;
     //update localStorage of watchlist
     this.matchStatusService.updateLocalStorage(this.watchList);
@@ -223,26 +241,29 @@ export class WatchlistComponent implements OnInit, OnDestroy {
         var matchTime: number = match.EpochTime*1000;
         //prevDate acts as a switch for setting displayHeaderDate boolean.
         var prevDate: string = 'placeholder';
-        if(dateSelected == 'Today & Tomorrow' && groupHeader.League == match.League && (matchTime >= epochCutOff.forStartOfDayOne && matchTime  < epochCutOff.forDayTwo) ){
-          this.setDisplayHeader(match, matchPosition, groupIndex, prevDate);
-          this.displayList.splice(matchPosition, 0, match);
-          prevDate = match.Details;
-          matchPosition++;
-        }
-
-        if(dateSelected == 'Today' && groupHeader.League == match.League && matchTime >= epochCutOff.forStartOfDayOne && matchTime < epochCutOff.forDayOne)
+        if(match.isWatched && !match.isPastPrime)
         {
-          this.setDisplayHeader(match, matchPosition, groupIndex, prevDate);
-          this.displayList.splice(matchPosition, 0, match);
-          prevDate = match.Details;
-          matchPosition++;
-        }
-        if(dateSelected == 'Tomorrow' && groupHeader.League == match.League && matchTime >= epochCutOff.forDayOne && matchTime < epochCutOff.forDayTwo)
-        {
-          this.setDisplayHeader(match, matchPosition, groupIndex, prevDate);
-          this.displayList.splice(matchPosition, 0, match);
-          prevDate = match.Details;
-          matchPosition++;
+          if(dateSelected == 'Today & Tomorrow' && groupHeader.League == match.League && (matchTime >= epochCutOff.forStartOfDayOne && matchTime  < epochCutOff.forDayTwo) ){
+            this.setDisplayHeader(match, matchPosition, groupIndex, prevDate);
+            this.displayList.splice(matchPosition, 0, match);
+            prevDate = match.Details;
+            matchPosition++;
+          }
+  
+          if(dateSelected == 'Today' && groupHeader.League == match.League && matchTime >= epochCutOff.forStartOfDayOne && matchTime < epochCutOff.forDayOne)
+          {
+            this.setDisplayHeader(match, matchPosition, groupIndex, prevDate);
+            this.displayList.splice(matchPosition, 0, match);
+            prevDate = match.Details;
+            matchPosition++;
+          }
+          if(dateSelected == 'Tomorrow' && groupHeader.League == match.League && matchTime >= epochCutOff.forDayOne && matchTime < epochCutOff.forDayTwo)
+          {
+            this.setDisplayHeader(match, matchPosition, groupIndex, prevDate);
+            this.displayList.splice(matchPosition, 0, match);
+            prevDate = match.Details;
+            matchPosition++;
+          }
         }
       });
 
@@ -288,71 +309,72 @@ export class WatchlistComponent implements OnInit, OnDestroy {
     this.dateSubscription.unsubscribe();
     this.groupSubscription.unsubscribe();
     this.watchListSubscription.unsubscribe();
+    this.tableChangeSubscription.unsubscribe();
   }
 
-  //Handles logic for MatTable. It adds and removes match items based off the state of the League Group Header.
-  modifiedGroupList(allData: any[], groupList: any[], viewSelection: string) : any[]{
+  // //Handles logic for MatTable. It adds and removes match items based off the state of the League Group Header.
+  // modifiedGroupList(allData: any[], groupList: any[], viewSelection: string) : any[]{
 
-    var dateValidator: number[] = this.dateHandlingService.returnDateSelection(viewSelection);
+  //   var dateValidator: number[] = this.dateHandlingService.returnDateSelection(viewSelection);
 
-    var dateStart: number = dateValidator[0];
-    var dateEnd: number = dateValidator[1];
-    //console.log("DateStart: " + dateStart + " DateEnd " + dateEnd);
-    //TODO BUG-FIX WHEN LOCALE_ID WORKS.
+  //   var dateStart: number = dateValidator[0];
+  //   var dateEnd: number = dateValidator[1];
+  //   //console.log("DateStart: " + dateStart + " DateEnd " + dateEnd);
+  //   //TODO BUG-FIX WHEN LOCALE_ID WORKS.
 
-    groupList.forEach( groupObj => {
-      //add group Object into masterList if not found in this.masterList.
-      //FIRST IF
-      if(!this.masterList.includes(groupObj)){
-        this.masterList.push(groupObj);
-      }
+  //   groupList.forEach( groupObj => {
+  //     //add group Object into masterList if not found in this.masterList.
+  //     //FIRST IF
+  //     if(!this.masterList.includes(groupObj)){
+  //       this.masterList.push(groupObj);
+  //     }
 
-      //groupObj is expaned but is not active. =? Remove any matchObject from master list then set Group isActive to true.
-      //SECOND
+  //     //groupObj is expaned but is not active. =? Remove any matchObject from master list then set Group isActive to true.
+  //     //SECOND
 
-        var groupIndex = this.masterList.indexOf(groupObj);
-        var matchPosition = groupIndex + 1;
+  //       var groupIndex = this.masterList.indexOf(groupObj);
+  //       var matchPosition = groupIndex + 1;
 
 
-        allData.forEach( matchObj => {
-          var matchIndex = allData.indexOf(matchObj);
+  //       allData.forEach( matchObj => {
+  //         var matchIndex = allData.indexOf(matchObj);
 
-          //Returns matchObject time into US.
-          var matchDate: number = new Date(matchObj.EpochTime * 1000).getUTCDate();
-          var prevDate: number = new Date(allData[matchIndex-1].EpochTime * 1000).getUTCDate();
-          //INJECTS  MATCHES  UNDERNEATH GROUP HEADER
-          if(matchObj.isWatched && matchObj.League == groupObj.League && (matchDate == dateEnd || matchDate == dateStart))
-          {
-            if(matchPosition == groupIndex + 1){
-              matchObj.displayHeaderDate = true;
-            }
-            else if (matchDate != prevDate) {
-              matchObj.displayHeaderDate = true;
-            }
-            else {
-              matchObj.displayHeaderDate = false;
-            }
-            var index = matchPosition;
-            //splice (index, number, obj) == take match object, place it in at index value, 0 means don't replace it, just insert 'matchObj' at 'index'.
-            this.masterList.splice(index, 0, matchObj);
-            matchPosition ++;
-            groupObj.isActive = true;
-          }
-        });
+  //         //Returns matchObject time into US.
+  //         var matchDate: number = new Date(matchObj.EpochTime * 1000).getUTCDate();
+  //         var prevDate: number = new Date(allData[matchIndex-1].EpochTime * 1000).getUTCDate();
+  //         //INJECTS  MATCHES  UNDERNEATH GROUP HEADER
+  //         if(matchObj.isWatched && matchObj.League == groupObj.League && (matchDate == dateEnd || matchDate == dateStart))
+  //         {
+  //           if(matchPosition == groupIndex + 1){
+  //             matchObj.displayHeaderDate = true;
+  //           }
+  //           else if (matchDate != prevDate) {
+  //             matchObj.displayHeaderDate = true;
+  //           }
+  //           else {
+  //             matchObj.displayHeaderDate = false;
+  //           }
+  //           var index = matchPosition;
+  //           //splice (index, number, obj) == take match object, place it in at index value, 0 means don't replace it, just insert 'matchObj' at 'index'.
+  //           this.masterList.splice(index, 0, matchObj);
+  //           matchPosition ++;
+  //           groupObj.isActive = true;
+  //         }
+  //       });
 
-        //If no matches within specified date were found, remove this group
-        if(!groupObj.isActive){
-          this.masterList.splice(groupIndex,1);
-        }
+  //       //If no matches within specified date were found, remove this group
+  //       if(!groupObj.isActive){
+  //         this.masterList.splice(groupIndex,1);
+  //       }
 
-      //REMOVES MATCHES FROM UNDERNEATH GROUP HEADER
-      // this cleans up the matches. When you click a groupLeague that is open. It changes to expanded = false. isActive = true.
+  //     //REMOVES MATCHES FROM UNDERNEATH GROUP HEADER
+  //     // this cleans up the matches. When you click a groupLeague that is open. It changes to expanded = false. isActive = true.
 
-    });
-    this.masterList = this.addFixturesDate(this.masterList);
+  //   });
+  //   this.masterList = this.addFixturesDate(this.masterList);
 
-    return this.masterList;
-  }
+  //   return this.masterList;
+  // }
 
   resetDateHeaders(matchList:any[]){
     var prevObject:string ="";
@@ -360,8 +382,10 @@ export class WatchlistComponent implements OnInit, OnDestroy {
     matchList.forEach( object => {
       //reset displayHeaderDate.
       object.displayHeaderDate = false;
+
       var currentDate: number = new Date(object.EpochTime * 1000).getDate();
       var previousDate: number = count == 0 ? 0 : new Date( (matchList[count-1].EpochTime * 1000)).getDate();
+
       if(object.level == 1 || count == 0){
         //groupHeader detected
         prevObject = "groupHeader";
@@ -384,10 +408,10 @@ export class WatchlistComponent implements OnInit, OnDestroy {
         object.displayHeaderDate = true;
         prevObject= "";
         count ++;
-      } else {
+      }  else {
         console.log("FALSE HDRDATE3");
         console.log(object);
-
+        prevObject="";
         count ++;
       }
     });
@@ -478,8 +502,6 @@ export class WatchlistComponent implements OnInit, OnDestroy {
     this.masterList = this.addFixturesDate(this.masterList);
     return this.masterList;
   }
-
-
 
   openAllGroups(){
     this._leagueGroups.forEach(element => {
@@ -610,44 +632,6 @@ export class WatchlistComponent implements OnInit, OnDestroy {
       return item.level;
   }
 
-  watchForMatchUpdates() {
-    this.matchStream.forEach(streamMatch => {
-        this.matches.forEach( (match) => {
-          //created id value
-          var matchId = match.Home + " " + match.Away + " " + match.Details;
-          if(matchId == streamMatch._id){
-            if(streamMatch.SmarketsHomeOdds != 0 && streamMatch.SmarketsAwayOdds != 0)
-              {
-              match.SMHome = streamMatch.SmarketsHomeOdds;
-              match.SMAway = streamMatch.SmarketsAwayOdds;
-              }
-              if(streamMatch.B365HomeOdds != 0 && streamMatch.B365AwayOdds != 0)
-              {
-                match.BHome = streamMatch.B365HomeOdds;
-                match.BAway = streamMatch.B365AwayOdds;
-              }
-              if(streamMatch.OccurrenceAway != 0){
-                match.BTTSOdds = streamMatch.B365BTTSOdds;
-                match.B25GOdds = streamMatch.B365O25GoalsOdds;
-                match.OccH = streamMatch.OccurenceHome;
-                match.OccA = streamMatch.OccurrenceAway;
-              }
-              if(matchId !== streamMatch._id)
-              {
-                this.isNotInList = true;
-              }
-            } else {
-            }
-        })
-
-        if(this.isNotInList || this.matches.length == 0)
-        {
-          console.log("not in list");
-          console.log(streamMatch);
-          this.isNotInList=false;
-        }
-      });
-  }
 
   updateMatch(match, streamMatch){
     if(streamMatch.SmarketsHomeOdds != 0 && streamMatch.SmarketsAwayOdds != 0)
@@ -678,9 +662,6 @@ export class WatchlistComponent implements OnInit, OnDestroy {
     }
   }
 
-  toggleSideNav(){
-    this.sidenav.toggle();
-  }
 
   openViewBets(row:any, selection:string) {
     row.Selection = selection == 'home' ?  row.Home : row.Away;

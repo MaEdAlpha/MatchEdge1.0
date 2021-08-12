@@ -96,6 +96,7 @@ import { TablePreferences, Group } from '../user-properties.model';
     private sabSubscription: Subscription;
     private newSabSubscriptioin: Subscription;
     private userTablePreferenceSubscription: Subscription;
+    private tableChangeSubscription: Subscription;
     private userStoredMatchSettings: any;
     todayDate: number;
     tomorrowDate: number;
@@ -142,6 +143,7 @@ import { TablePreferences, Group } from '../user-properties.model';
 
       this.newSabSubscriptioin = this.savedActiveBetsService.getSabListObservable().subscribe( (newSAB: ActiveBet) => {
             this.toggleActiveBetState(newSAB, true);
+            this.chRef.detectChanges();
       });
 
 
@@ -216,15 +218,17 @@ import { TablePreferences, Group } from '../user-properties.model';
      this.tableSubscription = this.matchesService.streamDataUpdate.subscribe( (streamObj) => {
 
         var indexOfmatch = this.matches.findIndex( match => match.Home == streamObj.HomeTeamName && match.Away == streamObj.AwayTeamName);
+
         let fixturesMatch = this.matches[indexOfmatch];
 
         indexOfmatch != undefined && this.matches[indexOfmatch] ? this.updateMatch(this.matches[indexOfmatch], streamObj) : console.log( streamObj.HomeTeamName + " vs. " + streamObj.AwayTeamName + " not found");
         //TODO isInPlay() Hook for updating tables. set a boolean to reset the next fixturesDate header.
         this.checkDateHeaders();
-
+        
         //FlickerUpdates
         let fixtureOddsUpdated: {homeBackOdds: boolean, homeLayOdds: boolean, awayBackOdds: boolean,  awayLayOdds:boolean} = this.matchStatisticsService.retrieveStreamDataForThisFixturesTable( streamObj, fixturesMatch);
         //flickersAnimationsUpdated
+        this.chRef.detectChanges();
         console.log(fixtureOddsUpdated);
 
       });
@@ -242,9 +246,26 @@ import { TablePreferences, Group } from '../user-properties.model';
 
       });
 
+      this.tableChangeSubscription = this.matchesService.getTableUpdateListener().subscribe( (message) => {
+        this.checkIfInPlay();
+      });
+
       this.webSocketService.openSSE();
     }
 
+
+    private checkIfInPlay() {
+      this.matches.forEach(match => {
+        if (Date.now() > (match.EpochTime * 1000)  ) {               
+          match.isPastPrime = true;
+          match.AStatus.notify = false;
+          match.HStatus.notify = false;
+          match.isWatched = false;
+          this.matchStatusService.removeFromWatchList(match);
+          this.chRef.detectChanges();
+        }
+      });
+    }
 
     //Sends match to matchStatusService which Juicy subscribes to.
     sendToWatchListService(matches: any) {
@@ -265,6 +286,8 @@ import { TablePreferences, Group } from '../user-properties.model';
       this.dateSubscription.unsubscribe();
       this.sabSubscription.unsubscribe();
       this.newSabSubscriptioin.unsubscribe();
+      this.userTablePreferenceSubscription.unsubscribe();
+      this.tableChangeSubscription.unsubscribe();
     }
 
     //Creates Group headers. Should only be called once in your code, or it resets the state of these LeagueGroupHeaders
@@ -460,8 +483,6 @@ import { TablePreferences, Group } from '../user-properties.model';
             matchPosition++;
           }
         }
-
-
       });
         //setup match time format the client displays on the view table
         this.viewTableList = this.addFixturesDate(this.viewTableList);
@@ -606,7 +627,7 @@ import { TablePreferences, Group } from '../user-properties.model';
         } else {
           // console.log("FALSE HDRDATE3");
           // console.log(object);
-
+          prevObject= "";
           count ++;
         }
       });
@@ -615,46 +636,6 @@ import { TablePreferences, Group } from '../user-properties.model';
 
     isGroup(index, item): boolean {
         return item.level;
-    }
-
-    watchForMatchUpdates() {
-      this.matchStream.forEach(streamMatch => {
-          this.matches.forEach( (match) => {
-            //created id value
-            var matchId = match.Home + " " + match.Away + " " + match.Details;
-            if(matchId == streamMatch._id){
-              if(streamMatch.SmarketsHomeOdds != 0 && streamMatch.SmarketsAwayOdds != 0)
-                {
-                match.SMHome = streamMatch.SmarketsHomeOdds;
-                match.SMAway = streamMatch.SmarketsAwayOdds;
-                }
-                if(streamMatch.B365HomeOdds != 0 && streamMatch.B365AwayOdds != 0)
-                {
-                  match.BHome = streamMatch.B365HomeOdds;
-                  match.BAway = streamMatch.B365AwayOdds;
-                }
-                if(streamMatch.OccurrenceAway != 0){
-                  match.BTTSOdds = streamMatch.B365BTTSOdds;
-                  match.B25GOdds = streamMatch.B365O25GoalsOdds;
-                  match.OccH = streamMatch.OccurenceHome;
-                  match.OccA = streamMatch.OccurrenceAway;
-                  console.log("In BTTS area " + typeof streamMatch.OccurrenceAway);
-                }
-                if(matchId !== streamMatch._id)
-                {
-                  this.isNotInList = true;
-                }
-              } else {
-              }
-          });
-
-          if(this.isNotInList || this.matches.length == 0)
-          {
-            // console.log("not in list");
-            // console.log(streamMatch);
-            this.isNotInList=false;
-          }
-        });
     }
 
     enableMatchButton(match: any)
@@ -703,6 +684,9 @@ import { TablePreferences, Group } from '../user-properties.model';
         match.BDraw = streamMatch.B365DrawOdds;
         match.OccH = streamMatch.OccurrenceHome;
         match.OccA = streamMatch.OccurrenceAway;
+      } if(match.isPastPrime){
+        match.AStatus.notify = false;
+        match.HStatus.notify = false;
       }
         this.chRef.detectChanges();
     }
@@ -764,15 +748,16 @@ import { TablePreferences, Group } from '../user-properties.model';
     }
 
     addToWatchList(rowData:any){
-
-      rowData.isWatched = !rowData.isWatched;
-
-      if(rowData.isWatched){
-        this.matchStatusService.addToWatchList(rowData);
-        this.matchStatusService.watchMatchSubject(rowData);
-      } else {
-        this.matchStatusService.removeFromWatchList(rowData);
-        this.matchStatusService.watchMatchSubject(rowData);
+      if(!rowData.isPastPrime){
+        rowData.isWatched = !rowData.isWatched;
+        
+        if(rowData.isWatched){
+          this.matchStatusService.addToWatchList(rowData);
+          this.matchStatusService.watchMatchSubject(rowData);
+        } else {
+          this.matchStatusService.removeFromWatchList(rowData);
+          this.matchStatusService.watchMatchSubject(rowData);
+        }
       }
     }
 
@@ -781,7 +766,7 @@ import { TablePreferences, Group } from '../user-properties.model';
       const currentDate = new Date(Date.now()).getUTCDate();
       const maxOdds = this.userPropertiesService.getMaxOdds();
       const minOdds = this.userPropertiesService.getMinOdds();
-      console.log("USER MIN/MAX ODDS: " , minOdds + "/", maxOdds);
+      console.log("USER MIN/MAX ODDS: " + minOdds + "/", maxOdds);
 
 
       this.userStoredMatchSettings = this.matchStatusService.initializeLocalStorage();
@@ -805,11 +790,18 @@ import { TablePreferences, Group } from '../user-properties.model';
 
           if( dbMatchDate >= currentDate && fixturesMatch.Home == cachedMatchObject.Home && fixturesMatch.Away == cachedMatchObject.Away && fixturesMatch.EpochTime == cachedMatchObject.EpochTime){
             //update localStorage match state to session.
-
+            console.log("LOCALSTORAGE UPDATEING>>>>POSSIBLE BUG ISSUE");
+            
             fixturesMatch.isWatched = cachedMatchObject.isWatched;
             fixturesMatch.AStatus.notify = cachedMatchObject.AStatus.notify;
             fixturesMatch.HStatus.notify = cachedMatchObject.HStatus.notify;
 
+            if(Date.now() > (fixturesMatch.EpochTime*1000)){
+              fixturesMatch.isWatched = false;
+              fixturesMatch.AStatus.notify = false;
+              fixturesMatch.HStatus.notify = false;
+              fixturesMatch.isPastPrime = false;
+            }
 
             this.updateMatchStatusList(fixturesMatch, true);
             this.updateMatchStatusList(fixturesMatch, false);
@@ -825,11 +817,11 @@ import { TablePreferences, Group } from '../user-properties.model';
             if(fixturesMatch.isPastPrime == false){
               fixturesMatch.AStatus.notify = cachedMatchObject.AStatus.notify;
               fixturesMatch.HStatus.notify = cachedMatchObject.HStatus.notify;
-            }
+            } 
             return true;
           }
         });
-          //this 'jump starts' re-initialization to register notify states.
+          
           this.notificationRegardingDefinedOdds(foundMatch, minOdds, maxOdds);
       });
     }

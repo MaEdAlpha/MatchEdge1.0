@@ -18,7 +18,7 @@ app.use((req, res, next) => {
   //   res.setHeader("Access-Control-Allow-Methods",'GET, PUT, POST, PATCH, DELETE, OPTIONS');
   //     next();
     // Website you wish to allow to connect
-    res.setHeader('Access-Control-Allow-Origin', 'https://www.juicy-bets.com');
+    res.setHeader('Access-Control-Allow-Origin', '*');
     // Request methods you wish to allow
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
     // Request headers you wish to allow
@@ -441,7 +441,7 @@ app.get(`/api/updates`, function(req, res) {
 
     function keepAlive(){
         console.log("keep-alive");
-        res.write("event: message\n" + "data: heartbeat\n\n");
+        res.write("event: message\n" + "data:heartbeat\n\n");
         setTimeout(keepAlive, keepAliveMS);
       }
       //send SSE events back to user
