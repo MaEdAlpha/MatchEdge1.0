@@ -32,6 +32,7 @@ border-top: 1px solid #ffc235;
   font-size: 0.75rem;
   line-height: 11px;
   font-weight: 300;
+  text-shadow: 1px 1px black;
   display: flex;
   align-items: center;
   justify-content: center;

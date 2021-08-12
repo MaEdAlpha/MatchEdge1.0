@@ -19,9 +19,11 @@
   }
 
   .toast-title{
-    text-align: center;
     color: #ef9e1b;
-    font-size: 100%;
+    text-shadow: 1px 1px black;
+    margin-right: 36px;
+    font-weight: 400;
+    font-size: 1.3rem;
   }
   
   :host.toast-success {

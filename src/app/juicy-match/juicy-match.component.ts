@@ -531,15 +531,14 @@ export class JuicyMatchComponent implements OnChanges, OnInit, OnDestroy, AfterV
     this.matchStatusService.removeFromWatchListAfterRecordBet(row);
     let opposingSelection = this.allIndvMatches.find( match => match.Selection != row.Selection && match.Fixture == row.Fixture);
     opposingSelection === undefined ? '' : opposingSelection.isWatched = false;
-
     //close current container not opened via notification
     this.expandedElement=null;
     //closs current container IF opened via notification
     this.closePreviousExpandedNotificationElement();
     setTimeout(()=>{
       row.isWatched = false;
-
       this.chRef.detectChanges();
+      this.noMatchesToDisplay = this.matchStatusService.checkIfWatchlistEmpty();
     },500)
 
   }

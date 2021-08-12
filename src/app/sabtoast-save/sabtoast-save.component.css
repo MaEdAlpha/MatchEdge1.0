@@ -21,7 +21,9 @@
   .toast-title{
     text-align: center;
     color: #ef9e1b;
-    font-size: 100%;
+    font-size: 1rem;
+    font-weight: 400;
+    text-shadow: 1px 1px black;
   }
   
   :host.toast-success {
@@ -30,7 +32,7 @@
   width: 42% !important;
   top: 5px !important;
   border-radius: 7px;
-  font-weight: 400;
+  font-weight: 500;
   font-size: 16px;  
   overflow: hidden;
   }
@@ -38,5 +40,7 @@
     text-align: center;
     margin-top: 1%;
     color: #ef9e1b;
+    font-weight: 300;
+    text-shadow: 1px 1px black;
   }
 
