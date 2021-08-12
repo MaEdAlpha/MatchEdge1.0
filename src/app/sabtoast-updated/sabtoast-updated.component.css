@@ -1,31 +1,19 @@
-:host {
-  background-image: linear-gradient(to bottom right,#076044, #649787);
-  background-repeat: no-repeat;
-  background-size: cover;
-  position: fixed;
-  top: 40%;
-  right: 36%;
-  overflow: hidden;
-  margin: 0 0 6px;
-  padding-top: 4px;
-  width: 350px;
-  height: 67px;
-  border-radius: 3px 3px 3px 3px;
-  pointer-events: all;
-  cursor: pointer;
-  box-shadow: 0 0 12px #999999;
-  z-index: 1000;
-}
-/* .btn-pink {
-  -webkit-backface-visibility: hidden;
-  -webkit-transform: translateZ(0);
-} */
+
+.toast-top-center {
+  top: 20px;
+  margin: 0 auto;
+  left: 50%;  
+  }
+
 :host:hover {
   box-shadow: 0 0 12px #000000;
   opacity: 1;
   cursor: pointer;
 }
-
+/* .btn-pink {
+  -webkit-backface-visibility: hidden;
+  -webkit-transform: translateZ(0);
+} */
 :host.border-gold{
   border-top: 1px solid #ffc235;
   }
@@ -33,12 +21,23 @@
   .toast-title{
     text-align: center;
     color: #ef9e1b;
-    font-size: 125%;
-    padding-top: 5%;
+    font-size: 100%;
   }
-
+  
+  :host.toast-success {
+  background: linear-gradient(53deg, rgba(7,96,68,1) 48%, rgba(6,140,98,1) 90%, rgba(113,189,165,1) 98%);
+  background-size: cover;
+  width: 340px !important;
+  top: 31px !important;
+  border-radius: 7px;
+  font-weight: 400;
+  font-size: 16px;  
+  overflow: hidden;
+  
+  }
   .toast-message{
     text-align: center;
     margin-top: 1%;
     color: #ef9e1b;
   }
+
