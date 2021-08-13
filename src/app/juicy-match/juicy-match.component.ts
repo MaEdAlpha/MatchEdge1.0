@@ -17,6 +17,8 @@ import { NotificationBoxService } from '../services/notification-box.service';
 import { MatSort, Sort } from '@angular/material/sort';
 import { SavedActiveBetsService } from '../services/saved-active-bets.service';
 import { ActiveBet } from '../models/active-bet.model';
+import { PopupFixturesMapComponent } from '../popup-fixtures-map/popup-fixtures-map.component';
+import { MatDialog } from '@angular/material/dialog';
 
 
 @Component({
@@ -108,6 +110,7 @@ export class JuicyMatchComponent implements OnChanges, OnInit, OnDestroy, AfterV
               private matchStatusService: MatchStatusService,
               private dateHandlingService: DateHandlingService,
               private notificationServices: NotificationBoxService,
+              public dialog: MatDialog,
               ) {}
 
   ngOnChanges(changes: SimpleChanges)
@@ -629,6 +632,11 @@ export class JuicyMatchComponent implements OnChanges, OnInit, OnDestroy, AfterV
       //count here to determine total matches to display and give default table message
       return false;
     }
+  }
+
+  showGuide(){
+    let userGuide = 'juicy';
+    this.dialog.open(PopupFixturesMapComponent, {panelClass:'quick-reference-guide', data:{userGuide}})
   }
 }
 

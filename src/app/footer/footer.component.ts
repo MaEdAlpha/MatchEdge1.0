@@ -15,10 +15,14 @@ export class FooterComponent implements OnInit {
   constructor(public dialog: MatDialog) { }
 
   ngOnInit(): void {
+  
   }
 
   openDialog(option:number):void{
-    option == 0 ? this.dialog.open(PopupAboutUsComponent, {panelClass: 'contact-dialog'}) : this.dialog.open(PopupContactUsComponent, {panelClass: 'about-dialog', data: {hasAccess: this.hasAccess}});
+    //Free - uncomment this for non-free
+    // option == 0 ? this.dialog.open(PopupAboutUsComponent, {panelClass: 'contact-dialog'}) : this.dialog.open(PopupContactUsComponent, {panelClass: 'about-dialog', data: {hasAccess: this.hasAccess}});
+    this.hasAccess=true;
+    option == 0 ? this.dialog.open(PopupAboutUsComponent, {panelClass: 'contact-dialog'}) : this.dialog.open(PopupContactUsComponent, {panelClass: 'about-dialog', data:{hasAccess:this.hasAccess} });
   }
 
   openTermsAndConditions():void{

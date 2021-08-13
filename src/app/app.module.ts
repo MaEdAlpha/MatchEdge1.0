@@ -119,6 +119,7 @@ import { PopupQuickReferenceGuideComponent } from './popup-quick-reference-guide
 import { PopupLoginMessageComponent } from './popup-login-message/popup-login-message.component';
 import { PopupConfirmCancellationComponent } from './popup-confirm-cancellation/popup-confirm-cancellation.component';
 import { TwoUpProductFeaturesComponent } from './two-up-product-features/two-up-product-features.component';
+import { PopupFixturesMapComponent } from './popup-fixtures-map/popup-fixtures-map.component';
 
 
 
@@ -192,6 +193,7 @@ import { TwoUpProductFeaturesComponent } from './two-up-product-features/two-up-
     PopupLoginMessageComponent,
     PopupConfirmCancellationComponent,
     TwoUpProductFeaturesComponent,
+    PopupFixturesMapComponent,
   ],
   imports: [
     AppRoutingModule,

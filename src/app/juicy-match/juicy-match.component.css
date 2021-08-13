@@ -7,6 +7,21 @@ table, .table-title, .no-content {
 .form-container {
   height: 98%;
 }
+.guide-filter-header{
+  width: 90%;
+  margin-top: -49px;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  align-items: center;
+}
+
+.map-icon-container>img{
+  width: 20px;
+  box-shadow: 1px 1px 6px 1px black;
+  border-radius: 35px;
+}
+
 
 th.mat-header-cell:first-of-type,
 td.mat-cell:first-of-type,

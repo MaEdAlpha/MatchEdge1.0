@@ -13,7 +13,7 @@
 }
 
 mat-table {
-  margin-top: 2.25rem;
+  margin-top: 1.25rem;
   border: solid 0px #ffffff;
 }
 
@@ -433,6 +433,12 @@ button.viewCell {
   position: relative;
   border-radius: 0.3125rem;
   margin-bottom: 0.03125rem;
+}
+
+.map-icon-container>img{
+  width: 20px;
+  box-shadow: 1px 1px 6px 1px black;
+  border-radius: 35px;
 }
 
 /* .mat-column-BHome, .mat-column-BAway {
@@ -1044,22 +1050,44 @@ span.SMAway{
   border: 0.125rem #9e9c9c solid;
 }
 
-.watch-everything {
-  display: inline;
+.guide-filter-header{
+  width: 90%;
   margin-left: auto;
-  margin-right:0.625rem;
+  margin-right: auto;
+  display: flex;
+  align-items: center;
+}
+
+.watch-everything {
+  display: flex;
+  width: fit-content;
+  margin-left: auto;
+  margin-right: 1.4rem;
+  align-items: center;
+}
+
+.user-hints{
+  width: fit-content;
+  display: inline-flex;
 }
 
 .all-leagues-toggle,
 .all-leagues-toggle-text {
   float: right;
+  display: flex;
   color: white;
-  margin-top: 1.25rem;
+  margin-top: 0px;
   margin-right: 1%;
+  align-items: center;
+  height: inherit;
 }
 
 .all-leagues-toggle-text {
+  margin: 0px;
   margin-right: 3%;
+  display: flex;
+  width: 100px;
+  align-items: center;
 }
 .hide-toggle{
   display: none;

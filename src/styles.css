@@ -45,19 +45,25 @@ mat-table {
   font-family: 'Prompt',sans-serif;
 }
 
+.cdk-overlay-pane.about-dialog{
+  max-width: 97% !important;
+  display: flex;
+  justify-content: center;
+}
+
 /* Mat Dialog Style change*/
 .about-dialog .mat-dialog-container {
-  padding: 0px 25px;
+  padding: 0px 5px;
   background-color: #37474f;
   overflow: scroll;
   border: 1px solid #f9a825;
-  max-width: 80vw;
-  height: 27vw;
+  max-width: inherit;
+  height: inherit;
 }
 
 .quick-reference-guide .mat-dialog-container{
-  min-width: 1400px !important;
-  width: 100%;
+
+  width: inherit;
   height: 100%;
   background-color: #37474f;
   border: 1px solid #f9a825;
@@ -71,10 +77,6 @@ mat-table {
 
 .login-message .mat-dialog-container{
   background-color: #37474f;
-  height: 15vw;
-  min-height: 10vw !important;
-  max-height: 20vw !important;
-  max-width: 30vw !important;
   border: 1px solid lightgray;
   border-radius: 10px;
 }
@@ -84,8 +86,8 @@ mat-table {
   background-color: #37474f;
   overflow: scroll;
   border: 1px solid #f9a825;
-  max-width: 57vw;
-  height: 27vw;
+  max-width: inherit;
+  height: inherit;
 }
 
 /*Media Query for popup boxes 1280x800 view */
@@ -104,7 +106,7 @@ mat-table {
   border: 1px solid #f9a825;
   color: white;
   overflow: scroll;
-  height: 23vw !important;
+  height: inherit !important;
 }
 .view-active-bets-responsive .mat-dialog-container {
   min-width: 600px;
@@ -268,67 +270,67 @@ input.value-box-lay {
 
 @media(min-width: 1000px){
 
-.about-dialog .mat-dialog-container {
-  height: 47vw;
-}
+/* .about-dialog .mat-dialog-container {
+  height: 47vw; 
+ } */
 
-.contact-dialog .mat-dialog-container {
+/* .contact-dialog .mat-dialog-container {
   max-height: 100%;
   max-width: 80vw;
   height: 44vw;
-}
+} */
 
 }
 
 @media(min-width: 1300px){
-
+/* 
   .about-dialog .mat-dialog-container {
     height: 39vw;
   }
 
   .contact-dialog{
-    height: 25vw;
-  }
+    height: inherit;
+  } */
 }
 
 @media(min-width: 1401px){
-  .about-dialog .mat-dialog-container {
+  /* .about-dialog .mat-dialog-container {
     height: 37vw;
-  }
-  .manage-billing-page .mat-dialog-container{
+  } */
+  /* .manage-billing-page .mat-dialog-container{
     height: 37vw !important;
-  }
+  } */
 }
 
 @media(min-width: 1500px){
-  .about-dialog .mat-dialog-container {
+  /* .about-dialog .mat-dialog-container {
     height: 35vw;
   }
   .manage-billing-page .mat-dialog-container{
     height: 30vw !important;
-  }
+  } */
 }
 
 @media(min-width:1600px){
-  .about-dialog .mat-dialog-container {
+  /* .about-dialog .mat-dialog-container {
     height: 33vw;
   }
   .manage-billing-page .mat-dialog-container{
     height: 23vw !important;
-  }
+  } */
 }
 
 
 @media(min-width:1800px){
-  .about-dialog .mat-dialog-container  {
+  /* .about-dialog .mat-dialog-container  {
     height: 30vw;
-  }
+  } */
 }
 
 @media(min-width:1900px){
-  .about-dialog .mat-dialog-container {
+  /* .about-dialog .mat-dialog-container {
     height: 30vw;
-  }
+  } */
 }
 
 @media(min-width:1401px) and (max-width:1920px){

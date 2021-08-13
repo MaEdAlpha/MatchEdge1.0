@@ -15,6 +15,7 @@ import { SavedActiveBetsService } from '../services/saved-active-bets.service';
 import { ActiveBet } from '../models/active-bet.model';
 import { MatchStatsService } from '../services/match-stats.service';
 import { TablePreferences, Group } from '../user-properties.model';
+import { PopupFixturesMapComponent } from '../popup-fixtures-map/popup-fixtures-map.component';
 
 
   @Component({
@@ -947,6 +948,9 @@ import { TablePreferences, Group } from '../user-properties.model';
       }
     }
 
-
+    showGuide(){
+      let userGuide = 'fixtures';
+      this.dialog.open(PopupFixturesMapComponent, {panelClass:'quick-reference-guide', data:{userGuide}})
+    }
 }
 

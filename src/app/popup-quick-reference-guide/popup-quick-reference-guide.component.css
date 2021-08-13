@@ -1,7 +1,7 @@
 .img-carousel{
   display: inline-flex;
   align-items: center;
-  min-width: 1000px;
+  min-width: inherit;
   overflow-x: scroll;
 }
 

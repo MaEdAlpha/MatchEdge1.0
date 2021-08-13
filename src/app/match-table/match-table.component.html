@@ -6,13 +6,20 @@
 
         <div class="fixturesTable" [style.visibility]="tableSelected == 1 ? 'visible' : 'collapse' " [style.height]="tableSelected == 1 ? '' : '0px' " [style.margin-bottom]="tableSelected == 1 ? '5px' : '0'" [style.display]="tableSelected == 1 ? 'inline' : '' ">
 
-          <div class="watch-everything ">
-            <p class="all-leagues-toggle-text" [ngClass]="{'hide-toggle' : tableSelected == 2}">Watch All</p>
-            <mat-slide-toggle
-                class="all-leagues-toggle"
-                (click)=" watchAllLeagues();"
-                [disabled]="loadingInProgress">
-            </mat-slide-toggle>
+          <div class="guide-filter-header">
+            <div class="user-hints">
+              <div class="map-icon-container" (click)="showGuide()">
+                <img src="../../assets/img/map-icon.png" alt="">                
+              </div>
+            </div>
+            <div class="watch-everything ">
+              <p class="all-leagues-toggle-text" [ngClass]="{'hide-toggle' : tableSelected == 2}">Watch All</p>
+              <mat-slide-toggle
+                  class="all-leagues-toggle"
+                  (click)=" watchAllLeagues();"
+                  [disabled]="loadingInProgress">
+              </mat-slide-toggle>
+            </div>
           </div>
 
           <mat-table mat-table [dataSource] ="dataSource">
