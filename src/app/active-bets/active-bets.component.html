@@ -23,6 +23,7 @@
         <mat-form-field class="pl-input">
           <mat-label > <span class="pl-label"> Settle Bet </span></mat-label>
             <input
+            tabindex="1"
             matInput
             formControlName="ProfitLoss"
             type="number"
@@ -36,6 +37,8 @@
         </ng-template>
         <div>
           <mat-icon class="chevron-right"
+          tabindex="1"
+          (keyup.enter)="sab[column.field]=!sab[column.field]; savePL(sab,i); $event.stopPropagation()"
           (click)="sab[column.field]=!sab[column.field]; savePL(sab,i); $event.stopPropagation()"
           [ngClass]="sab['isSettled'] ? 'settled-overlay' : 'btn-default glow'">chevron_right
           </mat-icon>
@@ -64,7 +67,11 @@
           <mat-drawer-container class="delete-container" autosize disableClose="false">
             <mat-drawer #drawer class="delete-sidenav" mode="side" position="end" >
               <div class="confirm-delete">
-                <button class="confirm-delete"  mat-raised-button (click)="deleteSAB(sab); drawer.toggle();"><mat-icon class="confirm-delete">delete_outline</mat-icon> </button>
+                <button tabindex="2"
+                        class="confirm-delete"  
+                        mat-raised-button (click)="deleteSAB(sab); drawer.toggle();">
+                        <mat-icon class="confirm-delete">delete_outline</mat-icon> 
+                </button>
               </div>
             </mat-drawer>
             <button class="status-button" mat-raised-button (click)="drawer.toggle(); $event.stopPropagation()">
@@ -172,7 +179,7 @@
                     <input tabindex="6"
                       class="value-box-laystake"
                       [readOnly]="true"
-                      placeholder="{{sab.layStake | number:'0.2-2' }}">
+                      placeholder="{{LayStake(getGroup(i).get('BackOdds').value, getGroup(i).get('LayOdds').value, getGroup(i).get('Stake').value) | currency:'GBP' }}">
                   </div>
 
                   <div class="exchange-row">
@@ -289,4 +296,4 @@
   </tr>
   <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="sab-detail-row"></tr>
 </table>
-<div class="no-content" *ngIf="isEmptySABList">All bets settled!</div>
+<div class="no-content" *ngIf="isEmptySABList"><p>All bets settled!</p></div>

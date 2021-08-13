@@ -57,6 +57,7 @@ import { PopupFixturesMapComponent } from '../popup-fixtures-map/popup-fixtures-
     masterToggle: boolean;
     loadingInProgress:boolean;
     userSettings:TablePreferences;
+    matchesToDisplay: boolean;
 
 
     //HeaderGroup Test
@@ -202,6 +203,7 @@ import { PopupFixturesMapComponent } from '../popup-fixtures-map/popup-fixtures-
                                           console.log("--------MATCHES------------");
                                           console.log(this.matches);
                                           //set ActiveBet Icon on/off
+                                          
                                           this.savedActiveBets.forEach( sab => {
                                             this.toggleActiveBetState(sab, true);
                                           });
@@ -212,6 +214,8 @@ import { PopupFixturesMapComponent } from '../popup-fixtures-map/popup-fixtures-
                                                                   );
                                           this.userPropertiesService.refreshTablePreference();
                                           this.loadingInProgress = false;
+                                          this.matchesToDisplay = this.dataSource.data.length > 0 ? true: false;
+                                          
                                         }
                  );
 

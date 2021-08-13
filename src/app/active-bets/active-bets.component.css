@@ -47,6 +47,7 @@ td.mat-footer-cell:last-of-type{
   text-align: center;
   padding-top: 30px;
   height: 200px;
+  box-shadow: 3px 3px 13px 1px black;
 }
 
  table {

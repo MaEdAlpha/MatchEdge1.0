@@ -28,6 +28,8 @@
   margin-top: 20px;
 }
 .ev-text{
+  display: flex;
+  align-items: center;
   width: 100%;
   padding: 10px;
 }
@@ -56,7 +58,7 @@
     border: 2px;
     border-style: solid;
     border-radius: 15px 15px 15px 15px;
-    margin-left: 30px;
+    margin-left: 5px;
 }
 
 
@@ -125,6 +127,10 @@ h2.to-odds {
   margin-left: 30px;
 }
 
+.filterby-text>mat-form-field.mat-form-field {
+  width: 200px;
+}
+
 .exit-button {
   display: inline;
   float: right;
@@ -140,6 +146,9 @@ h2.to-odds {
   width: 100%;
 }
 
+.filter-wrapper{
+  display: inline-flex;
+}
 
 button {
   margin-left: 20px;
@@ -179,10 +188,9 @@ button {
 }
 
 .input-containers{
-  display: inline-flex;
+  display: inline-block;
   justify-content: space-evenly;
 }
-
 
 /* Responsive layout */
 

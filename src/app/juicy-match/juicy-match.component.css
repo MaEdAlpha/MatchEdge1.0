@@ -34,13 +34,15 @@ td.mat-footer-cell:last-of-type{
 }
 
 .no-content {
-  height: 400px;
+  height: 200px;
   background: #e0e1e2;
   color: black;
   text-align: center;
   padding-top: 30px;
   height: 200px;
+  box-shadow: 3px 3px 13px 1px black;
 }
+
  table {
    height: fit-content;
    min-width: 1000px;
