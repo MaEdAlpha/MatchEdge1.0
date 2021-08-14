@@ -1,8 +1,6 @@
 import { Component, ElementRef, OnInit, Output, ViewChild, EventEmitter } from '@angular/core';
 import { UserPropertiesService } from '../services/user-properties.service';
 import { environment as env } from '../../environments/environment.prod';
-import { resolve } from 'dns';
-import { Subject } from 'rxjs';
 import { Subscription } from 'rxjs';
 
 @Component({

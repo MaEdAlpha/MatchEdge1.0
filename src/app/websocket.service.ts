@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
+import { Observable, Subject } from 'rxjs';
 import { environment as env } from '../environments/environment.prod';
 import { MatchesService } from './match/matches.service';
+
 
 @Injectable({
   providedIn: 'root'
@@ -10,8 +12,11 @@ export class WebsocketService {
   //eventSource: WebSocket;
   matchDataStreamStore: any[] = [];
   eventSource: EventSource;
+  //database driven value observable. used for sending custom messages to site users. 
+  emitSiteWideEvent = new Subject<any>();
 
-  constructor(private matchesService: MatchesService) {
+
+  constructor(private matchesService: MatchesService ) {
   }
 
   public openSSE() {
@@ -24,12 +29,20 @@ export class WebsocketService {
 
       this.eventSource.onmessage = (event) => {
         console.log("EventIncoming--");
-        this.matchesService.triggerChangeDetection('blip');
+        console.log(event);
+        
+        if(event.data == "heartbeat"){
+          // this.matchesService.triggerChangeDetection('blip');
+        }
         
         if(event.data != "heartbeat"){
           let streamUpdate = JSON.parse(event.data);
-          console.log(streamUpdate);
-          this.matchesService.addToUpdatedMatches(streamUpdate);
+
+          if(streamUpdate.juicybets){
+            this.emitSiteWideEvent.next(streamUpdate);
+          }else{
+            this.matchesService.addToUpdatedMatches(streamUpdate);
+          }
         } 
       };
     }
@@ -38,4 +51,9 @@ export class WebsocketService {
   public closeSSE() {
     this.eventSource.close();
   }
+  getSiteWideEventListener(): Observable<any>{
+    return this.emitSiteWideEvent.asObservable();
+  }
+
+ 
 }

@@ -30,6 +30,7 @@ app.use((req, res, next) => {
 //MongoDB
 const MongoClient = require("mongodb").MongoClient;
 const ObjectID = require('mongodb').ObjectID;
+const { log } = require('console');
 
 const connectionString = process.env.MONGO_CONNECT_STR;
 
@@ -434,22 +435,48 @@ app.get(`/api/updates`, function(req, res) {
   });
 
     //point to matches collection and watch it.
-    const collection =  client.db("MBEdge").collection("matches");
-    const changeStream = collection.watch([],{fullDocument : "updateLookup"});
+    const db =  client.db("MBEdge");
+    const changeStream = db.collection("matches").watch([],{fullDocument : "updateLookup"});
 
     let keepAliveMS = 45 * 1000;
+    let toastTimer;
+    let databaseValues;
+    let intervalToast;
 
     function keepAlive(){
         res.write("event: message\n" + "data:heartbeat\n\n");
         setTimeout(keepAlive, keepAliveMS);
       }
+
+      function loopToast(){
+        let msg = ("event: message\n" + "data: " + JSON.stringify(databaseValues) + "\n\n");
+        res.write(msg);
+      }
+
       //send SSE events back to user
       changeStream.on('change', (next) => {
         // console.log(next.fullDocument);
         var data = JSON.stringify(next.fullDocument);
+
+        if(next.fullDocument.custom_toast){
+          console.log("Creating Interval Timer");
+          toastTimer = next.fullDocument.seconds * 1000;
+          databaseValues = next.fullDocument;
+
+           intervalToast = setInterval(()=>{
+            loopToast();
+           }, toastTimer);
+
+        } else if(next.fullDocument.custom_toast == false){
+          console.log("Clearing Interval");
+          clearInterval(intervalToast);
+        }
+
         var msg = ("event: message\n" + "data: " + data + "\n\n");
         res.write(msg);
       });
+
+      //Persistent data log
       setTimeout(keepAlive, keepAliveMS);
 
 });
@@ -461,6 +488,14 @@ app.get('/api/matches', checkAuth, async(req, res) => {
     let body = matchesList;
     res.status(200).json({body})
 });
+
+app.get('/api/retrieve-settings', async(req, res)=>{
+  const cursor = await client.db("MBEdge").collection("matches").findOne({"juicybets": true });
+  console.log("API CALLED RETRIEVE")
+  console.log(cursor);
+  let response = cursor;
+  res.status(200).json({response});
+})
 
 app.get('/api/policy', async(req,res) => {
   res.writeHead(200, {'Content-Type': 'text/html'}).json({response:'fetched!'});

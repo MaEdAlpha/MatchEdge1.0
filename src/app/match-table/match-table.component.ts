@@ -58,7 +58,7 @@ import { PopupFixturesMapComponent } from '../popup-fixtures-map/popup-fixtures-
     loadingInProgress:boolean;
     userSettings:TablePreferences;
     matchesToDisplay: boolean;
-
+    toastValues: any;
 
     //HeaderGroup Test
     dataSource = new MatTableDataSource<any | Group>([]);
@@ -99,6 +99,7 @@ import { PopupFixturesMapComponent } from '../popup-fixtures-map/popup-fixtures-
     private newSabSubscriptioin: Subscription;
     private userTablePreferenceSubscription: Subscription;
     private tableChangeSubscription: Subscription;
+    private siteWideMessage: Subscription;
     private userStoredMatchSettings: any;
     todayDate: number;
     tomorrowDate: number;
@@ -146,6 +147,11 @@ import { PopupFixturesMapComponent } from '../popup-fixtures-map/popup-fixtures-
       this.newSabSubscriptioin = this.savedActiveBetsService.getSabListObservable().subscribe( (newSAB: ActiveBet) => {
             this.toggleActiveBetState(newSAB, true);
             this.chRef.detectChanges();
+      });
+
+      this.siteWideMessage = this.webSocketService.getSiteWideEventListener().subscribe(valueChange => {
+        console.log("WEBSOCKET VALUE OBJECT");
+        this.setSiteWideMessages(valueChange);       
       });
 
 
@@ -949,6 +955,12 @@ import { PopupFixturesMapComponent } from '../popup-fixtures-map/popup-fixtures-
         // Do not do the thing.
       }else{
         console.log("Cannot change state of SAB icon, an error occured.");
+      }
+    }
+
+    setSiteWideMessages(streamUpdate){
+      if(streamUpdate.custom_toast){
+        this.notificationBox.showCustomMessage(streamUpdate.custom_toast_message, streamUpdate.custom_toast_title);
       }
     }
 

@@ -100,7 +100,7 @@ export class NotificationBoxService {
       toastComponent: SABToastUpdatedComponent,
       timeOut:2000,
       disableTimeOut:false,
-      tapToDismiss: false,
+      tapToDismiss: true,
       closeButton: true,
       toastClass: 'ngx-toastr toast-success',
       messageClass: 'toast-message',
@@ -137,6 +137,52 @@ export class NotificationBoxService {
       positionClass:'toast-top-right',
     });
     return toast;
+  }
+
+  showSiteDownMessage():ActiveToast<any>{
+    let message = '🤬🤬🤬 Try again later 🤕🤕🤕 ';
+    let title = 'Site Down';
+
+    let toast:ActiveToast<any> = this.toast.show(message, title,{
+      toastComponent: SABToastUpdatedComponent,
+      onActivateTick: true,
+      tapToDismiss: true,
+      disableTimeOut:true,
+      enableHtml:true,
+      toastClass: "ngx-toastr toast-info",
+      positionClass:'toast-top-right',
+    });
+    return toast;
+   }
+
+   refreshPageMessage():ActiveToast<any>{
+     let message = 'Updates to the site have been made.';
+     let title = 'Refresh Page';
+     let toast:ActiveToast<any> = this.toast.show(message, title,{
+      toastComponent: SABToastUpdatedComponent,
+      onActivateTick: true,
+      tapToDismiss: true,
+      disableTimeOut:true,
+      enableHtml:true,
+      toastClass: "ngx-toastr toast-info",
+      positionClass:'toast-top-right',
+    });
+    return toast;
+
+   }
+
+   showCustomMessage(message:string, title:string):ActiveToast<any>{
+    let toast:ActiveToast<any> = this.toast.show(message, title, {
+     toastComponent: SABToastUpdatedComponent,
+     onActivateTick: true,
+     tapToDismiss: true,
+     disableTimeOut:true,
+     enableHtml:true,
+     closeButton: true,
+     toastClass: "ngx-toastr toast-info",
+     positionClass:'toast-top-right',
+   });
+   return toast;
   }
 
   DeleteToastSAB(): ActiveToast<any>{

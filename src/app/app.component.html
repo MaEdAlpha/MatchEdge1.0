@@ -9,6 +9,9 @@
     <div *ngIf="isAuthenticated && !isReadingPolicy">
       <app-header (notificationSettings)="displayPanel($event)" [displayActivated]="activateDisplaySettings"  [showSubscriptionButton]="onEnterSite"></app-header>
       <hr>
+      <div *ngIf="siteDown && !isLoading" class="site-wide">
+        <p>{{errorMessage}}</p>
+      </div>
 
       <div *ngIf="isEntryPoint">
         <app-subscriptions [userEmail]="userEmail" (displaySettings)="onEntryToSite($event)"></app-subscriptions>
@@ -32,7 +35,7 @@
 
 
    <div *ngIf="!isAuthenticated && !isReadingPolicy">
-
+      
       <div class="welcome-container">
           <app-landing-page></app-landing-page>
           <app-footer [hasAccess]="false"></app-footer>

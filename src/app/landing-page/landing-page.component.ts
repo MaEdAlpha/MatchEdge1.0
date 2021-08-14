@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ProductFeaturesComponent } from '../product-features/product-features.component';
+import { UserPropertiesService } from '../services/user-properties.service';
 import { TwoUpProductFeaturesComponent } from '../two-up-product-features/two-up-product-features.component';
 
 @Component({
@@ -10,9 +10,10 @@ import { TwoUpProductFeaturesComponent } from '../two-up-product-features/two-up
 })
 export class LandingPageComponent implements OnInit {
 
-  constructor( private dialog: MatDialog) { }
+  constructor( private dialog: MatDialog, private userProperties: UserPropertiesService) { }
 
   ngOnInit(): void {
+   
   }
 
   displayTwoUpInfo(){

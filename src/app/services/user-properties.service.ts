@@ -1,19 +1,11 @@
 import { Injectable, EventEmitter } from '@angular/core';
-import { FormGroup } from '@angular/forms';
 import { Observable, Subject } from 'rxjs';
 import { CalcSettings } from '../calc-settings/calc-settings.model';
-import { CalcSettingsService } from '../calc-settings/calc-settings.service';
 import { TriggerOdds } from '../match-notification-settings/trigger-odds.model';
-import { NotificationBoxService } from './notification-box.service';
 import { TablePreferences, UserSettings } from '../user-properties.model';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment as env } from '../../environments/environment.prod';
-import { map } from 'rxjs/operators';
-import { logging } from 'selenium-webdriver';
 import { Router } from '@angular/router';
-import { response } from 'express';
-import { promise } from 'protractor';
-import { Subscriber } from 'rxjs';
 
 
 @Injectable({
@@ -27,6 +19,7 @@ export class UserPropertiesService {
   userPrefSub = new Subject<TablePreferences>();
   userCommissionSub = new Subject<number>();
   tokenSubscription = new Subject<string>();
+  siteWideSubject = new Subject<any>();
   userSubscriptionSubject = new Subject<{isActiveSub:boolean, isNewUser:boolean, status: string, expiry: string}>();
   isNewUser: boolean = true;
   private lockAudio:boolean = true;
@@ -142,7 +135,7 @@ export class UserPropertiesService {
 
 
   //return data from DB and set to userDetails. Once AuthO sign in finished. Get user settings. Verify subscriptions.
-  getSettings(email:string, sub:string){
+  getSettings(email:string, sub:string):any{
     //http GET request to retrieve user properties from DB;
     var data: {email: string, sub: string} = {email: email, sub:sub};
 
@@ -175,12 +168,23 @@ export class UserPropertiesService {
         }
         this.settings.preferences = userData.userDetails.preferences;
 
+        this.http.get<any>(env.serverUrl +'/api/retrieve-settings').subscribe( response =>{
+          console.log("STUFF!!!");
+          
+        this.siteWideSubject.next(response);
+          
+        })
       });
 
       this.userCommissionSub.next(+this.settings.preferences.exchangeOption.commission);
       console.log("User Settings Loaded!");
       console.log(this.settings);
 
+    }
+
+
+    getSiteMessages(): Observable<any>{
+      return this.siteWideSubject.asObservable();
     }
 
     getTermsPage(){

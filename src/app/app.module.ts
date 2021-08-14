@@ -231,7 +231,7 @@ import { PopupFixturesMapComponent } from './popup-fixtures-map/popup-fixtures-m
       }
     }),
     ToastrModule.forRoot( {maxOpened: 11 ,
-                          preventDuplicates: false}),
+                          preventDuplicates: true}),
     ToastContainerModule,
   ],
   entryComponents: [ CustomToastComponent, SABToastDeleteComponent, SABToastSaveComponent, SABToastUpdatedComponent, SABToastIncompleteComponent ],

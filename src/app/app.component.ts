@@ -1,10 +1,11 @@
 
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { AuthService } from '@auth0/auth0-angular';
 import { NavigationStart, Router, RouterEvent, RoutesRecognized } from '@angular/router';
 import { MatchesService } from './match/matches.service';
 import { UserPropertiesService } from './services/user-properties.service';
 import { filter } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -18,17 +19,25 @@ export class AppComponent {
   profileJson: string= null;
   isAuthenticated: boolean=false;
   isEntryPoint: boolean=true;
-  isLoading: boolean = true;
+  isLoading: boolean = false;
   activateDisplaySettings: boolean;
   tabSelection: number;
   userEmail:string;
   isReadingPolicy:boolean = false;
   onEnterSite:boolean = false;
+  //DB Values
+  displayMessage: string;
+  errorMessage: string;
+  siteDown:boolean = false;
+
+
+  private siteWideMessage: Subscription;
 
   constructor(public auth: AuthService, 
     private userPropertiesService: UserPropertiesService,
     private router: Router, 
-    private matchesService: MatchesService) {
+    private matchesService: MatchesService,
+    private chRef: ChangeDetectorRef) {
       
     this.router.events.pipe(
       filter (
@@ -109,6 +118,8 @@ export class AppComponent {
     this.tabSelection=0;
     this.userEmail='';
     this.toggleSettingsTemplate = false;
+  
+
 
     this.auth.user$.subscribe( (profile) => {
       this.profileJson = JSON.stringify(profile, null, 2);
@@ -121,17 +132,31 @@ export class AppComponent {
       this.isLoading = isDone;
     });
 
+    this.siteWideMessage = this.userPropertiesService.getSiteMessages().subscribe( siteMessage => {
+      console.log("Site Object!");
+      console.log(siteMessage);
+      
+      this.errorMessage = siteMessage.response.banner_message;
+      this.siteDown = siteMessage.response.display_banner;
+      this.chRef.detectChanges();
+    });
+
     this.matchesService.viewSubscriptionsPage.subscribe( (selectSubscriptionPage) => {
       //reset parameters, never again setup routes ZALGO.
       this.isEntryPoint = selectSubscriptionPage;
       this.onEnterSite = !this.isEntryPoint;
       this.activateDisplaySettings = !this.isEntryPoint;
     });
+
+  }
+
+  ngDestroy(){
+    this.siteWideMessage.unsubscribe();
   }
 
   getUserSettings(userEmail: string, sub:string){
     //passes userEmail & AuthO sub
-   this.userPropertiesService.getSettings(userEmail, sub);
+   this.userPropertiesService.getSettings(userEmail, sub);   
   }
   //opening user Settings panel
   displayPanel(event: boolean){
@@ -149,6 +174,8 @@ export class AppComponent {
   getPage(){
     // this.userPropertiesService.getTermsPage();
   }
+
+ 
 
   resetSettings(event:{state:boolean, tab:number}){
     console.log("RESET DETECTED!");
